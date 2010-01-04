@@ -1,0 +1,1 @@
+.inventory (.inv and .i) will list all unique items in your backpack.  Select an item to move all items of that same type to the toplevel of your pack. Type ".inventory bag" to specify a container.

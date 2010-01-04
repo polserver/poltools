@@ -1,0 +1,294 @@
+use uo;
+use os;
+
+include "include/gumps";
+include "include/client";
+include "include/attributes";
+include "include/math";
+
+
+const MAX_X				:= 350;
+const MAX_Y				:= 340;
+var count_com;
+var count_lor;
+var	count_mis;
+var	count_act;
+program textcmd_statlock(who)
+        var skillbonus := GetObjProperty(who,"SkillBonus");
+        var SKILLCAP := (700 + skillbonus);
+while (1)
+	var unmod_str := GetAttributeBaseValue(who, "Strength" )/10;   // we need the base stats
+	var unmod_dex := GetAttributeBaseValue(who, "Dexterity" )/10;
+	var unmod_int := GetAttributeBaseValue(who, "Intelligence" )/10;
+	var tot_str := GetAttribute( who, "Strength" );
+	var tot_dex := GetAttribute( who, "Dexterity" );
+	var tot_int := GetAttribute( who, "Intelligence" );
+	var Msta := GetObjProperty(who,"Mstats");  // Mstats is the array of the status of stats
+	var statcap;
+        var age:= getobjproperty (who, "onlinetimer");
+        age := age/60;
+if(age > 2400 && age <= 5000)
+	   statcap := 230;
+	elseif (age > 5000 && age <= 10060)
+	   statcap := 235;
+	elseif (age > 10060 && age <= 15120)
+	   statcap := 240;
+	elseif (age > 15120 && age <= 20180)
+	   statcap := 245;
+	elseif (age > 20180 && age <= 25240)
+	   statcap := 250;
+	elseif (age > 25240 && age <= 35300)
+	   statcap := 255;
+	elseif (age > 35300 && age <= 45360)
+	   statcap := 260;
+	elseif (age > 45360 && age <= 55420)
+	   statcap := 265;
+	elseif (age > 55420 && age <= 65480)
+	   statcap := 270;
+	elseif (age > 65480 && age <= 75540)
+	   statcap := 275;
+	elseif (age > 75540 && age <= 85600)
+	   statcap := 280;
+	elseif (age > 85600 && age <= 100660)
+	   statcap := 285;
+	elseif (age > 100660 && age <= 115720)
+	   statcap := 290;
+	elseif (age > 115720 && age <= 130780)
+	   statcap := 295;
+	elseif (age > 130780)
+	   statcap := 300;
+	else
+	   statcap := 225;
+	endif
+	
+
+	// 1 = down (we want the stat to decrease)
+	// 2 = locked (we want the stat to be locked)
+	// 3 = increase (we want the stat to increase)
+	if (!Msta)
+		Msta := { 3, 3, 3 };
+		SetObjProperty(who,"Mstats",Msta);
+	endif
+	
+	var colorcap;
+	if(unmod_str + unmod_dex + unmod_int < statcap)
+	   colorcap := 62;
+	else
+	   colorcap := 37;	
+	endif
+	
+        skill_count(who);
+		// build the gump
+	GFInitGump(240, 160);
+	GFNoMove();
+	GFPage(0);
+        GFResizePic(0, 0, 0x13EC, MAX_X, MAX_Y);
+        GFGumpPic(9, 0, 10420);                           // Dragon Bordering Top Left
+        GFGumpPic(0, 22, 10421);                           // Dragon Bordering Left Side
+        GFGumpPic(280, 0, 10430);                           // Dragon Bordering Top Right
+        GFGumpPic(300, 22, 10431);                           // Dragon Bordering Right Side
+        GFGumpPic(294, 156, 10432);                           // Dragon Bordering lower Right
+        GFGumpPic(13, 156, 10422);                           // Dragon Bordering lower Left
+        GFGumpPic(85, 13, 10452);      // Banner Top Row
+        GFGumpPic(69, 13, 10250);      // Dragon Top Row
+        GFGumpPic(264, 13, 10250);      // Dragon Top Row
+        GFGumpPic(27, 303, 10460);      // Dragon Bottom Row Left
+        GFGumpPic(58, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(74, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(90, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(106, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(122, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(138, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(154, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(170, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(186, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(202, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(218, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(234, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(250, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(266, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(282, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(297, 303, 10460);      // Dragon Bottom Row Right
+	GFTextLine(90, 60, 0x0480, "Strength:");
+	GFTextLine(90, 85, 0x0480, "Dexterity:");
+	GFTextLine(90, 110, 0x0480, "Intelligence:");
+	GFTextLine(127, 135, 0x0480, "Total :");
+	GFTextLine(175, 60, 0x0480, tot_str + " [" + unmod_str + "]" );
+	GFTextLine(175, 85, 0x0480, tot_dex + " [" + unmod_dex + "]" );
+	GFTextLine(175, 110, 0x0480, tot_int + " [" + unmod_int + "]" );
+	GFTextLine(215, 135, 0x0480, unmod_str + unmod_dex + unmod_int);
+        GFTextLine(105, 153, 0x0480, "Stat cap : " );
+        GFTextLine(215, 153, colorcap, statcap );
+
+        GFTextLine(90, 235, 0x0480, "Skill Total : " );
+        GFTextLine(210, 235, colorcap, count_com + count_lor + count_mis + count_act);
+        GFTextLine(100, 253, 0x0480, "Skill cap : " );
+        GFTextLine(210, 253, colorcap, skillcap );
+        GFTextLine(75, 271, 0x0480, "Your Age : " );
+        GFTextLine(185, 271, colorcap, age + " minutes" );
+	var buttons := {};
+
+	var y := 64;
+	var pict := 0;
+	var bt;
+	for i:=1 to 3
+
+	case(Msta[i])
+		0:	pict := 0x082C;
+			Msta[i] := 2;
+		break;
+		1: 	pict := 0x0986;
+		break;
+		2:	pict := 0x082C;
+		break;
+		3:	pict := 0x0984;
+		break;
+
+	endcase
+	bt := GFButtonId(253, y, pict, pict, 1);
+	buttons.append(bt.keyid);
+	y:=y+25;
+	endfor
+	bt := GFButtonId(250, 153, 0x0FB7, 0x0FB9, 1);
+	buttons.append(bt.keyid);
+	var retkey := GFSendGump(who);
+	var key;
+	var num;
+	for (num := 1; num <= buttons.size(); num := num + 1)
+		if (buttons[num] = retkey[0])
+			key := num;
+			break;
+		endif
+	endfor
+	if ((!key) or (key = 4))
+		SetObjProperty(who,"lockstr",unmod_str);
+		SetObjProperty(who,"lockint",unmod_int);
+		SetObjProperty(who,"lockdex",unmod_dex);
+		return;
+	endif
+
+	case(Msta[key])
+		1:
+		Msta[key] := 2;
+		break;
+		2:
+		Msta[key] := 3;
+		break;
+		3:
+		Msta[key] := 1;
+		break;
+	endcase
+	SetObjProperty(who,"Mstats",Msta); // store the status of stats
+endwhile
+	
+endprogram
+
+function skill_count( chr )
+
+	var Alchemy;
+	var Anatomy;
+	var AnimalLore;
+	var ItemId;
+	var ArmsLore;
+	var Parry;
+	var Begging;
+	var Blacksmithy;
+	var Bowcraft;
+	var Peacemaking;
+	var Carpentry;
+	var Cartography;
+	var Cooking;
+	var Enticement;
+	var Healing;
+	var Fishing;
+	var Herding;
+	var Hiding;
+	var Provocation;
+	var Inscription;
+	var Lockpicking;
+	var Magery;
+	var MagicResistance;
+	var Tactics;
+	var Snooping;
+	var Musicianship;
+	var Poisoning;
+	var Archery;
+	var SpiritSpeak;
+	var Stealing;
+	var Tailoring;
+	var AnimalTaming;
+	var TasteIdentification;
+	var Tracking;
+	var Veterinary;
+	var Swordsmanship;
+   	var Macefighting;
+   	var Fencing;
+	var Wrestling;
+	var Lumberjacking;
+	var Mining;
+	var Meditation;
+	var Stealth;
+	var RemoveTrap;
+	var Camping;
+	var DetectingHidden;
+	var EvaluatingIntelligence;
+	var Foresinc;
+	var Tinker;
+
+	Alchemy := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ALCHEMY ) );
+	Anatomy := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ANATOMY ) );
+	AnimalLore := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ANIMALLORE ) );
+	ItemId := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ITEMID ) );
+	ArmsLore := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ARMSLORE ) );
+	Parry := ( GetAttributeBaseValue( chr, ATTRIBUTEID_PARRY ) );
+	Begging := ( GetAttributeBaseValue( chr, ATTRIBUTEID_BEGGING ) );
+	Blacksmithy := ( GetAttributeBaseValue( chr, ATTRIBUTEID_BLACKSMITHY ) );
+	Bowcraft := ( GetAttributeBaseValue( chr, ATTRIBUTEID_BOWCRAFT ) );
+	Peacemaking := ( GetAttributeBaseValue( chr, ATTRIBUTEID_PEACEMAKING ) );
+	Camping := ( GetAttributeBaseValue( chr, ATTRIBUTEID_CAMPING ) );
+	Carpentry := ( GetAttributeBaseValue( chr, ATTRIBUTEID_CARPENTRY ) );
+	Cartography := ( GetAttributeBaseValue( chr, ATTRIBUTEID_CARTOGRAPHY ) );
+	Cooking := ( GetAttributeBaseValue( chr, ATTRIBUTEID_COOKING ) );
+	DetectingHidden := ( GetAttributeBaseValue( chr, ATTRIBUTEID_DETECTINGHIDDEN ) );
+	Enticement := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ENTICEMENT ) );
+	EvaluatingIntelligence := ( GetAttributeBaseValue( chr, ATTRIBUTEID_EVALINT ) );
+	Healing := ( GetAttributeBaseValue( chr, ATTRIBUTEID_HEALING ) );
+	Fishing := ( GetAttributeBaseValue( chr, ATTRIBUTEID_FISHING ) );
+	Herding := ( GetAttributeBaseValue( chr, ATTRIBUTEID_HERDING ) );
+	Hiding := ( GetAttributeBaseValue( chr, ATTRIBUTEID_HIDING ) );
+	Provocation := ( GetAttributeBaseValue( chr, ATTRIBUTEID_PROVOCATION ) );
+	Inscription := ( GetAttributeBaseValue( chr, ATTRIBUTEID_INSCRIPTION ) );
+	Lockpicking := ( GetAttributeBaseValue( chr, ATTRIBUTEID_LOCKPICKING ) );
+	Magery := ( GetAttributeBaseValue( chr, ATTRIBUTEID_MAGERY ) );
+	MagicResistance := ( GetAttributeBaseValue( chr, ATTRIBUTEID_MAGICRESISTANCE ) );
+	Tactics := ( GetAttributeBaseValue( chr, ATTRIBUTEID_TACTICS ) );
+	Snooping := ( GetAttributeBaseValue( chr, ATTRIBUTEID_SNOOPING ) );
+	Musicianship := ( GetAttributeBaseValue( chr, ATTRIBUTEID_MUSICIANSHIP ) );
+	Poisoning := ( GetAttributeBaseValue( chr, ATTRIBUTEID_POISONING ) );
+	Archery := ( GetAttributeBaseValue( chr, ATTRIBUTEID_ARCHERY ) );
+	SpiritSpeak := ( GetAttributeBaseValue( chr, ATTRIBUTEID_SPIRITSPEAK ) );
+	Stealing := ( GetAttributeBaseValue( chr, ATTRIBUTEID_STEALING ) );
+	Tailoring := ( GetAttributeBaseValue( chr, ATTRIBUTEID_TAILORING ) );
+	AnimalTaming := ( GetAttributeBaseValue( chr, ATTRIBUTEID_TAMING ) );
+	TasteIdentification := ( GetAttributeBaseValue( chr, ATTRIBUTEID_TASTEID ) );
+	Tracking := ( GetAttributeBaseValue( chr, ATTRIBUTEID_TRACKING ) );
+	Veterinary := ( GetAttributeBaseValue( chr, ATTRIBUTEID_VETERINARY ) );
+	Swordsmanship := ( GetAttributeBaseValue( chr, ATTRIBUTEID_SWORDSMANSHIP ) );
+	Macefighting := ( GetAttributeBaseValue( chr, ATTRIBUTEID_MACEFIGHTING ) );
+	Fencing := ( GetAttributeBaseValue( chr, ATTRIBUTEID_FENCING ) );
+	Wrestling := ( GetAttributeBaseValue( chr, ATTRIBUTEID_WRESTLING ) );
+	Lumberjacking := ( GetAttributeBaseValue( chr, ATTRIBUTEID_LUMBERJACKING ) );
+	Mining := ( GetAttributeBaseValue( chr, ATTRIBUTEID_MINING ) );
+	Meditation := ( GetAttributeBaseValue( chr, ATTRIBUTEID_MEDITATION ) );
+	Stealth := ( GetAttributeBaseValue( chr, ATTRIBUTEID_STEALTH ) );
+	RemoveTrap := ( GetAttributeBaseValue( chr, ATTRIBUTEID_REMOVETRAP ) );
+	Foresinc := ( GetAttributeBaseValue( chr, ATTRIBUTEID_FORENSICS ) );
+	Tinker := ( GetAttributeBaseValue( chr, ATTRIBUTEID_TINKERING ) );
+
+	count_com := (Archery+Fencing+Macefighting+Parry+Swordsmanship+Tactics+Wrestling)/10;
+	count_lor := (Anatomy+AnimalLore+ArmsLore+EvaluatingIntelligence+ItemId+TasteIdentification+Foresinc)/10;
+	count_mis := (Alchemy+Blacksmithy+Bowcraft+Carpentry+Cooking+Fishing+Healing+Herding+Lockpicking+Lumberjacking+Magery+Meditation+Mining+Musicianship+RemoveTrap+MagicResistance+Snooping+Stealing+Stealth+Tailoring+Tinker+Veterinary)/10;
+	count_act := (AnimalTaming+Begging+Camping+Cartography+DetectingHidden+Enticement+Hiding+Inscription+Peacemaking+Poisoning+Provocation+SpiritSpeak+Tracking)/10;
+
+endfunction
+

@@ -1,0 +1,36 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Created by Zulu (zuluhotel@home.com) Jan 21, 2000
+//
+
+use os;
+use uo;
+
+program equip_robe( who, item )
+
+	var playerlevel := who.cmdlevel;
+
+	if (playerlevel = 1)
+		item.color := 33070;
+		return 1;
+	elseif (playerlevel = 2)
+		item.color := 33070;
+		return 1;
+	elseif (playerlevel = 3)
+		item.color := 0x0494;
+		return 1;
+	elseif (playerlevel = 4)
+		item.color := 1350;
+		return 1;
+	elseif (playerlevel = 5)
+		item.color := 0x0496;
+		return 1;
+	elseif (playerlevel = 6)
+		item.color := 1179;
+		return 1;
+	endif
+
+	destroyitem(item);
+	return 0;
+
+endprogram

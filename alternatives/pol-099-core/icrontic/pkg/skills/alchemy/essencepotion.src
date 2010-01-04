@@ -1,0 +1,86 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/objtype";
+include "include/attributes";
+
+program use_essense_potion (character, potion)
+
+	SendSysMessage (character, "Select a bow or some arrows.");
+	local targetted := Target (character);
+	if (!targetted)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	if (targetted.graphic == 0x13B2)
+		if ((GetObjProperty(targetted, "damagemod")))
+			SendSysMessage (character, "You can't use the potion on that bow.");
+			return;
+		endif
+
+		if (GetAttribute (character, ATTRIBUTEID_ALCHEMY) < 105 )
+			SendSysMessage (character, "You have no chance of applying this potion to that.");
+			return;
+		endif
+
+		PlaySoundEffect (character, 0x241);
+		sleep (2);
+
+		If (CheckSkill (character, SKILLID_ALCHEMY, 90, 0) )
+			SendSysMessage (character, "You put the fire bow into your backpack");
+			PlaySoundEffect (character, 0x1fb);
+			CreateItemInBackpack (character, UOBJ_FIRE_BOW, 1);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			DestroyItem (targetted);
+			DestroyItem (potion);
+		else
+			if (RandomInt (10 == 1) )
+				SendSysMessage (character, "You destroy the bow attempting to apply the potion.");
+				PlaySoundEffect (character, 0x48);
+				CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+				DestroyItem (potion);
+				DestroyItem (targetted);
+			else
+				SendSysMessage (character, "You fail to apply the potion to the bow.");
+				PlaySoundEffect (character, 0x48);
+				CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+				DestroyItem (potion);
+			endif
+		endif
+	elseif (targetted.objtype == UOBJ_ARROW)
+
+		if (GetAttribute (character, ATTRIBUTEID_ALCHEMY) < 100 )
+			SendSysMessage (character, "You have no chance of applying this potion to that.");
+			return;
+		endif
+
+		local arrow_amount := targetted.amount;
+		if (arrow_amount > 100)
+			arrow_amount := 100;
+		endif
+
+		PlaySoundEffect (character, 0x241);
+		sleep (2);
+
+		If (CheckSkill (character, SKILLID_ALCHEMY, 80, 0) )
+			SendSysMessage (character, "You put some fire arrows into your backpack");
+			PlaySoundEffect (character, 0x1fb);
+			CreateItemInBackpack (character, UOBJ_FIRE_ARROW, arrow_amount);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (targetted, arrow_amount);
+			DestroyItem (potion);
+		else
+			SendSysMessage (character, "You fail to apply the potion to the arrows.");
+			PlaySoundEffect (character, 0x48);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (targetted, RandomInt (10));
+			DestroyItem (potion);
+		endif
+	else
+		SendSysMessage (character, "You don't know how to use those together.");
+	endif
+
+endprogram

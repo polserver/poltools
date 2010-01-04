@@ -1,0 +1,137 @@
+////////////////////////////////////////
+//
+// Decayer.src - 1.2
+// Created  6/12/2002 10:17AM
+// Modified 8/30/2002 4:20PM
+//
+// Author: Austin Heilman
+//	   Austin@tsse.net
+//
+// = Version 1.2
+//   - Cleaned up the CanRemove() function.
+//
+// = Version 1.1
+//   - The loop has been changed so that it will actually
+//     check ever NxN region and not just go diagonally across
+//     the map.
+//   - Now uses a datafile to store the last position the sweeper was
+//     on. This allows true resuming after a pol restart.
+//   - Stores the script's pid in a global property so you can kill
+//     the script with ease.
+//
+// = Version 1.0
+//   - Created but havn't tested
+//
+////////////////////////////////////////
+//
+// Notes: 
+//     1.0
+//        * This is more of a test script.
+//          I wont provide support for it... I havnt really
+//          gotten good testing out of it yet.
+//        * The ListObjectsInBox() bit will find items on a multi too
+//          so anything not locked down inside, would get removed.
+//          Using .multi isn't a reliable check.
+//        * Not sure how well it will work with the core's decay cycle
+//          running along side it.
+//
+//     1.1
+//        * Would like to change ListObjectsInBox() later on to use
+//          ListItemsNearLocation(). It may be more efficient.
+//
+////////////////////////////////////////
+//
+// Ideas:
+//        * Throw in an event listener so certain
+//          regions can be forced to decay through text commands.
+//
+///////////////////////////////////////
+
+use uo;
+use os;
+
+include "include/datafile";
+
+const MAP_MAX_X	:= 6143;
+const MAP_MAX_Y	:= 4095;
+const MAP_MAX_Z	:= 125;
+const RECT_SIZE	:= 20;
+
+var data_file := DFOpenDataFile("decayer", DF_CREATE);
+var data_elem := DFFindElement("decayer", DF_CREATE);
+
+program Decayer()
+	SetGlobalProperty("#DecayPid", GetPid());
+	sleep(10);
+	set_priority(1);
+	while (1)
+		var cur_x:=DFGetProp(data_elem, "cur_x", DF_CREATE, 0);
+		var cur_y:=DFGetProp(data_elem, "cur_y", DF_CREATE, 0);
+		
+		for ( cur_x:=0; cur_x<=MAP_MAX_X; cur_x:=cur_x+RECT_SIZE)
+			for ( cur_y:=0; cur_y<=MAP_MAX_Y; cur_y:=cur_y+RECT_SIZE)
+				//Note:
+				//ListObjectsInBox() is ruthless and will list everything that is in that rect.
+				//Print("Decayer: sweeing "+cur_x+" "+cur_y+" "+(cur_x+RECT_SIZE)+" "+(cur_y+RECT_SIZE));
+								
+				foreach object in ListObjectsInBox(cur_x, cur_y, -125, cur_x+RECT_SIZE, cur_y+RECT_SIZE, 125)				
+					if ( CanRemove(object) )
+						RemoveObject(object);
+					endif
+	
+					//Wait 1/10 second between each object
+					sleepms(75);
+				endforeach
+				data_elem.SetProp("cur_y", cur_y);
+				sleep(800);
+			endfor
+			
+			data_elem.SetProp("cur_x", cur_x);
+		endfor
+				
+		data_elem.SetProp("cur_x", 0);
+		data_elem.SetProp("cur_y", 0);
+		
+		SysLog("Next decay cycle begins in 15 minutes.");
+		//Wait 15 minutes for the next world sweep;
+		sleep(90);
+	endwhile
+endprogram
+
+function CanRemove(object)
+	if ( object.IsA(POLCLASS_ITEM) )
+		if ( ReadGameClock() > object.decayat )
+			if ( object.movable || object.IsA(POLCLASS_CORPSE) )
+				return 1;
+			endif
+		endif
+	endif
+	
+	return 0;
+endfunction
+
+function RemoveObject(object)
+//	SysLog("Decaying Ser["+object.serial+"] Desc["+object.desc+"]");
+	if ( object.IsA(POLCLASS_CORPSE) )
+		if ( object.CanDestroy() )
+			EmptyContainer(object);
+		endif
+	elseif ( object.IsA(POLCLASS_CONTAINER) )
+		//Empty out containers
+		EmptyContainer(object);
+	endif
+
+	//The item isnt guaranteed to be removed here.
+	//If it has a DestroyScript, it depends on the
+	//return value of it.
+	DestroyItem(object);
+endfunction
+
+function EmptyContainer(object)
+	foreach item in EnumerateItemsInContainer(object)
+		if ( item.container == object )
+			MoveItemToLocation(item, object.x, object.y, object.z, MOVEITEM_FORCELOCATION);
+		endif
+		sleepms(2);
+	endforeach
+endfunction

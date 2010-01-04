@@ -1,0 +1,103 @@
+///////////////////////////////////////////////////////////
+// .tourny  -  Staff Tournament Settings for global variables
+//             used int he chrdeath.ecl
+//
+// Author   : MuadDib  (Based off of Shurugwi's .setauto script)
+// August 2002
+//
+///////////////////////////////////////////////////////////
+
+use uo;
+
+var layout := array( 
+
+"page 0",
+"nodispose",
+"resizepic 250 200 2600 300 200",
+"text 328 217 70 0", // Caption
+"text 285 260 48 1", // Fame Loss
+"button 500 264 2118 2117 1 1 2",
+"text 285 275 48 3", // Murder Report
+"button 500 279 2118 2117 1 1 4",
+"text 285 290 48 5", // Newbie
+"button 500 294 2118 2117 1 1 6",
+"text 285 305 48 7", // Antiloot
+"button 500 309 2118 2117 1 1 8",
+"text 285 320 48 9", // unused
+"button 500 324 2118 2117 1 1 10",
+//"button 279 57 141 142 1 1 13", // Close Button
+"button 375 360 2130 2129 1 1 11", // Close Button
+"text 285 240 70 12", // Char Name
+"",
+);
+
+var data := array(
+       "Tournament Settings", //0 Caption
+       "Fame Loss is ", //1
+       "", //2
+       "Murder Reporting is ", //3
+       "", //4
+       "Newbie Death is ", //5
+       "", //6
+       "Antiloot is ", //7
+       "", //8
+       "*unused* is ", //9
+       "", //10
+       "", // Close Button 11
+       "", //12 Char Name
+       "",                     
+       
+);
+
+program textcmd_tourny( character )
+
+    while (ShowAutoGump(character))
+
+    endwhile
+
+endprogram
+
+function ShowAutoGump(character)
+
+    data[13] := "Staff: " + character.name;
+    data[2] := "Fame Loss is not " + TranslateIt(GetGlobalProperty( "gnfloss"));
+    data[4] := "Murder Reporting is " + TranslateIt(GetGlobalProperty( "gnoreport"));
+    data[6] := "Newbie Death is " + TranslateIt(GetGlobalProperty( "gnewbie"));
+    data[8] := "*unused* is " + TranslateIt(GetGlobalProperty( "gantiloot" ));
+    data[10] := "*unused* is "  + TranslateIt(GetGlobalProperty( "gunused"));
+
+    var result := SendDialogGump( character, layout, data );
+
+    case( result[0] )
+         1:
+         2: SetGAuto(character, "gnfloss"); return 1;
+         3: 
+         4: SetGAuto(character, "gnoreport"); return 1;
+         5:
+         6: SetGAuto(character, "gnewbie"); return 1;
+         7:
+         8: SetGAuto(character, "gantiloot"); return 1;
+         9:
+         10: SetGAuto(character, "gunused"); return 1;
+         11: return 0;
+    endcase
+
+endfunction
+
+function SetGAuto(character, text)
+
+    if(GetGlobalProperty(text) != 1)
+		SetGlobalProperty(text, 1);
+    else
+    	SetGlobalProperty(text, 0);
+    endif
+
+endfunction
+
+function TranslateIt(input)
+    if (!input)
+        return "Off";
+      else
+	return "On";
+    endif
+endfunction

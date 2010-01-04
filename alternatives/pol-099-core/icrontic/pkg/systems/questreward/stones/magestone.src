@@ -1,0 +1,15 @@
+use os;
+use uo;
+
+program magestone( who , magestone )
+
+    var place;
+    var amount := 100;
+
+	place := CreateItemInBackpack(who, 0xf0e, amount);
+	place := CreateItemInBackpack(who, 0x0e9b);
+	place := CreateItemInBackpack(who, 0x0e34, amount);
+      SendSysMessage( who, "You find a mortar, 100 blank scrolls, and 100 empty bottles in your pack");
+    DestroyItem (magestone);
+      return;
+endprogram

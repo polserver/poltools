@@ -1,0 +1,21 @@
+use uo;
+use os;
+
+include "include/packets";
+
+program textcmd_qa(who, text)
+  if(!text)
+    SetQuestArrow( who, 0, 0, 0 );
+    return 1;
+  endif
+  text := SplitWords(text);
+  if(text[1] && text[2])
+    SetQuestArrow( who, 1, text[1], text[2] );
+    return 1;
+  else
+    SendSysmessage(who, "Invalid parameters.");
+    SendSysmessage(who, "'.qa' clears arrow.");
+    SendSysmessage(who, "'.qa x y' sets a quest location.");
+    return 0;
+  endif
+endprogram

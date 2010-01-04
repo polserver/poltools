@@ -1,0 +1,64 @@
+///////////////////////////////////////////////
+// sheep.src
+//
+// Created 7/26/2002 11:31AM
+// Updated 7/26/2002 11:31AM
+//
+// By Austin Heilman
+// http://www.tsse.net
+//
+///////////////////////////////////////////////
+//
+// This nerve causes the npc to wander around
+// and make idle noises just like graze does
+// but it also has an extra bit for sheep to make
+// them go back to their graphic where they have
+// wool.
+//
+///////////////////////////////////////////////
+
+use uo;
+use os;
+use util;
+
+include "../ai_include/NPC_Commands";
+
+const UNSHORN_GRAPHIC	:= 207;
+const SHORN_GRAPHIC	:= 223;
+
+program IdleNerve(params)
+	var nerve_name	:= params[1];
+	var npc		:= params[2];
+	var ev		:= params[3];
+	var settings	:= params[4];
+	
+	while(npc)
+		npc.facing := RandomInt(8);
+		AI_Wander(npc, NOWAKE);
+		sleep(20+RandomInt(10));
+		
+		if ( settings["idle_sound"] )
+			if ( settings["idle_sound"].size() > 0 )
+				var sounds := settings["idle_sound"];
+				PlaySoundEffect(npc, sounds[RandomInt(sounds.size())+1]);
+			else
+				PlaySoundEffect(npc, settings["idle_sound"]);
+			endif
+		endif
+		
+		if ( CInt(GetObjProperty(npc, "RegrowWool")) < polcore().systime )
+			//The sheep has been unshorn for over 30 minutes.
+			//Give it some wool!
+			npc.graphic := 207;
+			EraseObjProperty(npc, "RegrowWool");
+		elseif ( npc.graphic == 223 )
+			//If the sheep is shorn, set a cprop for 30 minutes until 
+			//the wool grows back.
+			SetObjProperty(npc, "RegrowWool", polcore().systime+(60*30));
+		endif
+		
+		while ( events_waiting() )
+			var ev := Wait_For_Event(10);
+		endwhile
+	endwhile
+endprogram

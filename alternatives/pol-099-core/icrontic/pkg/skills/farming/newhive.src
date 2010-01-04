@@ -1,0 +1,64 @@
+///////////////////
+//  This program is called when you use a new beehive.  It creates a brand new hive and starts
+//  the beehive control script for the hive.  When the activated beehive is used, it produces honey
+//  and wax.
+///////////////////
+
+use uo;
+use os;
+
+include "include/yesno";
+
+program harvest_honey (character, newbeehive)
+
+	//reserve the hive, give them a message, and let them place the hive
+	if(!ReserveItem(newbeehive)) return; endif
+
+	if (newbeehive.container)
+		SendSysmessage (character, "The hive cannot be used in a container.");
+		return;
+	endif
+
+	if (len ( ListItemsNearLocationOfType( newbeehive.x, newbeehive.y, newbeehive.z, 1, 0x091a ) ) > 0 )
+		SendSysmessage (character, "There is another hive too close.");
+		return;
+	endif
+
+	//ask the player if they're sure this is where they want it
+	Sendsysmessage(character, "Are you sure you want to put the hive here?");
+	var sure := YesNo(character, "Place here?");
+
+	//if they are sure, create a working beehive, set it's honey and wax levels to 20, destroy
+	//the unusedhive and exit
+	if ( sure )
+		var beehive := CreateItemAtLocation (newbeehive.x, newbeehive.y, newbeehive.z, 0x091a, 1);
+		SetObjProperty (beehive, "Wax", 10);
+		SetObjProperty (beehive, "Honey", 10);
+		DestroyItem (newbeehive);
+		SendSysmessage (character, "You place the beehive.");
+		return;
+	else
+		SendSysmessage (character, "Cancelled.");
+		return;
+	endif
+endprogram
+
+
+
+
+
+///////////////////
+//  This function checks to make sure that the location that was targetted is accessible to the character.
+///////////////////
+
+function is_accessible (character, targetted)
+	var xdifference := character.x - targetted.x;
+	if (xdifference < -2 or xdifference > 2) 
+		return 0;
+	endif
+	var ydifference := character.y - targetted.y;
+	if (ydifference < -2 or ydifference > 2) 
+		return 0;
+	endif
+	return 1;
+endfunction

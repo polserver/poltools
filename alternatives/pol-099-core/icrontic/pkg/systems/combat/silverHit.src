@@ -1,0 +1,28 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+
+program macehit(param)
+  var attacker := param[1];
+  var defender := param[2];
+  var weapon := param[3];
+  var armor := param[4];
+  var basedamage := param[5];
+  var rawdamage := param[6];
+  if((attacker.dead) || (defender.dead))
+    return;
+  endif
+  if(!defender.isA(POLCLASS_NPC))
+    SetObjProperty(defender, "TempDamage", rawdamage);
+    return;
+  endif
+  var cfg := ReadConfigFile("::npcdesc");
+  var undead := cfg[defender.npctemplate].elemental;
+  if(undead == "undead")
+    rawdamage := rawdamage * 2;
+  endif
+  SetObjProperty(defender, "TempDamage", rawdamage);
+endprogram
+
+   

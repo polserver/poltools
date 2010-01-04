@@ -1,0 +1,33 @@
+use util;
+use uo;
+use os;
+include "include/attributes";
+include "include/client";
+
+program ministatue(who, deed)
+
+var montype;
+var mname;
+var bpack := GetEquipmentByLayer(who, 21);
+var rndnum := RandomDiceRoll("1d14");
+
+case(rndnum)
+1:montype := 0x2134;
+2:montype := 0x2133;
+3:montype := 0x2132;
+4:montype := 0x2131;
+5:montype := 0x2130;
+6:montype := 0x212f;
+7:montype := 0x212e;
+8:montype := 0x212d;
+9:montype := 0x212c;
+10:montype := 0x212b;
+11:montype := 0x212a;
+12:montype := 0x2129;
+13:montype := 0x2128;
+14:montype := 0x2138;
+endcase
+var minimon := CreateItemAtLocation(5228, 1182, 0, montype,1);
+DestroyItem(deed);
+MoveItemToContainer( minimon, bpack, x := -1, y := -1 );
+endprogram

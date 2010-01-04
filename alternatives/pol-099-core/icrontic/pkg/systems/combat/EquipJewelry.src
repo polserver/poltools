@@ -1,0 +1,59 @@
+use uo;
+use os;
+include "include/attributes";
+
+program equipjewel(who, item, startup)
+
+	if (startup)
+		return 1;
+	endif
+
+	var amt := CInt(GetObjProperty(item,"skill_adj"));
+	var skill := GetObjProperty(item, "skill");
+	if (GetObjProperty(who, "adj" + skill))
+		SendSysMessage (who, "The item refuses to equip",3,58);
+		return 0;
+	endif
+	if (GetObjProperty(item,"equipped"))
+		return 1;
+	endif
+
+    if(!skill.errortext)
+      if((skill >= 0) && (skill <= 48))
+        var skillrange := skill + 1;
+        if (!skillrange or !amt)
+          return 1;
+        endif
+      else
+        if (!skill or !amt)
+          return 1;
+        endif
+      endif
+    endif
+        
+	set_critical(1);
+	if((!amt) || (amt == 0))
+	  amt := 5;
+	endif
+//	SendSysMessage(who, "Skill: " + skill + " Amt: " + amt);  // Report for debugging
+	if ((skill = "strength") or (skill="dexterity") or (skill="intelligence"))
+		var totalstat := GetObjProperty(who,"StatAdj");
+		if (!totalstat)
+			totalstat := 0;
+		endif
+		ModifyAttributeTemporaryMod(who, skill, amt);
+		RecalcVitals(who);
+		SetObjProperty(who,"StatAdj",Cint(totalstat) + CInt(amt));
+	else
+		var totalskill := GetObjProperty(who,"SkillAdj");
+		if (!totalskill)
+			totalskill := 0;
+		endif
+		ModifyAttributeTemporaryMod(who, GetAttributeIdBySkillId(skill), amt);
+		SetObjProperty(who,"SkillAdj",Cint(totalskill) + CInt(amt));
+	endif
+	SetObjProperty(who,"adj" + skill,1);
+	SetObjProperty(item, "equipped", who.serial);
+	set_critical(0);
+	return 1;
+endprogram

@@ -1,0 +1,160 @@
+
+
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/client";
+include "include/skillpoints";
+include "include/utility";
+//include "include/karmafame";
+include "include/eventid";
+include "include/attributes";
+
+program stealing(who)
+
+    cansteal(who);
+
+    SendSysmessage(who, "What item would you like to attempt to steal?");
+
+    var hotitem  := Target(who);
+
+    if (!hotitem) stealerexit(who,"canceled"); endif
+
+    var tbstolen := GetObjProperty(hotitem,"realitem");
+    var mb       := GetObjProperty(hotitem,"markinfo");
+    var stealwithin := GetObjProperty(hotitem,"containerserial");
+    
+  
+   
+   if((!tbstolen) or (hotitem.newbie)) stealerexit(who,"This item cannot be stolen!"); endif
+
+    var whosi := SystemFindObjectBySerial(mb);
+    if (!whosi) stealerexit(who,"The player is no longer online!"); endif
+
+    if(Distance(who, whosi)>1) stealerexit(who,"You can't even reach it!"); endif
+
+    var realitem := SystemFindObjectBySerial(cint(tbstolen));
+
+    if(!itemthere(who,whosi.backpack,realitem))
+	destroyitem(hotitem);
+	stealerexit(who,"The item is no longer in the backpack!");
+    endif
+
+
+    var StealSkill := cint(GetEffectiveSkill(who,SKILLID_STEALING));
+    var StealWeight := 0 ;
+    if ((StealSkill >= 0) && (StealSkill < 10))  StealWeight := 1; endif
+    if ((StealSkill >= 10) && (StealSkill < 20))  StealWeight := 1; endif
+    if ((StealSkill >= 20) && (StealSkill < 30))  StealWeight := 2; endif
+    if ((StealSkill >= 30) && (StealSkill < 40))  StealWeight := 3; endif
+    if ((StealSkill >= 40) && (StealSkill < 50))  StealWeight := 4; endif
+    if ((StealSkill >= 50) && (StealSkill < 60))  StealWeight := 5; endif
+    if ((StealSkill >= 60) && (StealSkill < 70))  StealWeight := 6; endif
+    if ((StealSkill >= 70) && (StealSkill < 80))  StealWeight := 7; endif
+    if ((StealSkill >= 80) && (StealSkill < 90))  StealWeight := 8; endif
+    if ((StealSkill >= 90) && (StealSkill < 100))  StealWeight := 9; endif
+    if (StealSkill == 100)  StealWeight := 10; endif
+    if (realitem.weight>StealWeight) stealerexit(who,"That is too heavy for you!"); endif
+var thepoints:= realitem.weight;
+    thepoints := (thepoints*10);
+
+    if ((((StealSkill + 40) - (realitem.weight * 12)) < (RandomInt(99)+1)) || (StealSkill < 8))
+var range := cint(15 - (GetEffectiveSkill(who,SKILLID_STEALTH)/10));
+       if (range<3) range:=3; endif
+    tellplayers(who,whosi,range);
+    awardrawskillpoints(who,SKILLID_STEALING, 20);
+    return;
+    endif
+	
+    	if ((realitem.newbie==1) || (realitem.objtype==0x6100) || (realitem.objtype=0x0EFA) || (realitem.objtype=0xB100) || (realitem.objtype=0xA100) || (realitem.graphic=0x14F0))
+    		stealerexit(who,"This item cannot be stolen!");
+    	endif
+
+  if ((realitem.objtype==0x0EFA) || (realitem.objtype==0x2006)||(realitem.objtype=0x0E7C))
+      stealerexit(who,"This item cannot be stolen!");
+  endif
+
+    	whosi := SystemFindObjectBySerial(mb);
+	if (!whosi) stealerexit(who,"The player is no longer online!"); endif
+	MoveItemToContainer( realitem, who.backpack);
+	destroyitem(hotitem);
+	SendSysmessage(who, "You have successfully stolen the item.");
+    awardrawskillpoints(who,SKILLID_STEALING, thepoints);
+    var hiddenchance := (stealskill * 0.75)+(GetDexterity(who) * 0.25);
+    var chance1 := ((hiddenchance - (realitem.weight * 12)) > (RandomInt(99)+1));
+    if (chance1)
+    SendSysmessage(who, "And nobody noticed!");
+    return;
+    else
+    var range := cint(15 - (GetEffectiveSkill(who,SKILLID_STEALTH)/10));
+       if (range<3) range:=3; endif
+    tellplayers(who,whosi,range);
+    endif
+endprogram
+
+
+function stealerexit(who, message)
+    SendSysmessage(who, message);
+    exit;
+endfunction
+
+
+function cansteal(who)
+
+if(GetEquipmentByLayer(who,LAYER_HAND1) || GetEquipmentByLayer(who,LAYER_HAND2))
+stealerexit(who, "You'll need you're hands empty for that!");
+endif
+
+var cfg := readconfigfile(":combat:itemdesc");
+
+endfunction
+
+
+function tellplayers(who,mark,range)
+ who.hidden := 0;
+    var targets := ListMobilesNearLocation(who.x,who.y,who.z,range);
+	
+	var ev := array;
+	ev.+type := EVID_ENGAGED;
+	ev.+source := who;
+	SendEvent( mark , ev );
+
+    foreach mobile in targets
+      if ((mobile.serial!=who.serial) and (mobile.dead = 0))
+        SendSysmessage(mobile, "You notice " + who.name + " attempting to steal from " + mark.name);
+        
+      elseif(mobile.serial==who.serial)
+        SendSysmessage(who, "You are noticed trying to Steal!");
+      
+
+endif
+    endforeach
+if (!mark.criminal)
+who.setcriminal(1);
+endif
+
+endfunction
+
+
+function itemthere(who, backpack, realitem)
+    foreach item in EnumerateItemsInContainer(backpack)
+	if(item.serial==realitem.serial) return 1; endif
+            if ((item.objtype = 0x966b) || (item.objtype = 0x0E75) || (item.objtype = 0x0E79) || (item.objtype = 0x0E76) || (item.objtype = 0x0E7C) || (item.objtype = 0x0E40) || (item.objtype = 0x0E42) || (item.objtype = 0x0E43) || (item.objtype==0x0E80) ||(item.objtype==0x0E77)||(item.objtype=0x09AA))
+            var containerobject:= SystemFindObjectBySerial(item.serial);
+             foreach itemincontainer in EnumerateItemsInContainer(containerobject)
+              if(itemincontainer.serial==realitem.serial) return 1; endif
+             endforeach
+             endif
+    endforeach
+    return 0;
+endfunction
+
+
+function itemthere2(who, backpack, realitem)
+    foreach item in EnumerateItemsInContainer(backpack)
+	if(item.serial==realitem.serial) return 1; endif
+    endforeach
+    return 0;
+endfunction

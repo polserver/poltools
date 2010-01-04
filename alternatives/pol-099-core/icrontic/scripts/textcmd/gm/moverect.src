@@ -1,0 +1,71 @@
+//
+// .moverect command - move items in a targetted rectangle
+//
+// usage: .moverect {x+xdiff} {y+ydiff} {z+zdiff} {objtype=objtype}
+//
+// examples:
+//   .moverect x+5
+//   .moverect z-2
+//   .moverect x+2 y-3 objtype=0x495
+// 
+//  if objtype isn't specified, moves all items found. 
+//
+
+use uo;
+
+program textcmd_raiserect( who, params )
+    var xdiff, ydiff, zdiff, objtype;
+
+    params := SplitWords( params );
+    xdiff := find_int_arg( params, "x" );
+    ydiff := find_int_arg( params, "y" );
+    zdiff := find_int_arg( params, "z" );
+    objtype := find_int_arg( params, "objtype=" );
+    
+    SendSysMessage( who, "Target the top-left corner" );
+    var topleft := TargetCoordinates( who );
+    if (!topleft)
+        return;
+    endif
+    SendSysMessage( who, "Target the bottom-left corner" );
+    var botright := TargetCoordinates( who );
+    if (!botright)
+        return;
+    endif
+    
+    var lowz, highz;
+    if (topleft.z > botright.z)
+        lowz := botright.z;
+        highz := topleft.z;
+    else
+        lowz := topleft.z;
+        highz := botright.z;
+    endif
+
+    foreach item in ListObjectsInBox( topleft.x, topleft.y, lowz,
+                                      botright.x, botright.y, highz )
+        if (objtype == 0 OR item.objtype == objtype)
+            MoveItemToLocation( item, 
+                                item.x + xdiff, 
+                                item.y + ydiff,
+                                item.z + zdiff, 
+                                MOVEITEM_FORCELOCATION );
+        endif
+
+    endforeach
+
+       
+endprogram
+
+function find_int_arg( params, prefix )
+    var pfxlen := len(prefix);
+
+    foreach param in params
+        if (lower(param[1,pfxlen]) = lower(prefix))
+            param[prefix] := "";
+            return CInt( param );
+        endif
+    endforeach
+
+    return 0;
+endfunction

@@ -1,0 +1,11 @@
+
+use uo;
+
+program textcmd_action( who, action )
+    SendSysMessage( who, "Select an NPC" );
+
+    var npc := Target( who );
+    if (npc)
+        SendSysMessage( who, "Script: " + npc.script );
+    endif
+endprogram

@@ -1,0 +1,43 @@
+///////////////////////////////////////////////
+// melee.src
+//
+// Created 2/08/2003
+// Updated 2/08/2003
+//
+// By MuadDib
+// http://www.icrontic.net
+//
+///////////////////////////////////////////////
+//
+// This init script is base for plain melee npcs
+// not requiring names, etc like trolls, ettins
+// etc.
+//
+///////////////////////////////////////////////
+
+use uo;
+use util;
+use os;
+
+include "../ai_include/NPC_Setup";
+include "include/randName";
+
+program InitScript(npc)
+
+
+	var result;
+
+	result := SetNPCName(npc, "");
+
+        result := SetNPCEquipment(npc);
+	if ( result.errortext )
+		return result;
+	endif
+ 
+	result := SetNPCProps(npc);
+	if ( result.errortext )
+		return result;
+	endif
+	
+	return 1;
+endprogram

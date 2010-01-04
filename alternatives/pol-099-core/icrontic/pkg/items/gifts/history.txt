@@ -1,0 +1,22 @@
+E:\pol\pkg\items\gifts\blessdeed.src
+
+E:\pol\scripts\NPCKeeper.src
+E:\pol\pkg\skills\spells\wallOfStone.src
+E:\pol\pkg\skills\spells\poisonField.src
+E:\pol\pkg\skills\spells\paraField.src
+E:\pol\pkg\skills\spells\fireField.src
+E:\pol\pkg\skills\spells\energyField.src
+E:\pol\pkg\skills\spells\ /?
+E:\pol\pkg\skills\spells\
+E:\pol\pkg\skills\spells\clumsy.src
+E:\pol\pkg\skills\musicianship\provocation.src
+E:\pol\pkg\skills\lumberjacking\lumberjack.src
+E:\pol\pkg\skills\alchemy\whitePotion.src
+E:\pol\pkg\skills\alchemy\yellowPotion.src
+E:\pol\pkg\items\training\dummy.src
+E:\pol\pkg\items\drinking\drink.src
+E:\pol\pkg\systems\housing\sign.src
+E:\pol\pkg\systems\nature\logon.src
+E:\pol\pkg\systems\nature\dayNight.src
+E:\pol\pkg\systems\daynight\dayNight.src
+E:\pol\pkg\systems\spawnregion\spawnRegionManager.src

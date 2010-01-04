@@ -1,0 +1,237 @@
+///////////////////////////////////////////////////////////
+//                                                       //
+//  This program is started when a character takes a     //
+//  drink of alcohol.  it runs in the background and     //
+//  causes the character to stumble around and possibly  //
+//  vomit, until the alchohol is finally clensed from    //
+//  the character's body.                                //
+//                                                       //
+///////////////////////////////////////////////////////////
+
+use uo;
+use os;
+use util;
+
+include "include/attributes";
+
+Const ACTION_BOW	:= 0x0020;
+Const ACTION_FALL	:= 0x0016;
+
+program drunk (character)
+
+	//detach the script so that the character can be doing other things while it runs in the background
+	detach();
+
+	//setup of a variable
+	var drunkness;
+
+	//now repeat the next section until the character is finally purged of all alcohol or the character logs out
+	repeat
+		drunkness := GetObjProperty( character , "#proof");
+		if (drunkness and drunkness > 0)
+			do_drunk_stuff( character, drunkness );
+			drunkness := GetObjProperty( character , "#proof");//in case they drank more
+			drunkness := drunkness - 1;
+
+			//some checks on the range of drunkness
+			if (drunkness < 0)
+				drunkness := 0;
+			elseif (drunkness > 20)
+				drunkness := 20;
+			endif
+
+			SetObjProperty( character, "#proof", drunkness );
+
+			//some sysmessages to inform the character of when they feel better
+			case (drunkness)
+				4:	SendSysmessage (character, "You feel sober.");
+				8:	SendSysmessage (character, "You no longer feel drunk.");
+				12:	SendSysmessage (character, "You feel less drunk.");
+				16:	SendSysmessage (character, "You feel somewhat better.");
+			endcase;
+		else
+			drunkness := 0;
+		endif
+	until ( (!drunkness) or (!character) );
+
+	EraseObjProperty( character, "#proof" );
+	SendSysmessage( character , "Your body is free of alcohol.");
+
+endprogram
+
+
+
+///////////////////
+//This function makes the character stumble around and perhaps vomit depending on how
+//drunk they are.  It tends to be quite repetative...
+///////////////////
+
+function do_drunk_stuff ( character, drunkness )
+
+	//if they're only a tiny bit drunk, just give them the hiccups
+	if( drunkness > 4 and drunkness <= 8)
+		sleep(5);
+		PrintTextAbove( character, "*hic*" );
+		sleep(10);
+
+	//if they're somewhat more drunk, make them stumble a bit
+	elseif( drunkness > 8 and drunkness <= 12)
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(5);
+		PrintTextAbove( character, "*hic*" );
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(5);
+		PrintTextAbove( character, "*hic*" );
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(5);
+
+	//if they're even more drunk, make them stumble more with a small chance to vomit
+	elseif( drunkness > 12 and drunkness <= 16)
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		vomit(character, 1);
+		PerformAction( character, ACTION_BOW );
+		PrintTextAbove( character, "*hic*" );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		PerformAction( character, ACTION_BOW );
+		PrintTextAbove( character, "*hic*" );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		vomit(character, 1);
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+
+	//when they're extremely drunk, make them fall off their horse (if mounted), and otherwise fall down
+	elseif( drunkness > 16)
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		vomit(character, 4);
+		PerformAction( character, ACTION_BOW );
+		PrintTextAbove( character, "*hic*" );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		if ( GetEquipmentByLayer( character, 25 ) )
+			dismount (character);
+			SendSysmessage (character, "You fall off your horse.");
+		else
+			PerformAction( character, ACTION_FALL );
+		endif
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		vomit(character, 4);
+		PrintTextAbove( character, "*hic*" );
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+		PerformAction( character, ACTION_BOW );
+		character.facing := RandomDiceRoll( "1d8" );
+		sleep(3);
+
+	//otherwise if they're not very drunk at all, just wait
+	else
+		sleep(15);
+	endif
+	return 1;
+endfunction
+
+
+
+
+///////////////////
+//This function gives the character a chance to vomit - a percentage based on the variable chance
+///////////////////
+
+function vomit ( character, chance )
+	if (randomint(100) <= chance)
+		PrintTextAbove(character, "*RALPH*");
+		var puke := CreateItemAtLocation(character.x,character.y,character.z, 0x0f3c, 1);
+		puke.name := cstr ( character.name + "'s vomit");
+
+		//random color
+		var random_number := RandomInt(4);
+		case (random_number)
+			0:	puke.color := 1422;
+			1:	puke.color := 540;
+			2:	puke.color := 555;
+			3:	puke.color := 970;
+		endcase;
+		puke.decayat := ReadGameClock() + 300;
+		puke.movable := 0;
+
+		//make the character hungry
+		var hunger := GetObjProperty(character, "hunger");
+		if (!hunger) 
+			hunger := 5;
+		elseif ((hunger + 5)>10)
+			hunger := 10;
+		else
+			hunger := hunger + 5;
+		endif
+                case (hunger)
+                    0 : SetStaminaRegenRate(character, 1000);
+                    1 : SetStaminaRegenRate(character, 1300);
+                    2 : SetStaminaRegenRate(character, 1200);
+                    3 : SetStaminaRegenRate(character, 1200);
+                    4 : SetStaminaRegenRate(character, 1200);
+                    5 : SetStaminaRegenRate(character, 1200);
+                    6 : SetStaminaRegenRate(character, 1200);
+                    7 : SetStaminaRegenRate(character, 1000);
+                    8 : SetStaminaRegenRate(character, 800);
+                    9 : SetStaminaRegenRate(character, 600);
+                    10: SetStaminaRegenRate(character, 400);
+                endcase
+                if (hunger > 8)
+                  if (GetStamina(character) > GetMaxStamina(character))
+                    SetStamina(character,GetMaxStamina(character));
+                    RecalcVitals(character);
+                  endif
+                endif
+		SetObjProperty(character, "hunger", hunger);
+	endif
+endfunction
+
+
+///////////////////
+//dismounts a character from their horse
+///////////////////
+
+function dismount(character)
+  var mount := GetEquipmentByLayer( character, 25 );
+  foreach item in EnumerateItemsInContainer(character)
+	if (item.objtype == 0xf021)
+	  mount := item;
+	  break;
+	endif
+  endforeach
+  if (!mount)
+	return;
+  endif
+  var animal := SystemFindObjectBySerial(CInt(GetObjProperty(mount,"serial")));
+    If(GetObjProperty(animal , "ethereal"))
+	  var awardid := GetObjProperty(animal, "awardtype");
+	  EraseObjProperty(animal, "mounted");
+ 	  EraseObjProperty(animal, "mounted_on");
+	  Damage( animal, GetHp(animal) +3 );
+ 	  DestroyItem(mount);
+ 	  CreateItemInBackpack( character, awardid, 1 );
+    else
+  animal.facing := character.facing;
+  EraseObjProperty(animal, "mounted");
+  EraseObjProperty(animal, "mounted_on");
+  endif
+  if(GetObjProperty(animal, "mazesteed"))
+    SetObjProperty(animal, "happiness", 1);
+  endif
+  MoveCharacterToLocation( animal, character.x, character.y, character.z, MOVECHAR_FORCELOCATION);
+  DestroyItem(mount);
+endfunction

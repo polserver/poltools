@@ -1,0 +1,13 @@
+use uo;
+
+program textcmd_mapinfo( who, text )
+	var where := TargetCoordinates( who );
+	if (where)
+	    var mi := GetMapInfo( where.x, where.y );
+		if (mi)
+		    SendSysMessage( who, "GetMapInfo("+where.x+","+where.y+"): z="+mi.z+", landtile="+Hex(mi.landtile) );
+		else
+			SendSysMessage( who, "Error in GetMapInfo: " + mi.errortext );
+		endif
+	endif
+endprogram

@@ -1,0 +1,35 @@
+// Stun Punch v1.1
+// By BlahGoD
+
+
+use os;
+use uo;
+
+include "include/client";
+include "include/objtype";
+include "include/attributes";
+
+program stunpunch( attacker , defender )
+  var hand1 := (GetEquipmentByLayer(attacker, 1));
+  var hand2 := (GetEquipmentByLayer(attacker, 2));
+  var anatomyskill := CInt(GetEffectiveSkill(attacker, SKILLID_ANATOMY));
+  var wrestlingskill := CInt(GetEffectiveSkill(attacker, SKILLID_WRESTLING));
+  var wrestletimer := GetObjProperty(attacker, "WrestleTimer");
+  var stunmode := GetObjProperty(attacker, "StunMode");
+  var disarmmode := GetObjProperty(attacker, "DisarmMode");
+    if(stunmode)
+      SendSysMessage(attacker,"You stop your attempt at stunning your opponent.");
+      SetObjProperty(attacker,"StunMode",0);
+    elseif(disarmmode)
+      SendSysMessage(attacker,"You are already performing a move.");
+    elseif((hand1) or (hand2))  //checks to make sure hands are free
+      SendSysMessage(attacker,"Your hands must be free to perform this.");
+    elseif((anatomyskill < 80) or (wrestlingskill < 80))  //checks skills
+      SendSysMessage(attacker,"You are not skilled enough to perform this.");
+    elseif(wrestletimer > ReadGameClock())  //makes sure 10 seconds has past from last use
+      SendSysMessage(attacker,"You must wait to perform this action again.");
+    else
+      SendSysMessage(attacker,"You prepare to stun your opponent.");
+	SetObjProperty(attacker,"StunMode",1);  //turns on wrestling mode
+  endif
+endprogram

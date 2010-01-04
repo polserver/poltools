@@ -1,0 +1,25 @@
+use os;
+use uo;
+use boat;
+include "include/attributes";
+
+program textcmd_recreate( who )
+    var tgt := TargetCoordinates( who );
+   
+    if (tgt.mobile)
+        var obj := tgt.mobile.npctemplate;
+        var x := tgt.mobile.x;
+        var y := tgt.mobile.y;
+        var z := tgt.mobile.z;
+       
+        var mob := tgt.mobile;
+
+      
+            RevokePrivilege( mob, "invul" );
+            SetObjProperty(mob, "guardkill", 1);
+            Damage( mob, GetHp(mob) );
+            Detach();
+            sleep(2);
+            CreateNpcFromTemplate(obj,x,y,z);
+    endif
+endprogram

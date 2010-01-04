@@ -1,0 +1,30 @@
+use uo;
+use os;
+
+program roar(who)
+
+var orgcolour:=who.color;
+var orggraphic:=who.graphic;
+
+who.graphic:=0x009;
+who.color:=0x000;
+playsoundeffect(who,0xF9);
+sleepms(6000);
+playsoundeffect(who,0x208);
+sleepms(800);
+unconcealme(who);
+PerformAction(who,12);
+playsoundeffect(who,0x166);
+PerformAction(who,12);
+sleepms(1500);
+who.graphic:=orggraphic;
+who.color:=orgcolour;
+sleepms(2000);
+PrintTextAbove( who, "Greetings", font := 3, color := 37 );
+sleepms(2000);
+PrintTextAbove( who, "How can i help you?", font := 3, color := 37 );
+endprogram
+
+function unconcealme(who)
+  who.concealed := 0;
+endfunction

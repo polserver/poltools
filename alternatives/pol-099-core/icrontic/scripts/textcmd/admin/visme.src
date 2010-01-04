@@ -1,0 +1,45 @@
+// by Yerpen
+
+use os;
+use uo;
+include "include/attributes";
+
+program makevendor(who, item, victim)
+
+  PlaySoundEffect( who, SFX_SPELL_FLAME_STRIKE );
+  PlayStationaryEffect(who.x +5 , who.y + 5, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -5 , who.y + 5, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x +5 , who.y -5, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -5 , who.y - 5, who.z, 0x3709, 0x0a, 0x1e );
+  sleepms( 700 );
+  PlaySoundEffect( who, SFX_SPELL_FLAME_STRIKE );
+  PlayStationaryEffect(who.x +4 , who.y + 4, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -4 , who.y + 4, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x +4 , who.y -4, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -4 , who.y - 4, who.z, 0x3709, 0x0a, 0x1e );
+  sleepms( 700 );
+  PlaySoundEffect( who, SFX_SPELL_FLAME_STRIKE );
+  PlayStationaryEffect(who.x +3 , who.y + 3, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -3 , who.y + 3, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x +3 , who.y -3, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -3 , who.y - 3, who.z, 0x3709, 0x0a, 0x1e );
+  sleepms( 700 );
+  PlaySoundEffect( who, SFX_SPELL_FLAME_STRIKE );
+  PlayStationaryEffect(who.x +2 , who.y + 2, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -2 , who.y + 2, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x +2 , who.y -2, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -2 , who.y - 2, who.z, 0x3709, 0x0a, 0x1e );
+  sleepms( 700 );
+  PlaySoundEffect( who, SFX_SPELL_FLAME_STRIKE );
+  PlayStationaryEffect(who.x +1 , who.y + 1, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -1 , who.y + 1, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x +1 , who.y -1, who.z, 0x3709, 0x0a, 0x1e );
+  PlayStationaryEffect(who.x -1 , who.y - 1, who.z, 0x3709, 0x0a, 0x1e );
+  sleep(2);
+  PlayStationaryEffect( who.x, who.y, who.z, FX_HEAL_EFFECT, 0xa, 0xa );
+  PlayStationaryEffect(who.x, who.y, who.z +2, 0x3709, 0x0a, 0x1e );
+  sleepms( 500 );
+  who.concealed := 0;
+  PlaySoundEffect( who, SFX_207 );
+
+endprogram

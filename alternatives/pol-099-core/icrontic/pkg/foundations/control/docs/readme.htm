@@ -1,0 +1,449 @@
+<HTML>
+<HEAD>
+<TITLE>Interface Controller Package -v0.5a-</TITLE>
+<META NAME="resource-type" CONTENT="document">
+<META NAME="description" CONTENT="Help file for the Interface Controller Package for POL (requires core 088)">
+<META NAME="author" CONTENT="TJ Houston (Myrathi)">
+<META HTTP-EQUIV="Reply-To" CONTENT="myrathi@templar.dhs.org">
+<META HTTP-EQUIV="content-type:" CONTENT="text/html; charset=ISO-8859-1">
+<META HTTP-EQUIV="content-language" CONTENT="en">
+<META NAME="generator" CONTENT="Myrathi's hands">
+<META NAME="ROBOTS" CONTENT="INDEX,NOFOLLOW">
+<META NAME="rating" CONTENT="General">
+</HEAD>
+
+<body bgcolor="silver" text="black" link="purple" alink="navy" vlink="purple">
+<table border="0" height="100%" width="100%" cellpadding="0" cellspacing="0">
+ <!-- Header -->
+ <tr bgcolor="navy" height="100" align="center" valign="center">
+  <th colspan="3">
+   <font color="white" size="6">
+   &nbsp;&nbsp;Interface&nbsp;Controller&nbsp;Package&nbsp;&nbsp;
+   <br>&nbsp;&nbsp;<i>-v0.5<code>A</code>-</i>&nbsp;&nbsp;</font>
+  </th>
+ </tr>
+
+ <!-- Seperating bar -->
+ <tr align="center">
+  <td colspan="3">
+   <hr>
+   [<a href="#what">What&nbsp;it&nbsp;does</a>]
+   [<a href="#how">How&nbsp;it&nbsp;works</a>]
+   [<a href="#ctrl_reg">CTRL_REG.SRC</a>]
+   [<a href="#gump">Control&nbsp;gump</a>]
+   [<a href="#script">Interface&nbsp;script</a>]
+   [<a href="#req">Requirements</a>]
+   [<a href="#examples">Examples</a>]
+   [<a href="#credits">Credits</a>]
+   <a name="what"><hr></a>
+  </td>
+ </tr>
+
+ <!-- Content -->
+ <tr valign="top" align="center">
+  <td width="10%"></td>
+  <td align="left">
+   <br>
+   <p style="text-align: justify">
+   <font size="+1"><u><b>What it does</b></u></font><br><br>
+   The "Interface Controller Package" [<b>ICP</b>] is a package that allows GM's
+   to keep a structured overview of all their installed packages, assuming they
+   <a href="#ctrl_reg">register</a> with, and conform to the
+   <a href="#req">requirements</a> of, this package.
+   </p>
+   <a name="how"><hr size="5"></a>
+
+   <p style="text-align: justify">
+   <font size="+1"><u><b>How it works</b></u></font><br><br>
+   <b>ICP</b> is installed, just like any other package, by being placed into
+   the '/pkg' directory. Unlike most optional packages, however, it is <b>not</b>
+   installed into the '/pkg/opt' directory! It's a control-package and, as such,
+   defaults to the root '/pkg' folder. If you extract this archive, as-is, into
+   your '/pkg' directory, it should have created the <b><code>/pkg/control</code></b>
+   folder, automatically.
+   </p>
+   <p style="text-align: justify">
+   As can be seen in the <a href="#req">requirements</a> section of this help-file,
+   this package <b>requires</b> the Gumps package (at least revision v2.1) and
+   Sigismund's 'string.inc' file (at least revision v1.2). These should both be found
+   on the <a href="http://www.onelist.com/group/pol-scriptforum" target="_blank">ONElist</a>,
+   in the files section, under the '/OptionalPackages' and '/Includes' folders, respectively.
+   </p>
+   <p style="text-align: justify">
+   * <b><u>NOTE</u>:</b> This is <i><b>not</b></i> a set of control scripts and
+   should <i><b>not</b></i> be extracted into the
+   </i><b><code>/scripts/control</code></b> directory! *
+   </p>
+   <p style="text-align: justify">
+   Once installed, <b>ICP</b> initialises, automatically, when the server first
+   starts up, recurses through the entire list of loaded packages and calls a
+   predefined script (<i><a href="#ctrl_reg">ctrl_reg.src</a></i>) which is,
+   optionally, defined by each package. This script should then return a
+   <a href="#struct">structure</a>, containing specific information, which is
+   used by <b>ICP</b> to append it to the end of the list of registered packages.
+   This list is then stored, globally, and used, at a later time, by the
+   <a href="#gump">Control&nbsp;Gump</a> which is called up using the
+   <code><b>.control</b></code> dot-command.
+   </p>
+   <p style="text-align: justify">
+   Once the server is running, the list of registered packages can be refreshed
+   by issuing one of two commands:
+   <ul>
+     <code>.control -r</code><br>
+     <code>.control -refresh</code>
+   </ul>
+   Please refer to the "<a href="#gump">Control&nbsp;Gump</a>" section for what
+   the <b><code>.control</code></b> command does with no parameters.
+   </p>
+   <a name="ctrl_reg"><hr size="5"></a>
+
+   <p style="test-align: justify">
+   <font size="+1"><u><b>CTRL_REG.SRC</b></u></font><br><br>
+   The information within the structure, returned by the <i>ctrl_reg.src</i> script,
+   is quite specific. The definition is as follows:
+   </p>
+   <table width="90%" border="0">
+    <tr>
+     <td><ul>
+      <li style="text-align: justify"><u>User-friendly name</u>
+          &nbsp;&nbsp;<font size="-1">(<i>string</i>)</font><br>
+
+          This is the name shown on the <b>ICP</b> <a href="#gump">control&nbsp;gump</a>.
+          It's a "friendly name" so as to be easily identifiable to the user.
+     </ul></td>
+    </tr>
+    <tr>
+     <td><ul>
+      <li style="text-align: justify"><u>Version number</u>
+          &nbsp;&nbsp;<font size="-1">(<i>string</i>)</font><br>
+
+          This is a string form of the version number of the package (which should,
+          really, be the same as the version number given in the package's <i>pkg.cfg</i>
+          file)
+     </ul></td>
+    </tr>
+    <tr>
+     <td><ul>
+      <li style="text-align: justify"><u>Whether it has a "user interface" or not</u>
+          &nbsp;&nbsp;<font size="-1">(<i>integer</i>)</font><br>
+
+          Any package that has a "<a href="#script">user&nbsp;interface</a>" [UI]
+          (whether it be an informational gump, a gump for altering the package's
+          settings or a system-message spam of commands) would pass an integer value
+          of 1 (one) for this parameter. The lack of a UI would define the package as
+          "listed only for the convenience of the user" and would require an integer
+          value of 0 (zero) to be passed as the parameter.
+     </ul></td>
+    </tr>
+    <tr>
+     <td><ul>
+      <li style="text-align: justify"><u>If it has an interface, which script do we call?</u>
+          &nbsp;&nbsp;<font size="-1">(<i>string</i>)</font><br>
+
+          If a UI exists for a package then this parameter holds the name of the
+          <a href="#script">script</a> (<b>excluding</b> the <i>.src</i> extension)
+          to be initiated when a package is selected from the
+          <a href="#gump">control&nbsp;gump</a>. Please note that the <b>ICP</b> script
+          will auto-prepend the script name with the package name (eg. with
+          <i>:control:</i> in the case of the <b>ICP</b>) and, as such, expects only
+          the unqualified script name, itself. It <i>can</i>, however, specify a path
+          to follow from the package's root folder; thus, making it possible to specify
+          a dot-command script as the interface script! <font size="-1">(See the
+          '<i>textcmd.src</i>' file in the '/examples' directory within this package for
+          a pre-written example of how this is implimented)</font>
+     </ul></td>
+    </tr>
+   </table>
+   <a name="struct"><p style="text-align: justify">
+   The structure should have the following member variables (examples are given based
+   on the structure returned by <b>ICP</b>'s own <i>ctrl_reg.src</i> script):
+   </p></a>
+   <ul>
+   <table width="60%" border="1">
+    <tr bgcolor="gray">
+     <th nowrap><font color="yellow">Member Variable</font></th>
+     <th nowrap><font color="yellow">Example Value</font></th>
+    <tr align="center">
+     <td nowrap><code>.sName</code></td>
+     <td nowrap><code>"Interface Controller"</code></td>
+    </tr>
+    <tr align="center">
+     <td nowrap><code>.sVer</code></td>
+     <td nowrap><code>"0.5a"</code></td>
+    </tr>
+    <tr align="center">
+     <td nowrap><code>.bCtrl</code></td>
+     <td nowrap><code>0</code></td>
+    </tr>
+    <tr align="center">
+     <td nowrap><code>.sScript</code></td>
+     <td nowrap><code>""</code></td>
+    </tr>
+   </table>
+   </ul>
+   <a name="gump"><hr size="5"></a>
+
+   <p style="text-align: justify">
+   <font size="+1"><u><b>The Control Gump</b></u></font><br><br>
+   The Control Gump is <b>ICP</b>'s main display, accessed by the
+   <code><b>.control</b></code> command (without any parameters), which shows the
+   list of installed packages that have <a href="#ctrl_reg">registered</a> with
+   <b>ICP</b> via the <a href="#ctrl_reg"><i>ctrl_reg.src</i></a> script-mechanism.
+   </p>
+   <p style="text-align: justify">
+   In the list, each package is shown by its "friendly name" and its version
+   number. If the package has been <a href="#ctrl_reg">registered</a> as having an
+   <a href="#script">interface</a>, then there is a small blue button to the
+   left of the name; press this button to close the Control Gump and bring up
+   that package's <a href="#script">interface</a> (what this
+   <a href="#script">interface</a> looks like, is entirely dependant on the
+   package in question... although, a document detailing a "standard look" will
+   be available, soon)</p>
+   <p style="text-align: justify">
+   You can close the Control Gump, without choosing a package, by either
+   right-clicking it or clicking the &lt;Cancel&gt; button at the bottom right.
+   </p>
+   <a name="script"><hr size="5"></a>
+
+   <p style="text-align: justify">
+   <font size="+1"><u><b>Interface Script</b></u></font><br><br>
+   There are at least two things an interface script <b>MUST</b> cater for when
+   it is called:
+   </p>
+   <table width="90%" border="0">
+    <tr>
+     <td><ul>
+      <li style="text-align: justify"><u>An <b>ICP</b> test-call</u><br>
+
+          When a package is <a href="#ctrl_reg">registered</a> as having an
+          interface script, <b>ICP</b> tests to see whether the specified
+          script is valid <i>before</i> it adds it to it's internal list...
+          if your script can't pass back the correct value (a simple non-zero
+          integer), then it will be assumed to be invalid. <font size="-1">(See
+          the '<i>textcmd.src</i>' and '<i>normal.src</i>' scripts in the
+          '/examples' directory within this package to see how interface scripts
+          should interpret their parameters)</font>
+     </ul></td>
+    </tr>
+    <tr>
+     <td><ul>
+      <li style="text-align: justify"><u>An <b>ICP</b> start-call</u><br>
+
+          This call is made when a user presses the blue interface button to the
+          left of a package-name on the <a href="#gump">Control&nbsp;Gump</a>.
+          Since the script must recognise when it's the <b>ICP</b> is calling it
+          and when it's not, you can do initialisation, here, that you may not
+          do normally <font size="-1">(I'm not sure if, or where, this would be
+          useful, but the functionality is there for you to use as you will :-)
+          )</font>
+     </ul></td>
+    </tr>
+   </table>
+   <p style="text-align: justify">
+   <b><u>NOTE</u>:</b> An interface script <i><b>cannot</b></i> do anything other
+   than return the non-zero value during the test-call, as this is done during the
+   server's initial start-up phase! There is <b>no</b> user attached to the call
+   so creating gumps, or calling user-interactive functions, <i><b>will</b></i>
+   cause your script to fail the <b>ICP</b>'s test-call and may even print
+   erroneous error messages to the console! <i>You have been warned!</i>
+   </p>
+   <a name="req"><hr size="5"></a>
+
+   <p style="text-align: justify">
+   <font size="+1"><u><b>Overview&nbsp;of&nbsp;Package&nbsp;Requirements</b></u></font><br><br>
+   Firstly, to use <b>ICP</b> you must be running version 088 of the POL core. This is
+   not an option; you <b>must</b> be running that core version, at least!
+   </p>
+   <p style="text-align: justify">
+   You must also have, at least, v2.1 of the 'gumps' package installed, and enabled, and
+   Sigismund's 'string.inc' file, of at least v1.2 (if you need to recompile the <b>ICP</b>
+   package, for some reason, then the 'gumps' package must be in the root '/pkg' directory
+   alongside <b>ICP</b>, otherwise you'll need to amend the "include" path in the
+   '<code>check_packages.src</code>' script!)
+   </p>
+   <p style="text-align: justify">
+   Then, to become properly <a href="#ctrl_reg">registered</a>, a package must adhere to,
+   and fulfil, the following requirements:
+   </p>
+   <table width="90%" border="0">
+    <tr><td>
+     <ul>
+      <li style="text-align: justify">The package must be enabled.</li>
+      <li style="text-align: justify">The package must contain a <b>compiled</b>
+          '<a href="#ctrl_reg">ctrl_reg.src</a>' script.</li>
+      <li style="text-align: justify">If the package has an
+          <a href="#script">interface</a>:</li>
+      <ul>
+       <li style="text-align: justify">The 'bCtrl' member of the
+           <a href="#ctrl_reg"><i>ctrl_reg.src</i></a> return-<a href="#struct">struct</a>
+           must be '1'.</li>
+       <li style="text-align: justify">The 'sScript' member of the
+           <a href="#ctrl_reg"><i>ctrl_reg.src</i></a> return-<a href="#struct">struct</a>
+           must represent a <a href="#script">valid&nbsp;script</a> that exists
+           within the package.
+      </ul>
+     </ul>
+    </td></tr>
+   </table>
+   <a name="examples"><hr size="5"></a>
+
+   <p style="text-align: justify">
+   <font size="+1"><u><b>Example scripts</b></u></font><br><br>
+   Within this package you'll find a <code>.ZIP</code> file called <b>examples.zip</b>. If
+   you extract this archive into <b>ICP</b>'s directory it should automatically create an
+   '/examples' folder with three sub-directories. These sub-directories contain the
+   example package configurations as detailed in the following table:
+   </p>
+   <!--
+      Table for example grid
+                           -->
+   <table width="100%" border="1" cellpadding="6">
+
+    <!-- Header section -->
+
+    <tr bgcolor="gray">
+     <th width="25%" align="center" colspan="2" nowrap><font color="yellow">Package&nbsp;Directory</font>
+       <br><font color="gold">(and description)</font></th>
+     <th width="25%" align="center" nowrap><font color="yellow">Filename</font></th>
+     <th width="50%" align="center" nowrap><font color="yellow">Description</font></th>
+    </tr>
+
+    <tr><td colspan="3"></td></tr>
+    <!-- Example 1 -- normal, registered package with no interface script -->
+
+    <tr>
+     <td width="25%" align="center" valign="center" colspan="2"><b>/examples/normal</b></td>
+     <td width="25%" align="center" valign="center">mainscript.src</td>
+     <td width="50%" align="left" style="text-align: justify">
+            A dummy file that represents the "main script" for this package. :-)
+     </td>
+    </tr>
+    <tr>
+     <td width="4%" rowspan="2"></td>
+     <td width="21%" align="center" valign="center" rowspan="2">
+       Type: <font size="-1"><i>Normal</i></font><br>
+       Interface: <font size="-1"><i>No</i></font>
+     </td>
+     <td width="25%" align="center" valign="center">ctrl_reg.src</td>
+     <td width="50%" align="left">The registration script for this example package.</td>
+    </tr>
+    <tr>
+     <td width="25%" align="center" valign="center">pkg.cfg</td>
+     <td width="50%" align="left">The package-config file for this example package.</td>
+    </tr>
+
+    <tr><td colspan="3"></td></tr>
+    <tr><td colspan="3"></td></tr>
+    <!-- Example 2 -- normal, registered package with an interface script -->
+
+    <tr>
+     <td width="25%" align="center" valign="center" colspan="2"><b>/examples/interface</b></td>
+     <td width="25%" align="center" valign="center">interface.src</td>
+     <td width="50%" align="left" style="text-align: justify">
+            The script that holds the "interface code" for this package. This is
+            the script that needs to deal with the "test-call" mechanism.
+     </td>
+    </tr>
+    <tr>
+     <td width="4%" rowspan="2"></td>
+     <td width="21%" align="center" valign="center" rowspan="2">
+       Type: <font size="-1"><i>Normal</i></font><br>
+       Interface: <font size="-1"><i>Yes</i></font>
+     </td>
+     <td width="25%" align="center" valign="center">ctrl_reg.src</td>
+     <td width="50%" align="left">The registration script for this example package.</td>
+    </tr>
+    <tr>
+     <td width="25%" align="center" valign="center">pkg.cfg</td>
+     <td width="50%" align="left">The package-config file for this example package.</td>
+    </tr>
+
+    <tr><td colspan="3"></td></tr>
+    <tr><td colspan="3"></td></tr>
+    <!-- Example 3 -- registered package using a text-command as an interface script -->
+
+    <tr>
+     <td width="25%" align="center" valign="center" colspan="2"><b>/examples/textcommand</b></td>
+     <td width="25%" align="center" valign="center">/textcmd/gm/textcmd.src</td>
+     <td width="50%" align="left" style="text-align: justify">
+            An example script that shows how to double a GM's text-command script
+            as an interface script.
+     </td>
+    </tr>
+    <tr>
+     <td width="4%" rowspan="2"></td>
+     <td width="21%" align="center" valign="center" rowspan="2">
+       Type: <font size="-1"><i>Advanced</i></font><br>
+       Interface: <font size="-1"><i>TextCmd</i></font>
+     </td>
+     <td width="25%" align="center" valign="center">ctrl_reg.src</td>
+     <td width="50%" align="left">The registration script for this example package.</td>
+    </tr>
+    <tr>
+     <td width="25%" align="center" valign="center">pkg.cfg</td>
+     <td width="50%" align="left">The package-config file for this example package.</td>
+    </tr>
+   </table>
+   <br>
+   <p style="text-align: justify">
+   Please note, if you compile up these examples, they <i>will</i> show up in <b>ICP</b>'s
+   <a href="#gump">Control&nbsp;Gump</a>, when you restart the server, as the POL core
+   sees them as nested packages. This cannot be helped, nor altered, by <b>ICP</b>. Sorry.
+   </p>
+   <a name="credits"><hr size="5"></a>
+
+   <p style="text-align: justify">
+   <font size="+1"><b><u>Credits</u> :-)</b></font><br><br>
+   Credits, thanks and kudos to the following people (in no particular order other than
+   an alphabetical one :) for all the moral support and bug-testing and, in particular,
+   Syzygy for tweaking the POL-core to allow the core of this package to work! :-)
+   </p>
+   <table width="90%" border="0" align="center">
+    <tr align="center">
+     <td width="20%" bgcolor="white">AlleyCat</td>
+     <td width="20%" bgcolor="black"><font color="yellow">Cassandra</font></td>
+     <td width="20%" bgcolor="white">Louds</td>
+     <td width="20%" bgcolor="black"><font color="yellow">Madman</font></td>
+     <td width="20%" bgcolor="white">Mieow</td>
+    </tr>
+    <tr align="center">
+     <td width="20%" bgcolor="black"><font color="yellow">Moravi</font></td>
+     <td width="20%" bgcolor="white">Seilar</td>
+     <td width="20%" bgcolor="black"><font color="yellow">Syzygy</font></td>
+     <td width="20%" bgcolor="white">ToriOtoko</td>
+     <td width="20%" bgcolor="black"><font color="yellow">Ynara</font></td>
+    </tr>
+   </table>
+   <br>
+  </td>
+  <td width="10%"></td>
+ </tr>
+
+ <!-- Seperating bar -->
+ <tr align="center">
+  <td colspan="3">
+   <hr>
+   [<a href="#what">What&nbsp;it&nbsp;does</a>]
+   [<a href="#how">How&nbsp;it&nbsp;works</a>]
+   [<a href="#ctrl_reg">CTRL_REG.SRC</a>]
+   [<a href="#gump">Control&nbsp;gump</a>]
+   [<a href="#script">Interface&nbsp;script</a>]
+   [<a href="#req">Requirements</a>]
+   [<a href="#examples">Examples</a>]
+   [<a href="#credits">Credits</a>]
+  </td>
+ </tr>
+
+ <!-- Footer -->
+ <tr height="50">
+  <td align="center" colspan="3"><hr><font size="2" color="black">
+    Core scripts, example scripts and help files created by
+    <a href="mailto:tj.houston@templar.dhs.org">Myrathi</a>, 11-Apr-2000.<br>
+    These scripts may be used and modified freely. All the author asks is
+    that he's given appropriate credit for the original script. :-)</font>
+   </a>
+  </td>
+ </tr>
+</table>
+</body>
+</HTML>

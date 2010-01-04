@@ -1,0 +1,15 @@
+use uo;
+
+include "include/attributes";
+
+program unequipweapon( who, item )
+
+	EraseObjProperty(item,"w_equipped");
+	var skilladv := GetObjProperty( item, "skill_adj" );
+	if( skilladv )
+		ModifySkillTemporaryMod( who, item.skillid, 0-Cint(skilladv) );
+	endif
+
+	return 1;
+	
+endprogram

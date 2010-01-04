@@ -1,0 +1,26 @@
+use os;
+use uo;
+use util;
+
+program mapstone( who, amount , mapstone )
+    amount := CInt(amount);
+    amount := 10;
+var a;
+var b := randomint(5);
+
+    If ( b = 4 )
+	a := CreateItemInBackpack(who, 0x6003, amount) ;
+    ElseIf ( b = 3 )
+	a := CreateItemInBackpack(who, 0x6004, amount);
+    ElseIf ( b = 2 )
+	a := CreateItemInBackpack(who, 0x6005, amount);
+    ElseIf ( b = 1 )
+	a := CreateItemInBackpack(who, 0x6006, amount);
+    ElseIf ( b = 1 )
+	a := CreateItemInBackpack(who, 0x6007, amount);
+    Endif
+
+      SendSysMessage( who, "You find a pile of maps in your pack");
+    DestroyItem (mapstone);
+      return;
+endprogram

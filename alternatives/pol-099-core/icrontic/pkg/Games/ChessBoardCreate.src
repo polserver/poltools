@@ -1,0 +1,75 @@
+// ChessBoardCreate.src
+// Version: r1y2002
+// © 2002 Maximilian Scherr
+
+use uo;
+
+program ChessBoardCreate(item)
+  var gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3589;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3585;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3585;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3588;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3588;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3586;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3586;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3587;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358a;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3590;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358c;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358c;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358f;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358f;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358d;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358d;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x358e;
+  gp := CreateItemInContainer(item, 0x8);
+  gp.graphic := 0x3591;
+  foreach gp in EnumerateItemsInContainer(item)
+    SetObjProperty(gp, "cbserial", item.serial);
+  endforeach
+endprogram

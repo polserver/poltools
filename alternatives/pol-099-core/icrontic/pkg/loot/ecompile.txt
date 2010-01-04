@@ -1,0 +1,4 @@
+Compiling: ./ctrlReg.src
+Writing:   ./ctrlReg.ecl
+Compiling: ./dragoneggs.src
+Writing:   ./dragoneggs.ecl

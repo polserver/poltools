@@ -1,0 +1,12 @@
+use uo;
+use util;
+
+program setcharges(newitem)
+
+	var MinCharges := cint(GetObjProperty(newitem, "charges"));
+	var MaxCharges := cint(GetObjProperty(newitem, "MaxCharges"));
+
+	var charges := RandomInt(MaxCharges - MinCharges) + MinCharges + 1;
+	SetObjProperty(newitem, "charges",cint(charges));
+	SetObjProperty(MaxCharges, "charges",cint(MaxCharges));
+endprogram

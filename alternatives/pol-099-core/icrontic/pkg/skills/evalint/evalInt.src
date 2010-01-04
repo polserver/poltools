@@ -1,0 +1,75 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/attributes";
+include "include/skillPoints";
+
+program evalint( who )
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  var thepoints := CInt(GetEffectiveSkill(who, SKILLID_EVALINT) + 1);
+  if(thepoints < 20)
+    thepoints := 20;
+  endif
+  SendSysMessage( who, "Select a target." );
+  var subject := Target(who);
+  if(!subject)
+    return;
+  endif
+  if(!subject.isA(POLCLASS_MOBILE))
+    SendSysMessage(who, "That's not very bright, and neither are you for trying to evaluate it!");
+    return;
+  endif
+  if(subject == who)
+    SendSysMessage(who, "That person looks rather silly.");
+    return;
+  endif
+  if(CheckSkill(who,SKILLID_EVALINT, -1, (thepoints * 2)))
+    var intel := GetIntelligence(subject);
+    if((intel > 0) && (GetEffectiveSkill(who, SKILLID_EVALINT) > 70))
+      var intdesc := GetIntDesc( intel );
+      var percentmana := 100 * GetMana(subject) / GetMaxMana(subject);
+      var manadesc := GetManaDesc( percentmana );
+      PrintTextAbovePrivate(subject, "The subject is " + intdesc + " and has " + manadesc, who);
+    else
+      PrintTextAbovePrivate(subject, "You can't discern anything about that!", who);
+    endif
+  else
+      PrintTextAbovePrivate(subject, "You're not sure . . .", who);
+  endif
+endprogram
+
+function GetIntDesc(intel)
+  if(intel <= 10)
+    return "about as smart as a rock";
+  elseif(intel <= 20)
+    return "quite stupid";
+  elseif(intel <= 40)
+    return "not very bright";
+  elseif(intel <= 60)
+    return "of average intelligence";
+  elseif(intel <= 80)
+    return "rather bright";
+  elseif(intel <= 100)
+    return "very intelligent";
+  else
+    return "of godlike wisdom";
+  endif
+endfunction
+
+function GetManaDesc(percentmana)
+  if(percentmana <= 10)
+    return "almost no mana left";
+  elseif(percentmana <= 20)
+    return "low mana";
+  elseif(percentmana <= 40)
+    return "moderate mana";
+  elseif(percentmana <= 60)
+    return "good mana levels";
+  elseif(percentmana <= 80)
+    return "high mana levels";
+  else
+    return "notable reserves of mana";
+  endif
+endfunction

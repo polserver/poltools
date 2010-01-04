@@ -1,0 +1,67 @@
+use uo;
+use os;
+include "include/attributes";
+
+program textcmd_seednode(who)
+  set_critical(0);
+  var x, y, z;
+  var nwx, nwy, sex, sey;
+  var sy := 0, sx := 0, node;
+  var cfg := ReadConfigFile("gzone");
+  var kys := GetConfigStringKeys(cfg);
+  var split, num, trg, prop, chk, gwh;
+  var nodecfg := ReadConfigFile("nodes");
+  num := 1;
+  foreach thing in kys
+    split := SplitWords(cfg[thing]."Range");
+    nwx := Cint(split[1]);
+    nwy := Cint(split[2]);
+    sex := Cint(split[3]);
+    sey := Cint(split[4]);
+    sy := nwy + 29;
+    while(sy < sey)
+      sx := nwx + 29;
+      while(sx < sex)
+        node := CreateItemAtLocation(5866, 1166, 0, 0x887b, 1);
+        node.movable := 1;
+        gwh := GetWorldHeight(sx, sy);
+        if(gwh = error)
+          gwh := who.z;
+        endif
+        sendsysmessage(who, "" + sx + " " + sy + " " + gwh);
+        MoveCharacterToLocation(who, sx, sy, gwh, MOVECHAR_FORCELOCATION );
+        trg := target(who);
+        if(!trg)
+          chk := 1;
+          break;
+        endif
+        if(trg.container)
+          MoveItemToContainer(node, trg.container);
+        else
+          MoveItemToLocation(node, trg.x, trg.y, trg.z + 1, MOVEITEM_FORCELOCATION);
+        endif
+//        prop := array;
+//        prop.+ name;
+//        prop.+ value; 
+//        prop.name := "coords";
+//        prop.value := "" + node.x + " " + node.y + " " + node.z;
+//        num := num + 1;
+//        AppendConfigFileElem(nodecfg, "node", num, prop);
+        node.movable := 0;
+        if(((sex - sx) < 30) and ((sex - sx) >= 1))
+          sx := sex;
+        else
+          sx := sx + 58;
+        endif
+      endwhile
+      if(chk = 1)
+        break;
+      endif
+      sy := sy + 58;
+    endwhile
+    if(chk = 1)
+      break;
+    endif
+  endforeach
+  SendSysMessage(who,  "Finished seeding nodes");
+endprogram

@@ -1,0 +1,9 @@
+use uo;
+
+program squelch( gm, duration )
+    duration := CInt( duration );
+    var who := Target( gm, TGTOPT_NOCHECK_LOS );
+    if (who)
+        who.squelch( duration );
+    endif
+endprogram

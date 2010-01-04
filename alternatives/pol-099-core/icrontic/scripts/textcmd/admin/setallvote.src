@@ -1,0 +1,16 @@
+use os;
+use uo;
+
+Program textcmd_setallvote(who)
+
+var player, acct;
+
+foreach acctname in ListAccounts ()
+	acct := FindAccount (acctname);
+	if (acct)
+          sleepms(5);
+          acct.SetProp("VOTE", 1);
+	endif
+endforeach
+sendsysmessage(who, "Done");
+endprogram

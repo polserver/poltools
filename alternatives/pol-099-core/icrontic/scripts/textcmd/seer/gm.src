@@ -1,0 +1,10 @@
+use uo;
+
+program gm(who, help)
+
+if (help)
+        SendSysMessage(who, "This command gives you the GM form. Use .myform to switch back");
+else
+        who.graphic := 0x3db;
+endif
+endprogram

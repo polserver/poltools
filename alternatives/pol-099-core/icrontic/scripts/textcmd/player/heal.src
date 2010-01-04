@@ -1,0 +1,508 @@
+use os;
+use uo;
+use util;
+use cfgfile;
+
+Const UOBJ_BANDAGE := 0x0e21;
+
+include "include/client";
+include "include/dist";
+include "include/myutil";
+include "include/canAccess";
+include "../../../pkg/skills/alchemy/drinkPotion";
+include "include/attributes";
+
+var clock := ReadGameClock();
+
+program textcmd_heal (me, text)
+	if (me.dead)
+		SendSysMessage (me, "Too late!");
+		return 0;
+	endif
+
+	me.hidden := 0;
+	if (GetObjProperty (me, "#dotheal"))
+		if (GetProcess (GetObjProperty (me, "#dotheal")))
+			SendSysMessage (me, "Too soon!");
+			return;
+		endif
+	endif
+	SetObjProperty (me, "#dotheal", GetPid());
+
+	var type := CINT (text);
+	case (type)
+                1:
+                        DrinkHeal (me);
+		2:
+			UseBandage (me);
+		3:
+			DrinkCure (me);
+		default:
+			DrinkHeal (me);
+		endcase
+	EraseObjProperty (me, "#dotheal");
+endprogram
+
+function DrinkHeal (character)
+	if (GetObjProperty (character, "#potion") and GetObjProperty (character, "#potion") > ReadGameClock())
+		SendSysMessage (character, "You can't drink another potion yet!");
+        	return 0;
+	endif
+	
+        var ghealpotion     := 0;
+	var healpotion      := 0;
+	var lighthealpotion := 0;
+	
+	foreach item in EnumerateItemsInContainer (character.backpack)
+                if (item.objtype == 0x1941)
+ 			character.hidden := 0;
+			PlaySoundEffect (character, DRINK_SOUND);
+			PerformAction(character, ANIM_EAT);
+			CreateItemInContainer (item.container, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (item, 1);
+			var heal_amount := (RandomInt(11) + 39);
+			HealDamage(character, heal_amount);
+			PlaySoundEffect( character,  SOUND_EFFECT_HEAL );
+			SetObjProperty (character, "#potion", (ReadGameClock() + 10));
+			return 1;
+		elseif (item.objtype == 0xDC03)
+                        ghealpotion := item;
+		elseif (item.objtype == 0xDC02)
+			healpotion := item;
+		elseif (item.objtype == 0xDC01)
+			lighthealpotion := item;
+		endif
+	endforeach
+
+        if (ghealpotion)
+		character.hidden := 0;
+		PlaySoundEffect (character, DRINK_SOUND);
+		PerformAction(character, ANIM_EAT);
+		CreateItemInContainer (ghealpotion.container, UOBJ_EMPTY_BOTTLE, 1);
+		SubtractAmount (ghealpotion, 1);
+		var heal_amount := (RandomInt(11) + 19);
+		HealDamage(character, heal_amount);
+		PlaySoundEffect( character,  SOUND_EFFECT_HEAL );
+		SetObjProperty (character, "#potion", (ReadGameClock() + 10));
+		return 1;
+        endif
+	
+	if (healpotion)
+		character.hidden := 0;
+		PlaySoundEffect (character, DRINK_SOUND);
+		PerformAction(character, ANIM_EAT);
+		CreateItemInContainer (healpotion.container, UOBJ_EMPTY_BOTTLE, 1);
+		SubtractAmount (healpotion, 1);
+		var heal_amount := (RandomInt(11) + 9);
+		HealDamage(character, heal_amount);
+		PlaySoundEffect( character,  SOUND_EFFECT_HEAL );
+		SetObjProperty (character, "#potion", (ReadGameClock() + 10));
+		return 1;
+	endif
+	
+	if (lighthealpotion)
+		character.hidden := 0;
+		PlaySoundEffect (character, DRINK_SOUND);
+		PerformAction(character, ANIM_EAT);
+		CreateItemInContainer (lighthealpotion.container, UOBJ_EMPTY_BOTTLE, 1);
+		SubtractAmount (lighthealpotion, 1);
+		var heal_amount := (RandomInt(7)  + 3);
+		HealDamage(character, heal_amount);
+		PlaySoundEffect( character,  SOUND_EFFECT_HEAL );
+		SetObjProperty (character, "#potion", (ReadGameClock() + 10));
+		return 1;
+	endif
+
+	SendSysMessage (character, "You don't have any healing potions!");
+	return 0;
+endfunction
+
+function UseBandage (character)
+	if (cint(GetObjProperty(character, "HealTimer")) > readgameclock())
+		SendSysMessage (character,"You must wait to use your healing arts again!");
+        	return 0;
+	endif
+	var parms := { };
+	parms[1] := character;
+
+	foreach item in EnumerateItemsInContainer (character.backpack)
+		if ( item.objtype = UOBJ_BANDAGE)
+			character.hidden := 0;
+                        SendSysMessage(character, "Bandages found, applying....", 3, 23);
+  	                parms[2] := item;
+                        use_bandages(parms);
+			return 1;
+		endif
+	endforeach
+
+	SendSysMessage (character, "You don't have any bandages!");
+	return 0;
+
+endfunction
+
+function DrinkCure(character)
+
+	if (CINT (GetObjProperty (character, "#potion")) > ReadGameClock() )
+		SendSysMessage(character, "You must wait to drink another potion!");
+        	return 0;
+	endif
+
+	var plevel := GetPoisonLevel(character);
+	if (!plevel)
+		return 1;
+	endif
+	foreach item in EnumerateItemsInContainerOfObjtype (character.backpack, 0xdc16)
+		character.hidden := 0;
+		PlaySoundEffect (character, DRINK_SOUND);
+		if ((RandomInt(20)+1) > RandomInt(plevel) )
+			PlayObjectCenteredEffect (character, EFFECT_SPARKLE, 10, 10);
+			CurePot (character, item);
+		endif
+		SetObjProperty (character, "#potion", (ReadGameClock() + 10));
+		return 1;
+	endforeach
+	foreach item in EnumerateItemsInContainerOfObjtype (character.backpack, 0xdc15)
+		character.hidden := 0;
+		PlaySoundEffect (character, DRINK_SOUND);
+		if ((RandomInt(12)+1) > RandomInt(plevel) )
+			PlayObjectCenteredEffect (character, EFFECT_SPARKLE, 10, 10);
+			CurePot (character, item);
+		endif
+		SetObjProperty (character, "#potion", (ReadGameClock() + 10));
+		return 1;
+	endforeach
+	foreach item in EnumerateItemsInContainerOfObjtype (character.backpack, 0xdc14)
+		character.hidden := 0;
+		PlaySoundEffect (character, DRINK_SOUND);
+		if ((RandomInt(8)+1) > RandomInt(plevel) )
+			PlayObjectCenteredEffect (character, EFFECT_SPARKLE, 10, 10);
+			CurePot (character, item);
+		endif
+		SetObjProperty (character, "#potion", (ReadGameClock() + 20));
+		return 1;
+	endforeach
+	return 0;
+
+endfunction
+
+function CurePot (who, potion)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  if(!can_access(who, potion))
+    return;
+  endif
+  if(potion.movable == 0)
+    SendSysMessage(who, "You cannot drink that.");
+    return;
+  endif
+  if(!checkifcandrink(who, "orange"))
+    return;
+  endif
+  var potion_strength := get_potion_strength(potion);
+  empty_bottle(who, potion);
+  var poison_level := CInt(GetObjProperty(who, "poison_level"));
+  if(poison_level > 0 )
+  EraseObjProperty(who, "poison_level");
+    if(((RandomInt(potion_strength)*2) + 1) >= poison_level)
+      PlaySoundEffect(who, SOUND_EFFECT_CURE);
+      PlayObjectCenteredEffect(who, EFFECT_SPARKLE, 10,10);
+      EraseObjProperty(who, "poison_level");
+      who.SetPoisoned(0);
+    endif
+  endif
+endfunction
+
+///////////////////
+//  if we're currently poisoned, figures out how poisoned.
+///////////////////
+function GetPoisonLevel (byref who)
+	var poisoned := GetObjProperty (who, "poison_level");
+	if (!poisoned)
+		return 0;
+	endif
+
+	return (poisoned [1]);
+endfunction
+
+function use_bandages (parms)
+  var who := parms[1];
+  var item := parms[2];
+  var patient := who;
+  EraseObjProperty(who, "IsMeditating");
+  if(!can_access(who, item))
+    return;
+  endif
+  if(item.movable = 0)
+    SendSysMessage(who, "You cannot use that.");
+    return;
+  endif
+  var Sleeptime;
+  if(!ReserveItem(item))
+    return;
+  endif
+  if(!GetObjProperty(who, "HealTimer"))
+    EraseObjProperty(who, "#Healing");
+  elseif(clock != GetObjProperty(who, "HealTimer"))
+    EraseObjProperty(who, "#Healing");
+  endif
+  if(GetObjProperty(who, "#Healing"))
+    SendSysmessage(who, "You cannot heal but 1 person at a time!");
+    return;
+  endif
+  if(!patient)
+    SendSysmessage(who, "Cancelled.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+  var Anatomy:= GetBaseSkill(who, SKILLID_ANATOMY);
+  var poison_level := Cint(GetObjProperty(patient, "poison_level"));
+  if(dist(who, patient) >= 2)
+    SendSysMessage(who, "Your patient is too far");
+    EraseObjProperty(who, "#Healing");
+    return;
+  elseif(!CheckLineOfSight(who,patient))
+	SendSysMessage(who,"You cant see your patient");
+        EraseObjProperty(who, "#Healing");
+	return;
+  elseif((GetHp(patient) >= GetMaxHp(patient)) and (poison_level < 1))
+	SendSysMessage(who,"You are at full health");
+        EraseObjProperty(who, "#Healing");
+	return;
+  endif
+  detach();
+  SetObjProperty(who, "HealTimer", clock);
+  if((patient.graphic = 0x190) or (patient.graphic = 0x191) )
+  	if(Patient.serial = who.serial)
+        if(poison_level > 0)
+        SendSysMessage(who,"You start to cure yourself");
+        if(SubtractAmount(Item , 1))
+		  cure(who, patient);
+        endif
+      else
+        SendSysMessage(who,"You start to heal yourself");
+        if(SubtractAmount(Item , 1))
+		  heal(who, patient);
+        endif
+	  endif
+    elseif(poison_level > 0)
+      if(Patient.dead)
+		SendSysMessage(who,"Your patient is dead");
+                EraseObjProperty(who, "#Healing");
+		return;
+      elseif(!CheckLineOfSight(who,patient))
+        SendSysMessage(who,"You cant see your patient");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+      if(SubtractAmount( Item , 1 ) and (dist(who, patient) <= 1))
+        SendSysMessage(who,"You start to cure " + patient.name);
+        SendSysMessage(patient,who.name + " starts to cure themself");
+        cure(who, patient);
+      else
+        SendSysMessage(who, "Your Patient is too far");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+	else
+      if(Patient.dead)
+		SendSysMessage(who,"Your patient is dead");
+                EraseObjProperty(who, "#Healing");
+		return;
+	  elseif(!CheckLineOfSight(who, patient))
+		SendSysMessage(who,"You cant see you patient");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+      if(SubtractAmount(Item , 1) and (dist(who, patient) <= 1))
+        SendSysMessage(who,"You start to heal "+patient.name);
+        SendSysMessage(patient,who.name+" starts to heal you");
+        heal(who, patient);
+      else
+        SendSysMessage(who, "Your patient is too far");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+    endif
+  else
+    SendSysmessage( who , "You cant heal that." );
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endfunction
+
+function heal(who, patient)
+  SetObjProperty(who, "#Healing", 1);
+  var chp;
+  var healing := (Cint(GetBaseSkill(who, SKILLID_HEALING)) / 2);
+  var anatomy := (Cint(GetBaseSkill(who, SKILLID_ANATOMY)) / 5);
+  var healamt := healing + anatomy + 10;
+  var basehealamt := healamt;
+  var counter := 0;
+  var cycles;
+  var count := 0;
+  if(patient = who)
+    var dexcheck := (GetBaseDexterity(who) / 20);
+    cycles := (13 - dexcheck);
+  else
+    if(GetBaseDexterity(who) <= 33)
+      cycles := 5;
+    elseif(GetBaseDexterity(who) <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  var chk := 0;
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "HealTimer"))
+      chk := 1;
+      EraseObjProperty(who, "#Healing");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    chp := GetHP(who);
+    sleep(1);
+    if(dist(who, patient) > 1)
+      sendsysmessage(who,"Your patient isnt close enough.");
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    if(GetHP(who) < chp)
+      if((RandomInt(basehealamt)+1) >= GetBaseDexterity(who))
+        SendSysMessage( who, "Your fingers slip." );
+        healamt := (healamt * 0.90);
+        count := count + 1;
+        if(count >= 5)
+          healamt := 5;
+        endif
+      endif
+    endif
+//    if(getobjproperty(patient,"poison_level"))
+//      cure(who, patient);
+//      break;
+//    endif
+    if(counter >= cycles)
+      var diff := 100 - Cint((GetHP(patient) * 100.0) / GetMaxHP(patient));
+      if(CheckSkill(who, SKILLID_HEALING, diff, 0))
+        if(healamt <= 5)
+          sendsysmessage(who,"You finish applying the bandages, but they barely help.");
+          EraseObjProperty(who, "#Healing");
+        endif
+        if((GetMaxHP(patient) - GetHP(patient)) >= healamt)
+          healdamage(patient, healamt);
+          AwardPoints(who, SKILLID_HEALING, (healamt * 2));
+          EraseObjProperty(who, "#Healing");
+        else
+          healamt := (GetMaxHP(patient) - GetHP(patient));
+          healdamage(patient, healamt);
+          AwardPoints(who, SKILLID_HEALING, (healamt * 2));
+          EraseObjProperty(who, "#Healing");
+        endif
+        if(GetHP(patient) >= GetMaxHP(patient))
+		  sendsysmessage(who, "you have healed yourself");
+                  EraseObjProperty(who, "#Healing");
+        else
+		  sendsysmessage(who, "you successfully heal " + patient.name);
+                  EraseObjProperty(who, "#Healing");
+	    endif
+        break;
+      else
+        SendSysmessage ( who , "You could not heal yourself." );
+        EraseObjProperty(who, "#Healing");
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+  if(chk = 1)
+    SendSysMessage(who, "You stop healing yourself.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endfunction
+
+function cure(who, patient)
+  SetObjProperty(who, "#Healing", 1);
+  var chp;
+  var healing := (Cint(GetBaseSkill(who, SKILLID_HEALING)) / 25);
+  var anatomy := (Cint(GetBaseSkill(who, SKILLID_ANATOMY)) / 50);
+  var healamt := healing + anatomy;
+  var counter := 0;
+  var cycles;
+  var count := 0;
+  if(patient = who)
+    var dexcheck := (GetBaseDexterity(who) / 20);
+    cycles := (15 - dexcheck);
+  else
+    if(GetBaseDexterity(who) <= 33)
+      cycles := 5;
+    elseif(GetBaseDexterity(who) <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  var chk := 0;
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "HealTimer"))
+      chk := 1;
+      EraseObjProperty(who, "#Healing");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    chp:=GetHP(who);
+    sleep(1);
+    if(dist(who, patient) > 1)
+      sendsysmessage(patient, who.name + "has stopped curing you.");
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+	if(GetHP(who) < chp)
+      if((RandomInt(100)+1) > GetBaseDexterity(who))
+	    SendSysMessage( who, "Your fingers slip." );
+        healamt := (healamt - 1);
+        count := count + 1;
+        if(count >= 5)
+          healamt := 0;
+        endif
+      endif
+	endif
+    if(counter >= cycles)
+      var poison_level := GetObjProperty(patient,"poison_level");
+      var chealamt := poison_level * 3;
+      if(CheckSkill(who, SKILLID_HEALING, 65, 0) and (Cint(GetBaseSkill(who, SKILLID_HEALING)) >= 60))
+        if(healamt > 0)
+          if(healamt >= poison_level)
+            EraseObjProperty(patient,"poison_level");
+            SendSysMessage(who,"You have cured yourself completely.");
+            who.SetPoisoned(0);
+            AwardPoints(who, SKILLID_HEALING, (healamt * 5));
+            healdamage(patient, chealamt);
+            EraseObjProperty(who, "#Healing");
+          else
+            SetObjProperty(patient,"poison_level", (poison_level - healamt));
+            SendSysMessage(who,"You have partially cured yourself.");
+            AwardPoints(who, SKILLID_HEALING, (healamt * 5));
+            EraseObjProperty(who, "#Healing");
+          endif
+        else
+          sendsysmessage(who,"You finish applying the bandages, but they barely help.");
+          EraseObjProperty(who, "#Healing");
+        endif
+        break;
+      else
+        SendSysmessage ( who , "You could not cure yourself." );
+        EraseObjProperty(who, "#Healing");
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+  if(chk = 1)
+    SendSysMessage(who, "You stop curing yourself.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endfunction

@@ -1,0 +1,289 @@
+use uo;
+use cfgfile;
+
+include "food";
+
+//load the food name dictionary
+var food_name_dict := define_food_name_dictionary ();
+
+//couple of constants
+Const BUTTON_NEXT_PAGE	:=	"button 294 5 2206 2206 0 2";
+Const BUTTON_LAST_PAGE	:=	"button 23 6 2205 2205 0 2";
+
+program display_cookbook (character, book)
+
+	//call a function that searches through cooking.cfg and uses that information to create an array of
+	//all the recipes that should be shown in the cookbook
+	var array_of_recipes := create_array_of_recipes ();
+	
+	//now we define and set up some of the original data for the book layout
+	var book_layout := {
+		"page 0",
+		"gumppic 0 0 2203",
+	};
+
+	//now create the book data
+	var book_data := array ( "filler" );
+
+	//whatever recipe is currently being parsed, and a counter for it
+	var current_recipe := {};
+	var current_recipe_number := 0;
+
+	//array of ingredients for a recipe and the current ingredient picked out of the array
+	var ingredient_array := {};
+	var current_ingredient;
+
+	//counter that keeps track of the number of ingredients in a recipe
+	var ingredient_counter := 1;
+
+	//counter that keeps track of the number of strings in a book
+	var current_string_number := 1;
+
+	//counter that keeps track of the current book page number
+	var current_book_page := 1;
+
+	//this is the variable used to stop setting up the cookbook when the last page is reached
+	var finished_setup := 0;
+
+	//just a temporary string holder and a number used for placing strings
+	var temporary_string := "";
+	var temporary_string_position := 0;
+
+	//now we start looping through each page and adding recipes
+	repeat
+
+		//add the next page number to the book layout
+		book_layout.append ( cstr("page " + current_book_page) );
+
+		//define the current recipe in terms of the current page number
+		current_recipe_number := (current_book_page-1)*2+1;
+		current_recipe := array_of_recipes [ current_recipe_number ];
+
+		//if we're the first page, then we need to add the tab to go to the next page
+		if (current_book_page = 1)
+			book_layout.append (cstr ("button 294 5 2206 2206 0 " + (current_book_page+1) ) );
+		//else if its the last page, just add the previous page tab
+		elseif ( (current_recipe_number = len(array_of_recipes) ) or (current_recipe_number = len(array_of_recipes) - 1 ) )
+			book_layout.append (cstr ("button 23 6 2205 2205 0 " + (current_book_page-1) ) );
+		//otherwise add both tabs
+		else
+			book_layout.append (cstr ("button 294 5 2206 2206 0 " + (current_book_page+1) ) );
+			book_layout.append (cstr ("button 23 6 2205 2205 0 " + (current_book_page-1) ) );
+		endif
+
+		//put in the first recipe, starting with the recipe name
+		//capitalize the first letter of the name
+		temporary_string := current_recipe.menu_name;
+		temporary_string[1] := upper(current_recipe.menu_name[1]);
+		book_data.append(temporary_string);
+		book_layout.append ("text 35 25 0 " + cstr(current_string_number) );
+		current_string_number := current_string_number + 1;
+
+		//overwrite the first letter of the recipe name with another in a pretty red
+		temporary_string := upper(current_recipe.menu_name[1]);
+		book_data.append(temporary_string);
+		book_layout.append ("text 35 25 37 " + cstr(current_string_number) );
+		current_string_number := current_string_number + 1;
+
+		//now put in the cooking requirements
+		temporary_string := describe_cooking_instructions (current_recipe);
+		book_data.append(temporary_string);
+		book_layout.append ("text 40 45 0 " + cstr(current_string_number) );
+		current_string_number := current_string_number + 1;
+
+		//load the ingredient list from the current recipe into an array
+		var ingredient_array := GetConfigStringArray( current_recipe, "ingredient" );
+		temporary_string_position := 80;
+		foreach current_ingredient in ingredient_array
+			temporary_string := describe_ingredient (current_ingredient);
+			book_data.append(temporary_string);
+			book_layout.append ("text 40 " + temporary_string_position + " 0 " + cstr(current_string_number) );
+			current_string_number := current_string_number + 1;
+			temporary_string_position := temporary_string_position + 15;
+		endforeach
+
+		//check to see if this is the last recipe.  If so, skip putting the other recipe on the other side of the page
+		if (current_recipe_number = len (array_of_recipes) )
+			finished_setup := 1;
+		else
+
+			current_recipe_number := (current_book_page)*2;
+			current_recipe := array_of_recipes [ current_recipe_number ];
+
+			//put in the first recipe, starting with the recipe name
+			//capitalize the first letter of the name
+			temporary_string := current_recipe.menu_name;
+			temporary_string[1] := upper(current_recipe.menu_name[1]);
+			book_data.append(temporary_string);
+			book_layout.append ("text 195 25 0 " + cstr(current_string_number) );
+			current_string_number := current_string_number + 1;
+
+			//overwrite the first letter of the recipe name with another in a pretty red
+			temporary_string := upper(current_recipe.menu_name[1]);
+			book_data.append(temporary_string);
+			book_layout.append ("text 195 25 37 " + cstr(current_string_number) );
+			current_string_number := current_string_number + 1;
+
+			//now put in the cooking requirements
+			temporary_string := describe_cooking_instructions (current_recipe);
+			book_data.append(temporary_string);
+			book_layout.append ("text 200 45 0 " + cstr(current_string_number) );
+			current_string_number := current_string_number + 1;
+
+			//load the ingredient list from the current recipe into an array
+			var ingredient_array := GetConfigStringArray( current_recipe, "ingredient" );
+			temporary_string_position := 80;
+			foreach current_ingredient in ingredient_array
+				temporary_string := describe_ingredient (current_ingredient);
+				book_data.append(temporary_string);
+				book_layout.append ("text 200 " + temporary_string_position + " 0 " + cstr(current_string_number) );
+				current_string_number := current_string_number + 1;
+				temporary_string_position := temporary_string_position + 15;
+			endforeach
+
+			//check to see if this one is the final recipe
+			if (current_recipe_number = len (array_of_recipes) )
+				finished_setup := 1;
+			endif
+		endif
+
+		//increment to the next book page
+		current_book_page := current_book_page + 1;
+	until (finished_setup);
+
+	//and finally we send the completed cookbook to the character to look through
+	SendDialogGump( character, book_layout, book_data );
+
+endprogram
+
+
+
+
+///////////////////
+//  opens the cooking.cfg recipe, reads through all the recipes that are contained in it, discards all the recipes
+//  that have the show_in_cookbook property set to false returns the rest of the recipes as an array
+///////////////////
+
+function create_array_of_recipes ()
+	//starting by setting up data
+	//load in the cooking.cfg file that contains all the recipes
+	var recipe_config_file := ReadConfigFile ("cooking");
+
+	//find out how many recipes are contained in the cooking.cfg file	
+	var number_of_recipes := GetConfigMaxIntKey (recipe_config_file);
+
+	//this is an array that contains all the recipes that should be displayed in the cookbook.  This
+	//isn't neccessarily all the recipes in the cooking.cfg file
+	var array_of_recipes := {};
+
+	//this is whatever recipe is currently being considered
+	var current_recipe;
+
+	//just an incremental counter used to go through all the recipes in the cooking.cfg file
+	var recipe_counter := 1;
+
+	//another counter that keeps track of each recipe added to array_of_recipes
+	var array_counter := 1;
+
+	//now we go through all the recipes defined in the cookbook to find those that are supposed to be displayed
+	for (recipe_counter := 1; recipe_counter <= number_of_recipes; recipe_counter := recipe_counter + 1)
+		//pick the current recipe out of the config file
+		current_recipe := FindConfigElem (recipe_config_file, recipe_counter);
+
+		//check to see if the current recipe is supposed to go in the cookbook
+		if (current_recipe.show_in_cookbook = 1)
+	
+			//if so, then we add it to the array of recipes
+			array_of_recipes[array_counter] := current_recipe;
+			array_counter := array_counter + 1;
+		endif
+	endfor
+
+	return array_of_recipes;
+
+endfunction
+
+
+
+
+///////////////////
+//  looks at the cooking instructions of the recipe passed to it and returns a string describing the instructions
+//////////////////
+
+function describe_cooking_instructions (current_recipe)
+
+	var return_string := "";
+	if (current_recipe.cooking_method = 1)
+		return_string := "grill on flame";
+	elseif (current_recipe.cooking_method = 2)
+		return_string := "bake in oven";
+	elseif (current_recipe.cooking_method = 3)
+		return_string := "grill or bake";
+	else
+		return_string := "mix";
+	endif
+	return return_string;
+endfunction
+
+
+
+
+///////////////////
+//  this function looks at the ingredient that was passed to it, and returns a string that best describes
+//  that ingredients
+///////////////////
+
+function describe_ingredient (ingredient)
+
+	var return_string := "";
+	var temp_split_words := splitwords(ingredient);
+	var ingredient_string := temp_split_words[1];
+	var ingredient_number := cint(temp_split_words[2]);
+
+	//if the recipe requires 1 or 0 of an item, just use the default string
+	if ( ingredient_number = 1 or ingredient_number = 0)
+		return_string := cstr ( "1 " + food_name_dict[ingredient_string] );
+
+	//otherwise, if we have multiples, start with the names that need to have something special done to
+	//the name (to avoid things like "2 fishs" or something.  If it doesn't need to be overridden, just
+	//use the default name with an 's' at the end
+	else
+		if (ingredient_string = "ITEM_BALL_OF_DOUGH")
+			return_string := cstr ( ingredient_number + " balls of dough");
+		elseif (ingredient_string = "ITEM_FLOUR")
+			return_string := cstr ( ingredient_number + " cups of flour");
+		elseif (ingredient_string = "ITEM_CORNMEAL")
+			return_string := cstr ( ingredient_number + " cups of cornmeal");
+		elseif (ingredient_string = "ITEM_GENERAL_WATER")
+			return_string := cstr ( ingredient_number + " cups of water");
+		elseif (ingredient_string = "ITEM_GENERAL_MILK")
+			return_string := cstr ( ingredient_number + " cups of milk");
+		elseif (ingredient_string = "ITEM_GENERAL_CHEESE")
+			return_string := cstr ( ingredient_number + " wedges of cheese");
+		elseif (ingredient_string = "ITEM_LARD")
+			return_string := cstr ( ingredient_number + " globs of lard");
+		elseif (ingredient_string = "ITEM_GARLIC")
+			return_string := cstr ( ingredient_number + " cloves of garlic");
+		elseif (ingredient_string = "ITEM_HONEY")
+			return_string := cstr ( ingredient_number + " jars of honey");
+		elseif (ingredient_string = "ITEM_PEACH")
+			return_string := cstr ( ingredient_number + " peaches");
+		elseif (ingredient_string = "ITEM_SQUASH")
+			return_string := cstr ( ingredient_number + " squashes");
+		elseif (ingredient_string = "ITEM_LETTUCE")
+			return_string := cstr ( ingredient_number + " heads of lettuce");
+		elseif (ingredient_string = "ITEM_CABBAGE")
+			return_string := cstr ( ingredient_number + " heads of cabbage");
+		elseif (ingredient_string = "ITEM_RAW_LEG_OF_LAMB")
+			return_string := cstr ( ingredient_number + " raw legs of lamb");
+		//default
+		else
+			return_string := cstr ( ingredient_number + " " + food_name_dict[ingredient_string] + "s");
+		endif
+	endif
+
+	return return_string;
+endfunction
+
+
+

@@ -1,0 +1,55 @@
+use uo;
+use os;
+use util;
+
+include "include/mrcSpawn";
+include "include/utility";
+include "include/findCity";
+var me;
+
+program restok(item)
+  var npclist := GetObjProperty(item, "NpcList");
+  var merchant_type;
+  sleep(RandomInt(20)+1);
+  var storage := FindStorageArea("Merchant Storage");
+  foreach entry in npclist
+    me := SystemFindObjectBySerial(entry);
+    if((me.npctemplate != "appraiser") && (me.npctemplate != "banker") && (me.npctemplate != "stablemaster") && (me.npctemplate != "bucsbanker"))
+      merchant_type := GetObjProperty(me, "MerchantType");
+      if(merchant_type)
+        if(!GetGlobalProperty("NoRestock"))
+          var sn     := GetObjProperty(me, "restockserial");
+          var inv_fs     := find_or_create_item(storage, me.serial + " FS", 0x0e40);
+          var inv_rs := find_or_create_merc(me.serial + " " + merchant_type + " " + FindCity(me), sn, merchant_type);
+          checkstock(me, inv_fs);
+          RestockMyInventory( inv_rs, inv_fs);
+          sleep(1);
+        endif
+      endif
+    endif
+  endforeach
+endprogram
+
+function checkstock(me, pak)
+  var itemcfg := ReadConfigFile(":*:itemdesc");
+  var mygold := GetObjProperty(me, "MyGold");
+  if(!mygold)
+    mygold := 2000;
+  endif
+  foreach thing in EnumerateItemsInContainer(pak)
+    var crs := GetObjProperty(thing, "ClearRestock");
+    var cst;
+    if(crs)
+      if(ReadGameClock() > CInt(crs))
+        cst := CInt(itemcfg[thing.objtype].VendorBuysFor);
+        if(!cst)
+          cst := 1;
+        endif
+        mygold := CInt(mygold + (cst * thing.amount));
+        DestroyItem(thing);
+      endif
+    endif
+  endforeach
+  SetObjProperty(me, "MyGold", mygold);
+endfunction
+       

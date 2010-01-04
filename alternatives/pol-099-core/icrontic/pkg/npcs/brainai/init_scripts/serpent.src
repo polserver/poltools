@@ -1,0 +1,39 @@
+///////////////////////////////////////////////
+// banker.src
+//
+// Created 7/26/2002 11:31AM
+// Updated 7/26/2002 11:31AM
+//
+// By Austin Heilman
+// http://www.tsse.net
+//
+///////////////////////////////////////////////
+//
+// This init script will give a banker a random
+// gender and replace <random> in its name with
+// a real name using functions from NPC_Setup.inc
+//
+///////////////////////////////////////////////
+
+use uo;
+use util;
+use os;
+
+include "../ai_include/NPC_Setup";
+
+program InitScript(serpent)
+
+	var result;
+
+	result := SetNPCEquipment(serpent);
+	if ( result.errortext )
+		return result;
+	endif
+
+	result := SetNPCProps(serpent);
+	if ( result.errortext )
+		return result;
+	endif
+	
+	return 1;
+endprogram

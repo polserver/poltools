@@ -1,0 +1,21 @@
+use os;
+use uo;
+use boat;
+include "include/attributes";
+
+program textcmd_kill( who )
+    var tgt := TargetCoordinates( who );
+    if (tgt.mobile)
+        var mob := tgt.mobile;
+
+        if (!mob.dead)
+            RevokePrivilege( mob, "invul" );
+            SetObjProperty(mob, "guardkill", 1);
+            SetObjProperty(mob, "staffkilled", who.acctname + "Character " + who.name);
+            Damage( mob, GetHp(mob) );
+           
+        else
+            SendSysMessage( who, "That Tickles!" );
+        endif
+    endif
+endprogram

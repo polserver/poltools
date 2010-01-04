@@ -1,0 +1,92 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "castopts";
+include "../skills/spells/summon";
+include "include/spellrestrictions";
+
+program cast_summonearth(caster)
+  var mageryskill := CInt(GetEffectiveSkill(caster, SKILLID_MAGERY));
+  var aloreskill := CInt(GetEffectiveSkill(caster, SKILLID_ANIMALLORE));
+	if ((!mageryskill > 80) && (!aloreskill > 80))
+	sendsysmessage(caster, "You are not yet learned enough in the ways of nature");
+	return;
+	endif
+
+        var circle := 8;
+        var cast_loc;
+
+
+        var options := GetObjProperty(caster, "DruidOpts");
+	if (!options)
+		options := {};
+	else
+		options := splitwords(options);
+	endif
+        EraseObjProperty(caster, "DruidOpts");
+
+	if (IsNoWords(options) = 0)    
+                SpeakPowerWords(caster, 91);
+	endif
+var spelldelay := 6;
+	if (IsNoDelay(options) = 0)
+		While (spelldelay > 0)
+			PerformAction(caster, ANIM_CAST_DIR);
+			spelldelay := spelldelay - 1;
+			sleep(1);
+		endwhile
+	endif
+
+	if (IsNoMana(options) = 0)
+                if (!ConsumeMana(caster, 91))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_5B);
+			SendSysMessage(caster, "Insufficient Mana.");
+			return;
+		endif
+	endif
+
+	if (IsNoRegs(options) = 0)	
+                if (!ConsumeReagents(caster, 91))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_5B);
+			SendSysMessage(caster, "Insufficient Reagents.");
+			return;
+		endif
+	endif
+
+	if (IsNoSkillCheck(options) = 0)
+		if (!CheckSkill(caster, SKILLID_MAGERY, 90, 0))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_5B);
+                        PrintTextAbove(caster, "The spell fizzles");
+			return;
+		endif
+	endif
+
+        cast_loc := CanTargetArea(caster, circle);
+          if (!cast_loc)
+                return;
+          endif
+
+        summon_creature(caster, circle, "earthelemental", cast_loc);
+
+   var umana;
+    case (circle)
+    1: umana :=  4;
+    2: umana :=  6;
+    3: umana :=  9;
+    4: umana := 11;
+    5: umana := 14;
+    6: umana := 20;
+    7: umana := 40;
+    8: umana := 50;
+    endcase
+   var mana := GetMana(caster);
+   if(mana >= umana)
+     SetMana(caster, Cint(mana - umana));
+   endif
+
+endprogram

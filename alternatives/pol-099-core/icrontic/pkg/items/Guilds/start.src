@@ -1,0 +1,6 @@
+use os;
+
+print("[Devious] Thanks for leaving credit for my guild files.");
+print(" -> Starting Guild Timers");
+
+Start_Script(":guildstone:websiteTimers");

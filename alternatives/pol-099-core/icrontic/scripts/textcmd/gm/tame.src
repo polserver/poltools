@@ -1,0 +1,12 @@
+use uo;
+
+program tame( who )
+    SendSysMessage( who, "Tame what?" );
+    var npc := Target( who, "" );
+    SetObjProperty( npc, "happiness", 100);
+    SetObjProperty( npc, "master", who.serial );
+    SetObjProperty( npc, "script", npc.script );
+    npc.setmaster( who );
+    npc.script := "tamed";
+    RestartScript(npc);
+endprogram

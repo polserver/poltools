@@ -1,0 +1,9 @@
+use uo;
+include "include/client";
+
+program textcmd_bcast( who, text )
+//    Broadcast( who.name + ":" + text );
+	foreach chr in EnumerateOnlineCharacters()
+		SendSysMessage(chr, who.name + " : " + text,FONT_BOLD, COLOR_CYAN_LIGHT);
+	endforeach 
+endprogram

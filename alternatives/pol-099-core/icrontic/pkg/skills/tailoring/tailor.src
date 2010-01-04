@@ -1,0 +1,79 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+include "include/canAccess";
+include "include/yesno";
+
+program use_yarn(who, yarn)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  if(!can_access(who, yarn))
+    return;
+  endif
+  if(yarn.movable == 0)
+    SendSysMessage(who, "You cannot use that.");
+    return;
+  endif
+  if(!ReserveItem(yarn))
+    return;
+  endif
+  SendSysMessage(who, "Select the loom to use that on");
+  var use_on := Target( who, "" );
+  if (!use_on)
+    return;
+  endif
+  var obj_type := GetObjType(use_on);
+  if((obj_type < UOBJ_LOOM_START) || (obj_type > UOBJ_LOOM_END))
+    SendSysMessage(who, "You can only use yarn on a loom");
+  else
+    MakeCloth(who, yarn);
+  endif
+endprogram
+
+function MakeCloth(who, yarn)
+  if(!Accessible(who, yarn))
+    SendSysMessage(who, "You don't have any yarn!");
+    return;
+  endif
+  //Send popup menu allowing user to autoloop
+  var loopit := YesNo(who,"Autoloop?");
+
+  if (loopit)
+    //data to make sure the characters don't move
+    var characterx := who.x;
+    var charactery := who.y;
+    repeat
+      if(yarn.amount >= 5)
+        if( yarn.amount >= 5)
+          if(SubtractAmount(yarn, 5))
+            var cloth := CreateItemInBackpack(who, UOBJ_CLOTH, 1);
+          endif
+        else
+           SendSysMessage(who, "You don't have enough yarn for the bolt of cloth.");
+        endif
+      else
+        SendSysMessage(who, "You don't have enough yarn for the bolt of cloth.");
+      endif
+      sleep(1);
+    //See if the character moved. If so, quit.  Otherwise, loop.
+    until (who.x != characterx or who.y != charactery);
+  else
+      if(yarn.amount >= 5)
+        if( yarn.amount >= 5)
+          if(SubtractAmount(yarn, 5))
+            var cloth := CreateItemInBackpack(who, UOBJ_CLOTH, 1);
+          endif
+        else
+           SendSysMessage(who, "You don't have enough yarn for the bolt of cloth.");
+        endif
+      else
+        SendSysMessage(who, "You don't have enough yarn for the bolt of cloth.");
+      endif
+  endif
+
+endfunction
+
+
+

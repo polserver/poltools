@@ -1,0 +1,82 @@
+use uo;
+use os;
+
+include "include/client";
+
+program textcmd_arm (character, textline)
+	if (lower (textline) = "help")
+		SendSysMessage (character, "ARM:  Equips a preset weapon or weapon/shield combo set.");
+		SendSysMessage (character, "To set a .arm slot, use '.disarm #', where # is 1, 2 or 3");
+		SendSysMessage (character, "To rearm that combo, use '.arm #'");
+		return;
+	elseif (textline and !CINT (textline))
+		SendSysMessage (character, "Unknown .arm option.  Use '.arm help' for instructions on using this dot command.");
+		return;
+	elseif (CINT (textline) > 3)
+		SendSysMessage (character, "You wish.");
+		return;
+	endif
+
+	if (character.dead)
+		SendSysMessage (character, "But you're dead!");
+		return;
+	endif
+	set_critical (1);
+	if (GetObjProperty (character, "#arm") and GetObjProperty (character, "#arm") > ReadGameClock() );
+		SendSysMessage (character, "Too soon!");
+		return;
+	else
+		SetObjProperty (character, "#arm", ReadGameClock()+3);
+	endif
+
+	if (!GetObjProperty (character, "weapon"))
+		SendSysMessage (character, "Equip a weapon and use .DISARM 1 2 or 3 to set a .arm combo");
+		EraseObjProperty (character, "#arm");
+		return;
+	endif
+
+	if (!character.concealed)
+		PlaySoundEffect (character, 0x0057);
+	endif
+
+	var weapon := GetObjProperty (character, "weapon");
+	var lefthand := weapon[1];
+	var righthand := weapon[2];
+	if (CINT (textline) = 2)
+		lefthand := weapon[3];
+		righthand := weapon[4];
+	elseif (CINT (textline) = 3)
+		lefthand := weapon[5];
+		righthand := weapon[6];
+	endif
+
+	if (lefthand)
+		var weaponone := FindInInventory (character, lefthand);
+		if (weaponone)
+			EquipItem (character, weaponone);
+		endif
+	endif
+
+	if (righthand)
+		var weapontwo := FindInInventory (character, righthand);
+		if (weapontwo)
+			EquipItem (character, weapontwo);
+		endif
+	endif
+	set_critical (0);
+	detach();
+	sleep(3);
+	EraseObjProperty (character, "#arm");
+endprogram
+
+
+
+
+function FindInInventory (character, thing)
+	foreach item in enumerateitemsincontainer (character.backpack)
+		if (item.serial = thing)
+			return item;
+		endif
+	endforeach
+	return 0;
+endfunction

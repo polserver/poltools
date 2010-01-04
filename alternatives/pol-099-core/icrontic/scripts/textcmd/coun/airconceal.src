@@ -1,0 +1,29 @@
+use uo;
+use os;
+
+program roar(who)
+
+var orgcolour:=who.color;
+var orggraphic:=who.graphic;
+
+PrintTextAbove( who, "Farewell!", font := 3, color := 73 );
+PrintTextAbove( who, "On the wind of hope I ride!", font := 3, color := 73 );
+sleepms(2500);
+who.graphic:=0x0d;
+who.color:=0x0482;
+PerformAction(who,3);
+playsoundeffect(who,0x0109);
+sleepms(400);
+PerformAction(who,3);
+sleepms(1200);
+
+concealme(who);
+who.graphic:=orggraphic;
+who.color:=orgcolour;
+
+endprogram
+
+function concealme(who)
+  var txt := 1;
+  who.concealed := txt;
+endfunction

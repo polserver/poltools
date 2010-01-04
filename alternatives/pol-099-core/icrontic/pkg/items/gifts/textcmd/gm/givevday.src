@@ -1,0 +1,47 @@
+use os;
+use uo;
+use util;
+
+Program textcmd_givevday(who)
+
+var player1, player2, player3, player4, player5;
+var act, gift, prizeadd;
+sendsysmessage(who, "Giving Valentines Day gift to all characters!");
+
+foreach acctname in ListAccounts ()
+	act := FindAccount (acctname);
+	if(act)
+          sleepms(2);
+          player1 := act.GetCharacter(1);
+          player2 := act.GetCharacter(2);
+          player3 := act.GetCharacter(3);
+          player4 := act.GetCharacter(4);
+          player5 := act.GetCharacter(5);
+        
+          if(!player1.errortext)
+            GiveThem(player1);
+          elseif(!player2.errortext)
+            GiveThem(player2);
+          elseif(!player3.errortext)
+            GiveThem(player3);
+          elseif(!player4.errortext)
+            GiveThem(player4);
+          elseif(!player5.errortext)
+            GiveThem(player5);
+          else
+            sleepms(2);
+          endif
+        endif
+        
+endforeach
+
+sendsysmessage(who, "Done");
+
+endprogram
+
+function GiveThem(who)
+
+      var prizeadd := CreateItemInBackpack( who, 0x210f);
+      return;
+
+endfunction

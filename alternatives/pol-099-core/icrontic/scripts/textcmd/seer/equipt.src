@@ -1,0 +1,16 @@
+//
+// Cause another to perform an action by number
+//
+
+use uo;
+
+include "include/vetement";
+
+program textcmd_action( who, template )
+    SendSysMessage( who, "Whom do you want equip from " + template + "?" );
+
+    var subject := Target( who );
+    if (subject)
+        habille( subject, template );
+    endif
+endprogram

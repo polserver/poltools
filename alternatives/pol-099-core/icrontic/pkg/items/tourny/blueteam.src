@@ -1,0 +1,23 @@
+use os;
+use uo;
+
+const EFFECT_SPARKLE := 0x373a;
+
+program seletredteam(who)
+  var team := GetObjProperty(who,"TEAM");
+  if(team == "RED")
+     SendSysMessage(who, "You are already on the Red team!");
+     return;
+  elseif(team == "BLUE")
+     SendSysMessage(who, "You are now leaving the Blue Team!");
+     EraseObjProperty(who, "TEAM");
+     foreach reportable in(who.reportables)
+       who.removeReportable(reportable.serial,reportable.gameclock);
+       SendSysMessage(who, "Murder counts removed from the tournament.", 3, 0x0481);
+     endforeach
+     return;
+  else
+  SetObjProperty(who, "TEAM", "BLUE");
+  SendSysMessage(who,"You are now a member of the Blue Team!");
+  endif
+endprogram

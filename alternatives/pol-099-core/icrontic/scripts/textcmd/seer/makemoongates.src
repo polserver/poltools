@@ -1,0 +1,62 @@
+//makemoongates.src
+
+use uo;
+use os;
+
+//set_debug(1);
+
+include "include/moongate";
+include "include/clock";
+
+program makemoongates ( who );
+
+   CheckForGates();
+
+   CreateGates();
+
+endprogram
+
+
+function CheckForGates()
+
+   var items;
+   foreach gate in gates
+  
+      items := ListItemsAtLocation( gate[1], gate[2], gate[3] );
+
+      foreach item in items
+
+          if( item.objtype == UOBJECT_GATE )
+	      DestroyItem( item );
+          endif
+
+      endforeach
+
+   endforeach
+
+endfunction
+
+
+function CreateGates()
+
+   var item;
+   foreach gate in gates
+
+      item := CreateItemAtLocation( gate[1], gate[2], gate[3], UOBJECT_GATE, 1 );
+     
+      SetDestination( item );
+
+      item.facing := 1;
+      item.decayAt := 0;
+      item.movable := 0;
+   endforeach
+
+endfunction
+
+function SetDestination( gate )
+
+    SetObjProperty( gate, "GateDestX", MOONGLOW_X );
+    SetObjProperty( gate, "GateDestY", MOONGLOW_Y );
+    SetObjProperty( gate, "GateDestZ", MOONGLOW_Z );
+
+endfunction

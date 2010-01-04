@@ -1,0 +1,102 @@
+///////////////////////////////////////////////
+// archercombat.src
+//
+// Created 7/26/2002 11:31AM
+// Updated 7/26/2002 11:31AM
+//
+// By Austin Heilman
+// http://www.tsse.net
+//
+// Modified by MuadDib 10/18/2002
+///////////////////////////////////////////////
+//
+// This nerve requires that the npc have AiSetting
+// lines for a "max_range" and a "min_range" to 
+// determine when it should shoot.
+//
+///////////////////////////////////////////////
+
+
+use uo;
+use os;
+
+const LAYER_HAND1       :=  0x01;   // One handed weapon.
+const LAYER_HAND2       :=  0x02;   // Two handed weapon, shield or misc.
+
+include "../ai_include/NPC_Commands";
+
+var meleeWeaps := { 0xe8a, 0xdf0, 0x13f9};
+
+program CombatNerve(params)
+	var nerve_name	:= params[1];
+	var npc		:= params[2];
+	var opponent	:= params[3].source;
+	var settings	:= params[4];
+	var alreadyout  := 0;
+	
+	//Enter combat mode, set the new opponent.
+	AI_SetOpponent(npc, opponent);
+	
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := 0;
+	if ( settings["flee_script"] )
+		flee_level := CInt((GetVitalMaximumValue(npc, "hits") * settings["flee_level"]) / 100);
+	endif
+	
+	//Run until the npc dies.
+	while( npc )
+		var dist := Distance(npc, opponent);
+		if ( GetVital(npc, "hits") < flee_level )
+			AI_Disengage(npc);
+			AI_Flee(npc, opponent);
+			AI_EndNerve(npc, nerve_name);
+		elseif ( opponent.dead )
+			// Is the opponent dead, yet?
+			AI_Disengage(npc);
+			AI_WinFight(npc, opponent);
+			AI_EndNerve(npc, nerve_name);
+		elseif ( (opponent.hidden) || (opponent.concealed) )
+			// Did they hide??
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif( dist > settings["max_range"]+10 )
+			//Did the opponent escape?
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif( dist <= settings["min_range"] )
+			//Is the opponent too close?
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 1);
+		elseif ( dist >= settings["max_range"])
+			//Chase if the opponent is trying to escape			
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, 1);			
+		endif
+                
+                if (!alreadyout)
+                    alreadyout := 1;
+                    EquipItem(npc, GetMeleeWeapon(npc));
+                    settings["min_range"] := 0;
+                    settings["max_range"] := 2;
+                endif
+			
+		sleepms(600);
+		while ( Events_Waiting() )
+			//The brain replies with NPCEVENT_DONE
+			//to every event it gets. This cleans
+			//all of those events up :)
+			wait_for_event(1);
+		endwhile
+	endwhile
+endprogram
+
+function GetMeleeWeapon(who)
+  var mypack := EnumerateItemsInContainer( who.backpack );
+  
+    foreach item in mypack
+      if (item.objtype in meleeWeaps)
+        return item;
+      endif
+    endforeach
+    
+    return error;
+  
+endfunction

@@ -1,0 +1,79 @@
+use os;
+use uo;
+use http;
+
+include "include/myutil";
+
+WriteHTML ("<html><head><title>IcronticShard Merchants</title></head>");
+writehtml(" <body bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>");
+writehtml("<center><img src==logo.gif></center>");
+var searchparms := QueryParam ("keywords");
+if (!searchparms)
+	WriteHTML ("You must enter a keyword to search for.</body></html>");
+	return;
+endif
+
+var keywords := SplitWords (searchparms);
+if (!len (keywords) )
+	WriteHTML ("You must enter a keyword to search for.</body></html>");
+	return;
+elseif (len (keywords) > 3)
+	WriteHTML ("Too many search parameters!</body></html>");
+	return;
+endif
+
+var playermerchantlist := GetGlobalProperty ("pcvendors");
+if (!playermerchantlist)
+	WriteHTML ("Unable to find any merchants.</body></html>");
+	return;
+endif
+
+var storage := FindStorageArea( "Merchant Storage" );
+if (!storage)
+	WriteHTML ("Error opening merchant storage!</body></html>");
+	return;
+endif
+
+var itemdesc, addedthisguy, founditem, total_found := 0;
+foreach merchantserial in playermerchantlist
+	addedthisguy := 0;
+	var inv_fs := FindRootItemInStorageArea (storage, merchantserial + " 1C");
+	if (inv_fs)
+		foreach item in EnumerateItemsInContainer (inv_fs)
+			if (item.container = inv_fs)
+				founditem := 1;
+				itemdesc := Lower (item.desc);
+				foreach keyword in keywords
+					if (!itemdesc[keyword])
+						founditem := 0;
+					endif
+				endforeach
+
+				if (founditem)
+					total_found := total_found + 1;
+					if (!addedthisguy)
+						var merchant := SystemFindObjectBySerial (merchantserial);
+						if (merchant)
+							WriteHTML ("<h3><a href==findmerchant.ecl?vs=" + merchantserial + ">" + merchant.name + "</a></h3>");
+						endif
+						addedthisguy := 1;
+					endif
+					if ( item.amount > 1 )
+						WriteHTML ("<li>" + item.desc + " at " + item.sellprice + " each");
+					else
+						WriteHTML ("<li>" + item.desc + " at " + item.sellprice);
+					endif
+				endif
+			endif
+		endforeach
+	endif
+	sleepms (20);
+endforeach
+
+if (!total_found)
+	WriteHTML ("No matching items found.");
+else
+	WriteHTML ("<br><br>Found " + total_found + " matching items<br><br>");
+endif
+
+WriteHTML ("</body></html>");

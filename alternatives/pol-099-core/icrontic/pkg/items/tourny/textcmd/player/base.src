@@ -1,0 +1,35 @@
+use uo;
+use os;
+use util;
+
+var maze := GetGlobalProperty("mazetourn");
+var surv := GetGlobalProperty("survtourn");
+
+program textcmd_base(who)
+
+  var team := getobjproperty(who, "TEAM");
+
+  If (team="RED")
+    if(maze)
+      MoveCharacterToLocation( who, 5518, 1395, 0 );
+      SendSysMessage(who, "You are now being sent back to the Red Base.");
+      return;
+    elseif(surv)
+      MoveCharacterToLocation( who, 6095, 278, 44 );
+      SendSysMessage(who, "You are now being sent back to the Red Base.");
+      return;
+    endif
+  endif
+  If (team="BLUE")
+    if(maze)
+      MoveCharacterToLocation( who, 5443, 1411, 0 );
+      SendSysMessage(who, "You are now being sent back to the Blue Base.");
+      return;
+    elseif(surv)
+      MoveCharacterToLocation( who, 6095, 278, 44 );
+      SendSysMessage(who, "You are now being sent back to the Blue Base.");
+      return;
+    endif
+  endif
+
+endprogram

@@ -1,0 +1,71 @@
+///////////////////////////////////////////////
+// meleecombat.src
+//
+// Created 7/26/2002 11:31AM
+// Updated 7/26/2002 11:31AM
+//
+// By Austin Heilman
+// http://www.tsse.net
+//
+///////////////////////////////////////////////
+//
+// A very simple nerve script for combat.
+// Keeps the npc close to its opponent for melee
+// combat.
+//
+///////////////////////////////////////////////
+
+use uo;
+use os;
+
+include "../ai_include/NPC_Commands";
+
+program CombatNerve(params)
+	var nerve_name	:= params[1];
+	var npc		:= params[2];
+	var opponent	:= params[3].source;
+	var settings	:= params[4];
+
+	//Enter combat mode, set the new opponent.
+	AI_Setopponent(npc, opponent);
+
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := 0;
+	if ( settings["flee_script"] )
+		flee_level := CInt((GetVitalMaximumValue(npc, "hits") * settings["flee_level"]) / 100);
+	endif
+	//Stop if the npc ever dies.
+	while( npc )
+		var dist := Distance(npc, opponent);
+		if ( GetVital(npc, "hits") < flee_level )
+			AI_Disengage(npc);
+			AI_Flee(npc, opponent);
+			AI_EndNerve(npc, nerve_name);
+		// Is the opponent dead, yet?
+		elseif ( opponent.dead )
+			AI_Disengage(npc);
+			AI_WinFight(npc, opponent);
+			AI_EndNerve(npc, nerve_name);
+		// Did they hide??
+		elseif ( (opponent.hidden) || (opponent.concealed) )
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif ( dist > 20 )
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif ( (dist > 10) && (!CheckLineOfSight(npc, opponent)) )
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif( dist >= 2 )
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, 100);
+		endif
+
+		sleepms(600);
+		while ( Events_Waiting() )
+			//The brain replies with NPCEVENT_DONE
+			//to every event it gets. This cleans
+			//all of those events up :)
+			wait_for_event(1);
+		endwhile
+	endwhile
+endprogram

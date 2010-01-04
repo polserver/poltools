@@ -1,0 +1,19 @@
+use uo;
+
+program concealme( who,  text )
+	
+	var conceallevel;
+	if (!text)
+		conceallevel := who.cmdlevel;
+	else
+		if ( CInt(text) <= who.cmdlevel )
+			conceallevel := CInt(text);
+		else
+			conceallevel := who.cmdlevel;
+		endif
+	endif
+
+	who.concealed := conceallevel;
+	sendsysmessage(who,"You are now concealed to level " + conceallevel);
+	
+endprogram

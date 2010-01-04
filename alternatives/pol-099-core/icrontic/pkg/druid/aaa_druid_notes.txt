@@ -1,0 +1,28 @@
+Files in this package:
+druidstaff - listens for events.  When it hears an event, it reads the druidspells.cfg file and
+	compares the powerwords of each spell listed there with those spoken.  If it matches, it then
+	starts the "castdruidspell" script which does the actual casting.  The reason that the casting is
+	done in a seperate script is because otherwise the events keep building up if another spell is 
+	cast before the last one was done, which was a big mess.
+
+
+
+
+
+
+Spells that are basically done:
+grasping roots
+stinging swarm
+tidal wave
+wolf pack
+Sylvan Guardian
+Treeform
+
+spells that need a little bit more work:
+serenity
+
+spells that need a lot more work:
+earth's blessing
+nature's touch
+nature's embrace
+stonerain

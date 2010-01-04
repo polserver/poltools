@@ -1,0 +1,107 @@
+											/*
+									 guildMove.src	//
+								        Package guilds	//
+								     To move the stone	//
+											//
+//////////////////////////////////////////////////////////////////////////////////////////
+
+                      ////    ////// //   //  //  //////  //  //  //////
+                     //  //  //      //  //  //  //  //  //  //  //
+                    //  //  ////     // //  //  //  //  //  //  //////
+                   //  //  //        ////  //  //  //  //  //      //
+                  /////   //////     ///  //  //////  //////  //////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  This file was created by Developer Devious of Neverlands Shard
+//  http://www.neverlands.org/
+//  devtempo@telusplanet.net
+//  Released under extraordinary circumstances, never trust Ego-Crusher, Icrontic, Kain,
+//    "Shai`tain", ever, for he was the reason these files were released, beyond my will.
+//  I hope everybody enjoys these scripts, and give credit where it is due, unlike the
+//    backstabbing bastard above who claimed my scripts and nearly released them before
+//    I did.
+*/
+
+
+
+use uo;
+use os;
+
+include "include/canAccess";
+include "guild";
+
+const UOBJECT_DOORS_START:= 0x0675;
+const UOBJECT_DOORS_END:= 0x06f4;
+const UOBJ_GUILDSTONE:= 0xa392;
+const UOBJ_GUILDSTONE_GRAPHIC:= 0x0ed4;
+
+program packed_stone(who,stone)
+
+  EraseObjProperty(who,"IsMeditating");
+  EraseObjProperty(who,"HealTimer");
+
+  if(!can_access(who,stone))
+    return;
+  elseif(!ReserveItem(stone))
+    return;
+  endif
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+
+  if(gm[2] != who.serial)
+    SendSysMessage(who,"Only the Guild Master can place the stone.");
+    return;
+  endif
+
+  if(not Accessible(who,stone))
+    SendSysMessage(who,"You cannot access that item!");
+    return;
+  endif
+
+  var check:= 0;
+  var owner:= GetObjProperty(who.multi,"owneracct");
+  var coowners:= GetObjProperty(who.multi,"coownlist");
+  var friends:= GetObjProperty(who.multi,"friendlist");
+
+  if(owner = who.acctname)
+    check:= 1;
+  elseif(who.acctname in coowners)
+    check:= 1;
+  elseif(who.acctname in friends)
+    check:= 1;
+  endif
+
+  if(check = 0)
+    SendSysMessage(who,"You must be in a house you own to place this.");
+    return;
+  endif
+
+  foreach item in ListItemsNearLocation(who.x,who.y,who.z,2)
+    if((item.objtype >= UOBJECT_DOORS_START) and (item.objtype <= UOBJECT_DOORS_END))
+      if((((item.x = who.x + 1) or (item.x = who.x - 1)) and (item.y = who.y)) or (((item.y = who.y + 1) or (item.y = who.y - 1)) and (item.x = who.x)))
+        SendSysMessage(who,"This is too close to the door.");
+        return;
+      endif
+    endif
+  endforeach
+
+  var hs:= who.multi;
+  foreach thing in (hs.components)
+    if((thing.objtype == 0xbd2) or (thing.objtype == 0xbd0))
+      hs:= thing.serial;
+      break;
+    endif
+  endforeach
+
+  stone.movable:= 1;
+  MoveItemToLocation(stone,who.x,who.y,who.z,MOVEITEM_FORCELOCATION);
+  stone.movable:= 0;
+  stone.newbie:= 1;
+  stone.graphic:= UOBJ_GUILDSTONE_GRAPHIC;
+  stone.usescript:= "";
+  SetObjProperty(stone,"houseserial",hs);
+
+endprogram

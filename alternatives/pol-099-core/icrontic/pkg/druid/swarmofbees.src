@@ -1,0 +1,31 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/eventid";
+include "include/spellRestrictions";
+
+program stinging_swarm ( parms )
+	var circle := 8;
+	var caster;
+	var cast_on;
+
+	if (parms[1] = "#MOB")
+		caster := parms[2];
+		cast_on := parms[3];
+	else
+		caster := parms;
+		cast_on := CanTargetArea(caster, circle);
+		if (!cast_on)
+			sendsysmessage(caster, "Canceled");
+			return;
+		endif
+	endif
+
+	SetScriptController( caster );
+
+	PlaySoundEffect(caster, SFX_SPELL_SUMMON_ELEMENTAL);
+	var swarm := CreateItemAtLocation (cast_on.x, cast_on.y, cast_on.z, 0x091b, 1);
+	SetObjProperty (swarm, "creator", caster.serial);
+
+endprogram

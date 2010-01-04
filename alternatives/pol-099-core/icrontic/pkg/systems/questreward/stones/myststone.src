@@ -1,0 +1,17 @@
+use os;
+use uo;
+use util;
+
+program myststone( who, myststone )
+
+    var dye := randomint(1800);
+
+
+	CreateItemInBackpack(who, 0x3eb);
+	CreateItemInBackpack(who, 0xfa9);
+	CreateItemInBackpack(who, 0x7011);
+
+      SendSysMessage( who, "You find a dyetub, some dyes and a tailors's dream stone in your pack");
+    DestroyItem (myststone);
+      return;
+endprogram

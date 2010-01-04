@@ -1,0 +1,205 @@
+use uo;
+use util;
+use cfgfile;
+use os;
+
+include "include/client";
+include "include/attributes";
+include "include/dist";
+
+var config;
+var elem;
+
+var clock := ReadGameClock();
+
+program use_bandages (parms)
+  var patient := parms[1];
+  var who := parms[2];
+  EraseObjProperty(who, "IsMeditating");
+  var sleeptime;
+  var anatomy:= GetEffectiveSkill(who, SKILLID_ANATOMY);
+  var poison_level := CInt(GetObjProperty(patient, "poison_level"));
+  if(dist(who, patient) > 2)
+    SendSysMessage(who, "Your patient is too far");
+    return;
+  elseif(!CheckLineOfSight(who,patient))
+	SendSysMessage(who,"You cant see your patient");
+	return;
+  elseif((GetHp(patient) >= GetStrength(patient)) && (!poison_level))
+	SendSysMessage(who,"Your patient is at full heath");
+	return;
+  endif
+  Detach();
+  SetObjProperty(who, "HealTimer", clock);
+  if(poison_level > 0)
+    if(!CheckLineOfSight(who,patient))
+      SendSysMessage(who,"You cant see your patient");
+      return;
+    endif
+    if(dist(who, patient) <= 2)
+      SendSysMessage(who,"You start to cure "+patient.name);
+      cure(who, patient);
+    else
+      SendSysMessage(who, "Your Patient is too far");
+      return;
+    endif
+  else
+    if(!CheckLineOfSight(who,patient))
+	  SendSysMessage(who,"You cant see you patient");
+      return;
+    endif
+    if(dist(who, patient) <= 2)
+      SendSysMessage(who,"You start to heal "+patient.name);
+      heal(who, patient);
+    else
+      SendSysMessage(who, "Your Patient is too far");
+      return;
+    endif
+  endif
+endprogram
+
+function heal(who, patient)
+  var wx:= who.x;
+  var wy:= who.y;
+  var chp;
+  var healing := (CInt(GetEffectiveSkill(who, SKILLID_VETERINARY)) / 2);
+  var anatomy := (CInt(GetEffectiveSkill(who, SKILLID_ANATOMY)) / 5);
+  var healamt := healing + anatomy + 10;
+  var counter := 0;
+  var cycles;
+  if(patient == who)
+    var dexcheck := (who.dex / 33);
+    cycles := (15 - dexcheck);
+  else
+    if(who.dex <= 33)
+      cycles := 5;
+    elseif(who.dex <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "HealTimer"))
+      SendSysMessage(who, "You stop healing your patient.");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      SendSysMessage(who, "You stop healing your patient to work on another.");
+      break;
+    endif
+    chp:=GetHp(who);
+    sleep(1);
+    if(dist(who, patient) > 2)
+      SendSysMessage(who,"Your patient isnt close enough.");
+      break;
+    endif
+    if(who.warmode)
+      SendSysMessage(who,"You stop healing your patient.");
+      break;
+    endif
+    if(GetHp(who) < chp)
+      if((RandomInt(100)+1) > who.dex)
+        SendSysMessage( who, "Your fingers slip." );
+        healamt := (healamt / 2);
+      endif
+    endif
+    if(GetObjProperty(patient,"poison_level"))
+      cure(who, patient);
+      break;
+    endif
+    if(counter >= cycles)
+      if(CheckSkill(who, SKILLID_VETERINARY, -1, 0))
+        if(healamt <= 10)
+          SendSysMessage(who,"You finish applying the bandages, but they barely help.");
+        endif
+        if((patient.str - GetHp(patient)) > healamt)
+          HealDamage(patient, healamt);
+          AwardRawSkillPoints(who, SKILLID_VETERINARY, (healamt * 2));
+        else
+          healamt := GetStrength(patient) - GetHp(patient);
+          HealDamage(patient, healamt);
+          AwardRawSkillPoints(who, SKILLID_VETERINARY, (healamt * 2));
+        endif
+        if(GetHp(patient) == GetMaxHp(patient))
+		  SendSysMessage(who, "you have healed your patient completely");
+        else
+		  SendSysMessage(who, "you successfully heal " + patient.name);
+	    endif
+        break;
+      else
+        SendSysMessage( who, "You could not heal him." );
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+endfunction
+
+function cure(who, patient)
+  var wx:= who.x;
+  var wy:= who.y;
+  var chp;
+  var healing := (CInt(GetEffectiveSkill(who, SKILLID_VETERINARY)) / 2);
+  var anatomy := (CInt(GetEffectiveSkill(who, SKILLID_ANATOMY)) / 5);
+  var healamt := healing + anatomy + 10;
+  var counter := 0;
+  var cycles;
+  if(patient == who)
+    var dexcheck := (who.dex / 33);
+    cycles := (15 - dexcheck);
+  else
+    if(who.dex <= 33)
+      cycles := 5;
+    elseif(who.dex <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "HealTimer"))
+      SendSysMessage(who, "You stop healing your patient.");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      SendSysMessage(who, "You stop healing your patient to work on another.");
+      break;
+    endif
+    chp:=GetHp(who);
+    sleep(1);
+    if(dist(who, patient) > 1)
+      SendSysMessage(who,"Your patient isnt close enough.");
+      break;
+    endif
+    if(who.warmode)
+      SendSysMessage(who,"You stop healing your patient.");
+      break;
+    endif
+	if(GetHp(who) < chp)
+      if((RandomInt(100)+1) > who.dex)
+	    SendSysMessage( who, "Your fingers slip." );
+        healamt := ((healamt * 3) / 4);
+      endif
+	endif
+    if(counter >= cycles)
+      if(CheckSkill(who, SKILLID_VETERINARY, 80, 0) && (CInt(GetEffectiveSkill(who, SKILLID_ANATOMY)) >= 61))
+        if((RandomInt(100) + 1) < healamt);
+          var poison_level := GetObjProperty(patient,"poison_level");
+          if((healamt / 20) >= poison_level)
+            EraseObjProperty(patient,"poison_level");
+            SendSysMessage(who,"You have cured your patient completely.");
+            AwardRawSkillPoints(who, SKILLID_VETERINARY, (healamt * 2));
+          else
+            SetObjProperty(patient,"poison_level", (GetObjProperty(patient,"poison_level") - 1));
+            SendSysMessage(who,"You have partially cured your patient.");
+            AwardRawSkillPoints(who, SKILLID_VETERINARY, healamt);
+          endif
+        else
+          SendSysMessage(who,"You finish applying the bandages, but they barely help.");
+        endif
+        break;
+      else
+        SendSysMessage( who, "You could not heal it." );
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+endfunction

@@ -1,0 +1,8 @@
+use uo;
+use os;
+
+program textcmd_t( who)
+  sendsysmessage(who,"target the house sign to time advance");
+  var targ := target(who);
+  setobjproperty(targ,"decay", (readgameclock() + 20) );
+endprogram

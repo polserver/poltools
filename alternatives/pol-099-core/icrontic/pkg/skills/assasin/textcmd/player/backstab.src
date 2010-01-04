@@ -1,0 +1,202 @@
+//////////////////////////////////////////////////////////////////////////////////
+//Backstab textcommand for players with stealth ;)	    	    		//
+//used Drockets(thanks) spells and poisoning for this should be easy enough	//
+//to change it to whatever spell or poisoning system you might be using		//
+//								    		//
+//28.2.2002 6.24pm	Lucious						    	//
+//////////////////////////////////////////////////////////////////////////////////
+
+
+use uo;
+use util;
+use os;
+use cfgfile;
+
+include "include/client";
+include "include/myutil";
+include "include/eventid";
+include "include/attributes";
+
+program stab (attacker,weapon)
+  var anatomyskill := CInt(GetEffectiveSkill(attacker, SKILLID_ANATOMY));
+  var stealthskill := CInt(GetEffectiveSkill(attacker, SKILLID_STEALTH));
+  var poisonskill := CInt(GetEffectiveSkill(attacker, SKILLID_POISONING));
+  var fencingskill := CInt(GetEffectiveSkill(attacker, SKILLID_FENCING));
+  var backstabtimer := GetObjProperty(attacker, "BackStabTimer");
+
+	//checks if another skill is used when trying to stab
+	if (GetObjProperty (attacker, "#useskill"))
+		var skillpid := GetObjProperty (attacker, "#useskill");
+		var skillscript := GetProcess (skillpid);
+		if (skillscript)
+			PrintTextAbovePrivate (attacker, "I am already performing another action.", attacker);
+			return;
+		endif
+	endif
+
+	SetScriptController (attacker);
+	
+	//checks to see if the character is stealthing
+	//you need to add line SetObjProperty(hider, "#stealthing", 1) to your stealth.src
+	var stealthing := GetObjProperty(attacker, "#stealthing");
+        if((anatomyskill < 80) || (poisonskill < 80) || (fencingskill < 80) || (stealthskill < 99))  //checks skills
+                SendSysMessage(attacker,"You are not skilled enough to perform this.");
+   	        attacker.hidden := 0;
+                return;
+	elseif (!stealthing);
+		PrintTextAbovePrivate (attacker, "You need to be stealthing when using backstab", attacker);
+		return;
+        else
+        if(backstabtimer > ReadGameClock())  //makes sure 10 seconds has past from last use
+                SendSysMessage(attacker,"You must wait to perform this action again.");
+                attacker.hidden := 0;
+                return;
+	endif
+        endif
+        
+	SendSysMessage (attacker, "select a victim");
+	var subject := Target (attacker, TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
+	if (!subject)
+		SendSysMessage (attacker, "Canceled.");
+		return;
+	endif
+        if(subject.serial = attacker.serial)
+		SendSysMessage (attacker, "Suicide is not an option!");
+		return;
+        endif
+	//checks how far the attacker is from the victim
+	var range := 2;
+	if (distance(attacker, subject) >= range);
+		SendSysMessage (attacker, "you are too far away");
+		return;
+	endif
+
+	//checks to make sure is still stealthing when trying to target
+        stealthing := GetObjProperty(attacker, "#stealthing");
+	if (!stealthing);
+		PrintTextAbovePrivate (attacker, "You need to be stealthing when using backstab", attacker);
+		return;
+        endif
+        
+	//checks if the attacker has onehanded weapon equipped
+	var onehand := GetEquipmentByLayer( attacker, LAYER_HAND1 );
+		if (!onehand)
+			SendSysMessage (attacker, "You can only stab with one handed weapon equipped");
+			return;
+		endif
+
+	//checks what weapon the attacker is holding
+	var weapon_used := GetEquipmentByLayer( attacker, LAYER_HAND1 );
+        if(weapon_used.objtype != 0x0f51)
+          SendSysMessage(attacker, "You can only use a weapon that is easy to conceal");
+       	  attacker.hidden := 0;
+          return;
+        endif
+        
+	//this line is for later use
+	var WeaponDamage := GetObjProperty(weapon_used, "damage");
+
+	//calculates the damage
+	var thepain := RandomDiceRoll("2d20")+20;
+	
+	//does poisoning of the victim
+	if (GetObjProperty (weapon_used, "poison_level"))
+		poisonstab (attacker, subject, weapon_used, WeaponDamage, thepain);
+	endif
+
+	//does the actual damage
+	ApplyRawDamage (subject, thepain);
+
+	//reveals the stabber
+        if(stealthskill >= 110)
+          attacker.setCriminal(0);
+          eraseobjproperty(attacker, "guardstimer");
+       	  attacker.hidden := 1;
+          EraseObjProperty(attacker, "#stealthing");
+          EraseObjProperty(subject, "LastHit");
+          SendSysMessage(attacker, "Due to your superb skills, you leave no evidence!");
+        elseif(stealthskill >= 105)
+          attacker.setCriminal(0);
+       	  attacker.hidden := 1;
+          EraseObjProperty(attacker, "#stealthing");
+          SendSysMessage(attacker, "Due to your superb skills, you avoid detection!");
+          SetObjProperty(subject, "LastHit", {attacker.name, attacker.serial, " bactstab" });
+        else
+       	  attacker.hidden := 0;
+          SetObjProperty(subject, "LastHit", {attacker.name, attacker.serial, " bactstab" });
+          EraseObjProperty(attacker, "#stealthing");
+          SendSysMessage(attacker, "Your skill is not good enough to avoid being revealed");
+        endif
+        
+	//character animation and sound
+	PerformAction( attacker, ANIM_ATTACK_1HAND_JAB );
+	PlaySoundEffect( attacker, SFX_136 );			
+
+	PrintTextAbove (attacker, "You make your strike!");
+
+        // Sets teh timer so have to wait 10 seconds to try again
+        SetObjProperty(attacker,"BackStabTimer",ReadGameClock() + 10);
+
+	//tells the attacker how he did with his strike
+	if (thepain <= 30);
+	SendSysMessage(attacker, "Your strike didnt succeed too well");
+	elseif (thepain <= 90);
+	SendSysMessage(attacker, "Good hit!");
+	elseif (thepain <= 120);
+	SendSysMessage(attacker, "Lethal hit!");
+	endif
+
+	detach ();
+	sleep (10);
+endprogram
+
+///////////////////
+//  This function is called if the weapon is poisoned
+///////////////////
+function returnindex(info, information)
+  var i;
+  for (i := 1; i <= len(info); i := i + 1)
+    if (info[i] == information)
+      return i;
+    endif
+  endfor
+  return 0;
+endfunction
+
+function poisonstab(attacker, subject, weapon_used, WeaponDamage, thepain);
+  var npccfg := ReadConfigFile("::npcdesc");
+  var defender := subject;
+  var weapon := weapon_used;
+  var basedamage := WeaponDamage;
+  var rawdamage := thepain;
+  SetObjProperty(defender, "TempDamage", rawdamage);
+  var duration := CInt(GetObjProperty(weapon, "d"));
+  if((duration < 1) || !duration)
+    var hitscript := GetObjProperty(weapon,"OnHit");
+    hitscript.erase(returnindex(hitscript, ":combat:poisonHit"));
+    SetObjProperty(weapon,"OnHit", hitscript);
+    EraseObjProperty(weapon,"poison_level");
+    EraseObjProperty(weapon,"d");
+    EraseObjProperty(weapon,"ps");
+    SetObjProperty(defender, "LastHit", {attacker.name, attacker.serial, weapon });
+    return;
+  endif
+  duration := duration - 1;
+  SetObjProperty(weapon, "d", duration);
+  var potion_strength := GetObjProperty(weapon, "poison_level");
+  var defenderplevel := CInt(GetObjProperty(defender,"poison_level"));
+  var newplevel := (CInt(potion_strength));
+  var value := ((GetEffectiveSkill(attacker, SKILLID_POISONING) + 2) + (potion_strength * 2));
+  if(CheckSkill(attacker, SKILLID_POISONING, value, 20))
+    PrintTextAbove(defender, defender.name + " has been poisoned!");
+    SendSysMessage(defender, "You have been poisoned by " + attacker.name +"!");
+    if((defenderplevel < newplevel) || (!defenderplevel) || (defenderplevel < 1))
+      SetObjProperty(defender, "poison_level", potion_strength);
+    endif
+    Detach();
+    SetObjProperty(defender, "PoisonStamp", ReadGameClock());
+    var passparms := { defender, attacker, "poisoned weapon" };
+    start_script(":spells:poisonDamage", passparms);
+    SetObjProperty(defender, "LastHit", {attacker.name, attacker.serial, "poisoned weapon" });
+  endif
+endfunction

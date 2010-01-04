@@ -1,0 +1,60 @@
+/////////////////
+// Web POL Account adder for use with the POL web server
+//
+// * place webacct.ecl and acctadd.html in the pol/scripts/www directory
+// * enable the POL webserver in pol.cfg and set the port for http connections
+// * set WebServerLocalOnly=1 to only allow connections from the server 
+//   set it =0 to allow everyone to access the server and the account adder page
+// * accounts will be available immediately if successfully added
+// 
+// Notes: I don't know if someone's done something that serves this function
+//        but I thought I'd do it just for kicks.
+//
+// Author: Racalac, 2/6/00
+/////////////////
+
+use http;
+use uo;
+use os;
+
+program account_add()
+
+var acctname := QueryParam( "acctname" );
+var acctpass := QueryParam( "acctpass" );
+var acctemail := QueryParam( "acctemail" );
+
+writehtml("<html><head><title>POL HTTP Account Adder</title></head><body>");
+writehtml("<FONT SIZE==4><B>POL HTTP Account Adder</B></FONT><HR>");
+
+if( !acctname or !acctpass )
+  writehtml("Name or Pass was empty.");
+elseif(!acctemail)
+  writehtml("No Email was given, please give a valid email address for your account.");
+  writehtml("This will be used to validate your account. Incorrect email addresses can");
+  writehtml("result in loss of account or no activation.");
+else
+  while (acctname["+"])
+        acctname["+"] := " ";
+  endwhile
+  while (acctpass["+"])
+        acctpass["+"] := " ";
+  endwhile
+
+  var ret := CreateAccount( acctname, acctpass, 1 );
+  var act;
+  if( ret = error )
+    writehtml("Sorry, account creation failed.<P>");
+    writehtml("Error: " + ret.errortext );
+  else
+    act := FindAccount(acctname);
+    act.SetProp("Webcreated", 1);
+    act.SetProp("email", acctemail);
+    writehtml("Player Account Created.");
+    writehtml(" ");
+    writehtml("Account : " + acctname);
+    writehtml("Password: " + acctpass);
+    writehtml("Email   : " + acctemail);
+  endif
+endif
+
+endprogram

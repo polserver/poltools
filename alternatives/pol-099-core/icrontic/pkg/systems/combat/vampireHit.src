@@ -1,0 +1,42 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+
+include "include/attributes";
+include "include/canAccess";
+
+program vampirehit(param)
+  var attacker := param[1];
+  var defender := param[2];
+  var weapon := param[3];
+  var armor := param[4];
+  var basedamage := param[5];
+  var rawdamage := param[6];
+  if((attacker.dead) || (defender.dead))
+    return;
+  endif
+  var ticker := GetObjProperty(defender, "ticks");
+  var vamp := GetObjProperty(defender, "vamptime");
+  if((!ticker) or (!vamp))
+     Bite(defender);
+  else
+       ApplyRawDamage(defender, 15);
+       PrintTextAbove( attacker, "Hssss.... Blood!");
+       PrintTextAbove (defender, "You have been bitten by a Vampire!");
+       bitten(defender);
+     endif
+endprogram
+       
+function Bite(defender)
+     ApplyRawDamage(defender, 15);
+       PrintTextAbove (defender, "You have been bitten by a Vampire!");
+       bitten(defender);
+endfunction
+
+function bitten(who)
+  if((!GetObjProperty(who, "ticks")) or (!GetObjProperty(who, "vamptime")))
+   SetObjProperty(who, "ticks", 1);
+   start_script( ":vampire:vamptimer", who );
+  endif
+endfunction

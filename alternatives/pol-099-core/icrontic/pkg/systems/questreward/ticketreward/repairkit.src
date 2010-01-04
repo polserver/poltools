@@ -1,0 +1,43 @@
+use uo;
+use os;
+
+
+program userepairkit (character, repairkit)
+	if (!ReserveItem (repairkit))
+		SendSysMessage (character, "You can't use this right now!");
+		return;
+	endif
+	
+	if (!repairkit.movable)
+		SendSysMessage (character, "You can't use this right now!");
+		return;
+	endif
+
+	SendSysMessage (character, "Select the armor or weapon you wish to repair:");
+	var targetted := Target (character, TGTOPT_CHECK_LOS);
+	if (!targetted)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+	
+	if (!accessible (character, targetted) )
+		SendSysMessage (character, "You can't reach that!");
+		return;
+	endif
+	
+	if (!targetted.movable)
+		SendSysMessage (character, "You can't use the repair kit on that!");
+		return;
+	endif
+	
+	if (!targetted.isa (POLCLASS_WEAPON) and !targetted.isa (POLCLASS_ARMOR))
+		SendSysMessage (character, "You can't use the repair kit on that!");
+		return;
+	endif
+	
+	targetted.quality := 1.2;
+	targetted.hp := targetted.maxhp;
+	EraseObjProperty (targetted, "total_damage");
+	DestroyItem (repairkit);
+endprogram
+

@@ -1,0 +1,147 @@
+use uo;
+use os;
+use basic;
+
+
+include "include/math";
+
+var layout := {
+    "page 0",
+    "gumppic 30 30 2200",
+    "text 70 40 28 0",
+    "text 230 40 28 1"
+};
+
+var LSpellArray := {78,65,66,67,68,69,80,77};
+var GSpellArray := {70,71,72,79,73,74,75,76};
+var BookArray := {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+var LesserButtonLayout := {
+    "button 60 70 2104 2103 1 0 101",
+    "button 60 90 2104 2103 1 0 102",
+    "button 60 110 2104 2103 1 0 103",
+    "button 60 130 2104 2103 1 0 104",
+    "button 60 150 2104 2103 1 0 105",
+    "button 60 170 2104 2103 1 0 106",
+    "button 60 190 2104 2103 1 0 107",
+    "button 60 210 2104 2103 1 0 108"
+};
+
+var GreaterButtonLayout := {
+    "button 220 70 2104 2103 1 0 109",
+    "button 220 90 2104 2103 1 0 110",
+    "button 220 110 2104 2103 1 0 111",
+    "button 220 130 2104 2103 1 0 112",
+    "button 220 150 2104 2103 1 0 113",
+    "button 220 170 2104 2103 1 0 114",
+    "button 220 190 2104 2103 1 0 115",
+    "button 220 210 2104 2103 1 0 116",
+};
+
+var LesserTextLayout := {
+    "text 80 65 0 ",
+    "text 80 85 0 ",
+    "text 80 105 0 ",
+    "text 80 125 0 ",
+    "text 80 145 0 ",
+    "text 80 165 0 ",
+    "text 80 185 0 ",
+    "text 80 205 0 ",
+};
+
+var GreaterTextLayout := {
+    "text 240 65 0 ",
+    "text 240 85 0 ",
+    "text 240 105 0 ",
+    "text 240 125 0 ",
+    "text 240 145 0 ",
+    "text 240 165 0 ",
+    "text 240 185 0 ",
+    "text 240 205 0 "
+};
+
+var data := {
+    "Lesser Chants",
+    "Greater Chants"
+};
+
+var LesserSpellData := {
+    "Darkness",
+    "Commune",
+    "Animate Dead",
+    "Control Undead",
+    "Sacrifice",
+    "Spectre's Touch",
+    "Wraith's Breath",
+    "Wyvern Strike",
+};
+
+var GreaterSpellData := {
+    "Kill",
+    "Raise Dead",
+    "Wraithform",
+    "Release",
+    "Spellbind",
+    "Summon Spirit",
+    "Liche",
+    "Plague"
+};
+
+program codexdamnorum(who, tome)
+	var i := 1;
+	var q := 8;
+	var LTotal := 0;
+	var GTotal := 0;
+
+	var LayoutLen := len(layout);
+	var DataLen := len(data);
+
+	var GreaterFlag := cint(GetObjProperty(tome, "Greater"));
+	var LesserFlag := cint(GetObjProperty(tome, "Lesser"));
+	var Options := GetObjProperty(tome, "Options");
+
+	While (i < 9)
+		if (FlagCheck(LesserFlag, i)=1)
+			LTotal := LTotal + 1;
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := LesserButtonLayout[LTotal];
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := LesserTextLayout[LTotal] + Cstr(1 + LTotal + GTotal);
+			DataLen := DataLen + 1;
+			data[DataLen] := LesserSpellData[i];
+			BookArray[LTotal] := LSpellArray[i];
+		endif
+		if (FlagCheck(GreaterFlag, i)=1)
+			GTotal := GTotal + 1;
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := GreaterButtonLayout[GTotal];
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := GreaterTextLayout[GTotal] + Cstr(1 + LTotal + GTotal);
+			DataLen := DataLen + 1;
+			data[DataLen] := GreaterSpellData[i];
+			q := 8 + GTotal;
+			BookArray[q] := GSpellArray[i];
+		endif
+		i := i + 1;
+	endWhile
+
+	SendSysMessage(who, "Select Spell.");
+	    
+	var res := SendDialogGump( who, layout, data );             
+
+	if (res[0] < 100)
+	        SendSysMessage(who, "Cancelled.");
+        	return;
+	endif
+
+	set_critical(1);
+	Detach();
+
+	var CastMe := (res[0] - 100);
+	CastMe := BookArray[CastMe];
+
+	SetObjProperty(who, "NecroOpts", Options);
+
+	StartSpellEffect(who, CastMe);
+
+endprogram

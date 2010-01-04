@@ -1,0 +1,415 @@
+use uo;
+use os;
+
+include "include/yesno";
+include "include/client";
+
+
+program create_druidhenge (character, druidhenge)
+
+	//this section of code is for the side sections of the main druid alter
+	if (GetObjProperty (druidhenge, "masteritem"))
+
+//		local masteritem_serial := GetObjProperty (druidhenge, "masteritem");
+//		local masteritem := SystemFindObjectBySerial (masteritem_serial);
+//		if (!masteritem)
+//			SendSysMessage (character, "This seems to be broken.");
+//			return;
+//		endif
+//		should start the script for the master item, but I'm not quite sure how yet.
+
+		SendSysMessage (character, "Please use the center of the table.  Thank you.");
+		return;
+	endif
+
+	if (druidhenge.graphic = 0x1f1c)
+		if (!character.cmdlevel)
+			SendSysMessage (character, "You cannot use this.");
+			DestroyItem (druidhenge);
+			return;
+		endif
+
+		if (druidhenge.container)
+			SendSysMessage (character, "You must place druidhenge where you want it.");
+			return;
+		endif
+
+		SendSysMessage (character, "Are you sure you want to place druidhenge here?");
+		var create_here := YesNo (character, "Create here?");
+
+		if (!create_here)
+			SendSysMessage (character, "Canceled.");
+			return;
+		endif
+
+		var column;
+		var column_array := {};
+
+		//main stone columns
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y-5, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+9, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y+9, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y-1, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+5, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y-1, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y+5, druidhenge.z, 0x1cf, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+
+		//smaller stones on top
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y-5, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+9, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y+9, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y-1, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+5, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y-1, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y+5, druidhenge.z+20, 0x788, 1);
+		column.movable := 0;
+		column_array.append (column.serial);
+
+		//a few lights to make things look nice
+		column := CreateItemAtLocation (druidhenge.x-2, druidhenge.y-1, druidhenge.z, 0x1647, 1);
+		column.movable := 0;
+		column.facing := 29;
+		column.color := 31;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x-2, druidhenge.y+3, druidhenge.z, 0x1647, 1);
+		column.movable := 0;
+		column.facing := 29;
+		column.color := 31;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+2, druidhenge.y-1, druidhenge.z, 0x1647, 1);
+		column.movable := 0;
+		column.facing := 29;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+2, druidhenge.y+3, druidhenge.z, 0x1647, 1);
+		column.movable := 0;
+		column.facing := 29;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x1647, 1);
+		column.movable := 0;
+		column.facing := 29;
+		column_array.append (column.serial);
+		
+		//now the last 2 pieces of the table
+		column := CreateItemAtLocation (druidhenge.x-1, druidhenge.y, druidhenge.z, 0x1dc5, 1);
+		SetObjProperty (column, "masteritem", druidhenge.serial);
+		column.usescript := ":druid:druidhenge";
+		column.movable := 0;
+		column_array.append (column.serial);
+		column := CreateItemAtLocation (druidhenge.x+1, druidhenge.y, druidhenge.z, 0x1dc4, 1);
+		SetObjProperty (column, "masteritem", druidhenge.serial);
+		column.usescript := ":druid:druidhenge";
+		column.movable := 0;
+		column_array.append (column.serial);
+
+
+
+		druidhenge.graphic := 0x1dc6;
+		druidhenge.movable := 0;
+		druidhenge.name := "a marble table";
+		druidhenge.usescript := ":druid:druidhenge";
+
+		SetObjProperty (druidhenge, "placed_stones", column_array);
+		return;
+	endif
+
+	var table_return := UseDruidHenge (character);
+
+	//if they wanted a druidstaff
+	if (table_return = 1)
+		if (GetObjProperty (druidhenge, "ruined"))
+			SendSysMessage (character, "The stone's power is too weak to grant your request.");
+			return;
+		endif
+		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA );
+		PlaySoundEffect(character, SFX_SPELL_MANA_VAMPIRE);
+		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x7081, 1);
+
+	//otherwise if they wanted a runebag
+	elseif (table_return = 2)
+		if (GetObjProperty (druidhenge, "ruined"))
+			SendSysMessage (character, "The stone's power is too weak to grant your request.");
+			return;
+		endif
+		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA );
+		PlaySoundEffect(character, SFX_SPELL_MANA_VAMPIRE);
+		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0xca67, 1);
+
+	//otherwise if its a GM wanting to destroy druidhenge
+	elseif (table_return = 101)
+		var confirm_destroy := YesNo (character, "Destroy?");
+
+		if (!confirm_destroy)
+			SendSysMessage (character, "Canceled.");
+			return;
+		endif
+
+		var stone_serial;
+		var stone;
+
+		foreach stone_serial in GetObjProperty (druidhenge, "placed_stones")
+			stone := SystemFindObjectBySerial (stone_serial);
+			if (stone)
+				DestroyItem (stone);
+			endif
+		endforeach
+
+		druidhenge.graphic := 0x1f1c;
+		druidhenge.movable := 1;
+		MoveItemToContainer (druidhenge, character.backpack);
+
+	//otherwise if we should toggle ruined/restored
+	elseif (table_return = 102)
+		ToggleDruidhenge (druidhenge);
+	endif
+
+endprogram
+
+
+
+
+///////////////////
+//  This function is called when someone uses druidhenge after it is placed
+///////////////////
+
+function UseDruidhenge (character)
+	var gump_layout := {
+		"page 0",
+		"gumppic 20 20 5100",
+		"gumppic 30 20 5101",
+		"gumppic 120 20 5101",
+		"gumppic 210 20 5101",
+		"gumppic 300 20 5102",
+
+		"gumppic 20 29 5103",
+		"gumppic 30 29 5104",
+		"gumppic 120 29 5104",
+		"gumppic 210 29 5104",
+		"gumppic 300 29 5105",
+		
+		"gumppic 20 119 5103",
+		"gumppic 30 119 5104",
+		"gumppic 120 119 5104",
+		"gumppic 210 119 5104",
+		"gumppic 300 119 5105",
+
+		"gumppic 20 209 5106",
+		"gumppic 30 209 5107",
+		"gumppic 120 209 5107",
+		"gumppic 210 209 5107",
+		"gumppic 300 209 5108",
+
+		"page 1",
+		"text 100 50 0 0",
+		"button 50 80 25 26 1 0 1",
+		"text 80 80 0 1",
+		"button 50 110 25 26 1 0 2",
+		"text 80 110 0 2"
+	};
+
+	var gump_data := array ( "Welcome.",
+		"Create a druid staff",
+		"Create a rune bag"
+	);
+
+	if (character.cmdlevel)
+		gump_layout.append ("button 50 140 25 26 1 0 101");
+		gump_layout.append ("text 80 140 0 3");
+		gump_data.append ("Destroy druidhenge");
+
+		gump_layout.append ("button 50 170 25 26 1 0 102");
+		gump_layout.append ("text 80 170 0 4");
+		gump_data.append ("ruin/restore druidhenge");
+	endif
+
+	var gump_return := SendDialogGump( character, gump_layout, gump_data );
+	return gump_return[0];
+
+endfunction
+
+
+
+
+///////////////////
+//  Toggles druidhenge between its new state and its ruined state
+///////////////////
+
+function ToggleDruidhenge (druidhenge)
+
+	//if its already ruined and just needs to be restored
+	if (GetObjProperty (druidhenge, "ruined") )
+		var stone_serial;
+		var stone;
+
+		var item_serial;
+		var item;
+
+		foreach item_serial in GetObjProperty (druidhenge, "decay_items")
+			item := SystemFindObjectBySerial (item_serial);
+			if (item)
+				DestroyItem (item);
+			endif
+		endforeach
+
+		//play some special effects
+		PlayStationaryEffect (druidhenge.x-2, druidhenge.y-4, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x-2, druidhenge.y+10, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x+4, druidhenge.y-4, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x+4, druidhenge.y+10, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x-6, druidhenge.y, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x-6, druidhenge.y+6, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x+8, druidhenge.y, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x+8, druidhenge.y+6, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+
+		foreach player in ListMobilesNearLocation (druidhenge.x, druidhenge.y, druidhenge.z, 5);
+			PlaySoundEffect(player, 0x209);
+		endforeach
+
+
+
+		sleepms (1500);
+
+		foreach stone_serial in GetObjProperty (druidhenge, "placed_stones")
+			stone := SystemFindObjectBySerial (stone_serial);
+			if (stone)
+				stone.graphic := stone.objtype;
+				stone.color := 0;
+			endif
+		endforeach
+		EraseObjProperty (druidhenge, "ruined");
+	else
+		SetObjProperty (druidhenge, "ruined", 1);
+		var stone_serial_array := GetObjProperty (druidhenge, "placed_stones");
+		var stone;
+		var i;
+
+//		stone := SystemFindObjectBySerial (stone_serial_array[1]);
+//		stone.graphic := 0x3bf;
+//		stone.color := 842;
+		stone := SystemFindObjectBySerial (stone_serial_array[2]);
+		stone.graphic := 0x3b8;
+		stone.color := 842;
+//		stone := SystemFindObjectBySerial (stone_serial_array[3]);
+//		stone.graphic := 0x3bf;
+//		stone.color := 842;
+		stone := SystemFindObjectBySerial (stone_serial_array[4]);
+		stone.graphic := 0x3bf;
+		stone.color := 842;
+
+		stone := SystemFindObjectBySerial (stone_serial_array[5]);
+		stone.graphic := 0x3bf;
+		stone.color := 842;
+//		stone := SystemFindObjectBySerial (stone_serial_array[6]);
+//		stone.graphic := 0x3bf;
+//		stone.color := 842;
+		stone := SystemFindObjectBySerial (stone_serial_array[7]);
+		stone.graphic := 0x3bf;
+		stone.color := 842;
+		stone := SystemFindObjectBySerial (stone_serial_array[8]);
+		stone.graphic := 0x3b8;
+		stone.color := 842;
+
+//		stone := SystemFindObjectBySerial (stone_serial_array[9]);
+//		stone.graphic := 0x1;
+		stone := SystemFindObjectBySerial (stone_serial_array[10]);
+		stone.graphic := 0x1;
+//		stone := SystemFindObjectBySerial (stone_serial_array[11]);
+//		stone.graphic := 0x1;
+		stone := SystemFindObjectBySerial (stone_serial_array[12]);
+		stone.graphic := 0x1;
+
+		stone := SystemFindObjectBySerial (stone_serial_array[13]);
+		stone.graphic := 0x1;
+//		stone := SystemFindObjectBySerial (stone_serial_array[14]);
+//		stone.graphic := 0x1;
+		stone := SystemFindObjectBySerial (stone_serial_array[15]);
+		stone.graphic := 0x1;
+		stone := SystemFindObjectBySerial (stone_serial_array[16]);
+		stone.graphic := 0x1;
+
+		var item;
+		var item_array := {};
+
+		item := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+10, druidhenge.z, 0xceb, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x-2, druidhenge.y+9, druidhenge.z, 0xcf0, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+8, druidhenge.y-1, druidhenge.z, 0x788, 1);
+		item.movable := 0;
+		item.color := 842;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+9, druidhenge.y-1, druidhenge.z, 0x788, 1);
+		item.movable := 0;
+		item.color := 842;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+10, druidhenge.y-1, druidhenge.z, 0x788, 1);
+		item.movable := 0;
+		item.color := 842;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x-2, druidhenge.y-5, druidhenge.z, 0xd3f, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+2, druidhenge.y+4, druidhenge.z, 0xd3f, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+6, druidhenge.z, 0xd3f, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+5, druidhenge.y-4, druidhenge.z, 0xcd0, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x-6, druidhenge.y+12, druidhenge.z, 0xcd3, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+8, druidhenge.y, druidhenge.z, 0xd0c, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+9, druidhenge.y, druidhenge.z, 0xd0d, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x+10, druidhenge.y, druidhenge.z, 0xd0e, 1);
+		item.movable := 0;
+		item_array.append (item.serial);
+
+
+
+
+		SetObjProperty (druidhenge, "decay_items", item_array);
+		return;
+	endif
+endfunction

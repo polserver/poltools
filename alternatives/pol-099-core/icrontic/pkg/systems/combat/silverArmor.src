@@ -1,0 +1,28 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+
+program silverArmor(param)
+  var attacker := param[1];
+  var defender := param[2];
+  var weapon := param[3];
+  var armor := param[4];
+  var basedamage := param[5];
+  var rawdamage := param[6];
+  if((attacker.dead) || (defender.dead))
+    return;
+  endif
+  if(!attacker.isA(POLCLASS_NPC))
+    SetObjProperty(attacker, "TempDamage", (rawdamage / 2));
+    return;
+  endif
+  var cfg := ReadConfigFile("::npcdesc");
+  var undead := cfg[attacker.npctemplate].elemental;
+  if(undead == "undead")
+        rawdamage := (rawdamage / 2);
+  endif
+  SetObjProperty(attacker, "TempDamage", rawdamage);
+endprogram
+
+   

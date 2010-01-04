@@ -1,0 +1,61 @@
+use uo;
+const CONST_REG_AMOUNT := 200;
+
+program recsurecdu(who,stone)
+	var sAnswer;
+	if (!GetObjProperty(stone,"type"))
+			sAnswer := SendTextEntryGump(who,"Please chose Teleporter Type:",TE_CANCEL_ENABLE,TE_STYLE_NORMAL,40,"teleporter");
+			if (lower(sAnswer) = "teleporter")
+				SetObjProperty(stone,"type",lower(sAnswer));
+				SendSysMessage(who, "Altar set to: " + sAnswer);
+				return;
+			else
+				SendSysMessage(who, "Canceled");
+				return;
+			endif
+	endif	
+	if (!GetObjProperty(stone,"keyword"))
+			sAnswer := SendTextEntryGump(who,"Please set the keyword");
+			if (CInt(sAnswer) != error)
+				SetObjProperty(stone,"keyword",sAnswer);
+				SendSysMessage(who, "Keyword Set To: " + sAnswer);
+				return;
+			else
+				SendSysMessage(who, "Canceled");
+				return;
+			endif
+	endif
+	if (!GetObjProperty(stone,"sendx"))
+			sAnswer := SendTextEntryGump(who,"Please set the X coords");
+			if (CInt(sAnswer) != error)
+				SetObjProperty(stone,"sendx",sAnswer);
+				SendSysMessage(who, "X Coord Set To: " + sAnswer);
+				return;
+			else
+				SendSysMessage(who, "Canceled");
+				return;
+			endif
+	endif
+	if (!GetObjProperty(stone,"sendy"))
+			sAnswer := SendTextEntryGump(who,"Please set the Y coords");
+			if (CInt(sAnswer) != error)
+				SetObjProperty(stone,"sendy",sAnswer);
+				SendSysMessage(who, "Y Coord Set To: " + sAnswer);
+				return;
+			else
+				SendSysMessage(who, "Canceled");
+				return;
+			endif
+	endif
+	if (!GetObjProperty(stone,"sendz"))
+			sAnswer := SendTextEntryGump(who,"Please set the Z coords");
+			if (CInt(sAnswer) != error)
+				SetObjProperty(stone,"sendz",sAnswer);
+				SendSysMessage(who, "Z Coord Set To: " + sAnswer);
+				return;
+			else
+				SendSysMessage(who, "Canceled");
+				return;
+			endif
+	endif
+endprogram

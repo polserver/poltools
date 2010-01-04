@@ -1,0 +1,29 @@
+//
+// CTRL_REG.SRC
+//
+// Script to register this package with the control package
+//
+// Original: Myrathi, <myrathi@templar.dhs.org>
+// Created_: 05-Apr-2000
+//
+use uo;
+
+// This is a run-to-completion script, so
+// don't do anything special (or long) here!! :-P"
+
+program ctrl_reg()
+
+	// Userfriendly name of package (string)
+	// Version number (string)
+	// Does it have a command interface? 0=No/1=Yes (integer)
+	// Unqualified script-name of interface (string)
+
+	var zlink := {};
+	zlink.+sName := "Gifts";
+	zlink.+sVer := "1.0";
+	zlink.+bCtrl := 0;
+	zlink.+sScript := "";
+
+	return zlink;
+
+endprogram

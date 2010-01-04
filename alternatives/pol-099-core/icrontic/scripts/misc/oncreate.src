@@ -1,0 +1,64 @@
+use uo;             
+
+
+include "include/startEqp";
+
+program oncreate(who, skillids)
+     
+  var item, container;   
+   if((13 in CAscZ(who.name)) || (10 in CAscZ(who.name)))
+     var account := who.acct;
+     account.ban();
+     for i:=1 to 5
+       account.DeleteCharacter( i );
+     endfor
+     syslog("ALERT! Account " + account.name + " was banned for injection abuse for cmdlevel access.");
+   endif
+  var hair := cInt(GetEquipmentByLayer(who, LAYER_HAIR));
+  var beard := cInt(GetEquipmentByLayer(who, LAYER_BEARD));
+  var shirt := cInt(GetEquipmentByLayer(who, LAYER_SHIRT));
+  var pants := cInt(GetEquipmentByLayer(who, LAYER_PANTS));
+  if((hair.color < 1102) || (hair.color > 1149))
+        hair.color:=1149;
+  endif
+  if((beard.color < 1102) || (beard.color > 1149))
+        beard.color:=1149;
+  endif
+  if((shirt.color < 202) || (shirt.color > 708))
+        shirt.color:=0;
+  endif
+  if((pants.color < 202) || (pants.color > 708))
+        pants.color:=0;
+  endif
+  if((who.truecolor < 1001) || (who.truecolor > 1058))
+        who.color:=1001;
+        who.truecolor:=1001;
+  endif
+  if(CInt(who.truecolor) <= 32768)
+    who.truecolor := who.truecolor + 32768;
+    who.color := who.truecolor;
+  endif
+
+  var acct := who.acct; 
+  var count := acct.GetProp("Counter");
+  if(count)
+  acct.SetProp("Counter", cint(count)+1);
+  else
+  acct.SetProp("Counter", 1);
+  endif      
+  SetObjProperty(who, "OnCreate", ReadGameClock());
+  CreateStartingEquipment(who, skillids);
+  SetObjProperty(who, "Fixwipe", "yes");
+  SetObjProperty(who, "onlinetimer", 1);
+  SetMyVote(who, "VOTE");
+endprogram
+
+function SetMyVote(character, vote)
+    var acct := character.acct;
+    if(!acct.GetProp("VOTE"))
+		acct.setprop("VOTE", 1);
+    else
+    	acct.eraseprop("VOTE");
+    endif
+
+endfunction

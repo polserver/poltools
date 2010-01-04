@@ -1,0 +1,22 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/client";
+include "include/attributes";
+
+const EVID_UNEQUIP   := 0x123456;
+const EVID_DISCHARGE := 0x123457;
+
+program unequipweapon(who, item)
+
+  set_critical(1);
+
+  EraseObjProperty(item, "poison_level");
+
+  return 1;
+
+  set_critical(0);
+endprogram
+
+

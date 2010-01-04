@@ -1,0 +1,62 @@
+use uo;
+
+include "include/eventID";
+include "include/attributes";
+include "include/spellRestrictions";
+
+program mass_dispel ( parms )
+  var circle := 7;
+  var delivery := "indirect";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 54);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  var range := CInt(magery / 20);
+  var targets := ListMobilesNearLocation( cast_on.x, cast_on.y, cast_on.z, range );
+  PlaySoundEffect( caster, 0x202 );
+  var ei := GetEffectiveSkill(caster, SKILLID_EVALINT)/10;
+  foreach mobile in targets
+	SetObjProperty(mobile, "LastHit", {caster.name, caster.serial, "mass dispel"});
+    if(Reflected(mobile))
+	  mobile := caster;
+    endif
+    var summoned := GetObjProperty( mobile, "summoned");
+	if (summoned == 1)
+      PlaySoundEffect(caster, 0x202 );
+      PlayStationaryEffect( mobile.x, mobile.y, mobile.z, FX_HEAL_EFFECT, 0xa, 0xa );
+      var master := SystemFindObjectBySerial(CInt(GetObjProperty(mobile, "master")));
+      if(master)
+        var resist := GetEffectiveSkill(master, SKILLID_MAGICRESISTANCE);
+        if((RandomInt(99) + 1) < resist)
+          MoveCharacterToLocation(mobile,0,0,0,MOVECHAR_FORCELOCATION);
+          Damage(mobile, GetMaxHp(mobile) + 3);
+        endif
+        send_attack(caster, mobile, 41);
+    endif
+    else
+      if(mobile.isA(POLCLASS_NPC))
+        var element := npccfg[mobile.npctemplate].elemental;
+        if(element == "undead")
+          PlayStationaryEffect( mobile.x, mobile.y, mobile.z, FX_HEAL_EFFECT, 0xa, 0xa );
+          var ev := array;
+          ev.+ type;
+          ev.+ source;
+          ev.type := EVID_PEACEMADE;
+          SendEvent(mobile, ev);
+          ev.source := caster;
+          SendEvent(mobile, ev);
+          ev.type := EVID_ENGAGED;
+          SendEvent(mobile, ev);
+	      PlaySoundEffect( caster, 0x202 );
+          PlayObjectCenteredEffect(mobile, 0x37b9,0x03, 0x0a);
+          var dmg := CalcSpellDamage(circle,caster,mobile) + (RandomInt(20));
+          ApplyRawDamage(mobile, Resisted(circle,caster,mobile,dmg));
+        endif
+      endif
+    endif
+  endforeach
+endprogram

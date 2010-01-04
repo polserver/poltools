@@ -1,0 +1,36 @@
+Use uo;
+Use os;
+
+
+Program Hitching_Post(who,item)
+var animal;
+print(getobjproperty(item,"Block"));
+If(!getobjproperty(item,"Block"))
+
+Sendsysmessage(who,"Select the animal that you want to block.");
+animal := target(who);
+	print(getobjproperty(item,"Block"));
+	if(getobjproperty(animal,"master") = who.serial)	
+		if(distance(animal,item)<3)
+		animal.frozen := 1;
+		Setobjproperty(item, "Block",getobjproperty(animal,"master"));
+		Setobjproperty(item, "AnimalSerial" ,animal.serial);
+		Setobjproperty(animal, "Block",1);
+		Sendsysmessage(who,"Done!");
+		else
+		Sendsysmessage(who,"It is too far.");
+        	endif
+        else
+        Sendsysmessage(who,"You can't block this");
+        return;
+        endif	
+elseif(getobjproperty(item,"Block")= who.serial)
+Sendsysmessage(who,"Your mount now is free");
+eraseobjproperty(item,"Block");
+animal := systemfindobjectbyserial(getobjproperty(item,"AnimalSerial"));
+eraseobjproperty(animal,"Block");
+animal.frozen := 0;
+else
+Sendsysmessage(who,"This is already in use.");
+endif
+endprogram

@@ -1,0 +1,45 @@
+//put in a skill check to see if you can crack the egg
+//and from there it can be 60-40 50-50 some descent chance
+//that it will be tame
+
+use util;
+use uo;
+
+include "include/attributes";
+
+program dragoneggs(who, item)
+
+if(!ReserveItem(item)) return; endif
+	
+SendSysMessage( who, "The egg begins to move and" );
+
+var dragon, typeofdragon :=randomint(4), masteralone := randomint(100);
+
+case (typeofdragon)
+
+0: dragon := "dragon1";
+1: dragon := "dragon2";
+2: dragon := "drake1";
+3: dragon := "drake2";
+
+endcase
+
+var newpet := CreateNpcFromTemplate( dragon, who.x, who.y, who.z );
+
+if (GetEffectiveSkill(who, SKILLID_TAMING) > 90)
+
+if (masteralone<70)
+ SendSysMessage( who, "A baby dragon appears and accepts you as his master!");
+ SetObjProperty (newpet, "master", who.serial);
+ SetObjProperty (newpet, "prevtamed", 1);
+ newpet.script := "tamed";
+ RestartScript (newpet);
+endif
+
+else
+SendSysMessage( who, "A baby dragon appears!");
+endif
+
+destroyitem(item);
+
+endprogram

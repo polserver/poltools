@@ -1,0 +1,2328 @@
+											/*
+									 guildStone.src	//
+								        Package guilds	//
+								       The main script	//
+											//
+//////////////////////////////////////////////////////////////////////////////////////////
+
+                      ////    ////// //   //  //  //////  //  //  //////
+                     //  //  //      //  //  //  //  //  //  //  //
+                    //  //  ////     // //  //  //  //  //  //  //////
+                   //  //  //        ////  //  //  //  //  //      //
+                  /////   //////     ///  //  //////  //////  //////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  This file was created by Developer Devious of Neverlands Shard
+//  http://www.neverlands.org/
+//  devtempo@telusplanet.net
+//  Released under extraordinary circumstances, never trust Ego-Crusher, Icrontic, Kain,
+//    "Shai`tain", ever, for he was the reason these files were released, beyond my will.
+//  I hope everybody enjoys these scripts, and give credit where it is due, unlike the
+//    backstabbing bastard above who claimed my scripts and nearly released them before
+//    I did.
+*/
+
+
+use uo;
+use os;
+
+include "include/canAccess";
+include "guild";
+
+const MAX_GM_TITLE_SIZE:= 30;
+const MAX_GUILD_TITLE_SIZE:= 20;
+const MAX_GUILD_NAME_SIZE:= 30;
+const MAX_GUILD_ABREV_SIZE:= 4;
+const UOBJ_PACKED_GUIDSTONE_GRAPHIC:= 0x1172;
+
+const COLOUR_START:= 2432;	//For guild clothes, where do guild colours start and end?
+const COLOUR_END:= 2476;
+
+program use_guildstone(who,stone)
+
+  EraseObjProperty(who,"IsMeditating");
+  EraseObjProperty(who,"HealTimer");
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild_pl:= GetObjProperty(who,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+
+  if(!can_Access(who,stone))
+    SendSysMessage(who,"Cancelled. You cannot access this.");
+    return;
+  elseif(!ReserveItem(stone))
+    SendSysMessage(who,"This Guildstone is already in use. You may view only.");
+    NonMemberMenu(who,stone);
+    return;
+  elseif(guild.errortext)
+    CreateItemInBackpack(who,0xa391);
+    DestroyItem(stone);
+    return;
+  endif
+
+  if(((guild_pl != guild_id) or (!guild.ismember(who))) and (who.cmdlevel < 3))
+    NonMemberMenu(who,stone);
+  elseif((guild.ismember(who)) and (gm[2] != who.serial) and (who.cmdlevel < 3))
+    MemberMenu(who,stone);
+  elseif(((guild.ismember(who)) and (gm[2] = who.serial)) or (who.cmdlevel > 2))
+    GuildmasterMenu(who,stone);
+  else
+    SendSysMessage(who,"Error.");
+    NonMemberMenu(who,stone);
+  endif
+
+endprogram
+
+
+function NonMemberMenu(who,stone)
+
+  if(who.dead)
+    exit;
+  endif
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 227",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+	"button 80 158 2474 2473 1 0 2",
+	"button 80 181 2474 2473 1 0 3",
+	"button 80 204 2474 2473 1 0 4",
+
+	"text 115 138 1187 2",
+	"text 115 161 1187 3",
+	"text 115 184 1187 4",
+	"text 115 207 1187 5",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guildmaster "+ gm[1],
+	"View our Guild Charter.",
+	"View our Guild Members.",
+	"View our Guild Candidates.",
+	"View our Guild Stances.",
+
+  };
+
+  var res:= SendDialogGump(who,layout,data);
+
+  case(res[0])
+
+	0:	return;
+	1:	ViewCharter(who,stone); break;
+	2:	ViewMembers(who,stone); break;
+	3:	ViewCandidates(who,stone); break;
+	4:	ViewStances(who,stone); break;
+
+  endcase
+
+  NonMemberMenu(who,stone);
+
+endfunction
+
+
+function MemberMenu(who,stone)
+
+  if(who.dead)
+    exit;
+  endif
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 273",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+	"button 80 158 2474 2473 1 0 2",
+	"button 80 181 2474 2473 1 0 3",
+	"button 80 204 2474 2473 1 0 4",
+	"button 80 227 2474 2473 1 0 5",
+	"button 80 250 2474 2473 1 0 6",
+	"text 115 138 1187 2",
+	"text 115 161 1187 3",
+	"text 115 184 1187 4",
+	"text 115 207 1187 5",
+	"text 115 230 1187 6",
+	"text 115 253 1187 7",
+  };
+
+  var data:= {
+
+	guildname,
+	"Guildmaster "+ gm[1],
+	"View our Guild Charter.",
+	"View our Guild Members.",
+	"View our Guild Candidates.",
+	"View our Guild Stances.",
+	"Recruit a New Candidate.",
+	"Resign from the Guild.",
+
+  };
+
+  var res:= SendDialogGump(who,layout,data);
+
+  case(res[0])
+
+	0:	return;
+	1:	ViewCharter(who,stone); break;
+	2:	ViewMembers(who,stone); break;
+	3:	ViewCandidates(who,stone); break;
+	4:	ViewStances(who,stone); break;
+	5:	RecruitCandidate(who,stone); break;
+	6:	Resign(who,stone); break;
+
+  endcase
+
+  MemberMenu(who,stone);
+
+endfunction
+
+
+function GuildmasterMenu(who,stone)
+
+  if(who.dead)
+    exit;
+  endif
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 549",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+	"button 80 158 2474 2473 1 0 2",
+	"button 80 181 2474 2473 1 0 3",
+	"button 80 204 2474 2473 1 0 4",
+	"button 80 227 2474 2473 1 0 5",
+	"button 80 250 2474 2473 1 0 6",
+	"button 80 273 2474 2473 1 0 7",
+	"button 80 296 2474 2473 1 0 8",
+	"button 80 319 2474 2473 1 0 9",
+	"button 80 341 2474 2473 1 0 10",
+	"button 80 364 2474 2473 1 0 11",
+	"button 80 387 2474 2473 1 0 12",
+	"button 80 410 2474 2473 1 0 13",
+	"button 80 433 2474 2473 1 0 14",
+	"button 80 456 2474 2473 1 0 15",
+	"button 80 479 2474 2473 1 0 16",
+	"button 80 502 2474 2473 1 0 17",
+	"button 80 525 2474 2473 1 0 18",
+	"button 80 548 2474 2473 1 0 19",
+
+	"text 115 138 1187 2",
+	"text 115 161 1187 3",
+	"text 115 184 1187 4",
+	"text 115 207 1187 5",
+	"text 115 230 1187 6",
+	"text 115 253 1187 7",
+	"text 115 276 1187 8",
+	"text 115 299 1187 9",
+	"text 115 322 1187 10",
+	"text 115 345 1187 11",
+	"text 115 368 1187 12",
+	"text 115 391 1187 13",
+	"text 115 414 1187 14",
+	"text 115 437 1187 15",
+	"text 115 460 1187 16",
+	"text 115 483 1187 17",
+	"text 115 506 1187 18",
+	"text 115 529 1187 19",
+	"text 115 552 1187 20",
+  };
+
+  var data:= {
+
+	guildname,
+	"Guildmaster "+ gm[1],
+
+	"View our Guild Charter.",
+	"View our Guild Members.",
+	"View our Guild Candidates.",
+	"View our Guild Stances.",
+	"Recruit a New Candidate.",
+	"Resign from the Guild.",
+	"Set the Guild Type.",
+	"Set the Guild Faction.",
+	"Set the Guild Orb.",
+	"Set the Guild Colour.",
+	"Set the Guild Charter.",
+	"Dismiss a Guild Member.",
+	"Guild Stances.",
+	"Accept a Guild Candidate.",
+	"Refuse a Guild Candidate.",
+	"Grant a Guild Title.",
+	"Move this Guildstone.",
+	"Change the Guild Name.",
+	"Change the Guild Abbreviation.",
+
+  };
+
+  var res:= SendDialogGump(who,layout,data);
+
+  case(res[0])
+
+	0:	return;
+	1:	ViewCharter(who,stone); break;
+	2:	ViewMembers(who,stone); break;
+	3:	ViewCandidates(who,stone); break;
+	4:	ViewStances(who,stone); break;
+	5:	RecruitCandidate(who,stone); break;
+	6:	Resign(who,stone); break;
+	7:	GuildType(who,stone); break;
+	8:	GuildFaction(who,stone); break;
+	9:	GuildOrb(who,stone); break;
+	10:	GuildColour(who,stone); break;
+	11:	GuildCharter(who,stone); break;
+	12:	DismissMember(who,stone); break;
+	13:	GuildStances(who,stone); break;
+	14:	AcceptCandidate(who,stone); break;
+	15:	RefuseCandidate(who,stone); break;
+	16:	GrantTitle(who,stone); break;
+	17:	MoveGuildstone(who,stone); break;
+	18:	ChangeName(who,stone); break;
+	19:	ChangeAbbreviation(who,stone); break;
+
+  endcase
+
+  GuildmasterMenu(who,stone);
+
+endfunction
+
+
+function ViewCharter(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var charter:= guild.getprop("gc");
+  var website:= guild.getprop("website");
+  var faction:= guild.getprop("faction");
+  var type:= guild.getprop("type");
+  var guildname;
+
+  if(!faction)
+    faction:= "Standard";
+    guild.setprop("faction","Standard");
+  endif
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  if(charter[1] = "NONE")
+    charter[1]:= "";
+    charter[2]:= "";
+    charter[3]:= "";
+    charter[4]:= "";
+    charter[5]:= "";
+    charter[6]:= "";
+    charter[7]:= "";
+    charter[8]:= "";
+    charter[9]:= "";
+    guild.setprop("gc",charter);
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 5170 540 380",
+
+	"text 85 80 1189 0",
+	"text 86 81 1172 0",
+	"text 85 98 1189 1",
+	"text 86 99 1100 1",
+
+	"text 90 138 1187 2",
+	"text 90 161 1187 3",
+	"text 90 184 1187 4",
+	"text 90 207 1187 5",
+	"text 90 230 1187 6",
+	"text 90 253 1187 7",
+	"text 90 276 1187 8",
+	"text 90 299 1187 9",
+	"text 90 322 1187 10",
+	"text 100 345 1100 11",
+
+  };
+
+  var data:= {
+
+	"Guild Charter of "+ guildname +".",
+	faction +" "+ type +" Guild.",
+	charter[1],
+	charter[2],
+	charter[3],
+	charter[4],
+	charter[5],
+	charter[6],
+	charter[7],
+	charter[8],
+	charter[9],
+	"Website: "+ website,
+
+  };
+
+  SendDialogGump(who,layout,data);
+
+endfunction
+
+
+function ViewMembers(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var count:= 1;
+  var pagecount:= 1;
+  var size:= 142;
+  var col:= 115;
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Member List",
+
+  };
+
+  foreach gstatus in (guild.members)
+    sleepms(1);
+    if(!gstatus)
+      break;
+    endif
+    count:= count + 1;
+    if(count = 25)
+      count:= 1;
+      pagecount:= pagecount + 1;
+      rowcount:= 138;
+      layout.append("button 395 540 2648 2647 0 "+ (pagecount));
+      layout.append("page "+ pagecount);
+      layout.append("button 395 100 2650 2651 0 "+ (pagecount - 1));
+    endif
+    layout.append("text "+ col +" "+ rowcount +" 1187 "+ locationscount);
+    if(gm[2] = gstatus.serial)
+      data.append("Guildmaster "+ gstatus.name);
+    else
+      data.append(gstatus.name);
+    endif
+    locationscount:= locationscount + 1;
+    rowcount:= rowcount + 17;
+    size:= size + 17;
+  endforeach
+
+  if(pagecount > 1)
+    size:= 537;
+  endif
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  SendDialogGump(who,layout,data);
+
+endfunction
+
+
+function ViewCandidates(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var recruits:= guild.getprop("recruits");
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var count:= 1;
+  var pagecount:= 1;
+  var guildname, chr, sponser;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Candidate List",
+
+  };
+
+  foreach gstatus in recruits
+    sleepms(1);
+    if(gstatus = "NONE")
+      break;
+    endif
+    count:= count + 1;
+    if(count = 25)
+      count:= 1;
+      pagecount:= pagecount + 1;
+      rowcount:= 138;
+      layout.append("button 395 540 2648 2647 0 "+ (pagecount));
+      layout.append("page "+ pagecount);
+      layout.append("button 395 100 2650 2651 0 "+ (pagecount - 1));
+    endif
+    layout.append("text " + col + " " + rowcount + " 1187 " + locationscount);
+    chr:= SystemFindObjectBySerial(gstatus,1);
+    sponser:= GetObjProperty(chr,"guild_sponser");
+    sponser:= SystemFindObjectBySerial(sponser,1);
+    data.append("Candidate "+ chr.name +", sponsered by "+ sponser.name +".");
+    locationscount := locationscount + 1;
+    rowcount:= rowcount + 17;
+    size:= size + 17;
+  endforeach
+
+  if(pagecount > 1)
+    size:= 537;
+  endif
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  SendDialogGump(who,layout,data);
+
+endfunction
+
+
+function ViewStances(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var faction:= guild.getprop("faction");
+  var allies:= guild.allyguilds;
+  var enemies:= guild.enemyguilds;
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var count:= 0;
+  var pagecount:= 1;
+  var guildname, stance;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"page 0",
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+	"page 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Stances",
+
+  };
+
+  foreach gstatus in ListGuilds()
+    sleepms(1);
+    count:= count + 1;
+    if(count = 25)
+      count:= 1;
+      pagecount:= pagecount + 1;
+      rowcount:= 138;
+      layout.append("button 395 540 2648 2647 0 "+ (pagecount));
+      layout.append("page "+ pagecount);
+      layout.append("button 395 100 2650 2651 0 "+ (pagecount - 1));
+    endif
+    if(guild.guildid != gstatus.guildid)
+      layout.append("text "+ col +" "+ rowcount +" 1187 "+ locationscount);
+      if(guild.getprop("stance"+ gstatus.guildid) = 1)
+        stance:= "Declaration of War";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 2)
+        stance:= "Proposition of an Alliance";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 3)
+        stance:= "Declaration of Peace";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 4)
+        stance:= "Proposition of Break Alliance";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 5)
+        stance:= "has Declared War";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 6)
+        stance:= "has Proposed an Alliance";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 7)
+        stance:= "has Declared a Peace Treaty";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 8)
+        stance:= "has Proposed to Break the Alliance";
+      elseif(guild.isallyguild(gstatus))
+        stance:= "Allied";
+      elseif(guild.isenemyguild(gstatus))
+        stance:= "at War";
+      else
+        stance:= "at Peace";
+      endif
+      data.append(gstatus.getprop("guildname") +" ["+ gstatus.getprop("guildabv") +"], "+ stance +".");
+      locationscount:= locationscount + 1;
+      rowcount:= rowcount + 17;
+      size:= size + 17;
+    endif
+  endforeach
+
+  if(pagecount > 1)
+    size:= 537;
+  endif
+
+  layout[3]:= "resizepic 50 50 2600 400 "+ size;
+
+  SendDialogGump(who,layout,data);
+
+endfunction
+
+
+function RecruitCandidate(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var recruits:= guild.getprop("recruits");
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var candidate:= GetObjProperty(who,"guild_candidate");
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 169",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"text 115 138 1187 2",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Recruit Candidate",
+	"",
+
+  };
+
+  if(candidate in recruits)
+    candidate:= SystemFindObjectBySerial(candidate,1);
+    data[3]:= "Candidate "+ candidate.name +" has not yet been accepted.";
+  else
+    layout[11]:= "button 80 135 2474 2473 1 0 1";
+    data[3]:= "Recruit a new Candidate.";
+  endif
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  var targ:= Target(who,TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
+
+  candidate:= "";
+
+  var guild_pl:= GetObjProperty(targ,"guild_id");
+  var sponser:= GetObjProperty(targ,"guild_sponser");
+  if(sponser)
+    sponser:= SystemFindObjectBySerial(sponser,1);
+    candidate:= GetObjProperty(sponser,"guild_candidate");
+  endif
+
+  if(!targ.acctname)
+    SendSysMessage(who,"Cancelled. Choose a character.");
+    return;
+  elseif((guild_pl) or (candidate = targ.serial))
+    SendSysMessage(who,"Cancelled. That person is already in a guild.");
+    return;
+  endif
+
+  var oriname:= targ.name;
+
+  data[3]:= who.name +" has invited you to join "+ guild.getprop("guildname") +".";
+  layout[11]:= "button 250 170 2076 2075 1 0 1";
+  layout[12]:= "button 300 170 2073 2072 1 0 2";
+
+  res:= SendDialogGump(targ,layout,data);
+
+  if((!res[0]) or (res[0] = 2))
+    data[3]:= targ.name +" has declined your invitation to become a Candidate.";
+    layout[11]:= "";
+    layout[12]:= "";
+    SendDialogGump(who,layout,data);
+    return;
+  endif
+
+  var rsize:= recruits.size();
+  var i;
+
+  if(recruits[1] != "NONE")
+    for(i:= 1; i <= rsize; i:= i + 1)
+      if(CInt(recruits[i]) = targ.serial)
+        data[3]:= targ.name +" has very recently become a Candidate.";
+        layout[11]:= "";
+        layout[12]:= "";
+        SendDialogGump(who,layout,data);
+        return;
+      endif
+    endfor
+  else
+    rsize:= 0;
+  endif
+
+  recruits[rsize + 1]:= targ.serial;
+  guild.setprop("recruits",recruits);
+
+  SendSysMessage(targ,"You have been recruited as a Candidate to "+ guild.getprop("guildname") +".");
+
+  data[3]:= targ.name +" has accepted Candidacy.";
+  layout[11]:= "";
+  layout[12]:= "";
+  SendDialogGump(who,layout,data);
+
+  SetObjProperty(targ,"guild_sponser",who.serial);
+  SetObjProperty(who,"guild_candidate",targ.serial);
+
+  targ.name:= oriname;
+
+endfunction
+
+
+function Resign(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 169",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+
+	"text 115 138 1187 2",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Resignation",
+	"Resign from Guild?",
+
+  };
+  
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  var guild_pl:= GetObjProperty(who,"guild_id");
+
+  if(guild_pl != guild_id)
+    SendSysMessage(who,"You are not in this guild.");
+    return;
+  endif
+
+  GuildResign(who,stone);
+  exit;
+
+endfunction
+
+
+function ToggleTitle(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var abv:= guild.getprop("guildabv");
+  var tname:= "["+ abv +"]";
+  var guild_abv:= GetObjProperty(who,"guild_abv");
+
+  if(!guild_abv)
+    var gtitle:= GetObjProperty(who,"guild_title");
+    if(!gtitle)
+      SendSysMessage(who,"Cancelled. No guild title is set for you.");
+      who.title_guild:= abv;
+    else
+      who.title_guild:= gtitle +", "+ tname;
+      SetObjProperty(who,"guild_abv",1);
+    endif
+  else
+    EraseObjProperty(who,"guild_abv");
+    who.title_guild:= abv;
+  endif
+
+endfunction
+
+
+function GuildFaction(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var faction:= guild.getprop("type");
+  var guildname;
+
+  if(!faction)
+    faction:= "Standard";
+    guild.setprop("type","Standard");
+  endif
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 204",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+	"button 80 158 2474 2473 1 0 2",
+	"button 80 181 2474 2473 1 0 3",
+
+	"text 115 138 1187 2",
+	"text 115 161 1187 3",
+	"text 115 184 1187 4",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Faction",
+	"Order",
+	"Peace",
+	"Chaos",
+  };
+
+  if(faction = "Order")
+    layout[13]:= "text 115 138 73 2";
+  endif
+
+  if(faction = "Peace")
+    layout[14]:= "text 115 161 73 3";
+  endif
+
+  if(faction = "Chaos")
+    layout[15]:= "text 115 184 73 4";
+  endif
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+  var newtype;
+  if(res[0] = 1)
+    guild.setprop("type","Order");
+    newtype := "Order";
+  elseif(res[0] = 2)
+    guild.setprop("type","Standard");
+    newtype := "Standard";
+  elseif(res[0] = 3)
+    guild.setprop("type","Chaos");
+    newtype := "Chaos";
+  endif
+  if(stone.OrderChaos(guild, newtype))
+    guild.setprop("virtuetime", ReadGameClock()+(7*24*3600));
+    sleep(1);
+  endif
+endfunction
+
+
+function GuildType(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var type:= guild.getprop("faction");
+  var guildname;
+
+  if(!type)
+    type:= "Newcomer";
+    guild.setprop("faction", "Newcomer");
+  endif
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 204",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+	"button 80 158 2474 2473 1 0 2",
+
+	"text 115 138 1187 2",
+	"text 115 161 1187 3",
+	"text 115 184 1187 4",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Type",
+	"Warrior",
+	"Merchant",
+	"Newcomer",
+
+  };
+
+  if(type = "Warrior")
+    layout[12]:= "text 115 138 73 2";
+  elseif(type = "Merchant")
+    layout[13]:= "text 115 161 73 3";
+  elseif(type = "Newcomer")
+    layout[14]:= "text 115 184 73 4";
+  endif
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  var typetime:= guild.getprop("typetime");
+
+  if(ReadGameClock() < typetime)
+    SendSysMessage(who,"You can only change the guild type once a week.");
+    return;
+  endif
+
+  var clothing, i;
+  var guildmembers:= guild.members;
+
+  if(res[0] = 1)
+    guild.setprop("faction","Warrior");
+    for(i:= 1; i <= guildmembers.size(); i:= i + 1)
+      clothing:= GetObjProperty(guildmembers[i],"guild_clothing");
+      clothing:= SystemFindObjectBySerial(clothing,1);
+      MoveItemToContainer(clothing,guildmembers[i].backpack);
+      clothing.graphic:= 7939;
+    endfor
+  elseif(res[0] = 2)
+    guild.setprop("faction","Merchant");
+    for(i:= 1; i <= guildmembers.size(); i:= i + 1)
+      clothing:= GetObjProperty(guildmembers[i],"guild_clothing");
+      clothing:= SystemFindObjectBySerial(clothing,1);
+      MoveItemToContainer(clothing,guildmembers[i].backpack);
+      clothing.graphic:= 5435;
+      foreach gstatus in ListGuilds()
+        sleepms(1);
+        if(guild.isenemyguild(gstatus))
+          guild.removeenemyguild(gstatus);
+        endif
+      endforeach
+    endfor
+  endif
+
+  guild.setprop("typetime",ReadGameClock()+(7*24*3600));
+
+endfunction
+
+
+function GuildOrb(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var counter:= CInt((guild.getprop("guildicon") - 5545) / 2) + 1;
+  var orb:= guild.getprop("guildicon");
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var orbname:= {
+
+	"Advanced",
+	"Adventurer",
+	"Animal Tamer",
+	"Archer",
+	"Bard",
+	"Blacksmith",
+	"Battlefield Mage",
+	"Carpenter",
+	"Fencer",
+	"Field Medic",
+	"Fisherman",
+	"Mace Fighter",
+	"Magician",
+	"Merchant",
+	"Prospector",
+	"Ranger",
+	"Swordman",
+	"Tailor",
+	"Tinker",
+	"Tradesman",
+	"Warlock",
+	"Warrior"
+
+  };
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 180",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 355 141 5540 5541 1 0 1",
+	"button 125 141 5537 5538 1 0 2",
+
+	"text 200 141 1187 2",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Orb",
+	orbname[counter] +" Orb",
+
+  };
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  if(res[0] = 1)
+    if(orb = 5587)
+      orb:= 5545;
+    else
+      orb:= orb + 2;
+    endif
+    guild.setprop("guildicon",orb);
+  elseif(res[0] = 2)
+    if(orb = 5545)
+      orb:= 5587;
+    else
+      orb:= orb - 2;
+    endif
+    guild.setprop("guildicon",orb);
+  endif
+
+  GuildOrb(who,stone);
+
+endfunction
+
+
+function GuildColour(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var counter:= CInt(guild.getprop("guildcolour") - 2431);
+  if(!counter)
+    counter:= 1;
+  endif
+  var colour:= guild.getprop("guildcolour");
+  if(!colour)
+    colour:= COLOUR_START;
+  endif
+
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var colourname:= {
+
+	"Trim II",
+	"Trim",
+	"Orchaestra",
+	"Crash",
+	"Harmony",
+	"Chase",
+	"Flute",
+	"Symphony",
+	"Clash",
+	"Musica",
+	"Oren II",
+	"Tocotta",
+	"Oren III",
+	"Switch",
+	"Jazz",
+	"Tangerine",
+	"Blood",
+	"Green Acres",
+	"Devious",
+	"Omen",
+	"Silver",
+	"Hudson Hawk",
+	"Shatter",
+	"Melody",
+	"Deep Blue",
+	"Diminuendo",
+	"Forte",
+	"White",
+	"Piccoto",
+	"eowyn",
+	"Impetus",
+	"Perrin",
+	"Dark Trim I",
+	"Hint",
+	"Teppic",
+	"Andragorn",
+	"RedGlo II",
+	"Dark Trim II",
+	"BlueGlo",
+	"Dark Trim III",
+	"Dark Trim Omen",
+	"Dark Trim IV",
+	"Dark Trim V",
+	"Dark Trim VI",
+	"Florica",
+	"Impetus II",
+
+  };
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 180",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 355 141 5540 5541 1 0 1",
+	"button 125 141 5537 5538 1 0 2",
+
+	"text 200 141 1187 2",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Colour",
+	colourname[counter],
+
+  };
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    var clothing, i;
+    var allguilds:= guild.members;
+    for(i:= 1; i <= allguilds.size(); i:= i + 1)
+      clothing:= GetObjProperty(allguilds[i],"guild_clothing");
+      clothing:= SystemFindObjectBySerial(clothing,1);
+      MoveItemToContainer(clothing,allguilds[i].backpack);
+      clothing.color:= guild.getprop("guildcolour");
+    endfor
+    return;
+  endif
+
+  if(res[0] = 1)
+    if(colour = COLOUR_END)
+      colour:= COLOUR_START;
+    else
+      colour:= colour + 1;
+    endif
+    guild.setprop("guildcolour",colour);
+    stone.color:= colour;
+  elseif(res[0] = 2)
+    if(colour = COLOUR_START)
+      colour:= COLOUR_END;
+    else
+      colour:= colour - 1;
+    endif
+    guild.setprop("guildcolour",colour);
+    stone.color:= colour;
+  endif
+
+  GuildColour(who,stone);
+
+endfunction
+
+
+function GuildCharter(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var charter:= guild.getprop("gc");
+  var website:= guild.getprop("website");
+  var faction:= guild.getprop("type");
+  var type:= guild.getprop("faction");
+  var guildname;
+
+  if(!faction)
+    faction:= "Newcomer";
+    guild.setprop("faction","Newcomer");
+  endif
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  if(charter[1] = "NONE")
+    charter[1]:= "";
+    charter[2]:= "";
+    charter[3]:= "";
+    charter[4]:= "";
+    charter[5]:= "";
+    charter[6]:= "";
+    charter[7]:= "";
+    charter[8]:= "";
+    charter[9]:= "";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 5170 540 380",
+
+	"text 85 80 1189 0",
+	"text 86 81 1172 0",
+	"text 85 98 1189 1",
+	"text 86 99 1100 1",
+
+	"textentry 90 138 450 20 1187 1 2",
+	"textentry 90 161 450 20 1187 2 3",
+	"textentry 90 184 450 20 1187 3 4",
+	"textentry 90 207 450 20 1187 4 5",
+	"textentry 90 230 450 20 1187 5 6",
+	"textentry 90 253 450 20 1187 6 7",
+	"textentry 90 276 450 20 1187 7 8",
+	"textentry 90 299 450 20 1187 8 9",
+	"textentry 90 322 450 20 1187 9 10",
+	"text 100 345 1100 11",
+	"textentry 165 345 450 20 1100 10 12",
+
+  };
+
+  var data:= {
+
+	"Guild Charter of "+ guildname +".",
+	faction +" "+ type +" Guild.",
+	charter[1],
+	charter[2],
+	charter[3],
+	charter[4],
+	charter[5],
+	charter[6],
+	charter[7],
+	charter[8],
+	charter[9],
+	"Website:",
+	website,
+
+  };
+
+  var res:= SendDialogGump(who,layout,data);
+
+  var i:= 0;
+  var i2:= 0;
+  var split;
+
+  while(i != 10)
+    i:= i + 1;
+    i2:= 1;
+    if(res[i])
+      split:= SplitWords(res[i]);
+      charter[i]:= "";
+      while(i2 != len(split))
+        i2:= i2 + 1;
+        if(charter[i] = "")
+          charter[i]:= split[i2];
+        else
+          charter[i]:= charter[i] +" "+ split[i2];
+        endif
+      endwhile
+    endif
+  endwhile
+
+  guild.setprop("gc",charter);
+  i2:= 1;
+
+  split:= SplitWords(res[10]);
+  website:= "";
+  while(i2 != len(split))
+    i2:= i2 + 1;
+    if(website = "")
+      website:= split[i2];
+    else
+      website:= website +" "+ split[i2];
+    endif
+  endwhile
+
+  guild.setprop("website",website);
+
+endfunction
+
+
+function DismissMember(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var guildmembers:= guild.members;
+  var guildname;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Dismiss Members",
+
+  };
+
+  foreach gstatus in (guild.members)
+    sleepms(1);
+    if(who.serial != gstatus.serial)
+      layout.append("text " + col + " " + rowcount + " 1187 " + locationscount);
+      layout.append("button 80 "+ (rowcount - 3) +" 2474 2473 1 0 "+ gstatus.serial);
+      data.append(gstatus.name);
+      locationscount:= locationscount + 1;
+      rowcount:= rowcount + 23;
+      size:= size + 23;
+    endif
+  endforeach
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  var res:= SendDialogGump(who,layout,data);
+  var i;
+
+  if(!res[0])
+    return;
+  endif
+
+  for(i:= 1; i < guildmembers.size(); i:= i + 1)
+    if(guildmembers[i].serial = res[0])
+      break;
+    endif
+  endfor
+
+  if(res[0] = gm[2])
+    guild.setprop("gm",0);
+  endif
+
+  guild.removemember(guildmembers[i]);
+  EraseObjProperty(guildmembers[i],"guild_id");
+  EraseObjProperty(guildmembers[i],"guild_fealty");
+  EraseObjProperty(guildmembers[i],"guild_candidate");
+  EraseObjProperty(guildmembers[i],"guild_sponser");
+  EraseObjProperty(guildmembers[i],"guild_abv");
+  guildmembers[i].title_guild:= "";
+  SendSysMessage(guildmembers[i],"You are no longer a member of "+ guild.getprop("guildname") +".");
+  SendSysMessage(who,guildmembers[i].name +" has been dismissed.");
+  var clothing:= GetObjProperty(guildmembers[i],"guild_clothing");
+  clothing:= SystemFindObjectBySerial(clothing.serial);
+  if(!DestroyItem(clothing))
+    Start_Script("destroyitem",clothing);
+  endif
+  EraseObjProperty(guildmembers[i],"guild_clothing");
+
+endfunction
+
+
+function GuildStances(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var faction := guild.getprop("type");
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var count:= 0;
+  var pagecount:= 1;
+  var type:= guild.getprop("faction");
+  var guildname, stance;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") + " [" + guild.getprop("guildabv") + "]";
+  endif
+
+  var layout:= {
+
+	"page 0",
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+	"page 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Guild Stances",
+
+  };
+
+  foreach gstatus in ListGuilds()
+    sleepms(1);
+    count:= count + 1;
+    if(count = 18)
+      count:= 1;
+      pagecount:= pagecount + 1;
+      rowcount:= 138;
+      layout.append("button 395 540 2648 2647 0 "+ (pagecount));
+      layout.append("page "+ pagecount);
+      layout.append("button 395 100 2650 2651 0 "+ (pagecount - 1));
+    endif
+    if(guild.guildid != gstatus.guildid)
+      layout.append("text "+ col +" "+ rowcount +" 1187 "+ locationscount);
+      layout.append("button 80 "+ (rowcount - 3) +" 2474 2473 1 0 "+ gstatus.guildid);
+      if(guild.getprop("stance"+ gstatus.guildid) = 1)
+        stance:= "Declaration of War";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 2)
+        stance:= "Proposition of an Alliance";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 3)
+        stance:= "Declaration of Peace";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 4)
+        stance:= "Proposition of Break Alliance";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 5)
+        stance:= "has Declared War";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 6)
+        stance:= "has Proposed an Alliance";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 7)
+        stance:= "has Declared a Peace Treaty";
+      elseif(guild.getprop("stance"+ gstatus.guildid) = 8)
+        stance:= "has Proposed to Break the Alliance";
+      elseif(guild.isallyguild(gstatus))
+        stance:= "Allied";
+      elseif(guild.isenemyguild(gstatus))
+        stance:= "at War";
+      else
+        stance:= "at Peace";
+      endif
+      data.append(gstatus.getprop("guildname") +" ["+ gstatus.getprop("guildabv") +"], "+ stance +".");
+      locationscount:= locationscount + 1;
+      rowcount:= rowcount + 23;
+      size:= size + 23;
+    endif
+  endforeach
+
+  if(pagecount > 1)
+    size:= 537;
+  endif
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  var gstatus:= FindGuild(res[0]);
+  var type2:= gstatus.getprop("type");
+
+  layout:= {
+
+	"nodispose",
+
+	"resizepic 50 50 2600 400 169",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+	"button 80 135 2474 2473 1 0 1",
+
+	"text 115 138 1187 2",
+
+  };
+
+  data:= {
+
+	gstatus.getprop("guildname") +" ["+ gstatus.getprop("guildabv") +"]",
+	gstatus.getprop("faction") +" "+ gstatus.getprop("type") +" Guild",
+	"",
+	"",
+
+  };
+
+  if(guild.getprop("stance"+ gstatus.guildid) = 1)
+    data[3]:= "Break Declaration of War";
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 2)
+    data[3]:= "Break Declaration of Alliance";
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 3)
+    data[3]:= "Break Declaration of Peace";
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 4)
+    data[3]:= "Break Declaration of Breaking Alliance";
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 5)
+    data[3]:= "Accept Declaration of War";
+    data[4]:= "Deny Declaration of War";
+    layout[2]:= "resizepic 50 50 2600 400 192";
+    layout.append("text 115 161 1187 3");
+    layout.append("button 80 158 2474 2473 1 0 2");
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 6)
+    data[3]:= "Accept Alliance Proposition";
+    data[4]:= "Decline Alliance Proposition";
+    layout[2]:= "resizepic 50 50 2600 400 192";
+    layout.append("text 115 161 1187 3");
+    layout.append("button 80 158 2474 2473 1 0 2");
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 7)
+    data[3]:= "Accept Peace Treaty";
+    data[4]:= "Decline Peace Treaty";
+    layout[2]:= "resizepic 50 50 2600 400 192";
+    layout.append("text 115 161 1187 3");
+    layout.append("button 80 158 2474 2473 1 0 2");
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 8)
+    data[3]:= "Accept Break Alliance";
+    data[4]:= "Decline Break Alliance";
+    layout[2]:= "resizepic 50 50 2600 400 192";
+    layout.append("text 115 161 1187 3");
+    layout.append("button 80 158 2474 2473 1 0 2");
+  elseif(guild.isallyguild(gstatus))
+    data[3]:= "Declaration of Breaking of Alliance.";
+  elseif(guild.isenemyguild(gstatus))
+    data[3]:= "Declaration of Peace";
+  else
+    data[3]:= "Declaration of War";
+    data[4]:= "Declaration of Alliance";
+    layout[2]:= "resizepic 50 50 2600 400 192";
+    layout.append("text 115 161 1187 3");
+    layout.append("button 80 158 2474 2473 1 0 2");
+  endif
+
+  res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  if(guild.getprop("stance"+ gstatus.guildid) = 1)
+    guild.eraseprop("stance"+ gstatus.guildid);
+    gstatus.eraseprop("stance"+ guild.guildid);
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 2)
+    guild.eraseprop("stance"+ gstatus.guildid);
+    gstatus.eraseprop("stance"+ guild.guildid);
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 3)
+    guild.eraseprop("stance"+ gstatus.guildid);
+    gstatus.eraseprop("stance"+ guild.guildid);
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 4)
+    guild.eraseprop("stance"+ gstatus.guildid);
+    gstatus.eraseprop("stance"+ guild.guildid);
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 5)
+    if(res[0] = 1)
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+      guild.addenemyguild(gstatus);
+      gstatus.addenemyguild(guild);
+    else
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+    endif
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 6)
+    if(res[0] = 1)
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+      guild.addallyguild(gstatus);
+      gstatus.addallyguild(guild);
+    else
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+    endif
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 7)
+    if(res[0] = 1)
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+      guild.removeenemyguild(gstatus);
+      gstatus.removeenemyguild(guild);
+    else
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+    endif
+  elseif(guild.getprop("stance"+ gstatus.guildid) = 8)
+    if(res[0] = 1)
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+      guild.removeallyguild(gstatus);
+      gstatus.removeallyguild(guild);
+    else
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+    endif
+  elseif(guild.isallyguild(gstatus))
+    if(((type = "Newcomer") or (type2 = "Standard")) or ((type = "Merchant") or (type2 = "Standard")))
+      guild.setprop("stance"+ gstatus.guildid,4);
+      gstatus.setprop("stance"+ guild.guildid,8);
+    elseif(((type = "Warrior")) or ((type = "Warrior") && (type2)))
+      guild.removeallyguild(gstatus);
+      gstatus.removeallyguild(guild);
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+    endif
+  elseif(guild.isenemyguild(gstatus))
+    if(((type = "Newcomer") or (type2 = "Standard")) or ((type = "Merchant") or (type2 = "Standard")))
+      guild.removeenemyguild(gstatus);
+      gstatus.removeenemyguild(guild);
+      guild.eraseprop("stance"+ gstatus.guildid);
+      gstatus.eraseprop("stance"+ guild.guildid);
+    elseif(((type = "Warrior")) or ((type = "Warrior") && (type2)))
+      guild.setprop("stance"+ gstatus.guildid,3);
+      gstatus.setprop("stance"+ guild.guildid,7);
+    endif
+  else
+    if(res[0] = 1)
+      if(((type = "Newcomer") or (type2 = "Standard")) or ((type = "Merchant") or (type2 = "Standard")))
+        guild.setprop("stance"+ gstatus.guildid,1);
+        gstatus.setprop("stance"+ guild.guildid,5);
+    elseif(((type = "Warrior")) or ((type = "Warrior") && (type2)))
+        guild.addenemyguild(gstatus);
+        gstatus.addenemyguild(guild);
+      endif
+    else
+      guild.setprop("stance"+ gstatus.guildid,2);
+      gstatus.setprop("stance"+ guild.guildid,6);
+    endif
+  endif
+
+endfunction
+
+
+
+function AcceptCandidate(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var guildname, chr, sponser, i;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Accept Candidate",
+
+  };
+
+  foreach gstatus in (guild.getprop("recruits"))
+    layout.append("text "+ col +" "+ rowcount +" 1187 "+ locationscount);
+    layout.append("button 80 "+ (rowcount - 3) +" 2474 2473 1 0 "+ gstatus);
+    chr:= SystemFindObjectBySerial(gstatus,1);
+    sponser:= GetObjProperty(chr,"guild_sponser");
+    sponser:= SystemFindObjectBySerial(sponser,1);
+    data.append("Candidate "+ chr.name +", sponsered by "+ sponser.name +".");
+    locationscount:= locationscount + 1;
+    rowcount:= rowcount + 23;
+    size:= size + 23;
+  endforeach
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  chr:= SystemFindObjectBySerial(res[0]);
+
+  if(!chr)
+    chr:= SystemFindObjectBySerial(res[0],1);
+  endif
+
+  var oriname:= chr.name;
+
+  guildname:= guild.getprop("guildname");
+  SendSysMessage(chr,"You have been accepted into "+ guildname +".");
+  var guild_pl:= GetObjProperty(chr,"guild_id");
+
+  if(guild_pl)
+    SendSysMessage(who,chr.name +" is already in a guild.");
+    return;
+  endif
+
+  guild.addmember(chr);
+  SetObjProperty(chr,"guild_id",guild_id);
+
+  sponser:= GetObjProperty(chr,"guild_sponser");
+  sponser:= SystemFindObjectBySerial(sponser,1);
+
+  EraseObjProperty(sponser,"guild_candidate");
+  EraseObjProperty(chr,"guild_sponser");
+
+  SetObjProperty(chr,"guild_fealty",sponser.serial);
+
+  var recruits:= guild.getprop("recruits");
+
+  if(recruits.size() = 1)
+    recruits:= {};
+  else
+    for(i:= 1; i <= recruits.size(); i:= i + 1)
+      if(recruits[i] = res[0])
+        recruits.erase(i);
+        break;
+      endif
+    endfor
+  endif
+
+  var type:= guild.getprop("faction");
+  var clothing;
+
+  if(type = "Newcomer")
+    clothing:= CreateItemInBackpack(chr,0x1541);
+  elseif(type = "Merchant")
+    clothing:= CreateItemInBackpack(chr,0x153b);
+  elseif(type = "Warrior")
+    clothing:= CreateItemInBackpack(chr,0x1f03);
+  endif
+
+  clothing.color:= guild.getprop("guildcolour");
+  clothing.name:= guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]";
+  clothing.newbie:= 1;
+  clothing.dyable:= 0;
+
+  SetObjProperty(chr,"guild_clothing",clothing.serial);
+  SetObjProperty(chr,"guild_title","Initiate");
+
+  guild.setprop("recruits",recruits);
+
+  chr.title_guild:= "Initiate, ["+ guild.getprop("guildabv") +"]";
+  chr.name:= oriname;
+
+endfunction
+
+
+function RefuseCandidate(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var guildname, sponser, chr, i;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Refuse Candidate",
+
+  };
+
+  foreach gstatus in (guild.getprop("recruits"))
+    layout.append("text "+ col +" "+ rowcount +" 1187 "+ locationscount);
+    layout.append("button 80 "+ (rowcount - 3) +" 2474 2473 1 0 "+ gstatus);
+    chr:= SystemFindObjectBySerial(gstatus,1);
+    sponser:= GetObjProperty(chr,"guild_sponser");
+    sponser:= SystemFindObjectBySerial(sponser,1);
+    data.append("Candidate "+ chr.name +", sponsered by "+ sponser.name +".");
+    locationscount:= locationscount + 1;
+    rowcount:= rowcount + 23;
+    size:= size + 23;
+  endforeach
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  var res:= SendDialogGump(who,layout,data);
+  res[0]:= SystemFindObjectBySerial(res[0]);
+  
+  if(!res[0])
+    res[0]:= SystemFindObjectBySerial(res[0],1);
+  endif
+  
+  guildname:= guild.getprop("guildname");
+  
+  SendSysMessage(chr,"You have been refused to join "+ guildname +".");
+
+  sponser:= GetObjProperty(res[0],"guild_sponser");
+  sponser:= SystemFindObjectBySerial(sponser,1);
+
+  EraseObjProperty(sponser,"guild_candidate");
+  EraseObjProperty(res[0],"guild_sponser");
+
+  var recruits:= guild.getprop("recruits");
+
+  if(recruits.size() = 1)
+    recruits:= {};
+  else
+    for(i:= 1; i <= recruits.size(); i:= i + 1)
+      if(recruits[i] = res[0].serial)
+        recruits.erase(i);
+        break;
+      endif
+    endfor
+  endif
+  
+  guild.setprop("recruits",recruits);
+  
+endfunction
+
+             
+function GrantTitle(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var gm:= FindGM(guild);
+  var locationscount:= 2;
+  var rowcount:= 138;
+  var size:= 142;
+  var col:= 115;
+  var guildname, i, title;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]";
+  endif
+
+  var layout:= {
+
+	"nodispose",
+
+	"",
+	"gumppic 132 28 1419",
+	"gumppic 209 10 1417",
+
+	"gumppic 219 18 "+ guild.getprop("guildicon"),
+
+	"text 104 89 1191 0",
+	"text 105 90 1185 0",
+	"text 104 107 1191 1",
+	"text 105 108 1100 1",
+
+  };
+
+  var data:= {
+
+	guildname,
+	"Grant Title",
+
+  };
+
+  foreach gstatus in (guild.members)
+    layout.append("text "+ col +" "+ rowcount +" 1187 "+ locationscount);
+    layout.append("button 80 "+ (rowcount - 3) +" 2474 2473 1 0 "+ gstatus.serial);
+    title:= GetObjProperty(gstatus,"guild_title");
+    if(gstatus.serial = gm[2])
+      if(title)
+        data.append("Guildmaster "+ gstatus.name +", "+ title);
+      else
+        data.append("Guildmaster "+ gstatus.name);
+      endif
+    else
+      if(title)
+        data.append(gstatus.name +", "+ title);
+      else
+        data.append(gstatus.name);
+      endif
+    endif
+    locationscount:= locationscount + 1;
+    rowcount:= rowcount + 23;
+    size:= size + 23;
+  endforeach
+
+  layout[2]:= "resizepic 50 50 2600 400 "+ size;
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  var tname:= RequestInput(who,who.backpack,"Insert a title for this guildmember.");
+
+  if(!tname)
+    return;
+  endif
+
+  if(len(tname) > MAX_GUILD_TITLE_SIZE)
+    SendSysMessage(who, "Your title can't have more than "+ MAX_GUILD_TITLE_SIZE +" characters.");
+    return;
+  endif
+
+  if(!NameValidation(tname))
+    SendSysMessage(who,"You are using invalid characters or names.");
+    return;
+  endif
+
+  var all:= guild.members;
+
+  for(i:= 1; i < all.size(); i:= i + 1)
+    if(all[i].serial = res[0])
+      break;
+    endif
+  endfor
+
+  SetObjProperty(all[i],"guild_title",tname);
+  all[i].title_guild:= tname +", ["+ guild.getprop("guildabv") +"]";
+
+endfunction
+
+
+function MoveGuildstone(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+
+  if(ReadGameClock() < guild.getprop("movetime"))
+    SendSysMessage(who,"The guild stone can only be moved once a week.");
+    return;
+  endif
+
+  guild.setprop("movetime",ReadGameClock()+(7*24*3600));
+
+  stone.movable:= 1;
+  stone.newbie:= 1;
+  MoveItemToContainer(stone,who.backpack);
+  stone.graphic:= UOBJ_PACKED_GUIDSTONE_GRAPHIC;
+  stone.movable:= 0;
+  stone.usescript:=":guildstone:guildMove";
+  SendSysMessage(who,"Double click on the stone in your backpack to place the stone.");
+
+  exit;
+
+endfunction
+
+
+function ChangeName(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+
+  var changetime:= guild.getprop("nametime");
+
+  if(ReadGameClock() < changetime)
+    SendSysMessage(who,"You can only change the guild name once a week.");
+    return;
+  endif
+
+  var tname:= RequestInput(who,who.backpack,"Insert the new guild name.");
+
+  if(!tname)
+    return;
+  endif
+
+  if(len(tname) > MAX_GUILD_NAME_SIZE)
+    SendSysMessage(who,"Guild name can't have more than "+ MAX_GUILD_NAME_SIZE +" characters.");
+    return;
+  endif
+
+  var allguilds:= ListGuilds();
+  var dupe:= 0;
+  var i;
+
+  for(i:= 1; i <= allguilds.size(); i:= i + 1)
+    if(lower(allguilds[i].getprop("guildname")) = lower(tname))
+      dupe:= 1;
+    endif
+  endfor
+
+  if(dupe = 1)
+    SendSysMessage(stone,"That guild name is already taken.");
+    return;
+  endif
+
+  if(!NameValidation(tname))
+    SendSysMessage(who,"You are using invalid characters or names.");
+    return;
+  endif
+
+  stone.name:= "Guildstone for "+ tname;
+  guild.setprop("guildname",tname);
+  guild.setprop("nametime",ReadGameClock()+(7*24*3600));
+  var guildname, clothing, title;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]";
+  endif
+
+  var all:= guild.members;
+
+  for(i:= 1; i <= all.size(); i:= i + 1)
+    title:= GetObjProperty(all[i],"guild_title");
+    all[i].title_guild:= title +", ["+ guild.getprop("guildabv") +"]";
+    clothing:= GetObjProperty(all[i],"guild_clothing");
+    clothing:= SystemFindObjectBySerial(clothing,1);
+    clothing.name:= guildname;
+  endfor
+
+endfunction
+
+
+function ChangeAbbreviation(who,stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  
+  var changetime:= guild.getprop("abvtime");
+
+  if(ReadGameClock() < changetime)
+    SendSysMessage(who,"You can only change the guild abbreviation once a week.");
+    return;
+  endif
+
+  var tname:= RequestInput(who,who.backpack,"Insert a new abbreviation?");
+
+  if(!tname)
+    return;
+  endif
+
+  if(len(tname) > MAX_GUILD_ABREV_SIZE)
+    SendSysMessage(who,"Abbreviation can't have more than "+ MAX_GUILD_ABREV_SIZE +" characters.");
+    return;
+  endif
+
+  var allguilds:= ListGuilds();
+  var dupe:= 0;
+  var abv, name, title, i;
+
+  for(i:= 1; i <= allguilds.size(); i:= i + 1)
+    if(lower(allguilds[i].getprop("guildabv")) = lower(tname))
+      dupe:= 1;
+    endif
+  endfor
+
+  if(dupe = 1)
+    SendSysMessage(stone,"That abbreviation is already in use.");
+    return;
+  endif
+  if(!NameValidation(tname))
+    SendSysMessage(who,"You are using invalid characters or names.");
+    return;
+  endif
+
+  guild.setprop("guildabv",tname);
+  guild.setprop("abrvtime",ReadGameClock()+(7*24*3600));
+  var guildname, clothing;
+
+  if(guild.getprop("guildabv") = "NONE")
+    guildname:= guild.getprop("guildname");
+  else
+    guildname:= guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]";
+  endif
+
+  var all:= guild.members;
+
+  for(i:= 1; i <= all.size(); i:= i + 1)
+    title:= GetObjProperty(all[i],"guild_title");
+    all[i].title_guild:= title +", ["+ guild.getprop("guildabv") +"]";
+    clothing:= GetObjProperty(all[i],"guild_clothing");
+    clothing:= SystemFindObjectBySerial(clothing,1);
+    clothing.name:= guildname;
+  endfor
+
+endfunction
+
+
+function NameValidation(thestring)
+
+  var validstr:= {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","$","*","&","#","!","+","-"," ","'"};
+  var invalidnames:= {"fuck","shit","cunt","bitch","whore","slut","motherfucker","stfu","69","dick","penis","asshole","pussy","staff","gm","gamemaster","seer","counselor","councilor","councillor","admin","administrator","trainee","developer","oracle","soothsayer","inv","invulnerable","frozen","suxx","sucks","suxx0rs","sux0rs"};
+  var i;
+
+  thestring:= lower(thestring);
+
+  for(i:= 1; i <= len(thestring); i:= i + 1)
+    if(!(thestring[i] in validstr))
+      return 0;
+    endif
+  endfor
+
+  thestring:= SplitWords(thestring);
+
+  for(i:= 1; i <= len(thestring); i:= i + 1)
+    if(thestring[i] in invalidnames)
+      return 0;
+    endif
+  endfor
+
+  return 1;
+  
+endfunction

@@ -1,0 +1,79 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/eventid";
+include "include/myutil";
+
+program Place_Deed (character, deed)
+	if (!ReserveItem (deed))
+		SendSysMessage (character, "You can't use this right now.");
+		return;
+	endif
+
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1)
+ 		If (item.isa (POLCLASS_DOOR))
+			SendSysMessage (character, "You're too close to a door!");
+			return;
+  		endif
+	endforeach
+
+	var characterx := character.x;
+	var charactery := character.y;
+
+	var item, sign;
+	case (deed.objtype)
+		0xB00d:	//Piano
+			CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_piano");
+		default:
+			SendSysMessage (character, "That deed appears to be broken.");
+			return;
+			
+	endcase
+
+endprogram
+
+///////////////////
+//  Reads a config file and created the multipart item from that.
+///////////////////
+
+function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilename)
+	var cfgfile := ReadConfigFile(cfgfilename);
+	if (!cfgfile)
+		SendSysMessage (character, "This seems to be broken...");
+		return;
+	endif
+
+	var itemserials := {};
+	foreach cfgkey in GetConfigIntKeys (cfgfile)
+		var elem := FindConfigElem (cfgfile, cfgkey);
+		var itemx := x + elem.x;
+		var itemy := y + elem.y;
+		var itemz := z + elem.z;
+
+		var item := CreateItemAtLocation (itemx, itemy, itemz, elem.objtype, 1);
+		if (!item)
+			SendSysMessage (character, "Error creating item.");
+			return;
+		endif
+		item.movable := 0;
+		SetObjProperty (item, "deedobjtype", deed.objtype);
+		itemserials.append (item.serial);
+
+		if (elem.color)
+			item.color := elem.color;
+		endif
+		if (elem.name)
+			item.name := elem.name;
+		endif
+		if (elem.facing)
+			item.facing := elem.facing;
+		endif
+	endforeach
+
+	foreach serial in itemserials
+		var item := SystemFindObjectBySerial (serial);
+		SetObjProperty (item, "otheritems", itemserials);
+	endforeach
+	DestroyItem (deed);
+endfunction

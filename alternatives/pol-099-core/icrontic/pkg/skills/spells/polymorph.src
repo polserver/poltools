@@ -1,0 +1,83 @@
+use cfgfile;
+use os;
+use util;
+
+include "include/spellRestrictions";
+include "include/attributes";
+include "include/client";
+
+Const EFFECT_BLUE_SPARKLE  := 0x373a;
+const SFX_CHANGE := 0x1;
+
+program cast_poly( parms )
+  var circle := 7;
+  var delivery := "notarget";
+  var noto := "helpful";
+  var result := maincast(parms, delivery, circle, noto, 56);
+  if(!result)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  var magery     := CInt(GetEffectiveSkill(caster, SKILLID_MAGERY));
+  var meditation := CInt(GetEffectiveSkill(caster, SKILLID_MEDITATION));
+  var evalint    := CInt(GetEffectiveSkill(caster, SKILLID_EVALINT));
+
+
+var cfg := readconfigfile(":spells:polymorph");
+var maxint := getconfigmaxintkey(cfg);
+var i:= 1;
+var tmenu := createmenu("What form would you like to assume?");
+var texit := 0;
+
+while (!texit)
+        var elem := cfg[i];
+        if (!i)
+                texit := 1;
+        else
+                if (meditation >= elem.difficulty)
+                        sleepms(1);
+                        AddMenuItem( tmenu, elem.menu, elem.name );
+                else
+                        texit := 1;
+                endif
+                i := i + 1;
+        endif
+endwhile
+
+var sel := selectmenuitem2(caster, tmenu);
+
+if (!sel)
+        return;
+endif
+
+var elem := cfg[sel.index];
+
+if (!elem)
+        print("Error with polymorphing!");
+        return;
+endif
+
+if (checkskill(caster, SKILLID_MAGERY, elem.difficulty, elem.points))
+        SetObjProperty(caster, "poly", 1);
+        PlayObjectCenteredEffect( caster, SFX_CHANGE, 10,10);
+        PlayObjectCenteredEffect( caster, EFFECT_BLUE_SPARKLE, 10,10);
+        caster.graphic := elem.graphic;
+        if ( elem.graphic == 0x96 )
+	  caster.color := 233;
+        else
+	  caster.color := 0;
+        endif
+        var magerydur := magery/2;
+        var meditadur := magerydur + meditation/10;
+        var duration  := meditadur + evalint/10;
+        Detach();
+        sleep(duration);
+        caster.graphic := caster.objtype;
+        caster.color := caster.truecolor;
+        EraseObjProperty(caster,"poly");
+else
+        sendsysmessage(caster, "You fail to transform yourself");
+endif
+
+endprogram

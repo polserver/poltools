@@ -1,0 +1,13 @@
+use cfgfile;
+use util;
+use uo;
+use os;
+include "include/attributes";
+include "include/client";
+
+program minisound(who, mini)
+var cfg  := ReadConfigFile( "itemdesc" );
+  var element  := FindConfigElem(cfg,  mini.objtype);
+  var msound  := GetConfigInt(element, "sound");
+PlaySoundEffect(who, msound);
+endprogram

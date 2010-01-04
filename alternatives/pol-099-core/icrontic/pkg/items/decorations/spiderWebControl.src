@@ -1,0 +1,17 @@
+use uo;
+use os;
+
+// Thanks to Menace from the TUS dev team for letting me borrow his idea!
+
+program spiderwebctl(web)
+
+sleep(120);
+var spider := CInt(GetObjProperty(web, "spider"));
+var npc := SystemFindObjectBySerial( spider);
+if(npc)
+  SetObjProperty(npc, "maxwebs", (GetObjProperty(npc, "maxwebs") - 1));
+endif
+
+DestroyItem(web);
+
+endprogram

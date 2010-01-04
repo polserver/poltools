@@ -1,0 +1,128 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+
+const sfx_meditation := 0xfa;
+
+include "include/client";
+include "include/attributes";
+
+program meditation( who )
+  var skillregenrate := 0;
+  EraseObjProperty(who, "HealTimer");
+  var XXX:=who.x;
+  var YYY:=who.y;
+  var cstam:=GetStamina(who);
+  var poisoned := CInt(GetObjProperty(who,"poison_level"));
+  var skill, chp, waittime, managain;
+  if (GetMana(who) >= GetIntelligence(who))
+	SendSysMessage( who, "Your mana is full." );
+	Detach();
+	return;
+  endif
+  if (poisoned >= 1)
+    SendSysMessage( who, "You cannot meditate while poisoned." );
+	Detach();
+    return;
+  endif
+  if(who.warmode)
+    SendSysMessage(who, "You cannot meditate in war mode");
+	Detach();
+    return;
+  endif
+  var med := GetEffectiveSkill(who,SKILLID_MEDITATION);
+  var manaloss := figureManaLoss(who);
+  if(manaloss == "nomed")
+    SendSysMessage(who, "Regenerative forces cannot penetrate your armor.");
+    return;
+  endif
+  var diff := 100 - ((GetMana(who) * 100) / GetIntelligence(who));
+  diff := diff + CInt(manaloss / 100);
+  if(diff < 0)
+    diff := 0;
+  elseif(diff > 120)
+    diff := 120;
+  endif
+  var pts := diff * 2;
+  if(CheckSkill(who, 46, diff, pts))
+    SendSysMessage(who, "You start to meditate.");
+    PlaySoundEffect(who, sfx_meditation);
+    PrintTextAbove(who, "*Meditating*");;
+    Detach();
+    SetObjProperty(who, "IsMeditating", 1);
+    while((GetObjProperty(who,"IsMeditating")) && (XXX==who.x) && (YYY==who.y) && (!who.warmode) && (!IsThingOnHand(who)) && (!who.hidden))
+      if(figureManaLoss(who) == "nomed")
+        SendSysMessage(who,"Regenerative forces cannot penetrate your armor.");
+        EraseObjProperty(who, "IsMeditating");
+        break;
+      elseif(GetObjProperty(who, "poison_level"))
+        EraseObjProperty(who, "IsMeditating");
+		break;
+      elseif(GetMana(who) >= GetMaxMana(who))
+        EraseObjProperty(who, "IsMeditating");
+        SetMana(who, GetMaxMana(who));
+		break;
+      elseif(GetHp(who) < chp)
+        EraseObjProperty(who, "IsMeditating");
+		break;
+	  endif
+
+      sleep(1);
+      skillregenrate := Cint(1200 + (med * 3)) * CInt(med / 10);
+      manaloss := figureManaLoss(who);
+      if(manaloss > 0)
+        skillregenrate := CInt(skillregenrate - (manaloss * 2));
+      endif
+      if(skillregenrate < 1200)
+        skillregenrate := 1500;
+      endif
+      SetManaRegenRate(who, skillregenrate);
+      chp := GetHp(who);
+    endwhile
+    SendSysMessage(who, "You lose your concetration.");
+    start_script(":meditation:medCheck", who);
+    EraseObjProperty(who, "IsMeditating");
+  else
+    SendSysMessage(who, "You cant focus your concentration");
+    EraseObjProperty(who, "IsMeditating");
+  endif
+endprogram
+
+function IsThingOnHand(who)
+  var wepcfg := readconfigfile(":*:itemdesc");
+  var hand1 := (GetEquipmentByLayer(who, 1));
+  var hand2 := (GetEquipmentByLayer(who, 2));
+  if(hand1 && (wepcfg[hand1.objtype].BlocksCastingIfInHand!=0))
+    SendSysMessage(who,"You cannot meditate with things in your hands.");
+    return 1;
+  endif
+  if(hand2 && (wepcfg[hand2.objtype].BlocksCastingIfInHand!=0))
+    SendSysMessage(who,"You cannot meditate with things in your hands.");
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function figureManaLoss(who)
+  var combatcfg := ReadConfigFile(":combat:itemdesc");
+  var loss := 0;
+  var newloss := 0;
+  foreach thing in ListEquippedItems(who)
+    newloss := combatcfg[thing.objtype].medloss;
+    if(!newloss or newloss.errortext)
+      newloss := 0;
+    endif
+    if(newloss == "nomed")
+      SetObjProperty(who, "#ManaLoss", "nomed");
+      loss := "nomed";
+      break;
+    else
+      loss := loss + Cint(newloss);
+    endif
+  endforeach
+  if(loss != "nomed")
+    SetObjProperty(who, "#ManaLoss", CInt(loss));
+  endif
+  return loss;
+endfunction

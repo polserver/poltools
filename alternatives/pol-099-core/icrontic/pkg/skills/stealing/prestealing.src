@@ -1,0 +1,19 @@
+
+
+use uo;
+use os;
+
+program prestealing(who,guanti)
+sendsysmessage(who,"sucka");
+
+    var stato;
+
+    if(GetObjProperty(who,"#snooper"))
+	stato := "stealing";
+    else
+	stato := "../snooping/snooping";
+    endif
+
+    start_script(stato, who);
+
+endprogram

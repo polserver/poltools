@@ -1,0 +1,30 @@
+use cfgfile;
+use util;
+use uo;
+use os;
+include "include/attributes";
+include "include/client";
+
+program snowglobe(who, deed)
+
+var townname;
+var newglobe := CreateItemAtLocation(5228, 1182, 0, 0x0e30,1);
+var bpack := GetEquipmentByLayer(who, 21);
+var rndnum := RandomDiceRoll("1d8");
+
+case(rndnum)
+1:townname := "Britain";
+2:townname := "Buc's Den";
+3:townname := "Trinsic";
+4:townname := "Vesper";
+5:townname := "Moonglow";
+6:townname := "Cove";
+7:townname := "Yew";
+8:townname := "Skara Brae";
+endcase
+newglobe.color := 0x0480;
+newglobe.name := "a snowy scene of " + townname;
+DestroyItem(deed);
+MoveItemToContainer( newglobe, bpack, x := -1, y := -1 );
+
+endprogram

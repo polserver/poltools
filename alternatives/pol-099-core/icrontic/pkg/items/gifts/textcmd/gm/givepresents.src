@@ -1,0 +1,79 @@
+use os;
+use uo;
+use util;
+
+Program textcmd_givepresents(who)
+
+var player1, player2, player3, player4, player5;
+var act, gift, prizeadd;
+sendsysmessage(who, "Giving out Presents to all characters for christmas!!");
+
+foreach acctname in ListAccounts ()
+	act := FindAccount (acctname);
+	if(act)
+          sleepms(2);
+          var gift := randomint(14);
+          player1 := act.GetCharacter(1);
+          player2 := act.GetCharacter(2);
+          player3 := act.GetCharacter(3);
+          player4 := act.GetCharacter(4);
+          player5 := act.GetCharacter(5);
+        
+          if(!player1.errortext)
+            GiveThem(player1, gift, prizeadd);
+          elseif(!player2.errortext)
+            GiveThem(player2, gift, prizeadd);
+          elseif(!player3.errortext)
+            GiveThem(player3, gift, prizeadd);
+          elseif(!player4.errortext)
+            GiveThem(player4, gift, prizeadd);
+          elseif(!player5.errortext)
+            GiveThem(player5, gift, prizeadd);
+          else
+            sleepms(2);
+          endif
+        endif
+        
+endforeach
+
+sendsysmessage(who, "Done");
+
+endprogram
+
+function GiveThem(who, gift, prizeadd)
+
+    case(gift)
+
+      13: prizeadd := CreateItemInBackpack( who, 0x2113);
+          break;
+      12: prizeadd := CreateItemInBackpack( who, 0x3e9);
+          break;
+      11: prizeadd := CreateItemInBackpack( who, 0x2110);
+          break;
+      10: prizeadd := CreateItemInBackpack( who, 0x2112);
+          break;
+      9:  prizeadd := CreateItemInBackpack( who, 0x2110);
+          break;
+      8:  prizeadd := CreateItemInBackpack( who, 0x3e9);
+          break;
+      7:  prizeadd := CreateItemInBackpack( who, 0x2112);
+          break;
+      6:  prizeadd := CreateItemInBackpack( who, 0x3e9);
+          break;
+      5:  prizeadd := CreateItemInBackpack( who, 0x2113);
+          break;
+      4:  prizeadd := CreateItemInBackpack( who, 0x2112);
+          break;
+      3:  prizeadd := CreateItemInBackpack( who, 0x3e9);
+          break;
+      2:  prizeadd := CreateItemInBackpack( who, 0x2110);
+          break;
+      1:  prizeadd := CreateItemInBackpack( who, 0x2113);
+          break;
+      0:  prizeadd := CreateItemInBackpack( who, 0x3e9);
+          break;
+    endcase
+
+      return;
+
+endfunction

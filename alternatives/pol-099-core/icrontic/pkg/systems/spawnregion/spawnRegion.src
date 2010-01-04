@@ -1,0 +1,10 @@
+include "spawnRegion";
+
+program SpawnSpecificRegion(region)
+  if(GetGlobalProperty("#" + region))
+	return 0;
+  endif
+  SetGlobalProperty("#" + region, 1);
+  SpawnRegion(region);
+  EraseGlobalProperty("#" + region);
+endprogram

@@ -1,0 +1,40 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/bitwise";
+
+var config_file := ReadConfigFile( ":inscription:inscription");
+
+program textcmd_spellbook( who )
+
+    var book := CreateItemInBackpack(who, 0xB100, 1);
+    fillBook(who, book);
+    SendSysMessage(who, "Book of the Earth created and filled");
+endprogram
+
+function fillBook(character, book)
+
+    foreach listing in GetConfigStringKeys(config_file)
+      sleepms(5);
+	var FlagRegister := config_file[listing].flagset;
+	var Flag := config_file[listing].flag;
+        var Type := config_file[listing].spelltype;
+	var Circle := "";
+
+        if(Type == "earth")
+  	  if (FlagRegister == 1)
+		Circle := "Lesser";
+	  elseif (FlagRegister == 2)
+		Circle := "Greater";
+	  endif
+
+       	  FlagRegister := GetObjProperty(book, Circle);
+	  FlagRegister := CInt(FlagRegister);
+	  FlagRegister := FlagSet(FlagRegister, Flag);
+	  FlagRegister := CStr(FlagRegister);
+	  SetObjProperty(book, Circle, FlagRegister);
+          FlagRegister := 0;
+        endif
+    endforeach
+endfunction

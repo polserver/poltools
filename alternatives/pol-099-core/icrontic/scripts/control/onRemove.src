@@ -1,0 +1,31 @@
+use uo;
+use os;
+
+program on_remove(who, backpack, item)
+  if((who.cmdlevel >= 1) and (who.cmdlevel <= 3))
+    return 0;
+  endif
+  set_critical(1);
+  var vendorserial := GetObjProperty(backpack,"Vendored");
+  if(!vendorserial)
+    if(item.isa(POLCLASS_CONTAINER))
+      EraseObjProperty(item, "Owner");
+    endif
+    if(GetObjProperty(item, "unquip"))
+      EraseObjProperty(item, "unquip");
+    endif
+    return 1;
+  endif
+  var vendor := SystemFindObjectBySerial(vendorserial);
+  var oldname := GetObjProperty(item,"OldName");
+  if((!oldname) || (oldname == error))
+    oldname := item.desc;
+  endif
+  item.name := oldname;
+  EraseObjProperty(item, "price");
+  EraseObjProperty(item, "Master");
+  EraseObjProperty(item, "OldName");
+  EraseObjProperty(item, "Vendored");
+  return 1;
+    set_critical(0);
+endprogram

@@ -1,0 +1,284 @@
+											/*
+								     websiteTimers.src  //
+								        Package guilds	//
+						     Information collector for webpage	//
+											//
+//////////////////////////////////////////////////////////////////////////////////////////
+
+                      ////    ////// //   //  //  //////  //  //  //////
+                     //  //  //      //  //  //  //  //  //  //  //
+                    //  //  ////     // //  //  //  //  //  //  //////
+                   //  //  //        ////  //  //  //  //  //      //
+                  /////   //////     ///  //  //////  //////  //////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  This file was created by Developer Devious of Neverlands Shard
+//  http://www.neverlands.org/
+//  devtempo@telusplanet.net
+//  Released under extraordinary circumstances, never trust Ego-Crusher, Icrontic, Kain,
+//    "Shai`tain", ever, for he was the reason these files were released, beyond my will.
+//  I hope everybody enjoys these scripts, and give credit where it is due, unlike the
+//    backstabbing bastard above who claimed my scripts and nearly released them before
+//    I did.
+*/
+
+
+
+
+use uo;
+use os;
+
+include "../Guilds/guild";
+
+const DELAY_BETWEEN_REFESH:= 600; 	// In seconds
+const ON:= 1;				// 1 for on, 0 for off
+
+program Timers()
+
+  while(ON)
+    Sleep(DELAY_BETWEEN_REFESH);
+    Guilds();
+  endwhile
+
+  print(" <- Guild Timers Off");
+
+endprogram
+
+
+function Guilds()
+
+  var counter, gm, loop:= 0, webby:= {}, charter, warriorguilds:= 0, merchantguilds:= 0, newbieguilds:= 0, members:= 0;
+
+  var orbname:= {
+
+	"Advanced",
+	"Adventurer",
+	"Animal Tamer",
+	"Archer",
+	"Bard",
+	"Blacksmith",
+	"Battlefield Mage",
+	"Carpenter",
+	"Fencer",
+	"Field Medic",
+	"Fisherman",
+	"Mace Fighter",
+	"Magician",
+	"Merchant",
+	"Prospector",
+	"Ranger",
+	"Swordman",
+	"Tailor",
+	"Tinker",
+	"Tradesman",
+	"Warlock",
+	"Warrior"
+
+  };
+
+  var colourname:= {
+
+	"Trim II",
+	"Trim",
+	"Orchaestra",
+	"Crash",
+	"Harmony",
+	"Chase",
+	"Flute",
+	"Symphony",
+	"Clash",
+	"Musica",
+	"Oren II",
+	"Tocotta",
+	"Oren III",
+	"Switch",
+	"Jazz",
+	"Tangerine",
+	"Blood",
+	"Green Acres",
+	"Devious",
+	"Omen",
+	"Silver",
+	"Hudson Hawk",
+	"Shatter",
+	"Melody",
+	"Deep Blue",
+	"Diminuendo",
+	"Forte",
+	"White",
+	"Piccoto",
+	"eowyn",
+	"Impetus",
+	"Perrin",
+	"Dark Trim I",
+	"Hint",
+	"Teppic",
+	"Andragorn",
+	"RedGlo II",
+	"Dark Trim II",
+	"BlueGlo",
+	"Dark Trim III",
+	"Dark Trim Omen",
+	"Dark Trim IV",
+	"Dark Trim V",
+	"Dark Trim VI",
+	"Florica",
+	"Impetus II",
+
+  };
+
+  webby.append("<html>");
+  webby.append("<head>");
+  webby.append("<title>");
+  webby.append("Icronticshard's Guilds");
+  webby.append("</title>");
+  webby.append("</head>");
+  webby.append("<body bgcolor=#000000 link=#FF0000 vlink=#FF0000 alink=#FF0000>");
+  webby.append("<table border==0 cellspacing==0 cellpadding=5>");
+  webby.append("<tr>");
+  webby.append("<td>");
+  webby.append("<font face='Verdana' size='1' color=#FFFFFF>");
+  webby.append("<table border==0 cellspacing==1 cellpadding=1% width='350'>");
+  webby.append("<td bgcolor='#FF0000'>");
+  webby.append("<font face='Verdana' size='1' color='Black'>");
+  webby.append("<center>");
+  webby.append("<b>");
+  webby.append("Guild Statistics");
+  webby.append("</b>");
+  webby.append("</center>");
+  webby.append("</font>");
+  webby.append("<table border==0 cellspacing==1 cellpadding=1% width='350'>");
+  webby.append("<td bgcolor='#000000'>");
+  webby.append("<font face='Verdana' size='1' color='White'>");
+  webby.append("<guilds>");
+  webby.append("<br>");
+  webby.append("<members>");
+  webby.append("<br>");
+  webby.append("<averageguildsize>");
+  webby.append("<br>");
+  webby.append("<warriorguilds>");
+  webby.append("<br>");
+  webby.append("<merchantguilds>");
+  webby.append("<br>");
+  webby.append("<newbieguilds>");
+  webby.append("<br>");
+  webby.append("</td>");
+  webby.append("</table>");
+  webby.append("</td>");
+  webby.append("</table>");
+  webby.append("</font>");
+  webby.append("</td>");
+  webby.append("</tr>");
+
+  foreach guild in ListGuilds()
+    while(loop > 100)
+      loop:= loop - 100;
+      Sleep(5);
+    endwhile
+    loop:= loop + 20;
+    gm:= FindGM(guild);
+    webby.append("<tr>");
+    webby.append("<td>");
+    webby.append("<font face='Verdana' size='1' color=#FFFFFF>");
+    webby.append("<table border==0 cellspacing==1 cellpadding=1% width='350'>");
+    webby.append("<td bgcolor='#FF0000'>");
+    webby.append("<font face='Verdana' size='1' color='Black'>");
+    webby.append("<center>");
+    webby.append("<b>");
+    webby.append(guild.getprop("guildname") +" ["+ guild.getprop("guildabv") +"]");
+    webby.append("</b>");
+    webby.append("</center>");
+    webby.append("</font>");
+    webby.append("<table border==0 cellspacing==1 cellpadding=1% width='350'>");
+    webby.append("<td bgcolor='#000000'>");
+    webby.append("&nbsp&nbsp<b><font face='Verdana' size='1' color='White'>»</b>Members: "+ len(guild.members));
+    webby.append("<br>");
+    foreach member in (guild.members)
+      members:= members + 1;
+      if(member.serial = gm[2])
+        webby.append("<i><font face='Verdana' size='1' color='White'>Guildmaster: " + member.name + "</i>");
+        webby.append("<br>");
+      else
+        webby.append("<i><font face='Verdana' size='1' color='White'>" + member.name + "</i>");
+        webby.append("<br></font>");
+      endif
+    endforeach
+    webby.append("<font face='Verdana' size='1' color='White'>");
+    webby.append("&nbsp&nbsp<b>»</b><font face='Verdana' size='1' color='White'>Candidates: "+ len(guild.getprop("recruits")));
+    webby.append("<br>");
+    foreach candidate in (guild.getprop("recruits"))
+      loop:= loop + 1;
+      candidate:= SystemFindObjectBySerial(candidate,1);
+      if(candidate)
+        webby.append("<i><font face='Verdana' size='1' color='White'>" + candidate.name + "</i>");
+        webby.append("<br>");
+      endif
+    endforeach
+    webby.append("&nbsp&nbsp<b>»</b>Type: "+ guild.getprop("faction"));
+    webby.append("<br>");
+    webby.append("&nbsp&nbsp<b>»</b>Faction: "+ guild.getprop("type"));
+    webby.append("<br>");
+    counter:= CInt(guild.getprop("guildcolour") - 1154);
+    if(!counter) counter:= 1; endif
+    webby.append("&nbsp&nbsp<b>»</b>Colour: "+ colourname[counter]);
+    webby.append("<br>");
+    counter:= CInt((guild.getprop("guildicon") - 5545) / 2) + 1;
+    if(!counter) counter:= 1; endif
+    webby.append("&nbsp&nbsp<b>»</b>Orb: "+ orbname[counter]);
+    webby.append("<br>");
+    webby.append("&nbsp&nbsp<b>»</b>Website: "+ "<a href='"+ guild.getprop("website") +"' target='_blank'>" + guild.getprop("website") + "</a>");
+    webby.append("<br>");
+    charter:= guild.getprop("gc");
+    webby.append("</td>");
+    webby.append("</table>");
+    webby.append("<table border==0 cellspacing==1 cellpadding=1% width='350'>");
+    webby.append("<td bgcolor='#000000'>");
+    webby.append("<font face='Verdana' size='1' color='White'>");
+    webby.append("&nbsp&nbsp<b>»</b>Charter");
+    webby.append("<br>");
+    webby.append(charter[1]);
+    webby.append("<br>");
+    webby.append(charter[2]);
+    webby.append("<br>");
+    webby.append(charter[3]);
+    webby.append("<br>");
+    webby.append(charter[4]);
+    webby.append("<br>");
+    webby.append(charter[5]);
+    webby.append("<br>");
+    webby.append(charter[6]);
+    webby.append("<br>");
+    webby.append(charter[7]);
+    webby.append("<br>");
+    webby.append(charter[8]);
+    webby.append("<br>");
+    webby.append(charter[9]);
+    webby.append("<br>");
+    webby.append("</td>");
+    webby.append("</table>");
+    webby.append("</td>");
+    webby.append("</table>");
+    webby.append("</font>");
+    webby.append("</td>");
+    webby.append("</tr>");
+    if(guild.getprop("faction") = "Warrior")
+      warriorguilds:= warriorguilds + 1;
+    elseif(guild.getprop("faction") = "Merchant")
+      merchantguilds:= merchantguilds + 1;
+    else
+      newbieguilds:= newbieguilds + 1;
+    endif
+  endforeach
+
+  webby.append("</table>");
+  webby.append("</body>");
+  webby.append("</html>");
+
+  SetGlobalProperty("webpageGuild",webby);
+  SetGlobalProperty("webpageGuildWarriors",warriorguilds);
+  SetGlobalProperty("webpageGuildMerchants",merchantguilds);
+  SetGlobalProperty("webpageGuildNewbies",newbieguilds);
+  SetGlobalProperty("webpageGuildMembers",members);
+
+endfunction

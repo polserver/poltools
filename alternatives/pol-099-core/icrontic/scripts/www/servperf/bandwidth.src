@@ -1,0 +1,41 @@
+use http;
+use uo;
+
+WriteHtml( "<html><head><title>IcronticShard BW Useage Report</title></head>" +
+           "<body>" +
+           "<center><img src==http://www.rcsi-usa.com/projects/banner2.jpg></center>" +
+           "<div align==center>" +
+           "<table border==1 cellspacing=0 cellpadding=5>" +
+           "<tr bgcolor=#99CCFF>" +
+           "<td><center>Uptime</center></td>"+
+           "<td><center>Bytes Sent</center></td>" +
+           "<td><center>BPS Out</center></td>" +
+           "<td><center>Bytes Recvd</center></td>" +
+           "<td><center>BPS In</center></td>" +
+
+           "</tr>" );
+writehtml(" <body background==http://www.rcsi-usa.com/projects/background.jpg bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>");
+program record_throughput()
+    var results := {};
+    var system := polcore();
+    var uptime := system.uptime /60 ;
+    var last_received := system.bytes_received;
+    var last_sent := system.bytes_sent;
+    var this_received, this_sent;
+    var delta_received, delta_sent;
+    this_received := system.bytes_received;
+    this_sent := system.bytes_sent;
+    results.insert( 1, { this_received-last_received,this_sent-last_sent } );
+    results.erase( 11 );
+    last_received := this_received;
+    last_sent := this_sent;
+    delta_received := (system.bytes_received / system.uptime);
+    delta_sent     := (system.bytes_sent / system.uptime);
+    WriteHtml( "<tr bgcolor=#003366>"
+                   + "<td>" + (uptime / 60) + " Hours (" + uptime + " Minutes)</td>"
+                   + "<td>" + this_sent + "</td>"
+                   + "<td>" + delta_sent + "</td>"
+                   + "<td>" + this_received + "</td>"
+                   + "<td>" + delta_received + "</td>"
+                   + "</tr>");
+endprogram

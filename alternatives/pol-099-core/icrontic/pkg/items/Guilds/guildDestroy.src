@@ -1,0 +1,74 @@
+											/*
+								      guildDestroy.src	//
+								        Package guilds	//
+								  To destroy the guild	//
+											//
+//////////////////////////////////////////////////////////////////////////////////////////
+
+                      ////    ////// //   //  //  //////  //  //  //////
+                     //  //  //      //  //  //  //  //  //  //  //
+                    //  //  ////     // //  //  //  //  //  //  //////
+                   //  //  //        ////  //  //  //  //  //      //
+                  /////   //////     ///  //  //////  //////  //////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  This file was created by Developer Devious of Neverlands Shard
+//  http://www.neverlands.org/
+//  devtempo@telusplanet.net
+//  Released under extraordinary circumstances, never trust Ego-Crusher, Icrontic, Kain,
+//    "Shai`tain", ever, for he was the reason these files were released, beyond my will.
+//  I hope everybody enjoys these scripts, and give credit where it is due, unlike the
+//    backstabbing bastard above who claimed my scripts and nearly released them before
+//    I did.
+*/
+
+
+
+
+use uo;
+use os;
+
+program guild_destroy(stone)
+
+  var guild_id:= GetObjProperty(stone,"guild_id");
+  var guild:= FindGuild(guild_id);
+  var all:= guild.members;
+  var i;
+
+  for(i:= 1; i <= all.size(); i:= i + 1)
+    guild.removemember(all[i]);
+    EraseObjProperty(all[i],"guild_id");
+    EraseObjProperty(all[i],"guild_fealty");
+    EraseObjProperty(all[i],"guild_abv");
+    EraseObjProperty(all[i],"talkchat");
+    EraseObjProperty(all[i],"hearchat");
+    all[i].title_guild:= "";
+    var clothing:= GetObjProperty(all[i],"guild_clothing");
+    clothing:= SystemFindObjectBySerial(clothing);
+    if(!DestroyItem(clothing))
+      Start_Script("destroyitem",clothing);
+    endif
+    EraseObjProperty(all[i],"guild_clothing");
+    SendSysMessage(all[i],"The guild, "+ guild.getprop("guildname") +", has disbanded.");
+  endfor
+
+  all:= guild.allyguilds;
+
+  if(all.size() != 0)
+    for(i:= 1; i <= all.size(); i:= i + 1)
+      guild.removeallyguild(all[i]);
+    endfor
+  endif
+
+  all:= guild.enemyguilds;
+
+  if(all.size() != 0)
+    for(i:= 1; i <= all.size(); i:= i + 1)
+      guild.removeenemyguild(all[i]);
+    endfor
+  endif
+
+  DestroyGuild(guild);
+
+endprogram

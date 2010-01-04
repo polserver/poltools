@@ -1,0 +1,86 @@
+// Bookcase Spawning system  version .3
+// created December 6, 2000
+// updated December 8, 2000
+// designed by Syzygy, Zulu and Bishop Ebonhand
+
+use uo;
+use os;
+
+exported function IsWritable(book)
+  if(GetObjProperty(book, "NoWrite"))
+    return 0;
+  else
+    return 1;
+  endif
+endfunction
+
+exported function GetNumLines(book)
+  return book.getprop("maxpages") * 8;
+endfunction
+
+
+exported function GetTitle(book)
+  var res := book.getprop("title");
+  if(res)
+    return res;
+  else
+    return "";
+  endif
+endfunction
+
+exported function SetTitle(book, title)
+  book.setprop("title", title);
+endfunction
+
+
+exported function GetAuthor(book)
+  var res := book.getprop("author");
+  if(res)
+    return res;
+  else
+    return "";
+  endif
+endfunction
+
+exported function SetAuthor(book, author)
+  book.setprop("author", author);
+endfunction
+
+exported function GetContents(book)
+  var contents := book.getprop("contents");
+  if(contents = error)
+    contents := array;
+  endif
+  return contents;
+endfunction
+
+exported function GetLine(book, line)
+  var contents := book.getprop("contents");
+  if(contents = error)
+    contents := array;
+  endif
+  if(line <= contents.size())
+    var text := contents[line];
+    if(text)
+      return text;
+    else
+      return "";
+    endif
+  else
+    return "";
+  endif
+endfunction
+
+exported function SetLine(book, line, text)
+  var contents := book.getprop("contents");
+  if(contents = error)
+    contents := array;
+  endif
+  contents[ line ] := text;
+  book.setprop("contents", contents);
+  return 1;
+endfunction
+
+program BookInterface()
+  return 1;
+endprogram

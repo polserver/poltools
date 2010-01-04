@@ -1,0 +1,504 @@
+use cfgfile;
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/attributes";
+include "include/string";
+include "include/objtype";
+include "include/canAccess";
+include "include/utility";
+include "include/dist";
+include "include/toolWear";
+
+var wood_cfg := ReadConfigFile(":lumberjacking:woodtype");
+var itemcfg  := ReadConfigFile(":lumberjacking:itemdesc");
+const UACTION_CHOP := 0x0d;
+const FX_POISON_GAS := 0x113a;
+const NEWLOGSCHANCE 	:= 20;	// Chance of find colored logs
+var bowcraftconfigfile := ReadConfigFile("::bowcraft");
+var dif_adj := 0;
+var mex;
+var mey;
+
+
+
+program use_axe(me, axe)
+  EraseObjProperty(me, "IsMeditating");
+  EraseObjProperty(me, "HealTimer");
+  if(!can_access(me, axe))
+    return;
+  endif
+  if(!ReserveItem(axe))
+    return;
+  endif
+  if(!IsAxEquipped(me, axe))
+    SendSysMessage(me,"You have to equip that to lumberjack!");
+    return;
+  endif
+  var tree := TreeNearby(me, axe);
+  if(!tree)
+    return;
+  endif
+  SendSysMessage(me, "You begin chopping...");
+  var checker := 0;
+  mex := me.x;
+  mey := me.y;
+  var mount;
+  repeat
+    PerformAction(me, UACTION_CHOP);
+    PlaySoundEffect(me, SFX_SKILL_LUMBERJACK);
+    sleepms(2000);
+    checker := Do_Chops(me, axe, tree);
+  until(checker == 1);
+endprogram
+
+function Do_Chops(me, axe, tree)
+  var difficulty := GetHarvestDifficulty("wood", tree.x, tree.y, tree.objtype);
+  if(difficulty == error)
+    SendSysMessage(me, "There's not enough wood here to chop");
+    return 1;
+  endif
+  var i, theamount, distt;
+  if((me.x != mex) || (me.y != mey))
+    SendSysMessage(me,"You stop chopping.");
+    return 1;
+  endif
+  var points := CInt((GetEffectiveSkill(me, SKILLID_LUMBERJACKING) + 10));
+ if(CheckSkill(me, SKILLID_LUMBERJACKING, difficulty, points))
+ var theroll := randomint(100) + 1;
+ NEWLOGSCHANCE := NEWLOGSCHANCE + cint(dif_adj);
+    if (theroll < NEWLOGSCHANCE)
+      return MakeColoredLog( me , tree.x, tree.y, tree.objtype );
+    else
+      var skill_lumb   := Getattribute( me, "Lumberjacking" );
+      var logs_amount := randomint(skill_lumb/10) + 1;
+
+      if(logs_amount < 1) logs_amount:= 1; endif
+      
+      var wood_amount := HarvestResource( "wood", tree.x, tree.y, 1, logs_amount );
+	   if (wood_amount = 0)
+	   SendSysmessage(me, "There's not enough wood here to chop.");
+	   return 1;
+           endif
+      CreateItemInBackpack(me, UOBJ_LOGS, wood_amount);
+           if((wood_amount == 1) && cint(GetEffectiveSkill(me, SKILLID_LUMBERJACKING) <=10))
+           SendSysmessage(me, "You put a log in your backpack");
+           HarvestResource( "wood", tree.x, tree.y, 1, 5 );
+           elseif(wood_amount == 1)
+           SendSysmessage(me, "You put a log in your backpack");
+           else
+           SendSysmessage(me, "You put " + wood_amount + " logs in your backpack");
+           return 0;
+           endif
+    endif
+    else
+	SendSysmessage(me, "You fail to get any usable wood.");
+	return 0;
+  endif
+endfunction
+
+function TreeNearby(me, axe)
+  SendSysMessage( me, "Select something to chop." );
+  var tree := TargetCoordinates( me );
+  if(!tree)
+    SendSysMessage(me, "Cancelled");
+    return 0;
+  endif
+  var distt := coordist( me.x, me.y, tree.x, tree.y );
+  if(distt > 1 )
+    if(!tree.item.container)
+      SendSysMessage(me,"That is too far away");
+      return 0;
+    endif
+  endif
+  if(is_furniture(me, tree.item.objtype, tree.item))
+    chopfurniture(me, tree.item);
+    return 0;
+  elseif(is_tree(tree.objtype))
+    var difficulty := GetHarvestDifficulty( "wood", tree.x, tree.y, tree.objtype );
+    if(difficulty == error)
+      SendSysMessage(me, "There's not enough wood here to chop.");
+      return 0;
+    endif
+    return tree;
+  endif
+endfunction
+
+function is_furniture(me, theobj, thing)
+  var miscobjtypes := { 0x7007, 0xa30, 0xa34, 0xa38, 0xfae, 0x9e40};
+  if(thing.locked)
+    SendSysMessage(me, "You cannot chop that...");
+    return;
+  endif
+  if((theobj >= 0x9a8) && (theobj <= 0x9ab))
+    return 1;
+  elseif((theobj >= 0xa2a) && (theobj <= 0xa2c))
+    return 1;
+  elseif((theobj >= 0xa4c) && (theobj <= 0xa53))
+    return 1;
+  elseif((theobj >= 0xa97) && (theobj <= 0xa9e))
+    return 1;
+  elseif((theobj >= 0xb2c) && (theobj <= 0xb40))
+    return 1;
+  elseif((theobj >= 0xb49) && (theobj <= 0xb90))
+    return 1;
+  elseif((theobj >= 0xe3c) && (theobj <= 0xe43))
+    return 1;
+  elseif((theobj >= 0xe7c) && (theobj <= 0xe80))
+    return 1;
+  elseif((theobj >= 0xf65) && (theobj <= 0xf77))
+    return 1;
+  elseif(theobj in miscobjtypes)
+    return 1;
+  elseif(GetObjProperty(thing, "ItemsCreatedSerials"))
+    return 1;
+  else
+    return 0;
+  endif
+endfunction
+
+function is_tree(theobj)
+
+        if ((theobj >= 0x0c99) and (theobj <= 0x0c9d))		// Small palm
+                return 0x705a;
+        elseif (theobj = 0x0c9e)				// Small tree
+                return 0x705f;
+//        elseif ((theobj >= 0x0c9f) and (theobj <= 0x0ca5))	// Plants and flowers
+//                return 0x705a;
+        elseif (theobj = 0x0ca6)				// Ponytail palm
+                return 0x705f;
+//        elseif ((theobj = 0x0ca7) or (theobj = 0x0ca9))		// Plants and flowers
+//                return 0x705a;
+        elseif ((theobj = 0x0ca8) or (theobj = 0x0caa) or (theobj = 0x0cab)) // Banana
+                return 0x705f;
+//        elseif ((theobj >= 0x0cac) and (theobj <= 0x0cc8))	// Plants and flowers
+//                return 0x705a;
+        elseif ((theobj >= 0x0cc9) and (theobj <= 0x0cd5))	// Normal tree and leaves
+                return 0x705a;
+        elseif ((theobj >= 0x0cd6) and (theobj <= 0x0cd9))	// Cedar
+                return 0x705b;
+        elseif ((theobj >= 0x0cda) and (theobj <= 0x0cdf))	// Oak
+                return 0x705c;
+        elseif ((theobj >= 0x0ce0) and (theobj <= 0x0ce5))	// Walnut
+                return 0x705c;
+        elseif ((theobj >= 0x0ce6) and (theobj <= 0x0ce8))	// Willow
+                return 0x705a;
+        elseif ((theobj >= 0x0ce9) and (theobj <= 0x0cea))	// Sapling
+                return 0x705f;
+        elseif ((theobj >= 0x0cf3) and (theobj <= 0x0cf7))	// Fallen log
+                return 0x705b;
+        elseif ((theobj >= 0x0cf8) and (theobj <= 0x0cf9))	// Cyprus
+                return 0x705f;
+        elseif ((theobj >= 0x0cfa) and (theobj <= 0x0d03))	// Cypress
+                return 0x705f;
+        elseif ((theobj >= 0x0d37) and (theobj <= 0x0d38))	// Yucca
+                return 0x705f;
+        elseif ((theobj >= 0x0d41) and (theobj <= 0x0d93))	// Big tropical tree and leaves
+                return 0x705e;
+        elseif ((theobj >= 0x0d94) and (theobj <= 0x0d9b))	// Apple
+                return 0x705e;
+        elseif ((theobj >= 0x0d9c) and (theobj <= 0x0da3))	// Peach
+                return 0x705e;
+        elseif ((theobj >= 0x0da4) and (theobj <= 0x0dab))	// Pear
+                return 0x705e;
+        elseif ((theobj >= 0x12b6) and (theobj <= 0x12c7))	// Yew tree
+                return 0x705d;
+        else
+                return 0;
+        endif
+
+endfunction
+
+function is_tree_old(me, theobj)
+
+        if ((theobj >= 0x0c99) and (theobj <= 0x0c9d))		// Small palm
+                return 0x705a;
+        elseif (theobj = 0x0c9e)				// Small tree
+                return 0x705f;
+//        elseif ((theobj >= 0x0c9f) and (theobj <= 0x0ca5))	// Plants and flowers
+//                return 0;
+        elseif (theobj = 0x0ca6)				// Ponytail palm
+                return 0x705f;
+//        elseif ((theobj = 0x0ca7) or (theobj = 0x0ca9))		// Plants and flowers
+//                return 0;
+        elseif ((theobj = 0x0ca8) or (theobj = 0x0caa) or (theobj = 0x0cab)) // Banana
+                return 0x705f;
+//        elseif ((theobj >= 0x0cac) and (theobj <= 0x0cc8))	// Plants and flowers
+//                return 0;
+        elseif ((theobj >= 0x0cc9) and (theobj <= 0x0cd5))	// Normal tree and leaves
+                return 0x705a;
+        elseif ((theobj >= 0x0cd6) and (theobj <= 0x0cd9))	// Cedar
+                return 0x705b;
+        elseif ((theobj >= 0x0cda) and (theobj <= 0x0cdf))	// Oak
+                return 0x705c;
+        elseif ((theobj >= 0x0ce0) and (theobj <= 0x0ce5))	// Walnut
+                return 0x705c;
+        elseif ((theobj >= 0x0ce6) and (theobj <= 0x0ce8))	// Willow
+                return 0x705a;
+        elseif ((theobj >= 0x0ce9) and (theobj <= 0x0cea))	// Sapling
+                return 0x705f;
+        elseif ((theobj >= 0x0cf3) and (theobj <= 0x0cf7))	// Fallen log
+                return 0x705b;
+        elseif ((theobj >= 0x0cf8) and (theobj <= 0x0cf9))	// Cyprus
+                return 0x705f;
+        elseif ((theobj >= 0x0cfa) and (theobj <= 0x0d03))	// Cypress
+                return 0x705f;
+        elseif ((theobj >= 0x0d37) and (theobj <= 0x0d38))	// Yucca
+                return 0x705f;
+        elseif ((theobj >= 0x0d41) and (theobj <= 0x0d93))	// Big tropical tree and leaves
+                return 0x705e;
+        elseif ((theobj >= 0x0d94) and (theobj <= 0x0d9b))	// Apple
+                return 0x705e;
+        elseif ((theobj >= 0x0d9c) and (theobj <= 0x0da3))	// Peach
+                return 0x705e;
+        elseif ((theobj >= 0x0da4) and (theobj <= 0x0dab))	// Pear
+                return 0x705e;
+        elseif ((theobj >= 0x12b6) and (theobj <= 0x12c7))	// Yew tree
+                return 0x705d;
+        else
+                return 0;
+        endif
+
+endfunction
+
+function IsAxEquipped(me,axe)
+  if((!Accessible(me,axe)) || (Distance(me, axe) > 1))
+    return 0;
+  endif
+  foreach item in ListEquippedItems(me)
+    if (axe.serial == item.serial )
+      return 1;
+    endif
+  endforeach
+  return EquipItem(me, axe );
+endfunction
+
+function chopfurniture(me, theobj)
+  if(!can_access(me, theobj))
+    return;
+  endif
+  var sign;
+  if(GetObjProperty(theobj, "lockeddown") || GetObjProperty(theobj, "secure"))
+    SendSysMessage(me, "You cannot destroy secure or locked down items.");
+    return;
+  endif
+  if(!theobj.moveable)
+    SendSysMessage(me, "You cannot destroy secure or locked down items.");
+    return;
+  endif
+  if(theobj.objtype == 0x7007)
+    var houseserial := GetObjProperty(theobj, "houseserial");
+    sign := SystemFindObjectBySerial(houseserial);
+    if(GetObjProperty(sign, "barrelserial") == theobj.serial)
+      EraseObjProperty(sign, "barrelserial");
+      SendSysMessage(me, "you cannot destroy that while it is locked down.");
+      return;
+    endif
+  endif
+  if(!Accessible(me, theobj))
+    SendSysMessage(me, "you cant reach that");
+    return;
+  endif
+  if(me.multi)
+    if(GetObjProperty((me.multi), "ownerserial") != me.serial)
+      var house := me.multi;
+      foreach thing in (house.components)
+        if((thing.objtype == 0x0bd0) || (thing.objtype == 0x0bd2))
+          sign := thing;
+          break;
+        endif
+      endforeach
+      var coowner := 0;
+      var coownerlist := GetObjProperty(sign, "coownerlist");
+      foreach thing in coownerlist
+        if(thing == me.serial)
+          coowner := 1;
+          break;
+        endif
+      endforeach
+      if(!coowner)
+        SendSysMessage(me, "this does not belong to you!");
+        return;
+      endif
+    endif
+  endif
+  foreach thing in EnumerateItemsInContainer(theobj)
+    if(theobj.container)
+      MoveItemToContainer(thing, theobj.container);
+    else
+      MoveItemToLocation(thing, theobj.x, theobj.y, theobj.z, MOVEITEM_FORCELOCATION);
+    endif
+  endforeach
+  if(theobj.usescript == ":tinkering:tinkerTraps")
+    var traptype := GetObjProperty(theobj,"trap_type");
+    var trapstrength := GetObjProperty(theobj,"trap_strength");
+    var trapperserial := CInt(GetObjProperty(theobj, "trapper"));
+    var trapper := SystemFindObjectBySerial(trapperserial, SYSFIND_SEARCH_OFFLINE_MOBILES);
+    if(trapper)
+      SetObjProperty(me, "LastHit", {trapper.name, trapper.serial, "trapped chest" });
+      SetScriptController(trapper);
+    endif
+    case traptype
+      "1" :   PlaySoundEffect(me, SFX_224);
+              var dmg := (RandomInt(20) + CInt(trapstrength));
+              SendSysMessage(me, "You set off a needle trap!");
+              ApplyDamage(me, dmg);
+              theobj.usescript := "";
+              EraseObjProperty( theobj, "trap_type" );
+              EraseObjProperty( theobj, "trap_strength" );
+      "2" :   PlaySoundEffect(me, SFX_232);
+              PrintTextAbovePrivate(me, "You set off a poison trap!", me);
+              PlayObjectCenteredEffect( me, FX_POISON_GAS, 10,10);
+              var plevel := CInt(GetObjProperty(me, "poison_level"));
+              SetObjProperty(me, "PoisonStamp", ReadGameClock());
+              SetObjProperty(me, "poison_level",CStr(trapstrength));
+              var passparms := { me, me, "poison trap" };
+              start_script(":spells:poisonDamage", passparms);
+              theobj.usescript := "";
+              EraseObjProperty( theobj, "trap_type" );
+              EraseObjProperty(theobj, "trap_strength");
+      "3" :   PlaySoundEffect(me, SFX_208);
+              SendSysMessage(me, "You set off an explosion trap!");
+              PlayObjectCenteredEffect( me, FX_EXPLODE_3, 10,10);
+              var dmg := (RandomInt(20) + CInt(trapstrength));
+              ApplyRawDamage(me, dmg);
+              theobj.usescript := "";
+              EraseObjProperty( theobj, "trap_type" );
+              EraseObjProperty( theobj, "trap_strength" );
+    endcase
+  endif
+  var created := GetObjProperty(theobj, "ItemsCreatedSerials");
+  if(created)
+    var holder;
+    foreach thing in created
+      holder := SystemFindObjectBySerial(thing);
+      if(holder)
+        DestroyItem(holder);
+      endif
+    endforeach
+  else
+    DestroyItem(theobj);
+  endif
+  PlaySoundEffect(me, 0x13a);
+  return;
+endfunction
+
+function MakeColoredLog( character , x , y , tiletype )
+    var skill   := Getattribute( character, "Lumberjacking" );
+    var chance  := randomint(100) + 1;
+    var amount  := randomint(skill/20)+1;
+    var prob    := wood_cfg[Is_tree_old(character, tiletype)];
+    
+    if ( cint(chance) >= cint(dif_adj) )
+       chance := cint(chance) - cint(dif_adj);
+    else
+       chance := 1;
+       SendSysmessage(character,"An exceptional hit!!!", 3, 48);
+    endif
+
+    var num;
+    var dif_log;
+
+    num := HarvestResource( "wood", x , y , 1 , amount );
+    var skillneed := "Skill";
+    if (chance <= prob.avatar)
+      if(skill >= itemcfg[0x7057].skillneed);
+      	dif_log := itemcfg[0x7057].difficulty;
+      	if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7057, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Avatar log in your backpack");
+	    return 0;
+	endif
+      endif
+    elseif (chance <= (prob.avatar+prob.dead))
+	dif_log := 100;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, UOBJ_DEAD_WOOD, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Dead wood in your backpack");
+	    return 0;
+	endif
+    elseif (chance <= (prob.avatar+prob.dead+prob.silver))
+      if(skill >= itemcfg[0x7055].skillneed);
+	dif_log := itemcfg[0x7055].difficulty;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7055, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Silver log in your backpack");
+	    return 0;
+	endif
+      endif
+    elseif (chance <= (prob.avatar+prob.dead+prob.silver+prob.jungle))
+      if(skill >= itemcfg[0x7056].skillneed);
+	dif_log := itemcfg[0x7056].difficulty;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7056, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Jungle log in your backpack");
+	    return 0;
+	endif
+      endif
+    elseif (chance <= (prob.avatar+prob.dead+prob.silver+prob.jungle+prob.willow))
+      if(skill >= itemcfg[0x7054].skillneed);
+	dif_log := itemcfg[0x7054].difficulty;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7054, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Willow log in your backpack");
+	    return 0;
+	endif
+      endif
+    elseif (chance <= (prob.avatar+prob.dead+prob.silver+prob.jungle+prob.willow+prob.oak))
+      if(skill >= itemcfg[0x7053].skillneed);
+	dif_log := itemcfg[0x7053].difficulty;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7053, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Oak log in your backpack");
+	    return 0;
+ 	endif
+      endif
+    elseif (chance <= (prob.avatar+prob.dead+prob.silver+prob.jungle+prob.willow+prob.oak+prob.cherry))
+      if(skill >= itemcfg[0x7052].skillneed);
+	dif_log := itemcfg[0x7052].difficulty;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7052, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Moonbeam log in your backpack");
+	    return 0;
+ 	endif
+      endif
+    else
+//      if(skill > itemcfg[0x70551].skillneed);
+        dif_log := itemcfg[0x7051].difficulty;
+        if (Checkskill( character, SKILLID_LUMBERJACKING, dif_log , dif_log*10 ))
+            CreateItemInBackpack( character, 0x7051, num );
+            if (dif_adj > 0)
+		SendSysmessage(character,"Your Golden Axe glows!", 3, 48);
+	    endif 
+            SendSysmessage(character, "You put " + num + " Elven log in your backpack");
+	    return 0;
+      	endif
+    endif
+//      endif
+    SendSysmessage( character, "You fail to get any usable wood.");
+    return 0;
+
+endfunction

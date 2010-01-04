@@ -1,0 +1,120 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/myutil";
+
+program textcmd_disarm (character, textline)
+	if (lower (textline) = "help")
+		SendSysMessage (character, "DISARM:  Disarms the currently equipped weapon and/or shield.");
+		SendSysMessage (character, "You can also specify a rearm slot using '.disarm #' where # is 1, 2, or 3");
+		SendSysMessage (character, "To rearm that combo, use '.arm #'");
+		SendSysMessage (character, "Other options are:");
+		SendSysMessage (character, "bag - Select a bag into which you wish to place disarmed items");
+		return;
+	elseif (lower (textline) = "bag")
+		SetDisarmBag (character);
+		return;
+	elseif (textline and !CINT (textline))
+		SendSysMessage (character, "Unknown .arm option.  Use '.arm help' for instructions on using this dot command.");
+		return;
+	elseif (CINT (textline) > 3)
+		SendSysMessage (character, "You wish.");
+		return;
+	endif
+
+	set_critical(1);
+	if (character.dead)
+		SendSysMessage (character, "But you're dead!");
+		return;
+	endif
+
+	var mypack := character.backpack;
+	if (GetObjProperty (character, "disarmbag"))
+		var bagserial := GetObjProperty (character, "disarmbag");
+		foreach item in EnumerateItemsInContainer (character.backpack)
+			if (item.serial = bagserial)
+				mypack := item;
+				break;
+			endif
+		endforeach
+	endif
+
+	if (mypack = character.backpack)
+		EraseObjProperty (character, "disarmbag");
+	endif
+
+	var weaponone := GetEquipmentByLayer (character, LAYER_HAND1);
+	var weapontwo := GetEquipmentByLayer (character, LAYER_HAND2);
+
+	if (weaponone)
+		MoveItemToContainer (weaponone, mypack );
+	endif
+	if (weapontwo)
+		MoveItemToContainer (weapontwo, mypack );
+	endif
+	
+	if (!textline)
+		return;
+	endif
+
+	var weapon := {};
+		weapon[1] := 0;
+		weapon[2] := 0;
+		weapon[3] := 0;
+		weapon[4] := 0;
+		weapon[5] := 0;
+		weapon[6] := 0;
+
+	if (GetObjProperty (character, "weapon"))
+		weapon := GetObjProperty (character, "weapon");
+	endif
+
+	if (CINT (textline) = 1)
+		weapon[1] := 0;
+		weapon[2] := 0;
+		if (weaponone)
+			weapon[1] := weaponone.serial;
+		endif
+		if (weapontwo)
+			weapon[2] := weapontwo.serial;
+		endif
+		SendSysMessage (character, ".arm slot 1 set.  use '.arm 1' to reequip this weapon/shield");
+	elseif (CINT (textline) = 2)
+		weapon[3] := 0;
+		weapon[4] := 0;
+		if (weaponone)
+			weapon[3] := weaponone.serial;
+		endif
+		if (weapontwo)
+			weapon[4] := weapontwo.serial;
+		endif
+		SendSysMessage (character, ".arm slot 2 set.  use '.arm 2' to reequip this weapon/shield");
+	elseif (CINT (textline) = 3)
+		weapon[5] := 0;
+		weapon[6] := 0;
+		if (weaponone)
+			weapon[5] := weaponone.serial;
+		endif
+		if (weapontwo)
+			weapon[6] := weapontwo.serial;
+		endif
+		SendSysMessage (character, ".arm slot 3 set.  use '.arm 3' to reequip this weapon/shield");
+	endif
+	SetObjProperty (character, "weapon", weapon);
+	set_critical (0);
+endprogram
+
+function SetDisarmBag(me)
+
+	SendSysMessage(me,"Select a container");
+	var bag := Target(me);
+
+	if (!InInventory(me.backpack, bag) )
+		SendSysMessage(me,"That is not in your inventory.");
+		return;
+	endif
+
+	SetObjProperty(me,"disarmbag",bag.serial);
+
+endfunction

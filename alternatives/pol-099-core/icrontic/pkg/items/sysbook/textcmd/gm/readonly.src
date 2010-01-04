@@ -1,0 +1,20 @@
+use uo;
+use os;
+
+program makebookreadonly (character)
+	SendSysMessage (character, "Target a book to make read-only");
+	var book := Target (character);
+	if (!book)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	if (GetObjProperty (book, "readonly") )
+		SendSysMessage (character, "This book is no longer read-only.");
+		EraseObjProperty (book, "readonly");
+		return;
+	endif
+
+	SetObjProperty (book, "readonly", 1);
+	SendSysMessage (character, "This book is now read-only.");
+endprogram

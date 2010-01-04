@@ -1,0 +1,25 @@
+use uo;
+use cfgfile;
+use os;
+
+program textcmd_allowdualip (who, text)
+	var newip := text;
+
+	if (!newip)
+		SendSysMessage(who, "Invalid ip. Use '.allowdualip xx.xx.xx.xx'");
+		return;
+	endif
+
+    var allowedcfg := ReadConfigFile("allowedips");
+    var elem:={ };
+    elem.append({"IPMatch",  CStr(newip)});
+    var banned := AppendConfigFileElem("allowedips", "AllowedIP", CStr(newip), elem);
+
+
+    if(banned)
+    syslog("Added Dual IP Allowed: " + CStr(newip) );
+    UnloadConfigFile( "allowedips" );
+    else
+    syslog("Ip not added: tried to allow dual ip: " + newip);
+    endif
+endprogram

@@ -1,0 +1,47 @@
+///////////////////////////////////////////////
+// crier.src
+//
+// Created 2/11/2003
+// Updated 2/11/2003
+//
+// By MuadDib
+// http://www.icrontic.net
+//
+///////////////////////////////////////////////
+//
+// This init script will give a crier a random
+// gender and replace <random> in its name with
+// a real name using functions from NPC_Setup.inc
+//
+///////////////////////////////////////////////
+
+use uo;
+use util;
+use os;
+
+include "../ai_include/NPC_Setup";
+
+program InitScript(crier)
+
+	var result;
+	case(randomint(2))
+		0: // Male
+			crier.gender := 0;
+			crier.graphic := 400;
+			result := SetNPCName(crier, "male");
+		1: //Female
+			crier.gender := 1;
+			crier.graphic := 401;
+			result := SetNPCName(crier, "female");
+	endcase	
+	if ( result.errortext )
+		return result;
+	endif
+	
+	result := SetNPCEquipment(crier, "crier");
+	if ( result.errortext )
+		return result;
+	endif
+
+	return 1;
+endprogram

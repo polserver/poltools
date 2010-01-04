@@ -1,0 +1,135 @@
+use uo;
+
+
+include "include/objtype";
+include "include/client";
+include "include/attributes";
+
+program disguise(who)
+
+
+var nd := getobjproperty(who, "#nd");
+  var anatomyskill := CInt(GetEffectiveSkill(who, SKILLID_ANATOMY));
+  var stealthskill := CInt(GetEffectiveSkill(who, SKILLID_STEALTH));
+if (nd)
+        if (nd > readgameclock())
+                sendsysmessage(who, "You must wait to disguise yourself again!");
+                return;
+        endif
+endif
+setobjproperty(who, "#nd", readgameclock() + 30);
+
+	var stealthing := GetObjProperty(who, "#stealthing");
+	if (!stealthing)
+		PrintTextAbovePrivate (who, "You should really try thy stealthing abilty or you might be caught!", who);
+		return;
+        elseif((anatomyskill < 80) && (stealthskill < 100))  //checks skills
+                SendSysMessage(who,"You are not skilled enough to perform this.");
+   	        who.hidden := 0;
+                return;
+        endif
+
+sendsysmessage(who, "As who would you like to disguise yourself?");
+
+
+
+if (getobjproperty(who, "dc")) //he's hidden, and wants to change back
+        who.color := getobjproperty(who, "dc");
+       
+        who.graphic := getobjproperty(who, "dg");
+         
+        who.name := getobjproperty(who, "dn");
+        eraseobjproperty(who, "dn");
+        var storage := findsa(who);
+        var hair := getequipmentbylayer(who, LAYER_HAIR );
+        destroyitem(hair);
+        hair := getequipmentbylayer(who, LAYER_BEARD );
+        destroyitem(hair);
+        var it;
+        eraseobjproperty(who, "dc");
+        eraseobjproperty(who, "dg");
+        foreach it in enumerateitemsincontainer(storage)
+                equipitem(who, it);
+        endforeach
+        sendsysmessage(who, "You remove your disguise");
+        return;
+endif
+var what := target(who, TGTOPT_CHECK_LOS);
+
+if(!what)
+        return;
+endif
+
+if (what.graphic != 0x190 and what.graphic != 0x191)
+        sendsysmessage(who, "That's not human!");
+        return;
+endif
+
+if (what.serial = who.serial)
+        sendsysmessage(who, "That must be a tough disguise, eh?");
+        return;
+endif
+
+if (!who.hidden)
+        sendsysmessage(who, "You must be hidden to use this skill. You don't want them to see you change, do you?");
+        return;
+endif        
+        
+if (checkskill(who, SKILLID_HIDING, 100, 0))
+        var storage := findsa(who);
+        
+        setobjproperty(who, "dc", who.color);
+        setobjproperty(who, "dg", who.graphic);
+        setobjproperty(who, "dn", who.name);
+        who.name := what.name;
+        who.color := what.color;
+        who.graphic := what.graphic;
+        var hair := getequipmentbylayer(who, LAYER_HAIR );
+        moveitemtocontainer(hair, storage);
+        hair := getequipmentbylayer(who, LAYER_BEARD);
+        moveitemtocontainer(hair, storage);
+        var hair2 := getequipmentbylayer(what, LAYER_HAIR);
+        var it := createitemincontainer(storage, hair2.objtype, 1);
+        it.color := hair2.color;
+        equipitem(who, it);
+        hair2 := getequipmentbylayer(what, LAYER_BEARD);
+        it := createitemincontainer(storage, hair2.objtype, 1);
+        it.color := hair2.color;
+        equipitem(who, it);
+else
+        sendsysmessage(who, "You fail your attempt to disguise yourself");
+        who.hidden := 0;
+endif
+        
+endprogram
+
+function FindSA( character )
+    var worldbank := disguisesa();
+
+    var bank_obj_name := "Disguises of " + character.serial;
+    var bankbox := FindRootItemInStorageArea( worldbank, bank_obj_name );
+
+    if (!bankbox)
+        bankbox := CreateRootItemInStorageArea( worldbank, bank_obj_name, UOBJ_BANKBOX );
+    endif
+
+        // should never happen.  FIXME make sure and document that fact
+    if (!bankbox)
+        print( "Unable to find or create disguise area for " + character.serial );
+    endif
+    
+    return bankbox;
+endfunction 
+
+function DisguiseSA()
+    var bank := FindStorageArea( "Disguise Storage" );
+    if (!bank)
+        bank := CreateStorageArea( "Disguise Storage" );
+    endif
+
+    if (!bank)
+        print( "Unable to open or create disguise storage!" );
+    endif
+    return bank;
+endfunction 
+

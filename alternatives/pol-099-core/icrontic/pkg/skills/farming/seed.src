@@ -1,0 +1,95 @@
+use uo;
+use cfgfile;
+use os;
+
+var cfg := readconfigfile(":farming:itemdesc");
+
+program plant_seed(character, seed)
+
+if (!cfg)
+        return;
+endif
+
+var where := targetcoordinates(character);
+
+
+Sendsysmessage(character, "Where would you like to plant this?");
+
+if (!where)
+        sendsysmessage(character, "Targetting cancelled!");
+        return;
+endif
+
+if (!is_plantable(getmapinfo(where.x, where.y).landtile))
+        sendsysmessage(character, "You can only plant this on farmland!");
+        return;
+endif
+
+if (CountPlantsInArea (where.x, where.y, where.z, 1) > 4)
+  SendSysMessage (character, "There's too many other plants in the area!");
+  return;
+endif
+if (CountPlantsInArea (where.x, where.y, where.z, 0))
+  SendSysMessage (character, "There's already another plant here!");
+  return;
+endif
+
+var parms := {};
+parms[1] := where;
+parms[2] := cfg[seed.objtype].plant;
+start_script("seedling", parms);
+subtractamount(seed,1);
+sendsysmessage(character, "You plant the seed");
+
+endprogram
+
+///////////////////
+//  Figures out if the maptile is valid for planting plants (farmland only)
+///////////////////
+
+function is_plantable (maptile)
+	if (maptile >= 0x9 and maptile <= 0x15)
+		return 1;
+	elseif (maptile >= 0x14f and maptile <= 0x15c)
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+///////////////////
+//  Figures out if the place is valid for planting trees (grass only)
+///////////////////
+
+function is_plantable_for_trees (maptile)
+	if (maptile >= 3 and maptile <= 6)
+		return 1;
+	elseif (maptile >= 172 and maptile <= 219)
+		return 1;
+	elseif (maptile >= 433 and maptile <= 434)
+		return 1;
+	elseif (maptile >= 1401 and maptile <= 1424)
+		return 1;
+	elseif (maptile >= 1521 and maptile <= 1560)
+		return 1;
+	elseif (maptile >= 1697 and maptile <= 1730)
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+///////////////////
+//  Counts the plants directly surrounding player
+///////////////////
+
+function CountPlantsInArea (x, y, z, range)
+	var plant_count := 0;
+	foreach item in ListItemsNearLocation (x, y, z, range)
+		if (cfg[item.objtype].product)
+			plant_count := plant_count + 1;
+		endif
+	endforeach
+	return plant_count;
+endfunction
+

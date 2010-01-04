@@ -1,0 +1,431 @@
+use uo;
+use os;
+use npc;
+use util;
+use cfgfile;
+
+include "include/dist";
+include "include/client";
+include "include/res";
+//include "include/resPenalty";
+include "include/canAccess";
+include "include/attributes";
+
+var clock := ReadGameClock();
+
+program use_bandages (who, item)
+  EraseObjProperty(who, "IsMeditating");
+  if(!can_access(who, item))
+    return;
+  endif
+  if(item.movable = 0)
+    SendSysMessage(who, "You cannot use that.");
+    return;
+  endif
+  var Sleeptime;
+  if(!ReserveItem(item))
+    return;
+  endif
+  if(!GetObjProperty(who, "HealTimer"))
+    EraseObjProperty(who, "#Healing");
+  elseif(clock != GetObjProperty(who, "HealTimer"))
+    EraseObjProperty(who, "#Healing");
+  endif
+  if(GetObjProperty(who, "#Healing"))
+    SendSysmessage(who, "You cannot heal but 1 person at a time!");
+    return;
+  endif
+  SendSysmessage(who, "who would you like to heal?");
+  var patient;
+  if (GetObjProperty (who, "#dotheal"))
+    patient := who;
+  else
+    patient  := Target(who, TGTOPT_HELPFUL + TGTOPT_CHECK_LOS);
+  endif
+  if(!patient)
+    SendSysmessage(who, "Cancelled.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+  var Anatomy:= GetBaseSkill(who, SKILLID_ANATOMY);
+  var poison_level := Cint(GetObjProperty(patient, "poison_level"));
+  if(dist(who, patient) >= 2)
+    SendSysMessage(who, "Your patient is too far");
+    EraseObjProperty(who, "#Healing");
+    return;
+  elseif(!CheckLineOfSight(who,patient))
+	SendSysMessage(who,"You cant see your patient");
+        EraseObjProperty(who, "#Healing");
+	return;
+  elseif((GetHp(patient) >= GetMaxHp(patient)) and (poison_level < 1))
+	SendSysMessage(who,"Your patient is at full health");
+        EraseObjProperty(who, "#Healing");
+	return;
+  endif
+  detach();
+  SetObjProperty(who, "HealTimer", clock);
+  if((patient.graphic = 0x190) or (patient.graphic = 0x191) )
+  	if(Patient.serial = who.serial)
+	  if(poison_level > 0)
+        SendSysMessage(who,"You start to cure yourself");
+        if(SubtractAmount(Item , 1))
+		  cure(who, patient);
+        endif
+      else
+        SendSysMessage(who,"You start to heal yourself");
+        if(SubtractAmount(Item , 1))
+		  heal(who, patient);
+        endif
+	  endif
+    elseif(poison_level > 0)
+      if(Patient.dead)
+		SendSysMessage(who,"Your patient is dead");
+                EraseObjProperty(who, "#Healing");
+		return;
+      elseif(!CheckLineOfSight(who,patient))
+        SendSysMessage(who,"You cant see you patient");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+      if(SubtractAmount( Item , 1 ) and (dist(who, patient) <= 1))
+        SendSysMessage(who,"You start to cure " + patient.name);
+        SendSysMessage(patient,who.name + " starts to cure you");
+        cure(who, patient);
+      else
+        SendSysMessage(who, "Your Patient is too far");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+	else
+      if(Patient.dead)
+		SendSysMessage(who,"Your patient is dead");
+                EraseObjProperty(who, "#Healing");
+		return;
+	  elseif(!CheckLineOfSight(who, patient))
+		SendSysMessage(who,"You cant see you patient");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+      if(SubtractAmount(Item , 1) and (dist(who, patient) <= 1))
+        SendSysMessage(who,"You start to heal "+patient.name);
+        SendSysMessage(patient,who.name+" starts to heal you");
+        heal(who, patient);
+      else
+        SendSysMessage(who, "Your patient is too far");
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+    endif
+  elseif(patient.dead)
+    if(!CheckLineOfSight(who,patient))
+	  SendSysMessage(who,"You cant see your patient anymore");
+          EraseObjProperty(who, "#Healing");
+	  return;
+    endif
+    if(SubtractAmount( Item , 1 ) and (dist(who, patient) <= 1))
+      SendSysMessage(who,"You start to resurrect " + patient.name);
+      SendSysMessage(patient, who.name + " starts to resurrect you");
+      resurrect_pc (who, patient);
+    else
+      SendSysMessage(who, "Your Patient is too far");
+      EraseObjProperty(who, "#Healing");
+      return;
+    endif
+  elseif(patient.npctemplate)
+    var parms := {};
+    parms[1] := patient;
+    parms[2] := who;
+    if(dist(who, patient) < 2)
+      if(SubtractAmount(Item, 1))
+        start_script(":veterinary:vet", parms);
+        EraseObjProperty(who, "#Healing");
+        return;
+      endif
+    else
+      SendSysMessage(who, "Your patient is too far");
+      EraseObjProperty(who, "#Healing");
+      return;
+    endif
+  else
+    SendSysmessage( who , "You cant heal that." );
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endprogram
+
+function heal(who, patient)
+  SetObjProperty(who, "#Healing", 1);
+  var chp;
+  var healing := (Cint(GetBaseSkill(who, SKILLID_HEALING)) / 2);
+  var anatomy := (Cint(GetBaseSkill(who, SKILLID_ANATOMY)) / 5);
+  var healamt := healing + anatomy + 10;
+  var basehealamt := healamt;
+  var counter := 0;
+  var cycles;
+  var count := 0;
+  if(patient = who)
+    var dexcheck := (GetBaseDexterity(who) / 20);
+    cycles := (13 - dexcheck);
+  else
+    if(GetBaseDexterity(who) <= 33)
+      cycles := 5;
+    elseif(GetBaseDexterity(who) <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  var chk := 0;
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "HealTimer"))
+      chk := 1;
+      EraseObjProperty(who, "#Healing");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    chp := GetHP(who);
+    sleep(1);
+    if(dist(who, patient) > 1)
+      sendsysmessage(who,"Your patient isnt close enough.");
+      sendsysmessage(patient, who.name + "has stopped healing you.");
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    if(GetHP(who) < chp)
+      if((RandomInt(basehealamt)+1) >= GetBaseDexterity(who))
+        SendSysMessage( who, "Your fingers slip." );
+        healamt := (healamt * 0.90);
+        count := count + 1;
+        if(count >= 5)
+          healamt := 5;
+        endif
+      endif
+    endif
+    if(patient.graphic = 970)
+      resurrect_pc(who, patient);
+      break;
+    endif
+//    if(getobjproperty(patient,"poison_level"))
+//      cure(who, patient);
+//      break;
+//    endif
+    if(counter >= cycles)
+      var diff := 100 - Cint((GetHP(patient) * 100.0) / GetMaxHP(patient));
+      if(CheckSkill(who, SKILLID_HEALING, diff, 0))
+        if(healamt <= 5)
+          sendsysmessage(who,"You finish applying the bandages, but they barely help.");
+          EraseObjProperty(who, "#Healing");
+        endif
+        if((GetMaxHP(patient) - GetHP(patient)) >= healamt)
+          healdamage(patient, healamt);
+          AwardPoints(who, SKILLID_HEALING, (healamt * 2));
+          EraseObjProperty(who, "#Healing");
+        else
+          healamt := (GetMaxHP(patient) - GetHP(patient));
+          healdamage(patient, healamt);
+          AwardPoints(who, SKILLID_HEALING, (healamt * 2));
+          EraseObjProperty(who, "#Healing");
+        endif
+        if(GetHP(patient) >= GetMaxHP(patient))
+		  sendsysmessage(who, "you have healed your patient completely");
+		  sendsysmessage(patient, who.name + " has healed you completely");
+                  EraseObjProperty(who, "#Healing");
+        else
+		  sendsysmessage(who, "you successfully heal " + patient.name);
+		  sendsysmessage(patient, who.name + " has healed you.");
+                  EraseObjProperty(who, "#Healing");
+	    endif
+        break;
+      else
+        SendSysmessage ( who , "You could not heal him." );
+        EraseObjProperty(who, "#Healing");
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+  if(chk = 1)
+    SendSysMessage(who, "You stop healing your patient.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endfunction
+
+function cure(who, patient)
+  SetObjProperty(who, "#Healing", 1);
+  var chp;
+  var healing := (Cint(GetBaseSkill(who, SKILLID_HEALING)) / 25);
+  var anatomy := (Cint(GetBaseSkill(who, SKILLID_ANATOMY)) / 50);
+  var healamt := healing + anatomy;
+  var counter := 0;
+  var cycles;
+  var count := 0;
+  if(patient = who)
+    var dexcheck := (GetBaseDexterity(who) / 20);
+    cycles := (15 - dexcheck);
+  else
+    if(GetBaseDexterity(who) <= 33)
+      cycles := 5;
+    elseif(GetBaseDexterity(who) <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  var chk := 0;
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "HealTimer"))
+      chk := 1;
+      EraseObjProperty(who, "#Healing");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    chp:=GetHP(who);
+    sleep(1);
+    if(dist(who, patient) > 1)
+      sendsysmessage(who,"Your patient isnt close enough.");
+      sendsysmessage(patient, who.name + "has stopped healing you.");
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+	if(GetHP(who) < chp)
+      if((RandomInt(100)+1) > GetBaseDexterity(who))
+	    SendSysMessage( who, "Your fingers slip." );
+        healamt := (healamt - 1);
+        count := count + 1;
+        if(count >= 5)
+          healamt := 0;
+        endif
+      endif
+	endif
+    if(patient.graphic = 970)
+      resurrect_pc(who, patient);
+      break;
+    endif
+    if(counter >= cycles)
+      var poison_level := GetObjProperty(patient,"poison_level");
+      var chealamt := poison_level * 3;
+      if(CheckSkill(who, SKILLID_HEALING, 65, 0) and (Cint(GetBaseSkill(who, SKILLID_HEALING)) >= 60))
+        if(healamt > 0)
+          if(healamt >= poison_level)
+            EraseObjProperty(patient,"poison_level");
+            SendSysMessage(who,"You have cured your patient completely.");
+            SendSysMessage(patient, who.name + "has cured you completely.");
+            patient.SetPoisoned(0);
+            AwardPoints(who, SKILLID_HEALING, (healamt * 5));
+            healdamage(patient, chealamt);
+            EraseObjProperty(who, "#Healing");
+          else
+            SetObjProperty(patient,"poison_level", (poison_level - healamt));
+            SendSysMessage(who,"You have partially cured your patient.");
+            SendSysMessage(patient, who.name + "has partially cured you .");
+            AwardPoints(who, SKILLID_HEALING, (healamt * 5));
+            EraseObjProperty(who, "#Healing");
+          endif
+        else
+          sendsysmessage(who,"You finish applying the bandages, but they barely help.");
+          EraseObjProperty(who, "#Healing");
+        endif
+        break;
+      else
+        SendSysmessage ( who , "You could not cure them." );
+        EraseObjProperty(who, "#Healing");
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+  if(chk = 1)
+    SendSysMessage(who, "You stop curing your patient.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endfunction
+
+function resurrect_pc(who, patient)
+  SetObjProperty(who, "#Healing", 1);
+  var chp;
+  var healamt := CInt(GetBaseSkill(who, SKILLID_HEALING));
+  var sspeak  := (CInt(GetEffectiveSkill(who, SKILLID_SPIRITSPEAK)) / 5);
+  if(sspeak <= 1)
+    sspeak := 1;
+  endif
+  var basehealamt := healamt;
+  var counter := 0;
+  var chk := 0;
+  if (patient.multi)
+    SendSysMessage(who, "You may not ressurect inside a house.",3,31);
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+  while(counter <= 10)
+    if(!GetObjProperty(who, "HealTimer"))
+      chk := 1;
+      EraseObjProperty(who, "#Healing");
+      break;
+    elseif(clock != GetObjProperty(who, "HealTimer"))
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+    chp:=GetHP(who);
+    sleep(1);
+    if(dist(who, patient) > 1)
+      sendsysmessage(who,"your patient isnt close enough.");
+      sendsysmessage(patient, who.name + "has stopped healing you.");
+      EraseObjProperty(who, "#Healing");
+      break;
+    endif
+	if(GetHP(who) < chp)
+      if((RandomInt(100)+1) > GetBaseDexterity(who))
+	    SendSysMessage(who, "Your fingers slip.");
+        healamt := (healamt * 0.9);
+      endif
+	endif
+    if(getobjproperty(patient,"poison_level"))
+      EraseObjProperty(patient,"poison_level");
+    endif
+    if(counter >= 10)
+      var sdiff := 85 - CInt(sspeak);
+      if((CheckSkill(who, SKILLID_HEALING, sdiff, 0)) and (Cint(GetBaseSkill(who, SKILLID_ANATOMY)) >= 81) and (Cint(GetBaseSkill(who, SKILLID_HEALING)) >= 81))
+        if ((patient.multi) or (who.multi))
+          SendSysMessage(who, "You may not ressurect inside a house.",3,31);
+          EraseObjProperty(who, "#Healing");
+          return;
+        endif
+        if (!CheckLosAt( who, patient.x, patient.y, patient.z ))
+          SendSysMessage(who, "You can no longer see your patient.",3,31);
+          EraseObjProperty(who, "#Healing");
+          return;
+        endif
+        if((RandomInt(basehealamt) + 1) < healamt);
+          AwardPoints(who, SKILLID_HEALING, 50);
+          EraseObjProperty(who, "#Healing");
+          if(ResNow(patient)==1)
+            resurrect(patient);
+//            ResPenalties(patient);
+            SendSysmessage(who, "You have resurrected " + patient.name);
+            EraseObjProperty(who, "#Healing");
+          else
+            SendSysmessage(who, "The patient refused resurrection." );
+            EraseObjProperty(who, "#Healing");
+          endif
+        else
+          SendSysmessage(who, "You could not resurrect him.");
+          EraseObjProperty(who, "#Healing");
+        endif
+      else
+        SendSysmessage(who, "You could not resurrect him.");
+        EraseObjProperty(who, "#Healing");
+        break;
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+  if(chk = 1)
+    SendSysMessage(who, "You stop healing your patient.");
+    EraseObjProperty(who, "#Healing");
+    return;
+  endif
+endfunction

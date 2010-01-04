@@ -1,0 +1,428 @@
+use uo;
+use basic;
+use cfgfile;
+use util;
+use os;
+
+include "include/bitwise";
+include "include/attributes";
+include "include/client";
+include "include/objtype";
+include "include/skillPoints";
+include "include/canAccess";
+include "include/noto";
+
+var config_file;
+Const SOUND_EFFECT_INSCRIPTION := 0x50;
+Const SOUND_EFFECT_SPARKLE := 0x1e8;
+Const EFFECT_SPARKLE :=  0x373a;
+
+program do_inscription( who )
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  var themenu,value,the_item,the_book,skill,points;
+  var elem,spell_name,selected_spell,product,spellnum;
+  var circle,themana;
+  var spells := { };
+  config_file := ReadConfigFile( "inscription");
+  SendSysMessage(who, "What would you like to inscribe?");
+  the_item := Target(who, "");
+  if(!can_access(who, the_item))
+    return;
+  endif
+  if(the_item.movable == 0)
+    SendSysMessage(who, "You cannot use that.");
+    return;
+  endif
+  if(!the_item)
+    SendSysMessage(who, "Targetting cancelled.");
+    return;
+  endif
+  if(!Accessible(who, the_item))
+    SendSysMessage(who, "You can't reach that!");
+    return;
+  endif
+  if(!ReserveItem(the_item))
+    return;
+  endif
+  if(the_item.objtype == UOBJ_BLANK_SCROLL)
+    foreach thing in ListRootItemsInContainer(who.backpack)
+      if(thing.objtype == 0x0efa)
+        the_book := thing;
+        break;
+      endif
+    endforeach
+    if(!the_book)
+      SendSysMessage(who, "You dont have a spellbook.");
+      return;
+    endif
+    if(!Accessible(who, the_book))
+      SendSysMessage(who, "You can't reach that!");
+      return;
+    endif
+    if(the_book.objtype != UOBJ_SPELLBOOK)
+      SendSysMessage(who, "You can't inscribe from that!");
+      return;
+    endif
+    selected_spell := MakeAndProcessMenu(who, the_book);
+    if(!selected_spell)
+      return;
+    endif
+    elem := FindConfigElem(config_file, selected_spell);
+    skill := GetConfigInt(elem, "skill");
+    points := GetConfigInt(elem, "points");
+    circle := GetConfigInt(elem, "circle");
+    themana := usemana(who, circle);
+    product := GetConfigInt(elem, "scroll");
+    spellnum := GetConfigInt(elem, "SpellId");
+    if(themana == 0)
+      SendSysMessage(who,"you do not have enough mana.");
+      return;
+    endif
+    var bLoop := GetObjProperty(who,"autoScribe");
+   	if ((the_item.amount > 1) && (bLoop))
+		SendSysMessage(who, "You stand still and begin scribing " + the_item.amount + " scrolls...");
+	else
+		SendSysMessage(who, "You stand still and begin scribing a scroll...");
+	endif
+	var px := who.x, py := who.y;
+    while((px = who.x) && (py = who.y))
+      if (GetMana(who) < themana)
+		SendSysMessage(who, "You dont have enough mana to continue.");
+		return;
+	  endif
+      if(CheckSkill(who, SKILLID_INSCRIPTION, skill, points))
+        PlaySoundEffect(who, SOUND_EFFECT_INSCRIPTION);
+        if(SubtractAmount(the_item,1))
+          var thescroll := CreateItemInBackpack(who, product);
+          SendSysMessage(who, "You create the scroll and put it in your backpack");
+          SetMana(who, GetMana(who) - themana);
+        else
+          SendSysMessage(who,"You run out of scrolls");
+          return;
+        endif
+      elseif(!CheckSkill(who, SKILLID_INSCRIPTION, skill, points))
+        SendSysMessage(who, "You fail and destroy the scroll");
+        SetMana(who, GetMana(who) - (themana/2));
+        SubtractAmount(the_item,1);
+      else
+        SendSysmessage (who, "You fail to scribe the scroll");
+        SetMana(who, GetMana(who) - (themana/3));
+      endif
+      if (!bLoop)
+      	return;
+      endif
+      Sleep(2);
+    endwhile
+  elseif((the_item.objtype == 0x1f14) || (the_item.objtype == 0x1f15))
+    CreateRunebook(who, the_item);
+    return;
+  elseif ( (the_item.objtype <= 0xA110) and (the_item.objtype >= 0xA101) )
+    InscribeNecroSpell(who, the_item);
+  elseif ( (the_item.objtype <= 0xB110) and (the_item.objtype >= 0xB101) )
+    InscribeDruidSpell(who, the_item);
+  elseif ( (the_item.objtype >= 0x0F0F) and (the_item.objtype <= 0x0F11) )
+    RechargeItem(who, the_item);
+  elseif ( (the_item.objtype == 0x0F13) || (the_item.objtype == 0x0F15) || (the_item.objtype == 0x0F16) || (the_item.objtype == 0x0F18)  || (the_item.objtype == 0x0F25) || (the_item.objtype == 0x0F30))
+    RechargeItem(who, the_item);
+  else
+    SendSysMessage(who, "You can't inscribe that!");
+  endif
+endprogram
+
+function CreateRunebook(who, the_item)
+  SendSysMessage(who,"target the scrolls you wish to make the book out of. [needs 8]");
+  var scrolls := Target(who);
+  if(!scrolls)
+    SendSysMessage(who,"cancelled.");
+    return;
+  endif
+  if(!can_access(who, scrolls))
+    return;
+  endif
+  if(!ReserveItem(scrolls))
+    return;
+  endif
+  if(scrolls.objtype != 0xe34)
+    SendSysMessage(who,"those are not blank scrolls.");
+    return;
+  endif
+  if(scrolls.amount < 8)
+    SendSysMessage(who,"there are not enough blank scrolls for that.");
+    return;
+  endif
+  SendSysMessage(who,"target a recall scroll. [needs 1]");
+  var recall := Target(who);
+  if(!recall)
+    SendSysMessage(who,"cancelled.");
+    return;
+  endif
+  if(!can_access(who, recall))
+    return;
+  endif
+  if(!ReserveItem(recall))
+    return;
+  endif
+  if(recall.objtype != 0x1f4c)
+    SendSysMessage(who,"that is not a recall scroll.");
+    return;
+  endif
+  SendSysMessage(who,"target a gate scroll. [needs 1]");
+  var gate := Target(who);
+  if(!gate)
+    SendSysMessage(who,"cancelled.");
+    return;
+  endif
+  if(!ReserveItem(gate))
+    return;
+  endif
+  if(!can_access(who, gate))
+    return;
+  endif
+  if(gate.objtype != 0x1f60)
+    SendSysMessage(who,"that is not a gate scroll.");
+    return;
+  endif
+  if(CheckSkill(who, SKILLID_INSCRIPTION, 70, 900))
+    if(SubtractAmount(the_item, 1) && SubtractAmount(scrolls, 8) && SubtractAmount(recall, 1) && SubtractAmount(gate, 1))
+      if((RandomInt(GetEffectiveSkill(who, SKILLID_INSCRIPTION)) + 1) > 90)
+	    PlaySoundEffect(who, SOUND_EFFECT_INSCRIPTION);
+	    SendSysMessage(who, "You create an exceptional runebook.");
+            var book := CreateItemInBackpack(who, 0x6100);
+            book.quality := 1.2;
+            SetObjProperty(book,"charges", 10);
+            SetObjProperty(book, "maxcharges", 10);
+            book.buyprice := CInt(book.buyprice * book.quality);
+      else
+	    PlaySoundEffect(who, SOUND_EFFECT_INSCRIPTION);
+	    SendSysMessage(who, "You create a runebook.");
+        var book := CreateItemInBackpack(who, 0x6100);
+            SetObjProperty(book,"charges", 5);
+            SetObjProperty(book, "maxcharges", 5);
+      endif
+    endif
+  else
+	SendSysMessage(who, "You fail, and destroy the rune");
+    SubtractAmount(the_item,1);
+  endif
+endfunction
+
+function InscribeNecroSpell(who, the_item)
+
+	SendSysmessage( who, "Select the infernal tome in which to inscribe." );
+        var the_book := target(who);
+        if (!the_book)
+            SendSysmessage(who, "Targetting cancelled.");
+            return;
+        endif
+
+        if (not Accessible(who, the_book))
+            SendSysmessage (who, "You can't reach that!");
+            return;
+        endif
+
+        if (the_book.objtype != 0xA100)
+            SendSysmessage (who, "You must select a necromatic spellbook.");
+            return;
+        endif
+
+	var elem := FindConfigElem(config_file, the_item.objtype);
+        var skill := GetConfigInt(elem, "skill");
+        var points := GetConfigInt(elem, "points");
+	var FlagRegister := GetConfigInt(elem, "flagset");
+	var Flag := GetConfigInt(elem, "flag");
+	var Circle := "";
+
+	if (FlagRegister = 1)
+		Circle := "Lesser";
+	else
+		Circle := "Greater";
+	endif
+
+	FlagRegister := GetObjProperty(the_book, Circle);
+	FlagRegister := Cint(FlagRegister);
+
+	if (FlagCheck(FlagRegister, Flag) = 1)
+		SendSysMessage(who, "That spell is already inscribed.");
+		return;
+	endif
+
+        var skillcheck := CheckSkill(who, SKILLID_INSCRIPTION, skill, points);
+
+        if (skillcheck > 0)
+		PlaySoundEffect(who, SOUND_EFFECT_INSCRIPTION);
+		PlayObjectCenteredEffect( the_book, EFFECT_SPARKLE, 10,10);
+		SubtractAmount(the_item,1);
+		SendSysmessage (who, "You inscribe the spell into your Codex.");
+		FlagRegister := FlagSet(FlagRegister, Flag);
+		FlagRegister := CStr(FlagRegister);
+		SetObjProperty(the_book, Circle, FlagRegister);
+        else
+		SendSysmessage (who, "You fail, and destroy the scroll");
+		SubtractAmount(the_item,1);
+        endif
+endfunction
+
+function InscribeDruidSpell(character, the_item)
+
+        SendSysmessage( character, "Select your Earth Book in which to inscribe." );
+        var the_book := target(character, "");
+        if (!the_book)
+            SendSysmessage(character, "Targetting cancelled.");
+            return;
+        endif
+
+        if (not Accessible(character, the_book))
+            SendSysmessage (character, "You can't reach that!");
+            return;
+        endif
+
+        if (the_book.objtype != 0xB100)
+            SendSysmessage (character, "You must select The Book of the Earth!");
+            return;
+        endif
+
+	var elem := FindConfigElem(config_file, the_item.objtype);
+        var skill := GetConfigInt(elem, "skill");
+        var points := GetConfigInt(elem, "points");
+	var FlagRegister := GetConfigInt(elem, "flagset");
+	var Flag := GetConfigInt(elem, "flag");
+	var Circle := "";
+
+	if (FlagRegister = 1)
+		Circle := "Lesser";
+	else
+		Circle := "Greater";
+	endif
+
+	FlagRegister := GetObjProperty(the_book, Circle);
+	FlagRegister := Cint(FlagRegister);
+
+	if (FlagCheck(FlagRegister, Flag) = 1)
+		SendSysMessage(character, "That spell is already inscribed.");
+		return;
+	endif
+
+        var skillcheck := CheckSkill(character, SKILLID_INSCRIPTION, skill, points);
+
+        if (skillcheck > 0)
+		PlaySoundEffect(character, SOUND_EFFECT_INSCRIPTION);
+		PlayObjectCenteredEffect( the_book, EFFECT_SPARKLE, 10,10);
+		SubtractAmount(the_item,1);
+                SendSysmessage (character, "You inscribe the spell into your Earth Book.");
+		FlagRegister := FlagSet(FlagRegister, Flag);
+		FlagRegister := CStr(FlagRegister);
+		SetObjProperty(the_book, Circle, FlagRegister);
+        else
+		SendSysmessage (character, "You fail, and destroy the scroll");
+		SubtractAmount(the_item,1);
+        endif
+endfunction
+
+function RechargeItem(character, the_item)
+ If(GetEffectiveSkill(character, SKILLID_INSCRIPTION) >= 105)
+        SendSysmessage( character, "Select the article to Recharge." );
+        var the_book := target(character, "");
+        if (!the_book)
+            SendSysmessage(character, "Targetting cancelled.");
+            return;
+        endif
+        if (not Accessible(character, the_book))
+            SendSysmessage (character, "You can't reach that!");
+            return;
+        endif
+        var charges := GetObjProperty(the_book, "charges");
+        if (charges.errortext)
+            SendSysmessage (character, "That item cannot be recharged!");
+            return;
+        endif
+        if (charges > 20)
+            SendSysmessage (character, "That item already has 20 charges.");
+            return;
+        endif
+
+        var skillcheck := GetEffectiveSkill(character, SKILLID_MAGERY);
+        var newcharge;
+        if (skillcheck > 80)
+		PlaySoundEffect(character, SOUND_EFFECT_INSCRIPTION);
+		PlayObjectCenteredEffect( the_book, EFFECT_SPARKLE, 10,10);
+		SubtractAmount(the_item, 1);
+                SendSysmessage (character, "You succefully add a charge to the item.");
+                newcharge := (charges + 1);
+		SetObjProperty(the_book, "charges", newcharge);
+        else
+		SendSysmessage (character, "You fail, and destroy the item!");
+		SubtractAmount(the_item,1);
+        endif
+  else
+    SendSysMessage (character, "You are not skilled enough to recharge items.");
+    return;
+ endif
+endfunction
+
+function MakeAndProcessMenu(who, spellbook)
+    set_priority(1);
+    var circles := { };
+    foreach spell in EnumerateItemsInContainer(spellbook)
+      var elem := FindConfigElem(config_file, spell.objtype);
+      var thecircle := GetConfigInt(elem, "circle");
+      circles[thecircle] := 1;
+    endforeach
+    var i;
+    var tmenu := CreateMenu("Select a circle to inscribe");
+    for (i := 1; i <= 8; i := i + 1)
+      if (circles[i] == 1)
+        AddMenuItem(tmenu, 0x20bf + i, "Circle " + CStr(i) + " spells");
+      endif
+    endfor
+    var firstchoice:= SelectMenuItem2(who, tmenu);
+    if (!firstchoice.index)
+      return 0;
+    endif
+    var tmenu2 := CreateMenu("Select a spell to inscribe");
+    foreach spell in EnumerateItemsInContainer(spellbook)
+    var elem := FindConfigElem(config_file, spell.objtype);
+    var thecircle := GetConfigInt(elem, "circle");
+    if (thecircle == firstchoice.objtype - 0x20bf)
+      var spellname := GetConfigString(elem, "name");
+      var thetype := GetConfigInt(elem, "graphic");
+      AddMenuItem(tmenu2, thetype, spellname);
+    endif
+    endforeach
+    var hischoice := SelectMenuItem2(who, tmenu2);
+    set_priority(50);
+    if (!hischoice.index)
+      return 0;
+    else
+      return hischoice.objtype;
+    endif
+endfunction
+
+function usemana(who, circle)
+  var umana;
+  case (circle)
+    1: umana :=   4;
+    2: umana :=   6;
+    3: umana :=   9;
+    4: umana :=  11;
+    5: umana :=  14;
+    6: umana :=  20;
+    7: umana :=  40;
+    8: umana :=  50;
+  endcase
+  if(GetMana(who) >= umana)
+    return umana;
+  else
+    return 0;
+  endif
+endfunction
+
+function ListRootItemsInContainer(container)
+  var ret := { };
+  foreach item in EnumerateItemsInContainer(container)
+    if ( item.container.serial == container.serial )
+	  ret[len(ret)+1] := item;
+    endif
+  endforeach
+  return ret;
+endfunction

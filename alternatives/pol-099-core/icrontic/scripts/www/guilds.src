@@ -1,0 +1,67 @@
+											/*
+								     	    guilds.src  //
+								            www folder	//
+						     	  Webpage displayer for guilds	//
+											//
+//////////////////////////////////////////////////////////////////////////////////////////
+
+                      ////    ////// //   //  //  //////  //  //  //////
+                     //  //  //      //  //  //  //  //  //  //  //
+                    //  //  ////     // //  //  //  //  //  //  //////
+                   //  //  //        ////  //  //  //  //  //      //
+                  /////   //////     ///  //  //////  //////  //////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  This file was created by Developer Devious of Neverlands Shard
+//  http://www.neverlands.org/
+//  devtempo@telusplanet.net
+//  Released under extraordinary circumstances, never trust Ego-Crusher, Icrontic, Kain,
+//    "Shai`tain", ever, for he was the reason these files were released, beyond my will.
+//  I hope everybody enjoys these scripts, and give credit where it is due, unlike the
+//    backstabbing bastard above who claimed my scripts and nearly released them before
+//    I did.
+*/
+
+
+
+
+
+use uo;
+use os;
+use http;
+
+var webby:= GetGlobalProperty("webpageGuild");
+var guilds:= len(ListGuilds());
+var members:= CInt(GetGlobalProperty("webpageGuildMembers"));
+var warriorguilds:= CInt(GetGlobalProperty("webpageGuildWarriors"));
+var merchantguilds:= CInt(GetGlobalProperty("webpageGuildMerchants"));
+var newbieguilds:= CInt(GetGlobalProperty("webpageGuildNewbies"));
+var loop:= 0;
+
+foreach line in webby
+
+  loop:= loop + 1;
+
+  if(loop = 100)
+    SleepMS(250);
+    loop:= 0;
+  endif
+
+  if(line["<guilds>"])
+    line:= "&nbsp&nbsp<b>»</b>Total Guilds: "+ guilds;
+  elseif(line["<members>"])
+    line:= "&nbsp&nbsp<b>»</b>Total Members: "+ members;
+  elseif(line["<averageguildsize>"])
+    line:= "&nbsp&nbsp<b>»</b>Average Guild Size: "+ members / guilds;
+  elseif(line["<warriorguilds>"])
+    line:= "&nbsp&nbsp<b>»</b>Warrior Guilds: "+ warriorguilds;
+  elseif(line["<merchantguilds>"])
+    line:= "&nbsp&nbsp<b>»</b>Merchant Guilds: "+ merchantguilds;
+  elseif(line["<newbieguilds>"])
+    line:= "&nbsp&nbsp<b>»</b>Newbie Guilds: "+ newbieguilds;
+  endif
+
+  WriteHtml(line);
+
+endforeach

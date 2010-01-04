@@ -1,0 +1,75 @@
+use uo;
+use cfgfile;
+use util;
+use basic;
+use os;
+
+include "include/client";
+include "include/potion";
+include "include/canAccess";
+
+const REAGENT_START := 0x0f78;
+const REAGENT_STOP := 0x0f91;
+const SOUND_EFFECT_GRIND := 0x243;
+const SOUND_EFFECT_POUR := 0x241;
+const SOUND_EFFECT_BUBBLE :=  0x4f;
+const UOBJECT_EMPTY_BOTTLE := 0x0f0e;
+
+var conf := ReadConfigFile("alchemy");
+
+program use_mortar (who, mortar)
+  var targetted := 0;
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  if(!can_access(who, mortar))
+    return;
+  endif
+  if(!ReserveItem(mortar))
+    SendSysMessage(who, "That is already in use.");
+    return;
+  endif
+  Detach();
+  var auto:= GetObjProperty(who,"autoAlchemy");
+  if(auto)
+    if(GetObjProperty(who, "#Mixing"))
+        SendSysMessage(who, "You are already involved in the arts of Alchemy");
+        return;
+    else
+    SendSysMessage(who,"What would you like to use that on?");
+    SetObjProperty(who, "#Mixing", 1);
+    var use_on:= Target(who);
+    if(!use_on)
+      SendSysMessage(who,"Cancelled.");
+      EraseObjProperty(who, "#Mixing");
+      return;
+    endif
+      if(GetObjProperty(who, "#Mixing"))
+      make_the_potion(who, mortar, use_on);
+      Sleep(2);
+      endif
+    SendSysMessage(who,"Cancelled.");
+    EraseObjProperty(who, "#Mixing");
+  endif
+  else
+    if(GetObjProperty(mortar, "contents"))
+      var contents:= GetObjProperty(mortar, "contents");
+      PourPotion(who, mortar);
+    elseif(GetObjProperty(who, "#Mixing"))
+        SendSysMessage(who, "You are already involved in the arts of Alchemy");
+        return;
+    else
+      SendSysMessage( who, "What would you like to use that on?" );
+      SetObjProperty(who, "#Mixing", 1);
+      var use_on := Target(who);
+      if(!use_on)
+        SendSysMessage(who,"Cancelled.");
+        EraseObjProperty(who, "#Mixing");
+        return;
+      endif
+      make_the_potion(who, mortar, use_on);
+      EraseObjProperty(who, "#Mixing");
+    endif
+  endif
+  EraseObjProperty(mortar, "#IsMixing");
+  EraseObjProperty(who, "#Mixing");
+endprogram

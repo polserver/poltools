@@ -1,0 +1,298 @@
+///////////////////
+//  This program is called when either an empty glass or an empty pitcher is used.  It lets the user choose a target.
+//  If they target a water source, then it returns either a pitcher or a glass of water.  If they target a cow, they
+//  get either a pitcher of a glass of milk.
+//
+//  drocket
+//  jasong@cisnet.com
+///////////////////
+
+
+use uo;
+use os;
+use cfgfile;
+
+include "food";
+include "include/yesno";
+
+Const SOUND_EFFECT_SPLASH	:= 0x0026;
+Const SOUND_EFFECT_MOO		:= 0x007a;
+Const SOUND_EFFECT_POUR		:= 0x0241;
+
+program fill_glassware (character, used_item)
+
+	//first, reserve the pitcher
+	if(!ReserveItem (used_item))
+		SendSysMessage (character, "You cannot use that.");
+		return;
+	endif
+
+	//if the item used was an empty pitcher
+	if (used_item.objtype = 0x09a7)
+
+		SendSysmessage(character, "What would you like to fill the pitcher from?");
+		var targetted := TargetCoordinates(character);
+
+		//if nothing was targetted, send error and cancel
+		if (!targetted)
+			SendSysmessage (character, "Canceled.");
+			return;
+		//check if the item can be reached
+		elseif ( !is_accessible (character, targetted) )
+			SendSysmessage(character, "You cannot reach that.");
+			return;
+		elseif (!check_for_water (character, targetted) and !check_for_cows (character, targetted) )
+			SendSysMessage (character, "You cannot fill the pitcher there.");
+			return;
+		endif
+
+		//Send popup menu allowing user to autoloop, if applicable
+		var loopit := 0;
+		if (used_item.container.serial != character.backpack.serial)
+			loopit := 0;
+		else
+			loopit := YesNo(character,"Autoloop?");
+		endif
+
+		//data to make sure the characters don't move
+		var characterx := character.x;
+		var charactery := character.y;
+		var created_item := 0;;
+	
+		repeat
+			//make sure that the player can reach whatever he selected, so they can't run all over
+			//the place with the yes/no menu up before they fill the pitcher
+			if   ( !is_accessible (character, targetted) )
+				SendSysmessage(character,"You cannot reach that.");
+				return;
+			endif
+
+			//check to see if the target was a valid source of water.  If so, create a pitcher of water
+			if (check_for_water(character, targetted))
+				playsoundeffect (character, SOUND_EFFECT_SPLASH);
+				created_item := CreateItemInBackpack (character, 0x1f9e, 1);
+
+			elseif (check_for_cows (character, targetted))
+				playsoundeffect (character, SOUND_EFFECT_MOO);
+                                PerformAction( character, CInt(0x0020));
+				created_item := CreateItemInBackpack (character, 0x09ad, 1);
+
+			else
+				SendSysMessage (character, "You cannot fill the pitcher there.");
+				return;
+			endif
+
+			//if the used item has a defined name, save that name on the new item
+			if (used_item.name)
+				SetObjProperty (created_item, "EmptyName", used_item.name);
+			endif
+			//destroy the used item
+			DestroyItem (used_item);
+
+			//if they're not autolooping, exit
+			if (!loopit )
+				return;
+			//otherwise, look for the next glass pitcher
+			else
+				used_item := FindObjTypeInContainer (character.backpack, 0x09a7);
+				//if we didn't find one, exit
+				if (!used_item)
+					SendSysMessage (character, "You don't have any more pitchers.");
+					return;
+				elseif (!ReserveItem (used_item) )
+					return;
+				endif
+				ReserveItem (used_item);
+				sleep (2);
+			endif
+		until (character.x != characterx or character.y != charactery);
+		return;
+
+	//if its an empty glass
+	elseif (used_item.objtype = 0x1f81 )
+		SendSysmessage(character, "What would you like to fill the glass from?");
+		var targetted := TargetCoordinates(character);
+
+		//if nothing was targetted, send error and cancel
+		if (!targetted)
+			SendSysmessage (character, "Canceled.");
+			return;
+		endif
+
+		//make sure that the player can reach whatever he selected
+		if   ( !is_accessible (character, targetted) )
+			SendSysmessage(character,"You cannot reach that.");
+			return;
+		endif
+
+		//this checks to see if what was targetted was a bottle or pitcher, and stores the objtype of the
+		//type of glass that should be created
+		var created_glass_objtype := 0;
+
+		case (targetted.item.objtype)
+			0x099b:		created_glass_objtype := 0x1F85;
+			0x099F:		created_glass_objtype := 0x09EE;
+			0x09C7:		created_glass_objtype := 0x1F8D;
+			0x09c8:		created_glass_objtype := 0x1F7D;
+			0x1f9a:		created_glass_objtype := 0x1F85;
+			0x1f96:		created_glass_objtype := 0x09EE;
+			0x1f9c:		created_glass_objtype := 0x1F8D;
+			0x1f98:		created_glass_objtype := 0x1F7D;
+			0x1f9e:		created_glass_objtype := 0x1F91;
+			0x09ad:		created_glass_objtype := 0x1F89;
+		endcase;			
+
+		if (created_glass_objtype)
+			playsoundeffect (character, SOUND_EFFECT_POUR);
+			var created_item := CreateItemInBackpack (character, created_glass_objtype, 1);
+
+			//if the used item has a defined name, save that name on the new item
+			if (used_item.name)
+				SetObjProperty (created_item, "EmptyName", used_item.name);
+			endif
+
+			//destroy the used item
+			DestroyItem (used_item);
+
+			reduce_container_fullness (character, targetted.item);
+
+		//check to see if the target was a valid source of water
+		elseif (check_for_water(character, targetted))
+			playsoundeffect (character, SOUND_EFFECT_SPLASH);
+			var created_item := CreateItemInBackpack (character, 0x1F91, 1);
+
+			//if the used item has a defined name, save that name on the new item
+			if (used_item.name)
+				SetObjProperty (created_item, "EmptyName", used_item.name);
+			endif
+
+		 	//destroy the used item
+			DestroyItem (used_item);
+
+		//otherwise, see if the target was a cow.  If so, fill the glass with milk
+		elseif (check_for_cows (character, targetted))
+			playsoundeffect (character, SOUND_EFFECT_MOO);
+			var created_item := CreateItemInBackpack (character, 0x1F89, 1);
+
+			//if the used item has a defined name, save that name on the new item
+			if (used_item.name)
+				SetObjProperty (created_item, "EmptyName", used_item.name);
+			endif
+
+			//destroy the used item
+			DestroyItem (used_item);
+
+		//otherwise they targetted something else.  Give an error message
+		else
+			SendSysmessage(character,"You cannot fill the glass there.");
+			return;
+		endif
+
+	//otherwise they used something else, so give an error
+	else
+		SendSysmessage (character, "You don't know how to use that.");
+	endif
+endprogram
+
+
+
+
+///////////////////
+//  This function checks to see if the item that was selected is a cow
+///////////////////
+
+function check_for_cows (character, theobj)
+	if (theobj.mobile.objtype = 0xd8 or theobj.mobile.objtype = 0xe7)
+		return 1;
+	endif
+endfunction
+
+
+
+
+///////////////////
+//  This function checks to see if the item that was select was a valid water source
+///////////////////
+
+function check_for_water (character, theobj)
+	//static water tiles
+	if ((theobj.objtype >= 0x1796) and (theobj.objtype <= 0x17b2) )
+		return 1;
+	//more static water tiles
+	elseif ((theobj.objtype >= 0x346e) and (theobj.objtype <= 0x3530))
+		return 1;
+	//water troughs
+	elseif ((theobj.item.objtype >= 0xb41) and (theobj.item.objtype <= 0xb44))
+		return 1;
+	//water barrel and tub
+	elseif (theobj.item.objtype = 0x0e7b or theobj.item.objtype = 0x154d)
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+
+
+
+///////////////////
+//  This function checks to make sure that the item that was targetted is accessible to the character.  This has
+//  to be done in a different way depending on what the item that was targetted was
+///////////////////
+
+function is_accessible (character, targetted)
+
+	//in case it vanished for some reason
+	if (!targetted)
+		return 0;
+
+	//if whatever was targetted is an item...
+	elseif (targetted.item.objtype)
+
+		if (!ReserveItem (targetted.item) )
+			return 0;
+		endif
+
+		//check to see if its within 3 squares of the character
+		if (distance(character, targetted.item) < 3)
+			return 1;
+		//otherwise, check to see if its in the character's backpack
+		elseif ( targetted.item.container.serial = character.backpack.serial )
+			return 1;
+		//otherwise, fail
+		else
+			return 0;
+		endif
+		
+	//we can't use the Accessible function for mobiles because it only works on items.  We'll just check to see if
+	//what was selected is within 2 squares of the character
+	elseif (targetted.mobile.objtype)
+
+		var xdifference := character.x - targetted.mobile.x;
+		if (xdifference < -2 or xdifference > 2) 
+			return 0;
+		endif
+
+		var ydifference := character.y - targetted.mobile.y;
+		if (ydifference < -2 or ydifference > 2) 
+			return 0;
+		endif
+
+		return 1;
+
+	//otherwise what was targetted must have been within the world.  We'll give a 3 square range of use on this
+	//because otherwise its just about impossible to reach the water from shore
+	else
+		var xdifference := character.x - targetted.x;
+		if (xdifference < -3 or xdifference > 3) 
+			return 0;
+		endif
+		var ydifference := character.y - targetted.y;
+		if (ydifference < -3 or ydifference > 3) 
+			return 0;
+		endif
+		return 1;
+	endif
+endfunction
+
+

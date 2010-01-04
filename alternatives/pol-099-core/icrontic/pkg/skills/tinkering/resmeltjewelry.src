@@ -1,0 +1,54 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Created by Shurugwi Jan 10, 2001
+// - dclick on the non-magic jewelry made from DavidMagic to resmelt
+// - Normal jewelry need entry 'Script :tinkering:resmeltjewelry' param 
+// - to be added
+/////////////////////////////////////////////////////////////////////////////
+
+use os;
+use uo;
+
+include "include/objtype";
+include "include/client";
+
+var UNMAGIC_JEWELRY := {0x97AA, 0x97AB, 0x97AC, 0x97AD, 0x1085, 0x1086, 0x1087, 0x1088, 0x1089, 0x108a};
+//Const UOBJ_GOLD_INGOT := 0x1be9;
+
+program resmeltjewelry(character, item)
+    var theitem;
+    var skillneeded := 80;
+
+    if (!ReserveItem(item) or !item.movable)
+    	SendSysMessage(character,"You can't use that!");
+    	return;
+    endif
+//    if(item.objtype in UNMAGIC_JEWELRY) //No need for this
+    if ( !Accessible( character, item ) )
+        SendSysmessage( character, "You can't reach that." );
+        return;
+    endif
+
+    var Near_Items := ListItemsNearLocation(character.x, character.y, character.z,2);
+    foreach forge in Near_Items
+	    if ( ((forge.objtype >= UOBJ_FORGE_START) and (forge.objtype <= UOBJ_FORGE_END)) or (forge.objtype = UOBJ_SMALL_FORGE) )
+	        if (CheckSkill( character, SKILLID_TINKERING, skillneeded, skillneeded * 5 ))
+                theitem := CreateItemInBackpack( character, UOBJ_GOLD_INGOT, 1 );
+                if(theitem)
+                    SubtractAmount(item,1);
+                    SendSysMessage(character, "You create a gold ingot.");
+                    return;
+                endif
+              else
+                    SendSysMessage(character, "You fail and destroy the item.");
+                    SubtractAmount(item, 1);
+		    return;
+            endif
+        endif
+    endforeach
+    SendSysmessage( character, "You must be near a forge to smelt jewelry!" );
+//    endif
+    
+endprogram
+    
+

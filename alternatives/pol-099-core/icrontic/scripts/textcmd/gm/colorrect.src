@@ -1,0 +1,41 @@
+//
+// .colorrect command - changes item colors in a targetted rectangle
+//
+// usage: .colorrect [newcolor] {objtype}
+// 
+//  if objtype isn't specified, colors all items found. 
+//
+
+use uo;
+
+program textcmd_colorrect( who, params )
+    var newcolor, objtype;
+
+    params := SplitWords( params );
+    
+    newcolor := CInt(params[1]);
+    if (len(params) >= 2)
+        objtype := CInt( params[2] );
+    else
+        objtype := 0;
+    endif
+
+    SendSysMessage( who, "Target the top-left corner" );
+    var topleft := TargetCoordinates( who );
+    if (!topleft)
+        return;
+    endif
+    SendSysMessage( who, "Target the bottom-left corner" );
+    var botright := TargetCoordinates( who );
+    if (!botright)
+        return;
+    endif
+    
+    foreach item in ListObjectsInBox( topleft.x, topleft.y, topleft.z,
+                                      botright.x, botright.y, botright.z )
+        if (objtype == 0 OR item.objtype == objtype)
+            item.color := newcolor;
+        endif
+    endforeach
+       
+endprogram

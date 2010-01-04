@@ -1,0 +1,118 @@
+use uo;
+use os;
+use cfgfile;
+
+include "doors";
+include "include/attributes";
+
+program use_door(chr, door)
+  if(GetObjProperty(door, "#inuse"))
+    return;
+  endif
+  SetObjProperty(door, "#inuse", 1);
+  var doordesc := ReadConfigFile("itemdesc");
+  var dooroptions := ReadConfigFile("door");
+  var configuration := FindConfigElem(dooroptions, "doors");
+  var refresh := GetConfigString(configuration, "DoorsRefresh");
+  var flowoption := lower(GetConfigString(configuration, "OpenFromInside"));
+  var closelocked := lower(GetConfigString(configuration, "CloseLocked"));
+  if((chr.multi) && (!GetObjProperty(door, "Flow")) && (flowoption != "no"))
+    run_script_to_completion(":doors:setFlow", chr.multi);
+  endif
+  var hs := GetObjProperty(door, "houseserial");
+  if(!hs)
+    hs := GetObjProperty(door, "house_serial");
+  endif
+  if(hs)
+    var house := SystemFindObjectBySerial(hs);
+    var ss := GetObjProperty(house, "signserial");
+    var sign := SystemFindObjectBySerial(ss);
+    if(!sign)
+      var item := house.components;
+      var signarray := array(0xbd2, 0xbd0, 0xbd1);
+      foreach itemt in item
+        if(itemt.objtype in signarray)
+          SetObjProperty(house, "signserial", itemt.serial);
+          sign := itemt;
+          break;
+        endif
+      endforeach
+    endif
+    var friend := isfriend(chr, house);
+    if(friend = 1)
+      SendSysMessage(chr, "Your house and it's contents have been refreshed.");
+      SetObjProperty(sign,"decay", (ReadGameClock()+ 3444000));
+    endif
+  endif
+  if(IsLocked(chr, door, flowoption, closelocked))
+    PrintTextAbovePrivate(door, "That is locked.", chr);
+  else
+    if(GetObjProperty( door, "WhenOpened" ))
+      start_script(":doors:closeDoor", door);
+    else
+      detach();
+      start_script(":doors:openDoor", door);
+      if (refresh["yes"])
+        var param := array;
+        param[0] := chr;
+        param[1] := door;
+        start_script(":housing:refresh",param);
+      endif
+      foreach potentialdoor in ListObjectsInBox((door.x-1),(door.y-1),(door.z),(door.x+1),(door.y+1),(door.z))
+        if(!potentialdoor.hp)
+          var doortype := doordesc[potentialdoor.objtype].doortype;
+          if((doortype) && (door != potentialdoor))
+            if((!potentialdoor.locked) && (!GetObjProperty(potentialdoor, "WhenOpened")))
+              start_script(":doors:openDoor", potentialdoor);
+            endif
+           endif
+        endif
+      endforeach
+    endif
+  endif
+  EraseObjProperty(door, "#inuse");
+endprogram
+
+function isfriend(who, house)
+  var friend := 0;
+  if (GetObjProperty(house, "owneracct") == who.acctname)
+    friend := 1;
+  endif
+  var friendinfo := statuscheck(house, who, "friend");
+  var coownerinfo := statuscheck(house, who, "Co-Owner");
+  if(friendinfo)
+    friend := 1;
+  elseif(coownerinfo)
+    friend := 1;
+  endif
+  return friend;
+endfunction
+
+function statuscheck(house, who, type)
+
+ var coown := 0;
+ var friend := 0;
+ var i;
+             if(type == "Co-Owner")
+                   for(i := 1; i <= 5; i := i + 1)
+                     if(GetObjProperty( house , "Co-owner" + i ) = who.serial)
+                       coown := 1;
+                       break;
+                     endif
+                   endfor
+             elseif(type == "friend")
+                   for(i := 1; i <=20; i := i + 1)
+                     if(GetObjProperty( house , "friend" + i ) = who.serial)
+                       friend := 1;
+                       break;
+                     endif
+                   endfor
+             endif
+  if(coown)
+    return 1;
+  elseif(friend)
+    return 1;
+  else
+    return 0;
+  endif
+endfunction

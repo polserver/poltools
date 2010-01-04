@@ -1,0 +1,47 @@
+use uo;
+use util;
+use os;
+
+include "include/attributes";
+
+program reactivearmorhit(param)
+  var attacker := param[1];
+  var defender := param[2];
+  var weapon := param[3];
+  var armor := param[4];
+  var basedamage := param[5];
+  var rawdamage := param[6];
+  if((attacker.dead) || (defender.dead))
+    return;
+  endif
+  var charges := CInt(GetObjProperty(defender, "ReactiveArmor") );
+  if(!charges)
+    SetObjProperty(defender, "TempDamage", rawdamage);
+    return;
+  endif
+  var armormoda := GetObjProperty(attacker, "a_equipped");
+  var armormodd := GetObjProperty(defender, "a_equipped");
+  charges := charges - 1;
+  if(charges == 0)
+    EraseObjProperty(defender, "ReactiveArmor");
+  else
+    SetObjProperty(defender, "ReactiveArmor", charges);
+  endif
+//// Begin OSI style Mod for Inscription/Eval/Med with RA - MuadDib
+  var iskill := (GetEffectiveSkill(defender, SKILLID_INSCRIPTION));
+  var eskill := (GetEffectiveSkill(defender, SKILLID_EVALINT));
+  var mskill := (GetEffectiveSkill(defender, SKILLID_MEDITATION));
+  var skillpts := ((eskill + mskill + iskill) /4);
+  PlayObjectCenteredEffect(attacker, 0x374a, 10,10);
+  PlaySoundEffect(attacker, 0x1f2);
+  var newdamage := skillpts;
+  if(armormodd == "ACID")
+    newdamage := (newdamage / 2);
+    ApplyDamage(defender, newdamage);
+    ApplyDamage(attacker, newdamage);
+  else
+    ApplyDamage(attacker, newdamage);
+    SetObjProperty(defender, "TempDamage", rawdamage);
+  endif
+
+endprogram

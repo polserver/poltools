@@ -1,0 +1,76 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+include "include/skillPoints";
+include "include/attributes";
+include "include/spellRestrictions";
+include "include/client";
+include "include/spellAttack";
+
+var points := get_default_points(SKILLID_MAGICRESISTANCE);
+const EFFECT_SPARKLE := 0x373a;
+const SOUND_EFFECT_RES := 0x215;
+
+program mpoisonfield(character, item)
+  if((GetHp(character) < 1) || (character.cmdlevel > 2))
+    return;
+  endif
+  var npccfg := ReadConfigFile("::npcdesc");
+  var element;
+  var creater := GetObjProperty(item, "creater");
+  var fieldstrength;
+  var online := EnumerateOnlineCharacters();
+  var boss;
+  foreach char in online
+    if(creater == char.serial)
+      boss := char;
+      break;
+    endif
+  endforeach
+  if(!boss)
+    boss := SystemFindObjectBySerial(creater, SYSFIND_SEARCH_OFFLINE_MOBILES);
+  endif
+  if(boss.acctname)
+    SetScriptController(boss);
+  endif
+  var dmg := CInt(GetEffectiveSkill(boss, 30)/5);
+  var p_level := CInt(GetObjProperty(character, "poison_level"));
+  PlaySoundEffect(character, 0x206);
+  if(character.isA(POLCLASS_NPC))
+    element := npccfg[character.npctemplate].elemental;
+    if(element == "poison")
+      HealDamage(character, (dmg * 2));
+    else
+      SetScriptController(character);
+      send_attack(character, boss, 46);
+      ApplyRawDamage(character, 1);
+      HealDamage(character, 1);
+      p_level :=CInt(GetObjProperty(character, "poison_level"));
+      PlaySoundEffect(character, 0x206);
+      if ( p_level > 0)
+        PrintTextAbovePrivate(character, "You choke on the noxious fumes!", character);
+        ApplyRawDamage(character, Resisted( 5, boss, character, 2));
+      else
+        PrintTextAbovePrivate(character, "You have been poisoned!", character);
+        SetObjProperty(character, "poison_level", Resisted( 5, boss, character, 2));
+        start_script( ":spells:poisonDamage", character );
+      endif
+    endif
+  elseif((GetHp(character) > 1) && (character.cmdlevel < 2))
+    SetScriptController(character);
+    send_attack(character, boss, 46);
+    ApplyRawDamage(character, 1);
+    HealDamage(character, 1);
+    p_level :=CInt(GetObjProperty(character, "poison_level"));
+    PlaySoundEffect(character, 0x206);
+    if ( p_level > 0)
+      PrintTextAbovePrivate(character, "You choke on the noxious fumes!", character);
+      ApplyRawDamage(character, Resisted( 5, boss, character, 2));
+    else
+      PrintTextAbovePrivate(character, "You have been poisoned!", character);
+      SetObjProperty(character, "poison_level", Resisted( 5, boss, character, 2));
+      start_script( ":spells:poisonDamage", character );
+    endif
+  endif
+endprogram
