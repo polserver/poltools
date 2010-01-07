@@ -36,6 +36,16 @@ namespace Ultima
         private string indexPath;
         private string staticsPath;
 
+        public void CloseStreams()
+        {
+            if (m_Map != null)
+                m_Map.Close();
+            if (m_Index != null)
+                m_Index.Close();
+            if (m_Statics != null)
+                m_Statics.Close();
+        }
+
         public TileMatrix(int fileIndex, int mapID, int width, int height, string path)
         {
             Width = width;
@@ -283,10 +293,10 @@ namespace Ultima
             }
             finally
             {
-                if (m_Index != null)
-                    m_Index.Close();
-                if (m_Statics != null)
-                    m_Statics.Close();
+                //if (m_Index != null)
+                //    m_Index.Close();
+                //if (m_Statics != null)
+                //    m_Statics.Close();
             }
         }
 
@@ -318,7 +328,7 @@ namespace Ultima
                 {
                     gc.Free();
                 }
-                m_Map.Close();
+                //m_Map.Close();
             }
 
             return tiles;

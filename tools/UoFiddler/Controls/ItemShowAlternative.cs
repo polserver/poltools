@@ -307,19 +307,24 @@ namespace FiddlerControls
             pictureBox.Refresh();
         }
 
+        static Brush BrushLightBlue = Brushes.LightBlue;
+        static Brush BrushLightCoral = Brushes.LightCoral;
+        static Brush BrushRed = Brushes.Red;
+        static Pen PenGray = Pens.Gray;
+
         private void OnPaint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.White);
 
             for (int x = 0; x <= col; ++x)
             {
-                e.Graphics.DrawLine(Pens.Gray, new Point(x * Options.ArtItemSizeWidth, 0),
+                e.Graphics.DrawLine(PenGray, new Point(x * Options.ArtItemSizeWidth, 0),
                     new Point(x * Options.ArtItemSizeWidth, row * Options.ArtItemSizeHeight));
             }
 
             for (int y = 0; y <= row; ++y)
             {
-                e.Graphics.DrawLine(Pens.Gray, new Point(0, y * Options.ArtItemSizeHeight),
+                e.Graphics.DrawLine(PenGray, new Point(0, y * Options.ArtItemSizeHeight),
                     new Point(col * Options.ArtItemSizeWidth, y * Options.ArtItemSizeHeight));
             }
 
@@ -342,9 +347,9 @@ namespace FiddlerControls
                             e.Graphics.Clip = new Region(rect);
 
                             if (index == selected)
-                                e.Graphics.FillRectangle(Brushes.LightBlue, rect);
+                                e.Graphics.FillRectangle(BrushLightBlue, rect);
                             else if (patched)
-                                e.Graphics.FillRectangle(Brushes.LightCoral, rect);
+                                e.Graphics.FillRectangle(BrushLightCoral, rect);
 
                             if (Options.ArtItemClip)
                                 e.Graphics.DrawImage(b, loc);
@@ -373,7 +378,7 @@ namespace FiddlerControls
 
                             e.Graphics.Clip = new Region(rect);
                             if (index == selected)
-                                e.Graphics.FillRectangle(Brushes.LightBlue, rect);
+                                e.Graphics.FillRectangle(BrushLightBlue, rect);
                             rect.X += 5;
                             rect.Y += 5;
                             rect.Width -= 10;

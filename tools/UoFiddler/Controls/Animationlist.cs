@@ -168,7 +168,7 @@ namespace FiddlerControls
             }
             else
                 TreeViewMobs.Nodes[0].Nodes.Add(nodeparent);
-            
+
 
             TreeNode node;
             for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
@@ -911,7 +911,7 @@ namespace FiddlerControls
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
-            if (listView1.SelectedItems.Count<1)
+            if (listView1.SelectedItems.Count < 1)
                 return;
 
             string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
@@ -985,7 +985,7 @@ namespace FiddlerControls
                 else
                     return 1;
             }
-            if ((tx.Nodes.Count == 0) && (ty.Nodes.Count == 0))
+            if (tx.Parent.Parent != null)
                 return (int)tx.Tag - (int)ty.Tag;
             return string.Compare(tx.Text, ty.Text);
         }

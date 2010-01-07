@@ -12,6 +12,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Ultima;
@@ -73,7 +74,7 @@ namespace FiddlerControls
                 pictureBox.ContextMenu = new ContextMenu();
             }
 
-            
+
             vScrollBar.Maximum = Ultima.Hues.List.Length;
             vScrollBar.Minimum = 0;
             vScrollBar.Value = 0;
@@ -222,6 +223,29 @@ namespace FiddlerControls
                     Ultima.Hues.List[selected] = Ultima.Hues.List[index - 1];
                     pictureBox.Refresh();
                 }
+            }
+        }
+
+        private void OnExport(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Hue {0}.txt", selected + 1));
+            Ultima.Hues.List[selected].Export(FileName);
+            MessageBox.Show(String.Format("Hue saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnImport(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose txt file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "txt files (*.txt)|*.txt";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Ultima.Hues.List[selected].Import(dialog.FileName);
+                Options.ChangedUltimaClass["Hues"] = true;
+                FiddlerControls.Events.FireHueChangeEvent();
             }
         }
         #endregion

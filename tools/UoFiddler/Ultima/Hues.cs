@@ -319,5 +319,51 @@ namespace Ultima
 
             bmp.UnlockBits(bd);
         }
+
+        public void Export(string FileName)
+        {
+            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            {
+                Tex.WriteLine(Name);
+                Tex.WriteLine(((short)(TableStart ^ 0x8000)).ToString());
+                Tex.WriteLine(((short)(TableEnd ^ 0x8000)).ToString());
+                for (int i = 0; i < Colors.Length; ++i)
+                {
+                    Tex.WriteLine(((short)(Colors[i] ^ 0x8000)).ToString());
+                }
+            }
+        }
+
+        public void Import(string FileName)
+        {
+            if (!File.Exists(FileName))
+                return;
+            using (StreamReader sr = new StreamReader(FileName))
+            {
+                string line;
+                int i = -3;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    line = line.Trim();
+                    try
+                    {
+                        if (i >= Colors.Length)
+                            break;
+                        if (i == -3)
+                            Name = line;
+                        else if (i == -2)
+                            TableStart = (short)(ushort.Parse(line) | 0x8000);
+                        else if (i == -1)
+                            TableEnd = (short)(ushort.Parse(line) | 0x8000);
+                        else
+                        {
+                            Colors[i] = (short)(ushort.Parse(line) | 0x8000);
+                        }
+                        ++i;
+                    }
+                    catch { }
+                }
+            }
+        }
     }
 }

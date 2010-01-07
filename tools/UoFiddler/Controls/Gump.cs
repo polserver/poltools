@@ -118,11 +118,16 @@ namespace FiddlerControls
             }
         }
 
+        static Brush BrushLightSteelBlue = Brushes.LightSteelBlue;
+        static Brush BrushLightCoral = Brushes.LightCoral;
+        static Brush BrushRed = Brushes.Red;
+        static Brush BrushGray = Brushes.Gray;
+
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
                 return;
-            Brush fontBrush = Brushes.Gray;
+            Brush fontBrush = BrushGray;
 
             int i = int.Parse(listBox.Items[e.Index].ToString());
             if (Gumps.IsValidIndex(i))
@@ -136,20 +141,20 @@ namespace FiddlerControls
                     int height = bmp.Height > 54 ? 54 : bmp.Height;
 
                     if (listBox.SelectedIndex == e.Index)
-                        e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
+                        e.Graphics.FillRectangle(BrushLightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
                     else if (patched)
-                        e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, 105, 60);
+                        e.Graphics.FillRectangle(BrushLightCoral, e.Bounds.X, e.Bounds.Y, 105, 60);
 
                     e.Graphics.DrawImage(bmp, new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, width, height));
                 }
                 else
-                    fontBrush = Brushes.Red;
+                    fontBrush = BrushRed;
             }
             else
             {
                 if (listBox.SelectedIndex == e.Index)
-                    e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
-                fontBrush = Brushes.Red;
+                    e.Graphics.FillRectangle(BrushLightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
+                fontBrush = BrushRed;
             }
 
             e.Graphics.DrawString(String.Format("0x{0:X}", i), Font, fontBrush,
