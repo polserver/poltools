@@ -221,6 +221,8 @@ namespace Ultima
 
             if (cache[y][x] == null)
                 cache[y][x] = RenderBlock(x, y, statics, Map.UseDiff);
+
+            m_Tiles.CloseStreams();
         }
 
         private short[] GetRenderedBlock(int x, int y, bool statics)
@@ -491,6 +493,7 @@ namespace Ultima
             }
 
             bmp.UnlockBits(bd);
+            m_Tiles.CloseStreams();
         }
 
         public static void DefragStatics(string path, Map map, int width, int height, bool remove)

@@ -39,14 +39,14 @@ namespace MassImport
 
             XmlComment comment = dom.CreateComment(
                 Environment.NewLine + @"MassImport Control XML" + Environment.NewLine +
-                @"Supported Nodes: item/landtile/texture/gump/tiledataitem/tiledataland" + Environment.NewLine +
+                @"Supported Nodes: item/landtile/texture/gump/tiledataitem/tiledataland/hue" + Environment.NewLine +
                 @"file=relativ or absolute" + Environment.NewLine +
                 @"remove=bool" + Environment.NewLine +
                 @"Examples:" + Environment.NewLine +
                 @"<item index='195' file='test.bmp' remove='False' /> -> Adds/Replace ItemArt from text.bmp to 195" + Environment.NewLine +
                 @"<landtile index='195' file='C:\import\test.bmp' remove='False' />-> Adds/Replace LandTileArt from c:\import\text.bmp to 195" + Environment.NewLine +
                 @"<gump index='100' file='' remove='True' /> -> Removes gump with index 100" + Environment.NewLine +
-                @"<tiledataitem index='100' file='test.csv' remove='False' /> -> Reads TileData information from test.csv for index 100" + Environment.NewLine+
+                @"<tiledataitem index='100' file='test.csv' remove='False' /> -> Reads TileData information from test.csv for index 100" + Environment.NewLine +
                 @"Note: TileData.csv can be one for all (it searches for the right entry)"
             );
             dom.AppendChild(comment);
@@ -95,6 +95,12 @@ namespace MassImport
             elem.SetAttribute("remove", "False");
             sr.AppendChild(elem);
 
+            elem = dom.CreateElement("hue");
+            elem.SetAttribute("index", "0");
+            elem.SetAttribute("file", "");
+            elem.SetAttribute("remove", "False");
+            sr.AppendChild(elem);
+
             dom.AppendChild(sr);
             dom.Save(FileName);
             MessageBox.Show(String.Format("Default xml saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -131,6 +137,7 @@ namespace MassImport
                         case "gump": entry = new ImportEntryGump(); break;
                         case "tiledataland": entry = new ImportEntryTileDataLand(); break;
                         case "tiledataitem": entry = new ImportEntryTileDataItem(); break;
+                        case "hue": entry = new ImportEntryHue(); break;
                         default: entry = new ImportEntryInvalid(); break;
                     }
 
@@ -227,6 +234,11 @@ namespace MassImport
                 {
                     OutputBox.AppendText("Saving TileData.." + Environment.NewLine);
                     Ultima.TileData.SaveTileData(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                }
+                if (ChangedUltimaClass["Hues"])
+                {
+                    OutputBox.AppendText("Saving Hues.." + Environment.NewLine);
+                    Ultima.Hues.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
                 }
             }
             Cursor.Current = Cursors.Default;
@@ -381,6 +393,43 @@ namespace MassImport
         }
     }
 
+    public class ImportEntryHue : ImportEntry
+    {
+        public override int MaxIndex { get { return 3000; } }
+        public override string Name { get { return "Hue"; } }
+        public override void TestFile(ref string message)
+        {
+            if (!File.Contains(".txt"))
+            {
+                message += " Invalid Fileformat";
+                Valid = false;
+            }
+            else
+                Valid = true;
+        }
+        public override void Import(bool direct, ref Dictionary<string, bool> ChangedClasses)
+        {
+            if (!Remove)
+                Ultima.Hues.List[Index].Import(File);
+            else
+            {
+                Ultima.Hues.List[Index].Name = "";
+                for (int i = 0; i < Ultima.Hues.List[Index].Colors.Length; ++i)
+                {
+                    Ultima.Hues.List[Index].Colors[i] = -32767;
+                }
+                Ultima.Hues.List[Index].TableStart = -32768;
+                Ultima.Hues.List[Index].TableEnd = -32768;
+            }
+            if (!direct)
+            {
+                FiddlerControls.Events.FireHueChangeEvent();
+                FiddlerControls.Options.ChangedUltimaClass["Hues"] = true;
+            }
+            ChangedClasses["Hues"] = true;
+        }
+    }
+
     public class ImportEntryInvalid : ImportEntry
     {
         public override string Name { get { return "Invalid"; } }
@@ -395,7 +444,7 @@ namespace MassImport
     public abstract class ImportEntry
     {
         public virtual int MaxIndex { get { return 0x3FFF; } }
-        public abstract void Import(bool direct, ref Dictionary<string,bool> ChangedClasses);
+        public abstract void Import(bool direct, ref Dictionary<string, bool> ChangedClasses);
         public abstract string Name { get; }
         public string File { get; set; }
         public int Index { get; set; }
@@ -434,7 +483,7 @@ namespace MassImport
                     message += " File not found (" + File + ") ";
                     Valid = false;
                 }
-                else 
+                else
                     TestFile(ref message);
             }
             if (Valid)

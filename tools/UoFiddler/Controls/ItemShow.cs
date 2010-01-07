@@ -319,16 +319,22 @@ namespace FiddlerControls
             }
         }
 
+        static Brush BrushWhite = Brushes.White;
+        static Brush BrushLightBlue = Brushes.LightBlue;
+        static Brush BrushLightCoral = Brushes.LightCoral;
+        static Brush BrushRed = Brushes.Red;
+        static Pen PenGray = Pens.Gray;
+
         private void drawitem(object sender, DrawListViewItemEventArgs e)
         {
             int i = (int)e.Item.Tag;
             if (i == -1)
             {
-                if (listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                if ((e.State&ListViewItemStates.Focused)!=0)
+                    e.Graphics.FillRectangle(BrushLightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
-                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
-                e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X + 5, e.Bounds.Y + 5, e.Bounds.Width - 10, e.Bounds.Height - 10);
+                    e.Graphics.DrawRectangle(PenGray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                e.Graphics.FillRectangle(BrushRed, e.Bounds.X + 5, e.Bounds.Y + 5, e.Bounds.Width - 10, e.Bounds.Height - 10);
                 return;
             }
             bool patched;
@@ -337,12 +343,12 @@ namespace FiddlerControls
 
             if (bmp != null)
             {
-                if (listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                if ((e.State & ListViewItemStates.Focused) != 0)
+                    e.Graphics.FillRectangle(BrushLightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else if (patched)
-                    e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                    e.Graphics.FillRectangle(BrushLightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
-                    e.Graphics.FillRectangle(Brushes.White, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                    e.Graphics.FillRectangle(BrushWhite, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
 
                 if (Options.ArtItemClip)
                 {
@@ -367,8 +373,8 @@ namespace FiddlerControls
                     e.Graphics.DrawImage(bmp,
                                          new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
                 }
-                if (!listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                if ((e.State & ListViewItemStates.Focused) == 0)
+                    e.Graphics.DrawRectangle(PenGray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
         }
 

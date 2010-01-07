@@ -20,7 +20,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "4.3";
+        public static string Version = "4.3b";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -367,13 +367,13 @@ namespace UoFiddler
 
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
-            string files="";
+            string files = "";
             foreach (KeyValuePair<string, bool> key in FiddlerControls.Options.ChangedUltimaClass)
             {
                 if (key.Value)
                     files += key.Key + " ";
             }
-            if (files.Length>0)
+            if (files.Length > 0)
             {
                 DialogResult result =
                         MessageBox.Show(String.Format("Are you sure you want to quit?\r\n{0}", files),

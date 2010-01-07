@@ -46,6 +46,8 @@ namespace FiddlerControls
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReplaceText = new System.Windows.Forms.ToolStripTextBox();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -77,9 +79,11 @@ namespace FiddlerControls
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
-            this.replaceToolStripMenuItem});
+            this.replaceToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.importToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 114);
             // 
             // saveToolStripMenuItem
             // 
@@ -102,6 +106,20 @@ namespace FiddlerControls
             this.ReplaceText.Size = new System.Drawing.Size(100, 21);
             this.ReplaceText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownReplace);
             this.ReplaceText.TextChanged += new System.EventHandler(this.OnTextChangedReplace);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.exportToolStripMenuItem.Text = "Export..";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.OnExport);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.importToolStripMenuItem.Text = "Import..";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.OnImport);
             // 
             // Hues
             // 
@@ -128,6 +146,8 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox ReplaceText;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
 
 
     }
