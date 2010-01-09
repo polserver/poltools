@@ -33,13 +33,13 @@ namespace FiddlerControls
         private void OnReplace(object sender, EventArgs e)
         {
             string file = textBox1.Text;
-            if (file == String.Empty)
+            if (String.IsNullOrEmpty(file))
                 return;
             if (!File.Exists(file))
                 return;
             if (!LoadFile(file))
                 return;
-            string path=AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             ReplaceMap(path, Map.FileIndex, Map.Width, Map.Height);
             ReplaceStatic(path, Map.FileIndex, Map.Width, Map.Height);
         }
@@ -243,8 +243,8 @@ namespace FiddlerControls
                                         byte sy = m_StaticsReader.ReadByte();
                                         sbyte sz = m_StaticsReader.ReadSByte();
                                         short shue = m_StaticsReader.ReadInt16();
-                                        if ((graphic >= 0) && 
-                                            ((graphic < 0x4000) || ((Ultima.Art.IsUOSA()) && (graphic<0x8000)))) //legal?
+                                        if ((graphic >= 0) &&
+                                            ((graphic < 0x4000) || ((Ultima.Art.IsUOSA()) && (graphic < 0x8000)))) //legal?
                                         {
                                             if (shue < 0)
                                                 shue = 0;
@@ -262,7 +262,7 @@ namespace FiddlerControls
                                             binmul.Write(shue);
                                         }
                                     }
-                                    
+
                                     fsmullength = (int)fsmul.Position - fsmullength;
                                     if (fsmullength > 0)
                                     {

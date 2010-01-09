@@ -40,7 +40,7 @@ namespace ComparePlugin
 
         private void OnLoad1(object sender, EventArgs e)
         {
-            if ((textBox1.Text == null) || (textBox1.Text == String.Empty))
+            if (String.IsNullOrEmpty(textBox1.Text))
                 return;
 
             string path = textBox1.Text;
@@ -55,7 +55,7 @@ namespace ComparePlugin
 
         private void OnLoad2(object sender, EventArgs e)
         {
-            if ((textBox1.Text == null) || (textBox1.Text == String.Empty))
+            if (String.IsNullOrEmpty(textBox2.Text))
                 return;
 
             string path = textBox2.Text;
@@ -105,7 +105,7 @@ namespace ComparePlugin
                 }
             }
             list = new ArrayList();
-            
+
             foreach (int key in comparelist.Keys)
             {
                 if (ShowOnlyDiff)
@@ -190,7 +190,7 @@ namespace ComparePlugin
         private void OnClickShowOnlyDiff(object sender, EventArgs e)
         {
             ShowOnlyDiff = !ShowOnlyDiff;
-            BuildList();                
+            BuildList();
         }
 
         private void OnClickFindNextDiff(object sender, EventArgs e)

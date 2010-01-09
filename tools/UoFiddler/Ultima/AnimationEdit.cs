@@ -201,7 +201,7 @@ namespace Ultima
                     cache[index] = new AnimIdx(bin, entry.extra);
                 }
                 ++index;
-            }    
+            }
         }
 
         public static void ExportToVD(int filetype, int body, string file)
@@ -434,7 +434,7 @@ namespace Ultima
             Frames.Clear();
         }
 
-        public unsafe void ExportPalette(string filename,int type)
+        public unsafe void ExportPalette(string filename, int type)
         {
             switch (type)
             {
@@ -499,7 +499,7 @@ namespace Ultima
 
         public void Save(BinaryWriter bin, BinaryWriter idx)
         {
-            if ((Frames == null) || (Frames.Count==0))
+            if ((Frames == null) || (Frames.Count == 0))
             {
                 idx.Write((int)-1);
                 idx.Write((int)-1);
@@ -660,16 +660,16 @@ namespace Ultima
                         raw.offx += 512;
                         raw.offy = Y - centery - bit.Height;
                         raw.offy += 512;
-                        
+
                         int r = 0;
                         raw.data = new byte[raw.run];
                         while (r < raw.run)
                         {
                             ushort col = (ushort)(cur[r + i]);
-                            raw.data[r++] = GetPaletteIndex(palette,col);
+                            raw.data[r++] = GetPaletteIndex(palette, col);
                         }
                         tmp.Add(raw);
-                        X = j+1;
+                        X = j + 1;
                         i = X;
                     }
                 }
@@ -691,7 +691,7 @@ namespace Ultima
             Center = new Point(x, y);
         }
 
-        private byte GetPaletteIndex(ushort[] palette, ushort col)
+        private static byte GetPaletteIndex(ushort[] palette, ushort col)
         {
             for (int i = 0; i < palette.Length; i++)
             {

@@ -180,9 +180,9 @@ namespace Ultima
             foreach (string file in m_Files)
             {
                 string filePath;
-                if (m_MulPath[file].ToString() != "") //file was set
+                if (!String.IsNullOrEmpty(m_MulPath[file].ToString())) //file was set
                 {
-                    if (Path.GetDirectoryName(m_MulPath[file].ToString()) == "") //and relative
+                    if (String.IsNullOrEmpty(Path.GetDirectoryName(m_MulPath[file].ToString()))) //and relative
                     {
                         filePath = Path.Combine(m_RootDir, m_MulPath[file].ToString());
                         if (File.Exists(filePath)) // exists in new Root?
@@ -220,12 +220,12 @@ namespace Ultima
         {
             if (MulPath.Count > 0)
             {
-                string path="";
+                string path = "";
                 if (MulPath.Contains(file.ToLower()))
                     path = MulPath[file.ToLower()].ToString();
-                if (path == "")
+                if (String.IsNullOrEmpty(path))
                     return null;
-                if (Path.GetDirectoryName(path) == "")
+                if (String.IsNullOrEmpty(Path.GetDirectoryName(path)))
                     path = Path.Combine(m_RootDir, path);
                 if (File.Exists(path))
                     return path;
@@ -297,7 +297,7 @@ namespace Ultima
                         return null;
                 }
 
-                string path=null;
+                string path = null;
                 foreach (string pathkey in knownRegPathkeys)
                 {
                     path = key.GetValue(pathkey) as string;

@@ -154,7 +154,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Hues"] = true;
             Options.LoadedUltimaClass["Animations"] = true;
             Options.LoadedUltimaClass["Gumps"] = true;
-            
+
             extractAnimationToolStripMenuItem.Visible = false;
             extractAnimatedAnimationToolStripMenuItem.Visible = false;
 
@@ -1040,7 +1040,7 @@ namespace FiddlerControls
 
             for (int i = 0; i < m_Animation.Length; ++i)
             {
-                m_Animation[i].Save(String.Format("{0}-{1}.bmp", FileName, i), ImageFormat.Bmp);
+                m_Animation[i].Save(Path.Combine(path, String.Format("{0}-{1}.bmp", FileName, i)), ImageFormat.Bmp);
             }
             MessageBox.Show(
                 String.Format("InGame Anim saved to '{0}-X.bmp'", FileName),
@@ -1057,7 +1057,7 @@ namespace FiddlerControls
 
             for (int i = 0; i < m_Animation.Length; ++i)
             {
-                m_Animation[i].Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
+                m_Animation[i].Save(Path.Combine(path, String.Format("{0}-{1}.tiff", FileName, i)), ImageFormat.Tiff);
             }
             MessageBox.Show(
                 String.Format("InGame Anim saved to '{0}-X.tiff'", FileName),
@@ -1074,7 +1074,7 @@ namespace FiddlerControls
 
             for (int i = 0; i < m_Animation.Length; ++i)
             {
-                m_Animation[i].Save(String.Format("{0}-{1}.jpg", FileName, i), ImageFormat.Jpeg);
+                m_Animation[i].Save(Path.Combine(path, String.Format("{0}-{1}.jpg", FileName, i)), ImageFormat.Jpeg);
             }
             MessageBox.Show(
                 String.Format("InGame Anim saved to '{0}-X.jpg'", FileName),
@@ -1111,7 +1111,7 @@ namespace FiddlerControls
                     }
                 }
                 _itr = animentries[i].EquipTable.GetEnumerator();
-                if (animentries[i].EquipTable.Count==0)
+                if (animentries[i].EquipTable.Count == 0)
                 {
                     if (GumpTable.Entries.Contains(animentries[i].FirstGump))
                     {
@@ -1147,16 +1147,16 @@ namespace FiddlerControls
                         int tmp = new int();
                         tmp = ((EquipTableEntry)_itr.Value).NewAnim;
                         animentries[i].TranslateAnim[_itr.Key] = new TranslateAnimEntry();
-                        ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodydef=BodyTable.m_Entries.ContainsKey(tmp);
+                        ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodydef = BodyTable.m_Entries.ContainsKey(tmp);
                         Animations.Translate(ref tmp);
                         ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).fileindex = BodyConverter.Convert(ref tmp);
                         ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodyandconf = tmp;
-                        
+
                     }
                 }
             }
 
-            string FileName=Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,"animationlist.html");
+            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "animationlist.html");
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.Write), System.Text.Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("<html> <body> <table border='1' rules='all' cellpadding='2'>");
@@ -1174,11 +1174,11 @@ namespace FiddlerControls
                     Tex.Write("<td>");
                     bool openfont = false;
 
-                        if (!Ultima.Animations.IsActionDefined(i, 0, 0))
-                        {
-                            Tex.Write("<font color=#FF0000>");
-                            openfont = true;
-                        }
+                    if (!Ultima.Animations.IsActionDefined(i, 0, 0))
+                    {
+                        Tex.Write("<font color=#FF0000>");
+                        openfont = true;
+                    }
 
                     Tex.Write(i);
                     if (openfont)
@@ -1210,7 +1210,7 @@ namespace FiddlerControls
                     }
                     else
                         Tex.Write("<td></td>");
-                    
+
                     IDictionaryEnumerator _itr;
                     _itr = animentries[i].EquipTable.GetEnumerator();
                     Tex.Write("<td>");
@@ -1249,10 +1249,10 @@ namespace FiddlerControls
                     Tex.Write("</td>");
                     _itr = animentries[i].GumpDef.GetEnumerator();
                     Tex.Write("<td>");
-                    while(_itr.MoveNext())
+                    while (_itr.MoveNext())
                     {
-                        if ((int)_itr.Key!=0)
-                            Tex.Write(_itr.Key+":");
+                        if ((int)_itr.Key != 0)
+                            Tex.Write(_itr.Key + ":");
                         openfont = false;
                         if (!Ultima.Gumps.IsValidIndex(((GumpTableEntry)_itr.Value).NewID))
                         {
@@ -1267,12 +1267,12 @@ namespace FiddlerControls
                     Tex.Write("</td>");
                     _itr = animentries[i].TranslateAnim.GetEnumerator();
                     Tex.Write("<td>");
-                    while(_itr.MoveNext())
+                    while (_itr.MoveNext())
                     {
                         if ((((TranslateAnimEntry)_itr.Value).fileindex == 1) && (!((TranslateAnimEntry)_itr.Value).bodydef))
                             continue;
-                        if ((int)_itr.Key!=0)
-                            Tex.Write(_itr.Key+":");
+                        if ((int)_itr.Key != 0)
+                            Tex.Write(_itr.Key + ":");
                         Tex.Write(((TranslateAnimEntry)_itr.Value).fileindex
                             + "," + ((TranslateAnimEntry)_itr.Value).bodyandconf + "<br/>");
                     }
@@ -1470,7 +1470,7 @@ namespace FiddlerControls
 
                     try
                     {
-                        string[] split=Regex.Split(line,@"\s+");
+                        string[] split = Regex.Split(line, @"\s+");
 
                         int bodytype = Convert.ToInt32(split[0]);
                         int animID = Convert.ToInt32(split[1]);

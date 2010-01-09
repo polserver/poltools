@@ -142,7 +142,7 @@ namespace MassImport
                     }
 
                     entry.File = xNode.Attributes["file"].InnerText;
-                    if (entry.File != String.Empty)
+                    if (!String.IsNullOrEmpty(entry.File))
                         entry.File = Path.GetFullPath(entry.File);
 
                     int temp;

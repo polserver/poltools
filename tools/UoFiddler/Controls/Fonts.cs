@@ -65,7 +65,7 @@ namespace FiddlerControls
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["ASCIIFont"] = true;
             Options.LoadedUltimaClass["UnicodeFont"] = true;
-            
+
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
             TreeNode node = new TreeNode("ASCII");
@@ -130,7 +130,7 @@ namespace FiddlerControls
                     ListViewItem[] cache = new ListViewItem[ASCIIText.Fonts[font].Characters.Length];
                     for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; ++i)
                     {
-                        ListViewItem item = new ListViewItem((i+32).ToString(), 0);
+                        ListViewItem item = new ListViewItem((i + 32).ToString(), 0);
                         item.Tag = ASCIIText.Fonts[font].Characters[i];
                         cache[i] = item;
                     }
@@ -196,10 +196,10 @@ namespace FiddlerControls
                 else
                     filetype = "ASCII";
 
-                string filename = String.Format("{0} {1} 0x{2:X}.tiff",
+                string filename = Path.Combine(path, String.Format("{0} {1} 0x{2:X}.tiff",
                     filetype,
                     (int)treeView.SelectedNode.Tag,
-                    int.Parse(listView1.SelectedItems[0].Text.ToString()));
+                    int.Parse(listView1.SelectedItems[0].Text.ToString())));
 
                 if ((int)treeView.SelectedNode.Parent.Tag == 1)
                 {

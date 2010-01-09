@@ -164,7 +164,7 @@ namespace FiddlerControls
             {
                 PluginInterface.Events.FireModifyItemShowContextMenuEvent(this.contextMenuStrip1);
             }
-            
+
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
             ItemList = new ArrayList();
@@ -383,7 +383,7 @@ namespace FiddlerControls
                             rect.Y += 5;
                             rect.Width -= 10;
                             rect.Height -= 10;
-                            e.Graphics.FillRectangle(Brushes.Red, rect);
+                            e.Graphics.FillRectangle(BrushRed, rect);
                         }
                     }
                 }
@@ -395,7 +395,7 @@ namespace FiddlerControls
             if ((pictureBox.Height == 0) || (pictureBox.Width == 0))
                 return;
             col = pictureBox.Width / Options.ArtItemSizeWidth;
-            row = pictureBox.Height / Options.ArtItemSizeHeight+1;
+            row = pictureBox.Height / Options.ArtItemSizeHeight + 1;
             vScrollBar.Maximum = ItemList.Count / col + 1;
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
@@ -872,6 +872,6 @@ namespace FiddlerControls
         }
         #endregion
 
-        
+
     }
 }

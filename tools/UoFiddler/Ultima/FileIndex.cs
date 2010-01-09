@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Ultima
@@ -82,20 +83,20 @@ namespace Ultima
             {
                 idxPath = Files.MulPath[idxFile.ToLower()].ToString();
                 MulPath = Files.MulPath[mulFile.ToLower()].ToString();
-                if (idxPath == "")
+                if (String.IsNullOrEmpty(idxPath))
                     idxPath = null;
                 else
                 {
-                    if (Path.GetDirectoryName(idxPath) == "")
+                    if (String.IsNullOrEmpty(Path.GetDirectoryName(idxPath)))
                         idxPath = Path.Combine(Files.RootDir, idxPath);
                     if (!File.Exists(idxPath))
                         idxPath = null;
                 }
-                if (MulPath == "")
+                if (String.IsNullOrEmpty(MulPath))
                     MulPath = null;
                 else
                 {
-                    if (Path.GetDirectoryName(MulPath) == "")
+                    if (String.IsNullOrEmpty(Path.GetDirectoryName(MulPath)))
                         MulPath = Path.Combine(Files.RootDir, MulPath);
                     if (!File.Exists(MulPath))
                         MulPath = null;
@@ -159,20 +160,20 @@ namespace Ultima
             {
                 idxPath = Files.MulPath[idxFile.ToLower()].ToString();
                 MulPath = Files.MulPath[mulFile.ToLower()].ToString();
-                if (idxPath == "")
+                if (String.IsNullOrEmpty(idxPath))
                     idxPath = null;
                 else
                 {
-                    if (Path.GetDirectoryName(idxPath) == "")
+                    if (String.IsNullOrEmpty(Path.GetDirectoryName(idxPath)))
                         idxPath = Path.Combine(Files.RootDir, idxPath);
                     if (!File.Exists(idxPath))
                         idxPath = null;
                 }
-                if (MulPath == "")
+                if (String.IsNullOrEmpty(MulPath))
                     MulPath = null;
                 else
                 {
-                    if (Path.GetDirectoryName(MulPath) == "")
+                    if (String.IsNullOrEmpty(Path.GetDirectoryName(MulPath)))
                         MulPath = Path.Combine(Files.RootDir, MulPath);
                     if (!File.Exists(MulPath))
                         MulPath = null;
