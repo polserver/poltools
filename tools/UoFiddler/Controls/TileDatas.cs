@@ -142,12 +142,12 @@ namespace FiddlerControls
             ArrayList nodes = new ArrayList();
             for (int i = 0; i < TileData.ItemTable.Length; ++i)
             {
-                if (item.Name != String.Empty)
+                if (!String.IsNullOrEmpty(item.Name))
                 {
                     if (!TileData.ItemTable[i].Name.ToLower().Contains(item.Name.ToLower()))
                         continue;
                 }
-                if (item.Animation!=0)
+                if (item.Animation != 0)
                 {
                     if (TileData.ItemTable[i].Animation != item.Animation)
                         continue;
@@ -187,9 +187,9 @@ namespace FiddlerControls
                     if (TileData.ItemTable[i].Height != item.Height)
                         continue;
                 }
-                if (item.Unk1 != 0)
+                if (item.MiscData != 0)
                 {
-                    if (TileData.ItemTable[i].Unk1 != item.Unk1)
+                    if (TileData.ItemTable[i].MiscData != item.MiscData)
                         continue;
                 }
                 if (item.Unk2 != 0)
@@ -224,7 +224,7 @@ namespace FiddlerControls
             ArrayList nodes = new ArrayList();
             for (int i = 0; i < TileData.LandTable.Length; ++i)
             {
-                if (land.Name != String.Empty)
+                if (!String.IsNullOrEmpty(land.Name))
                 {
                     if (!TileData.ItemTable[i].Name.ToLower().Contains(land.Name.ToLower()))
                         continue;
@@ -381,7 +381,7 @@ namespace FiddlerControls
             textBoxStackOff.Text = data.StackingOffset.ToString();
             textBoxValue.Text = data.Value.ToString();
             textBoxHeigth.Text = data.Height.ToString();
-            textBoxUnk1.Text = data.Unk1.ToString();
+            textBoxUnk1.Text = data.MiscData.ToString();
             textBoxUnk2.Text = data.Unk2.ToString();
             textBoxUnk3.Text = data.Unk3.ToString();
             Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
@@ -484,7 +484,7 @@ namespace FiddlerControls
                 if (byte.TryParse(textBoxHeigth.Text, out byteres))
                     item.Height = byteres;
                 if (short.TryParse(textBoxUnk1.Text, out shortres))
-                    item.Unk1 = shortres;
+                    item.MiscData = shortres;
                 if (byte.TryParse(textBoxUnk2.Text, out byteres))
                     item.Unk2 = byteres;
                 if (byte.TryParse(textBoxUnk3.Text, out byteres))
@@ -502,9 +502,9 @@ namespace FiddlerControls
                 FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 if (memorySaveWarningToolStripMenuItem.Checked)
                     MessageBox.Show(
-                        String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index), "Saved", 
-                        MessageBoxButtons.OK, 
-                        MessageBoxIcon.Information, 
+                        String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index), "Saved",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
                         MessageBoxDefaultButton.Button1);
             }
             else //land
@@ -583,7 +583,7 @@ namespace FiddlerControls
                             FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                         }
                     }
-                    
+
                 }
             }
         }
@@ -791,7 +791,7 @@ namespace FiddlerControls
                     ItemData item = TileData.ItemTable[index];
                     short shortres;
                     if (short.TryParse(textBoxUnk1.Text, out shortres))
-                        item.Unk1 = shortres;
+                        item.MiscData = shortres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -1035,7 +1035,7 @@ namespace FiddlerControls
                 if (tabcontrol.SelectedIndex == 0)//items
                 {
                     Ultima.TileData.ImportItemDataFromCSV(dialog.FileName);
-                    AfterSelectTreeViewItem(this,new TreeViewEventArgs(treeViewItem.SelectedNode));
+                    AfterSelectTreeViewItem(this, new TreeViewEventArgs(treeViewItem.SelectedNode));
                 }
                 else
                 {

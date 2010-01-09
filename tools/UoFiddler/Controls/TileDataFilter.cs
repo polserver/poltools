@@ -65,7 +65,7 @@ namespace FiddlerControls
             if (byte.TryParse(textBoxHeigth.Text, out byteres))
                 item.Height = byteres;
             if (short.TryParse(textBoxUnk1.Text, out shortres))
-                item.Unk1 = shortres;
+                item.MiscData = shortres;
             if (byte.TryParse(textBoxUnk2.Text, out byteres))
                 item.Unk2 = byteres;
             if (byte.TryParse(textBoxUnk3.Text, out byteres))

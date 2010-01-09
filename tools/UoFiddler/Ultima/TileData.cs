@@ -52,7 +52,7 @@ namespace Ultima
         public void ReadData(string[] split)
         {
             m_Name = split[1];
-            m_TexID=(short)TileData.ConvertStringToInt(split[2]);
+            m_TexID = (short)TileData.ConvertStringToInt(split[2]);
 
             m_Flags = 0;
             int temp = System.Convert.ToByte(split[3]);
@@ -171,11 +171,11 @@ namespace Ultima
         internal short m_Animation;
         internal byte m_Hue;
         internal byte m_StackOffset;
-        internal short m_Unk1;
+        internal short m_MiscData;
         internal byte m_Unk2;
         internal byte m_Unk3;
 
-        public ItemData(string name, TileFlag flags, int weight, int quality, int quantity, int value, int height, int anim, int hue, int stackingoffset, int unk1, int unk2, int unk3)
+        public ItemData(string name, TileFlag flags, int weight, int quality, int quantity, int value, int height, int anim, int hue, int stackingoffset, int MiscData, int unk2, int unk3)
         {
             m_Name = name;
             m_Flags = flags;
@@ -187,7 +187,7 @@ namespace Ultima
             m_Animation = (short)anim;
             m_Hue = (byte)hue;
             m_StackOffset = (byte)stackingoffset;
-            m_Unk1 = (short)unk1;
+            m_MiscData = (short)MiscData;
             m_Unk2 = (byte)unk2;
             m_Unk3 = (byte)unk3;
         }
@@ -321,12 +321,12 @@ namespace Ultima
         }
 
         /// <summary>
-        /// Gets the unk1 of this item.
+        /// Gets the MiscData of this item. (old UO Demo weapontemplate definition) (Unk1)
         /// </summary>
-        public short Unk1
+        public short MiscData
         {
-            get { return m_Unk1; }
-            set { m_Unk1 = value; }
+            get { return m_MiscData; }
+            set { m_MiscData = value; }
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Ultima
             m_Hue = System.Convert.ToByte(split[6]);
             m_Quantity = System.Convert.ToByte(split[7]);
             m_StackOffset = System.Convert.ToByte(split[8]);
-            m_Unk1 = System.Convert.ToInt16(split[9]);
+            m_MiscData = System.Convert.ToInt16(split[9]);
             m_Unk2 = System.Convert.ToByte(split[10]);
             m_Unk3 = System.Convert.ToByte(split[11]);
 
@@ -465,7 +465,7 @@ namespace Ultima
                 m_Flags |= TileFlag.HoverOver;
             temp = System.Convert.ToByte(split[38]);
             if (temp != 0)
-               m_Flags |= TileFlag.Unknown3;
+                m_Flags |= TileFlag.Unknown3;
             temp = System.Convert.ToByte(split[39]);
             if (temp != 0)
                 m_Flags |= TileFlag.Armor;
@@ -719,7 +719,7 @@ namespace Ultima
                             itemheader = new int[512];
                         m_ItemData = new ItemData[itemlength];
                         m_HeightTable = new int[itemlength];
-                        
+
                         j = 0;
 
                         for (int i = 0; i < itemlength; ++i)
@@ -732,7 +732,7 @@ namespace Ultima
                             TileFlag flags = (TileFlag)bin.ReadInt32();
                             int weight = bin.ReadByte();
                             int quality = bin.ReadByte();
-                            int unk1 = bin.ReadInt16();
+                            int MiscData = bin.ReadInt16();
                             int unk2 = bin.ReadByte();
                             int quantity = bin.ReadByte();
                             int anim = bin.ReadInt16();
@@ -742,7 +742,7 @@ namespace Ultima
                             int value = bin.ReadByte(); //unk5
                             int height = bin.ReadByte();
 
-                            m_ItemData[i] = new ItemData(ReadNameString(bin), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, unk1, unk2, unk3);
+                            m_ItemData[i] = new ItemData(ReadNameString(bin), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, MiscData, unk2, unk3);
                             m_HeightTable[i] = height;
                         }
                     }
@@ -786,7 +786,7 @@ namespace Ultima
                         bin.Write((int)m_ItemData[i].Flags);
                         bin.Write(m_ItemData[i].Weight);
                         bin.Write(m_ItemData[i].Quality);
-                        bin.Write(m_ItemData[i].Unk1);
+                        bin.Write(m_ItemData[i].MiscData);
                         bin.Write(m_ItemData[i].Unk2);
                         bin.Write(m_ItemData[i].Quantity);
                         bin.Write(m_ItemData[i].Animation);
@@ -817,7 +817,7 @@ namespace Ultima
         {
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
             {
-                Tex.Write("ID;Name;Weight/Quantity;Layer/Quality;Gump/AnimID;Height;Hue;Class/Quantity;StackingOffset;Unkown1;Unkown2;Unkown3");
+                Tex.Write("ID;Name;Weight/Quantity;Layer/Quality;Gump/AnimID;Height;Hue;Class/Quantity;StackingOffset;MiscData;Unknown2;Unknown3");
                 Tex.Write(";Background;Weapon;Transparent;Translucent;Wall;Damage;Impassible;Wet;Unknow1");
                 Tex.Write(";Surface;Bridge;Generic;Window;NoShoot;PrefixA;PrefixAn;Internal;Foliage;PartialHue");
                 Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;HoverOver");
@@ -835,7 +835,7 @@ namespace Ultima
                     Tex.Write(";" + tile.Hue);
                     Tex.Write(";" + tile.Quantity);
                     Tex.Write(";" + tile.StackingOffset);
-                    Tex.Write(";" + tile.Unk1);
+                    Tex.Write(";" + tile.MiscData);
                     Tex.Write(";" + tile.Unk2);
                     Tex.Write(";" + tile.Unk3);
 
@@ -964,7 +964,7 @@ namespace Ultima
                         string[] split = line.Split(';');
                         if (split.Length < 44)
                             continue;
-                        
+
                         int id = ConvertStringToInt(split[0]);
                         m_ItemData[id].ReadData(split);
                     }

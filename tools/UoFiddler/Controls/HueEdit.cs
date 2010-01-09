@@ -321,8 +321,8 @@ namespace FiddlerControls
                     if (!Animations.IsActionDefined(index, 0, 0))
                         return;
                     contextMenuStrip1.Close();
-                    int hue = 0;
-                    Frame[] frames = Animations.GetAnimation(index, 0, 1, ref hue, false, true);
+                    int hueref = 0;
+                    Frame[] frames = Animations.GetAnimation(index, 0, 1, ref hueref, false, true);
                     if (frames == null)
                         return;
                     preview = frames[0].Bitmap;

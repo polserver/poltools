@@ -93,6 +93,7 @@ namespace FiddlerControls
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.memorySaveWarningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDirectlyOnChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -101,7 +102,6 @@ namespace FiddlerControls
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new FiddlerControls.CollapsibleSplitter();
-            this.setFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -290,9 +290,9 @@ namespace FiddlerControls
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(106, 84);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(33, 13);
+            this.label10.Size = new System.Drawing.Size(52, 13);
             this.label10.TabIndex = 19;
-            this.label10.Text = "Unk1";
+            this.label10.Text = "MiscData";
             // 
             // textBoxUnk1
             // 
@@ -694,6 +694,13 @@ namespace FiddlerControls
             this.saveDirectlyOnChangesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.saveDirectlyOnChangesToolStripMenuItem.Text = "Save directly on changes";
             // 
+            // setFilterToolStripMenuItem
+            // 
+            this.setFilterToolStripMenuItem.Name = "setFilterToolStripMenuItem";
+            this.setFilterToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.setFilterToolStripMenuItem.Text = "Set Filter";
+            this.setFilterToolStripMenuItem.Click += new System.EventHandler(this.OnClickSetFilter);
+            // 
             // toolStripButton2
             // 
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -763,13 +770,6 @@ namespace FiddlerControls
             this.splitter1.TabStop = false;
             this.splitter1.UseAnimations = false;
             this.splitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
-            // 
-            // setFilterToolStripMenuItem
-            // 
-            this.setFilterToolStripMenuItem.Name = "setFilterToolStripMenuItem";
-            this.setFilterToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.setFilterToolStripMenuItem.Text = "Set Filter";
-            this.setFilterToolStripMenuItem.Click += new System.EventHandler(this.OnClickSetFilter);
             // 
             // TileDatas
             // 

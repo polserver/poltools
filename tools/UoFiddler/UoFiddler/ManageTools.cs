@@ -166,7 +166,7 @@ namespace UoFiddler
             {
                 dialog.Title = "Select program";
                 dialog.CheckFileExists = true;
-                if (textBoxToolFile.Text != "")
+                if (!String.IsNullOrEmpty(textBoxToolFile.Text))
                     dialog.InitialDirectory = Path.GetDirectoryName(textBoxToolFile.Text);
                 if (dialog.ShowDialog() == DialogResult.OK)
                     textBoxToolFile.Text = dialog.FileName;

@@ -27,8 +27,8 @@ namespace ComparePlugin
         }
 
         bool Loaded = false;
-        bool moving=false;
-        Point movingpoint=new Point();
+        bool moving = false;
+        Point movingpoint = new Point();
         private Point currPoint;
         private Ultima.Map currmap;
         private Ultima.Map origmap;
@@ -141,7 +141,7 @@ namespace ComparePlugin
                 vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
                 pictureBox.Refresh();
             }
-            else if ((Zoom >= 2) && (currmap!=null))
+            else if ((Zoom >= 2) && (currmap != null))
             {
                 Ultima.Tile customTile = currmap.Tiles.GetLandTile(xDelta, yDelta);
                 Ultima.Tile origTile = origmap.Tiles.GetLandTile(xDelta, yDelta);
@@ -185,8 +185,8 @@ namespace ComparePlugin
                 toolTip1.SetToolTip(pictureBox, diff);
                 pictureBox.Invalidate();
             }
-            
-            if ((Zoom >= 2) && (markDiffToolStripMenuItem.Checked) && (diff==""))
+
+            if ((Zoom >= 2) && (markDiffToolStripMenuItem.Checked) && (String.IsNullOrEmpty(diff)))
             {
                 Ultima.Map drawmap;
                 if (showMap1ToolStripMenuItem.Checked)
@@ -334,7 +334,7 @@ namespace ComparePlugin
                             gy = 0;
                             for (int y = (vScrollBar.Value >> 3); y < maxy; y++, gy += 8)
                             {
-                                if (drawmap.Tiles.Patch.IsLandBlockPatched(x,y))
+                                if (drawmap.Tiles.Patch.IsLandBlockPatched(x, y))
                                 {
                                     mapg.FillRectangle(Brushes.Azure, gx, gy, 8, 8);
                                     mapg.FillRectangle(Brushes.Azure, gx, 0, 8, 2);
@@ -365,7 +365,7 @@ namespace ComparePlugin
             graph.Dispose();
             bmp0 = bmp1;
         }
- 
+
         private void OnResize(object sender, EventArgs e)
         {
             if (Loaded)
@@ -463,7 +463,7 @@ namespace ComparePlugin
             SetScrollBarValues();
             string path = toolStripTextBox1.Text;
             if (Directory.Exists(path))
-                currmap = Ultima.Map.Custom = new Ultima.Map(path, origmap.FileIndex,currmapint, origmap.Width, origmap.Height);
+                currmap = Ultima.Map.Custom = new Ultima.Map(path, origmap.FileIndex, currmapint, origmap.Width, origmap.Height);
 
             pictureBox.Refresh();
         }
@@ -582,6 +582,6 @@ namespace ComparePlugin
             pictureBox.Refresh();
         }
 
-        
+
     }
 }
