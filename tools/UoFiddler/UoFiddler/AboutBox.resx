@@ -124,6 +124,7 @@ Hues: added contextmenu Import,Export (simple txtfile)
 Map: added support for 7.x clients thx to Andreew
 MassImportPlugin: added support for hues
 TileData: renamed Unk1 to MiscData (old UO Demo weapontemplate def)
+ComparePlugin Map: preload diffs for speedup
 
 Version 4.3
 RenderEngine of Multis fixed

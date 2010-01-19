@@ -17,15 +17,15 @@ namespace FiddlerPlugin
     public class ComparePlugin : IPlugin
     {
         string myName = "ComparePlugin";
-        string myDescription = 
+        string myDescription =
             "Compares 2 art files\r\n"
-            +"Compares 2 CliLocs\r\n"
-            +"Compares 2 Hue files\r\n"
-            +"Compares 2 Map files\r\n"
-            +"Compares 2 Gump files\r\n"
-            +"(Adds 6 new Tabs)";
+            + "Compares 2 CliLocs\r\n"
+            + "Compares 2 Hue files\r\n"
+            + "Compares 2 Map files\r\n"
+            + "Compares 2 Gump files\r\n"
+            + "(Adds 6 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.6.0";
+        string myVersion = "1.7.0";
         IPluginHost myHost = null;
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FiddlerPlugin
         public override void ModifyTabPages(TabControl tabcontrol)
         {
             TabPage page = new TabPage();
-            page.Tag = tabcontrol.TabCount+1;
+            page.Tag = tabcontrol.TabCount + 1;
             page.Text = "Compare Items";
             CompareItem compArt = new CompareItem();
             compArt.Dock = System.Windows.Forms.DockStyle.Fill;

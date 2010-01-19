@@ -35,6 +35,7 @@ namespace ComparePlugin
         private int currmapint;
         private Bitmap map;
         public static double Zoom = 1;
+        private bool[][][][] diffs;
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -68,6 +69,7 @@ namespace ComparePlugin
 
         private void OnMapDiffChangeEvent()
         {
+            CalculateDiffs();
             pictureBox.Refresh();
         }
 
@@ -143,42 +145,46 @@ namespace ComparePlugin
             }
             else if ((Zoom >= 2) && (currmap != null))
             {
-                Ultima.Tile customTile = currmap.Tiles.GetLandTile(xDelta, yDelta);
-                Ultima.Tile origTile = origmap.Tiles.GetLandTile(xDelta, yDelta);
-                if ((customTile.ID != origTile.ID) || (customTile.Z != origTile.Z))
-                    diff = String.Format("Tile:\n\r0x{0:X} {1} -> 0x{2:X} {3}\n\r", origTile.ID, origTile.Z, customTile.ID, customTile.Z);
-                Ultima.HuedTile[] customStatics = currmap.Tiles.GetStaticTiles(xDelta, yDelta);
-                Ultima.HuedTile[] origStatics = origmap.Tiles.GetStaticTiles(xDelta, yDelta);
-                if (customStatics.Length != origStatics.Length)
+                if (BlockDiff(xDelta >> 3, yDelta >> 3))
                 {
-                    diff += "Statics:\n\rorig:\n\r";
-                    foreach (Ultima.HuedTile tile in origStatics)
+
+                    Ultima.Tile customTile = currmap.Tiles.GetLandTile(xDelta, yDelta);
+                    Ultima.Tile origTile = origmap.Tiles.GetLandTile(xDelta, yDelta);
+                    if ((customTile.ID != origTile.ID) || (customTile.Z != origTile.Z))
+                        diff = String.Format("Tile:\n\r0x{0:X} {1} -> 0x{2:X} {3}\n\r", origTile.ID, origTile.Z, customTile.ID, customTile.Z);
+                    Ultima.HuedTile[] customStatics = currmap.Tiles.GetStaticTiles(xDelta, yDelta);
+                    Ultima.HuedTile[] origStatics = origmap.Tiles.GetStaticTiles(xDelta, yDelta);
+                    if (customStatics.Length != origStatics.Length)
                     {
-                        diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
-                    }
-                    diff += "new:\n\r";
-                    foreach (Ultima.HuedTile tile in customStatics)
-                    {
-                        diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
-                    }
-                }
-                else
-                {
-                    bool changed = false;
-                    for (int i = 0; i < customStatics.Length; i++)
-                    {
-                        if ((customStatics[i].ID != origStatics[i].ID)
-                            || (customStatics[i].Z != origStatics[i].Z)
-                            || (customStatics[i].Hue != origStatics[i].Hue))
+                        diff += "Statics:\n\rorig:\n\r";
+                        foreach (Ultima.HuedTile tile in origStatics)
                         {
-                            if (!changed)
+                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
+                        }
+                        diff += "new:\n\r";
+                        foreach (Ultima.HuedTile tile in customStatics)
+                        {
+                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
+                        }
+                    }
+                    else
+                    {
+                        bool changed = false;
+                        for (int i = 0; i < customStatics.Length; i++)
+                        {
+                            if ((customStatics[i].ID != origStatics[i].ID)
+                                || (customStatics[i].Z != origStatics[i].Z)
+                                || (customStatics[i].Hue != origStatics[i].Hue))
                             {
-                                diff += "Statics diff:\n\r";
-                                changed = true;
+                                if (!changed)
+                                {
+                                    diff += "Statics diff:\n\r";
+                                    changed = true;
+                                }
+                                diff += String.Format("0x{0:X} {1} {2} -> 0x{3:X} {4} {5}\n\r",
+                                    origStatics[i].ID, origStatics[i].Z, origStatics[i].Hue,
+                                    customStatics[i].ID, customStatics[i].Z, customStatics[i].Hue);
                             }
-                            diff += String.Format("0x{0:X} {1} {2} -> 0x{3:X} {4} {5}\n\r",
-                                origStatics[i].ID, origStatics[i].Z, origStatics[i].Hue,
-                                customStatics[i].ID, customStatics[i].Z, customStatics[i].Hue);
                         }
                     }
                 }
@@ -230,9 +236,10 @@ namespace ComparePlugin
             moving = false;
             this.Cursor = Cursors.Default;
         }
-
+        static Pen redpen = Pens.Red;
         private void onPaint(object sender, PaintEventArgs e)
         {
+
             if (!Loaded)
                 return;
             if (showMap1ToolStripMenuItem.Checked)
@@ -252,56 +259,72 @@ namespace ComparePlugin
                     {
                         int maxx = ((int)((e.ClipRectangle.Width / Zoom) + 8) >> 3) + (hScrollBar.Value >> 3);
                         int maxy = ((int)((e.ClipRectangle.Height / Zoom) + 8) >> 3) + (vScrollBar.Value >> 3);
+                        if (maxx > (origmap.Width >> 3))
+                            maxx = (origmap.Width >> 3);
+                        if (maxy > (origmap.Height >> 3))
+                            maxy = (origmap.Height >> 3);
                         int gx = 0, gy = 0;
                         for (int x = (hScrollBar.Value >> 3); x < maxx; x++, gx += 8)
                         {
                             gy = 0;
                             for (int y = (vScrollBar.Value >> 3); y < maxy; y++, gy += 8)
                             {
-                                Ultima.Tile[] customTiles = currmap.Tiles.GetLandBlock(x, y);
-                                Ultima.Tile[] origTiles = origmap.Tiles.GetLandBlock(x, y);
                                 for (int xb = 0; xb < 8; xb++)
                                 {
                                     for (int yb = 0; yb < 8; yb++)
                                     {
-                                        if ((customTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID)
-                                            || (customTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z))
+                                        if (diffs[x][y][xb][yb])
                                         {
-                                            mapg.DrawRectangle(Pens.Red, (gx + xb), (gy + yb), 1, 1);
-                                            mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
-                                            mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
+                                            mapg.DrawRectangle(redpen, (gx + xb), (gy + yb), 1, 1);
+                                            mapg.DrawRectangle(redpen, (gx + xb), 0, 1, 2);
+                                            mapg.DrawRectangle(redpen, 0, (gy + yb), 2, 1);
                                         }
                                     }
                                 }
-                                Ultima.HuedTile[][][] customStatics = currmap.Tiles.GetStaticBlock(x, y);
-                                Ultima.HuedTile[][][] origStatics = origmap.Tiles.GetStaticBlock(x, y);
-                                for (int xb = 0; xb < 8; xb++)
-                                {
-                                    for (int yb = 0; yb < 8; yb++)
-                                    {
-                                        if (customStatics[xb][yb].Length != origStatics[xb][yb].Length)
-                                        {
-                                            mapg.DrawRectangle(Pens.Red, gx + xb, gy + yb, 1, 1);
-                                            mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
-                                            mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
-                                        }
-                                        else
-                                        {
-                                            for (int i = 0; i < customStatics[xb][yb].Length; i++)
-                                            {
-                                                if ((customStatics[xb][yb][i].ID != origStatics[xb][yb][i].ID)
-                                                    || (customStatics[xb][yb][i].Z != origStatics[xb][yb][i].Z)
-                                                    || (customStatics[xb][yb][i].Hue != origStatics[xb][yb][i].Hue))
-                                                {
-                                                    mapg.DrawRectangle(Pens.Red, gx + xb, gy + yb, 1, 1);
-                                                    mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
-                                                    mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                //Ultima.Tile[] customTiles = currmap.Tiles.GetLandBlock(x, y);
+                                //Ultima.Tile[] origTiles = origmap.Tiles.GetLandBlock(x, y);
+                                //for (int xb = 0; xb < 8; xb++)
+                                //{
+                                //    for (int yb = 0; yb < 8; yb++)
+                                //    {
+                                //        if ((customTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID)
+                                //            || (customTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z))
+                                //        {
+                                //            mapg.DrawRectangle(Pens.Red, (gx + xb), (gy + yb), 1, 1);
+                                //            mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
+                                //            mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
+                                //        }
+                                //    }
+                                //}
+                                //Ultima.HuedTile[][][] customStatics = currmap.Tiles.GetStaticBlock(x, y);
+                                //Ultima.HuedTile[][][] origStatics = origmap.Tiles.GetStaticBlock(x, y);
+                                //for (int xb = 0; xb < 8; xb++)
+                                //{
+                                //    for (int yb = 0; yb < 8; yb++)
+                                //    {
+                                //        if (customStatics[xb][yb].Length != origStatics[xb][yb].Length)
+                                //        {
+                                //            mapg.DrawRectangle(Pens.Red, gx + xb, gy + yb, 1, 1);
+                                //            mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
+                                //            mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
+                                //        }
+                                //        else
+                                //        {
+                                //            for (int i = 0; i < customStatics[xb][yb].Length; i++)
+                                //            {
+                                //                if ((customStatics[xb][yb][i].ID != origStatics[xb][yb][i].ID)
+                                //                    || (customStatics[xb][yb][i].Z != origStatics[xb][yb][i].Z)
+                                //                    || (customStatics[xb][yb][i].Hue != origStatics[xb][yb][i].Hue))
+                                //                {
+                                //                    mapg.DrawRectangle(Pens.Red, gx + xb, gy + yb, 1, 1);
+                                //                    mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
+                                //                    mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
+                                //                    break;
+                                //                }
+                                //            }
+                                //        }
+                                //    }
+                                //}
                             }
                         }
                         mapg.Save();
@@ -465,6 +488,7 @@ namespace ComparePlugin
             if (Directory.Exists(path))
                 currmap = Ultima.Map.Custom = new Ultima.Map(path, origmap.FileIndex, currmapint, origmap.Width, origmap.Height);
 
+            CalculateDiffs();
             pictureBox.Refresh();
         }
 
@@ -582,6 +606,82 @@ namespace ComparePlugin
             pictureBox.Refresh();
         }
 
+        private bool BlockDiff(int x, int y)
+        {
+            if (diffs == null)
+                return false;
+            if (x < 0 || y < 0 || x >= diffs.GetLength(0) || y >= diffs[x].GetLength(0))
+                return false;
+            for (int xb = 0; xb < 8; xb++)
+            {
+                for (int yb = 0; yb < 8; yb++)
+                {
+                    if (diffs[x][y][xb][yb])
+                        return true;
+                }
+            }
+            return false;
 
+        }
+
+        private void CalculateDiffs()
+        {
+            int width = currmap.Width >> 3;
+            int height = currmap.Height >> 3;
+            diffs = new bool[width][][][];
+            if (currmap == null || origmap == null)
+                return;
+            Cursor.Current = Cursors.WaitCursor;
+            for (int x = 0; x < width; ++x)
+            {
+                diffs[x] = new bool[height][][];
+                for (int y = 0; y < height; ++y)
+                {
+                    diffs[x][y] = new bool[8][];
+                    Ultima.Tile[] customTiles = currmap.Tiles.GetLandBlock(x, y);
+                    Ultima.Tile[] origTiles = origmap.Tiles.GetLandBlock(x, y);
+                    Ultima.HuedTile[][][] customStatics = currmap.Tiles.GetStaticBlock(x, y);
+                    Ultima.HuedTile[][][] origStatics = origmap.Tiles.GetStaticBlock(x, y);
+                    for (int xb = 0; xb < 8; xb++)
+                    {
+                        diffs[x][y][xb] = new bool[8];
+                        for (int yb = 0; yb < 8; yb++)
+                        {
+                            if ((customTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID)
+                             || (customTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z))
+                            {
+                                diffs[x][y][xb][yb] = true;
+                            }
+                            else
+                            {
+                                if (customStatics[xb][yb].Length != origStatics[xb][yb].Length)
+                                {
+                                    diffs[x][y][xb][yb] = true;
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < customStatics[xb][yb].Length; i++)
+                                    {
+                                        if ((customStatics[xb][yb][i].ID != origStatics[xb][yb][i].ID)
+                                            || (customStatics[xb][yb][i].Z != origStatics[xb][yb][i].Z)
+                                            || (customStatics[xb][yb][i].Hue != origStatics[xb][yb][i].Hue))
+                                        {
+                                            diffs[x][y][xb][yb] = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void HandleScroll(object sender, ScrollEventArgs e)
+        {
+            pictureBox.Refresh();
+        }
     }
 }
