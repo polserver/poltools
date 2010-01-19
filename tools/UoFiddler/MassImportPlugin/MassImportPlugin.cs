@@ -24,7 +24,7 @@ namespace FiddlerPlugin
         string myName = "MassImportPlugin";
         string myDescription = "Import xml based";
         string myAuthor = "Turley";
-        string myVersion = "1.0.1";
+        string myVersion = "1.1.0";
         IPluginHost myHost = null;
 
         /// <summary>

@@ -64,8 +64,8 @@ namespace ComparePlugin
             this.ilshenarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.malasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tokunoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.markDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terMurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -78,6 +78,7 @@ namespace ComparePlugin
             this.vScrollBar.Name = "vScrollBar";
             this.vScrollBar.Size = new System.Drawing.Size(17, 282);
             this.vScrollBar.TabIndex = 1;
+            this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HandleScroll);
             // 
             // hScrollBar
             // 
@@ -86,6 +87,7 @@ namespace ComparePlugin
             this.hScrollBar.Name = "hScrollBar";
             this.hScrollBar.Size = new System.Drawing.Size(619, 17);
             this.hScrollBar.TabIndex = 2;
+            this.hScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HandleScroll);
             // 
             // pictureBox
             // 
@@ -274,6 +276,13 @@ namespace ComparePlugin
             this.tokunoToolStripMenuItem.Text = "Tokuno";
             this.tokunoToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeTokuno);
             // 
+            // terMurToolStripMenuItem
+            // 
+            this.terMurToolStripMenuItem.Name = "terMurToolStripMenuItem";
+            this.terMurToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.terMurToolStripMenuItem.Text = "TerMur";
+            this.terMurToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeTerMur);
+            // 
             // markDiffToolStripMenuItem
             // 
             this.markDiffToolStripMenuItem.CheckOnClick = true;
@@ -281,13 +290,6 @@ namespace ComparePlugin
             this.markDiffToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.markDiffToolStripMenuItem.Text = "Mark Diff";
             this.markDiffToolStripMenuItem.Click += new System.EventHandler(this.OnClickMarkDiff);
-            // 
-            // terMurToolStripMenuItem
-            // 
-            this.terMurToolStripMenuItem.Name = "terMurToolStripMenuItem";
-            this.terMurToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.terMurToolStripMenuItem.Text = "TerMur";
-            this.terMurToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeTerMur);
             // 
             // CompareMap
             // 
