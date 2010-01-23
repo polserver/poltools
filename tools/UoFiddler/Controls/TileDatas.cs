@@ -414,9 +414,9 @@ namespace FiddlerControls
                 pictureBoxLand.Image = new Bitmap(pictureBoxLand.Width, pictureBoxLand.Height);
             }
             LandData data = TileData.LandTable[index];
+            ChangingIndex = true;
             textBoxNameLand.Text = data.Name;
             textBoxTexID.Text = data.TextureID.ToString();
-            ChangingIndex = true;
             if ((data.Flags & TileFlag.Damaging) != 0)
                 checkedListBox2.SetItemChecked(0, true);
             else
@@ -588,21 +588,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemName(object sender, KeyEventArgs e)
+        private void OnTextChangedItemAnim(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                short shortres;
+                if (short.TryParse(textBoxAnim.Text, out shortres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    string name = textBoxName.Text;
-                    if (name.Length > 20)
-                        name = name.Substring(0, 20);
-                    item.Name = name;
-                    treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
+                    item.Animation = shortres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -611,19 +610,44 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemAnim(object sender, KeyEventArgs e)
+        private void OnTextChangedItemName(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                string name = textBoxName.Text;
+                if (name.Length == 0)
+                    return;
+                if (name.Length > 20)
+                    name = name.Substring(0, 20);
+                item.Name = name;
+                treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
+                TileData.ItemTable[index] = item;
+                treeViewItem.SelectedNode.ForeColor = Color.Red;
+                Options.ChangedUltimaClass["TileData"] = true;
+                FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
+            }
+        }
+
+        private void OnTextChangedItemWeight(object sender, EventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxWeight.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    short shortres;
-                    if (short.TryParse(textBoxAnim.Text, out shortres))
-                        item.Animation = shortres;
+                    item.Weight = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -632,19 +656,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemWeight(object sender, KeyEventArgs e)
+        private void OnTextChangedItemQuality(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxQuality.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxWeight.Text, out byteres))
-                        item.Weight = byteres;
+                    item.Quality = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -653,19 +678,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemQuali(object sender, KeyEventArgs e)
+        private void OnTextChangedItemQuantity(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxQuantity.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxQuality.Text, out byteres))
-                        item.Quality = byteres;
+                    item.Quantity = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -674,19 +700,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemQuanti(object sender, KeyEventArgs e)
+        private void OnTextChangedItemHue(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxHue.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxQuantity.Text, out byteres))
-                        item.Quantity = byteres;
+                    item.Hue = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -695,19 +722,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemHue(object sender, KeyEventArgs e)
+        private void OnTextChangedItemStackOff(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxStackOff.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxHue.Text, out byteres))
-                        item.Hue = byteres;
+                    item.StackingOffset = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -716,19 +744,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemStackOff(object sender, KeyEventArgs e)
+        private void OnTextChangedItemValue(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxValue.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxStackOff.Text, out byteres))
-                        item.StackingOffset = byteres;
+                    item.Value = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -737,19 +766,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemValue(object sender, KeyEventArgs e)
+        private void OnTextChangedItemHeight(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxHeigth.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxValue.Text, out byteres))
-                        item.Value = byteres;
+                    item.Height = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -758,19 +788,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemHeigth(object sender, KeyEventArgs e)
+        private void OnTextChangedItemMiscData(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                short shortres;
+                if (short.TryParse(textBoxUnk1.Text, out shortres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxHeigth.Text, out byteres))
-                        item.Height = byteres;
+                    item.MiscData = shortres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -779,19 +810,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemUnk1(object sender, KeyEventArgs e)
+        private void OnTextChangedItemUnk2(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxUnk2.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    short shortres;
-                    if (short.TryParse(textBoxUnk1.Text, out shortres))
-                        item.MiscData = shortres;
+                    item.Unk2 = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -800,19 +832,20 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemUnk2(object sender, KeyEventArgs e)
+        private void OnTextChangedItemUnk3(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                byte byteres;
+                if (byte.TryParse(textBoxUnk3.Text, out byteres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxUnk2.Text, out byteres))
-                        item.Unk2 = byteres;
+                    item.Unk3 = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -821,23 +854,48 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemUnk3(object sender, KeyEventArgs e)
+        private void OnTextChangedLandName(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                if (e.KeyCode == Keys.Enter)
+                if (ChangingIndex)
+                    return;
+                if (treeViewLand.SelectedNode == null)
+                    return;
+                int index = (int)treeViewLand.SelectedNode.Tag;
+                LandData land = TileData.LandTable[index];
+                string name = textBoxNameLand.Text;
+                if (name.Length == 0)
+                    return;
+                if (name.Length > 20)
+                    name = name.Substring(0, 20);
+                land.Name = name;
+                treeViewLand.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
+                TileData.LandTable[index] = land;
+                treeViewLand.SelectedNode.ForeColor = Color.Red;
+                Options.ChangedUltimaClass["TileData"] = true;
+                FiddlerControls.Events.FireTileDataChangeEvent(this, index);
+            }
+        }
+
+        private void OnTextChangedLandTexID(object sender, EventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (ChangingIndex)
+                    return;
+                if (treeViewLand.SelectedNode == null)
+                    return;
+                int index = (int)treeViewLand.SelectedNode.Tag;
+                LandData land = TileData.LandTable[index];
+                short shortres;
+                if (short.TryParse(textBoxTexID.Text, out shortres))
                 {
-                    if (treeViewItem.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewItem.SelectedNode.Tag;
-                    ItemData item = TileData.ItemTable[index];
-                    byte byteres;
-                    if (byte.TryParse(textBoxUnk3.Text, out byteres))
-                        item.Unk3 = byteres;
-                    TileData.ItemTable[index] = item;
-                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    land.TextureID = shortres;
+                    TileData.LandTable[index] = land;
+                    treeViewLand.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
-                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                 }
             }
         }
@@ -893,50 +951,6 @@ namespace FiddlerControls
                             FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                         }
                     }
-                }
-            }
-        }
-
-        private void OnKeyDownLandName(object sender, KeyEventArgs e)
-        {
-            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    if (treeViewLand.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewLand.SelectedNode.Tag;
-                    LandData land = TileData.LandTable[index];
-                    string name = textBoxNameLand.Text;
-                    if (name.Length > 20)
-                        name = name.Substring(0, 20);
-                    land.Name = name;
-                    treeViewLand.SelectedNode.Text = String.Format("0x{0:X4} {1}", index, name);
-                    TileData.LandTable[index] = land;
-                    treeViewLand.SelectedNode.ForeColor = Color.Red;
-                    Options.ChangedUltimaClass["TileData"] = true;
-                    FiddlerControls.Events.FireTileDataChangeEvent(this, index);
-                }
-            }
-        }
-
-        private void OnKeyDownLandTexId(object sender, KeyEventArgs e)
-        {
-            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    if (treeViewLand.SelectedNode == null)
-                        return;
-                    int index = (int)treeViewLand.SelectedNode.Tag;
-                    LandData land = TileData.LandTable[index];
-                    short shortres;
-                    if (short.TryParse(textBoxTexID.Text, out shortres))
-                        land.TextureID = shortres;
-                    TileData.LandTable[index] = land;
-                    treeViewLand.SelectedNode.ForeColor = Color.Red;
-                    Options.ChangedUltimaClass["TileData"] = true;
-                    FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                 }
             }
         }

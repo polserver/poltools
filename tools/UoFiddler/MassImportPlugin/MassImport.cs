@@ -123,6 +123,12 @@ namespace MassImport
 
                 importlist.Clear();
                 OutputBox.Clear();
+                if (dom.SelectSingleNode("MassImport") == null)
+                {
+                    OutputBox.AppendText("Invalid XML" + Environment.NewLine);
+                    return;
+                }
+
                 foreach (XmlNode xNode in dom.SelectSingleNode("MassImport"))
                 {
                     if (xNode.NodeType == XmlNodeType.Comment)
@@ -233,7 +239,7 @@ namespace MassImport
                 if (ChangedUltimaClass["TileData"])
                 {
                     OutputBox.AppendText("Saving TileData.." + Environment.NewLine);
-                    Ultima.TileData.SaveTileData(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                    Ultima.TileData.SaveTileData(Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "tiledata.mul"));
                 }
                 if (ChangedUltimaClass["Hues"])
                 {

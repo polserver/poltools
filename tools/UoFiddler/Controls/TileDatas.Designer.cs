@@ -266,7 +266,7 @@ namespace FiddlerControls
             this.textBoxUnk3.Name = "textBoxUnk3";
             this.textBoxUnk3.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk3.TabIndex = 22;
-            this.textBoxUnk3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk3);
+            this.textBoxUnk3.TextChanged += new System.EventHandler(this.OnTextChangedItemUnk3);
             // 
             // label9
             // 
@@ -283,7 +283,7 @@ namespace FiddlerControls
             this.textBoxUnk2.Name = "textBoxUnk2";
             this.textBoxUnk2.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk2.TabIndex = 20;
-            this.textBoxUnk2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk2);
+            this.textBoxUnk2.TextChanged += new System.EventHandler(this.OnTextChangedItemUnk2);
             // 
             // label10
             // 
@@ -300,7 +300,7 @@ namespace FiddlerControls
             this.textBoxUnk1.Name = "textBoxUnk1";
             this.textBoxUnk1.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk1.TabIndex = 18;
-            this.textBoxUnk1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk1);
+            this.textBoxUnk1.TextChanged += new System.EventHandler(this.OnTextChangedItemMiscData);
             // 
             // label11
             // 
@@ -317,7 +317,7 @@ namespace FiddlerControls
             this.textBoxHeigth.Name = "textBoxHeigth";
             this.textBoxHeigth.Size = new System.Drawing.Size(51, 20);
             this.textBoxHeigth.TabIndex = 16;
-            this.textBoxHeigth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemHeigth);
+            this.textBoxHeigth.TextChanged += new System.EventHandler(this.OnTextChangedItemHeight);
             // 
             // label6
             // 
@@ -334,7 +334,7 @@ namespace FiddlerControls
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.Size = new System.Drawing.Size(51, 20);
             this.textBoxValue.TabIndex = 14;
-            this.textBoxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemValue);
+            this.textBoxValue.TextChanged += new System.EventHandler(this.OnTextChangedItemValue);
             // 
             // label7
             // 
@@ -351,7 +351,7 @@ namespace FiddlerControls
             this.textBoxStackOff.Name = "textBoxStackOff";
             this.textBoxStackOff.Size = new System.Drawing.Size(51, 20);
             this.textBoxStackOff.TabIndex = 12;
-            this.textBoxStackOff.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemStackOff);
+            this.textBoxStackOff.TextChanged += new System.EventHandler(this.OnTextChangedItemStackOff);
             // 
             // label8
             // 
@@ -368,7 +368,7 @@ namespace FiddlerControls
             this.textBoxHue.Name = "textBoxHue";
             this.textBoxHue.Size = new System.Drawing.Size(51, 20);
             this.textBoxHue.TabIndex = 10;
-            this.textBoxHue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemHue);
+            this.textBoxHue.TextChanged += new System.EventHandler(this.OnTextChangedItemHue);
             // 
             // label5
             // 
@@ -385,7 +385,7 @@ namespace FiddlerControls
             this.textBoxQuantity.Name = "textBoxQuantity";
             this.textBoxQuantity.Size = new System.Drawing.Size(51, 20);
             this.textBoxQuantity.TabIndex = 8;
-            this.textBoxQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemQuanti);
+            this.textBoxQuantity.TextChanged += new System.EventHandler(this.OnTextChangedItemQuantity);
             // 
             // label4
             // 
@@ -402,7 +402,7 @@ namespace FiddlerControls
             this.textBoxQuality.Name = "textBoxQuality";
             this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
             this.textBoxQuality.TabIndex = 6;
-            this.textBoxQuality.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemQuali);
+            this.textBoxQuality.TextChanged += new System.EventHandler(this.OnTextChangedItemQuality);
             // 
             // label3
             // 
@@ -419,7 +419,7 @@ namespace FiddlerControls
             this.textBoxWeight.Name = "textBoxWeight";
             this.textBoxWeight.Size = new System.Drawing.Size(51, 20);
             this.textBoxWeight.TabIndex = 4;
-            this.textBoxWeight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemWeight);
+            this.textBoxWeight.TextChanged += new System.EventHandler(this.OnTextChangedItemWeight);
             // 
             // label1
             // 
@@ -437,7 +437,7 @@ namespace FiddlerControls
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(135, 20);
             this.textBoxName.TabIndex = 0;
-            this.textBoxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemName);
+            this.textBoxName.TextChanged += new System.EventHandler(this.OnTextChangedItemName);
             // 
             // splitContainer3
             // 
@@ -467,7 +467,7 @@ namespace FiddlerControls
             this.textBoxAnim.Name = "textBoxAnim";
             this.textBoxAnim.Size = new System.Drawing.Size(100, 20);
             this.textBoxAnim.TabIndex = 2;
-            this.textBoxAnim.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemAnim);
+            this.textBoxAnim.TextChanged += new System.EventHandler(this.OnTextChangedItemAnim);
             // 
             // label2
             // 
@@ -595,7 +595,7 @@ namespace FiddlerControls
             this.textBoxNameLand.Name = "textBoxNameLand";
             this.textBoxNameLand.Size = new System.Drawing.Size(135, 20);
             this.textBoxNameLand.TabIndex = 0;
-            this.textBoxNameLand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownLandName);
+            this.textBoxNameLand.TextChanged += new System.EventHandler(this.OnTextChangedLandName);
             // 
             // splitContainer7
             // 
@@ -625,7 +625,7 @@ namespace FiddlerControls
             this.textBoxTexID.Name = "textBoxTexID";
             this.textBoxTexID.Size = new System.Drawing.Size(100, 20);
             this.textBoxTexID.TabIndex = 2;
-            this.textBoxTexID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownLandTexId);
+            this.textBoxTexID.TextChanged += new System.EventHandler(this.OnTextChangedLandTexID);
             // 
             // label24
             // 

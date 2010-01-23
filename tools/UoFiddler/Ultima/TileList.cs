@@ -1,3 +1,5 @@
+using System;
+
 namespace Ultima
 {
     public sealed class HuedTileList
@@ -18,9 +20,11 @@ namespace Ultima
             {
                 HuedTile[] old = m_Tiles;
                 m_Tiles = new HuedTile[old.Length * 2];
+                if (old.Length > 0)
+                    System.Array.Copy(old, m_Tiles, old.Length);
 
-                for (int i = 0; i < old.Length; ++i)
-                    m_Tiles[i] = old[i];
+                //for (int i = 0; i < old.Length; ++i)
+                //    m_Tiles[i] = old[i];
             }
 
             m_Tiles[Count++].Set(id, hue, z);
@@ -29,9 +33,10 @@ namespace Ultima
         public HuedTile[] ToArray()
         {
             HuedTile[] tiles = new HuedTile[Count];
-
-            for (int i = 0; i < Count; ++i)
-                tiles[i] = m_Tiles[i];
+            if (Count > 0)
+                System.Array.Copy(m_Tiles, tiles, Count);
+            //         for (int i = 0; i < Count; ++i)
+            //             tiles[i] = m_Tiles[i];
 
             Count = 0;
 
@@ -57,9 +62,11 @@ namespace Ultima
             {
                 Tile[] old = m_Tiles;
                 m_Tiles = new Tile[old.Length * 2];
+                if (old.Length > 0)
+                    System.Array.Copy(old, m_Tiles, old.Length);
 
-                for (int i = 0; i < old.Length; ++i)
-                    m_Tiles[i] = old[i];
+                //for (int i = 0; i < old.Length; ++i)
+                //    m_Tiles[i] = old[i];
             }
 
             m_Tiles[Count++].Set(id, z);
@@ -70,9 +77,11 @@ namespace Ultima
             {
                 Tile[] old = m_Tiles;
                 m_Tiles = new Tile[old.Length * 2];
+                if (old.Length > 0)
+                    System.Array.Copy(old, m_Tiles, old.Length);
 
-                for (int i = 0; i < old.Length; ++i)
-                    m_Tiles[i] = old[i];
+                //for (int i = 0; i < old.Length; ++i)
+                //    m_Tiles[i] = old[i];
             }
 
             m_Tiles[Count++].Set(id, z, flag);
@@ -81,9 +90,11 @@ namespace Ultima
         public Tile[] ToArray()
         {
             Tile[] tiles = new Tile[Count];
+            if (Count > 0)
+                System.Array.Copy(m_Tiles, tiles, Count);
 
-            for (int i = 0; i < Count; ++i)
-                tiles[i] = m_Tiles[i];
+            //for (int i = 0; i < Count; ++i)
+            //    tiles[i] = m_Tiles[i];
 
             Count = 0;
 
@@ -95,10 +106,10 @@ namespace Ultima
             return m_Tiles[i];
         }
 
-        public void Set(int i,ushort id, sbyte z)
+        public void Set(int i, ushort id, sbyte z)
         {
             if (i < Count)
-                m_Tiles[i].Set(id,z);
+                m_Tiles[i].Set(id, z);
         }
 
         public void Set(int i, ushort id, sbyte z, sbyte flag)
@@ -126,9 +137,11 @@ namespace Ultima
             {
                 MTile[] old = m_Tiles;
                 m_Tiles = new MTile[old.Length * 2];
+                if (old.Length > 0)
+                    System.Array.Copy(old, m_Tiles, old.Length);
 
-                for (int i = 0; i < old.Length; ++i)
-                    m_Tiles[i] = old[i];
+                //for (int i = 0; i < old.Length; ++i)
+                //    m_Tiles[i] = old[i];
             }
 
             m_Tiles[Count++].Set(id, z);
@@ -139,9 +152,11 @@ namespace Ultima
             {
                 MTile[] old = m_Tiles;
                 m_Tiles = new MTile[old.Length * 2];
+                if (old.Length > 0)
+                    System.Array.Copy(old, m_Tiles, old.Length);
 
-                for (int i = 0; i < old.Length; ++i)
-                    m_Tiles[i] = old[i];
+                //for (int i = 0; i < old.Length; ++i)
+                //    m_Tiles[i] = old[i];
             }
 
             m_Tiles[Count++].Set(id, z, flag);
@@ -151,8 +166,11 @@ namespace Ultima
         {
             MTile[] tiles = new MTile[Count];
 
-            for (int i = 0; i < Count; ++i)
-                tiles[i] = m_Tiles[i];
+            if (Count > 0)
+                System.Array.Copy(m_Tiles, tiles, Count);
+
+            //for (int i = 0; i < Count; ++i)
+            //    tiles[i] = m_Tiles[i];
 
             Count = 0;
 
