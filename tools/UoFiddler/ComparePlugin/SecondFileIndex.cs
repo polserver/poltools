@@ -4,22 +4,20 @@ namespace ComparePlugin
 {
     public sealed class SecondFileIndex
     {
-        private Entry3D[] m_Index;
-        private Stream m_Stream;
+        public Entry3D[] Index { get; private set; }
+        public Stream Stream { get; private set; }
         public long IdxLength { get; private set; }
-
-        public Entry3D[] Index { get { return m_Index; } }
-        public Stream Stream { get { return m_Stream; } }
+        private string MulPath;
 
         public Stream Seek(int index, out int length, out int extra)
         {
-            if (index < 0 || index >= m_Index.Length)
+            if (index < 0 || index >= Index.Length)
             {
                 length = extra = 0;
                 return null;
             }
 
-            Entry3D e = m_Index[index];
+            Entry3D e = Index[index];
 
             if (e.lookup < 0)
             {
@@ -30,53 +28,62 @@ namespace ComparePlugin
             length = e.length & 0x7FFFFFFF;
             extra = e.extra;
 
-            if (m_Stream == null)
+            if ((Stream == null) || (!Stream.CanRead) || (!Stream.CanSeek))
+            {
+                if (MulPath == null)
+                    Stream = null;
+                else
+                    Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+
+            if (Stream == null)
             {
                 length = extra = 0;
                 return null;
             }
 
-            m_Stream.Seek(e.lookup, SeekOrigin.Begin);
-            return m_Stream;
+            Stream.Seek(e.lookup, SeekOrigin.Begin);
+            return Stream;
         }
 
         public SecondFileIndex(string idxFile, string mulFile, int length)
         {
-            m_Index = new Entry3D[length];
+            Index = new Entry3D[length];
 
+            MulPath = mulFile;
             if (!File.Exists(idxFile))
                 idxFile = null;
-            if (!File.Exists(mulFile))
-                mulFile = null;
+            if (!File.Exists(MulPath))
+                MulPath = null;
 
-            if (idxFile != null && mulFile != null)
+            if (idxFile != null && MulPath != null)
             {
                 using (FileStream index = new FileStream(idxFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     BinaryReader bin = new BinaryReader(index);
-                    m_Stream = new FileStream(mulFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
                     int count = (int)(index.Length / 12);
                     IdxLength = index.Length;
 
                     for (int i = 0; i < count && i < length; ++i)
                     {
-                        m_Index[i].lookup = bin.ReadInt32();
-                        m_Index[i].length = bin.ReadInt32();
-                        m_Index[i].extra = bin.ReadInt32();
+                        Index[i].lookup = bin.ReadInt32();
+                        Index[i].length = bin.ReadInt32();
+                        Index[i].extra = bin.ReadInt32();
                     }
 
                     for (int i = count; i < length; ++i)
                     {
-                        m_Index[i].lookup = -1;
-                        m_Index[i].length = -1;
-                        m_Index[i].extra = -1;
+                        Index[i].lookup = -1;
+                        Index[i].length = -1;
+                        Index[i].extra = -1;
                     }
                 }
             }
             else
             {
-                m_Stream = null;
+                Stream = null;
                 return;
             }
         }

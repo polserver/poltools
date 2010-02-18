@@ -25,7 +25,7 @@ namespace Ultima
 
         public static int GetIdxLength()
         {
-            return (int)(m_FileIndex.IdxLength/12);
+            return (int)(m_FileIndex.IdxLength / 12);
         }
 
         /// <summary>
@@ -120,13 +120,22 @@ namespace Ultima
                 ushort* line = (ushort*)bd.Scan0;
                 int delta = bd.Stride >> 1;
 
-                for (int y = 0; y < size; ++y, line += delta)
-                {
-                    ushort* cur = line;
-                    ushort* end = cur + size;
+                int max = size * size;
+                byte[] tempData = bin.ReadBytes(max * 2);
+                ushort[] data = new ushort[max];
+                System.Buffer.BlockCopy(tempData, 0, data, 0, max * 2);
 
-                    while (cur < end)
-                        *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                fixed (ushort* bindata = data)
+                {
+                    ushort* bindat = bindata;
+                    for (int y = 0; y < size; ++y, line += delta)
+                    {
+                        ushort* cur = line;
+                        ushort* end = cur + size;
+
+                        while (cur < end)
+                            *cur++ = (ushort)(*bindat++ ^ 0x8000);
+                    }
                 }
 
                 bmp.UnlockBits(bd);
