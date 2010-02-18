@@ -23,9 +23,10 @@ namespace FiddlerPlugin
             + "Compares 2 Hue files\r\n"
             + "Compares 2 Map files\r\n"
             + "Compares 2 Gump files\r\n"
-            + "(Adds 6 new Tabs)";
+            + "Compares 2 Texture files\r\n"
+            + "(Adds 7 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.7.0";
+        string myVersion = "1.8.0";
         IPluginHost myHost = null;
 
         /// <summary>
@@ -106,6 +107,13 @@ namespace FiddlerPlugin
             compM.Dock = System.Windows.Forms.DockStyle.Fill;
             page6.Controls.Add(compM);
             tabcontrol.TabPages.Add(page6);
+            TabPage page7 = new TabPage();
+            page7.Tag = tabcontrol.TabCount + 1;
+            page7.Text = "Compare Texture";
+            CompareTexture compTexture = new CompareTexture();
+            compTexture.Dock = System.Windows.Forms.DockStyle.Fill;
+            page7.Controls.Add(compTexture);
+            tabcontrol.TabPages.Add(page7);
         }
 
         public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)

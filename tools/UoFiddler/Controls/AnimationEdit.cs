@@ -102,6 +102,13 @@ namespace FiddlerControls
             OnLoad(null);
         }
 
+        private void onClose(object sender, FormClosedEventArgs e)
+        {
+            Loaded = false;
+            FiddlerControls.Events.FilePathChangeEvent -= new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+
+        }
+
         private TreeNode GetNode(int tag)
         {
             if (ShowOnlyValid)
@@ -148,7 +155,7 @@ namespace FiddlerControls
             {
                 if (treeView1.SelectedNode.Parent == null)
                 {
-                    if (treeView1.SelectedNode.Tag!=null)
+                    if (treeView1.SelectedNode.Tag != null)
                         CurrBody = (int)treeView1.SelectedNode.Tag;
                     CurrAction = 0;
                 }
@@ -161,7 +168,7 @@ namespace FiddlerControls
                 listView1.BeginUpdate();
                 listView1.Clear();
                 AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-                if (edit!=null)
+                if (edit != null)
                 {
                     int width = 80;
                     int height = 110;
@@ -506,7 +513,7 @@ namespace FiddlerControls
 
         private void OnClickReplace(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count>0)
+            if (listView1.SelectedItems.Count > 0)
             {
                 using (OpenFileDialog dialog = new OpenFileDialog())
                 {
@@ -538,42 +545,47 @@ namespace FiddlerControls
             {
                 using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    dialog.Multiselect = false;
-                    dialog.Title = "Choose image file to add";
+                    dialog.Multiselect = true;
+                    dialog.Title = "Choose image files to add";
                     dialog.CheckFileExists = true;
                     dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if (dialog.FileName.Contains(".bmp"))
-                            bmp = Utils.ConvertBmp(bmp);
-                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-                        if (edit != null)
+                        listView1.BeginUpdate();
+                        foreach (string filename in dialog.FileNames)
                         {
-                            edit.AddFrame(bmp);
-                            TreeNode node = GetNode(CurrBody);
-                            if (node != null)
+                            Bitmap bmp = new Bitmap(filename);
+                            if (filename.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
+                            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                            if (edit != null)
                             {
-                                node.ForeColor = Color.Black;
-                                node.Nodes[CurrAction].ForeColor = Color.Black;
-                            }
-                            ListViewItem item;
-                            int i = edit.Frames.Count - 1;
-                            item = new ListViewItem(i.ToString(), 0);
-                            item.Tag = i;
-                            listView1.Items.Add(item);
-                            int width = listView1.TileSize.Width - 5;
-                            if (bmp.Width > listView1.TileSize.Width)
-                                width = bmp.Width;
-                            int height = listView1.TileSize.Height - 5;
-                            if (bmp.Height > listView1.TileSize.Height)
-                                height = bmp.Height;
+                                edit.AddFrame(bmp);
+                                TreeNode node = GetNode(CurrBody);
+                                if (node != null)
+                                {
+                                    node.ForeColor = Color.Black;
+                                    node.Nodes[CurrAction].ForeColor = Color.Black;
+                                }
+                                ListViewItem item;
+                                int i = edit.Frames.Count - 1;
+                                item = new ListViewItem(i.ToString(), 0);
+                                item.Tag = i;
+                                listView1.Items.Add(item);
+                                int width = listView1.TileSize.Width - 5;
+                                if (bmp.Width > listView1.TileSize.Width)
+                                    width = bmp.Width;
+                                int height = listView1.TileSize.Height - 5;
+                                if (bmp.Height > listView1.TileSize.Height)
+                                    height = bmp.Height;
 
-                            listView1.TileSize = new Size(width + 5, height + 5);
-                            trackBar2.Maximum = i;
-                            listView1.Refresh();
-                            Options.ChangedUltimaClass["Animations"] = true;
+                                listView1.TileSize = new Size(width + 5, height + 5);
+                                trackBar2.Maximum = i;
+                                Options.ChangedUltimaClass["Animations"] = true;
+                            }
                         }
+                        listView1.EndUpdate();
+                        listView1.Refresh();
                     }
                 }
             }
@@ -750,7 +762,7 @@ namespace FiddlerControls
             if (ShowOnlyValid)
             {
                 treeView1.BeginUpdate();
-                for (int i = treeView1.Nodes.Count-1; i >= 0; --i)
+                for (int i = treeView1.Nodes.Count - 1; i >= 0; --i)
                 {
                     if (treeView1.Nodes[i].ForeColor == Color.Red)
                         treeView1.Nodes[i].Remove();
@@ -759,6 +771,107 @@ namespace FiddlerControls
             }
             else
                 OnLoad(null);
+        }
+
+        private unsafe void OnClickGeneratePalette(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = true;
+                dialog.Title = "Choose images to generate from";
+                dialog.CheckFileExists = true;
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    ushort[] Palette = new ushort[0x100];
+                    int count = 0;
+                    foreach (string filename in dialog.FileNames)
+                    {
+                        Bitmap bmp = new Bitmap(filename);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+
+                        BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
+                        ushort* line = (ushort*)bd.Scan0;
+                        int delta = bd.Stride >> 1;
+                        ushort* cur = line;
+                        for (int y = 0; y < bmp.Height; ++y, line += delta)
+                        {
+                            cur = line;
+                            for (int x = 0; x < bmp.Width; ++x)
+                            {
+                                ushort c = cur[x];
+                                if (c != 0)
+                                {
+                                    bool found = false;
+                                    for (int i = 0; i < Palette.Length; ++i)
+                                    {
+                                        if (Palette[i] == c)
+                                        {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!found)
+                                        Palette[count++] = c;
+                                    if (count >= 0x100)
+                                    {
+                                        MessageBox.Show(
+                                            "More then 0x100 colors found!",
+                                            "Generate",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error,
+                                            MessageBoxDefaultButton.Button1);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    string FileName = Path.Combine(path, "generated palette.txt");
+                    using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))
+                    {
+                        for (int i = 0; i < 0x100; ++i)
+                        {
+                            Tex.WriteLine(Palette[i]);
+                        }
+                    }
+                    MessageBox.Show(
+                        String.Format("Palette saved to {0}", FileName),
+                        "Generate Palette",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
+        private void OnClickExportAllToVD(object sender, EventArgs e)
+        {
+            if (FileType != 0)
+            {
+                using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+                {
+                    dialog.Description = "Select directory";
+                    dialog.ShowNewFolderButton = true;
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        for (int i = 0; i < treeView1.Nodes.Count; ++i)
+                        {
+                            int index = (int)treeView1.Nodes[i].Tag;
+                            if (index >= 0 && treeView1.Nodes[i].Parent == null && treeView1.Nodes[i].ForeColor != Color.Red)
+                            {
+                                string FileName = Path.Combine(dialog.SelectedPath, String.Format("anim{0}_0x{1:X}.vd", FileType, index));
+                                Ultima.AnimationEdit.ExportToVD(FileType, index, FileName);
+                            }
+                        }
+                        MessageBox.Show(String.Format("All Animations saved to {0}", dialog.SelectedPath.ToString()),
+                                "Export", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    }
+                }
+            }
+
         }
     }
 }

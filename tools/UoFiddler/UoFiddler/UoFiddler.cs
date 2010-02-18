@@ -20,7 +20,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "4.3b";
+        public static string Version = "4.4";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -484,6 +484,7 @@ namespace UoFiddler
                 case 17: return Dress;
                 case 18: return TileDatas;
                 case 19: return RadarCol;
+                case 20: return SkillGrp;
                 default: return Start;
             }
         }
@@ -512,6 +513,7 @@ namespace UoFiddler
                 case 17: return ToggleViewDress;
                 case 18: return ToggleViewTileData;
                 case 19: return ToggleViewRadarColor;
+                case 20: return ToggleViewSkillGrp;
                 default: return ToggleViewStart;
             }
         }

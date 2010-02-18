@@ -223,7 +223,8 @@ namespace FiddlerControls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, "MultiMap.bmp");
-            pictureBox.Image.Save(FileName, ImageFormat.Bmp);
+            Bitmap bit = new Bitmap(pictureBox.Image);
+            bit.Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }

@@ -70,6 +70,8 @@
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showOnlyValidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generatePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAllValidToVDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -157,7 +159,7 @@
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asBmpToolStripMenuItem.Tag = ".bmp";
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractImages);
@@ -165,7 +167,7 @@
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asTiffToolStripMenuItem.Tag = ".tiff";
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractImages);
@@ -181,7 +183,7 @@
             // fromvdToolStripMenuItem
             // 
             this.fromvdToolStripMenuItem.Name = "fromvdToolStripMenuItem";
-            this.fromvdToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.fromvdToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.fromvdToolStripMenuItem.Text = "From .vd";
             this.fromvdToolStripMenuItem.Click += new System.EventHandler(this.OnClickImportFromVD);
             // 
@@ -196,7 +198,7 @@
             // tovdToolStripMenuItem
             // 
             this.tovdToolStripMenuItem.Name = "tovdToolStripMenuItem";
-            this.tovdToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.tovdToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.tovdToolStripMenuItem.Text = "To .vd";
             this.tovdToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportToVD);
             // 
@@ -482,7 +484,9 @@
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
-            this.showOnlyValidToolStripMenuItem});
+            this.showOnlyValidToolStripMenuItem,
+            this.generatePaletteToolStripMenuItem,
+            this.exportAllValidToVDToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 20);
@@ -491,7 +495,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
             // 
@@ -499,9 +503,23 @@
             // 
             this.showOnlyValidToolStripMenuItem.CheckOnClick = true;
             this.showOnlyValidToolStripMenuItem.Name = "showOnlyValidToolStripMenuItem";
-            this.showOnlyValidToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.showOnlyValidToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.showOnlyValidToolStripMenuItem.Text = "Show Only Valid";
             this.showOnlyValidToolStripMenuItem.Click += new System.EventHandler(this.OnClickShowOnlyValid);
+            // 
+            // generatePaletteToolStripMenuItem
+            // 
+            this.generatePaletteToolStripMenuItem.Name = "generatePaletteToolStripMenuItem";
+            this.generatePaletteToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.generatePaletteToolStripMenuItem.Text = "Generate Palette";
+            this.generatePaletteToolStripMenuItem.Click += new System.EventHandler(this.OnClickGeneratePalette);
+            // 
+            // exportAllValidToVDToolStripMenuItem
+            // 
+            this.exportAllValidToVDToolStripMenuItem.Name = "exportAllValidToVDToolStripMenuItem";
+            this.exportAllValidToVDToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.exportAllValidToVDToolStripMenuItem.Text = "Export All Valid To VD";
+            this.exportAllValidToVDToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportAllToVD);
             // 
             // AnimationEdit
             // 
@@ -512,6 +530,7 @@
             this.Name = "AnimationEdit";
             this.Text = "Animation Edit";
             this.Load += new System.EventHandler(this.onLoad);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.onClose);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -583,5 +602,7 @@
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tovdToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showOnlyValidToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generatePaletteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAllValidToVDToolStripMenuItem;
     }
 }

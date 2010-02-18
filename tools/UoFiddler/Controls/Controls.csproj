@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BBF3C337-3D0E-484D-8C59-BA8296C5897C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -531,6 +531,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapReplaceTiles.resx">
       <DependentUpon>MapReplaceTiles.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiImport.resx">
       <DependentUpon>MultiImport.cs</DependentUpon>
@@ -579,6 +580,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TileDataFilter.resx">
       <DependentUpon>TileDataFilter.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TileDatas.resx">
       <SubType>Designer</SubType>
