@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -20,6 +21,13 @@ namespace Ultima
             m_Name = name;
             m_TexID = (short)TexID;
             m_Flags = flags;
+        }
+
+        public unsafe LandData(LandTileDataMul mulstruct)
+        {
+            m_TexID = mulstruct.texID;
+            m_Flags = (TileFlag)mulstruct.flags;
+            m_Name = TileData.ReadNameString(mulstruct.name);
         }
 
         /// <summary>
@@ -190,6 +198,23 @@ namespace Ultima
             m_MiscData = (short)MiscData;
             m_Unk2 = (byte)unk2;
             m_Unk3 = (byte)unk3;
+        }
+
+        public unsafe ItemData(ItemTileDataMul mulstruct)
+        {
+            m_Name = TileData.ReadNameString(mulstruct.name);
+            m_Flags = (TileFlag)mulstruct.flags;
+            m_Weight = mulstruct.weight;
+            m_Quality = mulstruct.quality;
+            m_Quantity = mulstruct.quantity;
+            m_Value = mulstruct.value;
+            m_Height = mulstruct.height;
+            m_Animation = mulstruct.anim;
+            m_Hue = mulstruct.hue;
+            m_StackOffset = mulstruct.stackingoffset;
+            m_MiscData = mulstruct.miscdata;
+            m_Unk2 = mulstruct.unk2;
+            m_Unk3 = mulstruct.unk3;
         }
 
         /// <summary>
@@ -672,6 +697,15 @@ namespace Ultima
             return Encoding.Default.GetString(m_StringBuffer, 0, count);
         }
 
+        public unsafe static string ReadNameString(byte* buffer)
+        {
+            int count;
+            for (count = 0; count < 20 && *buffer != 0; ++count)
+                m_StringBuffer[count] = *buffer++;
+
+            return Encoding.Default.GetString(m_StringBuffer, 0, count);
+        }
+
         private TileData()
         {
         }
@@ -684,7 +718,7 @@ namespace Ultima
             Initialize();
         }
 
-        public static void Initialize()
+        public unsafe static void Initialize()
         {
             string filePath = Files.GetFilePath("tiledata.mul");
 
@@ -694,21 +728,29 @@ namespace Ultima
                 {
                     landheader = new int[512];
                     int j = 0;
-                    using (BinaryReader bin = new BinaryReader(fs))
+                    m_LandData = new LandData[0x4000];
+
+                    byte[] buffer = new byte[fs.Length];
+                    GCHandle gc = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                    long currpos = 0;
+                    try
                     {
-                        m_LandData = new LandData[0x4000];
-
-                        for (int i = 0; i < 0x4000; ++i)
+                        fs.Read(buffer, 0, buffer.Length);
+                        for (int i = 0; i < 0x4000; i += 32)
                         {
-                            if ((i & 0x1F) == 0)
-                                landheader[j++] = bin.ReadInt32(); // header
-                            TileFlag flags = (TileFlag)bin.ReadInt32();
-                            int texID = bin.ReadInt16();
-
-                            m_LandData[i] = new LandData(ReadNameString(bin), texID, flags);
+                            IntPtr ptrheader = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
+                            currpos += 4;
+                            landheader[j++] = (int)Marshal.PtrToStructure(ptrheader, typeof(int));
+                            for (int count = 0; count < 32; ++count)
+                            {
+                                IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
+                                currpos += sizeof(LandTileDataMul);
+                                LandTileDataMul cur = (LandTileDataMul)Marshal.PtrToStructure(ptr, typeof(LandTileDataMul));
+                                m_LandData[i + count] = new LandData(cur);
+                            }
                         }
 
-                        long remaining = bin.BaseStream.Length - bin.BaseStream.Position;
+                        long remaining = buffer.Length - currpos;
                         int itemlength = 0x4000;
                         if (remaining / 37 > 0x5000)
                         {
@@ -721,30 +763,24 @@ namespace Ultima
                         m_HeightTable = new int[itemlength];
 
                         j = 0;
-
-                        for (int i = 0; i < itemlength; ++i)
+                        for (int i = 0; i < itemlength; i += 32)
                         {
-                            if (bin.BaseStream.Position == bin.BaseStream.Length)
-                                break;
-                            if ((i & 0x1F) == 0)
-                                itemheader[j++] = bin.ReadInt32(); // header
-
-                            TileFlag flags = (TileFlag)bin.ReadInt32();
-                            int weight = bin.ReadByte();
-                            int quality = bin.ReadByte();
-                            int MiscData = bin.ReadInt16();
-                            int unk2 = bin.ReadByte();
-                            int quantity = bin.ReadByte();
-                            int anim = bin.ReadInt16();
-                            int unk3 = bin.ReadByte();
-                            int hue = bin.ReadByte();
-                            int stackingoffset = bin.ReadByte(); //unk4
-                            int value = bin.ReadByte(); //unk5
-                            int height = bin.ReadByte();
-
-                            m_ItemData[i] = new ItemData(ReadNameString(bin), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, MiscData, unk2, unk3);
-                            m_HeightTable[i] = height;
+                            IntPtr ptrheader = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
+                            currpos += 4;
+                            itemheader[j++] = (int)Marshal.PtrToStructure(ptrheader, typeof(int));
+                            for (int count = 0; count < 32; ++count)
+                            {
+                                IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
+                                currpos += sizeof(ItemTileDataMul);
+                                ItemTileDataMul cur = (ItemTileDataMul)Marshal.PtrToStructure(ptr, typeof(ItemTileDataMul));
+                                m_ItemData[i + count] = new ItemData(cur);
+                                m_HeightTable[i + count] = cur.height;
+                            }
                         }
+                    }
+                    finally
+                    {
+                        gc.Free();
                     }
                 }
             }
@@ -1001,4 +1037,31 @@ namespace Ultima
             }
         }
     }
+
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct LandTileDataMul
+    {
+        public int flags;
+        public short texID;
+        public fixed byte name[20];
+    }
+
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct ItemTileDataMul
+    {
+        public int flags;
+        public byte weight;
+        public byte quality;
+        public short miscdata;
+        public byte unk2;
+        public byte quantity;
+        public short anim;
+        public byte unk3;
+        public byte hue;
+        public byte stackingoffset;
+        public byte value;
+        public byte height;
+        public fixed byte name[20];
+    }
+
 }
