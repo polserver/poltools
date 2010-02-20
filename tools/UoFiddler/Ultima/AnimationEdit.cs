@@ -170,11 +170,9 @@ namespace Ultima
 
             int length, extra;
             bool patched;
-            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
-            if ((stream == null) || (length < 1))
+            bool valid = fileIndex.Valid(index, out length, out extra, out patched);
+            if ((!valid) || (length < 1))
                 return false;
-
-            stream.Close();
             return true;
         }
 

@@ -82,42 +82,47 @@ namespace Ultima
             {
                 using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)))
                 {
-                    for (int i = 0; i < 10; ++i)
+                    byte[] buffer = reader.ReadBytes((int)reader.BaseStream.Length);
+                    fixed (byte* bin = buffer)
                     {
-                        byte header = reader.ReadByte();
-                        Fonts[i] = new ASCIIFont(header);
-
-                        for (int k = 0; k < 224; ++k)
+                        byte* read = bin;
+                        for (int i = 0; i < 10; ++i)
                         {
-                            byte width = reader.ReadByte();
-                            byte height = reader.ReadByte();
-                            byte unk = reader.ReadByte(); // delimeter?
+                            byte header = *read++;
+                            Fonts[i] = new ASCIIFont(header);
 
-                            if (width > 0 && height > 0)
+                            for (int k = 0; k < 224; ++k)
                             {
-                                if (height > Fonts[i].Height && k < 96)
-                                    Fonts[i].Height = height;
+                                byte width = *read++;
+                                byte height = *read++;
+                                byte unk = *read++; // delimeter?
 
-                                Bitmap bmp = new Bitmap(width, height);
-                                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-                                ushort* line = (ushort*)bd.Scan0;
-                                int delta = bd.Stride >> 1;
-
-                                for (int y = 0; y < height; ++y, line += delta)
+                                if (width > 0 && height > 0)
                                 {
-                                    ushort* cur = line;
-                                    for (int x = 0; x < width; ++x)
+                                    if (height > Fonts[i].Height && k < 96)
+                                        Fonts[i].Height = height;
+
+                                    Bitmap bmp = new Bitmap(width, height);
+                                    BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                                    ushort* line = (ushort*)bd.Scan0;
+                                    int delta = bd.Stride >> 1;
+
+                                    for (int y = 0; y < height; ++y, line += delta)
                                     {
-                                        ushort pixel = (ushort)(reader.ReadByte() | (reader.ReadByte() << 8));
-                                        if (pixel == 0)
-                                            cur[x] = pixel;
-                                        else
-                                            cur[x] = (ushort)(pixel ^ 0x8000);
+                                        ushort* cur = line;
+                                        for (int x = 0; x < width; ++x)
+                                        {
+                                            ushort pixel = (ushort)(*read++ | (*read++ << 8));
+                                            if (pixel == 0)
+                                                cur[x] = pixel;
+                                            else
+                                                cur[x] = (ushort)(pixel ^ 0x8000);
+                                        }
                                     }
+                                    bmp.UnlockBits(bd);
+                                    Fonts[i].Characters[k] = bmp;
+                                    Fonts[i].Unk[k] = unk;
                                 }
-                                bmp.UnlockBits(bd);
-                                Fonts[i].Characters[k] = bmp;
-                                Fonts[i].Unk[k] = unk;
                             }
                         }
                     }

@@ -9,6 +9,7 @@ namespace ComparePlugin
     {
         private static SecondFileIndex m_FileIndex;
         private static Bitmap[] m_Cache;
+        private static byte[] m_StreamBuffer;
 
         public static void SetFileIndex(string idxPath, string mulPath)
         {
@@ -28,9 +29,8 @@ namespace ComparePlugin
                 return true;
 
             int length, extra;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra);
-
-            if (stream == null)
+            bool valid = m_FileIndex.Valid(index, out length, out extra);
+            if ((!valid) || (length == 0))
                 return false;
             return true;
         }
@@ -48,9 +48,9 @@ namespace ComparePlugin
                 return null;
 
             if (Files.CacheData)
-                return m_Cache[index] = LoadTexture(stream, extra);
+                return m_Cache[index] = LoadTexture(stream, extra, length);
             else
-                return LoadTexture(stream, extra);
+                return LoadTexture(stream, extra, length);
         }
 
         public static byte[] GetRawTexture(int index)
@@ -66,37 +66,34 @@ namespace ComparePlugin
             return buffer;
         }
 
-        private unsafe static Bitmap LoadTexture(Stream stream, int extra)
+        private unsafe static Bitmap LoadTexture(Stream stream, int extra, int length)
         {
             int size = extra == 0 ? 64 : 128;
 
             Bitmap bmp = new Bitmap(size, size, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, size, size), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            using (BinaryReader bin = new BinaryReader(stream))
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
+
+            int max = size * size * 2;
+
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < max)
+                m_StreamBuffer = new byte[max];
+            stream.Read(m_StreamBuffer, 0, max);
+
+            fixed (byte* data = m_StreamBuffer)
             {
-                ushort* line = (ushort*)bd.Scan0;
-                int delta = bd.Stride >> 1;
-
-                int max = size * size;
-                byte[] tempData = bin.ReadBytes(max * 2);
-                ushort[] data = new ushort[max];
-                System.Buffer.BlockCopy(tempData, 0, data, 0, max * 2);
-
-                fixed (ushort* bindata = data)
+                ushort* bindat = (ushort*)data;
+                for (int y = 0; y < size; ++y, line += delta)
                 {
-                    ushort* bindat = bindata;
-                    for (int y = 0; y < size; ++y, line += delta)
-                    {
-                        ushort* cur = line;
-                        ushort* end = cur + size;
+                    ushort* cur = line;
+                    ushort* end = cur + size;
 
-                        while (cur < end)
-                            *cur++ = (ushort)(*bindat++ ^ 0x8000);
-                    }
+                    while (cur < end)
+                        *cur++ = (ushort)(*bindat++ ^ 0x8000);
                 }
-
-                bmp.UnlockBits(bd);
             }
+            bmp.UnlockBits(bd);
 
             return bmp;
         }

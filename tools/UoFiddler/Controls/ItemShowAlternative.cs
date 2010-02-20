@@ -174,14 +174,25 @@ namespace FiddlerControls
                 string FileName = Path.Combine(path, "UOFiddlerArt.hash");
                 if (File.Exists(FileName))
                 {
-                    using (BinaryReader bin = new BinaryReader(new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    using (FileStream bin = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        int length = bin.ReadInt32();
-                        bin.BaseStream.Seek(length, SeekOrigin.Current);
-                        while (bin.BaseStream.Length != bin.BaseStream.Position)
+                        unsafe
                         {
-                            int i = bin.ReadInt32();
-                            ItemList.Add((object)i);
+                            byte[] buffer = new byte[bin.Length];
+                            bin.Read(buffer, 0, (int)bin.Length);
+                            fixed (byte* bf = buffer)
+                            {
+                                int* poffset = (int*)bf;
+                                int offset = *poffset + 4;
+                                int* dat = (int*)(bf + offset);
+                                int i = offset;
+                                while (i < buffer.Length)
+                                {
+                                    int j = *dat++;
+                                    ItemList.Add((object)j);
+                                    i += 4;
+                                }
+                            }
                         }
                     }
                 }

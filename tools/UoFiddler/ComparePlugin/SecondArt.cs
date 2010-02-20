@@ -10,6 +10,9 @@ namespace ComparePlugin
         private static SecondFileIndex m_FileIndex;
         private static Bitmap[] m_Cache;
 
+        private static byte[] m_StreamBuffer;
+        private static byte[] Validbuffer;
+
         public static void SetFileIndex(string idxPath, string mulPath)
         {
             m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0x10000);
@@ -26,7 +29,7 @@ namespace ComparePlugin
             return (int)(m_FileIndex.IdxLength / 12);
         }
 
-        public static bool IsValidStatic(int index)
+        public static unsafe bool IsValidStatic(int index)
         {
             index += 0x4000;
             index &= 0xFFFF;
@@ -40,16 +43,17 @@ namespace ComparePlugin
             if (stream == null)
                 return false;
 
-            BinaryReader bin = new BinaryReader(stream);
-
-            bin.ReadInt32();
-            int width = bin.ReadInt16();
-            int height = bin.ReadInt16();
-
-            if (width <= 0 || height <= 0)
-                return false;
-
-            return true;
+            if (Validbuffer == null)
+                Validbuffer = new byte[4];
+            stream.Seek(4, SeekOrigin.Current);
+            stream.Read(Validbuffer, 0, 4);
+            fixed (byte* b = Validbuffer)
+            {
+                short* dat = (short*)b;
+                if (*dat++ <= 0 || *dat <= 0)
+                    return false;
+                return true;
+            }
         }
 
         public static Bitmap GetStatic(int index)
@@ -65,9 +69,9 @@ namespace ComparePlugin
                 return null;
 
             if (Files.CacheData)
-                return m_Cache[index] = LoadStatic(stream);
+                return m_Cache[index] = LoadStatic(stream, length);
             else
-                return LoadStatic(stream);
+                return LoadStatic(stream, length);
         }
 
         public static byte[] GetRawStatic(int index)
@@ -79,56 +83,68 @@ namespace ComparePlugin
             Stream stream = m_FileIndex.Seek(index, out length, out extra);
             if (stream == null)
                 return null;
-            byte[] buffer=new byte[length];
+            byte[] buffer = new byte[length];
             stream.Read(buffer, 0, length);
             return buffer;
         }
 
-        private static unsafe Bitmap LoadStatic(Stream stream)
+        private static unsafe Bitmap LoadStatic(Stream stream, int length)
         {
-            BinaryReader bin = new BinaryReader(stream);
+            Bitmap bmp;
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+            stream.Close();
 
-            bin.ReadInt32();
-            int width = bin.ReadInt16();
-            int height = bin.ReadInt16();
-
-            if (width <= 0 || height <= 0)
-                return null;
-
-            int[] lookups = new int[height];
-
-            int start = (int)bin.BaseStream.Position + (height * 2);
-
-            for (int i = 0; i < height; ++i)
-                lookups[i] = (int)(start + (bin.ReadUInt16() * 2));
-
-            Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
-            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
-
-            for (int y = 0; y < height; ++y, line += delta)
+            fixed (byte* data = m_StreamBuffer)
             {
-                bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                ushort* bindata = (ushort*)data;
+                int count = 2;
+                //bin.ReadInt32();
+                int width = bindata[count++];
+                int height = bindata[count++];
 
-                ushort* cur = line;
-                ushort* end;
+                if (width <= 0 || height <= 0)
+                    return null;
 
-                int xOffset, xRun;
+                int[] lookups = new int[height];
 
-                while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
+                int start = (height + 4);
+
+                for (int i = 0; i < height; ++i)
+                    lookups[i] = (int)(start + (bindata[count++]));
+
+                bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
+                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+
+
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
+
+
+                for (int y = 0; y < height; ++y, line += delta)
                 {
-                    cur += xOffset;
-                    end = cur + xRun;
+                    count = lookups[y];
 
-                    while (cur < end)
-                        *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                    ushort* cur = line;
+                    ushort* end;
+                    int xOffset, xRun;
+
+                    while (((xOffset = bindata[count++]) + (xRun = bindata[count++])) != 0)
+                    {
+                        if (xOffset > delta)
+                            break;
+                        cur += xOffset;
+                        if (xOffset + xRun > delta)
+                            break;
+                        end = cur + xRun;
+
+                        while (cur < end)
+                            *cur++ = (ushort)(bindata[count++] ^ 0x8000);
+                    }
                 }
+                bmp.UnlockBits(bd);
             }
-
-            bmp.UnlockBits(bd);
-
             return bmp;
         }
 
@@ -139,11 +155,7 @@ namespace ComparePlugin
                 return true;
 
             int length, extra;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra);
-
-            if (stream == null)
-                return false;
-            return true;
+            return m_FileIndex.Valid(index, out length, out extra);
         }
 
         public static Bitmap GetLand(int index)
@@ -159,9 +171,9 @@ namespace ComparePlugin
                 return null;
 
             if (Files.CacheData)
-                return m_Cache[index] = LoadLand(stream);
+                return m_Cache[index] = LoadLand(stream, length);
             else
-                return LoadLand(stream);
+                return LoadLand(stream, length);
         }
 
         public static byte[] GetRawLand(int index)
@@ -177,41 +189,45 @@ namespace ComparePlugin
             return buffer;
         }
 
-        private static unsafe Bitmap LoadLand(Stream stream)
+        private static unsafe Bitmap LoadLand(Stream stream, int length)
         {
             Bitmap bmp = new Bitmap(44, 44, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 44, 44), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            BinaryReader bin = new BinaryReader(stream);
-
-            int xOffset = 21;
-            int xRun = 2;
-
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
-
-            for (int y = 0; y < 22; ++y, --xOffset, xRun += 2, line += delta)
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+            stream.Close();
+            fixed (byte* bindata = m_StreamBuffer)
             {
-                ushort* cur = line + xOffset;
-                ushort* end = cur + xRun;
+                ushort* bdata = (ushort*)bindata;
+                int xOffset = 21;
+                int xRun = 2;
 
-                while (cur < end)
-                    *cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
+
+                for (int y = 0; y < 22; ++y, --xOffset, xRun += 2, line += delta)
+                {
+                    ushort* cur = line + xOffset;
+                    ushort* end = cur + xRun;
+
+                    while (cur < end)
+                        *cur++ = (ushort)(*bdata++ | 0x8000);
+                }
+
+                xOffset = 0;
+                xRun = 44;
+
+                for (int y = 0; y < 22; ++y, ++xOffset, xRun -= 2, line += delta)
+                {
+                    ushort* cur = line + xOffset;
+                    ushort* end = cur + xRun;
+
+                    while (cur < end)
+                        *cur++ = (ushort)(*bdata++ | 0x8000);
+                }
             }
-
-            xOffset = 0;
-            xRun = 44;
-
-            for (int y = 0; y < 22; ++y, ++xOffset, xRun -= 2, line += delta)
-            {
-                ushort* cur = line + xOffset;
-                ushort* end = cur + xRun;
-
-                while (cur < end)
-                    *cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
-            }
-
             bmp.UnlockBits(bd);
-
             return bmp;
         }
     }

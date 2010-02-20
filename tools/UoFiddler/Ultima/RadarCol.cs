@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -29,7 +30,7 @@ namespace Ultima
         {
             m_Colors[index + 0x4000] = value;
         }
-        public static void SetLandColor(int index,short value)
+        public static void SetLandColor(int index, short value)
         {
             m_Colors[index] = value;
         }
@@ -41,15 +42,12 @@ namespace Ultima
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader bin = new BinaryReader(fs))
-                    {
-                        m_Colors = new short[bin.BaseStream.Length/2];
-                        int i = 0;
-                        while (bin.BaseStream.Length != bin.BaseStream.Position)
-                        {
-                            m_Colors[i++] = bin.ReadInt16();
-                        }
-                    }
+                    m_Colors = new short[fs.Length / 2];
+                    GCHandle gc = GCHandle.Alloc(m_Colors, GCHandleType.Pinned);
+                    byte[] buffer = new byte[(int)fs.Length];
+                    fs.Read(buffer, 0, (int)fs.Length);
+                    Marshal.Copy(buffer, 0, gc.AddrOfPinnedObject(), (int)fs.Length);
+                    gc.Free();
                 }
             }
             else

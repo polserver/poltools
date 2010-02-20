@@ -238,22 +238,30 @@ namespace Ultima
         }
 
         private static byte[] m_StringBuffer = new byte[20];
+        private static byte[] m_Buffer = new byte[88];
         public Hue(int index, BinaryReader bin)
         {
             Index = index;
             Colors = new short[32];
 
-            for (int i = 0; i < 32; ++i)
-                Colors[i] = (short)(bin.ReadUInt16() | 0x8000);
-            TableStart = (short)(bin.ReadUInt16() | 0x8000);
-            TableEnd = (short)(bin.ReadUInt16() | 0x8000);
-
-            bin.Read(m_StringBuffer, 0, 20);
-            int count;
-            for (count = 0; count < 20 && m_StringBuffer[count] != 0; ++count) ;
-
-            Name = Encoding.Default.GetString(m_StringBuffer, 0, count);
-            Name = Name.Replace("\n", " ");
+            m_Buffer = bin.ReadBytes(88);
+            unsafe
+            {
+                fixed (byte* buffer = m_Buffer)
+                {
+                    ushort* buf = (ushort*)buffer;
+                    for (int i = 0; i < 32; ++i)
+                        Colors[i] = (short)(*buf++ | 0x8000);
+                    TableStart = (short)(*buf++ | 0x8000);
+                    TableEnd = (short)(*buf++ | 0x8000);
+                    byte* sbuf = (byte*)buf;
+                    int count;
+                    for (count = 0; count < 20 && *sbuf != 0; ++count)
+                        m_StringBuffer[count] = *sbuf++;
+                    Name = Encoding.Default.GetString(m_StringBuffer, 0, count);
+                    Name = Name.Replace("\n", " ");
+                }
+            }
         }
 
         /// <summary>
