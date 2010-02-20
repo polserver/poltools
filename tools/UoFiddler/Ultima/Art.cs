@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -11,7 +12,10 @@ namespace Ultima
         private static Bitmap[] m_Cache = new Bitmap[0x10000];
         private static bool[] m_Removed = new bool[0x10000];
         private static Hashtable m_patched = new Hashtable();
-        public static bool Modified=false;
+        public static bool Modified = false;
+
+        private static byte[] m_StreamBuffer;
+        private static byte[] Validbuffer;
 
         private Art()
         {
@@ -24,7 +28,7 @@ namespace Ultima
 
         public static int GetIdxLength()
         {
-            return (int)(m_FileIndex.IdxLength/12);
+            return (int)(m_FileIndex.IdxLength / 12);
         }
         /// <summary>
         /// ReReads Art.mul
@@ -97,7 +101,7 @@ namespace Ultima
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static bool IsValidStatic(int index)
+        public static unsafe bool IsValidStatic(int index)
         {
             index += 0x4000;
             index &= 0xFFFF;
@@ -114,12 +118,14 @@ namespace Ultima
             if (stream == null)
                 return false;
 
-            using (BinaryReader bin = new BinaryReader(stream))
+            if (Validbuffer == null)
+                Validbuffer = new byte[4];
+            stream.Seek(4, SeekOrigin.Current);
+            stream.Read(Validbuffer, 0, 4);
+            fixed (byte* b = Validbuffer)
             {
-                bin.ReadInt32();
-                int width = bin.ReadInt16();
-                int height = bin.ReadInt16();
-                if (width <= 0 || height <= 0)
+                short* dat = (short*)b;
+                if (*dat++ <= 0 || *dat <= 0)
                     return false;
                 return true;
             }
@@ -141,13 +147,7 @@ namespace Ultima
             int length, extra;
             bool patched;
 
-            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-            bool def = true;
-            if (stream == null)
-                def = false;
-            else
-                stream.Close();
-            return def;
+            return m_FileIndex.Valid(index, out length, out extra, out patched);
         }
 
         /// <summary>
@@ -187,9 +187,9 @@ namespace Ultima
                 m_patched[index] = true;
 
             if (Files.CacheData)
-                return m_Cache[index] = LoadLand(stream);
+                return m_Cache[index] = LoadLand(stream, length);
             else
-                return LoadLand(stream);
+                return LoadLand(stream, length);
         }
 
         public static byte[] GetRawLand(int index)
@@ -243,11 +243,11 @@ namespace Ultima
                 return null;
             if (patched)
                 m_patched[index] = true;
-            
+
             if (Files.CacheData)
-                return m_Cache[index] = LoadStatic(stream);
+                return m_Cache[index] = LoadStatic(stream, length);
             else
-                return LoadStatic(stream);
+                return LoadStatic(stream, length);
         }
 
         public static byte[] GetRawStatic(int index)
@@ -328,25 +328,33 @@ namespace Ultima
             bmp.UnlockBits(bd);
         }
 
-        private static unsafe Bitmap LoadStatic(Stream stream)
+        private static unsafe Bitmap LoadStatic(Stream stream, int length)
         {
-            using (BinaryReader bin = new BinaryReader(stream))
+            Bitmap bmp;
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+            stream.Close();
+
+            fixed (byte* data = m_StreamBuffer)
             {
-                bin.ReadInt32();
-                int width = bin.ReadInt16();
-                int height = bin.ReadInt16();
+                ushort* bindata = (ushort*)data;
+                int count = 2;
+                //bin.ReadInt32();
+                int width = bindata[count++];
+                int height = bindata[count++];
 
                 if (width <= 0 || height <= 0)
                     return null;
 
                 int[] lookups = new int[height];
 
-                int start = (int)bin.BaseStream.Position + (height * 2);
+                int start = (height + 4);
 
                 for (int i = 0; i < height; ++i)
-                    lookups[i] = (int)(start + (bin.ReadUInt16() * 2));
+                    lookups[i] = (int)(start + (bindata[count++]));
 
-                Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
+                bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
                 BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
 
 
@@ -356,14 +364,13 @@ namespace Ultima
 
                 for (int y = 0; y < height; ++y, line += delta)
                 {
-                    bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                    count = lookups[y];
 
                     ushort* cur = line;
                     ushort* end;
-
                     int xOffset, xRun;
 
-                    while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
+                    while (((xOffset = bindata[count++]) + (xRun = bindata[count++])) != 0)
                     {
                         if (xOffset > delta)
                             break;
@@ -373,21 +380,25 @@ namespace Ultima
                         end = cur + xRun;
 
                         while (cur < end)
-                            *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                            *cur++ = (ushort)(bindata[count++] ^ 0x8000);
                     }
                 }
-
                 bmp.UnlockBits(bd);
-                return bmp;
             }
+            return bmp;
         }
 
-        private static unsafe Bitmap LoadLand(Stream stream)
+        private static unsafe Bitmap LoadLand(Stream stream, int length)
         {
             Bitmap bmp = new Bitmap(44, 44, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 44, 44), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            using (BinaryReader bin = new BinaryReader(stream))
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+            stream.Close();
+            fixed (byte* bindata = m_StreamBuffer)
             {
+                ushort* bdata = (ushort*)bindata;
                 int xOffset = 21;
                 int xRun = 2;
 
@@ -400,7 +411,7 @@ namespace Ultima
                     ushort* end = cur + xRun;
 
                     while (cur < end)
-                        *cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
+                        *cur++ = (ushort)(*bdata++ | 0x8000);
                 }
 
                 xOffset = 0;
@@ -412,12 +423,11 @@ namespace Ultima
                     ushort* end = cur + xRun;
 
                     while (cur < end)
-                        *cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
+                        *cur++ = (ushort)(*bdata++ | 0x8000);
                 }
-
-                bmp.UnlockBits(bd);
-                return bmp;
             }
+            bmp.UnlockBits(bd);
+            return bmp;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -71,6 +72,63 @@ namespace Ultima
             return Stream;
         }
 
+        public bool Valid(int index, out int length, out int extra, out bool patched)
+        {
+            if (index < 0 || index >= Index.Length)
+            {
+                length = extra = 0;
+                patched = false;
+                return false;
+            }
+
+            Entry3D e = Index[index];
+
+            if (e.lookup < 0)
+            {
+                length = extra = 0;
+                patched = false;
+                return false;
+            }
+            if (e.length < 0)
+            {
+                length = extra = 0;
+                patched = false;
+                return false;
+            }
+
+            length = e.length & 0x7FFFFFFF;
+            extra = e.extra;
+
+            if ((e.length & (1 << 31)) != 0)
+            {
+                patched = true;
+                return true;
+            }
+
+            if ((MulPath == null) || !File.Exists(MulPath))
+            {
+                length = extra = 0;
+                patched = false;
+                return false;
+            }
+
+            if ((Stream == null) || (!Stream.CanRead) || (!Stream.CanSeek))
+            {
+                Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+
+            if (Stream.Length < e.lookup)
+            {
+                length = extra = 0;
+                patched = false;
+                return false;
+            }
+
+            patched = false;
+
+            return true;
+        }
+
         public FileIndex(string idxFile, string mulFile, int length, int file)
         {
             Index = new Entry3D[length];
@@ -107,23 +165,19 @@ namespace Ultima
             {
                 using (FileStream index = new FileStream(idxPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader bin = new BinaryReader(index))
+                    Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    int count = (int)(index.Length / 12);
+                    IdxLength = index.Length;
+                    GCHandle gc = GCHandle.Alloc(Index, GCHandleType.Pinned);
+                    byte[] buffer = new byte[index.Length];
+                    index.Read(buffer, 0, (int)index.Length);
+                    Marshal.Copy(buffer, 0, gc.AddrOfPinnedObject(), (int)Math.Min(IdxLength, length * 12));
+                    gc.Free();
+                    for (int i = count; i < length; ++i)
                     {
-                        Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        int count = (int)(index.Length / 12);
-                        IdxLength = index.Length;
-                        for (int i = 0; i < count && i < length; ++i)
-                        {
-                            Index[i].lookup = bin.ReadInt32();
-                            Index[i].length = bin.ReadInt32();
-                            Index[i].extra = bin.ReadInt32();
-                        }
-                        for (int i = count; i < length; ++i)
-                        {
-                            Index[i].lookup = -1;
-                            Index[i].length = -1;
-                            Index[i].extra = -1;
-                        }
+                        Index[i].lookup = -1;
+                        Index[i].length = -1;
+                        Index[i].extra = -1;
                     }
                 }
             }
@@ -184,19 +238,15 @@ namespace Ultima
             {
                 using (FileStream index = new FileStream(idxPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader bin = new BinaryReader(index))
-                    {
-                        Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        int count = (int)(index.Length / 12);
-                        IdxLength = index.Length;
-                        Index = new Entry3D[count];
-                        for (int i = 0; i < count; ++i)
-                        {
-                            Index[i].lookup = bin.ReadInt32();
-                            Index[i].length = bin.ReadInt32();
-                            Index[i].extra = bin.ReadInt32();
-                        }
-                    }
+                    Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    int count = (int)(index.Length / 12);
+                    IdxLength = index.Length;
+                    Index = new Entry3D[count];
+                    GCHandle gc = GCHandle.Alloc(Index, GCHandleType.Pinned);
+                    byte[] buffer = new byte[index.Length];
+                    index.Read(buffer, 0, (int)index.Length);
+                    Marshal.Copy(buffer, 0, gc.AddrOfPinnedObject(), (int)index.Length);
+                    gc.Free();
                 }
             }
             else

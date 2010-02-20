@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -11,6 +12,8 @@ namespace Ultima
         private static Bitmap[] m_Cache = new Bitmap[0x4000];
         private static bool[] m_Removed = new bool[0x4000];
         private static Hashtable m_patched = new Hashtable();
+
+        private static byte[] m_StreamBuffer;
 
         /// <summary>
         /// ReReads texmaps
@@ -63,15 +66,9 @@ namespace Ultima
                 return false;
             if (m_Cache[index] != null)
                 return true;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-            if (stream == null)
+            bool valid = m_FileIndex.Valid(index, out length, out extra, out patched);
+            if ((!valid) || (length == 0))
                 return false;
-            else
-            {
-                stream.Close();
-                if (length == 0)
-                    return false;
-            }
             return true;
         }
 
@@ -115,31 +112,31 @@ namespace Ultima
 
             Bitmap bmp = new Bitmap(size, size, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, size, size), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            using (BinaryReader bin = new BinaryReader(stream))
+
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
+
+            int max = size * size * 2;
+
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < max)
+                m_StreamBuffer = new byte[max];
+            stream.Read(m_StreamBuffer, 0, max);
+
+            fixed (byte* data = m_StreamBuffer)
             {
-                ushort* line = (ushort*)bd.Scan0;
-                int delta = bd.Stride >> 1;
-
-                int max = size * size;
-                byte[] tempData = bin.ReadBytes(max * 2);
-                ushort[] data = new ushort[max];
-                System.Buffer.BlockCopy(tempData, 0, data, 0, max * 2);
-
-                fixed (ushort* bindata = data)
+                ushort* bindat = (ushort*)data;
+                for (int y = 0; y < size; ++y, line += delta)
                 {
-                    ushort* bindat = bindata;
-                    for (int y = 0; y < size; ++y, line += delta)
-                    {
-                        ushort* cur = line;
-                        ushort* end = cur + size;
+                    ushort* cur = line;
+                    ushort* end = cur + size;
 
-                        while (cur < end)
-                            *cur++ = (ushort)(*bindat++ ^ 0x8000);
-                    }
+                    while (cur < end)
+                        *cur++ = (ushort)(*bindat++ ^ 0x8000);
                 }
-
-                bmp.UnlockBits(bd);
             }
+
+            bmp.UnlockBits(bd);
+
             stream.Close();
             if (!Files.CacheData)
                 return m_Cache[index] = bmp;

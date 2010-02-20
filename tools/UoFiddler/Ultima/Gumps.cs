@@ -8,7 +8,7 @@ namespace Ultima
 {
     public sealed class Gumps
     {
-        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul",  12);
+        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 12);
 
         private static Bitmap[] m_Cache;
         private static bool[] m_Removed;
@@ -100,11 +100,8 @@ namespace Ultima
             int length, extra;
             bool patched;
 
-            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-            if (stream == null)
+            if (!m_FileIndex.Valid(index, out length, out extra, out patched))
                 return false;
-            else
-                stream.Close();
             if (extra == -1)
                 return false;
             int width = (extra >> 16) & 0xFFFF;
@@ -331,43 +328,44 @@ namespace Ultima
                 return null;
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            using (BinaryReader bin = new BinaryReader(stream))
-            {
-                int[] lookups = new int[height];
-                int start = (int)bin.BaseStream.Position;
 
-                for (int i = 0; i < height; ++i)
-                    lookups[i] = start + (bin.ReadInt32() * 4);
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+
+            fixed (byte* data = m_StreamBuffer)
+            {
+                int* lookup = (int*)data;
+                ushort* dat = (ushort*)data;
 
                 ushort* line = (ushort*)bd.Scan0;
                 int delta = bd.Stride >> 1;
-
+                int count = 0;
                 for (int y = 0; y < height; ++y, line += delta)
                 {
-                    bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                    count = (*lookup++ * 2);
 
                     ushort* cur = line;
                     ushort* end = line + bd.Width;
 
                     while (cur < end)
                     {
-                        ushort color = bin.ReadUInt16();
-                        ushort* next = cur + bin.ReadUInt16();
+                        ushort color = dat[count++];
+                        ushort* next = cur + dat[count++];
 
                         if (color == 0)
                             cur = next;
                         else
                         {
                             color ^= 0x8000;
-
                             while (cur < next)
                                 *cur++ = color;
                         }
                     }
                 }
-
-                bmp.UnlockBits(bd);
             }
+
+            bmp.UnlockBits(bd);
             if (Files.CacheData)
                 return m_Cache[index] = bmp;
             else

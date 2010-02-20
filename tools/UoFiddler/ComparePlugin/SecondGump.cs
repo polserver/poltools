@@ -10,6 +10,7 @@ namespace ComparePlugin
         private static SecondFileIndex m_FileIndex;
 
         private static Bitmap[] m_Cache = new Bitmap[0x10000];
+        private static byte[] m_StreamBuffer;
 
         public static void SetFileIndex(string idxPath, string mulPath)
         {
@@ -29,7 +30,7 @@ namespace ComparePlugin
             if (m_Cache[index] != null)
                 return true;
             int length, extra;
-            if (m_FileIndex.Seek(index, out length, out extra) == null)
+            if (!m_FileIndex.Valid(index, out length, out extra))
                 return false;
             if (extra == -1)
                 return false;
@@ -83,37 +84,38 @@ namespace ComparePlugin
 
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            BinaryReader bin = new BinaryReader(stream);
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
 
-            int[] lookups = new int[height];
-            int start = (int)bin.BaseStream.Position;
-
-            for (int i = 0; i < height; ++i)
-                lookups[i] = start + (bin.ReadInt32() * 4);
-
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
-
-            for (int y = 0; y < height; ++y, line += delta)
+            fixed (byte* data = m_StreamBuffer)
             {
-                bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                int* lookup = (int*)data;
+                ushort* dat = (ushort*)data;
 
-                ushort* cur = line;
-                ushort* end = line + bd.Width;
-
-                while (cur < end)
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
+                int count = 0;
+                for (int y = 0; y < height; ++y, line += delta)
                 {
-                    ushort color = bin.ReadUInt16();
-                    ushort* next = cur + bin.ReadUInt16();
+                    count = (*lookup++ * 2);
 
-                    if (color == 0)
-                        cur = next;
-                    else
+                    ushort* cur = line;
+                    ushort* end = line + bd.Width;
+
+                    while (cur < end)
                     {
-                        color ^= 0x8000;
+                        ushort color = dat[count++];
+                        ushort* next = cur + dat[count++];
 
-                        while (cur < next)
-                            *cur++ = color;
+                        if (color == 0)
+                            cur = next;
+                        else
+                        {
+                            color ^= 0x8000;
+                            while (cur < next)
+                                *cur++ = color;
+                        }
                     }
                 }
             }

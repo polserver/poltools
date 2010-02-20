@@ -151,7 +151,7 @@ namespace FiddlerControls
             {
                 PluginInterface.Events.FireModifyItemShowContextMenuEvent(this.contextMenuStrip1);
             }
-            
+
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
             listView1.BeginUpdate();
@@ -163,17 +163,37 @@ namespace FiddlerControls
                 string FileName = Path.Combine(path, "UOFiddlerArt.hash");
                 if (File.Exists(FileName))
                 {
-                    using (BinaryReader bin = new BinaryReader(new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    using (FileStream bin = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        int length = bin.ReadInt32();
-                        bin.BaseStream.Seek(length, SeekOrigin.Current);
-                        while (bin.BaseStream.Length != bin.BaseStream.Position)
+                        unsafe
                         {
-                            int i = bin.ReadInt32();
-                            ListViewItem item = new ListViewItem(i.ToString(), 0);
-                            item.Tag = i;
-                            itemcache.Add(item);
+                            byte[] buffer = new byte[bin.Length];
+                            bin.Read(buffer, 0, (int)bin.Length);
+                            fixed (byte* bf = buffer)
+                            {
+                                int* poffset = (int*)bf;
+                                int offset = *poffset + 4;
+                                int* dat = (int*)(bf + offset);
+                                int i = offset;
+                                while (i < buffer.Length)
+                                {
+                                    int j = *dat++;
+                                    ListViewItem item = new ListViewItem(j.ToString(), 0);
+                                    item.Tag = j;
+                                    itemcache.Add(item);
+                                    i += 4;
+                                }
+                            }
                         }
+                        //int length = bin.ReadInt32();
+                        //bin.BaseStream.Seek(length, SeekOrigin.Current);
+                        //while (bin.BaseStream.Length != bin.BaseStream.Position)
+                        //{
+                        //    int i = bin.ReadInt32();
+                        //    ListViewItem item = new ListViewItem(i.ToString(), 0);
+                        //    item.Tag = i;
+                        //    itemcache.Add(item);
+                        //}
                     }
                     listView1.Items.AddRange((ListViewItem[])itemcache.ToArray(typeof(ListViewItem)));
                 }
@@ -330,7 +350,7 @@ namespace FiddlerControls
             int i = (int)e.Item.Tag;
             if (i == -1)
             {
-                if ((e.State&ListViewItemStates.Focused)!=0)
+                if ((e.State & ListViewItemStates.Focused) != 0)
                     e.Graphics.FillRectangle(BrushLightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
                     e.Graphics.DrawRectangle(PenGray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);

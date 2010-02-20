@@ -566,13 +566,10 @@ namespace Ultima
 
             int length, extra;
             bool patched;
-            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
-            bool def = true;
-            if (stream == null)
-                def = false;
-            else
-                stream.Close();
-            return def;
+            bool valid = fileIndex.Valid(index, out length, out extra, out patched);
+            if ((!valid) || (length < 1))
+                return false;
+            return true;
         }
 
         /// <summary>

@@ -26,29 +26,37 @@ namespace Ultima
                 {
                     using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        int id = 0;
-                        int h = 0;
-                        byte unk;
-                        byte fcount;
-                        byte finter;
-                        byte fstart;
-                        sbyte[] fdata;
-                        m_Header = new int[bin.BaseStream.Length / (4 + 8 * (64 + 4))];
-                        while (bin.BaseStream.Length != bin.BaseStream.Position)
+                        unsafe
                         {
-                            m_Header[h++] = bin.ReadInt32(); // chunk header
-                            // Read 8 tiles
-                            for (int i = 0; i < 8; ++i, ++id)
+                            int id = 0;
+                            int h = 0;
+                            byte unk;
+                            byte fcount;
+                            byte finter;
+                            byte fstart;
+                            sbyte[] fdata;
+                            m_Header = new int[bin.BaseStream.Length / (4 + 8 * (64 + 4))];
+                            while (bin.BaseStream.Length != bin.BaseStream.Position)
                             {
-                                fdata = new sbyte[64];
-                                for (int j = 0; j < 64; ++j)
-                                    fdata[j] = bin.ReadSByte();
-                                unk = bin.ReadByte();
-                                fcount = bin.ReadByte();
-                                finter = bin.ReadByte();
-                                fstart = bin.ReadByte();
-                                if (fcount > 0)
-                                    AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
+                                m_Header[h++] = bin.ReadInt32(); // chunk header
+                                // Read 8 tiles
+                                byte[] buffer = bin.ReadBytes(544);
+                                fixed (byte* buf = buffer)
+                                {
+                                    byte* data = buf;
+                                    for (int i = 0; i < 8; ++i, ++id)
+                                    {
+                                        fdata = new sbyte[64];
+                                        for (int j = 0; j < 64; ++j)
+                                            fdata[j] = (sbyte)*data++;
+                                        unk = *data++;
+                                        fcount = *data++;
+                                        finter = *data++;
+                                        fstart = *data++;
+                                        if (fcount > 0)
+                                            AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
+                                    }
+                                }
                             }
                         }
                     }

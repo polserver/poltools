@@ -38,6 +38,7 @@ namespace ComparePlugin
         private int row;
         private bool hue2loaded;
         Hashtable m_Compare = new Hashtable();
+        private bool Loaded;
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -49,6 +50,9 @@ namespace ComparePlugin
             selected = 0;
             bmp1 = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             bmp2 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+            Loaded = true;
+            row = pictureBox1.Height / ITEMHEIGHT;
+            PaintBox1();
         }
 
         private int GetIndex(int y)
@@ -134,6 +138,8 @@ namespace ComparePlugin
 
         private void OnResizeHue(object sender, EventArgs e)
         {
+            if (!Loaded)
+                return;
             row = pictureBox1.Height / ITEMHEIGHT;
             bmp1 = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             bmp2 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
