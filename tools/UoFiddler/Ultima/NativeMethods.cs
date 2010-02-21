@@ -48,5 +48,23 @@ namespace Ultima
             ushort y = (ushort)x;
             return (short)((y >> 8) | (y << 8));
         }
+
+        private static byte[] m_StringBuffer;
+        public unsafe static string ReadNameString(byte* buffer, int len)
+        {
+            if ((m_StringBuffer == null) || (m_StringBuffer.Length < len))
+                m_StringBuffer = new byte[20];
+            int count;
+            for (count = 0; count < len && *buffer != 0; ++count)
+                m_StringBuffer[count] = *buffer++;
+
+            return System.Text.Encoding.Default.GetString(m_StringBuffer, 0, count);
+        }
+        public unsafe static string ReadNameString(byte[] buffer, int len)
+        {
+            int count;
+            for (count = 0; count < 20 && buffer[count] != 0; ++count) ;
+            return System.Text.Encoding.Default.GetString(buffer, 0, count);
+        }
     }
 }
