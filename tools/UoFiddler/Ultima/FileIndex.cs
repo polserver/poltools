@@ -274,6 +274,7 @@ namespace Ultima
         }
     }
 
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
     public struct Entry3D
     {
         public int lookup;

@@ -9,6 +9,7 @@ namespace Ultima
         private static FileIndex m_FileIndex = new FileIndex("lightidx.mul", "light.mul", 100, -1);
         private static Bitmap[] m_Cache = new Bitmap[100];
         private static bool[] m_Removed = new bool[100];
+        private static byte[] m_StreamBuffer;
 
         /// <summary>
         /// ReReads light.mul
@@ -127,13 +128,19 @@ namespace Ultima
             int width = (extra & 0xFFFF);
             int height = ((extra >> 16) & 0xFFFF);
 
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            using (BinaryReader bin = new BinaryReader(stream))
-            {
-                ushort* line = (ushort*)bd.Scan0;
-                int delta = bd.Stride >> 1;
 
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
+
+            fixed (byte* data = m_StreamBuffer)
+            {
+                sbyte* bindat = (sbyte*)data;
                 for (int y = 0; y < height; ++y, line += delta)
                 {
                     ushort* cur = line;
@@ -141,13 +148,14 @@ namespace Ultima
 
                     while (cur < end)
                     {
-                        sbyte value = bin.ReadSByte();
+                        sbyte value = *bindat++;
                         *cur++ = (ushort)(((0x1f + value) << 10) + ((0x1F + value) << 5) + (0x1F + value));
                     }
                 }
             }
-            bmp.UnlockBits(bd);
 
+            bmp.UnlockBits(bd);
+            stream.Close();
             if (!Files.CacheData)
                 return m_Cache[index] = bmp;
             else

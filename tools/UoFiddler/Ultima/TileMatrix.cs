@@ -16,11 +16,10 @@ namespace Ultima
         public static HuedTile[][][] EmptyStaticBlock { get; private set; }
 
         private FileStream m_Map;
-
-        private FileStream m_Index;
-        private BinaryReader m_IndexReader;
-
         private FileStream m_Statics;
+
+        private Entry3D[] StaticIndex;
+        private bool StaticIndexInit;
 
         public TileMatrixPatch Patch { get; private set; }
 
@@ -40,8 +39,6 @@ namespace Ultima
         {
             if (m_Map != null)
                 m_Map.Close();
-            if (m_Index != null)
-                m_Index.Close();
             if (m_Statics != null)
                 m_Statics.Close();
         }
@@ -144,7 +141,7 @@ namespace Ultima
         }
         public HuedTile[] GetStaticTiles(int x, int y, bool patch)
         {
-            return GetStaticBlock(x >> 3, y >> 3,patch)[x & 0x7][y & 0x7];
+            return GetStaticBlock(x >> 3, y >> 3, patch)[x & 0x7][y & 0x7];
         }
         public HuedTile[] GetStaticTiles(int x, int y)
         {
@@ -168,7 +165,7 @@ namespace Ultima
         }
         public Tile[] GetLandBlock(int x, int y, bool patch)
         {
-            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight) 
+            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight)
                 return InvalidLandBlock;
 
             if (m_LandTiles[x] == null)
@@ -194,7 +191,7 @@ namespace Ultima
         }
         public Tile GetLandTile(int x, int y, bool patch)
         {
-            return GetLandBlock(x >> 3, y >> 3,patch)[((y & 0x7) << 3) + (x & 0x7)];
+            return GetLandBlock(x >> 3, y >> 3, patch)[((y & 0x7) << 3) + (x & 0x7)];
         }
 
         public Tile GetLandTile(int x, int y)
@@ -202,22 +199,39 @@ namespace Ultima
             return GetLandBlock(x >> 3, y >> 3)[((y & 0x7) << 3) + (x & 0x7)];
         }
 
+
+        private unsafe void InitStatics()
+        {
+            StaticIndex = new Entry3D[BlockHeight * BlockWidth];
+            if (indexPath == null)
+                return;
+            using (FileStream index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                int count = (int)(index.Length / 12);
+                GCHandle gc = GCHandle.Alloc(StaticIndex, GCHandleType.Pinned);
+                byte[] buffer = new byte[index.Length];
+                index.Read(buffer, 0, (int)index.Length);
+                Marshal.Copy(buffer, 0, gc.AddrOfPinnedObject(), (int)Math.Min(index.Length, BlockHeight * BlockWidth * 12));
+                gc.Free();
+                for (int i = (int)Math.Min(index.Length, BlockHeight * BlockWidth); i < BlockHeight * BlockWidth; ++i)
+                {
+                    StaticIndex[i].lookup = -1;
+                    StaticIndex[i].length = -1;
+                    StaticIndex[i].extra = -1;
+                }
+                StaticIndexInit = true;
+            }
+
+        }
         private static HuedTileList[][] m_Lists;
         private static byte[] m_Buffer;
         private unsafe HuedTile[][][] ReadStaticBlock(int x, int y)
         {
             try
             {
-                if (m_Index == null || !m_Index.CanRead || !m_Index.CanSeek)
-                {
-                    if (indexPath == null)
-                        m_Index = null;
-                    else
-                    {
-                        m_Index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        m_IndexReader = new BinaryReader(m_Index);
-                    }
-                }
+                if (!StaticIndexInit)
+                    InitStatics();
                 if (m_Statics == null || !m_Statics.CanRead || !m_Statics.CanSeek)
                 {
                     if (staticsPath == null)
@@ -225,12 +239,11 @@ namespace Ultima
                     else
                         m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 }
-                if (m_Index == null || m_Statics == null)
+                if (m_Statics == null)
                     return EmptyStaticBlock;
 
-                m_Index.Seek(((x * BlockHeight) + y) * 12, SeekOrigin.Begin);
-                int lookup = m_IndexReader.ReadInt32();
-                int length = m_IndexReader.ReadInt32();
+                int lookup = StaticIndex[(x * BlockHeight) + y].lookup;
+                int length = StaticIndex[(x * BlockHeight) + y].length;
 
                 if (lookup < 0 || length <= 0)
                     return EmptyStaticBlock;
@@ -293,8 +306,6 @@ namespace Ultima
             }
             finally
             {
-                //if (m_Index != null)
-                //    m_Index.Close();
                 //if (m_Statics != null)
                 //    m_Statics.Close();
             }
@@ -317,7 +328,7 @@ namespace Ultima
                 GCHandle gc = GCHandle.Alloc(tiles, GCHandleType.Pinned);
                 try
                 {
-                    if (m_Buffer == null || m_Buffer.Length < 192 )
+                    if (m_Buffer == null || m_Buffer.Length < 192)
                         m_Buffer = new byte[192];
 
                     m_Map.Read(m_Buffer, 0, 192);
@@ -338,12 +349,12 @@ namespace Ultima
         {
             if (m_RemovedStaticBlock == null)
                 m_RemovedStaticBlock = new bool[BlockWidth][];
-            if (m_RemovedStaticBlock[blockx]==null)
+            if (m_RemovedStaticBlock[blockx] == null)
                 m_RemovedStaticBlock[blockx] = new bool[BlockHeight];
             m_RemovedStaticBlock[blockx][blocky] = true;
             if (m_StaticTiles[blockx] == null)
                 m_StaticTiles[blockx] = new HuedTile[BlockHeight][][][];
-            m_StaticTiles[blockx][blocky]=EmptyStaticBlock;
+            m_StaticTiles[blockx][blocky] = EmptyStaticBlock;
         }
 
         public bool IsStaticBlockRemoved(int blockx, int blocky)
@@ -396,9 +407,6 @@ namespace Ultima
 
             if (m_Statics != null)
                 m_Statics.Close();
-
-            if (m_IndexReader != null)
-                m_IndexReader.Close();
         }
     }
 
@@ -493,7 +501,7 @@ namespace Ultima
             ItemData ourData = TileData.ItemTable[ID];
             ItemData theirData = TileData.ItemTable[a.ID];
 
-            int ourTreshold=0;
+            int ourTreshold = 0;
             if (ourData.Height > 0)
                 ++ourTreshold;
             if (!ourData.Background)

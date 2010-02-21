@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -29,19 +30,31 @@ namespace Ultima
                 return;
             }
             Entries = new ArrayList();
-            using (BinaryReader bin = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                int order = 0;
-                while (bin.BaseStream.Length != bin.BaseStream.Position)
+                byte[] buffer = new byte[fs.Length];
+                unsafe
                 {
-                    short id = NativeMethods.SwapEndian(bin.ReadInt16());
-                    short length = NativeMethods.SwapEndian(bin.ReadInt16());
-                    if (length > 128)
-                        length = 128;
-                    bin.Read(m_Buffer, 0, length);
-                    string keyword = Encoding.UTF8.GetString(m_Buffer, 0, length);
-                    Entries.Add(new SpeechEntry(id, keyword, order));
-                    ++order;
+                    int order = 0;
+                    fs.Read(buffer, 0, buffer.Length);
+                    fixed (byte* data = buffer)
+                    {
+                        byte* bindat = (byte*)data;
+                        byte* bindatend = bindat + buffer.Length;
+
+                        while (bindat != bindatend)
+                        {
+                            short id = (short)((*bindat++ >> 8) | (*bindat++)); //Swapped Endian
+                            short length = (short)((*bindat++ >> 8) | (*bindat++));
+                            if (length > 128)
+                                length = 128;
+                            for (int i = 0; i < length; ++i)
+                                m_Buffer[i] = *bindat++;
+                            string keyword = Encoding.UTF8.GetString(m_Buffer, 0, length);
+                            Entries.Add(new SpeechEntry(id, keyword, order));
+                            ++order;
+                        }
+                    }
                 }
             }
         }
@@ -76,7 +89,7 @@ namespace Ultima
                 Tex.WriteLine("Order;ID;KeyWord");
                 foreach (SpeechEntry entry in Entries)
                 {
-                    Tex.WriteLine(String.Format("{0};{1};{2}",entry.Order,entry.ID,entry.KeyWord));
+                    Tex.WriteLine(String.Format("{0};{1};{2}", entry.Order, entry.ID, entry.KeyWord));
                 }
             }
         }
@@ -104,7 +117,7 @@ namespace Ultima
                         int order = ConvertStringToInt(split[0]);
                         int id = ConvertStringToInt(split[1]);
                         string word = split[2];
-                        word=word.Replace("\"","");
+                        word = word.Replace("\"", "");
                         Entries.Add(new SpeechEntry((short)id, word, order));
                     }
                     catch { }
@@ -200,5 +213,13 @@ namespace Ultima
             KeyWord = keyword;
             Order = order;
         }
+    }
+
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct SpeechMul
+    {
+        public short id;
+        public short length;
+        public byte[] keyword;
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -31,21 +32,37 @@ namespace Ultima
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader bin = new BinaryReader(fs))
+                    int blockCount = (int)fs.Length / 708;
+
+                    if (blockCount > 375)
+                        blockCount = 375;
+                    m_Header = new int[blockCount];
+                    unsafe
                     {
-                        int blockCount = (int)fs.Length / 708;
-
-                        if (blockCount > 375)
-                            blockCount = 375;
-                        m_Header = new int[blockCount];
-
-                        for (int i = 0; i < blockCount; ++i)
+                        int structsize = Marshal.SizeOf(typeof(HueDataMul));
+                        byte[] buffer = new byte[blockCount * (4 + 8 * structsize)];
+                        GCHandle gc = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                        try
                         {
-                            m_Header[i] = bin.ReadInt32();
+                            fs.Read(buffer, 0, buffer.Length);
+                            long currpos = 0;
 
-                            for (int j = 0; j < 8; ++j, ++index)
-                                List[index] = new Hue(index, bin);
+                            for (int i = 0; i < blockCount; ++i)
+                            {
+                                IntPtr ptrheader = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
+                                currpos += 4;
+                                m_Header[i] = (int)Marshal.PtrToStructure(ptrheader, typeof(int));
+
+                                for (int j = 0; j < 8; ++j, ++index)
+                                {
+                                    IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
+                                    currpos += structsize;
+                                    HueDataMul cur = (HueDataMul)Marshal.PtrToStructure(ptr, typeof(HueDataMul));
+                                    List[index] = new Hue(index, cur);
+                                }
+                            }
                         }
+                        finally { gc.Free(); }
                     }
                 }
             }
@@ -112,13 +129,14 @@ namespace Ultima
             ushort origred = c.R;
             ushort origgreen = c.G;
             ushort origblue = c.B;
-            ushort newred = (ushort)(origred * 31 / 255);
+            int scale = 31 / 255;
+            ushort newred = (ushort)(origred * scale);
             if (newred == 0 && origred != 0)
                 newred = 1;
-            ushort newgreen = (ushort)(origgreen * 31 / 255);
+            ushort newgreen = (ushort)(origgreen * scale);
             if (newgreen == 0 && origgreen != 0)
                 newgreen = 1;
-            ushort newblue = (ushort)(origblue * 31 / 255);
+            ushort newblue = (ushort)(origblue * scale);
             if (newblue == 0 && origblue != 0)
                 newblue = 1;
 
@@ -264,6 +282,21 @@ namespace Ultima
             }
         }
 
+        public Hue(int index, HueDataMul mulstruct)
+        {
+            Index = index;
+            Colors = new short[32];
+            unsafe
+            {
+                for (int i = 0; i < 32; ++i)
+                    Colors[i] = (short)(mulstruct.colors[i] | 0x8000);
+                TableStart = (short)(mulstruct.tablestart | 0x8000);
+                TableEnd = (short)(mulstruct.tableend | 0x8000);
+                Name = NativeMethods.ReadNameString(mulstruct.name, 20);
+                Name = Name.Replace("\n", " ");
+            }
+        }
+
         /// <summary>
         /// Applies Hue to Bitmap
         /// </summary>
@@ -373,5 +406,15 @@ namespace Ultima
                 }
             }
         }
+    }
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct HueDataMul
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public ushort[] colors;
+        public ushort tablestart;
+        public ushort tableend;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+        public byte[] name;
     }
 }
