@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -16,6 +16,7 @@ namespace Ultima
         {
             TXT,
             UOA,
+            UOAB,
             WSC,
             MULTICACHE,
             UOADESIGN
@@ -107,9 +108,9 @@ namespace Ultima
             }
         }
 
-        public static ArrayList LoadFromCache(string FileName)
+        public static List<MultiComponentList> LoadFromCache(string FileName)
         {
-            ArrayList multilist = new ArrayList();
+            List<MultiComponentList> multilist = new List<MultiComponentList>();
             using (StreamReader ip = new StreamReader(FileName))
             {
                 string line;
@@ -126,18 +127,18 @@ namespace Ultima
             return multilist;
         }
 
-        private static string ReadUOAString(BinaryReader bin)
+        public static string ReadUOAString(BinaryReader bin)
         {
             byte flag = bin.ReadByte();
 
-			if(flag == 0)
-				return null;
-			else
-				return bin.ReadString();
+            if (flag == 0)
+                return null;
+            else
+                return bin.ReadString();
         }
-        public static ArrayList LoadFromDesigner(string FileName)
+        public static List<Object[]> LoadFromDesigner(string FileName)
         {
-            ArrayList multilist = new ArrayList();
+            List<Object[]> multilist = new List<Object[]>();
             string root = Path.GetFileNameWithoutExtension(FileName);
             string idx = String.Format("{0}.idx", root);
             string bin = String.Format("{0}.bin", root);
@@ -159,9 +160,9 @@ namespace Ultima
                         {
                             case 0:
                                 data[0] = ReadUOAString(idxbin);
-                                ArrayList arr = new ArrayList();
-                                data[0] += "-"+ReadUOAString(idxbin);
-                                data[0] += "-"+ReadUOAString(idxbin);
+                                List<MultiComponentList.MultiTileEntry> arr = new List<MultiComponentList.MultiTileEntry>();
+                                data[0] += "-" + ReadUOAString(idxbin);
+                                data[0] += "-" + ReadUOAString(idxbin);
                                 int width = idxbin.ReadInt32();
                                 int height = idxbin.ReadInt32();
                                 int uwidth = idxbin.ReadInt32();
@@ -205,7 +206,7 @@ namespace Ultima
                                 }
                                 data[1] = new MultiComponentList(arr);
                                 break;
-                                
+
                         }
                         multilist.Add(data);
                     }
@@ -272,6 +273,7 @@ namespace Ultima
         public int maxHeight { get { return m_maxHeight; } }
         public MultiTileEntry[] SortedTiles { get { return m_SortedTiles; } }
         public int Surface { get { return m_Surface; } }
+
 
         public struct MultiTileEntry
         {
@@ -387,7 +389,6 @@ namespace Ultima
             m_Min = m_Max = Point.Empty;
 
             m_SortedTiles = new MultiTileEntry[count];
-
             for (int i = 0; i < count; ++i)
             {
                 if (Art.IsUOSA())
@@ -587,6 +588,85 @@ namespace Ultima
                     }
 
                     break;
+                case Multis.ImportType.UOAB:
+                    using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (BinaryReader reader = new BinaryReader(fs))
+                    {
+                        if (reader.ReadInt16() != 1) //Version check
+                            return;
+                        string tmp;
+                        tmp = Multis.ReadUOAString(reader); //Name
+                        tmp = Multis.ReadUOAString(reader); //Category
+                        tmp = Multis.ReadUOAString(reader); //Subsection
+                        int width = reader.ReadInt32();
+                        int height = reader.ReadInt32();
+                        int uwidth = reader.ReadInt32();
+                        int uheight = reader.ReadInt32();
+
+                        int count = reader.ReadInt32();
+                        itemcount = count;
+                        if (centeritem)
+                            ++itemcount;
+                        m_SortedTiles = new MultiTileEntry[itemcount];
+                        itemcount = 0;
+                        if (centeritem)
+                        {
+                            ++itemcount;
+                            ++count;
+                        }
+                        m_Min.X = 10000;
+                        m_Min.Y = 10000;
+                        for (; itemcount < count; ++itemcount)
+                        {
+                            m_SortedTiles[itemcount].m_ItemID = (ushort)reader.ReadInt16();
+                            m_SortedTiles[itemcount].m_OffsetX = reader.ReadInt16();
+                            m_SortedTiles[itemcount].m_OffsetY = reader.ReadInt16();
+                            m_SortedTiles[itemcount].m_OffsetZ = reader.ReadInt16();
+                            reader.ReadInt16(); // level
+                            m_SortedTiles[itemcount].m_Flags = 1;
+                            reader.ReadInt16(); // hue
+
+                            MultiTileEntry e = m_SortedTiles[itemcount];
+
+                            if (e.m_OffsetX < m_Min.X)
+                                m_Min.X = e.m_OffsetX;
+
+                            if (e.m_OffsetY < m_Min.Y)
+                                m_Min.Y = e.m_OffsetY;
+
+                            if (e.m_OffsetX > m_Max.X)
+                                m_Max.X = e.m_OffsetX;
+
+                            if (e.m_OffsetY > m_Max.Y)
+                                m_Max.Y = e.m_OffsetY;
+
+                            if (e.m_OffsetZ > m_maxHeight)
+                                m_maxHeight = e.m_OffsetZ;
+                        }
+                        int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
+                        int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+
+                        m_Min = m_Max = Point.Empty;
+                        itemcount = 0;
+                        if (centeritem)
+                            ++itemcount;
+                        for (; itemcount < m_SortedTiles.Length; ++itemcount)
+                        {
+                            m_SortedTiles[itemcount].m_OffsetX -= (short)centerx;
+                            m_SortedTiles[itemcount].m_OffsetY -= (short)centery;
+                            if (m_SortedTiles[itemcount].m_OffsetX < m_Min.X)
+                                m_Min.X = m_SortedTiles[itemcount].m_OffsetX;
+                            if (m_SortedTiles[itemcount].m_OffsetX > m_Max.X)
+                                m_Max.X = m_SortedTiles[itemcount].m_OffsetX;
+
+                            if (m_SortedTiles[itemcount].m_OffsetY < m_Min.Y)
+                                m_Min.Y = m_SortedTiles[itemcount].m_OffsetY;
+                            if (m_SortedTiles[itemcount].m_OffsetY > m_Max.Y)
+                                m_Max.Y = m_SortedTiles[itemcount].m_OffsetY;
+                        }
+                    }
+                    break;
+
                 case Multis.ImportType.WSC:
                     itemcount = 0;
                     using (StreamReader ip = new StreamReader(FileName))
@@ -698,14 +778,14 @@ namespace Ultima
             ConvertList();
         }
 
-        public MultiComponentList(ArrayList arr)
+        public MultiComponentList(List<MultiTileEntry> arr)
         {
             m_Min = m_Max = Point.Empty;
             int itemcount = arr.Count;
             m_SortedTiles = new MultiTileEntry[itemcount];
             m_Min.X = 10000;
             m_Min.Y = 10000;
-            int i=0;
+            int i = 0;
             foreach (MultiTileEntry entry in arr)
             {
                 if (entry.m_OffsetX < m_Min.X)
@@ -731,7 +811,7 @@ namespace Ultima
             int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
 
             m_Min = m_Max = Point.Empty;
-            for (i=0; i < m_SortedTiles.Length; ++i)
+            for (i = 0; i < m_SortedTiles.Length; ++i)
             {
                 m_SortedTiles[i].m_OffsetX -= (short)centerx;
                 m_SortedTiles[i].m_OffsetY -= (short)centery;
@@ -765,7 +845,7 @@ namespace Ultima
                 m_SortedTiles[itemcount].m_OffsetX = Convert.ToInt16(split[2]);
                 m_SortedTiles[itemcount].m_OffsetY = Convert.ToInt16(split[3]);
                 m_SortedTiles[itemcount].m_OffsetZ = Convert.ToInt16(split[4]);
-                
+
                 MultiTileEntry e = m_SortedTiles[itemcount];
 
                 if (e.m_OffsetX < m_Min.X)
@@ -782,7 +862,7 @@ namespace Ultima
                 ++itemcount;
                 if (itemcount == count)
                     break;
-                
+
             }
             int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
             int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
@@ -833,6 +913,7 @@ namespace Ultima
             }
 
             m_Surface = 0;
+
             for (int x = 0; x < m_Width; ++x)
             {
                 for (int y = 0; y < m_Height; ++y)
@@ -864,7 +945,7 @@ namespace Ultima
             {
                 for (int i = 0; i < newtiles[m_Center.X][m_Center.Y].Count; ++i)
                 {
-                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID == 0x1) && 
+                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID == 0x1) &&
                         (newtiles[m_Center.X][m_Center.Y].Get(i).Z == 0))
                     {
                         m_SortedTiles[0].m_OffsetX = 0;
@@ -881,9 +962,9 @@ namespace Ultima
             int counter = 1;
             if (!centerfound)
             {
-                if (MessageBox.Show("No invisible Center Item found do you want to add it?", 
-                    "Multi Save", 
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, 
+                if (MessageBox.Show("No invisible Center Item found do you want to add it?",
+                    "Multi Save",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1) == DialogResult.OK)
                 {
                     m_SortedTiles = new MultiTileEntry[count + 1];
@@ -895,7 +976,7 @@ namespace Ultima
                 else
                     counter = 0;
             }
-            
+
             for (int x = 0; x < width; ++x)
             {
                 for (int y = 0; y < height; ++y)
@@ -910,7 +991,7 @@ namespace Ultima
                             m_SortedTiles[counter].m_OffsetY = (short)(y - m_Center.Y);
                             m_SortedTiles[counter].m_OffsetZ = (short)(tiles[i].Z);
                             m_SortedTiles[counter].m_Flags = (int)tiles[i].Flag;
-                            
+
                             if (m_SortedTiles[counter].m_OffsetX < m_Min.X)
                                 m_Min.X = m_SortedTiles[counter].m_OffsetX;
                             if (m_SortedTiles[counter].m_OffsetX > m_Max.X)

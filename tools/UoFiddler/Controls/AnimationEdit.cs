@@ -10,12 +10,12 @@
  ***************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Ultima;
-using System.Collections;
 
 namespace FiddlerControls
 {
@@ -49,7 +49,7 @@ namespace FiddlerControls
             if (FileType != 0)
             {
                 int count = Animations.GetAnimCount(FileType);
-                ArrayList nodes = new ArrayList();
+                List<TreeNode> nodes = new List<TreeNode>();
                 for (int i = 0; i < count; ++i)
                 {
                     int animlength = Animations.GetAnimLength(i, FileType);
@@ -77,7 +77,7 @@ namespace FiddlerControls
                     }
                     nodes.Add(node);
                 }
-                treeView1.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+                treeView1.Nodes.AddRange(nodes.ToArray());
             }
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
@@ -197,7 +197,7 @@ namespace FiddlerControls
                     }
                 }
                 listView1.EndUpdate();
-                pictureBox1.Refresh();
+                pictureBox1.Invalidate();
                 SetPaletteBox();
             }
         }
@@ -236,7 +236,7 @@ namespace FiddlerControls
         private void OnSizeChangedPictureBox(object sender, EventArgs e)
         {
             FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
-            pictureBox1.Refresh();
+            pictureBox1.Invalidate();
         }
 
         private void onPaintFrame(object sender, PaintEventArgs e)
@@ -274,7 +274,7 @@ namespace FiddlerControls
                         numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
                     }
                 }
-                pictureBox1.Refresh();
+                pictureBox1.Invalidate();
             }
         }
 
@@ -292,7 +292,7 @@ namespace FiddlerControls
                         {
                             frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
                             Options.ChangedUltimaClass["Animations"] = true;
-                            pictureBox1.Refresh();
+                            pictureBox1.Invalidate();
                         }
                     }
                 }
@@ -313,7 +313,7 @@ namespace FiddlerControls
                         {
                             frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
                             Options.ChangedUltimaClass["Animations"] = true;
-                            pictureBox1.Refresh();
+                            pictureBox1.Invalidate();
                         }
                     }
                 }
@@ -504,7 +504,7 @@ namespace FiddlerControls
                     {
                         edit.RemoveFrame(frameindex);
                         listView1.Items.RemoveAt(listView1.Items.Count - 1);
-                        listView1.Refresh();
+                        listView1.Invalidate();
                         Options.ChangedUltimaClass["Animations"] = true;
                     }
                 }
@@ -531,7 +531,7 @@ namespace FiddlerControls
                         if (edit != null)
                         {
                             edit.ReplaceFrame(bmp, frameindex);
-                            listView1.Refresh();
+                            listView1.Invalidate();
                             Options.ChangedUltimaClass["Animations"] = true;
                         }
                     }
@@ -585,7 +585,7 @@ namespace FiddlerControls
                             }
                         }
                         listView1.EndUpdate();
-                        listView1.Refresh();
+                        listView1.Invalidate();
                     }
                 }
             }
@@ -654,7 +654,7 @@ namespace FiddlerControls
                                 edit.ReplacePalette(Palette);
                             }
                             SetPaletteBox();
-                            listView1.Refresh();
+                            listView1.Invalidate();
                             Options.ChangedUltimaClass["Animations"] = true;
                         }
                     }

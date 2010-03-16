@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Ultima
 {
     public sealed class SpeechList
     {
-        public static ArrayList Entries { get; set; }
+        public static List<SpeechEntry> Entries { get; set; }
 
         private static byte[] m_Buffer = new byte[128];
 
@@ -26,10 +26,10 @@ namespace Ultima
             string path = Files.GetFilePath("speech.mul");
             if (path == null)
             {
-                Entries = new ArrayList(0);
+                Entries = new List<SpeechEntry>(0);
                 return;
             }
-            Entries = new ArrayList();
+            Entries = new List<SpeechEntry>();
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 byte[] buffer = new byte[fs.Length];
@@ -96,7 +96,7 @@ namespace Ultima
 
         public static void ImportFromCSV(string FileName)
         {
-            Entries = new ArrayList(0);
+            Entries = new List<SpeechEntry>(0);
             if (!File.Exists(FileName))
                 return;
             using (StreamReader sr = new StreamReader(FileName))
@@ -140,7 +140,7 @@ namespace Ultima
         }
 
         #region SortComparer
-        public class IDComparer : IComparer
+        public class IDComparer : IComparer<SpeechEntry>
         {
             private bool m_desc;
 
@@ -149,20 +149,18 @@ namespace Ultima
                 m_desc = desc;
             }
 
-            public int Compare(object objA, object objB)
+            public int Compare(SpeechEntry objA, SpeechEntry objB)
             {
-                SpeechEntry entryA = (SpeechEntry)objA;
-                SpeechEntry entryB = (SpeechEntry)objB;
-                if (entryA.ID == entryB.ID)
+                if (objA.ID == objB.ID)
                     return 0;
                 else if (m_desc)
-                    return (entryA.ID < entryB.ID) ? 1 : -1;
+                    return (objA.ID < objB.ID) ? 1 : -1;
                 else
-                    return (entryA.ID < entryB.ID) ? -1 : 1;
+                    return (objA.ID < objB.ID) ? -1 : 1;
             }
         }
 
-        public class KeyWordComparer : IComparer
+        public class KeyWordComparer : IComparer<SpeechEntry>
         {
             private bool m_desc;
 
@@ -171,27 +169,23 @@ namespace Ultima
                 m_desc = desc;
             }
 
-            public int Compare(object objA, object objB)
+            public int Compare(SpeechEntry objA, SpeechEntry objB)
             {
-                SpeechEntry entryA = (SpeechEntry)objA;
-                SpeechEntry entryB = (SpeechEntry)objB;
                 if (m_desc)
-                    return String.Compare(entryB.KeyWord, entryA.KeyWord);
+                    return String.Compare(objB.KeyWord, objA.KeyWord);
                 else
-                    return String.Compare(entryA.KeyWord, entryB.KeyWord);
+                    return String.Compare(objA.KeyWord, objB.KeyWord);
             }
         }
 
-        public class OrderComparer : IComparer
+        public class OrderComparer : IComparer<SpeechEntry>
         {
-            public int Compare(object objA, object objB)
+            public int Compare(SpeechEntry objA, SpeechEntry objB)
             {
-                SpeechEntry entryA = (SpeechEntry)objA;
-                SpeechEntry entryB = (SpeechEntry)objB;
-                if (entryA.Order == entryB.Order)
+                if (objA.Order == objB.Order)
                     return 0;
                 else
-                    return (entryA.Order < entryB.Order) ? -1 : 1;
+                    return (objA.Order < objB.Order) ? -1 : 1;
             }
         }
 

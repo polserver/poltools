@@ -139,8 +139,8 @@ namespace Ultima
                 Files.LoadMulPath();
             if (Files.MulPath.Count > 0)
             {
-                idxPath = Files.MulPath[idxFile.ToLower()].ToString();
-                MulPath = Files.MulPath[mulFile.ToLower()].ToString();
+                idxPath = Files.MulPath[idxFile.ToLower()];
+                MulPath = Files.MulPath[mulFile.ToLower()];
                 if (String.IsNullOrEmpty(idxPath))
                     idxPath = null;
                 else
@@ -212,8 +212,8 @@ namespace Ultima
                 Files.LoadMulPath();
             if (Files.MulPath.Count > 0)
             {
-                idxPath = Files.MulPath[idxFile.ToLower()].ToString();
-                MulPath = Files.MulPath[mulFile.ToLower()].ToString();
+                idxPath = Files.MulPath[idxFile.ToLower()];
+                MulPath = Files.MulPath[mulFile.ToLower()];
                 if (String.IsNullOrEmpty(idxPath))
                     idxPath = null;
                 else

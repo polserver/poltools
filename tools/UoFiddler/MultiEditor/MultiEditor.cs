@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -21,17 +21,18 @@ namespace MultiEditor
 {
     public partial class MultiEditor : UserControl
     {
-		#region Fields (14) 
+        #region Fields (14)
 
         private MultiEditorComponentList compList;
         //Sin/Cos(45°)
         private static readonly double CoordinateTransform = Math.Sqrt(2) / 2;
         private const int DrawTileSizeHeight = 45;
         private const int DrawTileSizeWidth = 45;
-        private ArrayList DrawTilesList = new ArrayList();
-        private ArrayList OverlayList = new ArrayList();
+        private List<int> DrawTilesList = new List<int>();
+        private List<MultiTile> OverlayList = new List<MultiTile>();
         private bool Loaded = false;
         private int m_DrawFloorZ;
+        private bool moving;
         private MultiTile m_DrawTile;
         private MultiTile m_HoverTile;
         private MultiTile m_SelectedTile;
@@ -39,13 +40,15 @@ namespace MultiEditor
         /// Current MouseLoc + Scrollbar values (for hover effect)
         /// </summary>
         private Point MouseLoc;
+        private Point MovingLoc;
         private int pictureboxDrawTilescol;
         private int pictureboxDrawTilesrow;
         private static MultiEditor refMarkerMulti = null;
+        private bool ForceRefresh;
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (1) 
+        #region Constructors (1)
 
         public MultiEditor()
         {
@@ -53,6 +56,7 @@ namespace MultiEditor
             InitializeComponent();
             refMarkerMulti = this;
             MouseLoc = new Point();
+            MovingLoc = new Point();
             m_DrawTile = new MultiTile();
             Selectedpanel.Visible = false;
             FloatingPreviewPanel.Visible = false;
@@ -60,11 +64,12 @@ namespace MultiEditor
             BTN_Select.Checked = true;
             pictureBoxDrawTiles.MouseWheel += new MouseEventHandler(pictureBoxDrawTiles_OnMouseWheel);
             pictureBoxMulti.ContextMenu = null;
+            ForceRefresh = true;
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (3) 
+        #region Properties (3)
 
         /// <summary>
         /// Floor Z level
@@ -113,11 +118,11 @@ namespace MultiEditor
         public bool ShowDoubleSurface { get { return showDoubleSurfaceMenuItem.Checked; } }
 
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (35) 
+        #region Methods (35)
 
-		// Private Methods (35) 
+        // Private Methods (35) 
 
         /// <summary>
         /// Creates new blank Multi
@@ -136,7 +141,8 @@ namespace MultiEditor
                 numericUpDown_Selected_X.Maximum = compList.Width - 1;
                 numericUpDown_Selected_Y.Maximum = compList.Height - 1;
                 ScrollbarsSetValue();
-                pictureBoxMulti.Refresh();
+                ForceRefresh = true;
+                pictureBoxMulti.Invalidate();
             }
         }
 
@@ -151,7 +157,8 @@ namespace MultiEditor
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
             BTN_Trans.Checked = false;
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         private void BTN_Export_TXT_OnClick(object sender, EventArgs e)
@@ -194,7 +201,8 @@ namespace MultiEditor
         {
             m_DrawFloorZ = (int)numericUpDown_Floor.Value;
             ScrollbarsSetValue();
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -208,7 +216,8 @@ namespace MultiEditor
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = true;
             BTN_Trans.Checked = false;
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -222,7 +231,8 @@ namespace MultiEditor
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
             BTN_Trans.Checked = false;
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -241,7 +251,8 @@ namespace MultiEditor
                 numericUpDown_Selected_X.Maximum = compList.Width - 1;
                 numericUpDown_Selected_Y.Maximum = compList.Height - 1;
                 ScrollbarsSetValue();
-                pictureBoxMulti.Refresh();
+                ForceRefresh = true;
+                pictureBoxMulti.Invalidate();
             }
         }
 
@@ -269,7 +280,8 @@ namespace MultiEditor
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
             BTN_Trans.Checked = false;
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         private void BTN_Toolbox_CheckedChanged(object sender, EventArgs e)
@@ -298,7 +310,8 @@ namespace MultiEditor
             BTN_Z.Checked = true;
             BTN_Pipette.Checked = false;
             BTN_Trans.Checked = false;
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         private void BTN_Trans_Clicked(object sender, EventArgs e)
@@ -309,7 +322,8 @@ namespace MultiEditor
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
             BTN_Trans.Checked = true;
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -365,7 +379,8 @@ namespace MultiEditor
         {
             ScrollbarsSetValue();
             toolTip1.SetToolTip(MaxHeightTrackBar, MaxHeightTrackBar.Value.ToString());
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -378,7 +393,8 @@ namespace MultiEditor
             if (BTN_Floor.Checked)
             {
                 ScrollbarsSetValue();
-                pictureBoxMulti.Refresh();
+                ForceRefresh = true;
+                pictureBoxMulti.Invalidate();
             }
         }
 
@@ -394,7 +410,8 @@ namespace MultiEditor
                     if ((int)numericUpDown_Selected_X.Value != SelectedTile.X)
                     {
                         compList.TileMove(SelectedTile, (int)numericUpDown_Selected_X.Value, SelectedTile.Y);
-                        pictureBoxMulti.Refresh();
+                        ForceRefresh = true;
+                        pictureBoxMulti.Invalidate();
                     }
                 }
             }
@@ -412,7 +429,8 @@ namespace MultiEditor
                     if ((int)numericUpDown_Selected_Y.Value != SelectedTile.Y)
                     {
                         compList.TileMove(SelectedTile, SelectedTile.X, (int)numericUpDown_Selected_Y.Value);
-                        pictureBoxMulti.Refresh();
+                        ForceRefresh = true;
+                        pictureBoxMulti.Invalidate();
                     }
                 }
             }
@@ -434,7 +452,8 @@ namespace MultiEditor
                         MaxHeightTrackBar.Maximum = compList.zMax;
                         if (MaxHeightTrackBar.Value < SelectedTile.Z)
                             MaxHeightTrackBar.Value = SelectedTile.Z;
-                        pictureBoxMulti.Refresh();
+                        ForceRefresh = true;
+                        pictureBoxMulti.Invalidate();
                     }
                 }
             }
@@ -508,18 +527,22 @@ namespace MultiEditor
             uoanode.Tag = "uoa";
             filenode.Nodes.Add(uoanode);
 
+            TreeNode uoabnode = new TreeNode("UOA Binary File");
+            uoabnode.Tag = "uoab";
+            filenode.Nodes.Add(uoabnode);
+
             TreeNode wscnode = new TreeNode("WSC File");
             wscnode.Tag = "wsc";
             filenode.Nodes.Add(wscnode);
 
-            TreeNode cachenode = new TreeNode("MultiCache File");
+            TreeNode cachenode = new TreeNode("MultiCache File"); //LoadFromFile fixed
             cachenode.Tag = "cache";
-            filenode.Nodes.Add(cachenode); // Hardcoded in DoubleClick .Nodes[1].Nodes[3]
+            filenode.Nodes.Add(cachenode);
 
-            TreeNode uoadesignnode = new TreeNode("UOA Design File");
+            TreeNode uoadesignnode = new TreeNode("UOA Design File"); //LoadFromFile fixed
             uoadesignnode.Tag = "uoadesign";
             filenode.Nodes.Add(uoadesignnode);
-            
+
             treeViewMultiList.Nodes.Add(filenode);
             treeViewMultiList.EndUpdate();
             if (!Loaded)
@@ -578,7 +601,30 @@ namespace MultiEditor
             MouseLoc = e.Location;
             MouseLoc.X += hScrollBar.Value;
             MouseLoc.Y += vScrollBar.Value;
-            pictureBoxMulti.Refresh();
+            if (moving)
+            {
+                int deltax = (int)(-1 * (e.X - MovingLoc.X));
+                int deltay = (int)(-1 * (e.Y - MovingLoc.Y));
+                MovingLoc = e.Location;
+                hScrollBar.Value = Math.Max(0, Math.Min(hScrollBar.Maximum, hScrollBar.Value + deltax));
+                vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
+            }
+            pictureBoxMulti.Invalidate();
+        }
+
+        private void PictureBoxMultiOnMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                moving = true;
+                MovingLoc = e.Location;
+                this.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                moving = false;
+                this.Cursor = Cursors.Default;
+            }
         }
 
         /// <summary>
@@ -586,9 +632,13 @@ namespace MultiEditor
         /// </summary>
         private void PictureBoxMultiOnMouseUp(object sender, MouseEventArgs e)
         {
+            moving = false;
+            this.Cursor = Cursors.Default;
+            if (e.Button == MouseButtons.Right)
+                return;
             if (compList == null)
                 return;
-            if ((e.Button == MouseButtons.Right) || (e.Button == MouseButtons.Middle))
+            if (e.Button == MouseButtons.Middle)
             {
                 OverlayList.Clear();
                 if (m_HoverTile != null)
@@ -685,8 +735,8 @@ namespace MultiEditor
             else if (OverlayList.Count == 1)
                 OverlayList.Clear();
 
-
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -695,24 +745,16 @@ namespace MultiEditor
         private void PictureBoxMultiOnPaint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.White);
-            Bitmap bit = null;
             if (compList != null)
             {
-                Rectangle rect = new Rectangle(
-                    hScrollBar.Value,
-                    vScrollBar.Value,
-                    e.ClipRectangle.Width,
-                    e.ClipRectangle.Height);
-                bit = compList.GetImage(MaxHeightTrackBar.Value, MouseLoc, BTN_Floor.Checked,rect);
-            }
-            if (bit != null)
-            {
+                compList.GetImage(e.Graphics, hScrollBar.Value, vScrollBar.Value, MaxHeightTrackBar.Value, MouseLoc, BTN_Floor.Checked, ForceRefresh);
+                ForceRefresh = false;
+
                 if (ShowWalkables)
                     showWalkablesToolStripMenuItem.Text = String.Format("Show Walkable tiles ({0})", compList.WalkableCount);
                 if (ShowDoubleSurface)
                     showDoubleSurfaceMenuItem.Text = String.Format("Show double surface ({0})", compList.DoubleSurfaceCount);
-                e.Graphics.DrawImageUnscaled(bit, -hScrollBar.Value, -vScrollBar.Value);
-                bit.Dispose();
+
                 int x, y, z;
                 ConvertCoords(MouseLoc, out x, out y, out z);
                 if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
@@ -726,7 +768,6 @@ namespace MultiEditor
                         {
                             toolStripLabelCoord.Text = String.Format("{0},{1},{2}", x, y, z);
                             Bitmap bmp = m_DrawTile.GetBitmap();
-
                             if (bmp == null)
                                 return;
                             int px = (x - y) * 22;
@@ -739,6 +780,8 @@ namespace MultiEditor
                             py -= compList.yMin;
                             py += MultiEditorComponentList.GapYMod; //Mod for a bit of gap
                             px += MultiEditorComponentList.GapXMod;
+                            px -= hScrollBar.Value;
+                            py -= vScrollBar.Value;
                             e.Graphics.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.DrawColor);
                         }
                     }
@@ -764,7 +807,8 @@ namespace MultiEditor
         private void PictureBoxMultiOnResize(object sender, EventArgs e)
         {
             ScrollbarsSetValue();
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         /// <summary>
@@ -776,7 +820,7 @@ namespace MultiEditor
                 return;
             int yMin = compList.yMinOrg;
             int yMax = compList.yMaxOrg;
-            
+
             if (BTN_Floor.Checked)
             {
                 int floorzmod = -DrawFloorZ * 4 - 44;
@@ -816,7 +860,8 @@ namespace MultiEditor
         /// </summary>
         private void ScrollBarsValueChanged(object sender, EventArgs e)
         {
-            pictureBoxMulti.Refresh();
+            ForceRefresh = true;
+            pictureBoxMulti.Invalidate();
         }
 
         private void treeViewMultiList_LoadFromFile(Multis.ImportType importtype)
@@ -828,6 +873,7 @@ namespace MultiEditor
             {
                 case Multis.ImportType.TXT: type = "txt"; break;
                 case Multis.ImportType.UOA: type = "uoa"; break;
+                case Multis.ImportType.UOAB: type = "uoab"; break;
                 case Multis.ImportType.WSC: type = "wsc"; break;
                 case Multis.ImportType.MULTICACHE: type = "Multicache.dat"; break;
                 case Multis.ImportType.UOADESIGN: type = "Designs"; break;
@@ -839,32 +885,34 @@ namespace MultiEditor
                 dialog.Filter = String.Format("{0} file ({0})|{0}", type);
             else if (importtype == Multis.ImportType.UOADESIGN)
                 dialog.Filter = String.Format("{0} file ({0}.*)|{0}.*", type);
+            else if (importtype == Multis.ImportType.UOAB)
+                dialog.Filter = String.Format("{0} file ({0}.*)|{0}.*", "uoa");
             else
                 dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 if (importtype == Multis.ImportType.MULTICACHE)
                 {
-                    ArrayList list = Ultima.Multis.LoadFromCache(dialog.FileName);
-                    TreeNode node=treeViewMultiList.Nodes[1].Nodes[3];
+                    List<MultiComponentList> list = Ultima.Multis.LoadFromCache(dialog.FileName);
+                    TreeNode node = treeViewMultiList.Nodes[1].Nodes[4];
                     node.Nodes.Clear();
                     for (int i = 0; i < list.Count; ++i)
                     {
                         TreeNode child = new TreeNode("Entry " + i);
-                        child.Tag = (MultiComponentList)list[i];
+                        child.Tag = list[i];
                         node.Nodes.Add(child);
                     }
                 }
                 else if (importtype == Multis.ImportType.UOADESIGN)
                 {
-                    ArrayList list = Ultima.Multis.LoadFromDesigner(dialog.FileName);
-                    TreeNode node = treeViewMultiList.Nodes[1].Nodes[4];
+                    List<Object[]> list = Ultima.Multis.LoadFromDesigner(dialog.FileName);
+                    TreeNode node = treeViewMultiList.Nodes[1].Nodes[5];
                     node.Nodes.Clear();
                     for (int i = 0; i < list.Count; ++i)
                     {
-                        Object[] data = (Object[])list[i];
-                        TreeNode child = new TreeNode(data[0]+"("+i+")");
-                        child.Tag = (MultiComponentList)data[1];
+                        Object[] data = list[i];
+                        TreeNode child = new TreeNode(data[0] + "(" + i + ")");
+                        child.Tag = data[1];
                         node.Nodes.Add(child);
                     }
                 }
@@ -884,7 +932,8 @@ namespace MultiEditor
                     vScrollBar.Value = 0;
                     hScrollBar.Value = 0;
                     ScrollbarsSetValue();
-                    pictureBoxMulti.Refresh();
+                    ForceRefresh = true;
+                    pictureBoxMulti.Invalidate();
                 }
             }
             dialog.Dispose();
@@ -902,6 +951,7 @@ namespace MultiEditor
             {
                 case "txt": treeViewMultiList_LoadFromFile(Multis.ImportType.TXT); return;
                 case "uoa": treeViewMultiList_LoadFromFile(Multis.ImportType.UOA); return;
+                case "uoab": treeViewMultiList_LoadFromFile(Multis.ImportType.UOAB); return;
                 case "wsc": treeViewMultiList_LoadFromFile(Multis.ImportType.WSC); return;
                 case "cache": treeViewMultiList_LoadFromFile(Multis.ImportType.MULTICACHE); return;
                 case "uoadesign": treeViewMultiList_LoadFromFile(Multis.ImportType.UOADESIGN); return;
@@ -944,21 +994,37 @@ namespace MultiEditor
                 vScrollBar.Value = 0;
                 hScrollBar.Value = 0;
                 ScrollbarsSetValue();
-                pictureBoxMulti.Refresh();
+                ForceRefresh = true;
+                pictureBoxMulti.Invalidate();
             }
+        }
+
+        private void treeViewMultiList_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            if (e.Node.Tag is int)
+            {
+                MultiComponentList list = Ultima.Multis.GetComponents((int)e.Node.Tag);
+                toolTip1.SetToolTip(treeViewMultiList, String.Format("{0}x{1} {2}", list.Width, list.Height, list.SortedTiles.Length));
+            }
+            else if (e.Node.Tag is MultiComponentList)
+            {
+                MultiComponentList list = e.Node.Tag as MultiComponentList;
+                toolTip1.SetToolTip(treeViewMultiList, String.Format("{0}x{1} {2}", list.Width, list.Height, list.SortedTiles.Length));
+            }
+
         }
 
         private void TreeViewTilesXML_OnAfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Tag != null)
             {
-                DrawTilesList = (ArrayList)e.Node.Tag;
+                DrawTilesList = (List<int>)e.Node.Tag;
                 vScrollBarDrawTiles.Maximum = DrawTilesList.Count / pictureboxDrawTilescol + 1;
                 vScrollBarDrawTiles.Minimum = 1;
                 vScrollBarDrawTiles.SmallChange = 1;
                 vScrollBarDrawTiles.LargeChange = 1;
                 vScrollBarDrawTiles.Value = 1;
-                pictureBoxDrawTiles.Refresh();
+                pictureBoxDrawTiles.Invalidate();
             }
         }
 
@@ -977,7 +1043,8 @@ namespace MultiEditor
                 numericUpDown_Selected_X.Maximum = compList.Width - 1;
                 numericUpDown_Selected_Y.Maximum = compList.Height - 1;
                 ScrollbarsSetValue();
-                pictureBoxMulti.Refresh();
+                ForceRefresh = true;
+                pictureBoxMulti.Invalidate();
             }
         }
 
@@ -1018,7 +1085,7 @@ namespace MultiEditor
                     tempNode.ImageIndex = 0;
                     if (e.HasChildNodes)
                     {
-                        ArrayList list = new ArrayList();
+                        List<int> list = new List<int>();
                         foreach (XmlElement elem in e.ChildNodes)
                         {
                             int i = Int32.Parse(elem.GetAttribute("index"));
@@ -1058,7 +1125,7 @@ namespace MultiEditor
             }
         }
 
-		#endregion Methods 
+        #endregion Methods
 
         public void SelectDrawTile(ushort id)
         {
@@ -1074,7 +1141,7 @@ namespace MultiEditor
                 return -1;
             int value = Math.Max(0, ((pictureboxDrawTilescol * (vScrollBarDrawTiles.Value - 1)) + (x + (y * pictureboxDrawTilescol))));
             if (DrawTilesList.Count > value)
-                return (int)DrawTilesList[value];
+                return DrawTilesList[value];
             else
                 return -1;
         }
@@ -1089,7 +1156,7 @@ namespace MultiEditor
             {
                 m_DrawTile.Set((ushort)index, 0);
                 DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", index);
-                pictureBoxDrawTiles.Refresh();
+                pictureBoxDrawTiles.Invalidate();
             }
         }
 
@@ -1110,7 +1177,7 @@ namespace MultiEditor
                 FloatingPreviewPanel.Visible = true;
                 FloatingPreviewPanel.Tag = index;
                 toolTip1.SetToolTip(pictureBoxDrawTiles, String.Format("0x{0:X} ({0})", index));
-                pictureBoxDrawTiles.Refresh();
+                pictureBoxDrawTiles.Invalidate();
             }
             else
             {
@@ -1177,12 +1244,12 @@ namespace MultiEditor
             vScrollBarDrawTiles.Minimum = 1;
             vScrollBarDrawTiles.SmallChange = 1;
             vScrollBarDrawTiles.LargeChange = pictureboxDrawTilesrow;
-            pictureBoxDrawTiles.Refresh();
+            pictureBoxDrawTiles.Invalidate();
         }
 
         private void vScrollBarDrawTiles_Scroll(object sender, ScrollEventArgs e)
         {
-            pictureBoxDrawTiles.Refresh();
+            pictureBoxDrawTiles.Invalidate();
         }
 
         private void pictureBoxDrawTiles_OnMouseWheel(object sender, MouseEventArgs e)
@@ -1192,7 +1259,7 @@ namespace MultiEditor
                 if (vScrollBarDrawTiles.Value < vScrollBarDrawTiles.Maximum)
                 {
                     vScrollBarDrawTiles.Value++;
-                    pictureBoxDrawTiles.Refresh();
+                    pictureBoxDrawTiles.Invalidate();
                 }
             }
             else
@@ -1200,7 +1267,7 @@ namespace MultiEditor
                 if (vScrollBarDrawTiles.Value > 1)
                 {
                     vScrollBarDrawTiles.Value--;
-                    pictureBoxDrawTiles.Refresh();
+                    pictureBoxDrawTiles.Invalidate();
                 }
             }
         }
@@ -1213,12 +1280,12 @@ namespace MultiEditor
                 {
                     if (childnode.Tag != null)
                     {
-                        foreach (int index in (ArrayList)childnode.Tag)
+                        foreach (int index in (List<int>)childnode.Tag)
                         {
                             if (index == m_DrawTile.ID)
                             {
                                 treeViewTilesXML.SelectedNode = childnode;
-                                pictureBoxDrawTiles.Refresh();
+                                pictureBoxDrawTiles.Invalidate();
                                 return;
                             }
                         }
@@ -1248,7 +1315,8 @@ namespace MultiEditor
                 if (compList != null)
                 {
                     compList.CalcWalkable();
-                    pictureBoxMulti.Refresh();
+                    ForceRefresh = true;
+                    pictureBoxMulti.Invalidate();
                 }
             }
         }
@@ -1257,11 +1325,12 @@ namespace MultiEditor
         {
             if (compList != null)
             {
-                foreach (MultiTile tile in compList.Tiles)
+                for (int i = 0; i < compList.Tiles.Count; ++i)
                 {
-                    tile.Transparent = false;
+                    compList.Tiles[i].Transparent = false;
                 }
-                pictureBoxMulti.Refresh();
+                ForceRefresh = true;
+                pictureBoxMulti.Invalidate();
             }
         }
 
@@ -1273,7 +1342,8 @@ namespace MultiEditor
                 if (compList != null)
                 {
                     compList.CalcDoubleSurface();
-                    pictureBoxMulti.Refresh();
+                    ForceRefresh = true;
+                    pictureBoxMulti.Invalidate();
                 }
             }
         }
@@ -1282,5 +1352,7 @@ namespace MultiEditor
         {
             e.Cancel = true;
         }
+
+
     }
 }

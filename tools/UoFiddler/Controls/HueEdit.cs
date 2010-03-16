@@ -35,8 +35,8 @@ namespace FiddlerControls
                 numericUpDownR.Value = c.R;
                 numericUpDownG.Value = c.G;
                 numericUpDownB.Value = c.B;
-                pictureBox.Refresh();
-                pictureBoxIndex.Refresh();
+                pictureBox.Invalidate();
+                pictureBoxIndex.Invalidate();
             }
         }
 
@@ -46,7 +46,7 @@ namespace FiddlerControls
             set
             {
                 second_sel = value;
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -65,7 +65,7 @@ namespace FiddlerControls
                         g.DrawImage(bmp, x, y);
                     }
                 }
-                pictureBoxPreview.Refresh();
+                pictureBoxPreview.Invalidate();
             }
         }
 
@@ -166,7 +166,7 @@ namespace FiddlerControls
                             (int)(startc.B + i * Bdiv));
                         Colors[start + i] = Ultima.Hues.ColorToHue(newc);
                     }
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                     RefreshPreview();
                 }
             }
@@ -203,7 +203,7 @@ namespace FiddlerControls
                             (int)(startc.B + Bfac * Math.Pow(i, Bdiv)));
                         Colors[start + i] = Ultima.Hues.ColorToHue(newc);
                     }
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                     RefreshPreview();
                 }
             }
@@ -213,8 +213,8 @@ namespace FiddlerControls
         {
             Color c = Color.FromArgb((int)numericUpDownR.Value, (int)numericUpDownG.Value, (int)numericUpDownB.Value);
             Colors[selected] = Ultima.Hues.ColorToHue(c);
-            pictureBox.Refresh();
-            pictureBoxIndex.Refresh();
+            pictureBox.Invalidate();
+            pictureBoxIndex.Invalidate();
             RefreshPreview();
         }
 

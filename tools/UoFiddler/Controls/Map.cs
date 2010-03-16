@@ -73,7 +73,7 @@ namespace FiddlerControls
             LoadMapOverlays();
             Options.LoadedUltimaClass["Map"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
-            
+
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
             trammelToolStripMenuItem.Checked = false;
@@ -85,7 +85,7 @@ namespace FiddlerControls
             ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
             SetScrollBarValues();
             Refresh();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             Cursor.Current = Cursors.Default;
 
             if (!Loaded)
@@ -100,7 +100,7 @@ namespace FiddlerControls
 
         private void OnMapDiffChangeEvent()
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
         private void OnMapNameChangeEvent()
         {
@@ -117,7 +117,7 @@ namespace FiddlerControls
 
         public void RefreshMap()
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         /// <summary>
@@ -141,13 +141,13 @@ namespace FiddlerControls
                 OverlayObjectTree.Nodes[3].Text = Options.MapNames[3];
                 OverlayObjectTree.Nodes[4].Text = Options.MapNames[4];
                 OverlayObjectTree.Nodes[5].Text = Options.MapNames[5];
-                OverlayObjectTree.Refresh();
+                OverlayObjectTree.Invalidate();
             }
         }
 
         private void HandleScroll(object sender, ScrollEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         public static int Round(int x)
@@ -187,14 +187,14 @@ namespace FiddlerControls
                 hScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 hScrollBar.Maximum += (int)(40 / Zoom);
-            hScrollBar.Maximum = Math.Max(0,Round(hScrollBar.Maximum));
+            hScrollBar.Maximum = Math.Max(0, Round(hScrollBar.Maximum));
             vScrollBar.Maximum = (int)(currmap.Height);
             vScrollBar.Maximum -= Round((int)(pictureBox.ClientSize.Height / Zoom) - 8);
             if (Zoom >= 1)
                 vScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 vScrollBar.Maximum += (int)(40 / Zoom);
-            vScrollBar.Maximum = Math.Max(0,Round(vScrollBar.Maximum));
+            vScrollBar.Maximum = Math.Max(0, Round(vScrollBar.Maximum));
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -202,7 +202,7 @@ namespace FiddlerControls
             if (Loaded)
             {
                 ChangeScrollBar();
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -210,7 +210,7 @@ namespace FiddlerControls
         {
             PreloadMap.Visible = !currmap.IsCached(showStaticsToolStripMenuItem1.Checked);
             SetScrollBarValues();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void ResetCheckedMap()
@@ -330,7 +330,7 @@ namespace FiddlerControls
                 movingpoint.Y = e.Y;
                 hScrollBar.Value = Math.Max(0, Math.Min(hScrollBar.Maximum, hScrollBar.Value + deltax));
                 vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -389,7 +389,7 @@ namespace FiddlerControls
             SetScrollBarValues();
             hScrollBar.Value = (int)Math.Max(0, x - pictureBox.Right / Zoom / 2);
             vScrollBar.Value = (int)Math.Max(0, y - pictureBox.Bottom / Zoom / 2);
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, Options.MapNames[mapClient]);
         }
 
@@ -418,7 +418,7 @@ namespace FiddlerControls
                 }
 
                 ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -438,12 +438,12 @@ namespace FiddlerControls
 
         private void onContextClosed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnDropDownClosed(object sender, EventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnZoomMinus(object sender, EventArgs e)
@@ -469,7 +469,7 @@ namespace FiddlerControls
             y = Math.Min(y, vScrollBar.Maximum);
             hScrollBar.Value = Round(x);
             vScrollBar.Value = Round(y);
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnPaint(object sender, PaintEventArgs e)
@@ -556,7 +556,7 @@ namespace FiddlerControls
                         }
                     }
                 }
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -662,7 +662,7 @@ namespace FiddlerControls
         {
             if ((mapmarker == null) || (mapmarker.IsDisposed))
             {
-                mapmarker = new MapMarker(currPoint.X, currPoint.Y,currmapint);
+                mapmarker = new MapMarker(currPoint.X, currPoint.Y, currmapint);
                 mapmarker.TopMost = true;
                 mapmarker.Show();
             }
@@ -674,7 +674,7 @@ namespace FiddlerControls
             TreeNode node = new TreeNode(text);
             node.Tag = o;
             refmarker.OverlayObjectTree.Nodes[map].Nodes.Add(node);
-            refmarker.pictureBox.Refresh();
+            refmarker.pictureBox.Invalidate();
         }
 
         private void LoadMapOverlays()
@@ -761,11 +761,12 @@ namespace FiddlerControls
             ProgressBar.Step = 1;
             ProgressBar.Value = 0;
             ProgressBar.Visible = true;
-            PreloadWorker.RunWorkerAsync(new Object[]{currmap,showStaticsToolStripMenuItem1.Checked});
+            PreloadWorker.RunWorkerAsync(new Object[] { currmap, showStaticsToolStripMenuItem1.Checked });
         }
 
         private void PreLoadDoWork(object sender, DoWorkEventArgs e)
         {
+
             Ultima.Map workmap = (Ultima.Map)((Object[])e.Argument)[0];
             bool statics = (bool)((Object[])e.Argument)[1];
             int width = currmap.Width >> 3;
@@ -795,7 +796,7 @@ namespace FiddlerControls
         private void OnClickEditMarkers(object sender, EventArgs e)
         {
             panel1.Visible = !panel1.Visible;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnDoubleClickMarker(object sender, TreeNodeMouseClickEventArgs e)
@@ -845,7 +846,7 @@ namespace FiddlerControls
             SetScrollBarValues();
             hScrollBar.Value = (int)Math.Max(0, o.Loc.X - pictureBox.Right / Zoom / 2);
             vScrollBar.Value = (int)Math.Max(0, o.Loc.Y - pictureBox.Bottom / Zoom / 2);
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnClickRemoveMarker(object sender, EventArgs e)
@@ -855,7 +856,7 @@ namespace FiddlerControls
             if (OverlayObjectTree.SelectedNode.Parent == null)
                 return;
             OverlayObjectTree.SelectedNode.Remove();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnClickSwitchVisible(object sender, EventArgs e)
@@ -870,21 +871,21 @@ namespace FiddlerControls
                 OverlayObjectTree.SelectedNode.ForeColor = Color.Red;
             else
                 OverlayObjectTree.SelectedNode.ForeColor = Color.Black;
-            OverlayObjectTree.Refresh();
-            pictureBox.Refresh();
+            OverlayObjectTree.Invalidate();
+            pictureBox.Invalidate();
         }
 
         private void OnChangeView(object sender, EventArgs e)
         {
             PreloadMap.Visible = !currmap.IsCached(showStaticsToolStripMenuItem1.Checked);
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnClickDefragStatics(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-                currmap, currmap.Width, currmap.Height,false);
+                currmap, currmap.Width, currmap.Height, false);
             Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
@@ -903,7 +904,7 @@ namespace FiddlerControls
             if (Loaded)
             {
                 ChangeScrollBar();
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -965,7 +966,7 @@ namespace FiddlerControls
                 dialog.Dispose();
                 return;
             }
-            string path=dialog.FileName;
+            string path = dialog.FileName;
             dialog.Dispose();
             StaticImport(path);
         }
@@ -1048,7 +1049,7 @@ namespace FiddlerControls
 
             MessageBox.Show("Done", "Freeze Static", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             currmap.ResetCache();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         MapMeltStatics showmeltstatics = null;
@@ -1056,7 +1057,7 @@ namespace FiddlerControls
         {
             if ((showmeltstatics == null) || (showmeltstatics.IsDisposed))
             {
-                showmeltstatics = new MapMeltStatics(this,currmap);
+                showmeltstatics = new MapMeltStatics(this, currmap);
                 showmeltstatics.TopMost = true;
                 showmeltstatics.Show();
             }
@@ -1105,7 +1106,7 @@ namespace FiddlerControls
         private Brush brush;
         private Pen pen;
         private static Brush background;
-        public OverlayCursor(Point location, int m,string t,Color c)
+        public OverlayCursor(Point location, int m, string t, Color c)
         {
             Loc = location;
             DefMap = m;
@@ -1137,7 +1138,7 @@ namespace FiddlerControls
             g.DrawLine(pen, x - 4, y, x + 4, y);
             g.DrawLine(pen, x, y - 4, x, y + 4);
             g.DrawEllipse(pen, x - 2, y - 2, 2 * 2, 2 * 2);
-            SizeF tSize = g.MeasureString(text,Fonts.DefaultFont);
+            SizeF tSize = g.MeasureString(text, Fonts.DefaultFont);
             int x_;
             if ((Loc.X + tSize.Width) > Map.CurrMap.Width)
                 x_ = x - (int)tSize.Width - 6;

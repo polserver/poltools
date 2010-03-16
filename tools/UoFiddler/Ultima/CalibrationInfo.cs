@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Ultima
@@ -113,7 +113,7 @@ namespace Ultima
 
         public static CalibrationInfo[] GetList()
         {
-            ArrayList list = new ArrayList();
+            List<CalibrationInfo> list = new List<CalibrationInfo>();
 
             string path = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
             path = Path.Combine(path, "calibration.cfg");
@@ -158,7 +158,7 @@ namespace Ultima
 
             list.AddRange(DefaultList);
 
-            return (CalibrationInfo[])list.ToArray(typeof(CalibrationInfo));
+            return list.ToArray();
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -8,14 +8,14 @@ namespace Ultima
     {
         private static FileIndex m_FileIndex = new FileIndex("skills.idx", "skills.mul", 16);
 
-        private static ArrayList m_SkillEntries;
-        public static ArrayList SkillEntries
+        private static List<SkillInfo> m_SkillEntries;
+        public static List<SkillInfo> SkillEntries
         {
             get
             {
                 if (m_SkillEntries == null)
                 {
-                    m_SkillEntries = new ArrayList();
+                    m_SkillEntries = new List<SkillInfo>();
                     for (int i = 0; i < m_FileIndex.Index.Length; ++i)
                     {
                         SkillInfo info = GetSkill(i);
@@ -40,7 +40,7 @@ namespace Ultima
         public static void Reload()
         {
             m_FileIndex = new FileIndex("skills.idx", "skills.mul", 16);
-            m_SkillEntries = new ArrayList();
+            m_SkillEntries = new List<SkillInfo>();
             for (int i = 0; i < m_FileIndex.Index.Length; ++i)
             {
                 SkillInfo info = GetSkill(i);

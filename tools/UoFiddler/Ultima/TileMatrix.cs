@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -10,16 +10,16 @@ namespace Ultima
         private HuedTile[][][][][] m_StaticTiles;
         private Tile[][][] m_LandTiles;
         private bool[][] m_RemovedStaticBlock;
-        private Object[][] m_StaticTiles_ToAdd;
+        private List<StaticTile>[][] m_StaticTiles_ToAdd;
 
         public static Tile[] InvalidLandBlock { get; private set; }
         public static HuedTile[][][] EmptyStaticBlock { get; private set; }
 
         private FileStream m_Map;
         private FileStream m_Statics;
-
-        private Entry3D[] StaticIndex;
-        private bool StaticIndexInit;
+        private Entry3D[] m_StaticIndex;
+        public Entry3D[] StaticIndex { get { if (!StaticIndexInit) InitStatics(); return m_StaticIndex; } }
+        public bool StaticIndexInit;
 
         public TileMatrixPatch Patch { get; private set; }
 
@@ -202,23 +202,23 @@ namespace Ultima
 
         private unsafe void InitStatics()
         {
-            StaticIndex = new Entry3D[BlockHeight * BlockWidth];
+            m_StaticIndex = new Entry3D[BlockHeight * BlockWidth];
             if (indexPath == null)
                 return;
             using (FileStream index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 int count = (int)(index.Length / 12);
-                GCHandle gc = GCHandle.Alloc(StaticIndex, GCHandleType.Pinned);
+                GCHandle gc = GCHandle.Alloc(m_StaticIndex, GCHandleType.Pinned);
                 byte[] buffer = new byte[index.Length];
                 index.Read(buffer, 0, (int)index.Length);
                 Marshal.Copy(buffer, 0, gc.AddrOfPinnedObject(), (int)Math.Min(index.Length, BlockHeight * BlockWidth * 12));
                 gc.Free();
                 for (int i = (int)Math.Min(index.Length, BlockHeight * BlockWidth); i < BlockHeight * BlockWidth; ++i)
                 {
-                    StaticIndex[i].lookup = -1;
-                    StaticIndex[i].length = -1;
-                    StaticIndex[i].extra = -1;
+                    m_StaticIndex[i].lookup = -1;
+                    m_StaticIndex[i].length = -1;
+                    m_StaticIndex[i].extra = -1;
                 }
                 StaticIndexInit = true;
             }
@@ -242,8 +242,8 @@ namespace Ultima
                 if (m_Statics == null)
                     return EmptyStaticBlock;
 
-                int lookup = StaticIndex[(x * BlockHeight) + y].lookup;
-                int length = StaticIndex[(x * BlockHeight) + y].length;
+                int lookup = m_StaticIndex[(x * BlockHeight) + y].lookup;
+                int length = m_StaticIndex[(x * BlockHeight) + y].length;
 
                 if (lookup < 0 || length <= 0)
                     return EmptyStaticBlock;
@@ -380,12 +380,12 @@ namespace Ultima
         public void AddPendingStatic(int blockx, int blocky, StaticTile toadd)
         {
             if (m_StaticTiles_ToAdd == null)
-                m_StaticTiles_ToAdd = new Object[BlockHeight][];
+                m_StaticTiles_ToAdd = new List<StaticTile>[BlockHeight][];
             if (m_StaticTiles_ToAdd[blocky] == null)
-                m_StaticTiles_ToAdd[blocky] = new Object[BlockWidth];
+                m_StaticTiles_ToAdd[blocky] = new List<StaticTile>[BlockWidth];
             if (m_StaticTiles_ToAdd[blocky][blockx] == null)
-                m_StaticTiles_ToAdd[blocky][blockx] = new ArrayList();
-            ((ArrayList)m_StaticTiles_ToAdd[blocky][blockx]).Add(toadd);
+                m_StaticTiles_ToAdd[blocky][blockx] = new List<StaticTile>();
+            m_StaticTiles_ToAdd[blocky][blockx].Add(toadd);
         }
 
         public StaticTile[] GetPendingStatics(int blockx, int blocky)
@@ -397,7 +397,7 @@ namespace Ultima
             if (m_StaticTiles_ToAdd[blocky][blockx] == null)
                 return null;
 
-            return (StaticTile[])((ArrayList)m_StaticTiles_ToAdd[blocky][blockx]).ToArray(typeof(StaticTile));
+            return m_StaticTiles_ToAdd[blocky][blockx].ToArray();
         }
 
         public void Dispose()
@@ -461,7 +461,10 @@ namespace Ultima
 
         public MTile(ushort id, sbyte z)
         {
-            m_ID = id;
+            if (Art.IsUOSA())
+                m_ID = (ushort)(id & 0x7FFF);
+            else
+                m_ID = (ushort)(id & 0x3FFF);
             m_Z = z;
             m_Flag = 1;
             m_Solver = 0;
@@ -469,7 +472,10 @@ namespace Ultima
 
         public MTile(ushort id, sbyte z, sbyte flag)
         {
-            m_ID = id;
+            if (Art.IsUOSA())
+                m_ID = (ushort)(id & 0x7FFF);
+            else
+                m_ID = (ushort)(id & 0x3FFF);
             m_Z = z;
             m_Flag = flag;
             m_Solver = 0;
@@ -477,13 +483,19 @@ namespace Ultima
 
         public void Set(ushort id, sbyte z)
         {
-            m_ID = id;
+            if (Art.IsUOSA())
+                m_ID = (ushort)(id & 0x7FFF);
+            else
+                m_ID = (ushort)(id & 0x3FFF);
             m_Z = z;
         }
 
         public void Set(ushort id, sbyte z, sbyte flag)
         {
-            m_ID = id;
+            if (Art.IsUOSA())
+                m_ID = (ushort)(id & 0x7FFF);
+            else
+                m_ID = (ushort)(id & 0x3FFF);
             m_Z = z;
             m_Flag = flag;
         }
@@ -498,7 +510,7 @@ namespace Ultima
 
             MTile a = (MTile)x;
 
-            ItemData ourData = TileData.ItemTable[ID];
+            ItemData ourData = TileData.ItemTable[m_ID];
             ItemData theirData = TileData.ItemTable[a.ID];
 
             int ourTreshold = 0;
@@ -520,10 +532,9 @@ namespace Ultima
             if (res == 0)
                 res = ourTreshold - theirTreshold;
             if (res == 0)
-                res = Solver - a.Solver;
+                res = m_Solver - a.Solver;
             return res;
         }
-
     }
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
     public struct Tile : IComparable
@@ -535,6 +546,12 @@ namespace Ultima
         public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
 
         public Tile(ushort id, sbyte z)
+        {
+            m_ID = id;
+            m_Z = z;
+        }
+
+        public Tile(ushort id, sbyte z, sbyte flag)
         {
             m_ID = id;
             m_Z = z;

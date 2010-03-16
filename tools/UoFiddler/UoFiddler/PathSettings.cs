@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Ultima;
@@ -33,7 +34,7 @@ namespace UoFiddler
             Files.LoadMulPath();
             Files.CheckForNewMapSize();
             propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
-            propertyGrid1.Refresh();
+            propertyGrid1.Invalidate();
             propertyGrid1.Update();
             TextBoxRoot.Text = Files.RootDir;
 
@@ -49,7 +50,7 @@ namespace UoFiddler
                 {
                     Files.SetMulPath(dialog.SelectedPath);
                     propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
-                    propertyGrid1.Refresh();
+                    propertyGrid1.Invalidate();
                     propertyGrid1.Update();
                     TextBoxRoot.Text = Files.RootDir;
                     Files.CheckForNewMapSize();
@@ -63,7 +64,7 @@ namespace UoFiddler
             {
                 Files.SetMulPath(TextBoxRoot.Text);
                 propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
-                propertyGrid1.Refresh();
+                propertyGrid1.Invalidate();
                 propertyGrid1.Update();
                 TextBoxRoot.Text = Files.RootDir;
                 Files.CheckForNewMapSize();
@@ -137,14 +138,13 @@ namespace UoFiddler
 
         public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
-            ArrayList properties = new ArrayList();
+            List<PropertyDescriptor> properties = new List<PropertyDescriptor>();
             foreach (DictionaryEntry e in _dictionary)
             {
                 properties.Add(new DictionaryPropertyDescriptor(_dictionary, e.Key));
             }
 
-            PropertyDescriptor[] props =
-                (PropertyDescriptor[])properties.ToArray(typeof(PropertyDescriptor));
+            PropertyDescriptor[] props = properties.ToArray();
 
             return new PropertyDescriptorCollection(props);
         }

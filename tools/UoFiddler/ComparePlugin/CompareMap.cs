@@ -70,7 +70,7 @@ namespace ComparePlugin
         private void OnMapDiffChangeEvent()
         {
             CalculateDiffs();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMapNameChangeEvent()
@@ -83,7 +83,7 @@ namespace ComparePlugin
             SetScrollBarValues();
             if (currmap != null)
                 ChangeMap();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnFilePathChangeEvent()
@@ -91,7 +91,7 @@ namespace ComparePlugin
             SetScrollBarValues();
             if (currmap != null)
                 ChangeMap();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void ChangeMapNames()
@@ -141,7 +141,7 @@ namespace ComparePlugin
                 movingpoint.Y = e.Y;
                 hScrollBar.Value = Math.Max(0, Math.Min(hScrollBar.Maximum, hScrollBar.Value + deltax));
                 vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
             else if ((Zoom >= 2) && (currmap != null))
             {
@@ -394,7 +394,7 @@ namespace ComparePlugin
             if (Loaded)
             {
                 ChangeScrollBar();
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -452,7 +452,7 @@ namespace ComparePlugin
             y = Math.Min(y, vScrollBar.Maximum);
             hScrollBar.Value = Round(x);
             vScrollBar.Value = Round(y);
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnOpeningContext(object sender, CancelEventArgs e)
@@ -489,7 +489,7 @@ namespace ComparePlugin
                 currmap = Ultima.Map.Custom = new Ultima.Map(path, origmap.FileIndex, currmapint, origmap.Width, origmap.Height);
 
             CalculateDiffs();
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void ResetCheckedMap()
@@ -575,7 +575,7 @@ namespace ComparePlugin
 
         private void OnClickShowDiff(object sender, EventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnClickShowMap2(object sender, EventArgs e)
@@ -586,7 +586,7 @@ namespace ComparePlugin
                 {
                     showMap1ToolStripMenuItem.Checked = false;
                     showMap2ToolStripMenuItem.Checked = true;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }
@@ -597,13 +597,13 @@ namespace ComparePlugin
             {
                 showMap2ToolStripMenuItem.Checked = false;
                 showMap1ToolStripMenuItem.Checked = true;
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
         private void OnClickMarkDiff(object sender, EventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private bool BlockDiff(int x, int y)
@@ -681,7 +681,7 @@ namespace ComparePlugin
 
         private void HandleScroll(object sender, ScrollEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
     }
 }

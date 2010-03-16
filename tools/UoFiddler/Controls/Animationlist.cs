@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -202,7 +203,7 @@ namespace FiddlerControls
                     extractAnimationToolStripMenuItem.Visible = !m_Animate ? false : true;
                     StopAnimation();
                     m_ImageInvalidated = true;
-                    MainPictureBox.Refresh();
+                    MainPictureBox.Invalidate();
                 }
             }
         }
@@ -246,7 +247,7 @@ namespace FiddlerControls
                     m_Timer = null;
                 }
                 SetPicture();
-                MainPictureBox.Refresh();
+                MainPictureBox.Invalidate();
             }
         }
 
@@ -347,7 +348,7 @@ namespace FiddlerControls
                 m_FrameIndex = 0;
 
             m_ImageInvalidated = true;
-            MainPictureBox.Refresh();
+            MainPictureBox.Invalidate();
         }
 
         private void OnPaint_MainPicture(object sender, PaintEventArgs e)
@@ -440,7 +441,7 @@ namespace FiddlerControls
             XmlDocument dom = new XmlDocument();
             dom.Load(FileName);
             XmlElement xMobs = dom["Graphics"];
-            ArrayList nodes = new ArrayList();
+            List<TreeNode> nodes = new List<TreeNode>();
             TreeNode rootnode, node, typenode;
             rootnode = new TreeNode("Mobs");
             rootnode.Name = "Mobs";
@@ -496,7 +497,7 @@ namespace FiddlerControls
                     }
                 }
             }
-            TreeViewMobs.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+            TreeViewMobs.Nodes.AddRange(nodes.ToArray());
             nodes.Clear();
             TreeViewMobs.EndUpdate();
             return true;

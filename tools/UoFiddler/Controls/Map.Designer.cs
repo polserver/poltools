@@ -53,11 +53,11 @@ namespace FiddlerControls
             this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.getMapInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertMarkerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.gotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TextBoxGoto = new System.Windows.Forms.ToolStripTextBox();
             this.sendClientToPosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.insertMarkerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.feluccaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trammelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -177,10 +177,10 @@ namespace FiddlerControls
             this.zoomToolStripMenuItem,
             this.zoomToolStripMenuItem1,
             this.getMapInfoToolStripMenuItem,
+            this.insertMarkerToolStripMenuItem,
+            this.toolStripSeparator4,
             this.gotoToolStripMenuItem,
             this.sendClientToPosToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.insertMarkerToolStripMenuItem,
             this.toolStripSeparator2,
             this.feluccaToolStripMenuItem,
             this.trammelToolStripMenuItem,
@@ -216,6 +216,18 @@ namespace FiddlerControls
             this.getMapInfoToolStripMenuItem.Text = "GetMapInfo";
             this.getMapInfoToolStripMenuItem.Click += new System.EventHandler(this.GetMapInfo);
             // 
+            // insertMarkerToolStripMenuItem
+            // 
+            this.insertMarkerToolStripMenuItem.Name = "insertMarkerToolStripMenuItem";
+            this.insertMarkerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.insertMarkerToolStripMenuItem.Text = "Insert Marker";
+            this.insertMarkerToolStripMenuItem.Click += new System.EventHandler(this.OnClickInsertMarker);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
+            // 
             // gotoToolStripMenuItem
             // 
             this.gotoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -237,18 +249,6 @@ namespace FiddlerControls
             this.sendClientToPosToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.sendClientToPosToolStripMenuItem.Text = "Send Client To Pos";
             this.sendClientToPosToolStripMenuItem.Click += new System.EventHandler(this.onClickSendClientToPos);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
-            // 
-            // insertMarkerToolStripMenuItem
-            // 
-            this.insertMarkerToolStripMenuItem.Name = "insertMarkerToolStripMenuItem";
-            this.insertMarkerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.insertMarkerToolStripMenuItem.Text = "Insert Marker";
-            this.insertMarkerToolStripMenuItem.Click += new System.EventHandler(this.OnClickInsertMarker);
             // 
             // toolStripSeparator2
             // 
@@ -497,7 +497,6 @@ namespace FiddlerControls
             this.toolStripDropDownButton2.Size = new System.Drawing.Size(89, 22);
             this.toolStripDropDownButton2.Text = "Client Interact";
             this.toolStripDropDownButton2.DropDownClosed += new System.EventHandler(this.OnDropDownClosed);
-            this.toolStripDropDownButton2.Click += new System.EventHandler(this.onClick_ShowClientLoc);
             // 
             // showClientLocToolStripMenuItem1
             // 
@@ -505,6 +504,7 @@ namespace FiddlerControls
             this.showClientLocToolStripMenuItem1.Name = "showClientLocToolStripMenuItem1";
             this.showClientLocToolStripMenuItem1.Size = new System.Drawing.Size(188, 22);
             this.showClientLocToolStripMenuItem1.Text = "Show Client Loc";
+            this.showClientLocToolStripMenuItem1.Click += new System.EventHandler(this.onClick_ShowClientLoc);
             // 
             // toolStripSeparator5
             // 
@@ -751,9 +751,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem sendClientToPosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem insertMarkerToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem gotoToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
@@ -792,5 +790,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem replaceTilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terMurToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertMarkerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }

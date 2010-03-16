@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -32,7 +32,7 @@ namespace FiddlerControls
         }
 
         private static ItemShowAlternative refMarker = null;
-        private ArrayList ItemList = new ArrayList();
+        private List<int> ItemList = new List<int>();
         private int col;
         private int row;
         private int selected = -1;
@@ -55,7 +55,7 @@ namespace FiddlerControls
                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", value);
 
                 UpdateDetail(value);
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -70,7 +70,7 @@ namespace FiddlerControls
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             if (selected != -1)
                 UpdateDetail(selected);
         }
@@ -104,7 +104,7 @@ namespace FiddlerControls
         {
             for (int i = 0; i < refMarker.ItemList.Count; ++i)
             {
-                if ((int)refMarker.ItemList[i] == graphic)
+                if (refMarker.ItemList[i] == graphic)
                 {
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
                     refMarker.Selected = graphic;
@@ -126,7 +126,7 @@ namespace FiddlerControls
             if (next)
             {
                 if (refMarker.selected >= 0)
-                    index = refMarker.ItemList.IndexOf((object)refMarker.selected) + 1;
+                    index = refMarker.ItemList.IndexOf(refMarker.selected) + 1;
                 if (index >= refMarker.ItemList.Count)
                     index = 0;
             }
@@ -134,10 +134,10 @@ namespace FiddlerControls
             Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
             for (int i = index; i < refMarker.ItemList.Count; ++i)
             {
-                if (regex.IsMatch(TileData.ItemTable[(int)refMarker.ItemList[i]].Name))
+                if (regex.IsMatch(TileData.ItemTable[refMarker.ItemList[i]].Name))
                 {
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.Selected = (int)refMarker.ItemList[i];
+                    refMarker.Selected = refMarker.ItemList[i];
                     return true;
                 }
             }
@@ -167,7 +167,7 @@ namespace FiddlerControls
 
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
-            ItemList = new ArrayList();
+            ItemList = new List<int>();
             if ((Files.UseHashFile) && (Files.CompareHashFile("Art")) && (!Ultima.Art.Modified))
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -189,7 +189,7 @@ namespace FiddlerControls
                                 while (i < buffer.Length)
                                 {
                                     int j = *dat++;
-                                    ItemList.Add((object)j);
+                                    ItemList.Add(j);
                                     i += 4;
                                 }
                             }
@@ -205,13 +205,13 @@ namespace FiddlerControls
                 for (int i = 0; i < staticlength; ++i)
                 {
                     if (Art.IsValidStatic(i))
-                        ItemList.Add((object)i);
+                        ItemList.Add(i);
                 }
                 if (Files.UseHashFile)
                     MakeHashFile();
             }
             vScrollBar.Maximum = ItemList.Count / col + 1;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             if (!Loaded)
             {
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
@@ -258,27 +258,27 @@ namespace FiddlerControls
                 bool done = false;
                 for (int i = 0; i < ItemList.Count; ++i)
                 {
-                    if (index < (int)ItemList[i])
+                    if (index < ItemList[i])
                     {
-                        ItemList.Insert(i, (object)index);
+                        ItemList.Insert(i, index);
                         done = true;
                         break;
                     }
-                    if (index == (int)ItemList[i])
+                    if (index == ItemList[i])
                     {
                         done = true;
                         break;
                     }
                 }
                 if (!done)
-                    ItemList.Add((object)index);
+                    ItemList.Add(index);
                 vScrollBar.Maximum = ItemList.Count / col + 1;
             }
             else
             {
                 if (!ShowFreeSlots)
                 {
-                    ItemList.Remove((object)index);
+                    ItemList.Remove(index);
                     vScrollBar.Maximum = ItemList.Count / col + 1;
                 }
             }
@@ -288,7 +288,7 @@ namespace FiddlerControls
         {
             int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
             if (ItemList.Count > value)
-                return (int)ItemList[value];
+                return ItemList[value];
             else
                 return -1;
         }
@@ -300,7 +300,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
             else
@@ -308,14 +308,14 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         static Brush BrushLightBlue = Brushes.LightBlue;
@@ -411,7 +411,7 @@ namespace FiddlerControls
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             if (selected != -1)
                 UpdateDetail(selected);
         }
@@ -498,15 +498,15 @@ namespace FiddlerControls
             {
                 int i;
                 if (selected > -1)
-                    i = ItemList.IndexOf((object)selected) + 1;
+                    i = ItemList.IndexOf(selected) + 1;
                 else
                     i = 0;
                 for (; i < ItemList.Count; ++i)
                 {
-                    if (!Art.IsValidStatic((int)ItemList[i]))
+                    if (!Art.IsValidStatic(ItemList[i]))
                     {
                         vScrollBar.Value = i / refMarker.col + 1;
-                        Selected = (int)ItemList[i];
+                        Selected = ItemList[i];
                         break;
                     }
                 }
@@ -517,7 +517,7 @@ namespace FiddlerControls
                 if (selected > -1)
                 {
                     id = selected + 1;
-                    i = ItemList.IndexOf((object)selected) + 1;
+                    i = ItemList.IndexOf(selected) + 1;
                 }
                 else
                 {
@@ -526,10 +526,10 @@ namespace FiddlerControls
                 }
                 for (; i < ItemList.Count; ++i, ++id)
                 {
-                    if (id < (int)ItemList[i])
+                    if (id < ItemList[i])
                     {
                         vScrollBar.Value = i / refMarker.col + 1;
-                        Selected = (int)ItemList[i];
+                        Selected = ItemList[i];
                         break;
                     }
                 }
@@ -553,7 +553,7 @@ namespace FiddlerControls
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceStatic(selected, bmp);
                         FiddlerControls.Events.FireItemChangeEvent(this, selected);
-                        pictureBox.Refresh();
+                        pictureBox.Invalidate();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
@@ -575,9 +575,9 @@ namespace FiddlerControls
                 Art.RemoveStatic(selected);
                 FiddlerControls.Events.FireItemChangeEvent(this, selected);
                 if (!ShowFreeSlots)
-                    ItemList.Remove((object)selected);
+                    ItemList.Remove(selected);
                 --selected;
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
                 Options.ChangedUltimaClass["Art"] = true;
             }
         }
@@ -627,16 +627,16 @@ namespace FiddlerControls
                                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
                                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
                                 UpdateDetail(selected);
-                                pictureBox.Refresh();
+                                pictureBox.Invalidate();
                             }
                             else
                             {
                                 bool done = false;
                                 for (int i = 0; i < ItemList.Count; ++i)
                                 {
-                                    if (index < (int)ItemList[i])
+                                    if (index < ItemList[i])
                                     {
-                                        ItemList.Insert(i, (object)index);
+                                        ItemList.Insert(i, index);
                                         vScrollBar.Value = i / refMarker.col + 1;
                                         done = true;
                                         break;
@@ -644,14 +644,14 @@ namespace FiddlerControls
                                 }
                                 if (!done)
                                 {
-                                    ItemList.Add((object)index);
+                                    ItemList.Add(index);
                                     vScrollBar.Value = ItemList.Count / refMarker.col + 1;
                                 }
                                 selected = index;
                                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
                                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
                                 UpdateDetail(selected);
-                                pictureBox.Refresh();
+                                pictureBox.Invalidate();
                             }
                         }
                     }
@@ -688,14 +688,14 @@ namespace FiddlerControls
                 {
                     if (ItemList.Count > j)
                     {
-                        if ((int)ItemList[j] != j)
-                            ItemList.Insert(j, (object)j);
+                        if (ItemList[j] != j)
+                            ItemList.Insert(j, j);
                     }
                     else
-                        ItemList.Insert(j, (object)j);
+                        ItemList.Insert(j, j);
                 }
                 vScrollBar.Maximum = ItemList.Count / col + 1;
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
             else
             {
@@ -785,7 +785,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < ItemList.Count; ++i)
                     {
-                        int index = (int)ItemList[i];
+                        int index = ItemList[i];
                         if (Art.IsValidStatic(index))
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.bmp", index));
@@ -810,7 +810,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < ItemList.Count; ++i)
                     {
-                        int index = (int)ItemList[i];
+                        int index = ItemList[i];
                         if (Art.IsValidStatic(index))
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.tiff", index));
@@ -835,7 +835,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < ItemList.Count; ++i)
                     {
-                        int index = (int)ItemList[i];
+                        int index = ItemList[i];
                         if (Art.IsValidStatic(index))
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.Jpg", index));

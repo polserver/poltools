@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -29,7 +29,7 @@ namespace FiddlerControls
             refMarker = this;
         }
         private static TextureAlternative refMarker = null;
-        private ArrayList TextureList = new ArrayList();
+        private List<int> TextureList = new List<int>();
         private int col;
         private int row;
         private int selected = -1;
@@ -39,7 +39,7 @@ namespace FiddlerControls
         {
             if (!Loaded)
                 return;
-            TextureList = new ArrayList();
+            TextureList = new List<int>();
             selected = -1;
             OnLoad(this, EventArgs.Empty);
         }
@@ -48,12 +48,12 @@ namespace FiddlerControls
         {
             for (int i = 0; i < refMarker.TextureList.Count; ++i)
             {
-                if ((int)refMarker.TextureList[i] == graphic)
+                if (refMarker.TextureList[i] == graphic)
                 {
                     refMarker.selected = graphic;
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
                     refMarker.GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", graphic, Textures.GetTexture(graphic));
-                    refMarker.pictureBox.Refresh();
+                    refMarker.pictureBox.Invalidate();
                     return true;
                 }
             }
@@ -64,7 +64,7 @@ namespace FiddlerControls
         {
             int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
             if (TextureList.Count > value)
-                return (int)TextureList[value];
+                return TextureList[value];
             else
                 return -1;
         }
@@ -73,14 +73,14 @@ namespace FiddlerControls
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Texture"] = true;
-            
+
             for (int i = 0; i < 0x1000; ++i)
             {
                 if (Textures.TestTexture(i))
-                    TextureList.Add((object)i);
+                    TextureList.Add(i);
             }
             vScrollBar.Maximum = TextureList.Count / col + 1;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             if (!Loaded)
             {
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
@@ -104,25 +104,25 @@ namespace FiddlerControls
                 bool done = false;
                 for (int i = 0; i < TextureList.Count; ++i)
                 {
-                    if (index < (int)TextureList[i])
+                    if (index < TextureList[i])
                     {
-                        TextureList.Insert(i, (object)index);
+                        TextureList.Insert(i, index);
                         done = true;
                         break;
                     }
-                    if (index == (int)TextureList[i])
+                    if (index == TextureList[i])
                     {
                         done = true;
                         break;
                     }
                 }
                 if (!done)
-                    TextureList.Add((object)index);
+                    TextureList.Add(index);
                 vScrollBar.Maximum = TextureList.Count / col + 1;
             }
             else
             {
-                TextureList.Remove((object)index);
+                TextureList.Remove(index);
                 vScrollBar.Maximum = TextureList.Count / col + 1;
             }
         }
@@ -135,7 +135,7 @@ namespace FiddlerControls
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -145,7 +145,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
             else
@@ -153,7 +153,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }
@@ -225,7 +225,7 @@ namespace FiddlerControls
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -240,7 +240,7 @@ namespace FiddlerControls
                 {
                     selected = index;
                     GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected).Width);
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }
@@ -262,7 +262,7 @@ namespace FiddlerControls
             if (selected > -1)
             {
                 id = selected + 1;
-                i = TextureList.IndexOf((object)selected) + 1;
+                i = TextureList.IndexOf(selected) + 1;
             }
             else
             {
@@ -271,12 +271,12 @@ namespace FiddlerControls
             }
             for (; i < TextureList.Count; ++i, ++id)
             {
-                if (id < (int)TextureList[i])
+                if (id < TextureList[i])
                 {
-                    selected = (int)TextureList[i];
+                    selected = TextureList[i];
                     vScrollBar.Value = i / refMarker.col + 1;
                     GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}", selected, Textures.GetTexture(selected));
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                     break;
                 }
             }
@@ -296,9 +296,9 @@ namespace FiddlerControls
             {
                 Textures.Remove(selected);
                 FiddlerControls.Events.FireTextureChangeEvent(this, selected);
-                TextureList.Remove((object)selected);
+                TextureList.Remove(selected);
                 --selected;
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
                 Options.ChangedUltimaClass["Texture"] = true;
             }
         }
@@ -320,7 +320,7 @@ namespace FiddlerControls
                             bmp = Utils.ConvertBmp(bmp);
                         Textures.Replace(selected, bmp);
                         FiddlerControls.Events.FireTextureChangeEvent(this, selected);
-                        pictureBox.Refresh();
+                        pictureBox.Invalidate();
                         Options.ChangedUltimaClass["Texture"] = true;
                     }
                 }
@@ -369,9 +369,9 @@ namespace FiddlerControls
                                 bool done = false;
                                 for (int i = 0; i < TextureList.Count; ++i)
                                 {
-                                    if (index < (int)TextureList[i])
+                                    if (index < TextureList[i])
                                     {
-                                        TextureList.Insert(i, (object)index);
+                                        TextureList.Insert(i, index);
                                         vScrollBar.Value = i / refMarker.col + 1;
                                         done = true;
                                         break;
@@ -379,12 +379,12 @@ namespace FiddlerControls
                                 }
                                 if (!done)
                                 {
-                                    TextureList.Add((object)index);
+                                    TextureList.Add(index);
                                     vScrollBar.Value = TextureList.Count / refMarker.col + 1;
                                 }
                                 selected = index;
                                 GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
-                                pictureBox.Refresh();
+                                pictureBox.Invalidate();
                                 Options.ChangedUltimaClass["Texture"] = true;
                             }
                             else

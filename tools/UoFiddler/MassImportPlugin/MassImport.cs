@@ -10,7 +10,6 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -26,7 +25,7 @@ namespace MassImport
         {
             InitializeComponent();
             this.Icon = FiddlerControls.Options.GetFiddlerIcon();
-            importlist = new ArrayList();
+            importlist = new List<ImportEntry>();
         }
 
         private void DefaultXMLOnClick(object sender, EventArgs e)
@@ -106,7 +105,7 @@ namespace MassImport
             MessageBox.Show(String.Format("Default xml saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
-        private ArrayList importlist;
+        private List<ImportEntry> importlist;
         private void LoadXMLOnClick(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();

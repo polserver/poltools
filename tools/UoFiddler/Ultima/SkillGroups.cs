@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -17,8 +17,8 @@ namespace Ultima
 
     public sealed class SkillGroups
     {
-        public static ArrayList List { get; private set; }
-        public static ArrayList SkillList { get; private set; }
+        public static List<SkillGroup> List { get; private set; }
+        public static List<int> SkillList { get; private set; }
         private static bool unicode = false;
         static SkillGroups()
         {
@@ -29,8 +29,8 @@ namespace Ultima
         {
             string path = Files.GetFilePath("skillgrp.mul");
 
-            List = new ArrayList();
-            SkillList = new ArrayList();
+            List = new List<SkillGroup>();
+            SkillList = new List<int>();
 
             if (path != null)
             {
@@ -50,7 +50,7 @@ namespace Ultima
                         }
 
                         List.Add(new SkillGroup("Misc"));
-                        for (int i = 0; i < count-1; ++i)
+                        for (int i = 0; i < count - 1; ++i)
                         {
                             int strbuild;
                             fs.Seek((long)(start + (i * strlen)), SeekOrigin.Begin);
@@ -91,7 +91,7 @@ namespace Ultima
                     if (unicode)
                         bin.Write((int)-1);
                     bin.Write((int)List.Count);
-                    
+
                     foreach (SkillGroup group in List)
                     {
                         if (group.Name == "Misc")

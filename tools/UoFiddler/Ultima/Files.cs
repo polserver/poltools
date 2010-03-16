@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Win32;
 
@@ -9,7 +9,7 @@ namespace Ultima
     {
         private static bool m_CacheData = true;
         private static bool m_UseHashFile = false;
-        private static IDictionary m_MulPath;
+        private static Dictionary<string, string> m_MulPath;
         private static string m_Directory;
         private static string m_RootDir;
 
@@ -24,7 +24,7 @@ namespace Ultima
         /// <summary>
         /// Contains the path infos
         /// </summary>
-        public static IDictionary MulPath { get { return m_MulPath; } set { m_MulPath = value; } }
+        public static Dictionary<string, string> MulPath { get { return m_MulPath; } set { m_MulPath = value; } }
         /// <summary>
         /// Gets a list of paths to the Client's data files.
         /// </summary>
@@ -156,7 +156,7 @@ namespace Ultima
         /// </summary>
         public static void LoadMulPath()
         {
-            m_MulPath = new Hashtable();
+            m_MulPath = new Dictionary<string, string>();
             m_RootDir = Directory;
             if (m_RootDir == null)
                 m_RootDir = "";
@@ -180,14 +180,14 @@ namespace Ultima
             foreach (string file in m_Files)
             {
                 string filePath;
-                if (!String.IsNullOrEmpty(m_MulPath[file].ToString())) //file was set
+                if (!String.IsNullOrEmpty(m_MulPath[file])) //file was set
                 {
-                    if (String.IsNullOrEmpty(Path.GetDirectoryName(m_MulPath[file].ToString()))) //and relative
+                    if (String.IsNullOrEmpty(Path.GetDirectoryName(m_MulPath[file]))) //and relative
                     {
-                        filePath = Path.Combine(m_RootDir, m_MulPath[file].ToString());
+                        filePath = Path.Combine(m_RootDir, m_MulPath[file]);
                         if (File.Exists(filePath)) // exists in new Root?
                         {
-                            m_MulPath[file] = m_MulPath[file].ToString();
+                            m_MulPath[file] = filePath;
                             continue;
                         }
                     }
@@ -221,8 +221,8 @@ namespace Ultima
             if (MulPath.Count > 0)
             {
                 string path = "";
-                if (MulPath.Contains(file.ToLower()))
-                    path = MulPath[file.ToLower()].ToString();
+                if (MulPath.ContainsKey(file.ToLower()))
+                    path = MulPath[file.ToLower()];
                 if (String.IsNullOrEmpty(path))
                     return null;
                 if (String.IsNullOrEmpty(Path.GetDirectoryName(path)))

@@ -49,7 +49,7 @@ namespace FiddlerControls
                 if (Loaded)
                 {
                     if (Ultima.Hues.List.Length > 0)
-                        pictureBox.Refresh();
+                        pictureBox.Invalidate();
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace FiddlerControls
             vScrollBar.LargeChange = 10;
             if (selected > 0)
                 vScrollBar.Value = selected;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             if (!Loaded)
             {
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
@@ -98,7 +98,7 @@ namespace FiddlerControls
 
         private void OnHueChangeEvent()
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private int GetIndex(int y)
@@ -140,7 +140,7 @@ namespace FiddlerControls
 
         private void onScroll(object sender, ScrollEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -150,7 +150,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
             else
@@ -158,7 +158,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }
@@ -168,7 +168,7 @@ namespace FiddlerControls
             row = pictureBox.Height / ITEMHEIGHT;
             if (!Loaded)
                 return;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -221,7 +221,7 @@ namespace FiddlerControls
                 {
                     contextMenuStrip1.Close();
                     Ultima.Hues.List[selected] = Ultima.Hues.List[index - 1];
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }

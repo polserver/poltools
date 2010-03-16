@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -10,7 +10,7 @@ namespace Ultima
         private int m_Header1;
         private short m_Header2;
 
-        public ArrayList Entries { get; set; }
+        public List<StringEntry> Entries { get; set; }
         public string Language { get; private set; }
 
         private static byte[] m_Buffer = new byte[1024];
@@ -29,20 +29,20 @@ namespace Ultima
         /// </summary>
         /// <param name="language"></param>
         /// <param name="path"></param>
-        public StringList(string language,string path)
+        public StringList(string language, string path)
         {
             Language = language;
-            LoadEntry(path);      
+            LoadEntry(path);
         }
 
         private void LoadEntry(string path)
         {
             if (path == null)
             {
-                Entries = new ArrayList(0);
+                Entries = new List<StringEntry>(0);
                 return;
             }
-            Entries = new ArrayList();
+            Entries = new List<StringEntry>();
 
             using (BinaryReader bin = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
@@ -94,7 +94,7 @@ namespace Ultima
 
         #region SortComparer
 
-        public class NumberComparer : IComparer
+        public class NumberComparer : IComparer<StringEntry>
         {
             private bool m_desc;
 
@@ -103,20 +103,18 @@ namespace Ultima
                 m_desc = desc;
             }
 
-            public int Compare(object objA, object objB)
+            public int Compare(StringEntry objA, StringEntry objB)
             {
-                StringEntry entryA = (StringEntry)objA;
-                StringEntry entryB = (StringEntry)objB;
-                if (entryA.Number == entryB.Number)
+                if (objA.Number == objB.Number)
                     return 0;
                 else if (m_desc)
-                    return (entryA.Number < entryB.Number) ? 1 : -1;
+                    return (objA.Number < objB.Number) ? 1 : -1;
                 else
-                    return (entryA.Number < entryB.Number) ? -1 : 1;
+                    return (objA.Number < objB.Number) ? -1 : 1;
             }
         }
 
-        public class FlagComparer : IComparer
+        public class FlagComparer : IComparer<StringEntry>
         {
             private bool m_desc;
 
@@ -125,27 +123,25 @@ namespace Ultima
                 m_desc = desc;
             }
 
-            public int Compare(object objA, object objB)
+            public int Compare(StringEntry objA, StringEntry objB)
             {
-                StringEntry entryA = (StringEntry)objA;
-                StringEntry entryB = (StringEntry)objB;
-                if ((byte)entryA.Flag == (byte)entryB.Flag)
+                if ((byte)objA.Flag == (byte)objB.Flag)
                 {
-                    if (entryA.Number == entryB.Number)
+                    if (objA.Number == objB.Number)
                         return 0;
                     else if (m_desc)
-                        return (entryA.Number < entryB.Number) ? 1 : -1;
+                        return (objA.Number < objB.Number) ? 1 : -1;
                     else
-                        return (entryA.Number < entryB.Number) ? -1 : 1;
+                        return (objA.Number < objB.Number) ? -1 : 1;
                 }
                 else if (m_desc)
-                    return ((byte)entryA.Flag < (byte)entryB.Flag) ? 1 : -1;
+                    return ((byte)objA.Flag < (byte)objB.Flag) ? 1 : -1;
                 else
-                    return ((byte)entryA.Flag < (byte)entryB.Flag) ? -1 : 1;
+                    return ((byte)objA.Flag < (byte)objB.Flag) ? -1 : 1;
             }
         }
 
-        public class TextComparer : IComparer
+        public class TextComparer : IComparer<StringEntry>
         {
             private bool m_desc;
 
@@ -154,14 +150,12 @@ namespace Ultima
                 m_desc = desc;
             }
 
-            public int Compare(object objA, object objB)
+            public int Compare(StringEntry objA, StringEntry objB)
             {
-                StringEntry entryA = (StringEntry)objA;
-                StringEntry entryB = (StringEntry)objB;
                 if (m_desc)
-                    return String.Compare(entryB.Text, entryA.Text);
+                    return String.Compare(objB.Text, objA.Text);
                 else
-                    return String.Compare(entryA.Text, entryB.Text);
+                    return String.Compare(objA.Text, objB.Text);
             }
         }
         #endregion

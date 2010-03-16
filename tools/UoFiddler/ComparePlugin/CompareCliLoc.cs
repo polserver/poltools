@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -31,8 +31,8 @@ namespace ComparePlugin
         private static StringList cliloc1;
         private static StringList cliloc2;
         private static BindingSource source;
-        static Hashtable comparelist = new Hashtable();
-        static ArrayList list = new ArrayList();
+        static Dictionary<int, CompareEntry> comparelist = new Dictionary<int, CompareEntry>();
+        static List<CompareEntry> list = new List<CompareEntry>();
         static bool ShowOnlyDiff = false;
 
         private SortOrder sortorder;
@@ -76,7 +76,7 @@ namespace ComparePlugin
             {
                 CompareEntry entry = new CompareEntry();
                 entry.CompareResult = CompareEntry.CompareRes.NewIn1;
-                StringEntry entr = ((StringEntry)cliloc1.Entries[i]);
+                StringEntry entr = cliloc1.Entries[i];
                 entry.Number = entr.Number;
                 entry.Text1 = entr.Text;
                 entry.Text2 = "";
@@ -84,10 +84,10 @@ namespace ComparePlugin
             }
             for (int i = 0; i < cliloc2.Entries.Count; i++)
             {
-                StringEntry entr = ((StringEntry)cliloc2.Entries[i]);
+                StringEntry entr = cliloc2.Entries[i];
                 if (comparelist.ContainsKey(entr.Number))
                 {
-                    CompareEntry entr1 = (CompareEntry)comparelist[entr.Number];
+                    CompareEntry entr1 = comparelist[entr.Number];
                     entr1.Text2 = entr.Text;
                     if (entr1.Text1 != entr.Text)
                         entr1.CompareResult = CompareEntry.CompareRes.Diff;
@@ -104,16 +104,16 @@ namespace ComparePlugin
                     comparelist.Add(entry.Number, entry);
                 }
             }
-            list = new ArrayList();
+            list = new List<CompareEntry>();
 
-            foreach (int key in comparelist.Keys)
+            foreach (KeyValuePair<int, CompareEntry> key in comparelist)
             {
                 if (ShowOnlyDiff)
                 {
-                    if (((CompareEntry)comparelist[key]).CompareResult == CompareEntry.CompareRes.Equal)
+                    if (key.Value.CompareResult == CompareEntry.CompareRes.Equal)
                         continue;
                 }
-                list.Add(comparelist[key]);
+                list.Add(key.Value);
 
             }
             switch (sortcolumn)
@@ -137,7 +137,7 @@ namespace ComparePlugin
                 dataGridView1.Columns[3].HeaderCell.SortGlyphDirection = SortOrder.None;
                 dataGridView1.Columns[3].Width = 105;
             }
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
 
         }
 
@@ -145,7 +145,7 @@ namespace ComparePlugin
         {
             if ((e.ColumnIndex == 1) || (e.ColumnIndex == 2)) //text1 & text2
                 return;
-            CompareEntry entry = (CompareEntry)list[e.RowIndex];
+            CompareEntry entry = list[e.RowIndex];
             switch (entry.CompareResult)
             {
                 case CompareEntry.CompareRes.Diff:
@@ -239,7 +239,7 @@ namespace ComparePlugin
                 case 3: list.Sort(new FlagComparer(sortorder == SortOrder.Descending)); break;
             }
 
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
         }
     }
 
@@ -260,7 +260,7 @@ namespace ComparePlugin
         public CompareRes CompareResult { get; set; }
     }
 
-    public class NumberComparer : IComparer
+    public class NumberComparer : IComparer<CompareEntry>
     {
         private bool m_desc;
 
@@ -269,20 +269,18 @@ namespace ComparePlugin
             m_desc = desc;
         }
 
-        public int Compare(object objA, object objB)
+        public int Compare(CompareEntry objA, CompareEntry objB)
         {
-            CompareEntry entryA = (CompareEntry)objA;
-            CompareEntry entryB = (CompareEntry)objB;
-            if (entryA.Number == entryB.Number)
+            if (objA.Number == objB.Number)
                 return 0;
             else if (m_desc)
-                return (entryA.Number < entryB.Number) ? 1 : -1;
+                return (objA.Number < objB.Number) ? 1 : -1;
             else
-                return (entryA.Number < entryB.Number) ? -1 : 1;
+                return (objA.Number < objB.Number) ? -1 : 1;
         }
     }
 
-    public class FlagComparer : IComparer
+    public class FlagComparer : IComparer<CompareEntry>
     {
         private bool m_desc;
 
@@ -291,27 +289,25 @@ namespace ComparePlugin
             m_desc = desc;
         }
 
-        public int Compare(object objA, object objB)
+        public int Compare(CompareEntry objA, CompareEntry objB)
         {
-            CompareEntry entryA = (CompareEntry)objA;
-            CompareEntry entryB = (CompareEntry)objB;
-            if ((byte)entryA.CompareResult == (byte)entryB.CompareResult)
+            if ((byte)objA.CompareResult == (byte)objB.CompareResult)
             {
-                if (entryA.Number == entryB.Number)
+                if (objA.Number == objB.Number)
                     return 0;
                 else if (m_desc)
-                    return (entryA.Number < entryB.Number) ? 1 : -1;
+                    return (objA.Number < objB.Number) ? 1 : -1;
                 else
-                    return (entryA.Number < entryB.Number) ? -1 : 1;
+                    return (objA.Number < objB.Number) ? -1 : 1;
             }
             else if (m_desc)
-                return ((byte)entryA.CompareResult < (byte)entryB.CompareResult) ? 1 : -1;
+                return ((byte)objA.CompareResult < (byte)objB.CompareResult) ? 1 : -1;
             else
-                return ((byte)entryA.CompareResult < (byte)entryB.CompareResult) ? -1 : 1;
+                return ((byte)objA.CompareResult < (byte)objB.CompareResult) ? -1 : 1;
         }
     }
 
-    public class TextComparer1 : IComparer
+    public class TextComparer1 : IComparer<CompareEntry>
     {
         private bool m_desc;
 
@@ -320,17 +316,15 @@ namespace ComparePlugin
             m_desc = desc;
         }
 
-        public int Compare(object objA, object objB)
+        public int Compare(CompareEntry objA, CompareEntry objB)
         {
-            CompareEntry entryA = (CompareEntry)objA;
-            CompareEntry entryB = (CompareEntry)objB;
             if (m_desc)
-                return String.Compare(entryB.Text1, entryA.Text1);
+                return String.Compare(objB.Text1, objA.Text1);
             else
-                return String.Compare(entryA.Text1, entryB.Text1);
+                return String.Compare(objA.Text1, objB.Text1);
         }
     }
-    public class TextComparer2 : IComparer
+    public class TextComparer2 : IComparer<CompareEntry>
     {
         private bool m_desc;
 
@@ -339,14 +333,12 @@ namespace ComparePlugin
             m_desc = desc;
         }
 
-        public int Compare(object objA, object objB)
+        public int Compare(CompareEntry objA, CompareEntry objB)
         {
-            CompareEntry entryA = (CompareEntry)objA;
-            CompareEntry entryB = (CompareEntry)objB;
             if (m_desc)
-                return String.Compare(entryB.Text2, entryA.Text2);
+                return String.Compare(objB.Text2, objA.Text2);
             else
-                return String.Compare(entryA.Text2, entryB.Text2);
+                return String.Compare(objA.Text2, objB.Text2);
         }
     }
 }

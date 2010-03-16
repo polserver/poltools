@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -26,7 +26,7 @@ namespace ComparePlugin
         {
             InitializeComponent();
         }
-        Hashtable m_Compare = new Hashtable();
+        Dictionary<int, bool> m_Compare = new Dictionary<int, bool>();
         SHA256Managed shaM = new SHA256Managed();
         System.Drawing.ImageConverter ic = new System.Drawing.ImageConverter();
 
@@ -34,7 +34,7 @@ namespace ComparePlugin
         {
             listBoxOrg.BeginUpdate();
             listBoxOrg.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             for (int i = 0; i < 0x4000; i++)
             {
                 cache.Add(i);
@@ -61,7 +61,7 @@ namespace ComparePlugin
             }
             else
                 pictureBoxOrg.BackgroundImage = null;
-            listBoxOrg.Refresh();
+            listBoxOrg.Invalidate();
         }
 
         private void DrawitemOrg(object sender, DrawItemEventArgs e)
@@ -112,7 +112,7 @@ namespace ComparePlugin
             m_Compare.Clear();
             listBoxSec.BeginUpdate();
             listBoxSec.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             for (int i = 0; i < 0x4000; i++)
             {
                 cache.Add(i);
@@ -164,13 +164,13 @@ namespace ComparePlugin
             }
             else
                 pictureBoxSec.BackgroundImage = null;
-            listBoxSec.Refresh();
+            listBoxSec.Invalidate();
         }
 
         private bool Compare(int index)
         {
-            if (m_Compare.Contains(index))
-                return (bool)m_Compare[index];
+            if (m_Compare.ContainsKey(index))
+                return m_Compare[index];
             Bitmap bitorg = Art.GetLand(index);
             Bitmap bitsec = SecondArt.GetLand(index);
             if ((bitorg == null) && (bitsec == null))
@@ -184,7 +184,7 @@ namespace ComparePlugin
                 m_Compare[index] = false;
                 return false;
             }
-            
+
             byte[] btImage1 = new byte[1];
             btImage1 = (byte[])ic.ConvertTo(bitorg, btImage1.GetType());
             byte[] btImage2 = new byte[1];
@@ -219,7 +219,7 @@ namespace ComparePlugin
             listBoxSec.BeginUpdate();
             listBoxOrg.Items.Clear();
             listBoxSec.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             if (checkBox1.Checked)
             {
                 for (int i = 0; i < 0x4000; i++)

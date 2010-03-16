@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -55,7 +55,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            
+
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["Multis"] = true;
@@ -63,7 +63,7 @@ namespace FiddlerControls
 
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
-            ArrayList cache = new ArrayList();
+            List<TreeNode> cache = new List<TreeNode>();
             for (int i = 0; i < 0x2000; ++i)
             {
                 MultiComponentList multi = Ultima.Multis.GetComponents(i);
@@ -76,7 +76,7 @@ namespace FiddlerControls
                     }
                     else
                     {
-                        XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='"+i+"']");
+                        XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='" + i + "']");
                         string j = "";
                         foreach (XmlNode xMultiNode in xMultiNodeList)
                         {
@@ -89,7 +89,7 @@ namespace FiddlerControls
                     cache.Add(node);
                 }
             }
-            TreeViewMulti.Nodes.AddRange((TreeNode[])cache.ToArray(typeof(TreeNode)));
+            TreeViewMulti.Nodes.AddRange(cache.ToArray());
             TreeViewMulti.EndUpdate();
             if (TreeViewMulti.Nodes.Count > 0)
                 TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
@@ -125,7 +125,7 @@ namespace FiddlerControls
                         TreeViewMulti.Nodes[i].ForeColor = Color.Black;
                         if (i == TreeViewMulti.SelectedNode.Index)
                             afterSelect_Multi(this, null);
-                        done=true;
+                        done = true;
                         break;
                     }
                     else if (id < int.Parse(TreeViewMulti.Nodes[i].Name))
@@ -134,7 +134,7 @@ namespace FiddlerControls
                         node.Tag = multi;
                         node.Name = id.ToString();
                         TreeViewMulti.Nodes.Insert(i, node);
-                        done=true;
+                        done = true;
                         break;
                     }
                 }
@@ -198,7 +198,7 @@ namespace FiddlerControls
                                                    multi.Surface);
             }
             ChangeComponentList(multi);
-            MultiPictureBox.Refresh();
+            MultiPictureBox.Invalidate();
         }
 
         private void onPaint_MultiPic(object sender, PaintEventArgs e)
@@ -255,7 +255,7 @@ namespace FiddlerControls
         private void onValue_HeightChangeMulti(object sender, EventArgs e)
         {
             toolTip.SetToolTip(HeightChangeMulti, String.Format("MaxHeight: {0}", HeightChangeMulti.Maximum - HeightChangeMulti.Value));
-            MultiPictureBox.Refresh();
+            MultiPictureBox.Invalidate();
         }
 
         private void ChangeComponentList(MultiComponentList multi)

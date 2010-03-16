@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -36,7 +37,7 @@ namespace Ultima
             if (path == null)
                 return;
 
-            ArrayList list1 = new ArrayList(), list2 = new ArrayList(), list3 = new ArrayList(), list4 = new ArrayList();
+            List<int> list1 = new List<int>(), list2 = new List<int>(), list3 = new List<int>(), list4 = new List<int>();
             int max1 = 0, max2 = 0, max3 = 0, max4 = 0;
 
             using (StreamReader ip = new StreamReader(path))
@@ -136,7 +137,7 @@ namespace Ultima
                 Table1[i] = -1;
 
             for (int i = 0; i < list1.Count; i += 2)
-                Table1[(int)list1[i]] = (int)list1[i + 1];
+                Table1[list1[i]] = list1[i + 1];
 
             Table2 = new int[max2 + 1];
 
@@ -144,7 +145,7 @@ namespace Ultima
                 Table2[i] = -1;
 
             for (int i = 0; i < list2.Count; i += 2)
-                Table2[(int)list2[i]] = (int)list2[i + 1];
+                Table2[list2[i]] = list2[i + 1];
 
             Table3 = new int[max3 + 1];
 
@@ -152,7 +153,7 @@ namespace Ultima
                 Table3[i] = -1;
 
             for (int i = 0; i < list3.Count; i += 2)
-                Table3[(int)list3[i]] = (int)list3[i + 1];
+                Table3[list3[i]] = list3[i + 1];
 
             Table4 = new int[max4 + 1];
 
@@ -160,7 +161,7 @@ namespace Ultima
                 Table4[i] = -1;
 
             for (int i = 0; i < list4.Count; i += 2)
-                Table4[(int)list4[i]] = (int)list4[i + 1];
+                Table4[list4[i]] = list4[i + 1];
         }
 
         /// <summary>
@@ -340,6 +341,9 @@ namespace Ultima
         private static FileIndex m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
         //public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
 
+        private static byte[] m_StreamBuffer;
+        private static MemoryStream m_MemoryStream;
+
         /// <summary>
         /// Rereads AnimX files and bodyconv, body.def
         /// </summary>
@@ -384,10 +388,14 @@ namespace Ultima
 
             if (stream == null)
                 return null;
+            if (m_StreamBuffer == null || m_StreamBuffer.Length < length)
+                m_StreamBuffer = new byte[length];
+            stream.Read(m_StreamBuffer, 0, length);
+            m_MemoryStream = new MemoryStream(m_StreamBuffer, false);
 
             bool flip = direction > 4;
             Frame[] frames;
-            using (BinaryReader bin = new BinaryReader(stream))
+            using (BinaryReader bin = new BinaryReader(m_MemoryStream))
             {
                 ushort[] palette = new ushort[0x100];
 
@@ -433,6 +441,7 @@ namespace Ultima
                 }
                 bin.Close();
             }
+            m_MemoryStream.Close();
             return frames;
         }
 
@@ -449,6 +458,7 @@ namespace Ultima
 
             if (stream == null)
                 return null;
+
 
             bool flip = direction > 4;
 

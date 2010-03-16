@@ -40,12 +40,17 @@ namespace FiddlerControls
                     break;
                 case 1: type = "uoa";
                     break;
-                case 2: type = "wsc";
+                case 2: type = "uoab";
+                    break;
+                case 3: type = "wsc";
                     break;
             }
             dialog.Title = String.Format("Choose {0} file to import", type);
             dialog.CheckFileExists = true;
-            dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
+            if (type == "uoab")
+                dialog.Filter = "{0} file (*.uoa)|*.uoa";
+            else
+                dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
             if (dialog.ShowDialog() == DialogResult.OK)
                 textBox1.Text = dialog.FileName;
             dialog.Dispose();
