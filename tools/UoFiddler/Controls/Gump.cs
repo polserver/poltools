@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -52,11 +52,11 @@ namespace FiddlerControls
 
             listBox.BeginUpdate();
             listBox.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             for (int i = 0; i < Gumps.GetCount(); ++i)
             {
                 if (Gumps.IsValidIndex(i))
-                    cache.Add(i);
+                    cache.Add((object)i);
             }
             listBox.Items.AddRange(cache.ToArray());
             listBox.EndUpdate();
@@ -65,7 +65,7 @@ namespace FiddlerControls
             if (!Loaded)
             {
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
-                FiddlerControls.Events.GumpChangeEvent+=new FiddlerControls.Events.GumpChangeHandler(OnGumpChangeEvent);
+                FiddlerControls.Events.GumpChangeEvent += new FiddlerControls.Events.GumpChangeHandler(OnGumpChangeEvent);
             }
             Loaded = true;
             Cursor.Current = Cursors.Default;
@@ -188,7 +188,7 @@ namespace FiddlerControls
             }
             else
                 pictureBox.BackgroundImage = null;
-            listBox.Refresh();
+            listBox.Invalidate();
         }
 
         private void onClickReplace(object sender, EventArgs e)
@@ -480,10 +480,10 @@ namespace FiddlerControls
             {
                 listBox.BeginUpdate();
                 listBox.Items.Clear();
-                ArrayList cache = new ArrayList();
+                List<object> cache = new List<object>();
                 for (int i = 0; i < Gumps.GetCount(); ++i)
                 {
-                    cache.Add(i);
+                    cache.Add((object)i);
                 }
                 listBox.Items.AddRange(cache.ToArray());
                 listBox.EndUpdate();

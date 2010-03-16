@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -299,7 +298,7 @@ namespace Ultima
     {
         public int idxextra;
         public ushort[] Palette { get; private set; }
-        public ArrayList Frames { get; private set; }
+        public List<FrameEdit> Frames { get; private set; }
 
         public AnimIdx(int index, FileIndex fileIndex, int filetype)
         {
@@ -324,7 +323,7 @@ namespace Ultima
                 for (int i = 0; i < frameCount; ++i)
                     lookups[i] = start + bin.ReadInt32();
 
-                Frames = new ArrayList();
+                Frames = new List<FrameEdit>();
 
                 for (int i = 0; i < frameCount; ++i)
                 {
@@ -350,7 +349,7 @@ namespace Ultima
             for (int i = 0; i < frameCount; ++i)
                 lookups[i] = start + bin.ReadInt32();
 
-            Frames = new ArrayList();
+            Frames = new List<FrameEdit>();
 
             for (int i = 0; i < frameCount; ++i)
             {
@@ -403,7 +402,7 @@ namespace Ultima
         public void AddFrame(Bitmap bit)
         {
             if (Frames == null)
-                Frames = new ArrayList();
+                Frames = new List<FrameEdit>();
             Frames.Add(new FrameEdit(bit, Palette, 0, 0));
         }
 
@@ -594,7 +593,7 @@ namespace Ultima
                 return;
             int header;
 
-            ArrayList tmp = new ArrayList();
+            List<Raw> tmp = new List<Raw>();
             while ((header = bin.ReadInt32()) != 0x7FFF7FFF)
             {
                 Raw raw = new Raw();
@@ -611,7 +610,7 @@ namespace Ultima
                 }
                 tmp.Add(raw);
             }
-            RawData = (Raw[])tmp.ToArray(typeof(Raw));
+            RawData = tmp.ToArray();
             Center = new Point(xCenter, yCenter);
         }
 
@@ -623,7 +622,7 @@ namespace Ultima
             BitmapData bd = bit.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
             int delta = bd.Stride >> 1;
-            ArrayList tmp = new ArrayList();
+            List<Raw> tmp = new List<Raw>();
 
             int X = 0;
             for (int Y = 0; Y < bit.Height; ++Y, line += delta)
@@ -673,7 +672,7 @@ namespace Ultima
                 }
             }
 
-            RawData = (Raw[])tmp.ToArray(typeof(Raw));
+            RawData = tmp.ToArray();
             bit.UnlockBits(bd);
         }
 

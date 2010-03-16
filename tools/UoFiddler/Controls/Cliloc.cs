@@ -26,7 +26,7 @@ namespace FiddlerControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refmarker = this;
             source = new BindingSource();
-            FindEntry.TextBox.PreviewKeyDown+=new PreviewKeyDownEventHandler(FindEntry_PreviewKeyDown);
+            FindEntry.TextBox.PreviewKeyDown += new PreviewKeyDownEventHandler(FindEntry_PreviewKeyDown);
         }
 
         #region Var's
@@ -98,7 +98,7 @@ namespace FiddlerControls
                 dataGridView1.Columns[2].Width = 60;
                 dataGridView1.Columns[2].ReadOnly = true;
             }
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
             if (Files.GetFilePath("cliloc.custom1") != null)
                 LangComboBox.Items[2] = String.Format("Custom 1 ({0})", Path.GetExtension(Files.GetFilePath("cliloc.custom1")));
             else
@@ -161,7 +161,7 @@ namespace FiddlerControls
                     dataGridView1.Columns[2].Width = 60;
                     dataGridView1.Columns[2].ReadOnly = true;
                 }
-                dataGridView1.Refresh();
+                dataGridView1.Invalidate();
             }
         }
 
@@ -224,7 +224,7 @@ namespace FiddlerControls
             dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
             sortcolumn = 0;
             sortorder = SortOrder.Ascending;
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
             MessageBox.Show(
                 String.Format("CliLoc saved to {0}", FileName),
                 "Saved",
@@ -254,7 +254,7 @@ namespace FiddlerControls
             if (dataGridView1.SelectedCells.Count > 0)
             {
                 cliloc.Entries.RemoveAt(dataGridView1.SelectedCells[0].OwningRow.Index);
-                dataGridView1.Refresh();
+                dataGridView1.Invalidate();
                 Options.ChangedUltimaClass["CliLoc"] = true;
             }
         }
@@ -283,7 +283,7 @@ namespace FiddlerControls
             else
                 cliloc.Entries.Sort(new StringList.FlagComparer(sortorder == SortOrder.Descending));
 
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
         }
 
         private void OnCLick_CopyClilocNumber(object sender, EventArgs e)
@@ -310,7 +310,7 @@ namespace FiddlerControls
                 {
                     ((StringEntry)cliloc.Entries[i]).Text = text;
                     ((StringEntry)cliloc.Entries[i]).Flag = StringEntry.CliLocFlag.Modified;
-                    refmarker.dataGridView1.Refresh();
+                    refmarker.dataGridView1.Invalidate();
                     refmarker.dataGridView1.Rows[i].Selected = true;
                     refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = i;
 
@@ -339,7 +339,7 @@ namespace FiddlerControls
                 if (entry.Number > number)
                 {
                     cliloc.Entries.Insert(index, new StringEntry(number, "", StringEntry.CliLocFlag.Custom));
-                    refmarker.dataGridView1.Refresh();
+                    refmarker.dataGridView1.Invalidate();
                     refmarker.dataGridView1.Rows[index].Selected = true;
                     refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = index;
                     Options.ChangedUltimaClass["CliLoc"] = true;
@@ -353,7 +353,7 @@ namespace FiddlerControls
         private void FindEntry_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             //if (e.KeyData == Keys.Control) || (e.Ke Keys.Alt | Keys.Tab | Keys.a))
-                e.IsInputKey = true;
+            e.IsInputKey = true;
         }
 
         private void OnClickExportCSV(object sender, EventArgs e)
@@ -365,7 +365,7 @@ namespace FiddlerControls
                 Tex.WriteLine("Number;Text;Flag");
                 foreach (StringEntry entry in cliloc.Entries)
                 {
-                    Tex.WriteLine(String.Format("{0};{1};{2}", entry.Number,entry.Text,entry.Flag));
+                    Tex.WriteLine(String.Format("{0};{1};{2}", entry.Number, entry.Text, entry.Flag));
                 }
             }
             MessageBox.Show(String.Format("CliLoc saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -416,7 +416,7 @@ namespace FiddlerControls
                                 }
                                 ++index;
                             }
-                            dataGridView1.Refresh();
+                            dataGridView1.Invalidate();
                         }
                         catch { }
                     }

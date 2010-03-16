@@ -51,7 +51,7 @@ namespace FiddlerControls
             dataGridView1.DataSource = source;
             if (dataGridView1.Columns.Count > 0)
                 dataGridView1.Columns[0].Width = 60;
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
             if (!Loaded)
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
@@ -85,13 +85,13 @@ namespace FiddlerControls
             else if (e.ColumnIndex == 1)
                 SpeechList.Entries.Sort(new SpeechList.KeyWordComparer(sortorder == SortOrder.Descending));
 
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
         }
 
         private void OnCellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (((SpeechEntry)SpeechList.Entries[e.RowIndex]).KeyWord == null)
-                ((SpeechEntry)SpeechList.Entries[e.RowIndex]).KeyWord = "";
+            if ((SpeechList.Entries[e.RowIndex]).KeyWord == null)
+                (SpeechList.Entries[e.RowIndex]).KeyWord = "";
             Options.ChangedUltimaClass["Speech"] = true;
         }
 
@@ -160,7 +160,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, "speech.mul");
             SpeechList.SaveSpeechList(FileName);
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
             MessageBox.Show(String.Format("Speech saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             Options.ChangedUltimaClass["Speech"] = false;
         }
@@ -168,7 +168,7 @@ namespace FiddlerControls
         private void OnAddEntry(object sender, EventArgs e)
         {
             source.Add(new SpeechEntry(0, "", SpeechList.Entries.Count));
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
             dataGridView1.Rows[dataGridView1.Rows.Count - 1].Selected = true;
             dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.Rows.Count - 1;
             Options.ChangedUltimaClass["Speech"] = true;
@@ -179,7 +179,7 @@ namespace FiddlerControls
             if (dataGridView1.SelectedCells.Count > 0)
             {
                 source.RemoveCurrent();
-                dataGridView1.Refresh();
+                dataGridView1.Invalidate();
                 Options.ChangedUltimaClass["Speech"] = true;
             }
         }
@@ -204,7 +204,7 @@ namespace FiddlerControls
                 Options.ChangedUltimaClass["Speech"] = true;
                 Ultima.SpeechList.ImportFromCSV(dialog.FileName);
                 source.DataSource = SpeechList.Entries;
-                dataGridView1.Refresh();
+                dataGridView1.Invalidate();
             }
             dialog.Dispose();
         }

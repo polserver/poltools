@@ -38,10 +38,10 @@ namespace FiddlerControls
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Skills"] = true;
-            
+
             source.DataSource = Ultima.Skills.SkillEntries;
             dataGridView1.DataSource = source;
-            dataGridView1.Refresh();
+            dataGridView1.Invalidate();
             if (dataGridView1.Columns.Count > 0)
             {
                 dataGridView1.Columns[0].MinimumWidth = 40;

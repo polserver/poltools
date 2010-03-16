@@ -118,7 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 4.4
+    <value>Version 4.4b
+added UOArchitect binary file for import
+speedups
+MultiEditor: like maptab scrolling with right mouse
+
+Version 4.4
 Crashfix in Animtab ... again
 Hues: added contextmenu Import,Export (simple txtfile)
 Map: added support for 7.x clients thx to Andreew

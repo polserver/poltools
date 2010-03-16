@@ -10,7 +10,6 @@
  ***************************************************************************/
 
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace FiddlerControls
@@ -60,7 +59,7 @@ namespace FiddlerControls
                 for (int y = blocky1; y <= blocky2; ++y)
                 {
                     Ultima.HuedTile[][][] tiles = Map.Tiles.GetStaticBlock(x, y, false);
-                    Map.Tiles.RemoveStaticBlock(x,y);
+                    Map.Tiles.RemoveStaticBlock(x, y);
                 }
             }
             Map.ResetCache();

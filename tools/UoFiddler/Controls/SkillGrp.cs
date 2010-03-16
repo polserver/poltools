@@ -10,9 +10,9 @@
  ***************************************************************************/
 
 using System;
-using System.Windows.Forms;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace FiddlerControls
 {
@@ -40,8 +40,8 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["SkillGrp"] = true;
 
             treeView1.BeginUpdate();
-            ArrayList cache = new ArrayList();
-            
+            List<TreeNode> cache = new List<TreeNode>();
+
             foreach (Ultima.SkillGroup group in Ultima.SkillGroups.List)
             {
                 TreeNode groupnode = new TreeNode();
@@ -60,9 +60,9 @@ namespace FiddlerControls
                 cache.Add(groupnode);
             }
 
-            treeView1.Nodes.AddRange((TreeNode[])cache.ToArray(typeof(TreeNode)));
+            treeView1.Nodes.AddRange(cache.ToArray());
             treeView1.EndUpdate();
-            
+
             if (!Loaded)
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;

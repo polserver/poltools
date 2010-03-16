@@ -10,36 +10,34 @@
  ***************************************************************************/
 
 using System;
-using System.IO;
 using System.Windows.Forms;
-using System.Xml;
 using PluginInterface;
 
 namespace FiddlerPlugin
 {
     public class MultiEditorPlugin : IPlugin
     {
-		#region Fields (6) 
+        #region Fields (6)
 
         MultiEditor.MultiEditor multieditor;
         string myAuthor = "MuadDib & Turley";
         string myDescription = "Plugin to Edit Multis\r\n(Adds 1 new Tab)";
         IPluginHost myHost = null;
         string myName = "MultiEditorPlugin";
-        string myVersion = "1.5.0";
+        string myVersion = "1.6.0";
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (1) 
+        #region Constructors (1)
 
         public MultiEditorPlugin()
         {
             PluginInterface.Events.ModifyItemShowContextMenuEvent += new Events.ModifyItemShowContextMenuHandler(Events_ModifyItemShowContextMenuEvent);
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (5) 
+        #region Properties (5)
 
         /// <summary>
         /// Author of the plugin
@@ -66,11 +64,11 @@ namespace FiddlerPlugin
         /// </summary>
         public override string Version { get { return myVersion; } }
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (6) 
+        #region Methods (6)
 
-		// Public Methods (4) 
+        // Public Methods (4) 
 
         public override void Dispose()
         {
@@ -94,10 +92,10 @@ namespace FiddlerPlugin
             page.Tag = tabcontrol.TabCount + 1; // at end used for undock/dock feature to define the order
             page.Text = "Multi Editor";
             multieditor = new MultiEditor.MultiEditor() { Dock = DockStyle.Fill };
-            page.Controls.Add( multieditor );
+            page.Controls.Add(multieditor);
             tabcontrol.TabPages.Add(page);
         }
-		// Private Methods (2) 
+        // Private Methods (2) 
 
         private void Events_ModifyItemShowContextMenuEvent(ContextMenuStrip strip)
         {
@@ -121,6 +119,6 @@ namespace FiddlerPlugin
             }
         }
 
-		#endregion Methods 
+        #endregion Methods
     }
 }

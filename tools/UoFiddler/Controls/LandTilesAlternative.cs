@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -30,7 +30,7 @@ namespace FiddlerControls
             refMarker = this;
         }
 
-        private ArrayList TileList = new ArrayList();
+        private List<int> TileList = new List<int>();
         private int col;
         private int row;
         private int selected = -1;
@@ -47,7 +47,7 @@ namespace FiddlerControls
                 namelabel.Text = String.Format("Name: {0}", TileData.LandTable[value].Name);
                 graphiclabel.Text = String.Format("ID: 0x{0:X4} ({0})", value);
                 FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[value].Flags);
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
             }
         }
 
@@ -60,7 +60,7 @@ namespace FiddlerControls
         {
             for (int i = 0; i < refMarker.TileList.Count; ++i)
             {
-                if ((int)refMarker.TileList[i] == graphic)
+                if (refMarker.TileList[i] == graphic)
                 {
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
                     refMarker.Selected = graphic;
@@ -82,7 +82,7 @@ namespace FiddlerControls
             if (next)
             {
                 if (refMarker.selected >= 0)
-                    index = refMarker.TileList.IndexOf((object)refMarker.selected) + 1;
+                    index = refMarker.TileList.IndexOf(refMarker.selected) + 1;
                 if (index >= refMarker.TileList.Count)
                     index = 0;
             }
@@ -90,10 +90,10 @@ namespace FiddlerControls
             Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
             for (int i = index; i < refMarker.TileList.Count; ++i)
             {
-                if (regex.IsMatch(TileData.LandTable[(int)refMarker.TileList[i]].Name))
+                if (regex.IsMatch(TileData.LandTable[refMarker.TileList[i]].Name))
                 {
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.Selected = (int)refMarker.TileList[i];
+                    refMarker.Selected = refMarker.TileList[i];
                     return true;
                 }
             }
@@ -107,7 +107,7 @@ namespace FiddlerControls
         {
             if (!Loaded)
                 return;
-            TileList = new ArrayList();
+            TileList = new List<int>();
             selected = -1;
             OnLoad(this, EventArgs.Empty);
         }
@@ -116,7 +116,7 @@ namespace FiddlerControls
         {
             int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
             if (TileList.Count > value)
-                return (int)TileList[value];
+                return TileList[value];
             else
                 return -1;
         }
@@ -130,10 +130,10 @@ namespace FiddlerControls
             for (int i = 0; i < 0x4000; ++i)
             {
                 if (Art.IsValidLand(i))
-                    TileList.Add((object)i);
+                    TileList.Add(i);
             }
             vScrollBar.Maximum = TileList.Count / col + 1;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
             if (!Loaded)
             {
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
@@ -180,32 +180,32 @@ namespace FiddlerControls
                 bool done = false;
                 for (int i = 0; i < TileList.Count; ++i)
                 {
-                    if (index < (int)TileList[i])
+                    if (index < TileList[i])
                     {
-                        TileList.Insert(i, (object)index);
+                        TileList.Insert(i, index);
                         done = true;
                         break;
                     }
-                    if (index == (int)TileList[i])
+                    if (index == TileList[i])
                     {
                         done = true;
                         break;
                     }
                 }
                 if (!done)
-                    TileList.Add((object)index);
+                    TileList.Add(index);
                 vScrollBar.Maximum = TileList.Count / col + 1;
             }
             else
             {
-                TileList.Remove((object)index);
+                TileList.Remove(index);
                 vScrollBar.Maximum = TileList.Count / col + 1;
             }
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -215,7 +215,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
             else
@@ -223,7 +223,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    pictureBox.Refresh();
+                    pictureBox.Invalidate();
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace FiddlerControls
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            pictureBox.Refresh();
+            pictureBox.Invalidate();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -326,12 +326,12 @@ namespace FiddlerControls
         {
             int id = selected;
             ++id;
-            for (int i = TileList.IndexOf((object)selected) + 1; i < TileList.Count; ++i, ++id)
+            for (int i = TileList.IndexOf(selected) + 1; i < TileList.Count; ++i, ++id)
             {
-                if (id < (int)TileList[i])
+                if (id < TileList[i])
                 {
                     vScrollBar.Value = i / refMarker.col + 1;
-                    Selected = (int)TileList[i];
+                    Selected = TileList[i];
                     break;
                 }
             }
@@ -346,9 +346,9 @@ namespace FiddlerControls
             {
                 Art.RemoveLand(selected);
                 FiddlerControls.Events.FireLandTileChangeEvent(this, selected);
-                TileList.Remove((object)selected);
+                TileList.Remove(selected);
                 --selected;
-                pictureBox.Refresh();
+                pictureBox.Invalidate();
                 Options.ChangedUltimaClass["Art"] = true;
             }
         }
@@ -370,7 +370,7 @@ namespace FiddlerControls
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceLand(selected, bmp);
                         FiddlerControls.Events.FireLandTileChangeEvent(this, selected);
-                        pictureBox.Refresh();
+                        pictureBox.Invalidate();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
@@ -417,9 +417,9 @@ namespace FiddlerControls
                             bool done = false;
                             for (int i = 0; i < TileList.Count; ++i)
                             {
-                                if (index < (int)TileList[i])
+                                if (index < TileList[i])
                                 {
-                                    TileList.Insert(i, (object)index);
+                                    TileList.Insert(i, index);
                                     vScrollBar.Value = i / refMarker.col + 1;
                                     done = true;
                                     break;
@@ -427,7 +427,7 @@ namespace FiddlerControls
                             }
                             if (!done)
                             {
-                                TileList.Add((object)index);
+                                TileList.Add(index);
                                 vScrollBar.Value = TileList.Count / refMarker.col + 1;
                             }
                             Selected = index;
@@ -523,7 +523,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < TileList.Count; ++i)
                     {
-                        int index = (int)TileList[i];
+                        int index = TileList[i];
                         if (Art.IsValidStatic(index))
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Landtile {0}.bmp", index));
@@ -548,7 +548,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < TileList.Count; ++i)
                     {
-                        int index = (int)TileList[i];
+                        int index = TileList[i];
                         if (Art.IsValidStatic(index))
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Landtile {0}.tiff", index));
@@ -573,7 +573,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < TileList.Count; ++i)
                     {
-                        int index = (int)TileList[i];
+                        int index = TileList[i];
                         if (Art.IsValidStatic(index))
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Landtile {0}.jpg", index));
@@ -587,6 +587,6 @@ namespace FiddlerControls
                 }
             }
         }
-        
+
     }
 }

@@ -45,7 +45,7 @@ namespace UoFiddler
             {
                 listBoxArgs.BeginUpdate();
                 listBoxArgs.Items.Clear();
-                ExternTool tool = (ExternTool)Options.ExternTools[listBoxTools.SelectedIndex];
+                ExternTool tool = Options.ExternTools[listBoxTools.SelectedIndex];
                 for (int i = 0; i < tool.Args.Count; i++)
                 {
                     listBoxArgs.Items.Add(i);
@@ -62,7 +62,7 @@ namespace UoFiddler
                 textBoxToolName.Text = "";
                 textBoxToolFile.Text = "";
             }
-            listBoxTools.Refresh();
+            listBoxTools.Invalidate();
         }
 
         private void ToolDrawItem(object sender, DrawItemEventArgs e)
@@ -73,7 +73,7 @@ namespace UoFiddler
                 if (listBoxTools.SelectedIndex == e.Index)
                     e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds);
 
-                e.Graphics.DrawString(((ExternTool)Options.ExternTools[e.Index]).FormatName(),
+                e.Graphics.DrawString((Options.ExternTools[e.Index]).FormatName(),
                     Font, fontBrush, new Point(e.Bounds.X, e.Bounds.Y));
             }
         }
@@ -82,16 +82,16 @@ namespace UoFiddler
         {
             if (listBoxArgs.SelectedIndex >= 0)
             {
-                ExternTool tool = (ExternTool)Options.ExternTools[listBoxTools.SelectedIndex];
-                textBoxArgName.Text = (string)tool.ArgsName[listBoxArgs.SelectedIndex];
-                textBoxArgParam.Text = (string)tool.Args[listBoxArgs.SelectedIndex];
+                ExternTool tool = Options.ExternTools[listBoxTools.SelectedIndex];
+                textBoxArgName.Text = tool.ArgsName[listBoxArgs.SelectedIndex];
+                textBoxArgParam.Text = tool.Args[listBoxArgs.SelectedIndex];
             }
             else
             {
                 textBoxArgName.Text = "";
                 textBoxArgParam.Text = "";
             }
-            listBoxArgs.Refresh();
+            listBoxArgs.Invalidate();
         }
 
         private void ArgDrawItem(object sender, DrawItemEventArgs e)
@@ -102,7 +102,7 @@ namespace UoFiddler
                 if (listBoxArgs.SelectedIndex == e.Index)
                     e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds);
 
-                e.Graphics.DrawString(((ExternTool)Options.ExternTools[listBoxTools.SelectedIndex]).FormatArg(e.Index),
+                e.Graphics.DrawString((Options.ExternTools[listBoxTools.SelectedIndex]).FormatArg(e.Index),
                     Font, fontBrush, new Point(e.Bounds.X, e.Bounds.Y));
             }
         }
@@ -120,7 +120,7 @@ namespace UoFiddler
                 }
                 listBoxTools.EndUpdate();
                 listBoxArgs.Items.Clear();
-                listBoxTools.Refresh();
+                listBoxTools.Invalidate();
                 textBoxToolName.Text = "";
                 textBoxToolFile.Text = "";
             }
@@ -132,7 +132,7 @@ namespace UoFiddler
             {
                 if (listBoxArgs.SelectedIndex >= 0)
                 {
-                    ExternTool tool = (ExternTool)Options.ExternTools[listBoxTools.SelectedIndex];
+                    ExternTool tool = Options.ExternTools[listBoxTools.SelectedIndex];
                     tool.Args.RemoveAt(listBoxArgs.SelectedIndex);
                     tool.ArgsName.RemoveAt(listBoxArgs.SelectedIndex);
                     listBoxArgs.BeginUpdate();
@@ -142,7 +142,7 @@ namespace UoFiddler
                         listBoxArgs.Items.Add(i);
                     }
                     listBoxArgs.EndUpdate();
-                    listBoxArgs.Refresh();
+                    listBoxArgs.Invalidate();
                     textBoxArgName.Text = "";
                     textBoxArgParam.Text = "";
                 }
@@ -153,10 +153,10 @@ namespace UoFiddler
         {
             if (listBoxTools.SelectedIndex >= 0)
             {
-                ExternTool tool = (ExternTool)Options.ExternTools[listBoxTools.SelectedIndex];
+                ExternTool tool = Options.ExternTools[listBoxTools.SelectedIndex];
                 tool.Name = textBoxToolName.Text;
                 tool.FileName = textBoxToolFile.Text;
-                listBoxTools.Refresh();
+                listBoxTools.Invalidate();
             }
         }
 
@@ -184,12 +184,12 @@ namespace UoFiddler
         {
             if (listBoxTools.SelectedIndex >= 0)
             {
-                ExternTool tool = (ExternTool)Options.ExternTools[listBoxTools.SelectedIndex];
+                ExternTool tool = Options.ExternTools[listBoxTools.SelectedIndex];
                 if (listBoxArgs.SelectedIndex >= 0)
                 {
                     tool.Args[listBoxArgs.SelectedIndex] = textBoxArgParam.Text;
                     tool.ArgsName[listBoxArgs.SelectedIndex] = textBoxArgName.Text;
-                    listBoxArgs.Refresh();
+                    listBoxArgs.Invalidate();
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace UoFiddler
         {
             if (listBoxTools.SelectedIndex >= 0)
             {
-                ExternTool tool = (ExternTool)Options.ExternTools[listBoxTools.SelectedIndex];
+                ExternTool tool = Options.ExternTools[listBoxTools.SelectedIndex];
                 tool.Args.Add(textBoxArgParam.Text);
                 tool.ArgsName.Add(textBoxArgName.Text);
                 listBoxArgs.Items.Add(tool.Args.Count - 1);

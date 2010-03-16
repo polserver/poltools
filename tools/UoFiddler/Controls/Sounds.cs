@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -42,11 +42,11 @@ namespace FiddlerControls
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Sound"] = true;
-            
+
             string name = "";
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
-            ArrayList cache = new ArrayList();
+            List<TreeNode> cache = new List<TreeNode>();
             for (int i = 1; i <= 0xFFF; ++i)
             {
                 if (Ultima.Sounds.IsValidSound(i - 1, out name))
@@ -56,8 +56,8 @@ namespace FiddlerControls
                     cache.Add(node);
                 }
             }
-            treeView.Nodes.AddRange((TreeNode[])cache.ToArray(typeof(TreeNode)));
-            
+            treeView.Nodes.AddRange(cache.ToArray());
+
             treeView.EndUpdate();
             if (treeView.Nodes.Count > 0)
                 treeView.SelectedNode = treeView.Nodes[0];
@@ -245,7 +245,7 @@ namespace FiddlerControls
 
                         node.EnsureVisible();
                         treeView.SelectedNode = node;
-                        treeView.Refresh();
+                        treeView.Invalidate();
                         Options.ChangedUltimaClass["Sound"] = true;
                     }
                     else

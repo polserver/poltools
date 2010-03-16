@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Ultima;
@@ -19,9 +19,8 @@ namespace MultiEditor
 {
     class MultiEditorComponentList
     {
-		#region Fields (6) 
+        #region Fields (6)
 
-        private static Rectangle drawdestRectangle = new Rectangle();
         public const int GapXMod = 44;
         public const int GapYMod = 22;
         private bool Modified;
@@ -29,10 +28,11 @@ namespace MultiEditor
         public const int UndoListMaxSize = 10;
         public int WalkableCount = 0;
         public int DoubleSurfaceCount = 0;
+        private static Rectangle drawdestRectangle = new Rectangle();
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (2) 
+        #region Constructors (2)
 
         /// <summary>
         /// Create a blank ComponentList
@@ -42,7 +42,7 @@ namespace MultiEditor
             Parent = parent;
             Width = width;
             Height = height;
-            Tiles = new ArrayList();
+            Tiles = new List<MultiTile>();
             for (int x = 0; x < Width; ++x)
             {
                 for (int y = 0; y < Height; ++y)
@@ -63,14 +63,14 @@ namespace MultiEditor
             Parent = parent;
             Width = list.Width;
             Height = list.Height;
-            Tiles = new ArrayList();
+            Tiles = new List<MultiTile>();
             for (int x = 0; x < Width; ++x)
             {
                 for (int y = 0; y < Height; ++y)
                 {
                     for (int i = 0; i < list.Tiles[x][y].Length; ++i)
                     {
-                        Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID, x, y, list.Tiles[x][y][i].Z,list.Tiles[x][y][i].Flag));
+                        Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID, x, y, list.Tiles[x][y][i].Z, list.Tiles[x][y][i].Flag));
                     }
                     Tiles.Add(new FloorTile(x, y, Parent.DrawFloorZ));
                 }
@@ -82,13 +82,13 @@ namespace MultiEditor
             RecalcMinMax();
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (14) 
+        #region Properties (14)
 
         public int Height { get; private set; }
 
-        public ArrayList Tiles { get; private set; }
+        public List<MultiTile> Tiles { get; private set; }
 
         public UndoStruct[] UndoList { get; private set; }
 
@@ -114,11 +114,11 @@ namespace MultiEditor
 
         public int zMin { get; private set; }
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (16) 
+        #region Methods (16)
 
-		// Public Methods (13) 
+        // Public Methods (13) 
 
         /// <summary>
         /// Export to given multi id
@@ -142,11 +142,12 @@ namespace MultiEditor
                     tiles[x][y] = new MTileList();
                 }
             }
-            foreach (MultiTile tile in Tiles)
+            for (int i = 0; i < Tiles.Count; ++i)
             {
+                MultiTile tile = Tiles[i];
                 if (tile.isVirtualFloor)
                     continue;
-                tiles[tile.X][tile.Y].Add((ushort)(tile.ID), (sbyte)tile.Z, tile.Invisible?(sbyte)0:(sbyte)1);
+                tiles[tile.X][tile.Y].Add((ushort)(tile.ID), (sbyte)tile.Z, tile.Invisible ? (sbyte)0 : (sbyte)1);
                 ++count;
             }
             return new MultiComponentList(tiles, count, Width, Height);
@@ -155,19 +156,19 @@ namespace MultiEditor
         /// <summary>
         /// Gets Bitmap of Multi and sets HoverTile
         /// </summary>
-        public Bitmap GetImage(int maxheight, Point mouseLoc, bool drawFloor,Rectangle cliprect)
+        public void GetImage(Graphics gfx, int xoff, int yoff, int maxheight, Point mouseLoc, bool drawFloor, bool forcerefresh)
         {
             if (Width == 0 || Height == 0)
-                return null;
+                return;
 
             if (Modified)
                 RecalcMinMax();
-            
+
             xMin = xMinOrg;
             xMax = xMaxOrg;
             yMin = yMinOrg;
             yMax = yMaxOrg;
-            
+
             if (drawFloor)
             {
                 int floorzmod = -Parent.DrawFloorZ * 4 - 44;
@@ -179,50 +180,46 @@ namespace MultiEditor
             }
             Parent.HoverTile = GetSelected(mouseLoc, maxheight, drawFloor);
 
-            Bitmap canvas = new Bitmap(xMax - xMin + GapXMod * 2, yMax - yMin + GapYMod * 3);
-            using (Graphics gfx = Graphics.FromImage(canvas))
+            Rectangle clipBounds = Rectangle.Round(gfx.ClipBounds);
+            for (int i = 0; i < Tiles.Count; ++i)
             {
-                gfx.Clear(Color.White);
-                foreach (MultiTile tile in Tiles)
-                {
+                MultiTile tile = Tiles[i];
+                if (!tile.isVirtualFloor)
                     if (tile.Z > maxheight)
                         continue;
-                    Bitmap bmp = tile.GetBitmap();
-                    if (bmp == null)
-                        continue;
-                    drawdestRectangle.X = tile.Xmod;
-                    drawdestRectangle.Y = tile.Ymod;
-                    drawdestRectangle.X -= xMin;
-                    drawdestRectangle.Y -= yMin;
-                    drawdestRectangle.Width = bmp.Width;
-                    drawdestRectangle.Height = bmp.Height;
+                Bitmap bmp = tile.GetBitmap();
+                if (bmp == null)
+                    continue;
+                drawdestRectangle.X = tile.Xmod;
+                drawdestRectangle.Y = tile.Ymod;
+                drawdestRectangle.X -= xMin + xoff;
+                drawdestRectangle.Y -= yMin + yoff;
+                drawdestRectangle.Width = bmp.Width;
+                drawdestRectangle.Height = bmp.Height;
 
-                    if (!cliprect.IntersectsWith(drawdestRectangle))
-                        continue;
-                    if (tile.isVirtualFloor)
-                    {
-                        if (drawFloor)
-                            gfx.DrawImageUnscaled(bmp, drawdestRectangle);
-                    }
+                if (!clipBounds.IntersectsWith(drawdestRectangle))
+                    continue;
+                if (tile.isVirtualFloor)
+                {
+                    if (drawFloor)
+                        gfx.DrawImageUnscaled(bmp, drawdestRectangle);
+                }
+                else
+                {
+                    if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
+                        gfx.DrawImage(bmp, drawdestRectangle, 0, 0, drawdestRectangle.Width, drawdestRectangle.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
+                    else if ((Parent.SelectedTile != null) && (Parent.SelectedTile == tile))
+                        gfx.DrawImage(bmp, drawdestRectangle, 0, 0, drawdestRectangle.Width, drawdestRectangle.Height, GraphicsUnit.Pixel, MultiTile.SelectedColor);
+                    else if (tile.Transparent)
+                        gfx.DrawImage(bmp, drawdestRectangle, 0, 0, drawdestRectangle.Width, drawdestRectangle.Height, GraphicsUnit.Pixel, MultiTile.TransColor);
+                    else if ((Parent.ShowWalkables) && (tile.Walkable))
+                        gfx.DrawImage(bmp, drawdestRectangle, 0, 0, drawdestRectangle.Width, drawdestRectangle.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
+                    else if ((Parent.ShowDoubleSurface) && (tile.DoubleSurface))
+                        gfx.DrawImage(bmp, drawdestRectangle, 0, 0, drawdestRectangle.Width, drawdestRectangle.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
                     else
-                    {
-                        if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
-                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
-                        else if ((Parent.SelectedTile != null) && (Parent.SelectedTile == tile))
-                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.SelectedColor);
-                        else if (tile.Transparent)
-                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.TransColor);
-                        else if ((Parent.ShowWalkables) && (tile.Walkable))
-                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
-                        else if ((Parent.ShowDoubleSurface) && (tile.DoubleSurface))
-                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
-                        else
-                            gfx.DrawImageUnscaled(bmp, drawdestRectangle);
-                    }
+                        gfx.DrawImageUnscaled(bmp, drawdestRectangle);
                 }
             }
-
-            return canvas;
         }
 
         /// <summary>
@@ -237,7 +234,7 @@ namespace MultiEditor
             {
                 for (int i = Tiles.Count - 1; i >= 0; --i) // inverse for speedup
                 {
-                    MultiTile tile = (MultiTile)Tiles[i];
+                    MultiTile tile = Tiles[i];
                     if (tile.isVirtualFloor)
                         continue;
                     if (tile.Z > maxheight)
@@ -251,7 +248,6 @@ namespace MultiEditor
                     int py = tile.Ymod;
                     px -= xMin;
                     py -= yMin;
-
                     if (((mouseLoc.X > px) && (mouseLoc.X < (px + bmp.Width))) &&
                         ((mouseLoc.Y > py) && (mouseLoc.Y < (py + bmp.Height))))
                     {
@@ -278,14 +274,14 @@ namespace MultiEditor
             {
                 for (int i = Tiles.Count - 1; i >= 0; --i)
                 {
-                    MultiTile tile = (MultiTile)Tiles[i];
+                    MultiTile tile = Tiles[i];
                     if (tile.X >= width)
                         Tiles.RemoveAt(i);
                     else if (tile.Y >= height)
                         Tiles.RemoveAt(i);
                 }
             }
-            
+
             if ((Width < width) || (Height < height))
             {
                 for (int x = 0; x < width; ++x)
@@ -322,7 +318,7 @@ namespace MultiEditor
             if ((x > Width) || (y > Height))
                 return;
             AddToUndoList("Add Tile");
-            MultiTile tile = new MultiTile(id, x, y, z,1);
+            MultiTile tile = new MultiTile(id, x, y, z, 1);
             Tiles.Add(tile);
             CalcSolver(x, y);
             Modified = true;
@@ -376,7 +372,7 @@ namespace MultiEditor
                 tile.Z = 127;
             if (tile.Z < -128)
                 tile.Z = -128;
-            CalcSolver(tile.X,tile.Y);
+            CalcSolver(tile.X, tile.Y);
             Tiles.Sort();
             Modified = true;
             RecalcMinMax(tile);
@@ -405,13 +401,13 @@ namespace MultiEditor
             {
                 Width = UndoList[index].Width;
                 Height = UndoList[index].Height;
-                Tiles = new ArrayList();
+                Tiles = new List<MultiTile>();
                 foreach (MultiTile tile in UndoList[index].Tiles)
                 {
                     if (tile.isVirtualFloor)
                         Tiles.Add(new FloorTile(tile.X, tile.Y, tile.Z));
                     else
-                        Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z,tile.Invisible));
+                        Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z, tile.Invisible));
                 }
                 Modified = true;
                 RecalcMinMax();
@@ -431,7 +427,7 @@ namespace MultiEditor
         {
             int lastx = -1;
             int lasty = -1;
-            ArrayList xyarr = new ArrayList();
+            List<MultiTile> xyarr = new List<MultiTile>();
             WalkableCount = 0;
             foreach (MultiTile tile in Tiles)
             {
@@ -444,7 +440,7 @@ namespace MultiEditor
                         xyarr = GetXYArray(tile.X, tile.Y);
 
                     int Start = tile.Z + itemdata.CalcHeight;
-                    if (tile.IsWalkable(Start,xyarr))
+                    if (tile.IsWalkable(Start, xyarr))
                         ++WalkableCount;
                 }
             }
@@ -454,7 +450,7 @@ namespace MultiEditor
         {
             int lastx = -1;
             int lasty = -1;
-            ArrayList xyarr = new ArrayList();
+            List<MultiTile> xyarr = new List<MultiTile>();
             DoubleSurfaceCount = 0;
             foreach (MultiTile tile in Tiles)
             {
@@ -483,14 +479,14 @@ namespace MultiEditor
 
         public void CalcSolver(int x, int y)
         {
-            ArrayList arr = GetXYArray(x, y);
+            List<MultiTile> arr = GetXYArray(x, y);
             for (int i = 0; i < arr.Count; ++i)
-                ((MultiTile)arr[i]).Solver = i;
+                arr[i].Solver = i;
         }
 
-        public ArrayList GetXYArray(int x, int y)
+        public List<MultiTile> GetXYArray(int x, int y)
         {
-            ArrayList arr = new ArrayList();
+            List<MultiTile> arr = new List<MultiTile>();
             foreach (MultiTile tile in Tiles)
             {
                 if (tile.isVirtualFloor)
@@ -503,7 +499,7 @@ namespace MultiEditor
             }
             return arr;
         }
-		// Private Methods (3) 
+        // Private Methods (3) 
 
         private void AddToUndoList(string Action)
         {
@@ -512,15 +508,15 @@ namespace MultiEditor
                 UndoList[i + 1] = UndoList[i];
             }
             UndoList[0].Action = Action;
-            UndoList[0].Tiles = new ArrayList();
+            UndoList[0].Tiles = new List<MultiTile>();
             UndoList[0].Width = Width;
             UndoList[0].Height = Height;
             foreach (MultiTile tile in Tiles)
             {
                 if (tile.isVirtualFloor)
-                    UndoList[0].Tiles.Add(new FloorTile(tile.X,tile.Y,tile.Y));
+                    UndoList[0].Tiles.Add(new FloorTile(tile.X, tile.Y, tile.Y));
                 else
-                    UndoList[0].Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z,tile.Invisible));
+                    UndoList[0].Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z, tile.Invisible));
             }
         }
 
@@ -610,30 +606,30 @@ namespace MultiEditor
                 CalcDoubleSurface();
         }
 
-		#endregion Methods 
+        #endregion Methods
 
         public struct UndoStruct
         {
-		#region Data Members (4) 
+            #region Data Members (4)
 
             public string Action;
             public int Height;
-            public ArrayList Tiles;
+            public List<MultiTile> Tiles;
             public int Width;
 
-		#endregion Data Members 
+            #endregion Data Members
         }
     }
 
     public class FloorTile : MultiTile
     {
-		#region Fields (1) 
+        #region Fields (1)
 
         private static Bitmap floorbmp;
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (1) 
+        #region Constructors (1)
 
         public FloorTile(int x, int y, int z)
         {
@@ -642,17 +638,17 @@ namespace MultiEditor
             Z = z;
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (1) 
+        #region Properties (1)
 
         public override bool isVirtualFloor { get { return true; } }
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (1) 
+        #region Methods (1)
 
-		// Public Methods (1) 
+        // Public Methods (1) 
 
         public override Bitmap GetBitmap()
         {
@@ -679,11 +675,11 @@ namespace MultiEditor
             return floorbmp;
         }
 
-		#endregion Methods 
+        #endregion Methods
     }
     public class MultiTile : IComparable
     {
-		#region Fields (11) 
+        #region Fields (11)
 
         private static ImageAttributes m_DrawColor = null;
         private static ColorMatrix m_DrawMatrix = new ColorMatrix(new float[5][]
@@ -736,9 +732,9 @@ namespace MultiEditor
         private int ymod;
         private int z;
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (4) 
+        #region Constructors (4)
 
         public MultiTile(ushort id, int x, int y, int z, int flag)
         {
@@ -800,9 +796,9 @@ namespace MultiEditor
             }
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (11) 
+        #region Properties (11)
 
         public static ImageAttributes DrawColor { get { return m_DrawColor; } }
 
@@ -840,11 +836,11 @@ namespace MultiEditor
 
         public int Solver { get; set; }
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (4) 
+        #region Methods (4)
 
-		// Public Methods (3) 
+        // Public Methods (3) 
 
         public int CompareTo(object x)
         {
@@ -919,7 +915,7 @@ namespace MultiEditor
             Z = z;
             RecalcMod();
         }
-		// Private Methods (1) 
+        // Private Methods (1) 
 
         private void RecalcMod()
         {
@@ -944,8 +940,9 @@ namespace MultiEditor
                 ymod += MultiEditorComponentList.GapYMod;
             }
         }
+
         private const TileFlag ImpassableOrSurface = TileFlag.Impassable | TileFlag.Surface;
-        public bool IsWalkable(int Z, ArrayList Tiles)
+        public bool IsWalkable(int Z, List<MultiTile> Tiles)
         {
             int Top = Z + 16; // Playerheight
             foreach (MultiTile tile in Tiles)
@@ -967,7 +964,7 @@ namespace MultiEditor
             return true;
         }
 
-        public bool IsDoubleSurface(ArrayList Tiles)
+        public bool IsDoubleSurface(List<MultiTile> Tiles)
         {
             foreach (MultiTile tile in Tiles)
             {
@@ -987,6 +984,6 @@ namespace MultiEditor
             return false;
         }
 
-		#endregion Methods 
+        #endregion Methods
     }
 }

@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -29,7 +29,7 @@ namespace ComparePlugin
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
-        Hashtable m_Compare = new Hashtable();
+        Dictionary<int, bool> m_Compare = new Dictionary<int, bool>();
         SHA256Managed shaM = new SHA256Managed();
 
         private bool Loaded = false;
@@ -41,7 +41,7 @@ namespace ComparePlugin
 
             listBox1.BeginUpdate();
             listBox1.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             for (int i = 0; i < 0x10000; i++)
             {
                 cache.Add(i);
@@ -171,7 +171,7 @@ namespace ComparePlugin
                 else
                     pictureBox2.BackgroundImage = null;
             }
-            listBox.Refresh();
+            listBox.Invalidate();
         }
 
         private void Browse_OnClick(object sender, EventArgs e)
@@ -204,7 +204,7 @@ namespace ComparePlugin
             m_Compare.Clear();
             listBox2.BeginUpdate();
             listBox2.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             for (int i = 0; i < 0x10000; i++)
             {
                 cache.Add(i);
@@ -216,12 +216,12 @@ namespace ComparePlugin
 
         private bool Compare(int index)
         {
-            if (m_Compare.Contains(index))
-                return (bool)m_Compare[index];
+            if (m_Compare.ContainsKey(index))
+                return m_Compare[index];
             int width1, height1;
             int width2, height2;
             byte[] org = Gumps.GetRawGump(index, out width1, out height1);
-            byte[] sec = SecondGump.GetRawGump(index,out width2,out height2);
+            byte[] sec = SecondGump.GetRawGump(index, out width2, out height2);
             bool res = false;
 
             if ((org == null) && (sec == null))
@@ -258,7 +258,7 @@ namespace ComparePlugin
             listBox2.BeginUpdate();
             listBox1.Items.Clear();
             listBox2.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             if (checkBox1.Checked)
             {
                 for (int i = 0; i < 0x10000; i++)

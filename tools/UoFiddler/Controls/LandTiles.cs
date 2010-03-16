@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -103,10 +103,10 @@ namespace FiddlerControls
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
-            
+
             listView1.BeginUpdate();
             listView1.Clear();
-            ArrayList itemcache = new ArrayList();
+            List<ListViewItem> itemcache = new List<ListViewItem>();
             for (int i = 0; i < 0x4000; ++i)
             {
                 if (Art.IsValidLand(i))
@@ -116,7 +116,7 @@ namespace FiddlerControls
                     itemcache.Add(item);
                 }
             }
-            listView1.Items.AddRange((ListViewItem[])itemcache.ToArray(typeof(ListViewItem)));
+            listView1.Items.AddRange(itemcache.ToArray());
             listView1.TileSize = new Size(49, 49);
             listView1.EndUpdate();
             if (!Loaded)

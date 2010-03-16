@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Drawing;
 using Host;
 
 namespace UoFiddler
@@ -143,7 +142,7 @@ namespace UoFiddler
             refmarker.ExternToolsDropDown.DropDownItems.Add(new ToolStripSeparator());
             for (int i = 0; i < Options.ExternTools.Count; i++)
             {
-                ExternTool tool = (ExternTool)Options.ExternTools[i];
+                ExternTool tool = Options.ExternTools[i];
                 item = new ToolStripMenuItem();
                 item.Text = tool.Name;
                 item.Tag = i;
@@ -156,7 +155,7 @@ namespace UoFiddler
                 for (int j = 0; j < tool.Args.Count; j++)
                 {
                     ToolStripMenuItem arg = new ToolStripMenuItem();
-                    arg.Text = (string)tool.ArgsName[j];
+                    arg.Text = tool.ArgsName[j];
                     arg.Tag = j;
                     item.DropDownItems.Add(arg);
                 }
@@ -174,10 +173,10 @@ namespace UoFiddler
                 if (arginfo >= -1)
                 {
                     Process P = new Process();
-                    ExternTool tool = (ExternTool)Options.ExternTools[toolinfo];
+                    ExternTool tool = Options.ExternTools[toolinfo];
                     P.StartInfo.FileName = tool.FileName;
                     if (arginfo >= 0)
-                        P.StartInfo.Arguments = (string)tool.Args[arginfo];
+                        P.StartInfo.Arguments = tool.Args[arginfo];
                     try
                     {
                         P.Start();

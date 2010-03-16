@@ -2,7 +2,6 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -441,8 +440,10 @@ namespace Ultima
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                using (BinaryWriter binidx = new BinaryWriter(fsidx),
-                                    binmul = new BinaryWriter(fsmul))
+                MemoryStream memidx = new MemoryStream();
+                MemoryStream memmul = new MemoryStream();
+                using (BinaryWriter binidx = new BinaryWriter(memidx),
+                                    binmul = new BinaryWriter(memmul))
                 {
                     for (int index = 0; index < GetIdxLength(); index++)
                     {
@@ -466,8 +467,8 @@ namespace Ultima
                             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
                             ushort* line = (ushort*)bd.Scan0;
                             int delta = bd.Stride >> 1;
-                            binidx.Write((int)fsmul.Position); //lookup
-                            int length = (int)fsmul.Position;
+                            binidx.Write((int)binmul.BaseStream.Position); //lookup
+                            int length = (int)binmul.BaseStream.Position;
                             int x = 22;
                             int y = 0;
                             int linewidth = 2;
@@ -489,7 +490,7 @@ namespace Ultima
                                 for (int n = 0; n < linewidth; n++)
                                     binmul.Write((ushort)(cur[x + n] ^ 0x8000));
                             }
-                            length = (int)fsmul.Position - length;
+                            length = (int)binmul.BaseStream.Position - length;
                             binidx.Write(length);
                             binidx.Write((int)0);
                             bmp.UnlockBits(bd);
@@ -500,12 +501,12 @@ namespace Ultima
                             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
                             ushort* line = (ushort*)bd.Scan0;
                             int delta = bd.Stride >> 1;
-                            binidx.Write((int)fsmul.Position); //lookup
-                            int length = (int)fsmul.Position;
+                            binidx.Write((int)binmul.BaseStream.Position); //lookup
+                            int length = (int)binmul.BaseStream.Position;
                             binmul.Write((int)1234); // header
                             binmul.Write((short)bmp.Width);
                             binmul.Write((short)bmp.Height);
-                            int lookup = (int)fsmul.Position;
+                            int lookup = (int)binmul.BaseStream.Position;
                             int streamloc = lookup + bmp.Height * 2;
                             int width = 0;
                             for (int i = 0; i < bmp.Height; ++i)// fill lookup
@@ -514,7 +515,7 @@ namespace Ultima
                             for (int Y = 0; Y < bmp.Height; ++Y, line += delta)
                             {
                                 ushort* cur = line;
-                                width = (int)(fsmul.Position - streamloc) / 2;
+                                width = (int)(binmul.BaseStream.Position - streamloc) / 2;
                                 fsmul.Seek(lookup + Y * 2, SeekOrigin.Begin);
                                 binmul.Write(width);
                                 fsmul.Seek(streamloc + width * 2, SeekOrigin.Begin);
@@ -551,12 +552,14 @@ namespace Ultima
                                 binmul.Write((short)0); //xOffset
                                 binmul.Write((short)0); //Run
                             }
-                            length = (int)fsmul.Position - length;
+                            length = (int)binmul.BaseStream.Position - length;
                             binidx.Write(length);
                             binidx.Write((int)0);
                             bmp.UnlockBits(bd);
                         }
                     }
+                    memidx.WriteTo(fsidx);
+                    memmul.WriteTo(fsmul);
                 }
             }
         }

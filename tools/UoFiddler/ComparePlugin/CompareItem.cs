@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -27,7 +27,7 @@ namespace ComparePlugin
         {
             InitializeComponent();
         }
-        Hashtable m_Compare = new Hashtable();
+        Dictionary<int, bool> m_Compare = new Dictionary<int, bool>();
         SHA256Managed shaM = new SHA256Managed();
         System.Drawing.ImageConverter ic = new System.Drawing.ImageConverter();
 
@@ -35,7 +35,7 @@ namespace ComparePlugin
         {
             listBoxOrg.Items.Clear();
             listBoxOrg.BeginUpdate();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             int staticlength = 0x4000;
             if (Art.IsUOSA())
                 staticlength = 0x8000;
@@ -69,7 +69,7 @@ namespace ComparePlugin
             }
             else
                 pictureBoxOrg.BackgroundImage = null;
-            listBoxOrg.Refresh();
+            listBoxOrg.Invalidate();
         }
 
         private void DrawitemOrg(object sender, DrawItemEventArgs e)
@@ -84,7 +84,7 @@ namespace ComparePlugin
                 e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             if (!Art.IsValidStatic(i))
                 fontBrush = Brushes.Red;
-            else if (listBoxSec.Items.Count>0)
+            else if (listBoxSec.Items.Count > 0)
             {
                 if (!Compare(i))
                     fontBrush = Brushes.Blue;
@@ -107,7 +107,7 @@ namespace ComparePlugin
                 return;
             string path = textBoxSecondDir.Text;
             string file = Path.Combine(path, "art.mul");
-            string file2 = Path.Combine(path,"artidx.mul");
+            string file2 = Path.Combine(path, "artidx.mul");
             if ((File.Exists(file)) && (File.Exists(file2)))
             {
                 SecondArt.SetFileIndex(file2, file);
@@ -120,7 +120,7 @@ namespace ComparePlugin
             m_Compare.Clear();
             listBoxSec.BeginUpdate();
             listBoxSec.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             int staticlength = 0x4000;
             if (SecondArt.IsUOSA())
                 staticlength = 0x8000;
@@ -160,12 +160,12 @@ namespace ComparePlugin
 
         private void OnIndexChangedSec(object sender, EventArgs e)
         {
-            if ( (listBoxSec.SelectedIndex == -1) || (listBoxSec.Items.Count < 1) )
+            if ((listBoxSec.SelectedIndex == -1) || (listBoxSec.Items.Count < 1))
                 return;
-            
+
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
             int pos = listBoxOrg.Items.IndexOf(i);
-            if (pos>=0)
+            if (pos >= 0)
                 listBoxOrg.SelectedIndex = pos;
             if (SecondArt.IsValidStatic(i))
             {
@@ -177,13 +177,13 @@ namespace ComparePlugin
             }
             else
                 pictureBoxSec.BackgroundImage = null;
-            listBoxSec.Refresh();
+            listBoxSec.Invalidate();
         }
 
         private bool Compare(int index)
         {
-            if (m_Compare.Contains(index))
-                return (bool)m_Compare[index];
+            if (m_Compare.ContainsKey(index))
+                return m_Compare[index];
             Bitmap bitorg = Art.GetStatic(index);
             Bitmap bitsec = SecondArt.GetStatic(index);
             if ((bitorg == null) && (bitsec == null))
@@ -231,7 +231,7 @@ namespace ComparePlugin
             listBoxSec.BeginUpdate();
             listBoxOrg.Items.Clear();
             listBoxSec.Items.Clear();
-            ArrayList cache = new ArrayList();
+            List<object> cache = new List<object>();
             int staticlength = 0x4000;
             if (Art.IsUOSA() || SecondArt.IsUOSA())
                 staticlength = 0x8000;
@@ -311,7 +311,7 @@ namespace ComparePlugin
             m_Compare[i] = true;
             listBoxOrg.BeginUpdate();
             bool done = false;
-            
+
             for (int id = 0; id < staticlength; id++)
             {
                 if (id > i)

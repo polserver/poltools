@@ -10,12 +10,12 @@
  ***************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ultima;
-using System.Collections;
 
 namespace FiddlerControls
 {
@@ -139,7 +139,7 @@ namespace FiddlerControls
         {
             refMarker.treeViewItem.BeginUpdate();
             refMarker.treeViewItem.Nodes.Clear();
-            ArrayList nodes = new ArrayList();
+            List<TreeNode> nodes = new List<TreeNode>();
             for (int i = 0; i < TileData.ItemTable.Length; ++i)
             {
                 if (!String.IsNullOrEmpty(item.Name))
@@ -211,7 +211,7 @@ namespace FiddlerControls
                 node.Tag = i;
                 nodes.Add(node);
             }
-            refMarker.treeViewItem.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+            refMarker.treeViewItem.Nodes.AddRange(nodes.ToArray());
             refMarker.treeViewItem.EndUpdate();
             if (refMarker.treeViewItem.Nodes.Count > 0)
                 refMarker.treeViewItem.SelectedNode = refMarker.treeViewItem.Nodes[0];
@@ -221,7 +221,7 @@ namespace FiddlerControls
         {
             refMarker.treeViewLand.BeginUpdate();
             refMarker.treeViewLand.Nodes.Clear();
-            ArrayList nodes = new ArrayList();
+            List<TreeNode> nodes = new List<TreeNode>();
             for (int i = 0; i < TileData.LandTable.Length; ++i)
             {
                 if (!String.IsNullOrEmpty(land.Name))
@@ -243,7 +243,7 @@ namespace FiddlerControls
                 node.Tag = i;
                 nodes.Add(node);
             }
-            refMarker.treeViewLand.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+            refMarker.treeViewLand.Nodes.AddRange(nodes.ToArray());
             refMarker.treeViewLand.EndUpdate();
             if (refMarker.treeViewLand.Nodes.Count > 0)
                 refMarker.treeViewLand.SelectedNode = refMarker.treeViewLand.Nodes[0];

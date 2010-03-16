@@ -2,7 +2,6 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -151,8 +150,10 @@ namespace Ultima
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                using (BinaryWriter binidx = new BinaryWriter(fsidx),
-                                    binmul = new BinaryWriter(fsmul))
+                MemoryStream memidx = new MemoryStream();
+                MemoryStream memmul = new MemoryStream();
+                using (BinaryWriter binidx = new BinaryWriter(memidx),
+                                    binmul = new BinaryWriter(memmul))
                 {
                     for (int index = 0; index < GetIdxLength(); ++index)
                     {
@@ -172,8 +173,8 @@ namespace Ultima
                             ushort* line = (ushort*)bd.Scan0;
                             int delta = bd.Stride >> 1;
 
-                            binidx.Write((int)fsmul.Position); //lookup
-                            int length = (int)fsmul.Position;
+                            binidx.Write((int)binmul.BaseStream.Position); //lookup
+                            int length = (int)binmul.BaseStream.Position;
 
                             for (int Y = 0; Y < bmp.Height; ++Y, line += delta)
                             {
@@ -183,12 +184,14 @@ namespace Ultima
                                     binmul.Write((ushort)(cur[X] ^ 0x8000));
                                 }
                             }
-                            length = (int)fsmul.Position - length;
+                            length = (int)binmul.BaseStream.Position - length;
                             binidx.Write(length);
                             binidx.Write((int)(bmp.Width == 64 ? 0 : 1));
                             bmp.UnlockBits(bd);
                         }
                     }
+                    memidx.WriteTo(fsidx);
+                    memmul.WriteTo(fsmul);
                 }
             }
         }

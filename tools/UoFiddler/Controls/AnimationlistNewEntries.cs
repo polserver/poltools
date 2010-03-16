@@ -66,7 +66,7 @@ namespace FiddlerControls
                 m_CurrentSelect = value;
                 if (animate)
                     SetAnimation();
-                pictureBox1.Refresh();
+                pictureBox1.Invalidate();
             }
         }
 
@@ -108,7 +108,7 @@ namespace FiddlerControls
             if (m_FrameIndex == m_Animation.Length)
                 m_FrameIndex = 0;
 
-            pictureBox1.Refresh();
+            pictureBox1.Invalidate();
         }
 
         private void OnLoad(object sender, EventArgs e)

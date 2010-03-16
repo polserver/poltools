@@ -10,7 +10,6 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -25,9 +24,9 @@ namespace UoFiddler
     public static class Options
     {
         private static bool m_UpdateCheckOnStart = false;
-        private static ArrayList m_ExternTools;
+        private static List<ExternTool> m_ExternTools;
 
-        public static ArrayList ExternTools
+        public static List<ExternTool> ExternTools
         {
             get { return m_ExternTools; }
             set { m_ExternTools = value; }
@@ -138,8 +137,8 @@ namespace UoFiddler
                     for (int i = 0; i < tool.Args.Count; i++)
                     {
                         XmlElement xarg = dom.CreateElement("Args");
-                        xarg.SetAttribute("name", (string)tool.ArgsName[i]);
-                        xarg.SetAttribute("arg", (string)tool.Args[i]);
+                        xarg.SetAttribute("name", tool.ArgsName[i]);
+                        xarg.SetAttribute("arg", tool.Args[i]);
                         xtool.AppendChild(xarg);
                     }
                     sr.AppendChild(xtool);
@@ -163,7 +162,7 @@ namespace UoFiddler
             elem = dom.CreateElement("RootPath");
             elem.SetAttribute("path", Files.RootDir);
             sr.AppendChild(elem);
-            ArrayList sorter = new ArrayList(Files.MulPath.Keys);
+            List<string> sorter = new List<string>(Files.MulPath.Keys);
             sorter.Sort();
             foreach (string key in sorter)
             {
@@ -256,7 +255,7 @@ namespace UoFiddler
                 FiddlerControls.Options.MapNames[5] = elem.GetAttribute("map5");
             }
 
-            ExternTools = new ArrayList();
+            ExternTools = new List<ExternTool>();
             foreach (XmlElement xTool in xOptions.SelectNodes("ExternTool"))
             {
                 string name = xTool.GetAttribute("name");
@@ -272,7 +271,7 @@ namespace UoFiddler
                 ExternTools.Add(tool);
             }
 
-            FiddlerControls.Options.PluginsToLoad = new ArrayList();
+            FiddlerControls.Options.PluginsToLoad = new List<string>();
             foreach (XmlElement xPlug in xOptions.SelectNodes("Plugin"))
             {
                 string name = xPlug.GetAttribute("name");
@@ -411,15 +410,15 @@ namespace UoFiddler
     {
         public string Name { get; set; }
         public string FileName { get; set; }
-        public ArrayList Args { get; set; }
-        public ArrayList ArgsName { get; set; }
+        public List<string> Args { get; set; }
+        public List<string> ArgsName { get; set; }
 
         public ExternTool(string name, string filename)
         {
             Name = name;
             FileName = filename;
-            Args = new ArrayList();
-            ArgsName = new ArrayList();
+            Args = new List<string>();
+            ArgsName = new List<string>();
         }
 
         public string FormatName()

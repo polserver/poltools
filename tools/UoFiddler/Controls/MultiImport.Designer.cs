@@ -52,6 +52,7 @@ namespace FiddlerControls
             this.comboBox1.Items.AddRange(new object[] {
             "Txt file",
             "UOA file",
+            "UOA Binary file",
             "WSC file"});
             this.comboBox1.Location = new System.Drawing.Point(12, 38);
             this.comboBox1.Name = "comboBox1";
