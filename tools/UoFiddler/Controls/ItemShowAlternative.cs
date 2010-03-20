@@ -352,7 +352,7 @@ namespace FiddlerControls
                         if (b != null)
                         {
                             Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
-                            Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
+                            Size size = new Size(Options.ArtItemSizeWidth - 1, Options.ArtItemSizeHeight - 1);
                             Rectangle rect = new Rectangle(loc, size);
 
                             e.Graphics.Clip = new Region(rect);
@@ -384,7 +384,7 @@ namespace FiddlerControls
                         else
                         {
                             Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
-                            Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
+                            Size size = new Size(Options.ArtItemSizeWidth - 1, Options.ArtItemSizeHeight - 1);
                             Rectangle rect = new Rectangle(loc, size);
 
                             e.Graphics.Clip = new Region(rect);
