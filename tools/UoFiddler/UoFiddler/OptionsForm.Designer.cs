@@ -60,7 +60,9 @@ namespace UoFiddler
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.map5Nametext = new System.Windows.Forms.TextBox();
             this.argstext = new System.Windows.Forms.TextBox();
             this.cmdtext = new System.Windows.Forms.TextBox();
             this.map4Nametext = new System.Windows.Forms.TextBox();
@@ -68,8 +70,6 @@ namespace UoFiddler
             this.map2Nametext = new System.Windows.Forms.TextBox();
             this.map1Nametext = new System.Windows.Forms.TextBox();
             this.map0Nametext = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.map5Nametext = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemSizeHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemSizeWidth)).BeginInit();
@@ -116,6 +116,11 @@ namespace UoFiddler
             // numericUpDownItemSizeHeight
             // 
             this.numericUpDownItemSizeHeight.Location = new System.Drawing.Point(118, 19);
+            this.numericUpDownItemSizeHeight.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDownItemSizeHeight.Name = "numericUpDownItemSizeHeight";
             this.numericUpDownItemSizeHeight.Size = new System.Drawing.Size(50, 20);
             this.numericUpDownItemSizeHeight.TabIndex = 3;
@@ -276,6 +281,16 @@ namespace UoFiddler
             this.label8.Text = "Args";
             this.toolTip1.SetToolTip(this.label8, "{1} = x, {2} = y, {3} = z, {4} = mapid, {5} = mapname");
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 149);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(64, 13);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "map5 Name";
+            this.toolTip1.SetToolTip(this.label9, "Definies the map name");
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label9);
@@ -300,6 +315,13 @@ namespace UoFiddler
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Map";
+            // 
+            // map5Nametext
+            // 
+            this.map5Nametext.Location = new System.Drawing.Point(76, 146);
+            this.map5Nametext.Name = "map5Nametext";
+            this.map5Nametext.Size = new System.Drawing.Size(100, 20);
+            this.map5Nametext.TabIndex = 14;
             // 
             // argstext
             // 
@@ -349,23 +371,6 @@ namespace UoFiddler
             this.map0Nametext.Name = "map0Nametext";
             this.map0Nametext.Size = new System.Drawing.Size(100, 20);
             this.map0Nametext.TabIndex = 0;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 149);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(64, 13);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "map5 Name";
-            this.toolTip1.SetToolTip(this.label9, "Definies the map name");
-            // 
-            // map5Nametext
-            // 
-            this.map5Nametext.Location = new System.Drawing.Point(76, 146);
-            this.map5Nametext.Name = "map5Nametext";
-            this.map5Nametext.Size = new System.Drawing.Size(100, 20);
-            this.map5Nametext.TabIndex = 14;
             // 
             // OptionsForm
             // 
