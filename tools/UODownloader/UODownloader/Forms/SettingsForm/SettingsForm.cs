@@ -37,5 +37,10 @@ namespace UODownloader.Forms
 			}
 		}
 
+		private void SettingsForm_Load(object sender, EventArgs e)
+		{
+
+		}
+
 	}
 }

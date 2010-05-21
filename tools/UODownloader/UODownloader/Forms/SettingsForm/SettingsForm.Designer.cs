@@ -181,6 +181,7 @@
 			this.Name = "SettingsForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Settings";
+			this.Load += new System.EventHandler(this.SettingsForm_Load);
 			this.groupBox23.ResumeLayout(false);
 			this.groupBox23.PerformLayout();
 			this.groupBox22.ResumeLayout(false);

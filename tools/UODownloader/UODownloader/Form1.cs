@@ -21,6 +21,7 @@ namespace UODownloader
 			_downloader.ProgressChanged += new EventHandler(downloader_ProgressChanged);
 			_downloader.StateChanged += new EventHandler(downloader_StateChanged);
 			_downloader.FileDownloadStarted += new EventHandler(downloader_FileDownloadStarted);
+			_downloader.FileDownloadSucceeded += new EventHandler(downloader_FileDownloadCompleted);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -72,7 +73,16 @@ namespace UODownloader
 			string url = (string)Settings.Global.settings["UpdateURL"];
 			try
 			{
-				_downloader.LocalDirectory = Program.GetPath();
+				if (Directory.Exists(Settings.Global.settings["GameDirectory"].ToString()))
+					_downloader.LocalDirectory = Settings.Global.settings["GameDirectory"].ToString();
+				else
+				{
+					textBox2.AppendText("WARNING - Directory '" + Settings.Global.settings["GameDirectory"].ToString()+"' does not exist!" + Environment.NewLine);
+					textBox2.AppendText("Saving files to '" + Program.GetPath() + "'" + Environment.NewLine);
+					_downloader.LocalDirectory = Program.GetPath();
+				}
+
+
 				_downloader.Files.Clear();
 				
 				textBox2.Clear();
@@ -188,6 +198,10 @@ namespace UODownloader
 			BTN_Stop.Enabled = _downloader.CanStop;
 			BTN_Pause.Enabled = _downloader.CanPause;
 			BTN_Resume.Enabled = _downloader.CanResume;
+		}
+
+		private void downloader_FileDownloadCompleted(object sender, EventArgs e)
+		{
 		}
 	}
 }
