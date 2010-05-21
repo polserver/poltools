@@ -22,6 +22,7 @@ namespace UODownloader
 			_downloader.StateChanged += new EventHandler(downloader_StateChanged);
 			_downloader.FileDownloadStarted += new EventHandler(downloader_FileDownloadStarted);
 			_downloader.FileDownloadSucceeded += new EventHandler(downloader_FileDownloadCompleted);
+			_downloader.FileDownloadStopped += new EventHandler(downloader_FileDownloadStopped);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -70,22 +71,23 @@ namespace UODownloader
 		{
 			BTN_Start.Enabled = false;
 			BTN_Pause.Enabled = BTN_Stop.Enabled = true;
+			textBox2.Clear();
 			string url = (string)Settings.Global.settings["UpdateURL"];
 			try
 			{
 				if (Directory.Exists(Settings.Global.settings["GameDirectory"].ToString()))
+				{
 					_downloader.LocalDirectory = Settings.Global.settings["GameDirectory"].ToString();
+				}
 				else
 				{
-					textBox2.AppendText("WARNING - Directory '" + Settings.Global.settings["GameDirectory"].ToString()+"' does not exist!" + Environment.NewLine);
-					textBox2.AppendText("Saving files to '" + Program.GetPath() + "'" + Environment.NewLine);
+					textBox2.AppendText("WARNING - Save directory \"" + Settings.Global.settings["GameDirectory"].ToString() + "\" does not exist! Please check settings." + Environment.NewLine);
 					_downloader.LocalDirectory = Program.GetPath();
 				}
-
-
-				_downloader.Files.Clear();
+				textBox2.AppendText("Saving files to '" + _downloader.LocalDirectory + "'" + Environment.NewLine);
 				
-				textBox2.Clear();
+				_downloader.Files.Clear();
+								
 				textBox2.AppendText("Downloading manifest file..." + Environment.NewLine);
 				string manifest = ReadWebPage(url + "/manifest.txt");
 				textBox2.AppendText(manifest);
@@ -202,6 +204,12 @@ namespace UODownloader
 
 		private void downloader_FileDownloadCompleted(object sender, EventArgs e)
 		{
+			//textBox2.AppendText("Download completed..." + Environment.NewLine);
+		}
+
+		private void downloader_FileDownloadStopped(object sender, EventArgs e)
+		{
+			//textBox2.AppendText("Downloading stopped (clearing files)..." + Environment.NewLine);
 		}
 	}
 }
