@@ -118,10 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 4.4b
+    <value>Version 4.5
 added UOArchitect binary file for import
 speedups
 MultiEditor: like maptab scrolling with right mouse
+Animation Editor: replaced with Soulblighter version big thx for his work, I only did a few speedups
+tutorial is available @ http://www.sphereserver.net/index.php?showtopic=47609
 
 Version 4.4
 Crashfix in Animtab ... again

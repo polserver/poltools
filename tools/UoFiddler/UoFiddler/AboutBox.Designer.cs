@@ -140,9 +140,9 @@ namespace UoFiddler
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(41, 300);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 13);
+            this.label4.Size = new System.Drawing.Size(111, 13);
             this.label4.TabIndex = 8;
-            this.label4.Text = "MuadDib";
+            this.label4.Text = "MuadDib, Soulblighter";
             // 
             // label5
             // 
