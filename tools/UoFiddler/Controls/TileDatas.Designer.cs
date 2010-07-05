@@ -49,29 +49,29 @@ namespace FiddlerControls
             this.selectInItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectRadarColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBoxItem = new System.Windows.Forms.PictureBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBoxUnk3 = new System.Windows.Forms.TextBox();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxUnk2 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.textBoxUnk1 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.textBoxHeigth = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.textBoxValue = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxStackOff = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.textBoxHue = new System.Windows.Forms.TextBox();
+            this.textBoxWeight = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxQuantity = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.textBoxQuality = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBoxWeight = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.textBoxUnk3 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.textBoxAnim = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
@@ -164,28 +164,6 @@ namespace FiddlerControls
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.label12);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxUnk3);
-            this.splitContainer1.Panel2.Controls.Add(this.label9);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxUnk2);
-            this.splitContainer1.Panel2.Controls.Add(this.label10);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxUnk1);
-            this.splitContainer1.Panel2.Controls.Add(this.label11);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxHeigth);
-            this.splitContainer1.Panel2.Controls.Add(this.label6);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxValue);
-            this.splitContainer1.Panel2.Controls.Add(this.label7);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxStackOff);
-            this.splitContainer1.Panel2.Controls.Add(this.label8);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxHue);
-            this.splitContainer1.Panel2.Controls.Add(this.label5);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxQuantity);
-            this.splitContainer1.Panel2.Controls.Add(this.label4);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxQuality);
-            this.splitContainer1.Panel2.Controls.Add(this.label3);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxWeight);
-            this.splitContainer1.Panel2.Controls.Add(this.label1);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxName);
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer1.Size = new System.Drawing.Size(605, 259);
             this.splitContainer1.SplitterDistance = 201;
@@ -251,22 +229,58 @@ namespace FiddlerControls
             this.pictureBoxItem.TabIndex = 0;
             this.pictureBoxItem.TabStop = false;
             // 
-            // label12
+            // splitContainer3
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 110);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(33, 13);
-            this.label12.TabIndex = 23;
-            this.label12.Text = "Unk3";
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer3.IsSplitterFixed = true;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // textBoxUnk3
+            // splitContainer3.Panel1
             // 
-            this.textBoxUnk3.Location = new System.Drawing.Point(45, 107);
-            this.textBoxUnk3.Name = "textBoxUnk3";
-            this.textBoxUnk3.Size = new System.Drawing.Size(51, 20);
-            this.textBoxUnk3.TabIndex = 22;
-            this.textBoxUnk3.TextChanged += new System.EventHandler(this.OnTextChangedItemUnk3);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxName);
+            this.splitContainer3.Panel1.Controls.Add(this.label9);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxUnk2);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxUnk1);
+            this.splitContainer3.Panel1.Controls.Add(this.label10);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxHeigth);
+            this.splitContainer3.Panel1.Controls.Add(this.label11);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxValue);
+            this.splitContainer3.Panel1.Controls.Add(this.label6);
+            this.splitContainer3.Panel1.Controls.Add(this.label7);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxStackOff);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxHue);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxWeight);
+            this.splitContainer3.Panel1.Controls.Add(this.label8);
+            this.splitContainer3.Panel1.Controls.Add(this.label5);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxQuantity);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxQuality);
+            this.splitContainer3.Panel1.Controls.Add(this.label4);
+            this.splitContainer3.Panel1.Controls.Add(this.label3);
+            this.splitContainer3.Panel1.Controls.Add(this.label1);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxUnk3);
+            this.splitContainer3.Panel1.Controls.Add(this.label12);
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxAnim);
+            this.splitContainer3.Panel1.Controls.Add(this.label2);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.checkedListBox1);
+            this.splitContainer3.Size = new System.Drawing.Size(400, 259);
+            this.splitContainer3.SplitterDistance = 157;
+            this.splitContainer3.SplitterWidth = 2;
+            this.splitContainer3.TabIndex = 25;
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(44, 3);
+            this.textBoxName.MaxLength = 20;
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(135, 20);
+            this.textBoxName.TabIndex = 0;
+            this.textBoxName.TextChanged += new System.EventHandler(this.OnTextChangedItemName);
             // 
             // label9
             // 
@@ -285,6 +299,14 @@ namespace FiddlerControls
             this.textBoxUnk2.TabIndex = 20;
             this.textBoxUnk2.TextChanged += new System.EventHandler(this.OnTextChangedItemUnk2);
             // 
+            // textBoxUnk1
+            // 
+            this.textBoxUnk1.Location = new System.Drawing.Point(161, 81);
+            this.textBoxUnk1.Name = "textBoxUnk1";
+            this.textBoxUnk1.Size = new System.Drawing.Size(51, 20);
+            this.textBoxUnk1.TabIndex = 18;
+            this.textBoxUnk1.TextChanged += new System.EventHandler(this.OnTextChangedItemMiscData);
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -294,13 +316,13 @@ namespace FiddlerControls
             this.label10.TabIndex = 19;
             this.label10.Text = "MiscData";
             // 
-            // textBoxUnk1
+            // textBoxHeigth
             // 
-            this.textBoxUnk1.Location = new System.Drawing.Point(161, 81);
-            this.textBoxUnk1.Name = "textBoxUnk1";
-            this.textBoxUnk1.Size = new System.Drawing.Size(51, 20);
-            this.textBoxUnk1.TabIndex = 18;
-            this.textBoxUnk1.TextChanged += new System.EventHandler(this.OnTextChangedItemMiscData);
+            this.textBoxHeigth.Location = new System.Drawing.Point(45, 81);
+            this.textBoxHeigth.Name = "textBoxHeigth";
+            this.textBoxHeigth.Size = new System.Drawing.Size(51, 20);
+            this.textBoxHeigth.TabIndex = 16;
+            this.textBoxHeigth.TextChanged += new System.EventHandler(this.OnTextChangedItemHeight);
             // 
             // label11
             // 
@@ -311,13 +333,13 @@ namespace FiddlerControls
             this.label11.TabIndex = 17;
             this.label11.Text = "Heigth";
             // 
-            // textBoxHeigth
+            // textBoxValue
             // 
-            this.textBoxHeigth.Location = new System.Drawing.Point(45, 81);
-            this.textBoxHeigth.Name = "textBoxHeigth";
-            this.textBoxHeigth.Size = new System.Drawing.Size(51, 20);
-            this.textBoxHeigth.TabIndex = 16;
-            this.textBoxHeigth.TextChanged += new System.EventHandler(this.OnTextChangedItemHeight);
+            this.textBoxValue.Location = new System.Drawing.Point(270, 55);
+            this.textBoxValue.Name = "textBoxValue";
+            this.textBoxValue.Size = new System.Drawing.Size(51, 20);
+            this.textBoxValue.TabIndex = 14;
+            this.textBoxValue.TextChanged += new System.EventHandler(this.OnTextChangedItemValue);
             // 
             // label6
             // 
@@ -327,14 +349,6 @@ namespace FiddlerControls
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 15;
             this.label6.Text = "Value";
-            // 
-            // textBoxValue
-            // 
-            this.textBoxValue.Location = new System.Drawing.Point(270, 55);
-            this.textBoxValue.Name = "textBoxValue";
-            this.textBoxValue.Size = new System.Drawing.Size(51, 20);
-            this.textBoxValue.TabIndex = 14;
-            this.textBoxValue.TextChanged += new System.EventHandler(this.OnTextChangedItemValue);
             // 
             // label7
             // 
@@ -353,6 +367,22 @@ namespace FiddlerControls
             this.textBoxStackOff.TabIndex = 12;
             this.textBoxStackOff.TextChanged += new System.EventHandler(this.OnTextChangedItemStackOff);
             // 
+            // textBoxHue
+            // 
+            this.textBoxHue.Location = new System.Drawing.Point(45, 55);
+            this.textBoxHue.Name = "textBoxHue";
+            this.textBoxHue.Size = new System.Drawing.Size(51, 20);
+            this.textBoxHue.TabIndex = 10;
+            this.textBoxHue.TextChanged += new System.EventHandler(this.OnTextChangedItemHue);
+            // 
+            // textBoxWeight
+            // 
+            this.textBoxWeight.Location = new System.Drawing.Point(45, 29);
+            this.textBoxWeight.Name = "textBoxWeight";
+            this.textBoxWeight.Size = new System.Drawing.Size(51, 20);
+            this.textBoxWeight.TabIndex = 4;
+            this.textBoxWeight.TextChanged += new System.EventHandler(this.OnTextChangedItemWeight);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -361,14 +391,6 @@ namespace FiddlerControls
             this.label8.Size = new System.Drawing.Size(27, 13);
             this.label8.TabIndex = 11;
             this.label8.Text = "Hue";
-            // 
-            // textBoxHue
-            // 
-            this.textBoxHue.Location = new System.Drawing.Point(45, 55);
-            this.textBoxHue.Name = "textBoxHue";
-            this.textBoxHue.Size = new System.Drawing.Size(51, 20);
-            this.textBoxHue.TabIndex = 10;
-            this.textBoxHue.TextChanged += new System.EventHandler(this.OnTextChangedItemHue);
             // 
             // label5
             // 
@@ -387,6 +409,14 @@ namespace FiddlerControls
             this.textBoxQuantity.TabIndex = 8;
             this.textBoxQuantity.TextChanged += new System.EventHandler(this.OnTextChangedItemQuantity);
             // 
+            // textBoxQuality
+            // 
+            this.textBoxQuality.Location = new System.Drawing.Point(161, 29);
+            this.textBoxQuality.Name = "textBoxQuality";
+            this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
+            this.textBoxQuality.TabIndex = 6;
+            this.textBoxQuality.TextChanged += new System.EventHandler(this.OnTextChangedItemQuality);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -395,14 +425,6 @@ namespace FiddlerControls
             this.label4.Size = new System.Drawing.Size(39, 13);
             this.label4.TabIndex = 7;
             this.label4.Text = "Quality";
-            // 
-            // textBoxQuality
-            // 
-            this.textBoxQuality.Location = new System.Drawing.Point(161, 29);
-            this.textBoxQuality.Name = "textBoxQuality";
-            this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
-            this.textBoxQuality.TabIndex = 6;
-            this.textBoxQuality.TextChanged += new System.EventHandler(this.OnTextChangedItemQuality);
             // 
             // label3
             // 
@@ -413,14 +435,6 @@ namespace FiddlerControls
             this.label3.TabIndex = 5;
             this.label3.Text = "Weight";
             // 
-            // textBoxWeight
-            // 
-            this.textBoxWeight.Location = new System.Drawing.Point(45, 29);
-            this.textBoxWeight.Name = "textBoxWeight";
-            this.textBoxWeight.Size = new System.Drawing.Size(51, 20);
-            this.textBoxWeight.TabIndex = 4;
-            this.textBoxWeight.TextChanged += new System.EventHandler(this.OnTextChangedItemWeight);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -430,36 +444,22 @@ namespace FiddlerControls
             this.label1.TabIndex = 1;
             this.label1.Text = "Name";
             // 
-            // textBoxName
+            // textBoxUnk3
             // 
-            this.textBoxName.Location = new System.Drawing.Point(44, 3);
-            this.textBoxName.MaxLength = 20;
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(135, 20);
-            this.textBoxName.TabIndex = 0;
-            this.textBoxName.TextChanged += new System.EventHandler(this.OnTextChangedItemName);
+            this.textBoxUnk3.Location = new System.Drawing.Point(45, 107);
+            this.textBoxUnk3.Name = "textBoxUnk3";
+            this.textBoxUnk3.Size = new System.Drawing.Size(51, 20);
+            this.textBoxUnk3.TabIndex = 22;
+            this.textBoxUnk3.TextChanged += new System.EventHandler(this.OnTextChangedItemUnk3);
             // 
-            // splitContainer3
+            // label12
             // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer3.IsSplitterFixed = true;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.textBoxAnim);
-            this.splitContainer3.Panel1.Controls.Add(this.label2);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.checkedListBox1);
-            this.splitContainer3.Size = new System.Drawing.Size(400, 259);
-            this.splitContainer3.SplitterDistance = 133;
-            this.splitContainer3.SplitterWidth = 2;
-            this.splitContainer3.TabIndex = 25;
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(4, 110);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(33, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Unk3";
             // 
             // textBoxAnim
             // 
@@ -485,7 +485,7 @@ namespace FiddlerControls
             this.checkedListBox1.Location = new System.Drawing.Point(0, 0);
             this.checkedListBox1.MultiColumn = true;
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(400, 124);
+            this.checkedListBox1.Size = new System.Drawing.Size(400, 94);
             this.checkedListBox1.TabIndex = 0;
             this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnFlagItemCheckItems);
             // 
@@ -534,7 +534,7 @@ namespace FiddlerControls
             // 
             this.splitContainer6.Panel2.Controls.Add(this.pictureBoxLand);
             this.splitContainer6.Size = new System.Drawing.Size(201, 259);
-            this.splitContainer6.SplitterDistance = 163;
+            this.splitContainer6.SplitterDistance = 162;
             this.splitContainer6.TabIndex = 0;
             // 
             // treeViewLand
@@ -544,7 +544,7 @@ namespace FiddlerControls
             this.treeViewLand.HideSelection = false;
             this.treeViewLand.Location = new System.Drawing.Point(0, 0);
             this.treeViewLand.Name = "treeViewLand";
-            this.treeViewLand.Size = new System.Drawing.Size(201, 163);
+            this.treeViewLand.Size = new System.Drawing.Size(201, 162);
             this.treeViewLand.TabIndex = 0;
             this.treeViewLand.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewLand);
             // 
@@ -575,7 +575,7 @@ namespace FiddlerControls
             this.pictureBoxLand.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxLand.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxLand.Name = "pictureBoxLand";
-            this.pictureBoxLand.Size = new System.Drawing.Size(201, 92);
+            this.pictureBoxLand.Size = new System.Drawing.Size(201, 93);
             this.pictureBoxLand.TabIndex = 0;
             this.pictureBoxLand.TabStop = false;
             // 
@@ -785,7 +785,6 @@ namespace FiddlerControls
             this.tabPageItems.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);

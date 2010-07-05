@@ -516,9 +516,9 @@ namespace Ultima
                             {
                                 ushort* cur = line;
                                 width = (int)(binmul.BaseStream.Position - streamloc) / 2;
-                                fsmul.Seek(lookup + Y * 2, SeekOrigin.Begin);
+                                binmul.BaseStream.Seek(lookup + Y * 2, SeekOrigin.Begin);
                                 binmul.Write(width);
-                                fsmul.Seek(streamloc + width * 2, SeekOrigin.Begin);
+                                binmul.BaseStream.Seek(streamloc + width * 2, SeekOrigin.Begin);
                                 int i = 0;
                                 int j = 0;
                                 X = 0;
