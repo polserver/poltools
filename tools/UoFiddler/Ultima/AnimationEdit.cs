@@ -457,11 +457,11 @@ namespace Ultima
             }
             catch (System.IndexOutOfRangeException)
             {
-                for (i = 0; i < 0x100; i++)
-                {
-                    if (this.Palette[i] < 0x8000)
-                        this.Palette[i] = 0x8000;
-                }
+            }
+            for (i = 0; i < 0x100; i++)
+            {
+                if (this.Palette[i] < 0x8000)
+                    this.Palette[i] = 0x8000;
             }
         }
 
