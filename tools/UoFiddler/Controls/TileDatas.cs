@@ -46,10 +46,15 @@ namespace FiddlerControls
 
         private static TileDatas refMarker = null;
         private bool ChangingIndex = false;
+        private bool Loaded = false;
+
+        public bool isLoaded { get { return Loaded; } }
 
 
         public static void Select(int graphic, bool land)
         {
+            if (!refMarker.isLoaded)
+                refMarker.OnLoad(refMarker, EventArgs.Empty);
             SearchGraphic(graphic, land);
         }
         public static bool SearchGraphic(int graphic, bool land)
@@ -249,14 +254,16 @@ namespace FiddlerControls
                 refMarker.treeViewLand.SelectedNode = refMarker.treeViewLand.Nodes[0];
         }
 
-        private bool Loaded = false;
         private void Reload()
         {
             if (Loaded)
-                OnLoad(this, EventArgs.Empty);
+                OnLoad(this, new MyEventArgs(MyEventArgs.TYPES.FORCERELOAD));
         }
-        private void OnLoad(object sender, EventArgs e)
+        public void OnLoad(object sender, EventArgs e)
         {
+            MyEventArgs _args = e as MyEventArgs;
+            if (Loaded && (_args == null || _args.Type != MyEventArgs.TYPES.FORCERELOAD))
+                return;
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;

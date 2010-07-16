@@ -195,8 +195,8 @@ namespace FiddlerControls
                         trackBar2.Value = 0;
                         trackBar2.Invalidate();
 
-                        numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                        numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                        numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                        numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                     }
                     //Soulblighter Modification
                     else
@@ -288,8 +288,8 @@ namespace FiddlerControls
                             varFW = currbits[trackBar2.Value].Width;
                             varFH = currbits[trackBar2.Value].Height;
                         }
-                        int x = FramePoint.X - ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                        int y = FramePoint.Y - ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y - currbits[trackBar2.Value].Height;
+                        int x = FramePoint.X - edit.Frames[trackBar2.Value].Center.X;
+                        int y = FramePoint.Y - edit.Frames[trackBar2.Value].Center.Y - currbits[trackBar2.Value].Height;
                         e.Graphics.FillRectangle(WhiteTrasparent, new Rectangle(x, y, varFW, varFH));
                         e.Graphics.DrawRectangle(Pens.Red, new Rectangle(x, y, varW, varH));
                         e.Graphics.DrawImage(currbits[trackBar2.Value], x, y);
@@ -320,8 +320,8 @@ namespace FiddlerControls
                 {
                     if (edit.Frames.Count >= trackBar2.Value)
                     {
-                        numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                        numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                        numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                        numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                     }
                 }
                 pictureBox1.Invalidate();
@@ -340,7 +340,7 @@ namespace FiddlerControls
                     {
                         if (edit.Frames.Count >= trackBar2.Value)
                         {
-                            FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                            FrameEdit frame = edit.Frames[trackBar2.Value];
                             if (numericUpDownCx.Value != frame.Center.X)
                             {
                                 frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
@@ -365,7 +365,7 @@ namespace FiddlerControls
                     {
                         if (edit.Frames.Count >= trackBar2.Value)
                         {
-                            FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                            FrameEdit frame = edit.Frames[trackBar2.Value];
                             if (numericUpDownCy.Value != frame.Center.Y)
                             {
                                 frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
@@ -679,8 +679,8 @@ namespace FiddlerControls
                                     progressBar1.Value = 0;
                                     progressBar1.Invalidate();
                                     SetPaletteBox();
-                                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                    numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                    numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                     Options.ChangedUltimaClass["Animations"] = true;
                                 }
                                 //End of Soulblighter Modifications
@@ -707,8 +707,8 @@ namespace FiddlerControls
 
                                     listView1.TileSize = new Size(width + 5, height + 5);
                                     trackBar2.Maximum = i;
-                                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                    numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                    numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                     Options.ChangedUltimaClass["Animations"] = true;
                                 }
                             }
@@ -928,7 +928,7 @@ namespace FiddlerControls
                             FrameEdit[] frame = new FrameEdit[edit.Frames.Count];
                             for (int Index = 0; Index < edit.Frames.Count; Index++)
                             {
-                                frame[Index] = (FrameEdit)edit.Frames[Index];
+                                frame[Index] = edit.Frames[Index];
                                 frame[Index].ChangeCenter((int)numericUpDownCx.Value, (int)numericUpDownCy.Value);
                                 Options.ChangedUltimaClass["Animations"] = true;
                                 pictureBox1.Invalidate();
@@ -1141,8 +1141,8 @@ namespace FiddlerControls
                                             progressBar1.Invalidate();
                                             SetPaletteBox();
                                             listView1.Invalidate();
-                                            numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                            numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                            numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                            numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                             Options.ChangedUltimaClass["Animations"] = true;
                                         }
                                     }
@@ -1218,8 +1218,8 @@ namespace FiddlerControls
                                                 progressBar1.Invalidate();
                                                 SetPaletteBox();
                                                 listView1.Invalidate();
-                                                numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                                numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                                numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                                numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                                 Options.ChangedUltimaClass["Animations"] = true;
                                             }
                                         }
@@ -1654,8 +1654,8 @@ namespace FiddlerControls
                                                 progressBar1.Invalidate();
                                                 SetPaletteBox();
                                                 listView1.Invalidate();
-                                                numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                                numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                                numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                                numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                                 Options.ChangedUltimaClass["Animations"] = true;
                                             }
                                         }
@@ -1953,8 +1953,8 @@ namespace FiddlerControls
                                                     progressBar1.Invalidate();
                                                     SetPaletteBox();
                                                     listView1.Invalidate();
-                                                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                                    numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                                    numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                                     Options.ChangedUltimaClass["Animations"] = true;
                                                 }
                                             }
@@ -2268,8 +2268,8 @@ namespace FiddlerControls
                                         progressBar1.Invalidate();
                                         SetPaletteBox();
                                         listView1.Invalidate();
-                                        numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                        numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                        numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                        numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                         Options.ChangedUltimaClass["Animations"] = true;
                                     }
                                     //End of Soulblighter Modifications
@@ -2401,11 +2401,9 @@ namespace FiddlerControls
                         {
                             if (edit.Frames.Count >= trackBar2.Value)
                             {
-                                FrameEdit[] frame = new FrameEdit[edit.Frames.Count];
                                 for (int Index = 0; Index < edit.Frames.Count; Index++)
                                 {
-                                    frame[Index] = (FrameEdit)edit.Frames[Index];
-                                    frame[Index].ChangeCenter(AnimCx[i], AnimCy[i]);
+                                    edit.Frames[Index].ChangeCenter(AnimCx[i], AnimCy[i]);
                                     Options.ChangedUltimaClass["Animations"] = true;
                                     pictureBox1.Invalidate();
                                 }
@@ -3737,8 +3735,8 @@ namespace FiddlerControls
                                     progressBar1.Invalidate();
                                     SetPaletteBox();
                                     listView1.Invalidate();
-                                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                    numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                    numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                     Options.ChangedUltimaClass["Animations"] = true;
                                 }
                             }
@@ -5085,8 +5083,8 @@ namespace FiddlerControls
                                     progressBar1.Invalidate();
                                     SetPaletteBox();
                                     listView1.Invalidate();
-                                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                                    numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                                    numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                                     Options.ChangedUltimaClass["Animations"] = true;
                                 }
                             }

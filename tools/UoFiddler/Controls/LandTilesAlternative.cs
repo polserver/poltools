@@ -35,6 +35,7 @@ namespace FiddlerControls
         private int row;
         private int selected = -1;
         private bool Loaded = false;
+        public bool isLoaded { get { return Loaded; } }
 
         private static LandTilesAlternative refMarker = null;
 
@@ -58,6 +59,8 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
+            if (!refMarker.isLoaded)
+                refMarker.OnLoad(refMarker, EventArgs.Empty);
             for (int i = 0; i < refMarker.TileList.Count; ++i)
             {
                 if (refMarker.TileList[i] == graphic)
@@ -109,7 +112,7 @@ namespace FiddlerControls
                 return;
             TileList = new List<int>();
             selected = -1;
-            OnLoad(this, EventArgs.Empty);
+            OnLoad(this, new MyEventArgs(MyEventArgs.TYPES.FORCERELOAD));
         }
 
         private int GetIndex(int x, int y)
@@ -121,7 +124,7 @@ namespace FiddlerControls
                 return -1;
         }
 
-        private void OnLoad(object sender, EventArgs e)
+        public void OnLoad(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;

@@ -33,12 +33,15 @@ namespace FiddlerControls
         private short CurrCol = -1;
         private static RadarColor refMarker;
         private bool Updating = false;
+        public bool isLoaded { get { return Loaded; } }
 
         [Browsable(false),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public short CurrColor { 
-            get { return CurrCol; } 
-            set {
+        public short CurrColor
+        {
+            get { return CurrCol; }
+            set
+            {
                 if (CurrCol != value)
                 {
                     CurrCol = value;
@@ -51,11 +54,13 @@ namespace FiddlerControls
                     numericUpDownB.Value = col.B;
                     Updating = false;
                 }
-            } 
+            }
         }
 
         public static void Select(int graphic, bool land)
         {
+            if (!refMarker.isLoaded)
+                refMarker.OnLoad(refMarker, EventArgs.Empty);
             int index = 0;
             if (land)
             {
@@ -89,16 +94,19 @@ namespace FiddlerControls
         private void Reload()
         {
             if (Loaded)
-                OnLoad(this, EventArgs.Empty);
+                OnLoad(this, new MyEventArgs(MyEventArgs.TYPES.FORCERELOAD));
         }
 
-        private void OnLoad(object sender, EventArgs e)
+        public void OnLoad(object sender, EventArgs e)
         {
+            MyEventArgs _args = e as MyEventArgs;
+            if (Loaded && (_args == null || _args.Type != MyEventArgs.TYPES.FORCERELOAD))
+                return;
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
-            
+
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
             if (TileData.ItemTable != null)
@@ -179,7 +187,7 @@ namespace FiddlerControls
         private void OnClickMeanColor(object sender, EventArgs e)
         {
             Bitmap image;
-            if (tabControl2.SelectedIndex==0)
+            if (tabControl2.SelectedIndex == 0)
                 image = Art.GetStatic(SelectedIndex);
             else
                 image = Art.GetLand(SelectedIndex);
@@ -232,12 +240,12 @@ namespace FiddlerControls
 
         private void onClickSaveColor(object sender, EventArgs e)
         {
-            if (SelectedIndex>=0)
+            if (SelectedIndex >= 0)
             {
                 if (tabControl2.SelectedIndex == 0)
-                    Ultima.RadarCol.SetItemColor(SelectedIndex,CurrColor);
+                    Ultima.RadarCol.SetItemColor(SelectedIndex, CurrColor);
                 else
-                    Ultima.RadarCol.SetLandColor(SelectedIndex,CurrColor);
+                    Ultima.RadarCol.SetLandColor(SelectedIndex, CurrColor);
                 Options.ChangedUltimaClass["RadarCol"] = true;
             }
         }
