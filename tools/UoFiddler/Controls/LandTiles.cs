@@ -31,6 +31,7 @@ namespace FiddlerControls
 
         private static LandTiles refMarker = null;
         private bool Loaded = false;
+        public bool isLoaded { get { return Loaded; } }
 
         /// <summary>
         /// Searches Objtype and Select
@@ -39,6 +40,8 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
+            if (!refMarker.isLoaded)
+                refMarker.OnLoad(refMarker, EventArgs.Empty);
             int index = 0;
             for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
@@ -96,10 +99,13 @@ namespace FiddlerControls
         private void Reload()
         {
             if (Loaded)
-                OnLoad(this, EventArgs.Empty);
+                OnLoad(this, new MyEventArgs(MyEventArgs.TYPES.FORCERELOAD));
         }
-        private void OnLoad(object sender, EventArgs e)
+        public void OnLoad(object sender, EventArgs e)
         {
+            MyEventArgs _args = e as MyEventArgs;
+            if (Loaded && (_args == null || _args.Type != MyEventArgs.TYPES.FORCERELOAD))
+                return;
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;

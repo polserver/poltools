@@ -40,6 +40,7 @@ namespace FiddlerControls
 
         public static ItemShow RefMarker { get { return refMarker; } }
         public static ListView ItemListView { get { return refMarker.listView1; } }
+        public bool isLoaded { get { return Loaded; } }
 
         /// <summary>
         /// Updates if TileSize is changed
@@ -80,6 +81,8 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
+            if (!refMarker.isLoaded)
+                refMarker.OnLoad(refMarker, EventArgs.Empty);
             int index = 0;
             for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
@@ -137,11 +140,14 @@ namespace FiddlerControls
         private void Reload()
         {
             if (Loaded)
-                OnLoad(this, EventArgs.Empty);
+                OnLoad(this, new MyEventArgs(MyEventArgs.TYPES.FORCERELOAD));
         }
 
-        private void OnLoad(object sender, EventArgs e)
+        public void OnLoad(object sender, EventArgs e)
         {
+            MyEventArgs _args = e as MyEventArgs;
+            if (Loaded && (_args == null || _args.Type != MyEventArgs.TYPES.FORCERELOAD))
+                return;
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
@@ -185,15 +191,6 @@ namespace FiddlerControls
                                 }
                             }
                         }
-                        //int length = bin.ReadInt32();
-                        //bin.BaseStream.Seek(length, SeekOrigin.Current);
-                        //while (bin.BaseStream.Length != bin.BaseStream.Position)
-                        //{
-                        //    int i = bin.ReadInt32();
-                        //    ListViewItem item = new ListViewItem(i.ToString(), 0);
-                        //    item.Tag = i;
-                        //    itemcache.Add(item);
-                        //}
                     }
                     listView1.Items.AddRange(itemcache.ToArray());
                 }

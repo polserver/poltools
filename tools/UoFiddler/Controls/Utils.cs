@@ -9,6 +9,7 @@
  *
  ***************************************************************************/
 
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -210,6 +211,18 @@ namespace FiddlerControls
             bmpnew.UnlockBits(bdnew);
             return bmpnew;
         }
+    }
+
+    public class MyEventArgs : EventArgs
+    {
+        public enum TYPES
+        {
+            COMMON = 0,
+            FORCERELOAD
+        }
+        public TYPES Type { get; private set; }
+        public MyEventArgs() { Type = TYPES.COMMON; }
+        public MyEventArgs(TYPES type) { Type = type; }
     }
 }
 
