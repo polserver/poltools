@@ -191,7 +191,7 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.extractMapToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(175, 308);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(175, 330);
             this.contextMenuStrip1.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.onContextClosed);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.OnOpenContext);
             // 
@@ -316,21 +316,21 @@ namespace FiddlerControls
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.ExtractMapBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.ExtractMapTiff);
             // 
             // asJpgToolStripMenuItem
             // 
             this.asJpgToolStripMenuItem.Name = "asJpgToolStripMenuItem";
-            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.asJpgToolStripMenuItem.Text = "As Jpg";
             this.asJpgToolStripMenuItem.Click += new System.EventHandler(this.ExtractMapJpg);
             // 

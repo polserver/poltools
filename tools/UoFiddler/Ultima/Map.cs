@@ -736,9 +736,9 @@ namespace Ultima
                             }
                         }
                     }
+                    memidx.WriteTo(fsidx);
+                    memmul.WriteTo(fsmul);
                 }
-                memidx.WriteTo(fsidx);
-                memmul.WriteTo(fsmul);
             }
             m_IndexReader.Close();
             m_StaticsReader.Close();
