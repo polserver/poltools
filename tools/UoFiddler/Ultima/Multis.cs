@@ -965,7 +965,7 @@ namespace Ultima
                 if (MessageBox.Show("No invisible Center Item found do you want to add it?",
                     "Multi Save",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                    MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     m_SortedTiles = new MultiTileEntry[count + 1];
                     m_SortedTiles[0].m_ItemID = 0x1; // insert invis center item
