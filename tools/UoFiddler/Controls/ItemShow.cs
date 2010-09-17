@@ -347,7 +347,7 @@ namespace FiddlerControls
             int i = (int)e.Item.Tag;
             if (i == -1)
             {
-                if ((e.State & ListViewItemStates.Focused) != 0)
+                if (e.Item.Selected)
                     e.Graphics.FillRectangle(BrushLightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
                     e.Graphics.DrawRectangle(PenGray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
@@ -360,7 +360,7 @@ namespace FiddlerControls
 
             if (bmp != null)
             {
-                if ((e.State & ListViewItemStates.Focused) != 0)
+                if (e.Item.Selected)
                     e.Graphics.FillRectangle(BrushLightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else if (patched)
                     e.Graphics.FillRectangle(BrushLightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
@@ -390,7 +390,7 @@ namespace FiddlerControls
                     e.Graphics.DrawImage(bmp,
                                          new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
                 }
-                if ((e.State & ListViewItemStates.Focused) == 0)
+                if (!e.Item.Selected)
                     e.Graphics.DrawRectangle(PenGray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
         }

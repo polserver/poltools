@@ -954,7 +954,7 @@ namespace Ultima
                         m_SortedTiles[0].m_Flags = 0;
                         m_SortedTiles[0].m_ItemID = 0x1;
                         centerfound = true;
-                        newtiles[m_Center.X][m_Center.Y].Set(i, 0xFFFF, 0);
+                        newtiles[m_Center.X][m_Center.Y].Remove(i);
                         break;
                     }
                 }
@@ -984,26 +984,23 @@ namespace Ultima
                     MTile[] tiles = newtiles[x][y].ToArray();
                     for (int i = 0; i < tiles.Length; ++i)
                     {
-                        if (tiles[i].ID != 0xFFFF)
-                        {
-                            m_SortedTiles[counter].m_ItemID = (ushort)(tiles[i].ID);
-                            m_SortedTiles[counter].m_OffsetX = (short)(x - m_Center.X);
-                            m_SortedTiles[counter].m_OffsetY = (short)(y - m_Center.Y);
-                            m_SortedTiles[counter].m_OffsetZ = (short)(tiles[i].Z);
-                            m_SortedTiles[counter].m_Flags = (int)tiles[i].Flag;
+                        m_SortedTiles[counter].m_ItemID = (ushort)(tiles[i].ID);
+                        m_SortedTiles[counter].m_OffsetX = (short)(x - m_Center.X);
+                        m_SortedTiles[counter].m_OffsetY = (short)(y - m_Center.Y);
+                        m_SortedTiles[counter].m_OffsetZ = (short)(tiles[i].Z);
+                        m_SortedTiles[counter].m_Flags = (int)tiles[i].Flag;
 
-                            if (m_SortedTiles[counter].m_OffsetX < m_Min.X)
-                                m_Min.X = m_SortedTiles[counter].m_OffsetX;
-                            if (m_SortedTiles[counter].m_OffsetX > m_Max.X)
-                                m_Max.X = m_SortedTiles[counter].m_OffsetX;
-                            if (m_SortedTiles[counter].m_OffsetY < m_Min.Y)
-                                m_Min.Y = m_SortedTiles[counter].m_OffsetY;
-                            if (m_SortedTiles[counter].m_OffsetY > m_Max.Y)
-                                m_Max.Y = m_SortedTiles[counter].m_OffsetY;
-                            if (m_SortedTiles[counter].m_OffsetZ > m_maxHeight)
-                                m_maxHeight = m_SortedTiles[counter].m_OffsetZ;
-                            ++counter;
-                        }
+                        if (m_SortedTiles[counter].m_OffsetX < m_Min.X)
+                            m_Min.X = m_SortedTiles[counter].m_OffsetX;
+                        if (m_SortedTiles[counter].m_OffsetX > m_Max.X)
+                            m_Max.X = m_SortedTiles[counter].m_OffsetX;
+                        if (m_SortedTiles[counter].m_OffsetY < m_Min.Y)
+                            m_Min.Y = m_SortedTiles[counter].m_OffsetY;
+                        if (m_SortedTiles[counter].m_OffsetY > m_Max.Y)
+                            m_Max.Y = m_SortedTiles[counter].m_OffsetY;
+                        if (m_SortedTiles[counter].m_OffsetZ > m_maxHeight)
+                            m_maxHeight = m_SortedTiles[counter].m_OffsetZ;
+                        ++counter;
                     }
                 }
             }
