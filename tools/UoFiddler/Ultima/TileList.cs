@@ -112,5 +112,10 @@ namespace Ultima
             if (i < Count)
                 m_Tiles[i].Set(id, z, flag);
         }
+        public void Remove(int i)
+        {
+            if (i < Count)
+                m_Tiles.RemoveAt(i);
+        }
     }
 }
