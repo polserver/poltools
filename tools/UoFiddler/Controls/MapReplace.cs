@@ -31,6 +31,15 @@ namespace FiddlerControls
             numericUpDownToX1.Maximum = workingmap.Width;
             numericUpDownToY1.Maximum = workingmap.Height;
             this.Text = String.Format("MapReplace ID:{0}",workingmap.FileIndex);
+            comboBoxMapID.BeginUpdate();
+            comboBoxMapID.Items.Add(new R_FeluccaOld());
+            comboBoxMapID.Items.Add(new R_Felucca());
+            comboBoxMapID.Items.Add(new R_Trammel());
+            comboBoxMapID.Items.Add(new R_Malas());
+            comboBoxMapID.Items.Add(new R_Tokuno());
+            comboBoxMapID.Items.Add(new R_TerMur());
+            comboBoxMapID.EndUpdate();
+            comboBoxMapID.SelectedIndex = 0;
         }
 
         private void OnClickBrowse(object sender, EventArgs e)
@@ -47,7 +56,16 @@ namespace FiddlerControls
         {
             string path = textBox1.Text;
             if (!Directory.Exists(path))
+            {
+                MessageBox.Show("Path not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
+            }
+            SupportedMaps replacemap = comboBoxMapID.SelectedItem as SupportedMaps;
+            if (replacemap == null)
+            {
+                MessageBox.Show("Invalid Map ID!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return;
+            }
             int x1 = (int)numericUpDownX1.Value;
             int x2 = (int)numericUpDownX2.Value;
             int y1 = (int)numericUpDownY1.Value;
@@ -55,22 +73,41 @@ namespace FiddlerControls
             int tox = (int)numericUpDownToX1.Value;
             int toy = (int)numericUpDownToY1.Value;
 
-            if ((x1<0) || (x1>workingmap.Width))
+            if ((x1 < 0) || (x1 > workingmap.Width) || (x1 > replacemap.Width))
+            {
+                MessageBox.Show("Invalid X1 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if ((x2<0) || (x2>workingmap.Width))
+            }
+            if ((x2 < 0) || (x2 > workingmap.Width) || (x2 > replacemap.Width))
+            {
+                MessageBox.Show("Invalid X2 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if ((y1 < 0) || (y1 > workingmap.Height))
+            }
+            if ((y1 < 0) || (y1 > workingmap.Height) || (y1 > replacemap.Height))
+            {
+                MessageBox.Show("Invalid Y1 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if ((y2 < 0) || (y2 > workingmap.Height))
+            }
+            if ((y2 < 0) || (y2 > workingmap.Height) || (y2 > replacemap.Height))
+            {
+                MessageBox.Show("Invalid Y2 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if (x1 > x2)
+            }
+            if ((x1 > x2) || (y1 > y2))
+            {
+                MessageBox.Show("X1 and Y1 cannot be bigger than X2 and Y2!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if (y1 > y2)
+            }
+            if ((tox < 0) || (tox > workingmap.Width) || ((tox + (x2 - x1)) > workingmap.Width) || (tox > replacemap.Width) || ((tox + (x2 - x1)) > replacemap.Width))
+            {
+                MessageBox.Show("Invalid toX coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if ((tox < 0) || (tox > workingmap.Width) || ((tox + (x2-x1)) > workingmap.Width) )
+            }
+            if ((toy < 0) || (toy > workingmap.Height) || ((toy + (y2 - y1)) > workingmap.Height) || (toy > replacemap.Height) || ((toy + (y2 - y1)) > replacemap.Height))
+            {
+                MessageBox.Show("Invalid toX coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if ((toy < 0) || (toy > workingmap.Height) || ((toy + (y2-y1)) > workingmap.Height))
-                return;
+            }
 
             x1 >>= 3;
             x2 >>= 3;
@@ -85,6 +122,8 @@ namespace FiddlerControls
 
             int blocky = workingmap.Height >> 3;
             int blockx = workingmap.Width >> 3;
+            int blockyreplace = replacemap.Height >> 3;
+            int blockxreplace = replacemap.Width >> 3;
 
             progressBar1.Step = 1;
             progressBar1.Value = 0;
@@ -96,9 +135,12 @@ namespace FiddlerControls
             
             if (checkBoxMap.Checked)
             {
-                string copymap = Path.Combine(path, String.Format("map{0}.mul", workingmap.FileIndex));
+                string copymap = Path.Combine(path, String.Format("map{0}.mul", replacemap.ID));
                 if (!File.Exists(copymap))
+                {
+                    MessageBox.Show("Map file not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
                 FileStream m_map_copy = new FileStream(copymap, FileMode.Open, FileAccess.Read, FileShare.Read);
                 BinaryReader m_mapReader_copy = new BinaryReader(m_map_copy);
 
@@ -111,7 +153,10 @@ namespace FiddlerControls
                     m_mapReader = new BinaryReader(m_map);
                 }
                 else
+                {
+                    MessageBox.Show("Map file not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
 
                 string mul = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("map{0}.mul", workingmap.FileIndex));
                 using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -124,7 +169,7 @@ namespace FiddlerControls
                             {
                                 if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                 {
-                                    m_mapReader_copy.BaseStream.Seek((((x-tox+x1) * blocky) + (y-toy+y1)) * 196, SeekOrigin.Begin);
+                                    m_mapReader_copy.BaseStream.Seek((((x - tox + x1) * blockyreplace) + (y - toy + y1)) * 196, SeekOrigin.Begin);
                                     int header = m_mapReader_copy.ReadInt32();
                                     binmul.Write(header);
                                 }
@@ -176,7 +221,10 @@ namespace FiddlerControls
                     m_IndexReader = new BinaryReader(m_Index);
                 }
                 else
+                {
+                    MessageBox.Show("Static file not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
 
                 string staticsPath = Files.GetFilePath(String.Format("statics{0}.mul", workingmap.FileIndex));
 
@@ -188,18 +236,27 @@ namespace FiddlerControls
                     m_StaticsReader = new BinaryReader(m_Statics);
                 }
                 else
+                {
+                    MessageBox.Show("Static file not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
 
 
-                string copyindexPath = Path.Combine(path, String.Format("staidx{0}.mul", workingmap.FileIndex));
+                string copyindexPath = Path.Combine(path, String.Format("staidx{0}.mul", replacemap.ID));
                 if (!File.Exists(copyindexPath))
+                {
+                    MessageBox.Show("Static file not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
                 FileStream m_Index_copy = new FileStream(copyindexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 BinaryReader m_IndexReader_copy = new BinaryReader(m_Index_copy);
 
-                string copystaticsPath = Path.Combine(path, String.Format("statics{0}.mul", workingmap.FileIndex));
+                string copystaticsPath = Path.Combine(path, String.Format("statics{0}.mul", replacemap.ID));
                 if (!File.Exists(copystaticsPath))
+                {
+                    MessageBox.Show("Static file not found!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
                 FileStream m_Statics_copy = new FileStream(copystaticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 BinaryReader m_StaticsReader_copy = new BinaryReader(m_Statics_copy);
 
@@ -218,7 +275,7 @@ namespace FiddlerControls
                                 int lookup, length, extra;
                                 if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                 {
-                                    m_IndexReader_copy.BaseStream.Seek((((x - tox + x1) * blocky) + (y - toy + y1)) * 12, SeekOrigin.Begin);
+                                    m_IndexReader_copy.BaseStream.Seek((((x - tox + x1) * blockyreplace) + (y - toy + y1)) * 12, SeekOrigin.Begin);
                                     lookup = m_IndexReader_copy.ReadInt32();
                                     length = m_IndexReader_copy.ReadInt32();
                                     extra = m_IndexReader_copy.ReadInt32();
@@ -373,6 +430,53 @@ namespace FiddlerControls
             }
 
             MessageBox.Show(String.Format("Files saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        class SupportedMaps
+        {
+            public int ID { get; private set; }
+            public string Name { get; private set; }
+            public int Height { get; private set; }
+            public int Width { get; private set; }
+            public SupportedMaps(int id, string name, int width, int height)
+            {
+                ID = id;
+                Name = name;
+                Width = width;
+                Height = height;
+            }
+            public override string ToString()
+            {
+                return String.Format("{0} - {1} : {2}x{3}", ID, Name, Width, Height);
+            }
+        }
+        class R_FeluccaOld : SupportedMaps
+        {
+            public R_FeluccaOld() : base(0, Options.MapNames[0] + "Old", 6144, 4096) { }
+        }
+        class R_Felucca : SupportedMaps
+        {
+            public R_Felucca() : base(0, Options.MapNames[0], 7168, 4096) { }
+        }
+        class R_Trammel : SupportedMaps
+        {
+            public R_Trammel() : base(1, Options.MapNames[1], 7168, 4096) { }
+        }
+        class R_Ilshenar : SupportedMaps
+        {
+            public R_Ilshenar() : base(2, Options.MapNames[2], 2304, 1600) { }
+        }
+        class R_Malas : SupportedMaps
+        {
+            public R_Malas() : base(3, Options.MapNames[3], 2560, 2048) { }
+        }
+        class R_Tokuno : SupportedMaps
+        {
+            public R_Tokuno() : base(4, Options.MapNames[4], 1448, 1448) { }
+        }
+        class R_TerMur : SupportedMaps
+        {
+            public R_TerMur() : base(5, Options.MapNames[5], 1280, 4096) { }
         }
     }
 }

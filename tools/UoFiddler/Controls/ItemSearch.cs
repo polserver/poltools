@@ -73,5 +73,17 @@ namespace FiddlerControls
                     Close();
             }
         }
+
+        private void onKeyDownSearch(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if ((TextBox)sender == textBoxGraphic)
+                    Search_Graphic(this, null);
+                else
+                    Search_ItemName(this, null);
+                e.SuppressKeyPress = true;
+            }
+        }
     }
 }

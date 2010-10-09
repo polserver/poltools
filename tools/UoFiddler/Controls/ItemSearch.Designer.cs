@@ -54,6 +54,7 @@ namespace FiddlerControls
             this.textBoxGraphic.Name = "textBoxGraphic";
             this.textBoxGraphic.Size = new System.Drawing.Size(256, 20);
             this.textBoxGraphic.TabIndex = 0;
+            this.textBoxGraphic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownSearch);
             // 
             // button1
             // 
@@ -74,6 +75,7 @@ namespace FiddlerControls
             this.textBoxItemName.Name = "textBoxItemName";
             this.textBoxItemName.Size = new System.Drawing.Size(256, 20);
             this.textBoxItemName.TabIndex = 2;
+            this.textBoxItemName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownSearch);
             // 
             // button2
             // 

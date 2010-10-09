@@ -75,6 +75,7 @@ namespace FiddlerControls
             this.textBoxItemName.Name = "textBoxItemName";
             this.textBoxItemName.Size = new System.Drawing.Size(256, 20);
             this.textBoxItemName.TabIndex = 8;
+            this.textBoxItemName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownSearch);
             // 
             // button1
             // 
@@ -97,6 +98,7 @@ namespace FiddlerControls
             this.textBoxGraphic.Name = "textBoxGraphic";
             this.textBoxGraphic.Size = new System.Drawing.Size(256, 20);
             this.textBoxGraphic.TabIndex = 6;
+            this.textBoxGraphic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownSearch);
             // 
             // TileDatasSearch
             // 

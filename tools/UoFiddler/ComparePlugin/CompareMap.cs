@@ -281,50 +281,6 @@ namespace ComparePlugin
                                         }
                                     }
                                 }
-                                //Ultima.Tile[] customTiles = currmap.Tiles.GetLandBlock(x, y);
-                                //Ultima.Tile[] origTiles = origmap.Tiles.GetLandBlock(x, y);
-                                //for (int xb = 0; xb < 8; xb++)
-                                //{
-                                //    for (int yb = 0; yb < 8; yb++)
-                                //    {
-                                //        if ((customTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].ID)
-                                //            || (customTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z != origTiles[((yb & 0x7) << 3) + (xb & 0x7)].Z))
-                                //        {
-                                //            mapg.DrawRectangle(Pens.Red, (gx + xb), (gy + yb), 1, 1);
-                                //            mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
-                                //            mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
-                                //        }
-                                //    }
-                                //}
-                                //Ultima.HuedTile[][][] customStatics = currmap.Tiles.GetStaticBlock(x, y);
-                                //Ultima.HuedTile[][][] origStatics = origmap.Tiles.GetStaticBlock(x, y);
-                                //for (int xb = 0; xb < 8; xb++)
-                                //{
-                                //    for (int yb = 0; yb < 8; yb++)
-                                //    {
-                                //        if (customStatics[xb][yb].Length != origStatics[xb][yb].Length)
-                                //        {
-                                //            mapg.DrawRectangle(Pens.Red, gx + xb, gy + yb, 1, 1);
-                                //            mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
-                                //            mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
-                                //        }
-                                //        else
-                                //        {
-                                //            for (int i = 0; i < customStatics[xb][yb].Length; i++)
-                                //            {
-                                //                if ((customStatics[xb][yb][i].ID != origStatics[xb][yb][i].ID)
-                                //                    || (customStatics[xb][yb][i].Z != origStatics[xb][yb][i].Z)
-                                //                    || (customStatics[xb][yb][i].Hue != origStatics[xb][yb][i].Hue))
-                                //                {
-                                //                    mapg.DrawRectangle(Pens.Red, gx + xb, gy + yb, 1, 1);
-                                //                    mapg.DrawRectangle(Pens.Red, (gx + xb), 0, 1, 2);
-                                //                    mapg.DrawRectangle(Pens.Red, 0, (gy + yb), 2, 1);
-                                //                    break;
-                                //                }
-                                //            }
-                                //        }
-                                //    }
-                                //}
                             }
                         }
                         mapg.Save();
@@ -477,7 +433,6 @@ namespace ComparePlugin
 
         private void OnClickLoad(object sender, EventArgs e)
         {
-            string path = toolStripTextBox1.Text;
             ChangeMap();
         }
 

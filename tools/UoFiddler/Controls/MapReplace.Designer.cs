@@ -63,6 +63,8 @@ namespace FiddlerControls
             this.numericUpDownToX1 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownToY1 = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.comboBoxMapID = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX2)).BeginInit();
@@ -200,7 +202,7 @@ namespace FiddlerControls
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(121, 251);
+            this.button2.Location = new System.Drawing.Point(123, 276);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 12;
@@ -211,7 +213,7 @@ namespace FiddlerControls
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 283);
+            this.progressBar1.Location = new System.Drawing.Point(0, 303);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(329, 23);
             this.progressBar1.TabIndex = 13;
@@ -238,7 +240,7 @@ namespace FiddlerControls
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.checkBoxMap);
-            this.groupBox1.Location = new System.Drawing.Point(11, 40);
+            this.groupBox1.Location = new System.Drawing.Point(13, 65);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(145, 65);
             this.groupBox1.TabIndex = 19;
@@ -249,7 +251,7 @@ namespace FiddlerControls
             // 
             this.groupBox2.Controls.Add(this.checkBoxStatics);
             this.groupBox2.Controls.Add(this.RemoveDupl);
-            this.groupBox2.Location = new System.Drawing.Point(170, 40);
+            this.groupBox2.Location = new System.Drawing.Point(172, 65);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(145, 65);
             this.groupBox2.TabIndex = 20;
@@ -266,7 +268,7 @@ namespace FiddlerControls
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.numericUpDownY2);
-            this.groupBox3.Location = new System.Drawing.Point(11, 111);
+            this.groupBox3.Location = new System.Drawing.Point(13, 136);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(304, 74);
             this.groupBox3.TabIndex = 21;
@@ -279,7 +281,7 @@ namespace FiddlerControls
             this.groupBox4.Controls.Add(this.numericUpDownToX1);
             this.groupBox4.Controls.Add(this.numericUpDownToY1);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Location = new System.Drawing.Point(11, 191);
+            this.groupBox4.Location = new System.Drawing.Point(13, 216);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(304, 54);
             this.groupBox4.TabIndex = 22;
@@ -328,11 +330,30 @@ namespace FiddlerControls
             this.label7.TabIndex = 7;
             this.label7.Text = "Y1";
             // 
+            // comboBoxMapID
+            // 
+            this.comboBoxMapID.FormattingEnabled = true;
+            this.comboBoxMapID.Location = new System.Drawing.Point(90, 38);
+            this.comboBoxMapID.Name = "comboBoxMapID";
+            this.comboBoxMapID.Size = new System.Drawing.Size(195, 21);
+            this.comboBoxMapID.TabIndex = 23;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(11, 41);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(42, 13);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "Map ID";
+            // 
             // MapReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 306);
+            this.ClientSize = new System.Drawing.Size(329, 326);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.comboBoxMapID);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -392,5 +413,7 @@ namespace FiddlerControls
         private System.Windows.Forms.NumericUpDown numericUpDownToX1;
         private System.Windows.Forms.NumericUpDown numericUpDownToY1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox comboBoxMapID;
+        private System.Windows.Forms.Label label8;
     }
 }
