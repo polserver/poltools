@@ -718,6 +718,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string gif = Path.Combine(path, "Dress Anim.gif");
             string temp = Path.Combine(path, "temp.png");
+
             using (FileStream fs = File.OpenWrite(gif))
             {
                 m_Animation[0].Save(temp, ImageFormat.Png);

@@ -29,7 +29,7 @@ namespace FiddlerControls
             FindEntry.TextBox.PreviewKeyDown += new PreviewKeyDownEventHandler(FindEntry_PreviewKeyDown);
         }
 
-        #region Var's
+        #region Vars
         private static Cliloc refmarker;
         private static StringList cliloc;
         private static BindingSource source;

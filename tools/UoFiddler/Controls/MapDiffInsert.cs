@@ -38,17 +38,30 @@ namespace FiddlerControls
             int y1 = (int)numericUpDownY1.Value;
             int y2 = (int)numericUpDownY2.Value;
             if ((x1<0) || (x1>workingmap.Width))
+            {
+                MessageBox.Show("Invalid X1 coordinate!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
+            }
             if ((x2<0) || (x2>workingmap.Width))
+            {
+                MessageBox.Show("Invalid X2 coordinate!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
+            }
             if ((y1 < 0) || (y1 > workingmap.Height))
+            {
+                MessageBox.Show("Invalid Y1 coordinate!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
+            }
             if ((y2 < 0) || (y2 > workingmap.Height))
+            {
+                MessageBox.Show("Invalid Y2 coordinate!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if (x1 > x2)
+            }
+            if ((x1 > x2) || (y1 > y2))
+            {
+                MessageBox.Show("X1 and Y1 cannot be bigger than X2 and Y2!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
-            if (y1 > y2)
-                return;
+            }
 
             x1 >>= 3;
             x2 >>= 3;
@@ -77,7 +90,10 @@ namespace FiddlerControls
                     m_mapReader = new BinaryReader(m_map);
                 }
                 else
+                {
+                    MessageBox.Show("Map file not found!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
 
                 string mul = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("map{0}.mul", workingmap.FileIndex));
                 using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -149,7 +165,10 @@ namespace FiddlerControls
                     m_IndexReader = new BinaryReader(m_Index);
                 }
                 else
+                {
+                    MessageBox.Show("Static file not found!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
 
                 string staticsPath = Files.GetFilePath(String.Format("statics{0}.mul", workingmap.FileIndex));
 
@@ -161,7 +180,10 @@ namespace FiddlerControls
                     m_StaticsReader = new BinaryReader(m_Statics);
                 }
                 else
+                {
+                    MessageBox.Show("Static file not found!", "Map Diff Insert", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
+                }
 
                 string idx = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("staidx{0}.mul", workingmap.FileIndex));
                 string mul = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("statics{0}.mul", workingmap.FileIndex));

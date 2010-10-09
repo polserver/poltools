@@ -1053,19 +1053,6 @@ namespace FiddlerControls
             lockbutton = !lockbutton;
             numericUpDown2.Enabled = !lockbutton;
             numericUpDown1.Enabled = !lockbutton;
-
-            //if (lockbutton)
-            //{
-            //    lockbutton = false;
-            //    numericUpDown2.Enabled = true;
-            //    numericUpDown1.Enabled = true;
-            //}
-            //else
-            //{
-            //    lockbutton = true;
-            //    numericUpDown2.Enabled = false;
-            //    numericUpDown1.Enabled = false;
-            //}
         }
         //Add in all Directions
         private void allDirectionsAddToolStripMenuItem_Click(object sender, EventArgs e)
