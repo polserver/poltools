@@ -66,7 +66,7 @@ namespace Ultima
                 if (stream == null)
                     return MultiComponentList.Empty;
 
-                return new MultiComponentList(new BinaryReader(stream), length / 12);
+                return new MultiComponentList(new BinaryReader(stream), length / (Art.IsUOHS()?16:12));
             }
             catch
             {
@@ -391,7 +391,9 @@ namespace Ultima
             m_SortedTiles = new MultiTileEntry[count];
             for (int i = 0; i < count; ++i)
             {
-                if (Art.IsUOSA())
+                if (Art.IsUOHS())
+                    m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16());
+                else if (Art.IsUOSA())
                     m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16() & 0x7FFF);
                 else
                     m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16() & 0x3FFF);
@@ -399,6 +401,8 @@ namespace Ultima
                 m_SortedTiles[i].m_OffsetY = reader.ReadInt16();
                 m_SortedTiles[i].m_OffsetZ = reader.ReadInt16();
                 m_SortedTiles[i].m_Flags = reader.ReadInt32();
+                if (Art.IsUOHS())
+                    reader.ReadInt32();
 
                 MultiTileEntry e = m_SortedTiles[i];
 

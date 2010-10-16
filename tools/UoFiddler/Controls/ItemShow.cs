@@ -200,6 +200,8 @@ namespace FiddlerControls
                 int staticlength = 0x4000;
                 if (Art.IsUOSA())
                     staticlength = 0x8000;
+                else if (Art.IsUOHS())
+                    staticlength = 0xFFDB;
                 for (int i = 0; i < staticlength; ++i)
                 {
                     if (Art.IsValidStatic(i))
