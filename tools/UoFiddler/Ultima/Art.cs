@@ -7,9 +7,9 @@ namespace Ultima
 {
     public sealed class Art
     {
-        private static FileIndex m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x10000, 4);
-        private static Bitmap[] m_Cache = new Bitmap[0x10000];
-        private static bool[] m_Removed = new bool[0x10000];
+        private static FileIndex m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x13fdc, 4);
+        private static Bitmap[] m_Cache = new Bitmap[0x13fdc];
+        private static bool[] m_Removed = new bool[0x13fdc];
         private static Hashtable m_patched = new Hashtable();
         public static bool Modified = false;
 
@@ -25,6 +25,11 @@ namespace Ultima
             return (GetIdxLength() == 0xC000);
         }
 
+        public static bool IsUOHS()
+        {
+            return (GetIdxLength() == 0x13fdc); // 0xFFDB art
+        }
+
         public static int GetIdxLength()
         {
             return (int)(m_FileIndex.IdxLength / 12);
@@ -34,9 +39,9 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_Cache = new Bitmap[0x10000];
-            m_Removed = new bool[0x10000];
-            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x10000, 4);
+            m_Cache = new Bitmap[0x13fdc];
+            m_Removed = new bool[0x13fdc];
+            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x13fdc, 4);
             m_patched.Clear();
             Modified = false;
         }
@@ -49,7 +54,7 @@ namespace Ultima
         public static void ReplaceStatic(int index, Bitmap bmp)
         {
             index += 0x4000;
-            index &= 0xFFFF;
+            //index &= 0xFFFF;
             m_Cache[index] = bmp;
             m_Removed[index] = false;
             if (m_patched.Contains(index))
@@ -79,7 +84,7 @@ namespace Ultima
         public static void RemoveStatic(int index)
         {
             index += 0x4000;
-            index &= 0xFFFF;
+            //index &= 0xFFFF;
             m_Removed[index] = true;
             Modified = true;
         }
@@ -103,7 +108,7 @@ namespace Ultima
         public static unsafe bool IsValidStatic(int index)
         {
             index += 0x4000;
-            index &= 0xFFFF;
+            //index &= 0xFFFF;
 
             if (m_Removed[index])
                 return false;
@@ -225,7 +230,7 @@ namespace Ultima
         public static Bitmap GetStatic(int index, out bool patched)
         {
             index += 0x4000;
-            index &= 0xFFFF;
+            //index &= 0xFFFF;
             if (m_patched.Contains(index))
                 patched = (bool)m_patched[index];
             else
@@ -252,7 +257,7 @@ namespace Ultima
         public static byte[] GetRawStatic(int index)
         {
             index += 0x4000;
-            index &= 0xFFFF;
+            //index &= 0xFFFF;
 
             int length, extra;
             bool patched;

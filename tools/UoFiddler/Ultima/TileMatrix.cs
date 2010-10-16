@@ -461,7 +461,9 @@ namespace Ultima
 
         public MTile(ushort id, sbyte z)
         {
-            if (Art.IsUOSA())
+            if (Art.IsUOHS())
+                m_ID = id;
+            else if (Art.IsUOSA())
                 m_ID = (ushort)(id & 0x7FFF);
             else
                 m_ID = (ushort)(id & 0x3FFF);
@@ -472,7 +474,9 @@ namespace Ultima
 
         public MTile(ushort id, sbyte z, sbyte flag)
         {
-            if (Art.IsUOSA())
+            if (Art.IsUOHS())
+                m_ID = id;
+            else if (Art.IsUOSA())
                 m_ID = (ushort)(id & 0x7FFF);
             else
                 m_ID = (ushort)(id & 0x3FFF);
@@ -483,7 +487,9 @@ namespace Ultima
 
         public void Set(ushort id, sbyte z)
         {
-            if (Art.IsUOSA())
+            if (Art.IsUOHS())
+                m_ID = id;
+            else if (Art.IsUOSA())
                 m_ID = (ushort)(id & 0x7FFF);
             else
                 m_ID = (ushort)(id & 0x3FFF);
@@ -492,7 +498,9 @@ namespace Ultima
 
         public void Set(ushort id, sbyte z, sbyte flag)
         {
-            if (Art.IsUOSA())
+            if (Art.IsUOHS())
+                m_ID = id;
+            else if (Art.IsUOSA())
                 m_ID = (ushort)(id & 0x7FFF);
             else
                 m_ID = (ushort)(id & 0x3FFF);

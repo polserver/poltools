@@ -29,6 +29,12 @@ namespace Ultima
             m_Flags = (TileFlag)mulstruct.flags;
             m_Name = TileData.ReadNameString(mulstruct.name);
         }
+        public unsafe LandData(LandTileDataMulHS mulstruct)
+        {
+            m_TexID = mulstruct.texID;
+            m_Flags = (TileFlag)mulstruct.flags;
+            m_Name = TileData.ReadNameString(mulstruct.name);
+        }
 
         /// <summary>
         /// Gets the name of this land tile.
@@ -201,6 +207,22 @@ namespace Ultima
         }
 
         public unsafe ItemData(ItemTileDataMul mulstruct)
+        {
+            m_Name = TileData.ReadNameString(mulstruct.name);
+            m_Flags = (TileFlag)mulstruct.flags;
+            m_Weight = mulstruct.weight;
+            m_Quality = mulstruct.quality;
+            m_Quantity = mulstruct.quantity;
+            m_Value = mulstruct.value;
+            m_Height = mulstruct.height;
+            m_Animation = mulstruct.anim;
+            m_Hue = mulstruct.hue;
+            m_StackOffset = mulstruct.stackingoffset;
+            m_MiscData = mulstruct.miscdata;
+            m_Unk2 = mulstruct.unk2;
+            m_Unk3 = mulstruct.unk3;
+        }
+        public unsafe ItemData(ItemTileDataMulHS mulstruct)
         {
             m_Name = TileData.ReadNameString(mulstruct.name);
             m_Flags = (TileFlag)mulstruct.flags;
@@ -731,6 +753,7 @@ namespace Ultima
                     m_LandData = new LandData[0x4000];
 
                     byte[] buffer = new byte[fs.Length];
+                    bool UOHS = (fs.Length == 0x30a800);
                     GCHandle gc = GCHandle.Alloc(buffer, GCHandleType.Pinned);
                     long currpos = 0;
                     try
@@ -744,21 +767,34 @@ namespace Ultima
                             for (int count = 0; count < 32; ++count)
                             {
                                 IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
-                                currpos += sizeof(LandTileDataMul);
-                                LandTileDataMul cur = (LandTileDataMul)Marshal.PtrToStructure(ptr, typeof(LandTileDataMul));
-                                m_LandData[i + count] = new LandData(cur);
+                                if (UOHS)
+                                {
+                                    currpos += sizeof(LandTileDataMulHS);
+                                    LandTileDataMulHS cur = (LandTileDataMulHS)Marshal.PtrToStructure(ptr, typeof(LandTileDataMulHS));
+                                    m_LandData[i + count] = new LandData(cur);
+
+                                }
+                                else
+                                {
+                                    currpos += sizeof(LandTileDataMul);
+                                    LandTileDataMul cur = (LandTileDataMul)Marshal.PtrToStructure(ptr, typeof(LandTileDataMul));
+                                    m_LandData[i + count] = new LandData(cur);
+                                }
                             }
                         }
 
                         long remaining = buffer.Length - currpos;
-                        int itemlength = 0x4000;
-                        if (remaining / 37 > 0x5000)
+                        int itemlength;
+                        if (UOHS)
                         {
-                            itemlength = 0x8000;
-                            itemheader = new int[512 * 2];
+                            itemheader = new int[(remaining / ((sizeof(ItemTileDataMulHS) * 32) + 4))];
+                            itemlength = itemheader.Length * 32;
                         }
                         else
-                            itemheader = new int[512];
+                        {
+                            itemheader = new int[(remaining / ((sizeof(ItemTileDataMul) * 32) + 4))];
+                            itemlength = itemheader.Length * 32;
+                        }
                         m_ItemData = new ItemData[itemlength];
                         m_HeightTable = new int[itemlength];
 
@@ -771,10 +807,20 @@ namespace Ultima
                             for (int count = 0; count < 32; ++count)
                             {
                                 IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
-                                currpos += sizeof(ItemTileDataMul);
-                                ItemTileDataMul cur = (ItemTileDataMul)Marshal.PtrToStructure(ptr, typeof(ItemTileDataMul));
-                                m_ItemData[i + count] = new ItemData(cur);
-                                m_HeightTable[i + count] = cur.height;
+                                if (itemlength > 0x8000)
+                                {
+                                    currpos += sizeof(ItemTileDataMulHS);
+                                    ItemTileDataMulHS cur = (ItemTileDataMulHS)Marshal.PtrToStructure(ptr, typeof(ItemTileDataMulHS));
+                                    m_ItemData[i + count] = new ItemData(cur);
+                                    m_HeightTable[i + count] = cur.height;
+                                }
+                                else
+                                {
+                                    currpos += sizeof(ItemTileDataMul);
+                                    ItemTileDataMul cur = (ItemTileDataMul)Marshal.PtrToStructure(ptr, typeof(ItemTileDataMul));
+                                    m_ItemData[i + count] = new ItemData(cur);
+                                    m_HeightTable[i + count] = cur.height;
+                                }
                             }
                         }
                     }
@@ -1045,11 +1091,36 @@ namespace Ultima
         public short texID;
         public fixed byte name[20];
     }
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct LandTileDataMulHS
+    {
+        public long flags;
+        public short texID;
+        public fixed byte name[20];
+    }
 
     [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
     public unsafe struct ItemTileDataMul
     {
         public int flags;
+        public byte weight;
+        public byte quality;
+        public short miscdata;
+        public byte unk2;
+        public byte quantity;
+        public short anim;
+        public byte unk3;
+        public byte hue;
+        public byte stackingoffset;
+        public byte value;
+        public byte height;
+        public fixed byte name[20];
+    }
+
+    [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct ItemTileDataMulHS
+    {
+        public long flags;
         public byte weight;
         public byte quality;
         public short miscdata;
