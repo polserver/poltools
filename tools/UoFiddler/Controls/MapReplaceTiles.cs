@@ -21,8 +21,7 @@ namespace FiddlerControls
     public partial class MapReplaceTiles : Form
     {
         private Ultima.Map Map;
-        private Dictionary<ushort, ushort> ConvertDictLand;
-        private Dictionary<ushort, ushort> ConvertDictStatic;
+        private List<ModArea> toReplace;
 
         public MapReplaceTiles(Ultima.Map map)
         {
@@ -62,37 +61,56 @@ namespace FiddlerControls
 
         private bool LoadFile(string file)
         {
-            ConvertDictLand = new Dictionary<ushort, ushort>();
-            ConvertDictStatic = new Dictionary<ushort, ushort>();
+            toReplace = new List<ModArea>();
             XmlDocument dom = new XmlDocument();
             dom.Load(file);
             try
             {
-                foreach (XmlNode xNode in dom.SelectSingleNode("MapReplace"))
+                XmlNode xRoot = dom.SelectSingleNode("MapReplace");
+
+                foreach (XmlNode xNode in xRoot.SelectNodes("Area"))
                 {
                     if (xNode.NodeType == XmlNodeType.Comment)
                         continue;
-                    int temp;
-                    ushort convfrom, convto;
-                    if (FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["from"].InnerText, out temp))
-                        convfrom = (ushort)temp;
-                    else
-                        continue;
-                    if (FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["to"].InnerText, out temp))
-                        convto = (ushort)temp;
-                    else
-                        continue;
+                    
+                    int sx, sy, ex, ey;
+                    FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["StartX"].InnerText, out sx);
+                    FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["StartY"].InnerText, out sy);
+                    FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["EndX"].InnerText, out ex);
+                    FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["EndY"].InnerText, out ey);
 
-                    switch (xNode.Name.ToLower())
+                    Dictionary<ushort, ushort> ConvertDictLand = new Dictionary<ushort, ushort>();
+                    Dictionary<ushort, ushort> ConvertDictStatic = new Dictionary<ushort, ushort>();
+
+                    foreach(XmlNode xArea in xNode.ChildNodes)
                     {
-                        case "static":
-                            ConvertDictStatic.Add(convfrom, convto);
-                            break;
-                        case "landtile":
-                            ConvertDictLand.Add(convfrom, convto);
-                            break;
-                        default: break;
+                        if (xArea.NodeType == XmlNodeType.Comment)
+                            continue;
+
+                        int temp;
+                        ushort convfrom, convto;
+                        if (FiddlerControls.Utils.ConvertStringToInt(xArea.Attributes["from"].InnerText, out temp))
+                            convfrom = (ushort)temp;
+                        else
+                            continue;
+                        if (FiddlerControls.Utils.ConvertStringToInt(xArea.Attributes["to"].InnerText, out temp))
+                            convto = (ushort)temp;
+                        else
+                            continue;
+
+                        switch (xArea.Name.ToLower())
+                        {
+                            case "static":
+                                ConvertDictStatic.Add(convfrom, convto);
+                                break;
+                            case "landtile":
+                                ConvertDictLand.Add(convfrom, convto);
+                                break;
+                            default: break;
+                        }
                     }
+
+                    toReplace.Add(new ModArea(Map, sx, sy, ex, ey, ConvertDictLand, ConvertDictStatic));
                 }
             }
             catch
@@ -135,11 +153,12 @@ namespace FiddlerControls
                                 for (int i = 0; i < 64; ++i)
                                 {
                                     ushort tileid = m_mapReader.ReadUInt16();
+                                    int temp = ModArea.IsLandReplace(toReplace, tileid, x, y, i);
                                     sbyte z = m_mapReader.ReadSByte();
                                     if ((tileid < 0) || (tileid >= 0x4000))
                                         tileid = 0;
-                                    else if (ConvertDictLand.ContainsKey(tileid))
-                                        tileid = ConvertDictLand[tileid];
+                                    else if (temp != -1)
+                                        tileid = (ushort)temp;
                                     if (z < -128)
                                         z = -128;
                                     if (z > 127)
@@ -243,8 +262,8 @@ namespace FiddlerControls
                                         byte sy = m_StaticsReader.ReadByte();
                                         sbyte sz = m_StaticsReader.ReadSByte();
                                         short shue = m_StaticsReader.ReadInt16();
-                                        if ((graphic >= 0) &&
-                                            ((graphic < 0x4000) || ((Ultima.Art.IsUOSA()) && (graphic < 0x8000)))) //legal?
+                                        int temp = ModArea.IsStaticReplace(toReplace, graphic, x, y, i);
+                                        if ((graphic >= 0) && (graphic <= Art.GetMaxItemID()))
                                         {
                                             if (shue < 0)
                                                 shue = 0;
@@ -253,8 +272,8 @@ namespace FiddlerControls
                                                 binidx.Write((int)fsmul.Position); //lookup
                                                 firstitem = false;
                                             }
-                                            if (ConvertDictStatic.ContainsKey(graphic))
-                                                graphic = ConvertDictStatic[graphic];
+                                            if (temp != -1)
+                                                graphic = (ushort)temp;
                                             binmul.Write(graphic);
                                             binmul.Write(sx);
                                             binmul.Write(sy);
@@ -300,6 +319,116 @@ namespace FiddlerControls
             }
             m_IndexReader.Close();
             m_StaticsReader.Close();
+        }
+    }
+
+    public class RectangleArea
+    {
+        private int startx;
+        private int starty;
+        private int endx;
+        private int endy;
+
+        public RectangleArea()
+        {
+            startx = 0;
+            starty = 0;
+            endx = 0;
+            endy = 0;
+        }
+
+        public RectangleArea(Ultima.Map map, int sx, int sy, int ex, int ey) : this()
+        {
+            if(map == null)
+                return;
+
+            if(sx < 0 || sx > map.Width)
+                sx = 0;
+
+            if(sy < 0 || sy > map.Height)
+                sy = 0;
+
+            if(ex < startx || ex > map.Width)
+                ex = sx;
+
+            if(ey < starty || ey > map.Height)
+                ey = sy;
+
+            startx = sx;
+            starty = sy;
+            endx = ex;
+            endy = ey;
+        }
+
+        public int startX { get { return startx; } }
+        public int startY { get { return starty; } }
+        public int endX { get { return endx; } }
+        public int endY { get { return endy; } }
+    }
+
+    public class ModArea
+    {
+        private RectangleArea area;
+        private Dictionary<ushort, ushort> ConvertDictLand;
+        private Dictionary<ushort, ushort> ConvertDictStatic;
+
+        public ModArea(Ultima.Map map, int sx, int sy, int ex, int ey, Dictionary<ushort, ushort> toConvLand, Dictionary<ushort, ushort> toConvStatic)
+        {
+            area = new RectangleArea(map, sx, sy, ex, ey);
+            ConvertDictLand = toConvLand;
+            ConvertDictStatic = toConvStatic;
+        }
+
+        public int IsStaticReplace(ushort tileid, int x, int y)
+        {
+            if (x > area.endX || x < area.startX || y > area.endY || y < area.startY)
+                return -1;
+
+            if (ConvertDictStatic.ContainsKey(tileid))
+                return ConvertDictStatic[tileid];
+
+            return -1;
+        }
+
+        public int IsLandReplace(ushort tileid, int x, int y)
+        {
+            if (x > area.endX || x < area.startX || y > area.endY || y < area.startY)
+                return -1;
+
+            if (ConvertDictLand.ContainsKey(tileid))
+                return ConvertDictLand[tileid];
+
+            return -1;
+        }
+
+        public static int IsStaticReplace(List<ModArea> list, ushort tileid, int BlockX, int BlockY, int Cell)
+        {
+            int x = ( BlockX * 8)  + ( Cell % 8 ); 
+            int y = (BlockY * 8 ) + ( Cell / 8 );
+
+            foreach(ModArea area in list)
+            {
+                int temp = area.IsStaticReplace(tileid, x, y);
+                if (temp != -1)
+                    return temp;
+            }
+
+            return -1;
+        }
+
+        public static int IsLandReplace(List<ModArea> list, ushort tileid, int BlockX, int BlockY, int Cell)
+        {
+            int x = (BlockX * 8) + (Cell % 8);
+            int y = (BlockY * 8) + (Cell / 8);
+
+            foreach (ModArea area in list)
+            {
+                int temp = area.IsLandReplace(tileid, x, y);
+                if (temp != -1)
+                    return temp;
+            }
+
+            return -1;
         }
     }
 }

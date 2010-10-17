@@ -27,7 +27,7 @@ namespace FiddlerControls
         private void SearchGraphic(object sender, EventArgs e)
         {
             int graphic;
-            if (Utils.ConvertStringToInt(textBoxGraphic.Text, out graphic, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+            if (Utils.ConvertStringToInt(textBoxGraphic.Text, out graphic, 0, Ultima.Art.GetMaxItemID()))
             {
                 bool res = TileDatas.SearchGraphic(graphic, land);
                 if (!res)

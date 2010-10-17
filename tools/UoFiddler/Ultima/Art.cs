@@ -7,9 +7,9 @@ namespace Ultima
 {
     public sealed class Art
     {
-        private static FileIndex m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x13fdc, 4);
-        private static Bitmap[] m_Cache = new Bitmap[0x13fdc];
-        private static bool[] m_Removed = new bool[0x13fdc];
+        private static FileIndex m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x13FDC, 4);
+        private static Bitmap[] m_Cache = new Bitmap[0x13FDC];
+        private static bool[] m_Removed = new bool[0x13FDC];
         private static Hashtable m_patched = new Hashtable();
         public static bool Modified = false;
 
@@ -20,14 +20,32 @@ namespace Ultima
         {
         }
 
-        public static bool IsUOSA()
+        public static int GetMaxItemID()
         {
-            return (GetIdxLength() == 0xC000);
+            if (GetIdxLength() == 0xC000)
+                return 0x7FFF;
+
+            if (GetIdxLength() == 0x13FDC)
+                return 0xFFDB;
+
+            return 0x3FFF;
         }
 
-        public static bool IsUOHS()
+        public static bool IsUOAHS()
         {
-            return (GetIdxLength() == 0x13fdc); // 0xFFDB art
+            return (GetIdxLength() == 0x13FDC);
+        }
+
+        public static ushort GetLegalItemID(int itemID)
+        {
+            if (itemID < 0)
+                return 0;
+
+            int max = GetMaxItemID();
+            if (itemID > max)
+                return 0;
+
+            return (ushort)itemID;
         }
 
         public static int GetIdxLength()
@@ -39,9 +57,9 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_Cache = new Bitmap[0x13fdc];
-            m_Removed = new bool[0x13fdc];
-            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x13fdc, 4);
+            m_Cache = new Bitmap[0x13FDC];
+            m_Removed = new bool[0x13FDC];
+            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x13FDC, 4);
             m_patched.Clear();
             Modified = false;
         }
@@ -53,8 +71,9 @@ namespace Ultima
         /// <param name="bmp"></param>
         public static void ReplaceStatic(int index, Bitmap bmp)
         {
+            index = Art.GetLegalItemID(index);
             index += 0x4000;
-            //index &= 0xFFFF;
+
             m_Cache[index] = bmp;
             m_Removed[index] = false;
             if (m_patched.Contains(index))
@@ -83,8 +102,9 @@ namespace Ultima
         /// <param name="index"></param>
         public static void RemoveStatic(int index)
         {
+            index = Art.GetLegalItemID(index);
             index += 0x4000;
-            //index &= 0xFFFF;
+
             m_Removed[index] = true;
             Modified = true;
         }
@@ -107,9 +127,9 @@ namespace Ultima
         /// <returns></returns>
         public static unsafe bool IsValidStatic(int index)
         {
+            index = GetLegalItemID(index);
             index += 0x4000;
-            //index &= 0xFFFF;
-
+            
             if (m_Removed[index])
                 return false;
             if (m_Cache[index] != null)
@@ -229,8 +249,9 @@ namespace Ultima
         /// <returns></returns>
         public static Bitmap GetStatic(int index, out bool patched)
         {
+            index = GetLegalItemID(index);
             index += 0x4000;
-            //index &= 0xFFFF;
+            
             if (m_patched.Contains(index))
                 patched = (bool)m_patched[index];
             else
@@ -256,9 +277,9 @@ namespace Ultima
 
         public static byte[] GetRawStatic(int index)
         {
+            index = GetLegalItemID(index);
             index += 0x4000;
-            //index &= 0xFFFF;
-
+            
             int length, extra;
             bool patched;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);

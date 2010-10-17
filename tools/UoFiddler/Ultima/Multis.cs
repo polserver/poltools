@@ -66,7 +66,10 @@ namespace Ultima
                 if (stream == null)
                     return MultiComponentList.Empty;
 
-                return new MultiComponentList(new BinaryReader(stream), length / (Art.IsUOHS()?16:12));
+                if(Art.IsUOAHS())
+                    return new MultiComponentList(new BinaryReader(stream), length / 16);
+                else
+                    return new MultiComponentList(new BinaryReader(stream), length / 12);
             }
             catch
             {
@@ -386,22 +389,17 @@ namespace Ultima
 
         public MultiComponentList(BinaryReader reader, int count)
         {
+            bool useNewMultiFormat = Art.IsUOAHS();
             m_Min = m_Max = Point.Empty;
-
             m_SortedTiles = new MultiTileEntry[count];
             for (int i = 0; i < count; ++i)
             {
-                if (Art.IsUOHS())
-                    m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16());
-                else if (Art.IsUOSA())
-                    m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16() & 0x7FFF);
-                else
-                    m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16() & 0x3FFF);
+                m_SortedTiles[i].m_ItemID = Art.GetLegalItemID(reader.ReadUInt16());
                 m_SortedTiles[i].m_OffsetX = reader.ReadInt16();
                 m_SortedTiles[i].m_OffsetY = reader.ReadInt16();
                 m_SortedTiles[i].m_OffsetZ = reader.ReadInt16();
                 m_SortedTiles[i].m_Flags = reader.ReadInt32();
-                if (Art.IsUOHS())
+                if (useNewMultiFormat)
                     reader.ReadInt32();
 
                 MultiTileEntry e = m_SortedTiles[i];

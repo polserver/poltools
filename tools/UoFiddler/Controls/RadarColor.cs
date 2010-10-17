@@ -111,8 +111,8 @@ namespace FiddlerControls
             treeViewItem.Nodes.Clear();
             if (TileData.ItemTable != null)
             {
-                TreeNode[] nodes = new TreeNode[TileData.ItemTable.Length];
-                for (int i = 0; i < TileData.ItemTable.Length; ++i)
+                TreeNode[] nodes = new TreeNode[Art.GetMaxItemID() + 1];
+                for (int i = 0; i < Art.GetMaxItemID() + 1; ++i)
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.ItemTable[i].Name));
                     node.Tag = i;

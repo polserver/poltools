@@ -15,24 +15,29 @@ namespace Ultima
         private string m_Name;
         private short m_TexID;
         private TileFlag m_Flags;
+        private int m_Unk1;
 
-        public LandData(string name, int TexID, TileFlag flags)
+        public LandData(string name, int TexID, TileFlag flags, int unk1)
         {
             m_Name = name;
             m_TexID = (short)TexID;
             m_Flags = flags;
+            m_Unk1 = unk1;
         }
 
-        public unsafe LandData(LandTileDataMul mulstruct)
+        public unsafe LandData(NewLandTileDataMul mulstruct)
         {
             m_TexID = mulstruct.texID;
             m_Flags = (TileFlag)mulstruct.flags;
+            m_Unk1 = (int)mulstruct.unk1;
             m_Name = TileData.ReadNameString(mulstruct.name);
         }
-        public unsafe LandData(LandTileDataMulHS mulstruct)
+
+        public unsafe LandData(OldLandTileDataMul mulstruct)
         {
             m_TexID = mulstruct.texID;
             m_Flags = (TileFlag)mulstruct.flags;
+            m_Unk1 = 0;
             m_Name = TileData.ReadNameString(mulstruct.name);
         }
 
@@ -61,6 +66,15 @@ namespace Ultima
         {
             get { return m_Flags; }
             set { m_Flags = value; }
+        }
+
+        /// <summary>
+        /// Gets a new UOAHS Unknown Int
+        /// </summary>
+        public int Unk1
+        {
+            get { return m_Unk1; }
+            set { m_Unk1 = value; }
         }
 
         public void ReadData(string[] split)
@@ -177,6 +191,7 @@ namespace Ultima
     {
         internal string m_Name;
         internal TileFlag m_Flags;
+        internal int m_Unk1;
         internal byte m_Weight;
         internal byte m_Quality;
         internal byte m_Quantity;
@@ -189,10 +204,11 @@ namespace Ultima
         internal byte m_Unk2;
         internal byte m_Unk3;
 
-        public ItemData(string name, TileFlag flags, int weight, int quality, int quantity, int value, int height, int anim, int hue, int stackingoffset, int MiscData, int unk2, int unk3)
+        public ItemData(string name, TileFlag flags, int unk1, int weight, int quality, int quantity, int value, int height, int anim, int hue, int stackingoffset, int MiscData, int unk2, int unk3)
         {
             m_Name = name;
             m_Flags = flags;
+            m_Unk1 = unk1;
             m_Weight = (byte)weight;
             m_Quality = (byte)quality;
             m_Quantity = (byte)quantity;
@@ -206,10 +222,11 @@ namespace Ultima
             m_Unk3 = (byte)unk3;
         }
 
-        public unsafe ItemData(ItemTileDataMul mulstruct)
+        public unsafe ItemData(NewItemTileDataMul mulstruct)
         {
             m_Name = TileData.ReadNameString(mulstruct.name);
             m_Flags = (TileFlag)mulstruct.flags;
+            m_Unk1 = mulstruct.unk1;
             m_Weight = mulstruct.weight;
             m_Quality = mulstruct.quality;
             m_Quantity = mulstruct.quantity;
@@ -222,10 +239,12 @@ namespace Ultima
             m_Unk2 = mulstruct.unk2;
             m_Unk3 = mulstruct.unk3;
         }
-        public unsafe ItemData(ItemTileDataMulHS mulstruct)
+
+        public unsafe ItemData(OldItemTileDataMul mulstruct)
         {
             m_Name = TileData.ReadNameString(mulstruct.name);
             m_Flags = (TileFlag)mulstruct.flags;
+            m_Unk1 = 0;
             m_Weight = mulstruct.weight;
             m_Quality = mulstruct.quality;
             m_Quantity = mulstruct.quantity;
@@ -266,6 +285,15 @@ namespace Ultima
         {
             get { return m_Flags; }
             set { m_Flags = value; }
+        }
+
+        /// <summary>
+        /// Gets an unknown new UOAHS int
+        /// </summary>
+        public int Unk1
+        {
+            get { return m_Unk1; }
+            set { m_Unk1 = value; }
         }
 
         /// <summary>
@@ -428,104 +456,105 @@ namespace Ultima
             m_Quantity = System.Convert.ToByte(split[7]);
             m_StackOffset = System.Convert.ToByte(split[8]);
             m_MiscData = System.Convert.ToInt16(split[9]);
-            m_Unk2 = System.Convert.ToByte(split[10]);
-            m_Unk3 = System.Convert.ToByte(split[11]);
-
+            m_Unk1 = System.Convert.ToInt32(split[10]);
+            m_Unk2 = System.Convert.ToByte(split[11]);
+            m_Unk3 = System.Convert.ToByte(split[12]);
+            
             m_Flags = 0;
-            int temp = System.Convert.ToByte(split[12]);
+            int temp = System.Convert.ToByte(split[13]);
             if (temp != 0)
                 m_Flags |= TileFlag.Background;
-            temp = System.Convert.ToByte(split[13]);
-            if (temp != 0)
-                m_Flags |= TileFlag.Weapon;
             temp = System.Convert.ToByte(split[14]);
             if (temp != 0)
-                m_Flags |= TileFlag.Transparent;
+                m_Flags |= TileFlag.Weapon;
             temp = System.Convert.ToByte(split[15]);
             if (temp != 0)
-                m_Flags |= TileFlag.Translucent;
+                m_Flags |= TileFlag.Transparent;
             temp = System.Convert.ToByte(split[16]);
             if (temp != 0)
-                m_Flags |= TileFlag.Wall;
+                m_Flags |= TileFlag.Translucent;
             temp = System.Convert.ToByte(split[17]);
             if (temp != 0)
-                m_Flags |= TileFlag.Damaging;
+                m_Flags |= TileFlag.Wall;
             temp = System.Convert.ToByte(split[18]);
             if (temp != 0)
-                m_Flags |= TileFlag.Impassable;
+                m_Flags |= TileFlag.Damaging;
             temp = System.Convert.ToByte(split[19]);
             if (temp != 0)
-                m_Flags |= TileFlag.Wet;
+                m_Flags |= TileFlag.Impassable;
             temp = System.Convert.ToByte(split[20]);
             if (temp != 0)
-                m_Flags |= TileFlag.Unknown1;
+                m_Flags |= TileFlag.Wet;
             temp = System.Convert.ToByte(split[21]);
             if (temp != 0)
-                m_Flags |= TileFlag.Surface;
+                m_Flags |= TileFlag.Unknown1;
             temp = System.Convert.ToByte(split[22]);
             if (temp != 0)
-                m_Flags |= TileFlag.Bridge;
+                m_Flags |= TileFlag.Surface;
             temp = System.Convert.ToByte(split[23]);
             if (temp != 0)
-                m_Flags |= TileFlag.Generic;
+                m_Flags |= TileFlag.Bridge;
             temp = System.Convert.ToByte(split[24]);
             if (temp != 0)
-                m_Flags |= TileFlag.Window;
+                m_Flags |= TileFlag.Generic;
             temp = System.Convert.ToByte(split[25]);
             if (temp != 0)
-                m_Flags |= TileFlag.NoShoot;
+                m_Flags |= TileFlag.Window;
             temp = System.Convert.ToByte(split[26]);
             if (temp != 0)
-                m_Flags |= TileFlag.ArticleA;
+                m_Flags |= TileFlag.NoShoot;
             temp = System.Convert.ToByte(split[27]);
             if (temp != 0)
-                m_Flags |= TileFlag.ArticleAn;
+                m_Flags |= TileFlag.ArticleA;
             temp = System.Convert.ToByte(split[28]);
             if (temp != 0)
-                m_Flags |= TileFlag.Internal;
+                m_Flags |= TileFlag.ArticleAn;
             temp = System.Convert.ToByte(split[29]);
             if (temp != 0)
-                m_Flags |= TileFlag.Foliage;
+                m_Flags |= TileFlag.Internal;
             temp = System.Convert.ToByte(split[30]);
             if (temp != 0)
-                m_Flags |= TileFlag.PartialHue;
+                m_Flags |= TileFlag.Foliage;
             temp = System.Convert.ToByte(split[31]);
             if (temp != 0)
-                m_Flags |= TileFlag.Unknown2;
+                m_Flags |= TileFlag.PartialHue;
             temp = System.Convert.ToByte(split[32]);
             if (temp != 0)
-                m_Flags |= TileFlag.Map;
+                m_Flags |= TileFlag.Unknown2;
             temp = System.Convert.ToByte(split[33]);
             if (temp != 0)
-                m_Flags |= TileFlag.Container;
+                m_Flags |= TileFlag.Map;
             temp = System.Convert.ToByte(split[34]);
             if (temp != 0)
-                m_Flags |= TileFlag.Wearable;
+                m_Flags |= TileFlag.Container;
             temp = System.Convert.ToByte(split[35]);
             if (temp != 0)
-                m_Flags |= TileFlag.LightSource;
+                m_Flags |= TileFlag.Wearable;
             temp = System.Convert.ToByte(split[36]);
             if (temp != 0)
-                m_Flags |= TileFlag.Animation;
+                m_Flags |= TileFlag.LightSource;
             temp = System.Convert.ToByte(split[37]);
             if (temp != 0)
-                m_Flags |= TileFlag.HoverOver;
+                m_Flags |= TileFlag.Animation;
             temp = System.Convert.ToByte(split[38]);
             if (temp != 0)
-                m_Flags |= TileFlag.Unknown3;
+                m_Flags |= TileFlag.HoverOver;
             temp = System.Convert.ToByte(split[39]);
             if (temp != 0)
-                m_Flags |= TileFlag.Armor;
+                m_Flags |= TileFlag.Unknown3;
             temp = System.Convert.ToByte(split[40]);
             if (temp != 0)
-                m_Flags |= TileFlag.Roof;
+                m_Flags |= TileFlag.Armor;
             temp = System.Convert.ToByte(split[41]);
             if (temp != 0)
-                m_Flags |= TileFlag.Door;
+                m_Flags |= TileFlag.Roof;
             temp = System.Convert.ToByte(split[42]);
             if (temp != 0)
-                m_Flags |= TileFlag.StairBack;
+                m_Flags |= TileFlag.Door;
             temp = System.Convert.ToByte(split[43]);
+            if (temp != 0)
+                m_Flags |= TileFlag.StairBack;
+            temp = System.Convert.ToByte(split[44]);
             if (temp != 0)
                 m_Flags |= TileFlag.StairRight;
         }
@@ -748,12 +777,12 @@ namespace Ultima
             {
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
+                    bool useNeWTileDataFormat = Art.IsUOAHS();
                     landheader = new int[512];
                     int j = 0;
                     m_LandData = new LandData[0x4000];
 
                     byte[] buffer = new byte[fs.Length];
-                    bool UOHS = (fs.Length == 0x30a800);
                     GCHandle gc = GCHandle.Alloc(buffer, GCHandleType.Pinned);
                     long currpos = 0;
                     try
@@ -767,34 +796,26 @@ namespace Ultima
                             for (int count = 0; count < 32; ++count)
                             {
                                 IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
-                                if (UOHS)
+                                if (useNeWTileDataFormat)
                                 {
-                                    currpos += sizeof(LandTileDataMulHS);
-                                    LandTileDataMulHS cur = (LandTileDataMulHS)Marshal.PtrToStructure(ptr, typeof(LandTileDataMulHS));
+                                    currpos += sizeof(NewLandTileDataMul);
+                                    NewLandTileDataMul cur = (NewLandTileDataMul)Marshal.PtrToStructure(ptr, typeof(NewLandTileDataMul));
                                     m_LandData[i + count] = new LandData(cur);
-
                                 }
                                 else
                                 {
-                                    currpos += sizeof(LandTileDataMul);
-                                    LandTileDataMul cur = (LandTileDataMul)Marshal.PtrToStructure(ptr, typeof(LandTileDataMul));
+                                    currpos += sizeof(OldLandTileDataMul);
+                                    OldLandTileDataMul cur = (OldLandTileDataMul)Marshal.PtrToStructure(ptr, typeof(OldLandTileDataMul));
                                     m_LandData[i + count] = new LandData(cur);
                                 }
                             }
                         }
-
+                        
                         long remaining = buffer.Length - currpos;
-                        int itemlength;
-                        if (UOHS)
-                        {
-                            itemheader = new int[(remaining / ((sizeof(ItemTileDataMulHS) * 32) + 4))];
-                            itemlength = itemheader.Length * 32;
-                        }
-                        else
-                        {
-                            itemheader = new int[(remaining / ((sizeof(ItemTileDataMul) * 32) + 4))];
-                            itemlength = itemheader.Length * 32;
-                        }
+                        int structsize = useNeWTileDataFormat ? sizeof(NewItemTileDataMul) : sizeof(OldItemTileDataMul);
+                        itemheader = new int[(remaining / ((structsize * 32) + 4))];
+                        int itemlength = itemheader.Length * 32;
+
                         m_ItemData = new ItemData[itemlength];
                         m_HeightTable = new int[itemlength];
 
@@ -807,17 +828,17 @@ namespace Ultima
                             for (int count = 0; count < 32; ++count)
                             {
                                 IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + currpos);
-                                if (itemlength > 0x8000)
+                                if (useNeWTileDataFormat)
                                 {
-                                    currpos += sizeof(ItemTileDataMulHS);
-                                    ItemTileDataMulHS cur = (ItemTileDataMulHS)Marshal.PtrToStructure(ptr, typeof(ItemTileDataMulHS));
+                                    currpos += sizeof(NewItemTileDataMul);
+                                    NewItemTileDataMul cur = (NewItemTileDataMul)Marshal.PtrToStructure(ptr, typeof(NewItemTileDataMul));
                                     m_ItemData[i + count] = new ItemData(cur);
                                     m_HeightTable[i + count] = cur.height;
                                 }
                                 else
                                 {
-                                    currpos += sizeof(ItemTileDataMul);
-                                    ItemTileDataMul cur = (ItemTileDataMul)Marshal.PtrToStructure(ptr, typeof(ItemTileDataMul));
+                                    currpos += sizeof(OldItemTileDataMul);
+                                    OldItemTileDataMul cur = (OldItemTileDataMul)Marshal.PtrToStructure(ptr, typeof(OldItemTileDataMul));
                                     m_ItemData[i + count] = new ItemData(cur);
                                     m_HeightTable[i + count] = cur.height;
                                 }
@@ -843,11 +864,16 @@ namespace Ultima
                 using (BinaryWriter bin = new BinaryWriter(fs))
                 {
                     int j = 0;
+                    bool useNewTileDataFormat = Art.IsUOAHS();
                     for (int i = 0; i < 0x4000; ++i)
                     {
                         if ((i & 0x1F) == 0)
                             bin.Write(landheader[j++]); //header
+
                         bin.Write((int)m_LandData[i].Flags);
+                        if(useNewTileDataFormat)
+                            bin.Write((int)m_LandData[i].Unk1);
+
                         bin.Write(m_LandData[i].TextureID);
                         byte[] b = new byte[20];
                         if (m_LandData[i].Name != null)
@@ -866,6 +892,9 @@ namespace Ultima
                             bin.Write(itemheader[j++]); // header
 
                         bin.Write((int)m_ItemData[i].Flags);
+                        if(useNewTileDataFormat)
+                            bin.Write((int)m_ItemData[i].Unk1);
+                           
                         bin.Write(m_ItemData[i].Weight);
                         bin.Write(m_ItemData[i].Quality);
                         bin.Write(m_ItemData[i].MiscData);
@@ -918,6 +947,7 @@ namespace Ultima
                     Tex.Write(";" + tile.Quantity);
                     Tex.Write(";" + tile.StackingOffset);
                     Tex.Write(";" + tile.MiscData);
+                    Tex.Write(";" + tile.Unk1);
                     Tex.Write(";" + tile.Unk2);
                     Tex.Write(";" + tile.Unk3);
 
@@ -977,6 +1007,7 @@ namespace Ultima
                     Tex.Write(String.Format("0x{0:X4}", i));
                     Tex.Write(";" + tile.Name);
                     Tex.Write(";" + String.Format("0x{0:X4}", tile.TextureID));
+                    Tex.Write(";" + tile.Unk1);
 
                     Tex.Write(";" + (((tile.Flags & TileFlag.Background) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Weapon) != 0) ? "1" : "0"));
@@ -1044,7 +1075,7 @@ namespace Ultima
                     try
                     {
                         string[] split = line.Split(';');
-                        if (split.Length < 44)
+                        if (split.Length < 45)
                             continue;
 
                         int id = ConvertStringToInt(split[0]);
@@ -1072,7 +1103,7 @@ namespace Ultima
                     try
                     {
                         string[] split = line.Split(';');
-                        if (split.Length < 35)
+                        if (split.Length < 36)
                             continue;
 
                         int id = ConvertStringToInt(split[0]);
@@ -1085,22 +1116,24 @@ namespace Ultima
     }
 
     [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
-    public unsafe struct LandTileDataMul
+    public unsafe struct OldLandTileDataMul
     {
         public int flags;
         public short texID;
         public fixed byte name[20];
     }
+
     [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
-    public unsafe struct LandTileDataMulHS
+    public unsafe struct NewLandTileDataMul
     {
-        public long flags;
+        public int flags;
+        public int unk1;
         public short texID;
         public fixed byte name[20];
     }
 
     [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
-    public unsafe struct ItemTileDataMul
+    public unsafe struct OldItemTileDataMul
     {
         public int flags;
         public byte weight;
@@ -1118,9 +1151,10 @@ namespace Ultima
     }
 
     [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
-    public unsafe struct ItemTileDataMulHS
+    public unsafe struct NewItemTileDataMul
     {
-        public long flags;
+        public int flags;
+        public int unk1;
         public byte weight;
         public byte quality;
         public short miscdata;
