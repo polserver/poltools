@@ -577,9 +577,7 @@ namespace Ultima
                                             byte sy = m_StaticsReader.ReadByte();
                                             sbyte sz = m_StaticsReader.ReadSByte();
                                             short shue = m_StaticsReader.ReadInt16();
-                                            if ((graphic >= 0) &&
-                                                ((graphic < 0x4000)
-                                                || (Art.IsUOSA() && (graphic < 0x8000)))) //legal?
+                                            if ((graphic >= 0) && (graphic <= Art.GetMaxItemID()))
                                             {
                                                 if (shue < 0)
                                                     shue = 0;
@@ -600,9 +598,7 @@ namespace Ultima
                                         {
                                             for (int i = 0; i < tilelist.Length; ++i)
                                             {
-                                                if ((tilelist[i].m_ID >= 0)
-                                                    && ((tilelist[i].m_ID < 0x4000)
-                                                    || (Art.IsUOSA() && (tilelist[i].m_ID < 0x8000))))//legal?
+                                                if ((tilelist[i].m_ID >= 0) && (tilelist[i].m_ID <= Art.GetMaxItemID()))
                                                 {
                                                     if (tilelist[i].m_Hue < 0)
                                                         tilelist[i].m_Hue = 0;
@@ -633,9 +629,7 @@ namespace Ultima
                                             tile.m_Z = m_StaticsReader.ReadSByte();
                                             tile.m_Hue = m_StaticsReader.ReadInt16();
 
-                                            if ((tile.m_ID >= 0)
-                                                && ((tile.m_ID < 0x4000)
-                                                || (Art.IsUOSA() && (tile.m_ID < 0x8000))))
+                                            if ((tile.m_ID >= 0) && (tile.m_ID <= Art.GetMaxItemID()))
                                             {
                                                 if (tile.m_Hue < 0)
                                                     tile.m_Hue = 0;
@@ -666,9 +660,7 @@ namespace Ultima
                                             old.CopyTo(tilelist, 0);
                                             for (int i = 0; i < pending.Length; ++i)
                                             {
-                                                if ((pending[i].m_ID >= 0)
-                                                    && ((pending[i].m_ID < 0x4000)
-                                                    || (Art.IsUOSA() && (pending[i].m_ID < 0x8000))))//legal?
+                                                if ((pending[i].m_ID >= 0) && (pending[i].m_ID <= Art.GetMaxItemID()))
                                                 {
                                                     if (pending[i].m_Hue < 0)
                                                         pending[i].m_Hue = 0;

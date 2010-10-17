@@ -39,6 +39,7 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapReplaceTiles));
             this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -90,16 +91,15 @@ namespace FiddlerControls
             this.richTextBox1.Location = new System.Drawing.Point(15, 50);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(302, 75);
+            this.richTextBox1.Size = new System.Drawing.Size(330, 75);
             this.richTextBox1.TabIndex = 19;
-            this.richTextBox1.Text = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<MapReplace>\n  <static from=\"0x1\" to=\"0x2\"" +
-                " />\n  <landtile from=\"0x1\" to=\"0x2\" />\n</MapReplace>";
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // MapReplaceTiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 161);
+            this.ClientSize = new System.Drawing.Size(357, 161);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label5);

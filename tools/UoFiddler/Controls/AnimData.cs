@@ -289,7 +289,7 @@ namespace FiddlerControls
             bool candone = Utils.ConvertStringToInt(textBoxAddFrame.Text, out index);
             if (checkBoxRelative.Checked)
                 index += CurrAnim;
-            if ((index > (Art.IsUOSA() ? 0x7FFF : 0x3FFF)) || (index < 0))
+            if ((index > Art.GetMaxItemID()) || (index < 0))
                 candone = false;
             if (candone)
             {
@@ -315,7 +315,7 @@ namespace FiddlerControls
                 bool candone = Utils.ConvertStringToInt(textBoxAddFrame.Text, out index);
                 if (checkBoxRelative.Checked)
                     index += CurrAnim;
-                if ((index > (Art.IsUOSA() ? 0x7FFF : 0x3FFF)) || (index < 0))
+                if ((index > Art.GetMaxItemID()) || (index < 0))
                     candone = false;
                 if (candone)
                 {
@@ -416,7 +416,7 @@ namespace FiddlerControls
         private void onTextChangeAdd(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(AddTextBox.Text, out index, 0, (Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+            if (Utils.ConvertStringToInt(AddTextBox.Text, out index, 0, Art.GetMaxItemID()))
             {
                 if (Animdata.GetAnimData(index) != null)
                     AddTextBox.ForeColor = Color.Red;
@@ -432,7 +432,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                if (Utils.ConvertStringToInt(AddTextBox.Text, out index, 0, (Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+                if (Utils.ConvertStringToInt(AddTextBox.Text, out index, 0, Art.GetMaxItemID()))
                 {
                     if (Animdata.GetAnimData(index) == null)
                     {

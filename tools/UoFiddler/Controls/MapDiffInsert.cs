@@ -107,7 +107,7 @@ namespace FiddlerControls
                                 m_mapReader.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
                                 int header = m_mapReader.ReadInt32();
                                 binmul.Write(header);
-                                short tileid;
+                                ushort tileid;
                                 sbyte z;
                                 bool patched = false;
                                 if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
@@ -118,10 +118,9 @@ namespace FiddlerControls
                                         Tile[] patchtile = workingmap.Tiles.Patch.GetLandBlock(x, y);
                                         for (int i = 0; i < 64; ++i)
                                         {
-                                            tileid = (short)patchtile[i].ID;
+                                            tileid = patchtile[i].ID;
                                             z = (sbyte)patchtile[i].Z;
-                                            if ((tileid < 0) || ((tileid >= 0x4000) && (!Ultima.Art.IsUOSA())))
-                                                tileid = 0;
+                                            tileid = Art.GetLegalItemID(tileid);
                                             if (z < -128)
                                                 z = -128;
                                             if (z > 127)
@@ -135,10 +134,9 @@ namespace FiddlerControls
                                 {
                                     for (int i = 0; i < 64; ++i)
                                     {
-                                        tileid = m_mapReader.ReadInt16();
+                                        tileid = m_mapReader.ReadUInt16();
                                         z = m_mapReader.ReadSByte();
-                                        if ((tileid < 0) || ((tileid >= 0x4000) && (!Ultima.Art.IsUOSA())))
-                                            tileid = 0;
+                                        tileid = Art.GetLegalItemID(tileid);
                                         if (z < -128)
                                             z = -128;
                                         if (z > 127)
@@ -246,8 +244,7 @@ namespace FiddlerControls
                                                         tile.m_Y = (byte)j;
                                                         tile.m_Hue = (short)htile.Hue;
 
-                                                        if ((tile.m_ID >= 0) &&
-                                                            ((tile.m_ID < 0x4000) || (Art.IsUOSA() && (tile.m_ID < 0x8000))))
+                                                        if ((tile.m_ID >= 0) && (tile.m_ID <= Art.GetMaxItemID()))
                                                         {
                                                             if (tile.m_Hue < 0)
                                                                 tile.m_Hue = 0;
@@ -301,8 +298,7 @@ namespace FiddlerControls
                                                         sz = (sbyte)tile.Z;
                                                         shue = (short)tile.Hue;
 
-                                                        if ((graphic >= 0) && 
-                                                            ((graphic < 0x4000))  || (Art.IsUOSA() && (graphic < 0x8000))) //legal?
+                                                        if ((graphic >= 0) && (graphic <= Art.GetMaxItemID()))
                                                         {
                                                             if (shue < 0)
                                                                 shue = 0;
@@ -363,8 +359,7 @@ namespace FiddlerControls
                                                 tile.m_Z = m_StaticsReader.ReadSByte();
                                                 tile.m_Hue = m_StaticsReader.ReadInt16();
                                                 
-                                                if ((tile.m_ID >= 0) &&
-                                                    ((tile.m_ID < 0x4000) || (Art.IsUOSA() && (tile.m_ID < 0x8000))))
+                                                if ((tile.m_ID >= 0) && (tile.m_ID <= Art.GetMaxItemID()))
                                                 {
                                                     if (tile.m_Hue < 0)
                                                         tile.m_Hue = 0;
@@ -412,8 +407,7 @@ namespace FiddlerControls
                                                 sz = m_StaticsReader.ReadSByte();
                                                 shue = m_StaticsReader.ReadInt16();
 
-                                                if ((graphic >= 0) &&
-                                                    ((graphic < 0x4000)) || (Art.IsUOSA() && (graphic < 0x8000))) //legal?
+                                                if ((graphic >= 0) && (graphic <= Art.GetMaxItemID()))
                                                 {
                                                     if (shue < 0)
                                                         shue = 0;

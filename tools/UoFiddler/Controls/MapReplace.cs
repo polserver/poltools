@@ -193,8 +193,7 @@ namespace FiddlerControls
                                         tileid = m_mapReader.ReadUInt16();
                                         z = m_mapReader.ReadSByte();
                                     }
-                                    if ((tileid < 0) || ((tileid >= 0x4000) && !Ultima.Art.IsUOSA()))
-                                        tileid = 0;
+                                    tileid = Art.GetLegalItemID(tileid);
                                     if (z < -128)
                                         z = -128;
                                     if (z > 127)
@@ -327,8 +326,7 @@ namespace FiddlerControls
                                                 tile.m_Hue = m_StaticsReader.ReadInt16();
                                             }
 
-                                            if ((tile.m_ID >= 0) && 
-                                                ((tile.m_ID < 0x4000) || ((Ultima.Art.IsUOSA()) && (tile.m_ID<0x8000))))
+                                            if ((tile.m_ID >= 0) &&  (tile.m_ID <= Art.GetMaxItemID()))
                                             {
                                                 if (tile.m_Hue < 0)
                                                     tile.m_Hue = 0;
@@ -387,8 +385,7 @@ namespace FiddlerControls
                                                 shue = m_StaticsReader.ReadInt16();
                                             }
 
-                                            if ((graphic >= 0) && 
-                                                ((graphic < 0x4000) || ((Ultima.Art.IsUOSA()) && (graphic<0x8000))))
+                                            if ((graphic >= 0) && (graphic <= Art.GetMaxItemID()))
                                             {
                                                 if (shue < 0)
                                                     shue = 0;

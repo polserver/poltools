@@ -15,13 +15,31 @@ namespace ComparePlugin
 
         public static void SetFileIndex(string idxPath, string mulPath)
         {
-            m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0x10000);
-            m_Cache = new Bitmap[0x10000];
+            m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0x14000);
+            m_Cache = new Bitmap[0x14000];
         }
 
-        public static bool IsUOSA()
+        public static int GetMaxItemID()
         {
-            return (GetIdxLength() == 0xC000);
+            if (GetIdxLength() == 0xC000)
+                return 0x7FFF;
+
+            if (GetIdxLength() == 0x13FDC)
+                return 0xFFDB;
+
+            return 0x3FFF;
+        }
+
+        public static ushort GetLegalItemID(int itemID)
+        {
+            if (itemID < 0)
+                return 0;
+
+            int max = GetMaxItemID();
+            if (itemID > max)
+                return 0;
+
+            return (ushort)itemID;
         }
 
         public static int GetIdxLength()
@@ -31,9 +49,9 @@ namespace ComparePlugin
 
         public static unsafe bool IsValidStatic(int index)
         {
+            index = SecondArt.GetLegalItemID(index);
             index += 0x4000;
-            index &= 0xFFFF;
-
+            
             if (m_Cache[index] != null)
                 return true;
 
@@ -58,8 +76,9 @@ namespace ComparePlugin
 
         public static Bitmap GetStatic(int index)
         {
+            index = SecondArt.GetLegalItemID(index);
             index += 0x4000;
-            index &= 0xFFFF;
+            
             if (m_Cache[index] != null)
                 return m_Cache[index];
 
@@ -76,8 +95,8 @@ namespace ComparePlugin
 
         public static byte[] GetRawStatic(int index)
         {
+            index = SecondArt.GetLegalItemID(index);
             index += 0x4000;
-            index &= 0xFFFF;
 
             int length, extra;
             Stream stream = m_FileIndex.Seek(index, out length, out extra);

@@ -197,11 +197,7 @@ namespace FiddlerControls
             }
             else
             {
-                int staticlength = 0x4000;
-                if (Art.IsUOSA())
-                    staticlength = 0x8000;
-                else if (Art.IsUOHS())
-                    staticlength = 0xFFDB;
+                int staticlength = Art.GetMaxItemID() + 1;
                 for (int i = 0; i < staticlength; ++i)
                 {
                     if (Art.IsValidStatic(i))
@@ -546,7 +542,7 @@ namespace FiddlerControls
         private void onTextChanged_Insert(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, Ultima.Art.GetMaxItemID()))
             {
                 if (Art.IsValidStatic(index))
                     InsertText.ForeColor = Color.Red;
@@ -562,7 +558,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, Ultima.Art.GetMaxItemID()))
                 {
                     if (Art.IsValidStatic(index))
                         return;
@@ -703,7 +699,7 @@ namespace FiddlerControls
             if (ShowFreeSlots)
             {
                 ListViewItem item;
-                for (int j = 0; j < (Ultima.Art.IsUOSA() ? 0x8000 : 0x4000); ++j)
+                for (int j = 0; j < Ultima.Art.GetMaxItemID() + 1; ++j)
                 {
                     if (listView1.Items.Count > j)
                     {

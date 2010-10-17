@@ -102,6 +102,8 @@ namespace FiddlerControls
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.textBoxUnk1HSA = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -184,7 +186,7 @@ namespace FiddlerControls
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pictureBoxItem);
             this.splitContainer2.Size = new System.Drawing.Size(201, 259);
-            this.splitContainer2.SplitterDistance = 164;
+            this.splitContainer2.SplitterDistance = 163;
             this.splitContainer2.TabIndex = 0;
             // 
             // treeViewItem
@@ -194,8 +196,9 @@ namespace FiddlerControls
             this.treeViewItem.HideSelection = false;
             this.treeViewItem.Location = new System.Drawing.Point(0, 0);
             this.treeViewItem.Name = "treeViewItem";
-            this.treeViewItem.Size = new System.Drawing.Size(201, 164);
+            this.treeViewItem.Size = new System.Drawing.Size(201, 163);
             this.treeViewItem.TabIndex = 0;
+            this.treeViewItem.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnItemDataNodeExpanded);
             this.treeViewItem.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewItem);
             // 
             // contextMenuStrip1
@@ -225,7 +228,7 @@ namespace FiddlerControls
             this.pictureBoxItem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxItem.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxItem.Name = "pictureBoxItem";
-            this.pictureBoxItem.Size = new System.Drawing.Size(201, 91);
+            this.pictureBoxItem.Size = new System.Drawing.Size(201, 92);
             this.pictureBoxItem.TabIndex = 0;
             this.pictureBoxItem.TabStop = false;
             // 
@@ -240,6 +243,8 @@ namespace FiddlerControls
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.textBoxUnk1HSA);
+            this.splitContainer3.Panel1.Controls.Add(this.label13);
             this.splitContainer3.Panel1.Controls.Add(this.textBoxName);
             this.splitContainer3.Panel1.Controls.Add(this.label9);
             this.splitContainer3.Panel1.Controls.Add(this.textBoxUnk2);
@@ -495,7 +500,7 @@ namespace FiddlerControls
             this.tabPageLand.Location = new System.Drawing.Point(4, 22);
             this.tabPageLand.Name = "tabPageLand";
             this.tabPageLand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLand.Size = new System.Drawing.Size(611, 265);
+            this.tabPageLand.Size = new System.Drawing.Size(611, 270);
             this.tabPageLand.TabIndex = 1;
             this.tabPageLand.Text = "LandTiles";
             this.tabPageLand.UseVisualStyleBackColor = true;
@@ -515,7 +520,7 @@ namespace FiddlerControls
             this.splitContainer5.Panel2.Controls.Add(this.label23);
             this.splitContainer5.Panel2.Controls.Add(this.textBoxNameLand);
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer5.Size = new System.Drawing.Size(605, 259);
+            this.splitContainer5.Size = new System.Drawing.Size(605, 264);
             this.splitContainer5.SplitterDistance = 201;
             this.splitContainer5.TabIndex = 1;
             // 
@@ -533,8 +538,8 @@ namespace FiddlerControls
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.pictureBoxLand);
-            this.splitContainer6.Size = new System.Drawing.Size(201, 259);
-            this.splitContainer6.SplitterDistance = 162;
+            this.splitContainer6.Size = new System.Drawing.Size(201, 264);
+            this.splitContainer6.SplitterDistance = 164;
             this.splitContainer6.TabIndex = 0;
             // 
             // treeViewLand
@@ -544,7 +549,7 @@ namespace FiddlerControls
             this.treeViewLand.HideSelection = false;
             this.treeViewLand.Location = new System.Drawing.Point(0, 0);
             this.treeViewLand.Name = "treeViewLand";
-            this.treeViewLand.Size = new System.Drawing.Size(201, 162);
+            this.treeViewLand.Size = new System.Drawing.Size(201, 164);
             this.treeViewLand.TabIndex = 0;
             this.treeViewLand.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewLand);
             // 
@@ -575,7 +580,7 @@ namespace FiddlerControls
             this.pictureBoxLand.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxLand.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxLand.Name = "pictureBoxLand";
-            this.pictureBoxLand.Size = new System.Drawing.Size(201, 93);
+            this.pictureBoxLand.Size = new System.Drawing.Size(201, 96);
             this.pictureBoxLand.TabIndex = 0;
             this.pictureBoxLand.TabStop = false;
             // 
@@ -614,7 +619,7 @@ namespace FiddlerControls
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.checkedListBox2);
-            this.splitContainer7.Size = new System.Drawing.Size(400, 259);
+            this.splitContainer7.Size = new System.Drawing.Size(400, 264);
             this.splitContainer7.SplitterDistance = 27;
             this.splitContainer7.SplitterWidth = 2;
             this.splitContainer7.TabIndex = 25;
@@ -771,6 +776,23 @@ namespace FiddlerControls
             this.splitter1.UseAnimations = false;
             this.splitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
+            // textBoxUnk1HSA
+            // 
+            this.textBoxUnk1HSA.Location = new System.Drawing.Point(161, 107);
+            this.textBoxUnk1HSA.Name = "textBoxUnk1HSA";
+            this.textBoxUnk1HSA.Size = new System.Drawing.Size(51, 20);
+            this.textBoxUnk1HSA.TabIndex = 24;
+            this.textBoxUnk1HSA.TextChanged += new System.EventHandler(this.OnTextChangedItemUnk1HSA);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(106, 110);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(33, 13);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "Unk1";
+            // 
             // TileDatas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -880,5 +902,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripMenuItem setFilterToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBoxUnk1HSA;
+        private System.Windows.Forms.Label label13;
     }
 }

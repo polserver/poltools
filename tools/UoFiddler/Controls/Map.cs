@@ -1003,7 +1003,7 @@ namespace FiddlerControls
                         line = line.Remove(0, 2);
                         line = line.TrimStart(' ');
                         line = line.TrimEnd(' ');
-                        newtile.m_ID = (ushort)(Convert.ToUInt16(line) & (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF));
+                        newtile.m_ID = Art.GetLegalItemID(Convert.ToUInt16(line));
                     }
                     else if (line.StartsWith("X"))
                     {

@@ -6,6 +6,7 @@ namespace Ultima
     public sealed class Animdata
     {
         private static int[] m_Header;
+        private static byte[] m_Unknown;
 
         public static Hashtable AnimData { get; set; }
         static Animdata()
@@ -58,6 +59,9 @@ namespace Ultima
                                     }
                                 }
                             }
+                            int remaining = (int)(bin.BaseStream.Length - bin.BaseStream.Position);
+                            if (remaining>0)
+                                m_Unknown = bin.ReadBytes(remaining);
                         }
                     }
                 }
@@ -114,6 +118,8 @@ namespace Ultima
                             }
                         }
                     }
+                    if (m_Unknown != null)
+                        bin.Write(m_Unknown);
                 }
             }
         }

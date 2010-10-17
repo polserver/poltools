@@ -36,9 +36,7 @@ namespace ComparePlugin
             listBoxOrg.Items.Clear();
             listBoxOrg.BeginUpdate();
             List<object> cache = new List<object>();
-            int staticlength = 0x4000;
-            if (Art.IsUOSA())
-                staticlength = 0x8000;
+            int staticlength = Art.GetMaxItemID() + 1;
             for (int i = 0; i < staticlength; i++)
             {
                 cache.Add(i);
@@ -121,9 +119,7 @@ namespace ComparePlugin
             listBoxSec.BeginUpdate();
             listBoxSec.Items.Clear();
             List<object> cache = new List<object>();
-            int staticlength = 0x4000;
-            if (SecondArt.IsUOSA())
-                staticlength = 0x8000;
+            int staticlength = SecondArt.GetMaxItemID() + 1;
             for (int i = 0; i < staticlength; i++)
             {
                 cache.Add(i);
@@ -232,9 +228,7 @@ namespace ComparePlugin
             listBoxOrg.Items.Clear();
             listBoxSec.Items.Clear();
             List<object> cache = new List<object>();
-            int staticlength = 0x4000;
-            if (Art.IsUOSA() || SecondArt.IsUOSA())
-                staticlength = 0x8000;
+            int staticlength = Math.Max(Art.GetMaxItemID(), SecondArt.GetMaxItemID());
             if (checkBox1.Checked)
             {
                 for (int i = 0; i < staticlength; i++)
@@ -299,9 +293,7 @@ namespace ComparePlugin
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
             if (!SecondArt.IsValidStatic(i))
                 return;
-            int staticlength = 0x4000;
-            if (Art.IsUOSA())
-                staticlength = 0x8000;
+            int staticlength = Art.GetMaxItemID() + 1;
             if (i >= staticlength)
                 return;
             Bitmap copy = new Bitmap(SecondArt.GetStatic(i));

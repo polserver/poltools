@@ -271,14 +271,42 @@ namespace FiddlerControls
             treeViewItem.Nodes.Clear();
             if (TileData.ItemTable != null)
             {
-                TreeNode[] nodes = new TreeNode[TileData.ItemTable.Length];
-                for (int i = 0; i < TileData.ItemTable.Length; ++i)
+                TreeNode[] nodes = new TreeNode[0x4000];
+                for (int i = 0; i < 0x4000; ++i)
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.ItemTable[i].Name));
                     node.Tag = i;
                     nodes[i] = node;
                 }
-                treeViewItem.Nodes.AddRange(nodes);
+                treeViewItem.Nodes.Add(new TreeNode("AOS - ML", nodes));
+
+                if (TileData.ItemTable.Length > 0x4000) // SA
+                {
+                    nodes = new TreeNode[0x4000];
+                    for (int i = 0; i < 0x4000; ++i)
+                    {
+                        int j = i + 0x4000;
+                        TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", j, TileData.ItemTable[j].Name));
+                        node.Tag = j;
+                        nodes[i] = node;
+                    }
+                    treeViewItem.Nodes.Add(new TreeNode("Stygian Abyss", nodes));
+                }
+
+                if (TileData.ItemTable.Length > 0x8000) // AHS
+                {
+                    nodes = new TreeNode[0x8000];
+                    for (int i = 0; i < 0x8000; ++i)
+                    {
+                        int j = i + 0x8000;
+                        TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", j, TileData.ItemTable[j].Name));
+                        node.Tag = j;
+                        nodes[i] = node;
+                    }
+                    treeViewItem.Nodes.Add(new TreeNode("Adventures High Seas", nodes));
+                }
+                else
+                    treeViewItem.ExpandAll();
             }
             treeViewItem.EndUpdate();
             treeViewLand.BeginUpdate();
@@ -361,7 +389,7 @@ namespace FiddlerControls
 
         private void AfterSelectTreeViewItem(object sender, TreeViewEventArgs e)
         {
-            if (e.Node == null)
+            if (e.Node == null || e.Node.Tag == null)
                 return;
             int index = (int)e.Node.Tag;
             try
@@ -391,6 +419,7 @@ namespace FiddlerControls
             textBoxUnk1.Text = data.MiscData.ToString();
             textBoxUnk2.Text = data.Unk2.ToString();
             textBoxUnk3.Text = data.Unk3.ToString();
+            textBoxUnk1HSA.Text = data.Unk1.ToString();
             Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
             for (int i = 1; i < EnumValues.Length; ++i)
             {
@@ -463,7 +492,7 @@ namespace FiddlerControls
         {
             if (tabcontrol.SelectedIndex == 0) //items
             {
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -474,6 +503,7 @@ namespace FiddlerControls
                 treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
                 byte byteres;
                 short shortres;
+                int intres;
                 if (short.TryParse(textBoxAnim.Text, out shortres))
                     item.Animation = shortres;
                 if (byte.TryParse(textBoxWeight.Text, out byteres))
@@ -496,6 +526,8 @@ namespace FiddlerControls
                     item.Unk2 = byteres;
                 if (byte.TryParse(textBoxUnk3.Text, out byteres))
                     item.Unk3 = byteres;
+                if (int.TryParse(textBoxUnk1HSA.Text, out intres))
+                    item.Unk1 = intres;
                 item.Flags = TileFlag.None;
                 Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
                 for (int i = 0; i < checkedListBox1.Items.Count; ++i)
@@ -562,7 +594,7 @@ namespace FiddlerControls
                     return;
                 if (e.CurrentValue != e.NewValue)
                 {
-                    if (treeViewItem.SelectedNode == null)
+                    if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                         return;
                     int index = (int)treeViewItem.SelectedNode.Tag;
                     ItemData item = TileData.ItemTable[index];
@@ -601,7 +633,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -623,7 +655,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -647,7 +679,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -669,7 +701,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -691,7 +723,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -713,7 +745,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -735,7 +767,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -757,7 +789,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -779,7 +811,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -801,7 +833,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -823,7 +855,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -845,7 +877,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewItem.SelectedNode == null)
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewItem.SelectedNode.Tag;
                 ItemData item = TileData.ItemTable[index];
@@ -861,13 +893,35 @@ namespace FiddlerControls
             }
         }
 
+        private void OnTextChangedItemUnk1HSA(object sender, EventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (ChangingIndex)
+                    return;
+                if (treeViewItem.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                int intres;
+                if (int.TryParse(textBoxUnk1HSA.Text, out intres))
+                {
+                    item.Unk1 = intres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
+                }
+            }
+        }
+
         private void OnTextChangedLandName(object sender, EventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewLand.SelectedNode == null)
+                if (treeViewLand.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewLand.SelectedNode.Tag;
                 LandData land = TileData.LandTable[index];
@@ -1077,5 +1131,13 @@ namespace FiddlerControls
                 filterform.Show();
             }
         }
+
+        private void OnItemDataNodeExpanded(object sender, TreeViewCancelEventArgs e)
+        {
+            if(treeViewItem.Nodes.Count == 3) // workaround for 65536 items'microsoft bug
+                treeViewItem.CollapseAll();
+        }
+
+        
     }
 }

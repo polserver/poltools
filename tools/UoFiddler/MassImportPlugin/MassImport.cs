@@ -252,7 +252,7 @@ namespace MassImport
 
     public class ImportEntryItem : ImportEntry
     {
-        public override int MaxIndex { get { return Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF; } }
+        public override int MaxIndex { get { return Ultima.Art.GetMaxItemID(); } }
         public override string Name { get { return "Item"; } }
         public override void Import(bool direct, ref Dictionary<string, bool> ChangedClasses)
         {
@@ -348,7 +348,7 @@ namespace MassImport
     public class ImportEntryTileDataItem : ImportEntry
     {
         private string[] tiledata;
-        public override int MaxIndex { get { return Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF; } }
+        public override int MaxIndex { get { return Ultima.Art.GetMaxItemID(); } }
         public override string Name { get { return "TileDataItem"; } }
         public override void TestFile(ref string message)
         {
@@ -517,7 +517,7 @@ namespace MassImport
                             continue;
 
                         string[] split = line.Split(';');
-                        if (split.Length < 35)
+                        if (split.Length < 36)
                             continue;
                         int id;
                         if (FiddlerControls.Utils.ConvertStringToInt(split[0], out id))

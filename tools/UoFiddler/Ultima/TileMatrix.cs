@@ -280,10 +280,7 @@ namespace Ultima
                         {
                             IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + i * sizeof(StaticTile));
                             StaticTile cur = (StaticTile)Marshal.PtrToStructure(ptr, typeof(StaticTile));
-                            if (Art.IsUOSA())
-                                lists[cur.m_X & 0x7][cur.m_Y & 0x7].Add((ushort)(cur.m_ID & 0x7FFF), cur.m_Hue, cur.m_Z);
-                            else
-                                lists[cur.m_X & 0x7][cur.m_Y & 0x7].Add((ushort)(cur.m_ID & 0x3FFF), cur.m_Hue, cur.m_Z);
+                            lists[cur.m_X & 0x7][cur.m_Y & 0x7].Add(Art.GetLegalItemID(cur.m_ID), cur.m_Hue, cur.m_Z);
                         }
 
                         HuedTile[][][] tiles = new HuedTile[8][][];
@@ -461,12 +458,7 @@ namespace Ultima
 
         public MTile(ushort id, sbyte z)
         {
-            if (Art.IsUOHS())
-                m_ID = id;
-            else if (Art.IsUOSA())
-                m_ID = (ushort)(id & 0x7FFF);
-            else
-                m_ID = (ushort)(id & 0x3FFF);
+            m_ID = Art.GetLegalItemID(id);
             m_Z = z;
             m_Flag = 1;
             m_Solver = 0;
@@ -474,12 +466,7 @@ namespace Ultima
 
         public MTile(ushort id, sbyte z, sbyte flag)
         {
-            if (Art.IsUOHS())
-                m_ID = id;
-            else if (Art.IsUOSA())
-                m_ID = (ushort)(id & 0x7FFF);
-            else
-                m_ID = (ushort)(id & 0x3FFF);
+            m_ID = Art.GetLegalItemID(id);
             m_Z = z;
             m_Flag = flag;
             m_Solver = 0;
@@ -487,23 +474,13 @@ namespace Ultima
 
         public void Set(ushort id, sbyte z)
         {
-            if (Art.IsUOHS())
-                m_ID = id;
-            else if (Art.IsUOSA())
-                m_ID = (ushort)(id & 0x7FFF);
-            else
-                m_ID = (ushort)(id & 0x3FFF);
+            m_ID = Art.GetLegalItemID(id);
             m_Z = z;
         }
 
         public void Set(ushort id, sbyte z, sbyte flag)
         {
-            if (Art.IsUOHS())
-                m_ID = id;
-            else if (Art.IsUOSA())
-                m_ID = (ushort)(id & 0x7FFF);
-            else
-                m_ID = (ushort)(id & 0x3FFF);
+            m_ID = Art.GetLegalItemID(id);
             m_Z = z;
             m_Flag = flag;
         }

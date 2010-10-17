@@ -371,7 +371,7 @@ namespace FiddlerControls
             if (!Loaded)
                 return;
             int index;
-            if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+            if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, Ultima.Art.GetMaxItemID()))
             {
                 if (!Ultima.Art.IsValidStatic(index))
                     LightTileText.ForeColor = Color.Red;
@@ -387,7 +387,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
+                if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, Ultima.Art.GetMaxItemID()))
                 {
                     if (!Ultima.Art.IsValidStatic(index))
                         return;
