@@ -448,12 +448,14 @@ namespace Ultima
         internal ushort m_ID;
         internal sbyte m_Z;
         internal sbyte m_Flag;
+        internal int m_Unk1;
         internal int m_Solver;
 
         public ushort ID { get { return m_ID; } }
         public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
 
         public int Flag { get { return m_Flag; } set { m_Flag = (sbyte)value; } }
+        public int Unk1 { get { return m_Unk1; } set { m_Unk1 = value; } }
         public int Solver { get { return m_Solver; } set { m_Solver = value; } }
 
         public MTile(ushort id, sbyte z)
@@ -462,6 +464,7 @@ namespace Ultima
             m_Z = z;
             m_Flag = 1;
             m_Solver = 0;
+            m_Unk1 = 0;
         }
 
         public MTile(ushort id, sbyte z, sbyte flag)
@@ -470,6 +473,16 @@ namespace Ultima
             m_Z = z;
             m_Flag = flag;
             m_Solver = 0;
+            m_Unk1 = 0;
+        }
+
+        public MTile(ushort id, sbyte z, sbyte flag, int unk1)
+        {
+            m_ID = Art.GetLegalItemID(id);
+            m_Z = z;
+            m_Flag = flag;
+            m_Solver = 0;
+            m_Unk1 = unk1;
         }
 
         public void Set(ushort id, sbyte z)
@@ -483,6 +496,14 @@ namespace Ultima
             m_ID = Art.GetLegalItemID(id);
             m_Z = z;
             m_Flag = flag;
+        }
+
+        public void Set(ushort id, sbyte z, sbyte flag, int unk1)
+        {
+            m_ID = Art.GetLegalItemID(id);
+            m_Z = z;
+            m_Flag = flag;
+            m_Unk1 = unk1;
         }
 
         public int CompareTo(object x)
