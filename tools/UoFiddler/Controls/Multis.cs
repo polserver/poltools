@@ -263,6 +263,7 @@ namespace FiddlerControls
             MultiComponentBox.Clear();
             if (multi != MultiComponentList.Empty)
             {
+                bool isUOHSA = Art.IsUOAHS();
                 for (int x = 0; x < multi.Width; ++x)
                 {
                     for (int y = 0; y < multi.Height; ++y)
@@ -270,7 +271,10 @@ namespace FiddlerControls
                         MTile[] tiles = multi.Tiles[x][y];
                         for (int i = 0; i < tiles.Length; ++i)
                         {
-                            MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2} {4,2}\n", tiles[i].ID, x, y, tiles[i].Z, tiles[i].Flag));
+                            if (isUOHSA)
+                                MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2} {4,2} {5,2}\n", tiles[i].ID, x, y, tiles[i].Z, tiles[i].Flag, tiles[i].Unk1));
+                            else
+                                MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2} {4,2}\n", tiles[i].ID, x, y, tiles[i].Z, tiles[i].Flag));
                         }
                     }
                 }

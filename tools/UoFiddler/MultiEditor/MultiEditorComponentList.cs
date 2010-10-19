@@ -147,7 +147,7 @@ namespace MultiEditor
                 MultiTile tile = Tiles[i];
                 if (tile.isVirtualFloor)
                     continue;
-                tiles[tile.X][tile.Y].Add((ushort)(tile.ID), (sbyte)tile.Z, tile.Invisible ? (sbyte)0 : (sbyte)1);
+                tiles[tile.X][tile.Y].Add((ushort)(tile.ID), (sbyte)tile.Z, tile.Invisible ? (sbyte)0 : (sbyte)1, 0);
                 ++count;
             }
             return new MultiComponentList(tiles, count, Width, Height);

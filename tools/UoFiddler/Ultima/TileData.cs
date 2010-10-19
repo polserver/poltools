@@ -29,7 +29,7 @@ namespace Ultima
         {
             m_TexID = mulstruct.texID;
             m_Flags = (TileFlag)mulstruct.flags;
-            m_Unk1 = (int)mulstruct.unk1;
+            m_Unk1 = mulstruct.unk1;
             m_Name = TileData.ReadNameString(mulstruct.name);
         }
 
