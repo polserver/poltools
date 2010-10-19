@@ -129,7 +129,7 @@ namespace Ultima
             ushort origred = c.R;
             ushort origgreen = c.G;
             ushort origblue = c.B;
-            int scale = 31 / 255;
+            const double scale = 31.0 / 255;
             ushort newred = (ushort)(origred * scale);
             if (newred == 0 && origred != 0)
                 newred = 1;
@@ -150,7 +150,7 @@ namespace Ultima
         /// <returns></returns>
         public static Color HueToColor(short hue)
         {
-            int scale = 255 / 31;
+            const int scale = 255 / 31;
             return Color.FromArgb(
                 (((hue & 0x7c00) >> 10) * scale),
                 (((hue & 0x3e0) >> 5) * scale),
