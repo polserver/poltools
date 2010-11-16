@@ -24,12 +24,12 @@ Active File Display Mode=-1
 0=..\..\distro\
 [Tools]
 Tool Cmd0="%rp\..\..\distro\scripts\ecompile.exe "%f""
-Tool Dir0=""
+Tool Dir0="%rp\..\..\distro\scripts\"
 Tool Menu0="Compile"
 Bitmap Path0=""
 Show DOS Window0=0
 Capture0=1
-Capture Mode0=0
+Capture Mode0=3
 WinProg0=0
 SaveAllFiles0=0
 Save Active File0=1
