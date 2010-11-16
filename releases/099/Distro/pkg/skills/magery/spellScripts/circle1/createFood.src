@@ -1,0 +1,27 @@
+// $Id: createFood.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":food&drink:food";
+
+program SpellScript_CreateFood(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var food_item := RandomFoodObjType("createfood");
+	var food := CreateItemInBackPack(mobile, food_item, 1);
+	food.movable := 1;
+	
+	if ( food == error )
+		SendSysMessage(mobile, "Error creating food ("+food_item+") ->"+food.errortext);
+	else
+		MS_PlaySpellSFX(info.spell_id, mobile);
+		MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+	endif
+	
+	return 1;
+endprogram

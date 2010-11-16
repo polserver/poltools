@@ -1,0 +1,17 @@
+/* $Id: gmbcast.src 814 2006-09-14 07:21:18Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program command_GMBcast(who, text)
+	foreach player in ( EnumerateOnlineCharacters() )
+		if ( player.cmdlevel )
+			SendSysMessage(player, "GM Broadcast from "+who.name+": "+text, _DEFAULT_TEXT_FONT, 55);
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endprogram

@@ -1,0 +1,25 @@
+/* $Id: desctest.src 526 2006-07-01 03:00:25Z austinheilman $
+ *
+ */
+
+use uo;
+
+include ":gumps:requestgump";
+include ":gumps:yesno";
+include ":itemutils:itemdesc";
+
+unload_scripts("desctest");
+
+program command_DescTest(who, text)
+	if ( !text )
+		text := RequestGump(who, "Desc String", "", "", CANCEL_BTN_ON);
+	endif
+
+	var plural := YesNo(who, "Pluralize?");
+
+	var desc := GetObjTypeDesc(text, plural);
+
+	SendSysMessage(who, "-> "+desc);
+
+	return 1;
+endprogram

@@ -1,0 +1,16 @@
+/* $Id: eraseglobal.src 488 2006-06-29 11:28:56Z austinheilman $
+ *
+ */
+
+use uo;
+
+program textcmd_EraseGlobal(who, propertyname)
+	var res := EraseGlobalProperty(propertyname);
+	if ( res != error )
+		SendSysMessage(who, "Property "+propertyname+" erased.");
+	else
+		SendSysMessage(who, "Error erasing property: "+res.errortext);
+	endif
+
+	return 1;
+endprogram

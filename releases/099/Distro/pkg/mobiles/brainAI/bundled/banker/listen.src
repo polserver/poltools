@@ -1,0 +1,106 @@
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":containers:storageAreas";
+include ":containers:containers";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(100000);
+	endwhile
+endprogram
+
+function SpeechEvent(npc, byref event)
+	var text := Lower(event.text);
+	var source := event.source;
+
+	if ( source.IsA(POLCLASS_NPC) )
+		// Remember - NPCs can send speech events now.
+		return 0;
+	elseif ( !CheckLineOfSight(npc, event.source) )
+		// No line of sight - ignore speech.
+		return 0;
+	endif
+
+	// Support for regional banking.
+	// Example: Seperate bank boxes for Britain, Trinsic, Moonglow, etc.
+	var bank_region := GetObjProperty(npc, "StorageArea");
+	if ( !bank_region )
+		bank_region := CP_DEFAULT_AREA;
+	endif
+
+	var bank_box := CP_GetStorageContainerForMobile(source, bank_region, CP_CREATE);
+	if ( text["bank"] || text["box"] )
+		AI_Turn(npc, source, NETURN_TOWARD);
+		SendOpenSpecialContainer(source, bank_box);
+	elseif ( text["withdraw "] )
+		WithdrawGold(npc, source, bank_box, text);
+	elseif ( text["check "] )
+		var amount := FindAmountInSpeech("check", text);
+		CheckGoldAmount(npc, bank_box, amount);
+	endif
+
+	return 1;
+endfunction
+
+function WithdrawGold(npc, mobile, bank_box, byref text)
+	var amount := FindAmountInSpeech("withdrawl", text);
+	if ( !CheckGoldAmount(npc, bank_box, amount) )
+		return 0;
+	endif
+
+	if ( ConsumeSubstance(bank_box, GetObjTypeByName("GoldCoin"), amount) )
+		CreateItemInBackPack(mobile, "GoldCoin", amount);
+	else
+		SendSysMessage(mobile, "Error: Unable to consume gold from bank box.");
+		return 0;
+	endif
+
+	return 1;
+endfunction
+
+function CheckGoldAmount(npc, bank_box, amount)
+	var properties := dictionary{"objtype"->GetObjTypeByName("GoldCoin")};
+	var total_gold := AmountInContainer(bank_box, properties);
+	if ( amount == 0 )
+		AI_Speak(npc, "Everyone has atleast zero gold!");
+		return 0;
+	elseif ( amount > total_gold )
+		AI_Speak(npc, "You do not have that much gold in your box.");
+		return 0;
+	else
+		AI_Speak(npc, "You have enough gold.");
+		return 1;
+	endif
+endfunction
+
+function FindAmountInSpeech(key, text)
+	var key_pos := Find(text, key, 1);
+	text[1, (key_pos+Len(key))] := "";
+
+	text := SplitWords(text);
+	return CInt(text[1]);
+endfunction

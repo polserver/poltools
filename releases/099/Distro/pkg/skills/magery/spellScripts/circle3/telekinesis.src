@@ -1,0 +1,31 @@
+// $Id: telekinesis.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+
+program SpellScript_Telekinesis(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0; // No longer needed
+	
+	if ( !(targ.IsA(POLCLASS_CONTAINER) && targ.IsA(POLCLASS_ITEM)) )
+		// Doesn't do anything to mobiles
+		SendSysMessage(mobile, "This spell wont work on that!");
+		return 0;
+	endif
+	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+	
+	if ( targ.IsA(POLCLASS_CONTAINER) )
+		SendViewContainer( mobile, targ );
+	elseif( targ.IsA(POLCLASS_ITEM ) )
+		UseItem( targ, mobile );
+	endif
+	
+	return 1;
+endprogram

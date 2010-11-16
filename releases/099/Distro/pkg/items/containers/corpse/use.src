@@ -1,0 +1,25 @@
+/* $Id: use.src 1118 2008-01-12 21:30:15Z AustinHeilman $
+ *
+ */
+
+use uo;
+use os;
+
+
+program useScript_Corpse(mobile, corpse)
+	if ( corpse.GetOwner() != mobile )
+		return SendViewContainer(mobile, corpse);
+	endif
+
+	foreach item in ( EnumerateItemsInContainer(corpse) )
+		if ( item.container == corpse )
+			MoveItemToContainer(item, mobile.backpack, item.x, item.y);
+		endif
+		SleepMS(2);
+	endforeach
+	SendSysMessage(mobile, "You collect your belongings.");
+	corpse.SetDestroyable(1);
+	DestroyItem(corpse);
+
+	return 1;
+endprogram

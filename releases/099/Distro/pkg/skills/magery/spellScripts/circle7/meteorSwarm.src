@@ -1,0 +1,40 @@
+// $Id: meteorSwarm.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":damage:damage";
+
+program SpellScript_MeteorSwarm(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	MS_PlaySpellSFX(info.spell_id, mobile);
+
+	// Base damage is a decimal number in between min and max damage
+	var min_damage := GetConfigInt(info.spell_config, "MinBaseDamage");
+	var max_damage := GetConfigInt(info.spell_config, "MaxBaseDamage");
+	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10)) + 1) / 10);
+	var damage;
+
+	// Get all targets in area excluding party and self. Damaged is divided by number of valid targets.
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var excludes := GetObjProperty(mobile, "#Party");
+	if ( excludes == error )
+			excludes := array{mobile.serial};
+	else
+			excludes.Append(mobile.serial);
+	endif
+
+	var targs := MS_GetValidTargets(mobile, area_size, 1, excludes);
+	foreach vtarg in targs
+		damage := MS_GetSpellDamage(mobile, vtarg, base_damage) / targs.Size();
+		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
+		ApplyDamageEX(vtarg, damage, info.damage_type, mobile);
+	endforeach
+
+	return 1;
+endprogram

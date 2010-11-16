@@ -1,0 +1,16 @@
+use uo;
+use util;
+
+
+program command_nsight(who, level)
+	level := CInt(level);
+	if ( level >= 0 )
+		who.SetLightLevel(level, 9000);
+	else
+		// -1 restores the real light level
+		SendSysMessage(who, "Restoring normal vision.");
+		who.SetLightLevel(1, 0);
+	endif
+	
+	return 1;
+endprogram

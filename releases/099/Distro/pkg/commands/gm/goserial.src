@@ -1,0 +1,17 @@
+/* $Id: goserial.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+ 
+use uo;
+	
+program command_GoSerial(who, text)
+	var a := SystemFindObjectBySerial(CInt(text));
+	if( !a )
+		SendSysMessage(who,"No such thing.");
+		return 0;
+	endif
+	
+	MoveObjectToLocation(who, a.x, a.y, a.z, a.realm, MOVEOBJECT_FORCELOCATION);
+	
+	return 1;
+endprogram

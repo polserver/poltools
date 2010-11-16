@@ -1,0 +1,23 @@
+/* $Id: onInsert.src 1463 2009-03-10 18:27:18Z muaddib_pol $
+ *
+ */
+
+use uo;
+use os;
+
+
+program onInsert(mobile, container, move_type, insert_type, adding_item, existing_stack, amount_to_add)
+	// Stop Compiler Warnings
+	amount_to_add := amount_to_add;
+	existing_stack := existing_stack;
+	adding_item := adding_item;
+	insert_type := insert_type;
+	move_type := move_type;
+	mobile := mobile;
+	container := container;
+
+	//To-do
+	//Play sound effect now that item is being added.
+
+	return 1;
+endprogram

@@ -1,0 +1,80 @@
+use uo;
+use cfgfile;
+use os;
+use util;
+use math;
+
+program use_message( who, message )
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+    if ( !ReserveItem(message) )
+		SendSysMessage(who, "That is already in use.");
+		return 0;
+	elseif( (!message.movable) || !ReserveItem(message) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	endif
+	
+
+    var tox := GetObjProperty(message, "tileX");
+    var toy := GetObjProperty(message, "tileY");
+    var msgindex := GetObjProperty(message, "msgnum");
+    
+    if( tox.errortext || toy.errortext)
+        syslog("bad message "+tox+" "+toy);
+        DestroyItem(message);
+        SendSysMessage(who, "The message is garbled beyond your ability to read!");
+        return 0;
+    endif
+    var layout := array(  "page 0",
+                            "resizepic 0 0 3500 300 200",
+                            "button 110 140 1148 1149 1 0 1",
+                            "text 20 30 0 0",
+                            "text 20 50 0 1",
+                            "text 20 70 0 2");
+    var data := array();
+    var coords := ToSextant(tox, toy);
+    case (msgindex)
+        0: 	data[1] := "Help, our ship is sinking!  We are";
+            data[2] := "at coordinates " + coords + "!  Please";
+            data[3] := "hurry, we are slipping away fast!";
+        1: 	data[1] := "We are under attack by a gigantic";
+            data[2] := "sea serpent!  We are at coordinates";
+            data[3] :=  + coords + "!  Please help us!";
+        2: 	data[1] := "A savage beast has holed our ship.";
+            data[2] := "We are at location " + coords + "!";
+            data[3] := "We will hang on as long as possible.";
+        3: 	data[1] := "We have encountered a terrible storm";
+            data[2] := "at coordinates " + coords + "!";
+            data[3] := "The ship may capsize soon, hurry!";
+    endcase
+    SendDialogGump( who, layout, data );
+endprogram
+
+function ToSextant(x, y)
+    var latitude_direction, longitude_direction;
+    var latitude_degrees, longitude_degrees;
+    var latitude_minutes, longitude_minutes;
+    latitude_degrees := (y-1624)*0.087890625;
+    longitude_degrees := (x-1323)*0.0703125;
+    
+    if(latitude_degrees < 0)
+        latitude_direction := "N";
+    else
+        latitude_direction := "S";
+    endif
+    
+    if(longitude_degrees < 0)
+        longitude_direction := "W";
+    else
+        longitude_direction := "E";
+    endif
+    
+    latitude_degrees := Abs(latitude_degrees);
+    longitude_degrees := Abs(longitude_degrees);
+    latitude_minutes := CInt((CInt((latitude_degrees-Floor(latitude_degrees))*100)*60)/100);
+    longitude_minutes := CInt((CInt((longitude_degrees-Floor(longitude_degrees))*100)*60)/100);
+    return(Floor(latitude_degrees) + "o " + latitude_minutes + "'" + latitude_direction + ", " + Floor(longitude_degrees) + "o " + longitude_minutes + "'" + longitude_direction);
+endfunction

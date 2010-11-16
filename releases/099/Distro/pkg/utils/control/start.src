@@ -1,0 +1,16 @@
+/* $Id: start.src 438 2006-06-25 03:50:44Z austinheilman $
+ *
+ */
+use os;
+
+var script := Start_Script("initializer/checkpackages");
+if ( script.errortext )
+	SysLog("Error starting ICP setup ->"+script.errortext);
+else
+	Print("Starting ICP setup... OK.");
+endif
+
+script := Start_Script("initializer/cmdbarmenus");
+if ( script.errortext )
+	SysLog("Error starting ICP command bar setup ->"+script.errortext);
+endif

@@ -1,0 +1,26 @@
+/* $Id: fieldtest.src 1165 2008-02-05 04:00:43Z AustinHeilman $
+ *
+ */
+
+use uo;
+
+include "include/client";
+include ":magery:fields";
+
+unload_scripts("");
+
+program FieldTestCommand(mobile, args)
+	var targ := TargetCoordinates(mobile);
+
+	var positions := GetCoordinatesForField(targ.x, targ.y, FIELD_SHAPE_VERTICAL, 0);
+	foreach coord in ( positions )
+		var z := targ.z;
+		if ( z < GetStandingHeight(targ.x, targ.y, targ.z, mobile.realm) )
+			z := GetStandingHeight(targ.x, targ.y, targ.z, mobile.realm);
+		endif
+
+		var field := CreateItemAtLocation(coord.x, coord.y, z, "FireFieldEW", 1, mobile.realm);
+		field.SetDuration(3);
+	endforeach
+	return 1;
+endprogram

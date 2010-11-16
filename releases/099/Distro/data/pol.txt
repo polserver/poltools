@@ -1,0 +1,9 @@
+#
+#
+#
+#
+
+System
+{
+	CoreVersion	98
+}

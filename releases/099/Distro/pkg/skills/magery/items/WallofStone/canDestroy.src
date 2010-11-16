@@ -1,0 +1,13 @@
+/* $Id: canDestroy.src 1171 2008-02-05 19:33:14Z AustinHeilman $
+ *
+ */
+
+use uo;
+
+include "include/client";
+
+program CanDestroy(item)
+	PlayStationaryEffect(item.x, item.y, item.z, GFX_SMOKE, 10, 10, 0, item.realm);
+
+	return 1;
+endprogram

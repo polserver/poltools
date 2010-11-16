@@ -1,0 +1,32 @@
+/*
+ * $Id: use.src 853 2006-09-22 10:23:49Z austinheilman $
+ *
+ */
+
+use uo;
+
+include ":keys:key";
+
+program UsePlank(mobile, plank)
+	Detach();
+	if ( plank.Extended() )
+		if ( (mobile.multi).serial != (plank.multi).serial )
+			if ( Distance(mobile, plank) <= 2 )
+				MoveObjectToLocation(mobile, plank.x, plank.y, plank.z+1, plank.realm, MOVEOBJECT_FORCELOCATION);
+			endif
+		else
+			plank.Retract();
+		endif
+	else
+		if ( plank.locked )
+			if ( !KP_HasKeyForLock(mobile, plank) )
+				PrintTextAbovePrivate(plank, "That is locked.", mobile);
+				return 0;
+			endif
+		endif
+
+		plank.Extend();
+	endif
+
+	return 1;
+endprogram

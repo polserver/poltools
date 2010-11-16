@@ -1,0 +1,40 @@
+// $Id: massCurse.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+program SpellScript_MassCurse(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+
+	// Get all targets in area excluding party and self.
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var excludes := GetObjProperty(mobile, "#Party");
+	if ( excludes == error )
+			excludes := array{mobile.serial};
+	else
+			excludes.Append(mobile.serial);
+	endif
+
+	// Duration: 120% Magery
+	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
+	var targs := MS_GetValidTargets(targ, area_size, 1, excludes);
+	foreach vtarg in targs
+		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
+		TS_StartTimer(vtarg, "Curse", duration, 0, mobile);
+	endforeach
+	
+	return 1;
+endprogram

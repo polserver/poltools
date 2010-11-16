@@ -1,0 +1,55 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_ITEM_GIVEN:
+					ItemGivenEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(900000);
+	endwhile
+
+endprogram
+
+function ItemGivenEvent(npc, byref event)
+	var item := event.item;
+	var source := event.source;
+	
+	// Check if summoned/pet has a pack
+	MoveObjectToLocation(item, npc.x, npc.y, npc.z, npc.realm, MOVEOBJECT_FORCELOCATION);
+	
+/*
+	var result := MoveItemToContainer(item, npc.backpack);
+	if ( result )
+		AI_Speak(npc, "Awww my very own '"+item.desc+"'. Thank you so much "+source.name+"!", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	else
+		if ( !npc.backpack )
+			AI_Speak(npc, "I have nowhere to put '"+item.desc+"', but thank you anyway.", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_ENABLE, WAKEUP);
+		else
+			AI_Speak(npc, "I was unable to put '"+item.desc+"' in my backpack. ["+result.errortext+"]", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_ENABLE, WAKEUP);
+		endif
+		MoveObjectToLocation(item, npc.x, npc.y, npc.z, npc.realm, MOVEOBJECT_FORCELOCATION);
+	endif
+*/
+
+endfunction

@@ -1,0 +1,30 @@
+/* $Id: setupteleporters.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+use polsys;
+
+include ":gumps:requestgump";
+
+program command_SetupTeleporters(who)
+	var realm_name := RequestGump(who, "Enter the realm name to setup teleporters for.", "Blank/Cancel will build all realms.", who.realm, CANCEL_BTN_ON);
+	var config_name := RequestGump(who, "Enter the sub-config file to use.", "Blank/Cancel will build all configs for that realm.", "", CANCEL_BTN_ON);
+
+	if ( realm_name )
+		if ( !(Realms().Exists(realm_name)) )
+			SendSysMessage(who, "Invalid realm name.");
+			return 0;
+		endif
+	endif
+
+	var script := Start_Script(":teleporters:initializer/firstRun", array{realm_name, config_name});
+	if ( script.errortext )
+		SendSysMessage(who, "Error -"+script.errortext);
+	else
+		SendSysMessage(who, "Running teleporter initializer.");
+	endif
+
+	return 1;
+endprogram
