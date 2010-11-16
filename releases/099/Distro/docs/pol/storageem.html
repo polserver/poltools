@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL Scripting Reference STORAGE.EM</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<body>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">
+              Home
+  				  </a></div>
+<h1>
+<a name="TOP"></a>
+						File:
+						Storage.em</h1>
+<p>
+						Description:
+						Functions for working with internal storage areas.<br><b>
+							Last Modified:
+							10/27/2007</b></p>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2">
+<div class="doc-smallbox">
+<div class="expander"><a href="javascript:ExpandContract('Functions')" id="bullet_Functions">[-]</a></div>
+<center><h2>Functions:</h2></center>
+<span id="span_Functions"><ul>
+<li><a href="#CreateRootItemInStorageArea">CreateRootItemInStorageArea</a></li>
+<li><a href="#CreateStorageArea">CreateStorageArea</a></li>
+<li><a href="#DestroyRootItemInStorageArea">DestroyRootItemInStorageArea</a></li>
+<li><a href="#FindRootItemInStorageArea">FindRootItemInStorageArea</a></li>
+<li><a href="#FindStorageArea">FindStorageArea</a></li>
+<li><a href="#StorageAreas">StorageAreas</a></li>
+</ul></span>
+</div>
+<div class="doc-smallbox-gold">
+<div class="expander"><a href="javascript:ExpandContract('Modules')" id="bullet_Modules">[-]</a></div>
+<center><h2>Modules:</h2></center>
+<span id="span_Modules"><ul>
+<li><a href="attributesem.html">
+                      Attributes
+          				  </a></li>
+<li><a href="basicem.html">
+                      Basic
+          				  </a></li>
+<li><a href="boatem.html">
+                      Boat
+          				  </a></li>
+<li><a href="cfgfileem.html">
+                      CfgFile
+          				  </a></li>
+<li><a href="clilocem.html">
+                      CliLoc
+          				  </a></li>
+<li><a href="datafileem.html">
+                      DataFile
+          				  </a></li>
+<li><a href="fileem.html">
+                      File
+          				  </a></li>
+<li><a href="guildsem.html">
+                      Guild
+          				  </a></li>
+<li><a href="httpem.html">
+                      Http
+          				  </a></li>
+<li><a href="mathem.html">
+                      Math
+          				  </a></li>
+<li><a href="npcem.html">
+                      Npc
+          				  </a></li>
+<li><a href="osem.html">
+                      OS
+          				  </a></li>
+<li><a href="polsysem.html">
+                      PolSys
+          				  </a></li>
+<li><a href="storageem.html">
+                      Storage
+          				  </a></li>
+<li><a href="unicodeem.html">
+                      Unicode
+          				  </a></li>
+<li><a href="uoem.html">
+                      UO
+          				  </a></li>
+<li><a href="utilem.html">
+                      Util
+          				  </a></li>
+<li><a href="vitalsem.html">
+                      Vitals
+          				  </a></li>
+</ul></span>
+</div>
+</div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="CreateRootItemInStorageArea">CreateRootItemInStorageArea( area, itemname, objtype )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>area</var></td>
+<td>String</td>
+</tr>
+<tr>
+<td width="50%"><var>itemname</var></td>
+<td>String</td>
+</tr>
+<tr>
+<td width="50%"><var>objtype</var></td>
+<td>Integer objtype, OR String ObjtypeName, OR GetItemDescriptor struct.</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Creates the "root" (top-level) item in the storage area "area". "itemname" is the name of this
+				item, and "objtype" is its type.</td></tr>
+<tr><td colspan="2">Notes: The item is normally a container. For example, a bankbox is a storage area and the root item 
+is the chest container. Normal items are then placed in this container.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Item Reference on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Unable to create item"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="CreateStorageArea">CreateStorageArea( areaname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>areaname</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Create a new storage area with name "areaname".</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Storage Area reference on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">Errors: none (returns 0 on invalid parameter)</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="DestroyRootItemInStorageArea">DestroyRootItemInStorageArea( area, itemname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>area</var></td>
+<td>Storage Area Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>itemname</var></td>
+<td>String</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Destroys the root item named "itemname" in storage area "area"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">1 on delete success</td></tr>
+<tr><td colspan="2">0 on item not found</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="FindRootItemInStorageArea">FindRootItemInStorageArea( area, itemname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>area</var></td>
+<td>Storage Area Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>itemname</var></td>
+<td>String</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Finds the root item named "itemname" in the storage area named "area".</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Item Reference on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Root item not found."</td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="FindStorageArea">FindStorageArea( areaname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>areaname</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Gets a reference to the storage area named "areaname"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Storage Area reference on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">none (returns 0 on invalid parameter or area not found)</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="StorageAreas">StorageAreas()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Get an array of "Storage area objects", with "count" member, and [] operator. (more info TBD)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">?</td></tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div></div>
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   

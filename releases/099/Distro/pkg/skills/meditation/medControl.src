@@ -1,0 +1,99 @@
+// $Id: medControl.src 1053 2007-04-27 22:00:25Z tekproxy $
+
+/*
+Base speed factor = (Meditation * 3) + Intelligence. 
+At GM Meditation or higher a 10% bonus is added to the base speed factor.
+If you are wearing armor that you cannot meditate in, then the base speed factor becomes 0 (zero). 
+Mana refreshed per second = (Base speed factor / 400) + (Focus / 200) + 0.2 
+For each Mana Regeneration item worn or equipped, add 0.1 mana per second.
+Active meditation is double
+*/
+
+include ":attributes:attributes";
+include ":meditation:settings";
+include ":meditation:functions";
+
+program medControl(mobile)
+	var mana_regen := 0;
+	var cfg_elem := AP_GetSettingsCfgElem("Regen");
+	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, "Mana"));
+	var meditation := AP_GetSkill(mobile, MEDITATION);
+	var history := struct{x, y, z, mana := AP_GetVital(mobile, "Mana")};
+	var newVital;
+	
+	var advanced;
+	var award_diff;
+	var pass_chance;
+	
+	while ( mobile.connected )
+		// Every point of vital regenerated, there is a chance for skill gain
+		newVital := AP_GetVital(mobile, "Mana");
+		if ( newVital != history.mana )
+			// TODO: calculate award_diff and pass chance
+			award_diff := meditation;
+			pass_chance := 100;
+			advanced := CheckSkillAdvance(mobile, "Meditation", award_diff, pass_chance);
+			history.mana :=	newVital;
+		endif
+		
+		if ( GetManaLoss(mobile) != "nomed" )			
+			// Base regen speed: (Meditation * 3) + Intelligence
+			mana_regen := (meditation * 3) + AP_GetStat(mobile, "Intelligence");
+			
+			// 10% bonus at GM meditation
+			if ( meditation >= 100 )
+				mana_regen *= 1.10;
+			endif
+		endif
+		
+		var settings_elem := ME_GetSettingsCfgElem("Settings");
+		if ( GetConfigInt(settings_elem, "UseFocus") )
+			mana_regen := (mana_regen / 400) + (AP_GetSkill(mobile, BATTLE_FOCUS) / 200) + 0.2;
+		else
+			// Not sure what the exact formula is
+			mana_regen := (mana_regen / 400) + 0.2;
+		endif
+
+		// If actively meditating, regen rate is doubled
+		// If player moves, stop meditating
+		if ( CheckIfMeditating(mobile) )
+			if ( history.x == "" )
+				history.x := mobile.x;
+				history.y := mobile.y;
+				history.z := mobile.z;
+			endif
+			
+			if ( AP_GetVital(mobile, "Mana") >= AP_GetVitalMaximumValue(mobile, "Mana") )
+				SendSysMessage(mobile, "You are at peace.");
+				StopMeditating(mobile, 1);
+			elseif ( history.x != mobile.x || history.y != mobile.y || history.z != mobile.z )
+				StopMeditating(mobile);
+			else
+				mana_regen *= 2;
+			endif
+		else
+			// It's only necessary to null history.x since it's the only member checked
+			history.x := "";
+		endif
+		
+		// TODO: Add bonuses for mana regen items.
+		
+		// We're not changing the base regen rate, only applying a MOD
+		// So subtract the configured base regen rate for mana and we get the mod total.
+		if ( base_mana_regen )
+			mana_regen -= (base_mana_regen / 60.0);
+		endif
+		
+		// Regen rates are in hundredths of points per minute
+		AP_SetVitalRegenRateMod(mobile, "Mana", mana_regen * 60 * 100);
+
+		// Sleep less while meditating so player position checks wont miss player movement
+		if ( CheckIfMeditating(mobile) )
+			SleepMS(250);
+		else
+			Sleep(1);
+		endif
+	endwhile
+	
+	return 1;
+endprogram

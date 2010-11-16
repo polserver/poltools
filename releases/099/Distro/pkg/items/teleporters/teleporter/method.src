@@ -1,0 +1,43 @@
+/* $Id: method.src 373 2006-06-17 18:27:33Z austinheilman $
+ * 
+ */
+ 
+use uo;
+
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsTeleporter(tile)
+	tile := tile; // To avoid compiler warnings.
+	return 1;
+endfunction
+
+exported function SetDestination(tile, x, y, z, realm)
+	var coords := struct;
+	coords.+x := CInt(x);
+	coords.+y := CInt(y);
+	coords.+z := CInt(z);
+	coords.+realm := CStr(realm);
+	
+	return SetObjProperty(tile, "Destination", coords);
+endfunction
+
+exported function GetDestination(tile)
+	var destination := GetObjProperty(tile, "Destination");
+	if ( !destination )
+		destination := struct{"x":=0, "y":=0, "z":=0, "realm":=tile.realm};
+	endif
+	
+	return destination;
+endfunction
+
+exported function SendToDestination(tile, object)
+	var dest := GetDestination(tile);
+	if ( !dest )
+		return error{"errortext":="tile has no destination set."};
+	endif
+
+	return MoveObjectToLocation(object, dest.x, dest.y, dest.z, dest.realm, MOVEOBJECT_FORCELOCATION);
+endfunction

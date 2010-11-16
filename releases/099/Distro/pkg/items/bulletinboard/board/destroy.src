@@ -1,0 +1,7 @@
+/* $Id: destroy.src 803 2006-09-13 07:24:32Z austinheilman $
+ *
+ */
+
+program OnDestroy(board)
+	return board.CleanUpData();
+endprogram

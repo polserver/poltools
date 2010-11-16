@@ -1,0 +1,20 @@
+/* $Id: canDestroy.src 1455 2009-03-09 20:43:51Z muaddib_pol $
+ *
+ */
+
+use uo;
+
+
+program canDestroy(container)
+	// Stop Compiler Warnings
+	container := container;
+	/*
+	foreach item in ( EnumerateItemsInContainer(container) )
+		if ( item.container == container )
+			MoveObjectToLocation(item, container.x, container.y, container.z, container.realm, MOVEOBJECT_FORCELOCATION);
+		endif
+	endforeach
+	*/
+
+	return 1;
+endprogram

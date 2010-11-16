@@ -1,0 +1,21 @@
+/* $Id: restartspawner.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program command_RestartSpawner(who)
+	var pid := CInt(GetGlobalProperty("#SpawnSystemPid"));
+	
+	var process := GetProcess(pid);
+	
+	process.Kill();
+	
+	Unload_Scripts("spawn");
+	
+	Start_Script(":spawnsystem:spawnSystem");
+	SendSysMessage(who, "Done.");
+	
+	return 1;
+endprogram

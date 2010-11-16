@@ -1,0 +1,25 @@
+use uo;
+
+program textcmd_togglelock( who )
+        SendSysMessage(who, "What do you wish to toggle the lock on?");
+
+	while ( who.connected )
+		var what := Target( who,TGTOPT_NOCHECK_LOS );
+		
+		if ( what.isa(POLCLASS_ITEM) )
+			  if (what.movable == 0)
+                		SendSysMessage(who, "Released.");
+                		what.movable := 1;
+		        else
+                		SendSysMessage(who, "Locked down.");
+                		what.movable := 0;
+		        endif	
+		else
+			SendSysMessage(who, "Aborted.");
+			break;
+		endif
+	endwhile
+	
+	return 1;
+
+endprogram

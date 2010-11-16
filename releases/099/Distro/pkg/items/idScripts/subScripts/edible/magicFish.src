@@ -1,0 +1,29 @@
+// $Id$
+//
+// Description: Randomly chooses a magic property from the cfg.
+//
+
+use cfgfile;
+use os;
+use util;
+use uo;
+
+program IdScript_Strength(params)
+	var mobile	:= params[1];
+	var fish	:= params[2];
+	params := 0;
+	
+	var fishConfig := ReadConfigFile(":fish:config/magicFish");
+	var elem_list  := GetConfigStringKeys( fishConfig );
+
+	var elem_name  := elem_list[RandomInt(len(elem_list))+1];
+	var elem := FindConfigElem(fishConfig, elem_name);
+	
+	var id_prop := dictionary{ "ID" -> mobile.serial, "Elem" -> elem_name};
+	
+	SetName(fish, elem.Desc);
+	SetObjProperty( fish, "ID", id_prop);
+
+	return 1;
+endprogram
+

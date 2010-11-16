@@ -1,0 +1,19 @@
+/* $Id: canRemove.src 1463 2009-03-10 18:27:18Z muaddib_pol $
+ *
+ */
+
+use uo;
+
+include ":containers:checks";
+
+
+program canRemoveScript(character, container, item, movetype)
+	if ( movetype == MOVETYPE_CORECREATE && !item.errortext )
+		return 1;
+	elseif ( CP_IsLocked(container) )
+		SendSysMessage(character, "You can't remove items from locked containers.");
+		return 0;
+	endif
+
+	return 1;
+endprogram

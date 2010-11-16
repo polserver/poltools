@@ -1,0 +1,31 @@
+include ":alchemy:drinkPotion";
+
+program use_blackpotion(who, potion)
+
+	if( (!potion.movable) || !ReserveItem(potion) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif( !(potion in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	if( !CheckToDrink(who, "#black") )
+		return 0;
+	endif
+
+
+	// No need for timed script useage, due to the command for
+	// setting lightlevel handling it the way we want.
+  	empty_bottle(who, potion);
+  	PlaySoundEffect(who, 0x1E4);
+  	PlayObjectCenteredEffect( who, 0x373A, 10,10);
+  	who.setlightlevel( 0, 1800 );
+
+	return 1;
+	
+endprogram

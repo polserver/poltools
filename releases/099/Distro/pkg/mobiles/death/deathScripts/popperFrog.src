@@ -1,0 +1,37 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/sysEvent";
+include ":attributes:attributes";
+
+program DeathScript(params)
+	var corpse := params[1];
+	//var corpse_cfg := params[2];
+	//var template := params[3];
+	params := 0; // Not needed anymore
+	
+	foreach mobile in ( ListMobilesNearLocationEx(corpse.x, corpse.y, corpse.z, 6, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, corpse.realm) )
+		PlayStationaryEffect(mobile.x, mobile.y, mobile.z, SelectRandomExplosion(), 10, 10, 0, corpse.realm);
+		
+		var dmg := RandomInt(3)+1;
+		ApplyRawDamage(mobile, dmg);
+				
+		SleepMS(2);
+	endforeach	
+	
+	return 1;
+endprogram
+
+function SelectRandomExplosion()
+	case ( RandomInt(3) )
+		1: return GFX_EXPLODE_2; break;
+		2: return GFX_EXPLODE_3; break;
+		default: return GFX_EXPLODE_1; break;
+	endcase
+endfunction

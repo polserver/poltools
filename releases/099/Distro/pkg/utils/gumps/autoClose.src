@@ -1,0 +1,17 @@
+/* $Id: autoClose.src 1497 2009-03-18 17:56:04Z dsourc $
+ *
+ */
+
+include ":gumps:gumps_ex";
+
+program AutoCloseGump(params)
+	var mobile	:= params[1];
+	var pid		:= params[2];
+	var timer	:= params[3];
+	var ret_val	:= params[4];
+	params := 0; // Not needed anymore.
+
+	Sleep(CInt(timer));
+
+	CloseGump(mobile, pid, ret_val);
+endprogram

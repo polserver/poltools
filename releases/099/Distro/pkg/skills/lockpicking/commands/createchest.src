@@ -1,0 +1,36 @@
+/*
+* $Id: createchest.src $
+*
+*/
+
+use uo;
+
+
+program textcmd_Create(who, text)
+
+   if ( !text )
+      SendSysMessage(who, "Usage: .createchest <difficulty>");
+      return 0;
+    endif
+    var diff := CInt(text);
+    if( !diff)
+         SendSysMessage(who, "The difficulty defaults to 1.");
+      diff := 1;
+    endif
+
+    SendSysMessage(who, "Where would you like it placed?");
+   var targ := TargetCoordinates(who);
+    var chest := 0x69f8;
+    var created := CreateItemAtLocation(targ.x, targ.y, targ.z, chest, 1, who.realm);
+   SetObjProperty(chest, "lockpicking", diff );
+   SetObjProperty(chest,"spawnchest", 1);
+   created.locked :=1;
+    if ( !created )
+        SendSysMessage(who, "Error: Could not create the chest.");
+        return 0;
+    elseif ( !targ )
+        SendSysMessage(who, "Cancelled");
+        return 0;
+    endif
+   return 1;
+endprogram
