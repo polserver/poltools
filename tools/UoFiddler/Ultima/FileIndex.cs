@@ -28,12 +28,6 @@ namespace Ultima
                 patched = false;
                 return null;
             }
-            if (e.length < 0)
-            {
-                length = extra = 0;
-                patched = false;
-                return null;
-            }
 
             length = e.length & 0x7FFFFFFF;
             extra = e.extra;
@@ -43,6 +37,13 @@ namespace Ultima
                 patched = true;
                 Verdata.Seek(e.lookup);
                 return Verdata.Stream;
+            }
+
+            if (e.length < 0)
+            {
+                length = extra = 0;
+                patched = false;
+                return null;
             }
 
             if ((Stream == null) || (!Stream.CanRead) || (!Stream.CanSeek))
@@ -89,12 +90,6 @@ namespace Ultima
                 patched = false;
                 return false;
             }
-            if (e.length < 0)
-            {
-                length = extra = 0;
-                patched = false;
-                return false;
-            }
 
             length = e.length & 0x7FFFFFFF;
             extra = e.extra;
@@ -103,6 +98,13 @@ namespace Ultima
             {
                 patched = true;
                 return true;
+            }
+
+            if (e.length < 0)
+            {
+                length = extra = 0;
+                patched = false;
+                return false;
             }
 
             if ((MulPath == null) || !File.Exists(MulPath))

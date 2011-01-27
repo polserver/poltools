@@ -739,6 +739,13 @@ namespace MultiEditor
             pictureBoxMulti.Invalidate();
         }
 
+        delegate void aDelegate(string t);
+        private void SetToolStripText(string text)
+        {
+            toolStripLabelCoord.Text = text;
+            toolStrip1.Update();
+        }
+
         /// <summary>
         /// Draw Image
         /// </summary>
@@ -758,7 +765,9 @@ namespace MultiEditor
                 int x, y, z;
                 ConvertCoords(MouseLoc, out x, out y, out z);
                 if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
-                    toolStripLabelCoord.Text = String.Format("{0},{1},{2}", x, y, z);
+                {
+                     base.Invoke(new aDelegate(SetToolStripText),String.Format("{0},{1},{2}", x, y, z) );
+                }
 
                 if (BTN_Draw.Checked)
                 {
@@ -766,7 +775,7 @@ namespace MultiEditor
                     {
                         if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
                         {
-                            toolStripLabelCoord.Text = String.Format("{0},{1},{2}", x, y, z);
+                            this.Invoke(new aDelegate(SetToolStripText), String.Format("{0},{1},{2}", x, y, z) );
                             Bitmap bmp = m_DrawTile.GetBitmap();
                             if (bmp == null)
                                 return;
@@ -886,7 +895,7 @@ namespace MultiEditor
             else if (importtype == Multis.ImportType.UOADESIGN)
                 dialog.Filter = String.Format("{0} file ({0}.*)|{0}.*", type);
             else if (importtype == Multis.ImportType.UOAB)
-                dialog.Filter = String.Format("{0} file ({0}.*)|{0}.*", "uoa");
+                dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", "uoa");
             else
                 dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
             if (dialog.ShowDialog() == DialogResult.OK)
