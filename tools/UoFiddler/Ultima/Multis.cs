@@ -333,7 +333,7 @@ namespace Ultima
                         int py = (x + y) * 22;
 
                         px -= (bmp.Width / 2);
-                        py -= tiles[i].Z * 4;
+                        py -= tiles[i].Z << 2;
                         py -= bmp.Height;
 
                         if (px < xMin)
@@ -376,7 +376,7 @@ namespace Ultima
                         int py = (x + y) * 22;
 
                         px -= (bmp.Width / 2);
-                        py -= tiles[i].Z * 4;
+                        py -= tiles[i].Z << 2;
                         py -= bmp.Height;
                         px -= xMin;
                         py -= yMin;

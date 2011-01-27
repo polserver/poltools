@@ -171,10 +171,10 @@ namespace MultiEditor
 
             if (drawFloor)
             {
-                int floorzmod = -Parent.DrawFloorZ * 4 - 44;
+                int floorzmod = -Parent.DrawFloorZ << 2 - 44;
                 if (yMin > floorzmod)
                     yMin = floorzmod;
-                floorzmod = (Width + Height) * 22 - Parent.DrawFloorZ * 4;
+                floorzmod = (Width + Height) * 22 - Parent.DrawFloorZ << 2;
                 if (yMaxOrg < floorzmod)
                     yMax = floorzmod;
             }
@@ -925,7 +925,7 @@ namespace MultiEditor
                 xmod -= GetBitmap().Width / 2;
                 xmod += MultiEditorComponentList.GapXMod;
                 ymod = (x + y) * 22;
-                ymod -= z * 4;
+                ymod -= z << 2;
                 ymod -= GetBitmap().Height;
                 ymod += MultiEditorComponentList.GapYMod;
             }
@@ -935,7 +935,7 @@ namespace MultiEditor
                 xmod -= 44 / 2;
                 xmod += MultiEditorComponentList.GapXMod;
                 ymod = (x + y) * 22;
-                ymod -= z * 4;
+                ymod -= z << 2;
                 ymod -= 44;
                 ymod += MultiEditorComponentList.GapYMod;
             }
