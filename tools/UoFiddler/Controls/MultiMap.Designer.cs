@@ -39,145 +39,219 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiMap));
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveTorleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonLoad = new System.Windows.Forms.Button();
-            this.buttonGenerate = new System.Windows.Forms.Button();
-            this.asJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.multiMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facet01ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facet02ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facet03ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facet04ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facet05ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.multiMapFromImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownButton3 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.asBmpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.asTiffToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.asPngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facetFromImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.facet00ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox
             // 
-            this.pictureBox.ContextMenuStrip = this.contextMenuStrip1;
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Location = new System.Drawing.Point(0, 25);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(528, 334);
+            this.pictureBox.Size = new System.Drawing.Size(528, 309);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox, "Use Contextmenu Load");
-            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
-            this.pictureBox.Resize += new System.EventHandler(this.OnResize);
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem,
-            this.exportToolStripMenuItem,
-            this.saveTorleToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 92);
-            // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.loadToolStripMenuItem.Text = "Load...";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.OnClickLoad);
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asBmpToolStripMenuItem,
-            this.asTiffToolStripMenuItem,
-            this.asJpgToolStripMenuItem});
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.exportToolStripMenuItem.Text = "Export...";
-            // 
-            // asBmpToolStripMenuItem
-            // 
-            this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.asBmpToolStripMenuItem.Text = "As Bmp";
-            this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportBmp);
-            // 
-            // asTiffToolStripMenuItem
-            // 
-            this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.asTiffToolStripMenuItem.Text = "As Tiff";
-            this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportTiff);
-            // 
-            // saveTorleToolStripMenuItem
-            // 
-            this.saveTorleToolStripMenuItem.Name = "saveTorleToolStripMenuItem";
-            this.saveTorleToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.saveTorleToolStripMenuItem.Text = "Generate Multimap from Image...";
-            this.saveTorleToolStripMenuItem.Click += new System.EventHandler(this.OnClickRLE);
+            this.pictureBox.Resize += new System.EventHandler(this.OnResize);
             // 
             // hScrollBar
             // 
             this.hScrollBar.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.hScrollBar.Location = new System.Drawing.Point(0, 317);
             this.hScrollBar.Name = "hScrollBar";
-            this.hScrollBar.Size = new System.Drawing.Size(528, 17);
+            this.hScrollBar.Size = new System.Drawing.Size(511, 17);
             this.hScrollBar.TabIndex = 1;
             this.hScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HandleScroll);
             // 
             // vScrollBar
             // 
             this.vScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar.Location = new System.Drawing.Point(511, 0);
+            this.vScrollBar.Location = new System.Drawing.Point(511, 25);
             this.vScrollBar.Name = "vScrollBar";
-            this.vScrollBar.Size = new System.Drawing.Size(17, 317);
+            this.vScrollBar.Size = new System.Drawing.Size(17, 309);
             this.vScrollBar.TabIndex = 2;
             this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.HandleScroll);
             // 
-            // buttonLoad
+            // toolStrip1
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(140, 148);
-            this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(75, 23);
-            this.buttonLoad.TabIndex = 3;
-            this.buttonLoad.Text = "Load";
-            this.buttonLoad.UseVisualStyleBackColor = true;
-            this.buttonLoad.Click += new System.EventHandler(this.OnClickLoad);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1,
+            this.toolStripDropDownButton2,
+            this.toolStripDropDownButton3});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(528, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
             // 
-            // buttonGenerate
+            // toolStripDropDownButton1
             // 
-            this.buttonGenerate.AutoSize = true;
-            this.buttonGenerate.Location = new System.Drawing.Point(221, 148);
-            this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(162, 23);
-            this.buttonGenerate.TabIndex = 4;
-            this.buttonGenerate.Text = "Generate MultiMap from Image";
-            this.buttonGenerate.UseVisualStyleBackColor = true;
-            this.buttonGenerate.Click += new System.EventHandler(this.OnClickRLE);
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.multiMapToolStripMenuItem,
+            this.facet00ToolStripMenuItem,
+            this.facet01ToolStripMenuItem,
+            this.facet02ToolStripMenuItem,
+            this.facet03ToolStripMenuItem,
+            this.facet04ToolStripMenuItem,
+            this.facet05ToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(52, 22);
+            this.toolStripDropDownButton1.Text = "Load..";
             // 
-            // asJpgToolStripMenuItem
+            // multiMapToolStripMenuItem
             // 
-            this.asJpgToolStripMenuItem.Name = "asJpgToolStripMenuItem";
-            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.asJpgToolStripMenuItem.Text = "As Jpg";
-            this.asJpgToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportJpg);
+            this.multiMapToolStripMenuItem.Name = "multiMapToolStripMenuItem";
+            this.multiMapToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.multiMapToolStripMenuItem.Text = "MultiMap";
+            this.multiMapToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
+            // 
+            // facet01ToolStripMenuItem
+            // 
+            this.facet01ToolStripMenuItem.Name = "facet01ToolStripMenuItem";
+            this.facet01ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facet01ToolStripMenuItem.Tag = "";
+            this.facet01ToolStripMenuItem.Text = "Facet01";
+            this.facet01ToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
+            // 
+            // facet02ToolStripMenuItem
+            // 
+            this.facet02ToolStripMenuItem.Name = "facet02ToolStripMenuItem";
+            this.facet02ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facet02ToolStripMenuItem.Tag = "";
+            this.facet02ToolStripMenuItem.Text = "Facet02";
+            this.facet02ToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
+            // 
+            // facet03ToolStripMenuItem
+            // 
+            this.facet03ToolStripMenuItem.Name = "facet03ToolStripMenuItem";
+            this.facet03ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facet03ToolStripMenuItem.Tag = "";
+            this.facet03ToolStripMenuItem.Text = "Facet03";
+            this.facet03ToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
+            // 
+            // facet04ToolStripMenuItem
+            // 
+            this.facet04ToolStripMenuItem.Name = "facet04ToolStripMenuItem";
+            this.facet04ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facet04ToolStripMenuItem.Tag = "";
+            this.facet04ToolStripMenuItem.Text = "Facet04";
+            this.facet04ToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
+            // 
+            // facet05ToolStripMenuItem
+            // 
+            this.facet05ToolStripMenuItem.Name = "facet05ToolStripMenuItem";
+            this.facet05ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facet05ToolStripMenuItem.Tag = "";
+            this.facet05ToolStripMenuItem.Text = "Facet05";
+            this.facet05ToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
+            // 
+            // toolStripDropDownButton2
+            // 
+            this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.multiMapFromImageToolStripMenuItem,
+            this.facetFromImageToolStripMenuItem});
+            this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
+            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(73, 22);
+            this.toolStripDropDownButton2.Text = "Generate..";
+            // 
+            // multiMapFromImageToolStripMenuItem
+            // 
+            this.multiMapFromImageToolStripMenuItem.Name = "multiMapFromImageToolStripMenuItem";
+            this.multiMapFromImageToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.multiMapFromImageToolStripMenuItem.Text = "MultiMap from Image";
+            this.multiMapFromImageToolStripMenuItem.Click += new System.EventHandler(this.OnClickGenerateRLE);
+            // 
+            // toolStripDropDownButton3
+            // 
+            this.toolStripDropDownButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.asBmpToolStripMenuItem1,
+            this.asTiffToolStripMenuItem1,
+            this.asPngToolStripMenuItem});
+            this.toolStripDropDownButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton3.Image")));
+            this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
+            this.toolStripDropDownButton3.Size = new System.Drawing.Size(59, 22);
+            this.toolStripDropDownButton3.Text = "Export..";
+            // 
+            // asBmpToolStripMenuItem1
+            // 
+            this.asBmpToolStripMenuItem1.Name = "asBmpToolStripMenuItem1";
+            this.asBmpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.asBmpToolStripMenuItem1.Text = "As Bmp..";
+            this.asBmpToolStripMenuItem1.Click += new System.EventHandler(this.OnClickExportBmp);
+            // 
+            // asTiffToolStripMenuItem1
+            // 
+            this.asTiffToolStripMenuItem1.Name = "asTiffToolStripMenuItem1";
+            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.asTiffToolStripMenuItem1.Text = "As Tiff..";
+            this.asTiffToolStripMenuItem1.Click += new System.EventHandler(this.OnClickExportTiff);
+            // 
+            // asPngToolStripMenuItem
+            // 
+            this.asPngToolStripMenuItem.Name = "asPngToolStripMenuItem";
+            this.asPngToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asPngToolStripMenuItem.Text = "As Jpg..";
+            this.asPngToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportJpg);
+            // 
+            // facetFromImageToolStripMenuItem
+            // 
+            this.facetFromImageToolStripMenuItem.Name = "facetFromImageToolStripMenuItem";
+            this.facetFromImageToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.facetFromImageToolStripMenuItem.Text = "Facet from Image";
+            this.facetFromImageToolStripMenuItem.Click += new System.EventHandler(this.OnClickGenerateFacetFromImage);
+            // 
+            // facet00ToolStripMenuItem
+            // 
+            this.facet00ToolStripMenuItem.Name = "facet00ToolStripMenuItem";
+            this.facet00ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.facet00ToolStripMenuItem.Text = "Facet00";
+            this.facet00ToolStripMenuItem.Click += new System.EventHandler(this.ShowImage);
             // 
             // MultiMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonGenerate);
-            this.Controls.Add(this.buttonLoad);
-            this.Controls.Add(this.vScrollBar);
             this.Controls.Add(this.hScrollBar);
+            this.Controls.Add(this.vScrollBar);
             this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.toolStrip1);
             this.Name = "MultiMap";
             this.Size = new System.Drawing.Size(528, 334);
+            this.Load += new System.EventHandler(this.OnLoad);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,15 +262,21 @@ namespace FiddlerControls
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.HScrollBar hScrollBar;
         private System.Windows.Forms.VScrollBar vScrollBar;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveTorleToolStripMenuItem;
-        private System.Windows.Forms.Button buttonLoad;
-        private System.Windows.Forms.Button buttonGenerate;
-        private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem multiMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facet01ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facet02ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facet03ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facet04ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facet05ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
+        private System.Windows.Forms.ToolStripMenuItem multiMapFromImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton3;
+        private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem asPngToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facetFromImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem facet00ToolStripMenuItem;
     }
 }

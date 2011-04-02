@@ -15,6 +15,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using Ultima;
 
 namespace FiddlerControls
 {
@@ -23,8 +24,13 @@ namespace FiddlerControls
         public MultiMap()
         {
             InitializeComponent();
-            hScrollBar.Visible = false;
-            vScrollBar.Visible = false;
+            multiMapToolStripMenuItem.Tag = -1;
+            facet00ToolStripMenuItem.Tag = 0;
+            facet01ToolStripMenuItem.Tag = 1;
+            facet02ToolStripMenuItem.Tag = 2;
+            facet03ToolStripMenuItem.Tag = 3;
+            facet04ToolStripMenuItem.Tag = 4;
+            facet05ToolStripMenuItem.Tag = 5;
         }
 
         bool moving = false;
@@ -39,12 +45,26 @@ namespace FiddlerControls
         {
             if (!Loaded)
                 return;
-            buttonGenerate.Visible = true;
-            buttonLoad.Visible = true;
-            hScrollBar.Visible = false;
-            vScrollBar.Visible = false;
-            pictureBox.Image = null;
             moving = false;
+            ToolStripMenuItem strip;
+            if (multiMapToolStripMenuItem.Checked)
+                strip = multiMapToolStripMenuItem;
+            else if (facet00ToolStripMenuItem.Checked)
+                strip = facet00ToolStripMenuItem;
+            else if (facet01ToolStripMenuItem.Checked)
+                strip = facet01ToolStripMenuItem;
+            else if (facet02ToolStripMenuItem.Checked)
+                strip = facet02ToolStripMenuItem;
+            else if (facet03ToolStripMenuItem.Checked)
+                strip = facet03ToolStripMenuItem;
+            else if (facet04ToolStripMenuItem.Checked)
+                strip = facet04ToolStripMenuItem;
+            else if (facet05ToolStripMenuItem.Checked)
+                strip = facet05ToolStripMenuItem;
+            else
+                return;
+            strip.Checked = false;
+            ShowImage(strip, EventArgs.Empty);
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -59,43 +79,29 @@ namespace FiddlerControls
 
         private void HandleScroll(object sender, ScrollEventArgs e)
         {
-            Graphics g = pictureBox.CreateGraphics();
-
-            g.DrawImage(pictureBox.Image,
-              new Rectangle(0, 0, pictureBox.Right - vScrollBar.Width,
-              pictureBox.Bottom - hScrollBar.Height),
-              new Rectangle(hScrollBar.Value, vScrollBar.Value,
-              pictureBox.Right - vScrollBar.Width,
-              pictureBox.Bottom - hScrollBar.Height),
-              GraphicsUnit.Pixel);
-
-            pictureBox.Update();
+            pictureBox.Invalidate();
         }
 
         private void DisplayScrollBars()
         {
             if (pictureBox.Width > pictureBox.Image.Width - vScrollBar.Width)
-                hScrollBar.Visible = false;
+                hScrollBar.Enabled = false;
             else
-                hScrollBar.Visible = true;
+                hScrollBar.Enabled = true;
 
             if (pictureBox.Height >
                 pictureBox.Image.Height - hScrollBar.Height)
-                vScrollBar.Visible = false;
+                vScrollBar.Enabled = false;
             else
-                vScrollBar.Visible = true;
+                vScrollBar.Enabled = true;
         }
 
         private void SetScrollBarValues()
         {
             vScrollBar.Minimum = 0;
             hScrollBar.Minimum = 0;
-
             if ((pictureBox.Image.Size.Width - pictureBox.ClientSize.Width) > 0)
                 hScrollBar.Maximum = pictureBox.Image.Size.Width - pictureBox.ClientSize.Width;
-
-            if (vScrollBar.Visible)
-                hScrollBar.Maximum += vScrollBar.Width;
 
             hScrollBar.LargeChange = hScrollBar.Maximum / 10;
             hScrollBar.SmallChange = hScrollBar.Maximum / 20;
@@ -104,9 +110,6 @@ namespace FiddlerControls
 
             if ((pictureBox.Image.Size.Height - pictureBox.ClientSize.Height) > 0)
                 vScrollBar.Maximum = pictureBox.Image.Size.Height - pictureBox.ClientSize.Height;
-
-            if (hScrollBar.Visible)
-                vScrollBar.Maximum += hScrollBar.Height;
 
             vScrollBar.LargeChange = vScrollBar.Maximum / 10;
             vScrollBar.SmallChange = vScrollBar.Maximum / 20;
@@ -142,18 +145,7 @@ namespace FiddlerControls
                     movingpoint.Y = e.Y;
                     hScrollBar.Value = Math.Max(0, Math.Min(hScrollBar.Maximum, hScrollBar.Value + deltax));
                     vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
-
-                    Graphics g = pictureBox.CreateGraphics();
-
-                    g.DrawImage(pictureBox.Image,
-                      new Rectangle(0, 0, pictureBox.Right - vScrollBar.Width,
-                      pictureBox.Bottom - hScrollBar.Height),
-                      new Rectangle(hScrollBar.Value, vScrollBar.Value,
-                      pictureBox.Right - vScrollBar.Width,
-                      pictureBox.Bottom - hScrollBar.Height),
-                      GraphicsUnit.Pixel);
-
-                    pictureBox.Update();
+                    pictureBox.Invalidate();
                 }
             }
         }
@@ -164,30 +156,83 @@ namespace FiddlerControls
             this.Cursor = Cursors.Default;
         }
 
-        private void OnClickLoad(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            buttonGenerate.Visible = false;
-            buttonLoad.Visible = false;
-            pictureBox.Image = Ultima.MultiMap.GetMultiMap();
-            if (pictureBox.Image != null)
-            {
-                DisplayScrollBars();
-                SetScrollBarValues();
-            }
-            toolTip1.SetToolTip(pictureBox, "");
-            if (!Loaded)
-                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
-            Loaded = true;
-            Cursor.Current = Cursors.Default;
-        }
-
         private void OnFilePathChangeEvent()
         {
             Reload();
         }
 
-        private void OnClickRLE(object sender, EventArgs e)
+        private void OnClickExportBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("{0}.bmp",CheckedToString()));
+            Bitmap bit = new Bitmap(pictureBox.Image);
+            bit.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(String.Format("{0} saved to {1}", CheckedToString(), FileName), "Export",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExportTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("{0}.tiff", CheckedToString()));
+            pictureBox.Image.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(String.Format("{0} saved to {1}", CheckedToString(), FileName), "Export",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExportJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("{0}.jpg", CheckedToString()));
+            pictureBox.Image.Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(String.Format("{0} saved to {1}", CheckedToString(), FileName), "Export",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private string CheckedToString()
+        {
+            if (multiMapToolStripMenuItem.Checked)
+                return "MultiMap";
+            else if (facet00ToolStripMenuItem.Checked)
+                return "Facet00";
+            else if (facet01ToolStripMenuItem.Checked)
+                return "Facet01";
+            else if (facet02ToolStripMenuItem.Checked)
+                return "Facet02";
+            else if (facet03ToolStripMenuItem.Checked)
+                return "Facet03";
+            else if (facet04ToolStripMenuItem.Checked)
+                return "Facet04";
+            else if (facet05ToolStripMenuItem.Checked)
+                return "Facet05";
+            return "Unk";
+        }
+
+        private void ShowImage(object sender, EventArgs e)
+        {
+            ToolStripMenuItem strip = sender as ToolStripMenuItem;
+            if (strip != null)
+            {
+                if (!strip.Checked)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    multiMapToolStripMenuItem.Checked = facet01ToolStripMenuItem.Checked = facet02ToolStripMenuItem.Checked = facet03ToolStripMenuItem.Checked = facet04ToolStripMenuItem.Checked = facet05ToolStripMenuItem.Checked = false;
+                    strip.Checked = true;
+                    if ((int)strip.Tag==0)
+                        pictureBox.Image = Ultima.MultiMap.GetMultiMap();
+                    else
+                        pictureBox.Image = Ultima.MultiMap.GetFacetImage((int)strip.Tag);
+                    if (pictureBox.Image != null)
+                    {
+                        DisplayScrollBars();
+                        SetScrollBarValues();
+                    }
+                    Cursor.Current = Cursors.Default;
+                }
+            }
+        }
+
+        private void OnClickGenerateRLE(object sender, EventArgs e)
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
@@ -219,32 +264,55 @@ namespace FiddlerControls
             }
         }
 
-        private void OnClickExportBmp(object sender, EventArgs e)
+        private void OnClickGenerateFacetFromImage(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "MultiMap.bmp");
-            Bitmap bit = new Bitmap(pictureBox.Image);
-            bit.Save(FileName, ImageFormat.Bmp);
-            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Title = "Select Image to convert";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Bitmap image = new Bitmap(dialog.FileName);
+                    if (image != null)
+                    {
+                        Cursor.Current = Cursors.WaitCursor;
+                        string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                        string FileName = Path.Combine(path, "facet.mul");
+                        Ultima.MultiMap.SaveFacetImage(FileName, image);
+                        Cursor.Current = Cursors.Default;
+                        MessageBox.Show(String.Format("Facet saved to {0}", FileName), "Convert", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    }
+                    else
+                        MessageBox.Show("No image found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+            }
         }
 
-        private void OnClickExportTiff(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "MultiMap.tiff");
-            pictureBox.Image.Save(FileName, ImageFormat.Tiff);
-            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            if (!Loaded)
+            {
+                multiMapToolStripMenuItem.Checked = true;
+                pictureBox.Image = Ultima.MultiMap.GetMultiMap();
+                if (pictureBox.Image != null)
+                {
+                    DisplayScrollBars();
+                    SetScrollBarValues();
+                }
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                Loaded = true;
+            }
         }
 
-        private void OnClickExportJpg(object sender, EventArgs e)
+        private void OnPaint(object sender, PaintEventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "MultiMap.jpg");
-            pictureBox.Image.Save(FileName, ImageFormat.Jpeg);
-            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            e.Graphics.Clear(Color.White);
+            if (pictureBox.Image != null)
+                e.Graphics.DrawImage(pictureBox.Image,
+                    e.ClipRectangle,
+                    hScrollBar.Value,vScrollBar.Value,e.ClipRectangle.Width,e.ClipRectangle.Height,
+                    GraphicsUnit.Pixel);
         }
+
+        
     }
 }
