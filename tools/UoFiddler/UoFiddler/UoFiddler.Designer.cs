@@ -115,13 +115,13 @@ namespace UoFiddler
             this.ToggleViewDress = new System.Windows.Forms.ToolStripMenuItem();
             this.ToggleViewTileData = new System.Windows.Forms.ToolStripMenuItem();
             this.ToggleViewRadarColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToggleViewSkillGrp = new System.Windows.Forms.ToolStripMenuItem();
             this.ExternToolsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButtonPlugins = new System.Windows.Forms.ToolStripDropDownButton();
             this.manageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.ToggleViewSkillGrp = new System.Windows.Forms.ToolStripMenuItem();
             this.TabPanel.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.Start.SuspendLayout();
@@ -239,7 +239,7 @@ namespace UoFiddler
             this.controlMulti.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlMulti.Location = new System.Drawing.Point(3, 3);
             this.controlMulti.Name = "controlMulti";
-            this.controlMulti.Size = new System.Drawing.Size(613, 318);
+            this.controlMulti.Size = new System.Drawing.Size(186, 68);
             this.controlMulti.TabIndex = 0;
             // 
             // Animation
@@ -260,7 +260,7 @@ namespace UoFiddler
             this.controlAnimations.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlAnimations.Location = new System.Drawing.Point(3, 3);
             this.controlAnimations.Name = "controlAnimations";
-            this.controlAnimations.Size = new System.Drawing.Size(613, 318);
+            this.controlAnimations.Size = new System.Drawing.Size(186, 68);
             this.controlAnimations.TabIndex = 0;
             // 
             // Items
@@ -281,7 +281,7 @@ namespace UoFiddler
             this.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlItemShow.Location = new System.Drawing.Point(3, 3);
             this.controlItemShow.Name = "controlItemShow";
-            this.controlItemShow.Size = new System.Drawing.Size(613, 318);
+            this.controlItemShow.Size = new System.Drawing.Size(186, 68);
             this.controlItemShow.TabIndex = 0;
             // 
             // LandTiles
@@ -302,7 +302,7 @@ namespace UoFiddler
             this.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlLandTiles.Location = new System.Drawing.Point(3, 3);
             this.controlLandTiles.Name = "controlLandTiles";
-            this.controlLandTiles.Size = new System.Drawing.Size(613, 318);
+            this.controlLandTiles.Size = new System.Drawing.Size(186, 68);
             this.controlLandTiles.TabIndex = 0;
             // 
             // Texture
@@ -323,7 +323,7 @@ namespace UoFiddler
             this.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTexture.Location = new System.Drawing.Point(3, 3);
             this.controlTexture.Name = "controlTexture";
-            this.controlTexture.Size = new System.Drawing.Size(613, 318);
+            this.controlTexture.Size = new System.Drawing.Size(186, 68);
             this.controlTexture.TabIndex = 0;
             // 
             // Gumps
@@ -344,7 +344,7 @@ namespace UoFiddler
             this.controlGumps.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlGumps.Location = new System.Drawing.Point(3, 3);
             this.controlGumps.Name = "controlGumps";
-            this.controlGumps.Size = new System.Drawing.Size(613, 318);
+            this.controlGumps.Size = new System.Drawing.Size(186, 68);
             this.controlGumps.TabIndex = 0;
             // 
             // Sounds
@@ -388,7 +388,7 @@ namespace UoFiddler
             this.controlHue.Location = new System.Drawing.Point(3, 3);
             this.controlHue.Name = "controlHue";
             this.controlHue.Padding = new System.Windows.Forms.Padding(1);
-            this.controlHue.Size = new System.Drawing.Size(613, 318);
+            this.controlHue.Size = new System.Drawing.Size(186, 68);
             this.controlHue.TabIndex = 0;
             // 
             // fonts
@@ -409,7 +409,7 @@ namespace UoFiddler
             this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlfonts.Location = new System.Drawing.Point(3, 3);
             this.controlfonts.Name = "controlfonts";
-            this.controlfonts.Size = new System.Drawing.Size(613, 318);
+            this.controlfonts.Size = new System.Drawing.Size(186, 68);
             this.controlfonts.TabIndex = 0;
             // 
             // Cliloc
@@ -430,7 +430,7 @@ namespace UoFiddler
             this.controlCliloc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlCliloc.Location = new System.Drawing.Point(3, 3);
             this.controlCliloc.Name = "controlCliloc";
-            this.controlCliloc.Size = new System.Drawing.Size(613, 318);
+            this.controlCliloc.Size = new System.Drawing.Size(186, 68);
             this.controlCliloc.TabIndex = 0;
             // 
             // map
@@ -452,7 +452,7 @@ namespace UoFiddler
             this.controlmap.Location = new System.Drawing.Point(3, 3);
             this.controlmap.Margin = new System.Windows.Forms.Padding(0);
             this.controlmap.Name = "controlmap";
-            this.controlmap.Size = new System.Drawing.Size(613, 318);
+            this.controlmap.Size = new System.Drawing.Size(186, 68);
             this.controlmap.TabIndex = 0;
             // 
             // Light
@@ -472,7 +472,7 @@ namespace UoFiddler
             this.controlLight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlLight.Location = new System.Drawing.Point(0, 0);
             this.controlLight.Name = "controlLight";
-            this.controlLight.Size = new System.Drawing.Size(619, 324);
+            this.controlLight.Size = new System.Drawing.Size(192, 74);
             this.controlLight.TabIndex = 0;
             // 
             // speech
@@ -491,7 +491,7 @@ namespace UoFiddler
             this.controlspeech.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlspeech.Location = new System.Drawing.Point(0, 0);
             this.controlspeech.Name = "controlspeech";
-            this.controlspeech.Size = new System.Drawing.Size(619, 324);
+            this.controlspeech.Size = new System.Drawing.Size(192, 74);
             this.controlspeech.TabIndex = 0;
             // 
             // Skills
@@ -512,7 +512,7 @@ namespace UoFiddler
             this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlSkills.Location = new System.Drawing.Point(3, 3);
             this.controlSkills.Name = "controlSkills";
-            this.controlSkills.Size = new System.Drawing.Size(613, 318);
+            this.controlSkills.Size = new System.Drawing.Size(186, 68);
             this.controlSkills.TabIndex = 0;
             // 
             // AnimData
@@ -531,7 +531,7 @@ namespace UoFiddler
             this.controlAnimdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlAnimdata.Location = new System.Drawing.Point(0, 0);
             this.controlAnimdata.Name = "controlAnimdata";
-            this.controlAnimdata.Size = new System.Drawing.Size(619, 324);
+            this.controlAnimdata.Size = new System.Drawing.Size(192, 74);
             this.controlAnimdata.TabIndex = 0;
             // 
             // multimap
@@ -543,7 +543,7 @@ namespace UoFiddler
             this.multimap.Size = new System.Drawing.Size(619, 324);
             this.multimap.TabIndex = 14;
             this.multimap.Tag = 16;
-            this.multimap.Text = "MultiMap";
+            this.multimap.Text = "MultiMap/Facets";
             this.multimap.UseVisualStyleBackColor = true;
             // 
             // controlMultimap
@@ -572,7 +572,7 @@ namespace UoFiddler
             this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controldress.Location = new System.Drawing.Point(3, 3);
             this.controldress.Name = "controldress";
-            this.controldress.Size = new System.Drawing.Size(613, 318);
+            this.controldress.Size = new System.Drawing.Size(186, 68);
             this.controldress.TabIndex = 0;
             // 
             // TileDatas
@@ -592,7 +592,7 @@ namespace UoFiddler
             this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTileData.Location = new System.Drawing.Point(0, 0);
             this.controlTileData.Name = "controlTileData";
-            this.controlTileData.Size = new System.Drawing.Size(619, 324);
+            this.controlTileData.Size = new System.Drawing.Size(192, 74);
             this.controlTileData.TabIndex = 0;
             // 
             // RadarCol
@@ -612,7 +612,7 @@ namespace UoFiddler
             this.controlRadarCol.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlRadarCol.Location = new System.Drawing.Point(0, 0);
             this.controlRadarCol.Name = "controlRadarCol";
-            this.controlRadarCol.Size = new System.Drawing.Size(619, 324);
+            this.controlRadarCol.Size = new System.Drawing.Size(192, 74);
             this.controlRadarCol.TabIndex = 0;
             // 
             // SkillGrp
@@ -632,7 +632,7 @@ namespace UoFiddler
             this.controlSkillGrp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlSkillGrp.Location = new System.Drawing.Point(3, 3);
             this.controlSkillGrp.Name = "controlSkillGrp";
-            this.controlSkillGrp.Size = new System.Drawing.Size(613, 318);
+            this.controlSkillGrp.Size = new System.Drawing.Size(186, 68);
             this.controlSkillGrp.TabIndex = 0;
             // 
             // toolStrip1
@@ -662,41 +662,41 @@ namespace UoFiddler
             this.restartNeededMenuItem});
             this.SettingsMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SettingsMenu.Name = "SettingsMenu";
-            this.SettingsMenu.Size = new System.Drawing.Size(59, 22);
+            this.SettingsMenu.Size = new System.Drawing.Size(62, 22);
             this.SettingsMenu.Text = "Settings";
             // 
             // AlwaysOnTopMenuitem
             // 
             this.AlwaysOnTopMenuitem.CheckOnClick = true;
             this.AlwaysOnTopMenuitem.Name = "AlwaysOnTopMenuitem";
-            this.AlwaysOnTopMenuitem.Size = new System.Drawing.Size(157, 22);
+            this.AlwaysOnTopMenuitem.Size = new System.Drawing.Size(154, 22);
             this.AlwaysOnTopMenuitem.Text = "Always On Top";
             this.AlwaysOnTopMenuitem.Click += new System.EventHandler(this.onClickAlwaysTop);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.optionsToolStripMenuItem.Text = "Options..";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OnClickOptions);
             // 
             // pathSettingsMenuItem
             // 
             this.pathSettingsMenuItem.Name = "pathSettingsMenuItem";
-            this.pathSettingsMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.pathSettingsMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pathSettingsMenuItem.Text = "Path Settings..";
             this.pathSettingsMenuItem.Click += new System.EventHandler(this.click_path);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(151, 6);
             // 
             // restartNeededMenuItem
             // 
             this.restartNeededMenuItem.ForeColor = System.Drawing.Color.DarkRed;
             this.restartNeededMenuItem.Name = "restartNeededMenuItem";
-            this.restartNeededMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.restartNeededMenuItem.Size = new System.Drawing.Size(154, 22);
             this.restartNeededMenuItem.Text = "Reload Files";
             this.restartNeededMenuItem.Click += new System.EventHandler(this.Restart);
             // 
@@ -706,7 +706,7 @@ namespace UoFiddler
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(48, 22);
+            this.toolStripButton1.Size = new System.Drawing.Size(50, 22);
             this.toolStripButton1.Text = "About..";
             this.toolStripButton1.Click += new System.EventHandler(this.OnClickAbout);
             // 
@@ -737,7 +737,7 @@ namespace UoFiddler
             this.ToggleViewSkillGrp});
             this.toolStripDropDownButtonView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonView.Name = "toolStripDropDownButtonView";
-            this.toolStripDropDownButtonView.Size = new System.Drawing.Size(42, 22);
+            this.toolStripDropDownButtonView.Size = new System.Drawing.Size(45, 22);
             this.toolStripDropDownButtonView.Text = "View";
             // 
             // ToggleViewStart
@@ -745,7 +745,7 @@ namespace UoFiddler
             this.ToggleViewStart.Checked = true;
             this.ToggleViewStart.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewStart.Name = "ToggleViewStart";
-            this.ToggleViewStart.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewStart.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewStart.Tag = 0;
             this.ToggleViewStart.Text = "Start";
             this.ToggleViewStart.Click += new System.EventHandler(this.ToggleView);
@@ -755,7 +755,7 @@ namespace UoFiddler
             this.ToggleViewMulti.Checked = true;
             this.ToggleViewMulti.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewMulti.Name = "ToggleViewMulti";
-            this.ToggleViewMulti.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewMulti.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewMulti.Tag = 1;
             this.ToggleViewMulti.Text = "Multi";
             this.ToggleViewMulti.Click += new System.EventHandler(this.ToggleView);
@@ -765,7 +765,7 @@ namespace UoFiddler
             this.ToggleViewAnimations.Checked = true;
             this.ToggleViewAnimations.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewAnimations.Name = "ToggleViewAnimations";
-            this.ToggleViewAnimations.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewAnimations.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewAnimations.Tag = 2;
             this.ToggleViewAnimations.Text = "Animations";
             this.ToggleViewAnimations.Click += new System.EventHandler(this.ToggleView);
@@ -775,7 +775,7 @@ namespace UoFiddler
             this.ToggleViewItems.Checked = true;
             this.ToggleViewItems.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewItems.Name = "ToggleViewItems";
-            this.ToggleViewItems.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewItems.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewItems.Tag = 3;
             this.ToggleViewItems.Text = "Items";
             this.ToggleViewItems.Click += new System.EventHandler(this.ToggleView);
@@ -785,7 +785,7 @@ namespace UoFiddler
             this.ToggleViewLandTiles.Checked = true;
             this.ToggleViewLandTiles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewLandTiles.Name = "ToggleViewLandTiles";
-            this.ToggleViewLandTiles.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewLandTiles.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewLandTiles.Tag = 4;
             this.ToggleViewLandTiles.Text = "LandTiles";
             this.ToggleViewLandTiles.Click += new System.EventHandler(this.ToggleView);
@@ -795,7 +795,7 @@ namespace UoFiddler
             this.ToggleViewTexture.Checked = true;
             this.ToggleViewTexture.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewTexture.Name = "ToggleViewTexture";
-            this.ToggleViewTexture.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewTexture.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewTexture.Tag = 5;
             this.ToggleViewTexture.Text = "Texture";
             this.ToggleViewTexture.Click += new System.EventHandler(this.ToggleView);
@@ -805,7 +805,7 @@ namespace UoFiddler
             this.ToggleViewGumps.Checked = true;
             this.ToggleViewGumps.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewGumps.Name = "ToggleViewGumps";
-            this.ToggleViewGumps.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewGumps.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewGumps.Tag = 6;
             this.ToggleViewGumps.Text = "Gumps";
             this.ToggleViewGumps.Click += new System.EventHandler(this.ToggleView);
@@ -815,7 +815,7 @@ namespace UoFiddler
             this.ToggleViewSounds.Checked = true;
             this.ToggleViewSounds.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewSounds.Name = "ToggleViewSounds";
-            this.ToggleViewSounds.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewSounds.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewSounds.Tag = 7;
             this.ToggleViewSounds.Text = "Sounds";
             this.ToggleViewSounds.Click += new System.EventHandler(this.ToggleView);
@@ -825,7 +825,7 @@ namespace UoFiddler
             this.ToggleViewHue.Checked = true;
             this.ToggleViewHue.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewHue.Name = "ToggleViewHue";
-            this.ToggleViewHue.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewHue.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewHue.Tag = 8;
             this.ToggleViewHue.Text = "Hue";
             this.ToggleViewHue.Click += new System.EventHandler(this.ToggleView);
@@ -835,7 +835,7 @@ namespace UoFiddler
             this.ToggleViewFonts.Checked = true;
             this.ToggleViewFonts.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewFonts.Name = "ToggleViewFonts";
-            this.ToggleViewFonts.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewFonts.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewFonts.Tag = 9;
             this.ToggleViewFonts.Text = "Fonts";
             this.ToggleViewFonts.Click += new System.EventHandler(this.ToggleView);
@@ -845,7 +845,7 @@ namespace UoFiddler
             this.ToggleViewCliloc.Checked = true;
             this.ToggleViewCliloc.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewCliloc.Name = "ToggleViewCliloc";
-            this.ToggleViewCliloc.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewCliloc.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewCliloc.Tag = 10;
             this.ToggleViewCliloc.Text = "Cliloc";
             this.ToggleViewCliloc.Click += new System.EventHandler(this.ToggleView);
@@ -855,7 +855,7 @@ namespace UoFiddler
             this.ToggleViewMap.Checked = true;
             this.ToggleViewMap.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewMap.Name = "ToggleViewMap";
-            this.ToggleViewMap.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewMap.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewMap.Tag = 11;
             this.ToggleViewMap.Text = "Map";
             this.ToggleViewMap.Click += new System.EventHandler(this.ToggleView);
@@ -865,7 +865,7 @@ namespace UoFiddler
             this.ToggleViewLight.Checked = true;
             this.ToggleViewLight.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewLight.Name = "ToggleViewLight";
-            this.ToggleViewLight.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewLight.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewLight.Tag = 12;
             this.ToggleViewLight.Text = "Light";
             this.ToggleViewLight.Click += new System.EventHandler(this.ToggleView);
@@ -875,7 +875,7 @@ namespace UoFiddler
             this.ToggleViewSpeech.Checked = true;
             this.ToggleViewSpeech.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewSpeech.Name = "ToggleViewSpeech";
-            this.ToggleViewSpeech.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewSpeech.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewSpeech.Tag = 13;
             this.ToggleViewSpeech.Text = "Speech";
             this.ToggleViewSpeech.Click += new System.EventHandler(this.ToggleView);
@@ -885,7 +885,7 @@ namespace UoFiddler
             this.ToggleViewSkills.Checked = true;
             this.ToggleViewSkills.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewSkills.Name = "ToggleViewSkills";
-            this.ToggleViewSkills.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewSkills.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewSkills.Tag = 14;
             this.ToggleViewSkills.Text = "Skills";
             this.ToggleViewSkills.Click += new System.EventHandler(this.ToggleView);
@@ -895,7 +895,7 @@ namespace UoFiddler
             this.ToggleViewAnimData.Checked = true;
             this.ToggleViewAnimData.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewAnimData.Name = "ToggleViewAnimData";
-            this.ToggleViewAnimData.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewAnimData.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewAnimData.Tag = 15;
             this.ToggleViewAnimData.Text = "AnimData";
             this.ToggleViewAnimData.Click += new System.EventHandler(this.ToggleView);
@@ -905,9 +905,9 @@ namespace UoFiddler
             this.ToggleViewMultiMap.Checked = true;
             this.ToggleViewMultiMap.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewMultiMap.Name = "ToggleViewMultiMap";
-            this.ToggleViewMultiMap.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewMultiMap.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewMultiMap.Tag = 16;
-            this.ToggleViewMultiMap.Text = "MultiMap";
+            this.ToggleViewMultiMap.Text = "MultiMap/Facets";
             this.ToggleViewMultiMap.Click += new System.EventHandler(this.ToggleView);
             // 
             // ToggleViewDress
@@ -915,7 +915,7 @@ namespace UoFiddler
             this.ToggleViewDress.Checked = true;
             this.ToggleViewDress.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewDress.Name = "ToggleViewDress";
-            this.ToggleViewDress.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewDress.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewDress.Tag = 17;
             this.ToggleViewDress.Text = "Dress";
             this.ToggleViewDress.Click += new System.EventHandler(this.ToggleView);
@@ -925,7 +925,7 @@ namespace UoFiddler
             this.ToggleViewTileData.Checked = true;
             this.ToggleViewTileData.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewTileData.Name = "ToggleViewTileData";
-            this.ToggleViewTileData.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewTileData.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewTileData.Tag = 18;
             this.ToggleViewTileData.Text = "TileData";
             this.ToggleViewTileData.Click += new System.EventHandler(this.ToggleView);
@@ -935,10 +935,20 @@ namespace UoFiddler
             this.ToggleViewRadarColor.Checked = true;
             this.ToggleViewRadarColor.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleViewRadarColor.Name = "ToggleViewRadarColor";
-            this.ToggleViewRadarColor.Size = new System.Drawing.Size(152, 22);
+            this.ToggleViewRadarColor.Size = new System.Drawing.Size(164, 22);
             this.ToggleViewRadarColor.Tag = 19;
             this.ToggleViewRadarColor.Text = "RadarColor";
             this.ToggleViewRadarColor.Click += new System.EventHandler(this.ToggleView);
+            // 
+            // ToggleViewSkillGrp
+            // 
+            this.ToggleViewSkillGrp.Checked = true;
+            this.ToggleViewSkillGrp.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ToggleViewSkillGrp.Name = "ToggleViewSkillGrp";
+            this.ToggleViewSkillGrp.Size = new System.Drawing.Size(164, 22);
+            this.ToggleViewSkillGrp.Tag = 20;
+            this.ToggleViewSkillGrp.Text = "SkillGrp";
+            this.ToggleViewSkillGrp.Click += new System.EventHandler(this.ToggleView);
             // 
             // ExternToolsDropDown
             // 
@@ -947,13 +957,13 @@ namespace UoFiddler
             this.manageToolStripMenuItem});
             this.ExternToolsDropDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ExternToolsDropDown.Name = "ExternToolsDropDown";
-            this.ExternToolsDropDown.Size = new System.Drawing.Size(80, 22);
+            this.ExternToolsDropDown.Size = new System.Drawing.Size(84, 22);
             this.ExternToolsDropDown.Text = "Extern Tools";
             // 
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.manageToolStripMenuItem.Text = "Manage..";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.onClickToolManage);
             // 
@@ -965,20 +975,20 @@ namespace UoFiddler
             this.toolStripSeparator1});
             this.toolStripDropDownButtonPlugins.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonPlugins.Name = "toolStripDropDownButtonPlugins";
-            this.toolStripDropDownButtonPlugins.Size = new System.Drawing.Size(53, 22);
+            this.toolStripDropDownButtonPlugins.Size = new System.Drawing.Size(59, 22);
             this.toolStripDropDownButtonPlugins.Text = "Plugins";
             // 
             // manageToolStripMenuItem1
             // 
             this.manageToolStripMenuItem1.Name = "manageToolStripMenuItem1";
-            this.manageToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.manageToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
             this.manageToolStripMenuItem1.Text = "Manage..";
             this.manageToolStripMenuItem1.Click += new System.EventHandler(this.onClickManagePlugins);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(128, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(120, 6);
             // 
             // toolStripButton2
             // 
@@ -986,19 +996,9 @@ namespace UoFiddler
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(32, 22);
+            this.toolStripButton2.Size = new System.Drawing.Size(36, 22);
             this.toolStripButton2.Text = "Help";
             this.toolStripButton2.Click += new System.EventHandler(this.OnClickHelp);
-            // 
-            // ToggleViewSkillGrp
-            // 
-            this.ToggleViewSkillGrp.Checked = true;
-            this.ToggleViewSkillGrp.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ToggleViewSkillGrp.Name = "ToggleViewSkillGrp";
-            this.ToggleViewSkillGrp.Size = new System.Drawing.Size(152, 22);
-            this.ToggleViewSkillGrp.Tag = 20;
-            this.ToggleViewSkillGrp.Text = "SkillGrp";
-            this.ToggleViewSkillGrp.Click += new System.EventHandler(this.ToggleView);
             // 
             // UoFiddler
             // 
