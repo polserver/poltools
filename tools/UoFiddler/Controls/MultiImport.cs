@@ -60,9 +60,8 @@ namespace FiddlerControls
         {
             if (File.Exists(textBox1.Text))
             {
-                bool centeritem = checkBox1.Checked;
                 Ultima.Multis.ImportType type = (Ultima.Multis.ImportType)comboBox1.SelectedIndex;
-                MultiComponentList multi = Ultima.Multis.ImportFromFile(id, textBox1.Text, type, centeritem);
+                MultiComponentList multi = Ultima.Multis.ImportFromFile(id, textBox1.Text, type);
                 parent.ChangeMulti(id, multi);
                 Options.ChangedUltimaClass["Multis"] = true;
                 Close();
