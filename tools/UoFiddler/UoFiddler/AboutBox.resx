@@ -119,6 +119,7 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 4.5f
+Multis get now stored in a more intelligent way it tries to find a non-invis centeritem
 Added support for facet0*.mul in MultiMap tab
 UO:HSA support
 
