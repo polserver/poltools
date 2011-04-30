@@ -673,7 +673,9 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Cursor.Current = Cursors.WaitCursor;
+                ProgressBar bar = new ProgressBar(Art.GetIdxLength(), "Save");
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                bar.Dispose();
                 Cursor.Current = Cursors.Default;
                 Options.ChangedUltimaClass["Art"] = false;
                 MessageBox.Show(
@@ -787,8 +789,12 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+                    ProgressBar bar = new ProgressBar(ItemList.Count, "Export to bmp", false);
                     for (int i = 0; i < ItemList.Count; ++i)
                     {
+                        FiddlerControls.Events.FireProgressChangeEvent();
+                        Application.DoEvents();
                         int index = ItemList[i];
                         if (Art.IsValidStatic(index))
                         {
@@ -799,6 +805,8 @@ namespace FiddlerControls
                             bit.Dispose();
                         }
                     }
+                    bar.Dispose();
+                    Cursor.Current = Cursors.Default;
                     MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }
@@ -812,8 +820,12 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+                    ProgressBar bar = new ProgressBar(ItemList.Count, "Export to tiff", false);
                     for (int i = 0; i < ItemList.Count; ++i)
                     {
+                        FiddlerControls.Events.FireProgressChangeEvent();
+                        Application.DoEvents();
                         int index = ItemList[i];
                         if (Art.IsValidStatic(index))
                         {
@@ -824,6 +836,8 @@ namespace FiddlerControls
                             bit.Dispose();
                         }
                     }
+                    bar.Dispose();
+                    Cursor.Current = Cursors.Default;
                     MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }
@@ -837,8 +851,12 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+                    ProgressBar bar = new ProgressBar(ItemList.Count, "Export to jpeg", false);
                     for (int i = 0; i < ItemList.Count; ++i)
                     {
+                        FiddlerControls.Events.FireProgressChangeEvent();
+                        Application.DoEvents();
                         int index = ItemList[i];
                         if (Art.IsValidStatic(index))
                         {
@@ -849,6 +867,8 @@ namespace FiddlerControls
                             bit.Dispose();
                         }
                     }
+                    bar.Dispose();
+                    Cursor.Current = Cursors.Default;
                     MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }

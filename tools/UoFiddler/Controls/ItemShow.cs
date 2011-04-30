@@ -499,8 +499,10 @@ namespace FiddlerControls
                         MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
+                ProgressBar bar = new ProgressBar(Art.GetIdxLength(), "Save");
                 Cursor.Current = Cursors.WaitCursor;
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                bar.Dispose();
                 Cursor.Current = Cursors.Default;
                 Options.ChangedUltimaClass["Art"] = false;
                 MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
@@ -821,7 +823,7 @@ namespace FiddlerControls
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    ProgressBar bar = new ProgressBar(listView1.Items.Count,"Export to bmp");
+                    ProgressBar bar = new ProgressBar(listView1.Items.Count,"Export to bmp",false);
                     for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         FiddlerControls.Events.FireProgressChangeEvent();
@@ -852,7 +854,7 @@ namespace FiddlerControls
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    ProgressBar bar = new ProgressBar(listView1.Items.Count, "Export to tiff");
+                    ProgressBar bar = new ProgressBar(listView1.Items.Count, "Export to tiff",false);
                     for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         FiddlerControls.Events.FireProgressChangeEvent();
@@ -883,7 +885,7 @@ namespace FiddlerControls
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    ProgressBar bar = new ProgressBar(listView1.Items.Count, "Export to jpeg");
+                    ProgressBar bar = new ProgressBar(listView1.Items.Count, "Export to jpeg",false);
                     for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         FiddlerControls.Events.FireProgressChangeEvent();

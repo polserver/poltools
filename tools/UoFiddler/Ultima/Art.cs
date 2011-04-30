@@ -475,6 +475,7 @@ namespace Ultima
                 {
                     for (int index = 0; index < GetIdxLength(); index++)
                     {
+                        Files.FireFileSaveEvent();
                         if (m_Cache[index] == null)
                         {
                             if (index < 0x4000)

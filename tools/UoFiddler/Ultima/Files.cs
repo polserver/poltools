@@ -7,6 +7,14 @@ namespace Ultima
 {
     public sealed class Files
     {
+        public delegate void FileSaveHandler();
+        public static event FileSaveHandler FileSaveEvent;
+        public static void FireFileSaveEvent()
+        {
+            if (FileSaveEvent != null)
+                FileSaveEvent();
+        }
+
         private static bool m_CacheData = true;
         private static bool m_UseHashFile = false;
         private static Dictionary<string, string> m_MulPath;
