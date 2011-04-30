@@ -25,6 +25,7 @@ namespace FiddlerControls
         public delegate void GumpChangeHandler(object sender, int id);
         public delegate void TileDataChangeHandler(object sender, int id);
         public delegate void AlwaysOnTopChangeHandler(bool value);
+        public delegate void ProgressChangeHandler();
 
         /// <summary>
         /// Fired when map diff file usage is switched
@@ -74,6 +75,11 @@ namespace FiddlerControls
         /// Fired when AlwaysOnTop changed
         /// </summary>
         public static event AlwaysOnTopChangeHandler AlwaysOnTopChangeEvent;
+        /// <summary>
+        /// Fired when Progressbar should be changed
+        /// </summary>
+        public static event ProgressChangeHandler ProgressChangeEvent;
+
 
         public static void FireMapDiffChangeEvent()
         {
@@ -134,6 +140,11 @@ namespace FiddlerControls
         {
             if (AlwaysOnTopChangeEvent != null)
                 AlwaysOnTopChangeEvent(value);
+        }
+        public static void FireProgressChangeEvent()
+        {
+            if (ProgressChangeEvent != null)
+                ProgressChangeEvent();
         }
     }
 }
