@@ -48,7 +48,7 @@ namespace FiddlerControls
         public void ChangeTileSize()
         {
             listView1.TileSize = new Size(Options.ArtItemSizeWidth, Options.ArtItemSizeHeight);
-            listView1.View = View.Details; // that works faszinating
+            listView1.View = View.Details; // that works fascinating
             listView1.View = View.Tile;
         }
 
@@ -292,7 +292,7 @@ namespace FiddlerControls
                     if (!done)
                         listView1.Items.Add(item);
                 }
-                listView1.View = View.Details; // that works faszinating
+                listView1.View = View.Details; // that works fascinating
                 listView1.View = View.Tile;
             }
             else
@@ -723,7 +723,7 @@ namespace FiddlerControls
                 Reload();
             }
             listView1.EndUpdate();
-            listView1.View = View.Details; // that works faszinating
+            listView1.View = View.Details; // that works fascinating
             listView1.View = View.Tile;
         }
 
@@ -820,8 +820,12 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+                    ProgressBar bar = new ProgressBar(listView1.Items.Count,"Export to bmp");
                     for (int i = 0; i < listView1.Items.Count; ++i)
                     {
+                        FiddlerControls.Events.FireProgressChangeEvent();
+                        Application.DoEvents();
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
                         {
@@ -832,6 +836,8 @@ namespace FiddlerControls
                             bit.Dispose();
                         }
                     }
+                    bar.Dispose();
+                    Cursor.Current = Cursors.Default;
                     MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }
@@ -845,8 +851,12 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+                    ProgressBar bar = new ProgressBar(listView1.Items.Count, "Export to tiff");
                     for (int i = 0; i < listView1.Items.Count; ++i)
                     {
+                        FiddlerControls.Events.FireProgressChangeEvent();
+                        Application.DoEvents();
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
                         {
@@ -857,6 +867,8 @@ namespace FiddlerControls
                             bit.Dispose();
                         }
                     }
+                    bar.Dispose();
+                    Cursor.Current = Cursors.Default;
                     MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }
@@ -870,8 +882,12 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
+                    ProgressBar bar = new ProgressBar(listView1.Items.Count, "Export to jpeg");
                     for (int i = 0; i < listView1.Items.Count; ++i)
                     {
+                        FiddlerControls.Events.FireProgressChangeEvent();
+                        Application.DoEvents();
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
                         {
@@ -882,6 +898,8 @@ namespace FiddlerControls
                             bit.Dispose();
                         }
                     }
+                    bar.Dispose();
+                    Cursor.Current = Cursors.Default;
                     MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }
