@@ -15,7 +15,7 @@ namespace FiddlerControls
             InitializeComponent();
         }
     
-        public ProgressBar(int max, string desc)
+        public ProgressBar(int max, string desc,bool useFileSaveEvent=true)
         {
             InitializeComponent();
             this.Text = desc;
@@ -23,10 +23,13 @@ namespace FiddlerControls
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
             progressBar1.Step = 1;
-            FiddlerControls.Events.ProgressChangeEvent+=new FiddlerControls.Events.ProgressChangeHandler(onProgressChangeEvent);
+            if (useFileSaveEvent)
+                Ultima.Files.FileSaveEvent += new Ultima.Files.FileSaveHandler(onChangeEvent);
+            else
+                FiddlerControls.Events.ProgressChangeEvent+=new FiddlerControls.Events.ProgressChangeHandler(onChangeEvent);
             this.Show();
         }
-        void onProgressChangeEvent()
+        void onChangeEvent()
         {
             progressBar1.PerformStep();
         }
