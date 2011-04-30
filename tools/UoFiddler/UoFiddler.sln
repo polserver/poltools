@@ -17,10 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiEditor", "MultiEditor\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassImportPlugin", "MassImportPlugin\MassImportPlugin.csproj", "{43393FEB-36CF-41B7-8ADA-A581D498FF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pergon", "Pergon\Pergon.csproj", "{7DEA53AF-866D-4C4F-976B-4B0096F5B1C7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PergonSpawnNet", "PergonSpawnNet\PergonSpawnNet.csproj", "{45C15C6E-143D-4BA2-A0D5-A94F1C95819B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
