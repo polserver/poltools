@@ -4,6 +4,9 @@
   <!--Name=Displayed name-->
   <!--ID=Multi Slot-->
   <!--type=0:Boat, 1:House, 2:Decoration, 3:Other-->
+  <!--ToolTips:
+  <ToolTip id="MultiSlot" text="Your Text here" />
+  -->
   <Multi name="Small Boat [north]" id="0" type="0" />
   <Multi name="Small Boat [east]" id="1" type="0" />
   <Multi name="Small Boat [south]" id="2" type="0" />
