@@ -50,7 +50,6 @@ namespace FiddlerControls
             this.toUOAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toWscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.exportAllImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,6 +78,7 @@ namespace FiddlerControls
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.MultiComponentBox = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -127,6 +127,7 @@ namespace FiddlerControls
             this.TreeViewMulti.Location = new System.Drawing.Point(0, 33);
             this.TreeViewMulti.Margin = new System.Windows.Forms.Padding(0);
             this.TreeViewMulti.Name = "TreeViewMulti";
+            this.TreeViewMulti.ShowNodeToolTips = true;
             this.TreeViewMulti.Size = new System.Drawing.Size(176, 301);
             this.TreeViewMulti.TabIndex = 0;
             this.TreeViewMulti.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.afterSelect_Multi);
@@ -139,20 +140,20 @@ namespace FiddlerControls
             this.exportToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip1";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(163, 92);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(157, 92);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.CheckOnClick = true;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(162, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(156, 22);
             this.toolStripMenuItem4.Text = "Show Free Slots";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.OnClickFreeSlots);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.importToolStripMenuItem.Text = "Import..";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.OnClickImport);
             // 
@@ -163,51 +164,36 @@ namespace FiddlerControls
             this.toUOAToolStripMenuItem,
             this.toWscToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.exportToolStripMenuItem.Text = "Export..";
             // 
             // toTextfileToolStripMenuItem
             // 
             this.toTextfileToolStripMenuItem.Name = "toTextfileToolStripMenuItem";
-            this.toTextfileToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.toTextfileToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.toTextfileToolStripMenuItem.Text = "To Textfile";
             this.toTextfileToolStripMenuItem.Click += new System.EventHandler(this.OnExportTextFile);
             // 
             // toUOAToolStripMenuItem
             // 
             this.toUOAToolStripMenuItem.Name = "toUOAToolStripMenuItem";
-            this.toUOAToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.toUOAToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.toUOAToolStripMenuItem.Text = "To UOA";
             this.toUOAToolStripMenuItem.Click += new System.EventHandler(this.OnExportUOAFile);
             // 
             // toWscToolStripMenuItem
             // 
             this.toWscToolStripMenuItem.Name = "toWscToolStripMenuItem";
-            this.toWscToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.toWscToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.toWscToolStripMenuItem.Text = "To Wsc";
             this.toWscToolStripMenuItem.Click += new System.EventHandler(this.OnExportWscFile);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
-            // 
-            // collapsibleSplitter1
-            // 
-            this.collapsibleSplitter1.AnimationDelay = 20;
-            this.collapsibleSplitter1.AnimationStep = 20;
-            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-            this.collapsibleSplitter1.ControlToHide = this.toolStrip1;
-            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.collapsibleSplitter1.ExpandParentForm = false;
-            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 25);
-            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
-            this.collapsibleSplitter1.TabIndex = 2;
-            this.collapsibleSplitter1.TabStop = false;
-            this.collapsibleSplitter1.UseAnimations = false;
-            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
             // toolStrip1
             // 
@@ -231,7 +217,7 @@ namespace FiddlerControls
             this.saveToolStripMenuItem1});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(45, 22);
             this.toolStripDropDownButton1.Text = "Misc";
             // 
             // exportAllImagesToolStripMenuItem
@@ -241,27 +227,27 @@ namespace FiddlerControls
             this.asTiffToolStripMenuItem1,
             this.asJpgToolStripMenuItem});
             this.exportAllImagesToolStripMenuItem.Name = "exportAllImagesToolStripMenuItem";
-            this.exportAllImagesToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.exportAllImagesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.exportAllImagesToolStripMenuItem.Text = "Export All Image";
             // 
             // aToolStripMenuItem
             // 
             this.aToolStripMenuItem.Name = "aToolStripMenuItem";
-            this.aToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.aToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.aToolStripMenuItem.Text = "As Bmp";
             this.aToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
             // 
             // asTiffToolStripMenuItem1
             // 
             this.asTiffToolStripMenuItem1.Name = "asTiffToolStripMenuItem1";
-            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
             this.asTiffToolStripMenuItem1.Text = "As Tiff";
             this.asTiffToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
             // 
             // asJpgToolStripMenuItem
             // 
             this.asJpgToolStripMenuItem.Name = "asJpgToolStripMenuItem";
-            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asJpgToolStripMenuItem.Text = "As Jpg";
             this.asJpgToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllJpg);
             // 
@@ -272,39 +258,39 @@ namespace FiddlerControls
             this.toUOAFileToolStripMenuItem,
             this.toWSCFileToolStripMenuItem});
             this.exportAllPartsToolStripMenuItem.Name = "exportAllPartsToolStripMenuItem";
-            this.exportAllPartsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.exportAllPartsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.exportAllPartsToolStripMenuItem.Text = "Export All Parts";
             // 
             // toTextFileToolStripMenuItem1
             // 
             this.toTextFileToolStripMenuItem1.Name = "toTextFileToolStripMenuItem1";
-            this.toTextFileToolStripMenuItem1.Size = new System.Drawing.Size(142, 22);
+            this.toTextFileToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
             this.toTextFileToolStripMenuItem1.Text = "To Text File";
             this.toTextFileToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllText);
             // 
             // toUOAFileToolStripMenuItem
             // 
             this.toUOAFileToolStripMenuItem.Name = "toUOAFileToolStripMenuItem";
-            this.toUOAFileToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.toUOAFileToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.toUOAFileToolStripMenuItem.Text = "To UOA File";
             this.toUOAFileToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllUOA);
             // 
             // toWSCFileToolStripMenuItem
             // 
             this.toWSCFileToolStripMenuItem.Name = "toWSCFileToolStripMenuItem";
-            this.toWSCFileToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.toWSCFileToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.toWSCFileToolStripMenuItem.Text = "To WSC File";
             this.toWSCFileToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllWSC);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
             // 
             // saveToolStripMenuItem1
             // 
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(164, 22);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
             this.saveToolStripMenuItem1.Text = "Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.OnClickSave);
             // 
@@ -359,7 +345,7 @@ namespace FiddlerControls
             this.HeightChangeMulti.MaximumSize = new System.Drawing.Size(0, 33);
             this.HeightChangeMulti.MinimumSize = new System.Drawing.Size(0, 33);
             this.HeightChangeMulti.Name = "HeightChangeMulti";
-            this.HeightChangeMulti.Size = new System.Drawing.Size(334, 33);
+            this.HeightChangeMulti.Size = new System.Drawing.Size(0, 33);
             this.HeightChangeMulti.TabIndex = 0;
             this.HeightChangeMulti.ValueChanged += new System.EventHandler(this.onValue_HeightChangeMulti);
             // 
@@ -402,7 +388,7 @@ namespace FiddlerControls
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(162, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(152, 26);
             // 
             // extractImageToolStripMenuItem
             // 
@@ -411,27 +397,27 @@ namespace FiddlerControls
             this.asTiffToolStripMenuItem,
             this.asJpgToolStripMenuItem1});
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickTiff);
             // 
             // asJpgToolStripMenuItem1
             // 
             this.asJpgToolStripMenuItem1.Name = "asJpgToolStripMenuItem1";
-            this.asJpgToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
+            this.asJpgToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
             this.asJpgToolStripMenuItem1.Text = "As Jpg";
             this.asJpgToolStripMenuItem1.Click += new System.EventHandler(this.extract_Image_ClickJpg);
             // 
@@ -448,7 +434,7 @@ namespace FiddlerControls
             // StatusMultiText
             // 
             this.StatusMultiText.Name = "StatusMultiText";
-            this.StatusMultiText.Size = new System.Drawing.Size(81, 17);
+            this.StatusMultiText.Size = new System.Drawing.Size(88, 17);
             this.StatusMultiText.Text = "statusMultiText";
             // 
             // tabPage6
@@ -471,6 +457,21 @@ namespace FiddlerControls
             this.MultiComponentBox.Size = new System.Drawing.Size(334, 302);
             this.MultiComponentBox.TabIndex = 0;
             this.MultiComponentBox.Text = "";
+            // 
+            // collapsibleSplitter1
+            // 
+            this.collapsibleSplitter1.AnimationDelay = 20;
+            this.collapsibleSplitter1.AnimationStep = 20;
+            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.collapsibleSplitter1.ControlToHide = this.toolStrip1;
+            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.collapsibleSplitter1.ExpandParentForm = false;
+            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 25);
+            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
+            this.collapsibleSplitter1.TabIndex = 2;
+            this.collapsibleSplitter1.TabStop = false;
+            this.collapsibleSplitter1.UseAnimations = false;
+            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
             // Multis
             // 

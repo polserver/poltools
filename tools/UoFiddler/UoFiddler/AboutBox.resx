@@ -119,9 +119,11 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 4.5f
+Added ability to define a tooltip for multis inside multilist.xml
 Multis get now stored in a more intelligent way it tries to find a non-invis centeritem
 Added support for facet0*.mul in MultiMap tab
 UO:HSA support
+and more stuff i already forgot
 
 Version 4.5e
 Map Replace:

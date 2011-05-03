@@ -83,6 +83,12 @@ namespace FiddlerControls
                             j = xMultiNode.Attributes["name"].Value;
                         }
                         node = new TreeNode(String.Format("{0,5} (0x{0:X}) {1}", i, j));
+                        xMultiNodeList = xMultis.SelectNodes("/Multis/ToolTip[@id='" + i + "']");
+                        foreach (XmlNode xMultiNode in xMultiNodeList)
+                        {
+                            node.ToolTipText = xMultiNode.Attributes["text"].Value;
+                        }
+                        
                     }
                     node.Tag = multi;
                     node.Name = i.ToString();
