@@ -65,12 +65,15 @@ namespace FiddlerControls
                 for (int i = index; i < refMarker.treeViewLand.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewLand.Nodes[i];
-                    if ((int)node.Tag == graphic)
+                    if (node.Tag != null)
                     {
-                        refMarker.tabcontrol.SelectTab(1);
-                        refMarker.treeViewLand.SelectedNode = node;
-                        node.EnsureVisible();
-                        return true;
+                        if ((int)node.Tag == graphic)
+                        {
+                            refMarker.tabcontrol.SelectTab(1);
+                            refMarker.treeViewLand.SelectedNode = node;
+                            node.EnsureVisible();
+                            return true;
+                        }
                     }
                 }
             }
@@ -78,14 +81,21 @@ namespace FiddlerControls
             {
                 for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
-                    TreeNode node = refMarker.treeViewItem.Nodes[i];
-                    if ((int)node.Tag == graphic)
+                    for (int j = 0; i < refMarker.treeViewItem.Nodes[i].Nodes.Count; ++j)
                     {
-                        refMarker.tabcontrol.SelectTab(0);
-                        refMarker.treeViewItem.SelectedNode = node;
-                        node.EnsureVisible();
-                        return true;
+                        TreeNode node = refMarker.treeViewItem.Nodes[i].Nodes[j];
+                        if (node.Tag != null)
+                        {
+                            if ((int)node.Tag == graphic)
+                            {
+                                refMarker.tabcontrol.SelectTab(0);
+                                refMarker.treeViewItem.SelectedNode = node;
+                                node.EnsureVisible();
+                                return true;
+                            }
+                        }
                     }
+
                 }
             }
             return false;
@@ -107,12 +117,15 @@ namespace FiddlerControls
                 for (int i = index; i < refMarker.treeViewLand.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewLand.Nodes[i];
-                    if (regex.IsMatch(TileData.LandTable[(int)node.Tag].Name))
+                    if (node.Tag != null)
                     {
-                        refMarker.tabcontrol.SelectTab(1);
-                        refMarker.treeViewLand.SelectedNode = node;
-                        node.EnsureVisible();
-                        return true;
+                        if (regex.IsMatch(TileData.LandTable[(int)node.Tag].Name))
+                        {
+                            refMarker.tabcontrol.SelectTab(1);
+                            refMarker.treeViewLand.SelectedNode = node;
+                            node.EnsureVisible();
+                            return true;
+                        }
                     }
                 }
             }
@@ -127,13 +140,19 @@ namespace FiddlerControls
                 }
                 for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
-                    TreeNode node = refMarker.treeViewItem.Nodes[i];
-                    if (regex.IsMatch(TileData.ItemTable[(int)node.Tag].Name))
+                    for (int j = 0; i < refMarker.treeViewItem.Nodes[i].Nodes.Count; ++j)
                     {
-                        refMarker.tabcontrol.SelectTab(0);
-                        refMarker.treeViewItem.SelectedNode = node;
-                        node.EnsureVisible();
-                        return true;
+                        TreeNode node = refMarker.treeViewItem.Nodes[i].Nodes[j];
+                        if (node.Tag != null)
+                        {
+                            if (regex.IsMatch(TileData.ItemTable[(int)node.Tag].Name))
+                            {
+                                refMarker.tabcontrol.SelectTab(0);
+                                refMarker.treeViewItem.SelectedNode = node;
+                                node.EnsureVisible();
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -145,6 +164,8 @@ namespace FiddlerControls
             refMarker.treeViewItem.BeginUpdate();
             refMarker.treeViewItem.Nodes.Clear();
             List<TreeNode> nodes = new List<TreeNode>();
+            List<TreeNode> nodesSA = new List<TreeNode>();
+            List<TreeNode> nodesHSA = new List<TreeNode>();
             for (int i = 0; i < TileData.ItemTable.Length; ++i)
             {
                 if (!String.IsNullOrEmpty(item.Name))
@@ -214,12 +235,23 @@ namespace FiddlerControls
                 }
                 TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.ItemTable[i].Name));
                 node.Tag = i;
-                nodes.Add(node);
+                if (i < 0x4000)
+                    nodes.Add(node);
+                else if (i < 0x8000)
+                    nodesSA.Add(node);
+                else
+                    nodesHSA.Add(node);
             }
-            refMarker.treeViewItem.Nodes.AddRange(nodes.ToArray());
+            if (nodes.Count>0)
+                refMarker.treeViewItem.Nodes.Add(new TreeNode("AOS - ML", nodes.ToArray()));
+            if (nodesSA.Count>0)
+                refMarker.treeViewItem.Nodes.Add(new TreeNode("Stygian Abyss", nodesSA.ToArray()));
+            if (nodesHSA.Count>0)
+                refMarker.treeViewItem.Nodes.Add(new TreeNode("Adventures High Seas", nodesHSA.ToArray()));
             refMarker.treeViewItem.EndUpdate();
             if (refMarker.treeViewItem.Nodes.Count > 0)
-                refMarker.treeViewItem.SelectedNode = refMarker.treeViewItem.Nodes[0];
+                if (refMarker.treeViewItem.Nodes[0].Nodes.Count > 0)
+                    refMarker.treeViewItem.SelectedNode = refMarker.treeViewItem.Nodes[0].Nodes[0];
         }
 
         public static void ApplyFilterLand(LandData land)
@@ -354,12 +386,15 @@ namespace FiddlerControls
                 }
                 else
                 {
-                    foreach (TreeNode node in treeViewItem.Nodes)
+                    foreach (TreeNode parentnode in treeViewItem.Nodes)
                     {
-                        if ((int)node.Tag == index)
+                        foreach (TreeNode node in parentnode.Nodes)
                         {
-                            node.ForeColor = Color.Red;
-                            break;
+                            if ((int)node.Tag == index)
+                            {
+                                node.ForeColor = Color.Red;
+                                break;
+                            }
                         }
                     }
                 }
