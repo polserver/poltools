@@ -453,6 +453,7 @@ namespace FiddlerControls
             ChangingIndex = true;
             textBoxNameLand.Text = data.Name;
             textBoxTexID.Text = data.TextureID.ToString();
+            textBoxUnkLandHSA.Text = data.Unk1.ToString();
             if ((data.Flags & TileFlag.Damaging) != 0)
                 checkedListBox2.SetItemChecked(0, true);
             else
@@ -560,6 +561,9 @@ namespace FiddlerControls
                 short shortres;
                 if (short.TryParse(textBoxTexID.Text, out shortres))
                     land.TextureID = shortres;
+                int intres;
+                if (int.TryParse(textBoxUnkLandHSA.Text, out intres))
+                    land.Unk1 = intres;
                 land.Flags = TileFlag.None;
                 if (checkedListBox2.GetItemChecked(0))
                     land.Flags |= TileFlag.Damaging;
@@ -961,6 +965,28 @@ namespace FiddlerControls
             }
         }
 
+        private void OnTextChangedLandUnkHSA(object sender, EventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (ChangingIndex)
+                    return;
+                if (treeViewLand.SelectedNode == null)
+                    return;
+                int index = (int)treeViewLand.SelectedNode.Tag;
+                LandData land = TileData.LandTable[index];
+                int intres;
+                if (int.TryParse(textBoxUnkLandHSA.Text, out intres))
+                {
+                    land.Unk1 = intres;
+                    TileData.LandTable[index] = land;
+                    treeViewLand.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index);
+                }
+            }
+        }
+
         private void OnFlagItemCheckLandtiles(object sender, ItemCheckEventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
@@ -1137,7 +1163,5 @@ namespace FiddlerControls
             if(treeViewItem.Nodes.Count == 3) // workaround for 65536 items'microsoft bug
                 treeViewItem.CollapseAll();
         }
-
-        
     }
 }

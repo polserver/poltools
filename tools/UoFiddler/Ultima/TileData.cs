@@ -69,7 +69,7 @@ namespace Ultima
         }
 
         /// <summary>
-        /// Gets a new UOAHS Unknown Int
+        /// Gets a new UOHSA Unknown Int
         /// </summary>
         public int Unk1
         {
@@ -79,104 +79,105 @@ namespace Ultima
 
         public void ReadData(string[] split)
         {
-            m_Name = split[1];
-            m_TexID = (short)TileData.ConvertStringToInt(split[2]);
-
+            int i = 1;
+            m_Name = split[i++];
+            m_TexID = (short)TileData.ConvertStringToInt(split[i++]);
+            m_Unk1 = TileData.ConvertStringToInt(split[i++]);
             m_Flags = 0;
-            int temp = System.Convert.ToByte(split[3]);
+            int temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Background;
-            temp = System.Convert.ToByte(split[4]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Weapon;
-            temp = System.Convert.ToByte(split[5]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Transparent;
-            temp = System.Convert.ToByte(split[6]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Translucent;
-            temp = System.Convert.ToByte(split[7]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Wall;
-            temp = System.Convert.ToByte(split[8]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Damaging;
-            temp = System.Convert.ToByte(split[9]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Impassable;
-            temp = System.Convert.ToByte(split[10]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Wet;
-            temp = System.Convert.ToByte(split[11]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Unknown1;
-            temp = System.Convert.ToByte(split[12]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Surface;
-            temp = System.Convert.ToByte(split[13]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Bridge;
-            temp = System.Convert.ToByte(split[14]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Generic;
-            temp = System.Convert.ToByte(split[15]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Window;
-            temp = System.Convert.ToByte(split[16]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.NoShoot;
-            temp = System.Convert.ToByte(split[17]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.ArticleA;
-            temp = System.Convert.ToByte(split[18]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.ArticleAn;
-            temp = System.Convert.ToByte(split[19]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Internal;
-            temp = System.Convert.ToByte(split[20]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Foliage;
-            temp = System.Convert.ToByte(split[21]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.PartialHue;
-            temp = System.Convert.ToByte(split[22]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Unknown2;
-            temp = System.Convert.ToByte(split[23]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Map;
-            temp = System.Convert.ToByte(split[24]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Container;
-            temp = System.Convert.ToByte(split[25]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Wearable;
-            temp = System.Convert.ToByte(split[26]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.LightSource;
-            temp = System.Convert.ToByte(split[27]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Animation;
-            temp = System.Convert.ToByte(split[28]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.HoverOver;
-            temp = System.Convert.ToByte(split[29]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Unknown3;
-            temp = System.Convert.ToByte(split[30]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Armor;
-            temp = System.Convert.ToByte(split[31]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Roof;
-            temp = System.Convert.ToByte(split[32]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.Door;
-            temp = System.Convert.ToByte(split[33]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.StairBack;
-            temp = System.Convert.ToByte(split[34]);
+            temp = System.Convert.ToByte(split[i++]);
             if (temp != 0)
                 m_Flags |= TileFlag.StairRight;
         }
@@ -995,7 +996,7 @@ namespace Ultima
         {
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))
             {
-                Tex.Write("ID;Name;TextureID");
+                Tex.Write("ID;Name;TextureID;HSAUnk1");
                 Tex.Write(";Background;Weapon;Transparent;Translucent;Wall;Damage;Impassible;Wet;Unknow1");
                 Tex.Write(";Surface;Bridge;Generic;Window;NoShoot;PrefixA;PrefixAn;Internal;Foliage;PartialHue");
                 Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;HoverOver");
