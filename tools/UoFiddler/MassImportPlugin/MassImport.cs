@@ -128,6 +128,7 @@ namespace MassImport
                     return;
                 }
 
+                int currboxlen=0;
                 foreach (XmlNode xNode in dom.SelectSingleNode("MassImport"))
                 {
                     if (xNode.NodeType == XmlNodeType.Comment)
@@ -159,6 +160,7 @@ namespace MassImport
                     entry.Valid = true;
 
                     string message = entry.Test();
+                    
                     if (entry.Valid)
                     {
                         importlist.Add(entry);
@@ -167,9 +169,11 @@ namespace MassImport
                     else
                     {
                         OutputBox.AppendText(message + Environment.NewLine);
-                        OutputBox.Select(OutputBox.Text.LastIndexOf(message), message.Length);
+                        OutputBox.Select(currboxlen, message.Length);
                         OutputBox.SelectionColor = Color.Red;
                     }
+                    currboxlen += message.Length;
+                    Application.DoEvents();
                 }
                 OutputBox.AppendText("------------------------------------------------" + Environment.NewLine);
                 OutputBox.AppendText(importlist.Count + " valid entries found" + Environment.NewLine);
