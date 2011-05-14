@@ -51,6 +51,7 @@ namespace UoFiddler
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.checkBoxFormState = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -172,11 +173,23 @@ namespace UoFiddler
             this.label7.TabIndex = 11;
             this.label7.Text = "UltimaSDK Devs for the backbone we modified";
             // 
+            // checkBoxFormState
+            // 
+            this.checkBoxFormState.AutoSize = true;
+            this.checkBoxFormState.Location = new System.Drawing.Point(13, 396);
+            this.checkBoxFormState.Name = "checkBoxFormState";
+            this.checkBoxFormState.Size = new System.Drawing.Size(100, 17);
+            this.checkBoxFormState.TabIndex = 12;
+            this.checkBoxFormState.Text = "Store Formstate";
+            this.checkBoxFormState.UseVisualStyleBackColor = true;
+            this.checkBoxFormState.CheckedChanged += new System.EventHandler(this.OnChangeFormState);
+            // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(435, 448);
+            this.Controls.Add(this.checkBoxFormState);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -216,6 +229,7 @@ namespace UoFiddler
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBoxFormState;
 
 
 

@@ -17,6 +17,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Drawing;
 using Ultima;
 
 namespace UoFiddler
@@ -39,6 +40,11 @@ namespace UoFiddler
             get { return m_UpdateCheckOnStart; }
             set { m_UpdateCheckOnStart = value; }
         }
+
+        public static bool StoreFormState { get; set; }
+        public static bool MaximisedForm { get; set; }
+        public static Point FormPosition { get; set; }
+        public static Size FormSize { get; set; }
 
         public static void Startup()
         {
@@ -185,6 +191,16 @@ namespace UoFiddler
                 }
             }
 
+            comment = dom.CreateComment("ViewState of the MainForm");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("ViewState");
+            elem.SetAttribute("Active", StoreFormState.ToString());
+            elem.SetAttribute("Maximised", MaximisedForm.ToString());
+            elem.SetAttribute("PositionX", FormPosition.X.ToString());
+            elem.SetAttribute("PositionY", FormPosition.Y.ToString());
+            elem.SetAttribute("Height", FormSize.Height.ToString());
+            elem.SetAttribute("Width", FormSize.Width.ToString());
+            sr.AppendChild(elem);
             dom.Save(FileName);
         }
 
@@ -297,6 +313,16 @@ namespace UoFiddler
                 viewtab = Convert.ToInt32(xTab.GetAttribute("tab"));
                 FiddlerControls.Options.ChangedViewState[viewtab] = false;
             }
+
+            elem = (XmlElement)xOptions.SelectSingleNode("ViewState");
+            if (elem != null)
+            {
+                StoreFormState = bool.Parse(elem.GetAttribute("Active"));
+                MaximisedForm = bool.Parse(elem.GetAttribute("Maximised"));
+                FormPosition = new Point(int.Parse(elem.GetAttribute("PositionX")), int.Parse(elem.GetAttribute("PositionY")));
+                FormSize = new Size(int.Parse(elem.GetAttribute("Width")), int.Parse(elem.GetAttribute("Height")));
+            }
+            
 
             Files.CheckForNewMapSize();
         }

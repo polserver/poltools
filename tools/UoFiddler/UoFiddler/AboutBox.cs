@@ -25,11 +25,12 @@ namespace UoFiddler
             this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             progresslabel.Visible = false;
             checkBoxCheckOnStart.Checked = Options.UpdateCheckOnStart;
+            checkBoxFormState.Checked = Options.StoreFormState;
         }
 
         private void OnChangeCheck(object sender, EventArgs e)
         {
-            Options.UpdateCheckOnStart = !Options.UpdateCheckOnStart;
+            Options.UpdateCheckOnStart = checkBoxCheckOnStart.Checked;
         }
 
         private void OnClickUpdate(object sender, EventArgs e)
@@ -102,6 +103,11 @@ namespace UoFiddler
         private void OnClickLink(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(@"http://uofiddler.polserver.com/");
+        }
+
+        private void OnChangeFormState(object sender, EventArgs e)
+        {
+            Options.StoreFormState = checkBoxFormState.Checked;
         }
     }
 }
