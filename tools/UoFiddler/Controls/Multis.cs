@@ -86,8 +86,10 @@ namespace FiddlerControls
                         xMultiNodeList = xMultis.SelectNodes("/Multis/ToolTip[@id='" + i + "']");
                         foreach (XmlNode xMultiNode in xMultiNodeList)
                         {
-                            node.ToolTipText = xMultiNode.Attributes["text"].Value;
+                            node.ToolTipText = j+"\r\n"+xMultiNode.Attributes["text"].Value;
                         }
+                        if (xMultiNodeList.Count==0)
+                            node.ToolTipText = j;
                         
                     }
                     node.Tag = multi;

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Drawing;
 using Host;
 
 namespace UoFiddler
@@ -29,6 +30,24 @@ namespace UoFiddler
         {
             refmarker = this;
             InitializeComponent();
+            if (Options.StoreFormState)
+            {
+                if (Options.MaximisedForm)
+                {
+                    this.StartPosition = FormStartPosition.Manual;
+                    this.WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    if (isOkFormStateLocation(Options.FormPosition, Options.FormSize))
+                    {
+                        this.StartPosition = FormStartPosition.Manual;
+                        this.WindowState = FormWindowState.Normal;
+                        this.Location = Options.FormPosition;
+                        this.Size = Options.FormSize;
+                    }
+                }
+            }
             this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             Versionlabel.Text = "Version " + Version;
             Versionlabel.Left = Start.Size.Width - Versionlabel.Width - 5;
@@ -386,12 +405,27 @@ namespace UoFiddler
                     return;
                 }
             }
+            Options.MaximisedForm = this.WindowState == FormWindowState.Maximized;
+            Options.FormPosition = this.Location;
+            Options.FormSize = this.Size;
+
             GlobalPlugins.Plugins.ClosePlugins();
         }
 
         private void OnClickHelp(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(@"http://uofiddler.polserver.com/help.html");
+        }
+
+        private static bool isOkFormStateLocation(Point loc, Size size)
+        {
+            if (loc.X < 0 || loc.Y < 0)
+                return false;
+            else if (loc.X + size.Width > Screen.PrimaryScreen.WorkingArea.Width)
+                return false;
+            else if (loc.Y + size.Height > Screen.PrimaryScreen.WorkingArea.Height)
+                return false;
+            return true;
         }
 
         #region View Menu Code
