@@ -78,6 +78,7 @@ namespace MultiEditor
             this.BTN_Select = new System.Windows.Forms.CheckBox();
             this.numericUpDown_Floor = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_Z = new System.Windows.Forms.NumericUpDown();
+            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.Selectedpanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.DynamiccheckBox = new System.Windows.Forms.CheckBox();
@@ -113,7 +114,6 @@ namespace MultiEditor
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
-            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -156,10 +156,10 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.Save);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 86);
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 186);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 181);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
@@ -169,7 +169,7 @@ namespace MultiEditor
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(192, 160);
+            this.tileTab.Size = new System.Drawing.Size(192, 155);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
@@ -189,8 +189,8 @@ namespace MultiEditor
             // 
             this.splitContainer4.Panel2.Controls.Add(this.pictureBoxDrawTiles);
             this.splitContainer4.Panel2.Controls.Add(this.vScrollBarDrawTiles);
-            this.splitContainer4.Size = new System.Drawing.Size(186, 154);
-            this.splitContainer4.SplitterDistance = 74;
+            this.splitContainer4.Size = new System.Drawing.Size(186, 149);
+            this.splitContainer4.SplitterDistance = 71;
             this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
@@ -203,14 +203,14 @@ namespace MultiEditor
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 74);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 71);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewTilesXML_OnAfterSelect);
             // 
             // DummyContextMenu
             // 
             this.DummyContextMenu.Name = "DummyContextMenu";
-            this.DummyContextMenu.Size = new System.Drawing.Size(61, 4);
+            this.DummyContextMenu.Size = new System.Drawing.Size(153, 26);
             this.DummyContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnDummyContextMenuOpening);
             // 
             // imageListTreeView
@@ -225,21 +225,21 @@ namespace MultiEditor
             this.pictureBoxDrawTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxDrawTiles.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxDrawTiles.Name = "pictureBoxDrawTiles";
-            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 76);
+            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 74);
             this.pictureBoxDrawTiles.TabIndex = 3;
             this.pictureBoxDrawTiles.TabStop = false;
+            this.pictureBoxDrawTiles.SizeChanged += new System.EventHandler(this.pictureBoxDrawTiles_OnResize);
+            this.pictureBoxDrawTiles.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxDrawTiles_OnPaint);
+            this.pictureBoxDrawTiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBoxDrawTiles_OnMouseClick);
             this.pictureBoxDrawTiles.MouseLeave += new System.EventHandler(this.pictureBoxDrawTilesMouseLeave);
             this.pictureBoxDrawTiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxDrawTilesMouseMove);
-            this.pictureBoxDrawTiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBoxDrawTiles_OnMouseClick);
-            this.pictureBoxDrawTiles.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxDrawTiles_OnPaint);
-            this.pictureBoxDrawTiles.SizeChanged += new System.EventHandler(this.pictureBoxDrawTiles_OnResize);
             // 
             // vScrollBarDrawTiles
             // 
             this.vScrollBarDrawTiles.Dock = System.Windows.Forms.DockStyle.Right;
             this.vScrollBarDrawTiles.Location = new System.Drawing.Point(169, 0);
             this.vScrollBarDrawTiles.Name = "vScrollBarDrawTiles";
-            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 76);
+            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 74);
             this.vScrollBarDrawTiles.TabIndex = 0;
             this.vScrollBarDrawTiles.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBarDrawTiles_Scroll);
             // 
@@ -334,10 +334,10 @@ namespace MultiEditor
             this.treeViewMultiList.HotTracking = true;
             this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
             this.treeViewMultiList.Name = "treeViewMultiList";
-            this.treeViewMultiList.Size = new System.Drawing.Size(192, 160);
+            this.treeViewMultiList.Size = new System.Drawing.Size(192, 155);
             this.treeViewMultiList.TabIndex = 0;
-            this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
             this.treeViewMultiList.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeViewMultiList_NodeMouseHover);
+            this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
             // 
             // Save
             // 
@@ -642,6 +642,22 @@ namespace MultiEditor
             this.numericUpDown_Z.Size = new System.Drawing.Size(50, 20);
             this.numericUpDown_Z.TabIndex = 5;
             // 
+            // collapsibleSplitter1
+            // 
+            this.collapsibleSplitter1.AnimationDelay = 20;
+            this.collapsibleSplitter1.AnimationStep = 20;
+            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
+            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.collapsibleSplitter1.ExpandParentForm = false;
+            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
+            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
+            this.collapsibleSplitter1.TabIndex = 5;
+            this.collapsibleSplitter1.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
+            this.collapsibleSplitter1.UseAnimations = true;
+            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            // 
             // Selectedpanel
             // 
             this.Selectedpanel.Controls.Add(this.groupBox3);
@@ -737,7 +753,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MaxHeightTrackBar.Location = new System.Drawing.Point(0, 0);
             this.MaxHeightTrackBar.Name = "MaxHeightTrackBar";
-            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 45);
+            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
             this.MaxHeightTrackBar.TabIndex = 0;
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.MaxHeightTrackBarOnValueChanged);
@@ -760,11 +776,11 @@ namespace MultiEditor
             this.pictureBoxMulti.Size = new System.Drawing.Size(398, 248);
             this.pictureBoxMulti.TabIndex = 0;
             this.pictureBoxMulti.TabStop = false;
-            this.pictureBoxMulti.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseMove);
-            this.pictureBoxMulti.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseDown);
-            this.pictureBoxMulti.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBoxMultiOnPaint);
-            this.pictureBoxMulti.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseUp);
             this.pictureBoxMulti.SizeChanged += new System.EventHandler(this.PictureBoxMultiOnResize);
+            this.pictureBoxMulti.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBoxMultiOnPaint);
+            this.pictureBoxMulti.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseDown);
+            this.pictureBoxMulti.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseMove);
+            this.pictureBoxMulti.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseUp);
             // 
             // hScrollBar
             // 
@@ -812,7 +828,7 @@ namespace MultiEditor
             this.removeAllTransToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(45, 22);
             this.toolStripDropDownButton1.Text = "Misc";
             // 
             // UndoItems
@@ -829,14 +845,14 @@ namespace MultiEditor
             this.UndoItem8,
             this.UndoItem9});
             this.UndoItems.Name = "UndoItems";
-            this.UndoItems.Size = new System.Drawing.Size(195, 22);
+            this.UndoItems.Size = new System.Drawing.Size(189, 22);
             this.UndoItems.Text = "Undo";
             this.UndoItems.DropDownOpening += new System.EventHandler(this.UndoList_BeforeOpening);
             // 
             // UndoItem0
             // 
             this.UndoItem0.Name = "UndoItem0";
-            this.UndoItem0.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem0.Size = new System.Drawing.Size(89, 22);
             this.UndoItem0.Tag = 0;
             this.UndoItem0.Text = "---";
             this.UndoItem0.Click += new System.EventHandler(this.Undo_onClick);
@@ -844,7 +860,7 @@ namespace MultiEditor
             // UndoItem1
             // 
             this.UndoItem1.Name = "UndoItem1";
-            this.UndoItem1.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem1.Size = new System.Drawing.Size(89, 22);
             this.UndoItem1.Tag = 1;
             this.UndoItem1.Text = "---";
             this.UndoItem1.Click += new System.EventHandler(this.Undo_onClick);
@@ -852,7 +868,7 @@ namespace MultiEditor
             // UndoItem2
             // 
             this.UndoItem2.Name = "UndoItem2";
-            this.UndoItem2.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem2.Size = new System.Drawing.Size(89, 22);
             this.UndoItem2.Tag = 2;
             this.UndoItem2.Text = "---";
             this.UndoItem2.Click += new System.EventHandler(this.Undo_onClick);
@@ -860,7 +876,7 @@ namespace MultiEditor
             // UndoItem3
             // 
             this.UndoItem3.Name = "UndoItem3";
-            this.UndoItem3.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem3.Size = new System.Drawing.Size(89, 22);
             this.UndoItem3.Tag = 3;
             this.UndoItem3.Text = "---";
             this.UndoItem3.Click += new System.EventHandler(this.Undo_onClick);
@@ -868,7 +884,7 @@ namespace MultiEditor
             // UndoItem4
             // 
             this.UndoItem4.Name = "UndoItem4";
-            this.UndoItem4.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem4.Size = new System.Drawing.Size(89, 22);
             this.UndoItem4.Tag = 4;
             this.UndoItem4.Text = "---";
             this.UndoItem4.Click += new System.EventHandler(this.Undo_onClick);
@@ -876,7 +892,7 @@ namespace MultiEditor
             // UndoItem5
             // 
             this.UndoItem5.Name = "UndoItem5";
-            this.UndoItem5.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem5.Size = new System.Drawing.Size(89, 22);
             this.UndoItem5.Tag = 5;
             this.UndoItem5.Text = "---";
             this.UndoItem5.Click += new System.EventHandler(this.Undo_onClick);
@@ -884,7 +900,7 @@ namespace MultiEditor
             // UndoItem6
             // 
             this.UndoItem6.Name = "UndoItem6";
-            this.UndoItem6.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem6.Size = new System.Drawing.Size(89, 22);
             this.UndoItem6.Tag = 6;
             this.UndoItem6.Text = "---";
             this.UndoItem6.Click += new System.EventHandler(this.Undo_onClick);
@@ -892,7 +908,7 @@ namespace MultiEditor
             // UndoItem7
             // 
             this.UndoItem7.Name = "UndoItem7";
-            this.UndoItem7.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem7.Size = new System.Drawing.Size(89, 22);
             this.UndoItem7.Tag = 7;
             this.UndoItem7.Text = "---";
             this.UndoItem7.Click += new System.EventHandler(this.Undo_onClick);
@@ -900,7 +916,7 @@ namespace MultiEditor
             // UndoItem8
             // 
             this.UndoItem8.Name = "UndoItem8";
-            this.UndoItem8.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem8.Size = new System.Drawing.Size(89, 22);
             this.UndoItem8.Tag = 8;
             this.UndoItem8.Text = "---";
             this.UndoItem8.Click += new System.EventHandler(this.Undo_onClick);
@@ -908,7 +924,7 @@ namespace MultiEditor
             // UndoItem9
             // 
             this.UndoItem9.Name = "UndoItem9";
-            this.UndoItem9.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem9.Size = new System.Drawing.Size(89, 22);
             this.UndoItem9.Tag = 9;
             this.UndoItem9.Text = "---";
             this.UndoItem9.Click += new System.EventHandler(this.Undo_onClick);
@@ -917,7 +933,7 @@ namespace MultiEditor
             // 
             this.showWalkablesToolStripMenuItem.CheckOnClick = true;
             this.showWalkablesToolStripMenuItem.Name = "showWalkablesToolStripMenuItem";
-            this.showWalkablesToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.showWalkablesToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.showWalkablesToolStripMenuItem.Text = "Show Walkable tiles";
             this.showWalkablesToolStripMenuItem.Click += new System.EventHandler(this.BTN_ShowWalkables_Click);
             // 
@@ -925,14 +941,14 @@ namespace MultiEditor
             // 
             this.showDoubleSurfaceMenuItem.CheckOnClick = true;
             this.showDoubleSurfaceMenuItem.Name = "showDoubleSurfaceMenuItem";
-            this.showDoubleSurfaceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.showDoubleSurfaceMenuItem.Size = new System.Drawing.Size(189, 22);
             this.showDoubleSurfaceMenuItem.Text = "Show double surface";
             this.showDoubleSurfaceMenuItem.Click += new System.EventHandler(this.BTN_ShowDoubleSurface);
             // 
             // removeAllTransToolStripMenuItem
             // 
             this.removeAllTransToolStripMenuItem.Name = "removeAllTransToolStripMenuItem";
-            this.removeAllTransToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.removeAllTransToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.removeAllTransToolStripMenuItem.Text = "Reset transparent tiles";
             this.removeAllTransToolStripMenuItem.Click += new System.EventHandler(this.BTN_ShowAllTrans);
             // 
@@ -957,14 +973,14 @@ namespace MultiEditor
             // SelectedTileLabel
             // 
             this.SelectedTileLabel.Name = "SelectedTileLabel";
-            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
+            this.SelectedTileLabel.Size = new System.Drawing.Size(21, 22);
             this.SelectedTileLabel.Text = "ID:";
             // 
             // toolStripLabelCoord
             // 
             this.toolStripLabelCoord.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabelCoord.Name = "toolStripLabelCoord";
-            this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
+            this.toolStripLabelCoord.Size = new System.Drawing.Size(31, 22);
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
@@ -976,22 +992,6 @@ namespace MultiEditor
             this.FloatingPreviewPanel.Name = "FloatingPreviewPanel";
             this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
             this.FloatingPreviewPanel.TabIndex = 4;
-            // 
-            // collapsibleSplitter1
-            // 
-            this.collapsibleSplitter1.AnimationDelay = 20;
-            this.collapsibleSplitter1.AnimationStep = 20;
-            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
-            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.collapsibleSplitter1.ExpandParentForm = false;
-            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
-            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
-            this.collapsibleSplitter1.TabIndex = 5;
-            this.collapsibleSplitter1.TabStop = false;
-            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
-            this.collapsibleSplitter1.UseAnimations = true;
-            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
             // MultiEditor
             // 

@@ -563,8 +563,8 @@ namespace Ultima
 
                             itemcount++;
                         }
-                        int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
-                        int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+                        int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
+                        int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
 
                         m_Min = m_Max = Point.Empty;
                         int i = 0;
@@ -642,8 +642,8 @@ namespace Ultima
 
                             ++itemcount;
                         }
-                        int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
-                        int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+                        int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
+                        int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
 
                         m_Min = m_Max = Point.Empty;
                         i = 0;
@@ -713,8 +713,8 @@ namespace Ultima
                             if (e.m_OffsetZ > m_maxHeight)
                                 m_maxHeight = e.m_OffsetZ;
                         }
-                        int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
-                        int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+                        int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
+                        int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
 
                         m_Min = m_Max = Point.Empty;
                         itemcount = 0;
@@ -809,8 +809,8 @@ namespace Ultima
                         if (tempitem.m_ItemID != 0xFFFF)
                             m_SortedTiles[itemcount] = tempitem;
 
-                        int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
-                        int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+                        int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
+                        int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
 
                         m_Min = m_Max = Point.Empty;
                         int i = 0;
@@ -863,8 +863,8 @@ namespace Ultima
                 ++i;
             }
             arr.Clear();
-            int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
-            int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+            int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
+            int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
 
             m_Min = m_Max = Point.Empty;
             for (i = 0; i < m_SortedTiles.Length; ++i)
@@ -921,8 +921,8 @@ namespace Ultima
                     break;
 
             }
-            int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
-            int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
+            int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
+            int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
 
             m_Min = m_Max = Point.Empty;
             int i = 0;
@@ -990,7 +990,7 @@ namespace Ultima
         {
             m_Min = m_Max = Point.Empty;
             m_SortedTiles = new MultiTileEntry[count];
-            m_Center = new Point((width / 2) - 1, (height / 2) - 1);
+            m_Center = new Point((int)(Math.Round((width / 2.0))) - 1, (int)(Math.Round((height / 2.0))) - 1);
             if (m_Center.X < 0)
                 m_Center.X = width / 2;
             if (m_Center.Y < 0)

@@ -960,7 +960,7 @@ namespace FiddlerControls
             {
                 if (ChangingIndex)
                     return;
-                if (treeViewLand.SelectedNode == null || treeViewItem.SelectedNode.Tag == null)
+                if (treeViewLand.SelectedNode == null || treeViewLand.SelectedNode.Tag == null)
                     return;
                 int index = (int)treeViewLand.SelectedNode.Tag;
                 LandData land = TileData.LandTable[index];
