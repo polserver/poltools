@@ -224,7 +224,7 @@ namespace Ultima
             List<MultiComponentList.MultiTileEntry> newtiles = new List<MultiComponentList.MultiTileEntry>();
             newtiles.AddRange(tiles);
 
-            if (newtiles[0].m_OffsetX == 0 && newtiles[0].m_OffsetY == 0) // found a centeritem
+            if (newtiles[0].m_OffsetX == 0 && newtiles[0].m_OffsetY == 0 && newtiles[0].m_OffsetZ == 0) // found a centeritem
             {
                 if (newtiles[0].m_ItemID != 0x1) // its a "good" one
                 {
@@ -239,7 +239,8 @@ namespace Ultima
                 {
                     for (int i = 1; i < newtiles.Count; ++i) // do we have a better one?
                     {
-                        if (newtiles[i].m_OffsetX == 0 && newtiles[i].m_OffsetY == 0 && newtiles[i].m_ItemID != 0x1)
+                        if (newtiles[i].m_OffsetX == 0 && newtiles[i].m_OffsetY == 0 
+                            && newtiles[i].m_ItemID != 0x1 && newtiles[i].m_OffsetZ == 0 )
                         {
                             MultiComponentList.MultiTileEntry centeritem = newtiles[i];
                             newtiles.RemoveAt(i); // jep so save it
@@ -262,7 +263,8 @@ namespace Ultima
             }
             for (int i = 0; i < newtiles.Count; ++i) // is there a good one
             {
-                if (newtiles[i].m_OffsetX == 0 && newtiles[i].m_OffsetY == 0 && newtiles[i].m_ItemID != 0x1)
+                if (newtiles[i].m_OffsetX == 0 && newtiles[i].m_OffsetY == 0 
+                    && newtiles[i].m_ItemID != 0x1 && newtiles[i].m_OffsetZ == 0)
                 {
                     MultiComponentList.MultiTileEntry centeritem = newtiles[i];
                     newtiles.RemoveAt(i); // store it
