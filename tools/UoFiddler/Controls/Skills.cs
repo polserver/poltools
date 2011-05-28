@@ -70,7 +70,7 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             dataGridView1.CancelEdit();
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             Ultima.Skills.Save(path);
             MessageBox.Show(
                 String.Format("Skills saved to {0}", path),

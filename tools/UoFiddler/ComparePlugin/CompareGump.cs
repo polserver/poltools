@@ -288,7 +288,7 @@ namespace ComparePlugin
             int i = int.Parse(listBox2.Items[listBox2.SelectedIndex].ToString());
             if (!SecondGump.IsValidIndex(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Gump(Sec) 0x{0:X}.bmp", i));
             SecondGump.GetGump(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
@@ -306,7 +306,7 @@ namespace ComparePlugin
             int i = int.Parse(listBox2.Items[listBox2.SelectedIndex].ToString());
             if (!SecondGump.IsValidIndex(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Gump(Sec) 0x{0:X}.tiff", i));
             SecondGump.GetGump(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(

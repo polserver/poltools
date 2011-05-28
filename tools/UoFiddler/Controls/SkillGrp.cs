@@ -93,9 +93,9 @@ namespace FiddlerControls
                     SkillGroups.SkillList[(int)skill.Tag] = root.Index;
                 }
             }
-            SkillGroups.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            SkillGroups.Save(FiddlerControls.Options.OutputPath);
             MessageBox.Show(
-                String.Format("SkillGrp saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                String.Format("SkillGrp saved to {0}", FiddlerControls.Options.OutputPath),
                 "Saved",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,

@@ -225,10 +225,10 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                Gumps.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                Gumps.Save(FiddlerControls.Options.OutputPath);
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
@@ -349,7 +349,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.bmp", i));
             Bitmap bit = new Bitmap(Gumps.GetGump(i));
@@ -366,7 +366,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.tiff", i));
             Bitmap bit = new Bitmap(Gumps.GetGump(i));
@@ -383,7 +383,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.jpg", i));
             Bitmap bit = new Bitmap(Gumps.GetGump(i));

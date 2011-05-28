@@ -514,7 +514,7 @@ namespace FiddlerControls
 
         private void OnClickSaveTiledata(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, "tiledata.mul");
             Ultima.TileData.SaveTileData(FileName);
             MessageBox.Show(
@@ -1081,7 +1081,7 @@ namespace FiddlerControls
 
         private void OnClickExport(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             if (tabcontrol.SelectedIndex == 0) //items
             {
                 string FileName = Path.Combine(path, "ItemData.csv");

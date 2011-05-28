@@ -178,7 +178,7 @@ namespace FiddlerPlugin
 
         private void LoadXML()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
             string FileName = Path.Combine(path, @"plugins/SendItem.xml");
             if (!System.IO.File.Exists(FileName))
                 return;
@@ -198,7 +198,7 @@ namespace FiddlerPlugin
 
         private void SaveXML()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
             string FileName = Path.Combine(path, @"plugins/senditem.xml");
 
             XmlDocument dom = new XmlDocument();

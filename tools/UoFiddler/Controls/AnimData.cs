@@ -387,9 +387,9 @@ namespace FiddlerControls
         private void onClickSave(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Animdata.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            Animdata.Save(FiddlerControls.Options.OutputPath);
             Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+            MessageBox.Show(String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                 "Save",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,

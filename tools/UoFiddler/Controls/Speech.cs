@@ -157,7 +157,7 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             dataGridView1.CancelEdit();
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, "speech.mul");
             SpeechList.SaveSpeechList(FileName);
             dataGridView1.Invalidate();
@@ -186,7 +186,7 @@ namespace FiddlerControls
 
         private void OnClickExport(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, "Speech.csv");
             Ultima.SpeechList.ExportToCSV(FileName);
             MessageBox.Show(String.Format("Speech saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);

@@ -242,5 +242,8 @@ namespace FiddlerControls
         {
             return new Icon(System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceStream("UoFiddler.UOFiddler.ico"));
         }
+
+        public static string AppDataPath { get; set; }
+        public static string OutputPath { get; set; }
     }
 }

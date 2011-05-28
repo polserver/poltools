@@ -189,7 +189,7 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string filetype;
                 if ((int)treeView.SelectedNode.Parent.Tag == 1)
                     filetype = "Unicode";
@@ -258,7 +258,7 @@ namespace FiddlerControls
 
         private void OnClickSave(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             if ((int)treeView.SelectedNode.Parent.Tag == 1)
             {
                 string FileName = UnicodeFonts.Save(path, (int)treeView.SelectedNode.Tag);

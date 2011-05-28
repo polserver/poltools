@@ -449,10 +449,10 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                Art.Save(FiddlerControls.Options.OutputPath);
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                     "Save",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 Options.ChangedUltimaClass["Art"] = false;
@@ -463,7 +463,7 @@ namespace FiddlerControls
         {
             if (selected >= 0)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.bmp", selected));
                 Bitmap bit = new Bitmap(Ultima.Art.GetLand(selected));
                 if (bit != null)
@@ -478,7 +478,7 @@ namespace FiddlerControls
         {
             if (selected >= 0)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", selected));
                 Bitmap bit = new Bitmap(Ultima.Art.GetLand(selected));
                 if (bit != null)
@@ -493,7 +493,7 @@ namespace FiddlerControls
         {
             if (selected >= 0)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.jpg", selected));
                 Bitmap bit = new Bitmap(Ultima.Art.GetLand(selected));
                 if (bit != null)

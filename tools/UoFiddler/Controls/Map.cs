@@ -588,7 +588,7 @@ namespace FiddlerControls
         private void ExtractMapBmp(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string name = String.Format("{0}.bmp", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
             Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), showStaticsToolStripMenuItem1.Checked);
@@ -612,7 +612,7 @@ namespace FiddlerControls
         private void ExtractMapTiff(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string name = String.Format("{0}.tiff", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
             Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), showStaticsToolStripMenuItem1.Checked);
@@ -636,7 +636,7 @@ namespace FiddlerControls
         private void ExtractMapJpg(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string name = String.Format("{0}.jpg", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
             Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), showStaticsToolStripMenuItem1.Checked);
@@ -679,7 +679,7 @@ namespace FiddlerControls
 
         private void LoadMapOverlays()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
             string FileName = Path.Combine(Path.GetDirectoryName(path), "MapOverlays.xml");
             OverlayObjectTree.BeginUpdate();
             OverlayObjectTree.Nodes.Clear();
@@ -727,7 +727,7 @@ namespace FiddlerControls
         {
             if (!Loaded)
                 return;
-            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string filepath = FiddlerControls.Options.AppDataPath;
 
             string FileName = Path.Combine(filepath, "MapOverlays.xml");
 
@@ -884,19 +884,19 @@ namespace FiddlerControls
         private void OnClickDefragStatics(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+            Ultima.Map.DefragStatics(FiddlerControls.Options.OutputPath,
                 currmap, currmap.Width, currmap.Height, false);
             Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Statics saved to {0}", FiddlerControls.Options.OutputPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickDefragRemoveStatics(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+            Ultima.Map.DefragStatics(FiddlerControls.Options.OutputPath,
                 currmap, currmap.Width, currmap.Height, true);
             Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Statics saved to {0}", FiddlerControls.Options.OutputPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnResizeMap(object sender, EventArgs e)
@@ -911,26 +911,26 @@ namespace FiddlerControls
         private void OnClickRewriteMap(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Ultima.Map.RewriteMap(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+            Ultima.Map.RewriteMap(FiddlerControls.Options.OutputPath,
                 currmapint, currmap.Width, currmap.Height);
             Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Map saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Map saved to {0}", FiddlerControls.Options.OutputPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickReportInvisStatics(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            currmap.ReportInvisStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            currmap.ReportInvisStatics(FiddlerControls.Options.OutputPath);
             Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Report saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Report saved to {0}", FiddlerControls.Options.OutputPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickReportInvalidMapIDs(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            currmap.ReportInvalidMapIDs(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            currmap.ReportInvalidMapIDs(FiddlerControls.Options.OutputPath);
             Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Report saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Report saved to {0}", FiddlerControls.Options.OutputPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private MapReplace showform = null;

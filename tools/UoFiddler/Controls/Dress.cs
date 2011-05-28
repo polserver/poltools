@@ -715,7 +715,7 @@ namespace FiddlerControls
 
         private void onClickExtractAnimatedAnimation(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string gif = Path.Combine(path, "Dress Anim.gif");
             string temp = Path.Combine(path, "temp.png");
 
@@ -946,7 +946,7 @@ namespace FiddlerControls
 
         private void OnClickExtractImageBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             if (showPD)
             {
                 string FileName = Path.Combine(path, "Dress PD.bmp");
@@ -976,7 +976,7 @@ namespace FiddlerControls
 
         private void OnClickExtractImageTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             if (showPD)
             {
                 string FileName = Path.Combine(path, "Dress PD.tiff");
@@ -1006,7 +1006,7 @@ namespace FiddlerControls
 
         private void OnClickExtractImageJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             if (showPD)
             {
                 string FileName = Path.Combine(path, "Dress PD.jpg");
@@ -1036,7 +1036,7 @@ namespace FiddlerControls
 
         private void OnClickExtractAnimBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = "Dress Anim";
 
             for (int i = 0; i < m_Animation.Length; ++i)
@@ -1053,7 +1053,7 @@ namespace FiddlerControls
 
         private void OnClickExtractAnimTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = "Dress Anim";
 
             for (int i = 0; i < m_Animation.Length; ++i)
@@ -1070,7 +1070,7 @@ namespace FiddlerControls
 
         private void OnClickExtractAnimJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = "Dress Anim";
 
             for (int i = 0; i < m_Animation.Length; ++i)
@@ -1157,7 +1157,7 @@ namespace FiddlerControls
                 }
             }
 
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "animationlist.html");
+            string FileName = Path.Combine(FiddlerControls.Options.OutputPath, "animationlist.html");
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.Write), System.Text.Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("<html> <body> <table border='1' rules='all' cellpadding='2'>");

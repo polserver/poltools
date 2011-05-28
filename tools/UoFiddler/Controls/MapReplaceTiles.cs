@@ -38,7 +38,7 @@ namespace FiddlerControls
                 return;
             if (!LoadFile(file))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             ReplaceMap(path, Map.FileIndex, Map.Width, Map.Height);
             ReplaceStatic(path, Map.FileIndex, Map.Width, Map.Height);
         }

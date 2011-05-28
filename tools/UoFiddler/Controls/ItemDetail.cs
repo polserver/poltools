@@ -187,7 +187,7 @@ namespace FiddlerControls
         {
             if (!Art.IsValidStatic(index))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", index));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
             Graphics newgraph = Graphics.FromImage(bit);
@@ -212,7 +212,7 @@ namespace FiddlerControls
         {
             if (!Art.IsValidStatic(index))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", index));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
             Graphics newgraph = Graphics.FromImage(bit);

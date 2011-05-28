@@ -192,7 +192,7 @@ namespace FiddlerControls
         #region ContextMenu
         private void OnClickSave(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             Ultima.Hues.Save(path);
             MessageBox.Show(
                 String.Format("Hue saved to {0}", path),
@@ -228,7 +228,7 @@ namespace FiddlerControls
 
         private void OnExport(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Hue {0}.txt", selected + 1));
             Ultima.Hues.List[selected].Export(FileName);
             MessageBox.Show(String.Format("Hue saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);

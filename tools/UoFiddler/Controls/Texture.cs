@@ -188,10 +188,10 @@ namespace FiddlerControls
         private void onClickSave(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Textures.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            Textures.Save(FiddlerControls.Options.OutputPath);
             Cursor.Current = Cursors.Default;
             MessageBox.Show(
-                String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                 "Save",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -350,7 +350,7 @@ namespace FiddlerControls
 
         private void onClickExportBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = (int)listView1.SelectedItems[0].Tag;
             string FileName = Path.Combine(path, String.Format("Texture {0}.bmp", i));
             Bitmap bit = new Bitmap(Textures.GetTexture(i));
@@ -367,7 +367,7 @@ namespace FiddlerControls
 
         private void onClickExportTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = (int)listView1.SelectedItems[0].Tag;
             string FileName = Path.Combine(path, String.Format("Texture {0}.tiff", i));
             Bitmap bit = new Bitmap(Textures.GetTexture(i));
@@ -384,7 +384,7 @@ namespace FiddlerControls
 
         private void onClickExportJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = (int)listView1.SelectedItems[0].Tag;
             string FileName = Path.Combine(path, String.Format("Texture {0}.jpg", i));
             Bitmap bit = new Bitmap(Textures.GetTexture(i));

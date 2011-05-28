@@ -257,7 +257,7 @@ namespace ComparePlugin
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
             if (!SecondArt.IsValidStatic(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item(Sec) 0x{0:X}.bmp", i));
             SecondArt.GetStatic(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
@@ -275,7 +275,7 @@ namespace ComparePlugin
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
             if (!SecondArt.IsValidStatic(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item(Sec) 0x{0:X}.tiff", i));
             SecondArt.GetStatic(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(

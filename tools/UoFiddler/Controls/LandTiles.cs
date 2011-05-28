@@ -303,10 +303,10 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Cursor.Current = Cursors.WaitCursor;
-                Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                Art.Save(FiddlerControls.Options.OutputPath);
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -434,7 +434,7 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 int i = (int)listView1.SelectedItems[0].Tag;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.bmp", i));
                 Bitmap bit = new Bitmap(Ultima.Art.GetLand(i));
@@ -450,7 +450,7 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 int i = (int)listView1.SelectedItems[0].Tag;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", i));
                 Bitmap bit = new Bitmap(Ultima.Art.GetLand(i));
@@ -466,7 +466,7 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 int i = (int)listView1.SelectedItems[0].Tag;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.jpg", i));
                 Bitmap bit = new Bitmap(Ultima.Art.GetLand(i));
