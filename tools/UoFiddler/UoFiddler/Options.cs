@@ -443,12 +443,10 @@ namespace UoFiddler
             string[] match = (string[])e.Result;
             if (match != null)
             {
-                if (UoFiddler.Version.Equals(match[0]))
-                    MessageBox.Show("Your Version is up-to-date", "Check for Update");
-                else
+                if (VersionCheck(match[0]))
                 {
                     DialogResult result =
-                        MessageBox.Show(String.Format(@"Your version differs: {0} Found: {1}"
+                        MessageBox.Show(String.Format(@"A new version was found: {1} your version: {0}"
                         , UoFiddler.Version, match[0]) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                         DownloadFile(match[1]);
@@ -456,6 +454,32 @@ namespace UoFiddler
             }
             else
                 MessageBox.Show("Failed to get Versioninfo", "Check for Update");
+        }
+
+        public static bool VersionCheck(string newversion)
+        {
+            if (newversion.Length < 4)
+                return false;
+            char ver1major = UoFiddler.Version[0];
+            char ver1minor = UoFiddler.Version[2];
+            char ver1rev = UoFiddler.Version[3];
+            char ver2major = newversion[0];
+            char ver2minor = newversion[2];
+            char ver2rev = newversion[3];
+            if (ver1major > ver2major)
+                return false;
+            else if (ver1major < ver2major)
+                return true;
+            else if (ver1minor > ver2minor)
+                return false;
+            else if (ver1minor < ver2minor)
+                return true;
+            else if (ver1rev > ver2rev)
+                return false;
+            else if (ver1rev < ver2rev)
+                return true;
+            else
+                return false;
         }
 
         #region Downloader

@@ -52,6 +52,14 @@ namespace UoFiddler
                     MessageBox.Show("Your Version is up-to-date", "Check for Update");
                     progresslabel.Text = "";
                 }
+                else if (Options.VersionCheck(match[0]))
+                {
+                    DialogResult result =
+                        MessageBox.Show(String.Format(@"A new version was found: {1} your version: {0}"
+                        , UoFiddler.Version, match[0]) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                        DownloadFile(match[1]);
+                }
                 else
                 {
                     DialogResult result =
