@@ -454,6 +454,7 @@ namespace ComparePlugin
             malasToolStripMenuItem.Checked = false;
             ilshenarToolStripMenuItem.Checked = false;
             tokunoToolStripMenuItem.Checked = false;
+            terMurToolStripMenuItem.Checked = false;
         }
 
         private void OnClickChangeFelucca(object sender, EventArgs e)
