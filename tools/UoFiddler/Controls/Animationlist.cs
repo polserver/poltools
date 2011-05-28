@@ -429,7 +429,7 @@ namespace FiddlerControls
 
         private bool LoadXml()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
 
             string FileName = Path.Combine(path, "Animationlist.xml");
             if (!(File.Exists(FileName)))
@@ -661,7 +661,7 @@ namespace FiddlerControls
             TreeViewMobs.Sort();
             TreeViewMobs.EndUpdate();
 
-            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string filepath = FiddlerControls.Options.AppDataPath;
 
             string FileName = Path.Combine(filepath, "Animationlist.xml");
 
@@ -703,7 +703,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -742,7 +742,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -781,7 +781,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -820,7 +820,7 @@ namespace FiddlerControls
 
         private void OnClickExtractAnimBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -848,7 +848,7 @@ namespace FiddlerControls
 
         private void OnClickExtractAnimTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -878,7 +878,7 @@ namespace FiddlerControls
 
         private void OnClickExtractAnimJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -908,7 +908,7 @@ namespace FiddlerControls
 
         private void OnClickExportFrameBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -930,7 +930,7 @@ namespace FiddlerControls
 
         private void OnClickExportFrameTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";
@@ -952,7 +952,7 @@ namespace FiddlerControls
 
         private void OnClickExportFrameJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string what = "Mob";
             if (DisplayType == 1)
                 what = "Equipment";

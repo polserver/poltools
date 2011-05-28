@@ -116,7 +116,7 @@ namespace FiddlerPlugin
                 if (Ultima.Art.IsValidStatic(currselected))
                 {
                     ItemData data = Ultima.TileData.ItemTable[currselected];
-                    string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    string path = FiddlerControls.Options.OutputPath;
                     string FileName = Path.Combine(path,"itemdesc.cfg");
                     using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Append, FileAccess.Write), System.Text.Encoding.GetEncoding(1252)))
                     {

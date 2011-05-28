@@ -95,7 +95,7 @@ namespace FiddlerControls
                     return;
                 }
 
-                string mul = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("map{0}.mul", workingmap.FileIndex));
+                string mul = Path.Combine(FiddlerControls.Options.OutputPath, String.Format("map{0}.mul", workingmap.FileIndex));
                 using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     using (BinaryWriter binmul = new BinaryWriter(fsmul))
@@ -183,8 +183,8 @@ namespace FiddlerControls
                     return;
                 }
 
-                string idx = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("staidx{0}.mul", workingmap.FileIndex));
-                string mul = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("statics{0}.mul", workingmap.FileIndex));
+                string idx = Path.Combine(FiddlerControls.Options.OutputPath, String.Format("staidx{0}.mul", workingmap.FileIndex));
+                string mul = Path.Combine(FiddlerControls.Options.OutputPath, String.Format("statics{0}.mul", workingmap.FileIndex));
                 using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                                   fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
@@ -447,7 +447,7 @@ namespace FiddlerControls
                 m_StaticsReader.Close();
             }
 
-            MessageBox.Show(String.Format("Files saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Files saved to {0}", FiddlerControls.Options.OutputPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
     }
 }

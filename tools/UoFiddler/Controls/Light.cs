@@ -265,9 +265,9 @@ namespace FiddlerControls
 
         private void OnClickSave(object sender, EventArgs e)
         {
-            Ultima.Light.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            Ultima.Light.Save(FiddlerControls.Options.OutputPath);
             MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
@@ -279,7 +279,7 @@ namespace FiddlerControls
         {
             if (treeView1.SelectedNode == null)
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = (int)treeView1.SelectedNode.Tag;
             string FileName = Path.Combine(path, String.Format("Light {0}.bmp", i));
             Ultima.Light.GetLight(i).Save(FileName, ImageFormat.Bmp);
@@ -295,7 +295,7 @@ namespace FiddlerControls
         {
             if (treeView1.SelectedNode == null)
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = (int)treeView1.SelectedNode.Tag;
             string FileName = Path.Combine(path, String.Format("Light {0}.tiff", i));
             Ultima.Light.GetLight(i).Save(FileName, ImageFormat.Tiff);
@@ -311,7 +311,7 @@ namespace FiddlerControls
         {
             if (treeView1.SelectedNode == null)
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             int i = (int)treeView1.SelectedNode.Tag;
             string FileName = Path.Combine(path, String.Format("Light {0}.jpg", i));
             Ultima.Light.GetLight(i).Save(FileName, ImageFormat.Jpeg);

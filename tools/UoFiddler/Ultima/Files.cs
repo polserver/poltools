@@ -383,9 +383,8 @@ namespace Ultima
         /// </summary>
         /// <param name="what"></param>
         /// <returns></returns>
-        public static bool CompareHashFile(string what)
+        public static bool CompareHashFile(string what,string path)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("UOFiddler{0}.hash", what));
             if (File.Exists(FileName))
             {

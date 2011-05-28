@@ -211,7 +211,7 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             dataGridView1.CancelEdit();
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName;
             if (cliloc.Language == "custom1")
                 FileName = Path.Combine(path, String.Format("Cliloc{0}", Path.GetExtension(Files.GetFilePath("cliloc.custom1"))));
@@ -358,7 +358,7 @@ namespace FiddlerControls
 
         private void OnClickExportCSV(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, "CliLoc.csv");
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))
             {

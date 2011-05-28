@@ -30,7 +30,7 @@ namespace MassImport
 
         private void DefaultXMLOnClick(object sender, EventArgs e)
         {
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, @"plugins/MassImport.xml");
+            string FileName = Path.Combine(FiddlerControls.Options.OutputPath, @"plugins/MassImport.xml");
 
             XmlDocument dom = new XmlDocument();
             XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -227,27 +227,27 @@ namespace MassImport
                 if (ChangedUltimaClass["Art"])
                 {
                     OutputBox.AppendText("Saving Items/LandTiles.." + Environment.NewLine);
-                    Ultima.Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                    Ultima.Art.Save(FiddlerControls.Options.OutputPath);
                 }
                 if (ChangedUltimaClass["Texture"])
                 {
                     OutputBox.AppendText("Saving Textures.." + Environment.NewLine);
-                    Ultima.Textures.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                    Ultima.Textures.Save(FiddlerControls.Options.OutputPath);
                 }
                 if (ChangedUltimaClass["Gumps"])
                 {
                     OutputBox.AppendText("Saving Gumps.." + Environment.NewLine);
-                    Ultima.Gumps.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                    Ultima.Gumps.Save(FiddlerControls.Options.OutputPath);
                 }
                 if (ChangedUltimaClass["TileData"])
                 {
                     OutputBox.AppendText("Saving TileData.." + Environment.NewLine);
-                    Ultima.TileData.SaveTileData(Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "tiledata.mul"));
+                    Ultima.TileData.SaveTileData(Path.Combine(FiddlerControls.Options.OutputPath, "tiledata.mul"));
                 }
                 if (ChangedUltimaClass["Hues"])
                 {
                     OutputBox.AppendText("Saving Hues.." + Environment.NewLine);
-                    Ultima.Hues.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                    Ultima.Hues.Save(FiddlerControls.Options.OutputPath);
                 }
             }
             Cursor.Current = Cursors.Default;

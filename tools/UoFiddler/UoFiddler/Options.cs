@@ -45,9 +45,45 @@ namespace UoFiddler
         public static bool MaximisedForm { get; set; }
         public static Point FormPosition { get; set; }
         public static Size FormSize { get; set; }
+        public static string OutputPath { get; set; }
+
+        private static void MoveFile(FileInfo[] files, string path)
+        {
+            foreach (FileInfo file in files)
+            {
+                string newpath = Path.Combine(path, file.Name);
+                if (!File.Exists(newpath))
+                {
+                    try
+                    {
+                        file.MoveTo(newpath);
+                    }
+                    catch
+                    {
+                        file.CopyTo(newpath);
+                    }
+                }
+                    
+            }
+        }
 
         public static void Startup()
         {
+            // Move xml files to appdata
+            FiddlerControls.Options.AppDataPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"UoFiddler");
+            if (!Directory.Exists(FiddlerControls.Options.AppDataPath))
+                Directory.CreateDirectory(FiddlerControls.Options.AppDataPath);
+            string pluginpath = Path.Combine(FiddlerControls.Options.AppDataPath, "plugins");
+            if (!Directory.Exists(pluginpath))
+                Directory.CreateDirectory(pluginpath);
+            DirectoryInfo di = new DirectoryInfo(Application.StartupPath);
+            MoveFile(di.GetFiles(@"Options.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
+            MoveFile(di.GetFiles(@"Animationlist.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
+            MoveFile(di.GetFiles(@"Multilist.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
+            di = new DirectoryInfo(Path.Combine(Application.StartupPath,"plugins"));
+            MoveFile(di.GetFiles("*.xml", SearchOption.TopDirectoryOnly), pluginpath);
+
             Load();
             if (m_UpdateCheckOnStart)
             {
@@ -62,16 +98,21 @@ namespace UoFiddler
 
         public static void Save()
         {
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Options.xml");
+            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, "Options.xml");
 
             XmlDocument dom = new XmlDocument();
             XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
             dom.AppendChild(decl);
             XmlElement sr = dom.CreateElement("Options");
 
-            XmlComment comment = dom.CreateComment("ItemSize controls the size of images in items tab");
+            XmlComment comment = dom.CreateComment("Output Path");
             sr.AppendChild(comment);
-            XmlElement elem = dom.CreateElement("ItemSize");
+            XmlElement elem = dom.CreateElement("OutputPath");
+            elem.SetAttribute("path", FiddlerControls.Options.OutputPath.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("ItemSize controls the size of images in items tab");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("ItemSize");
             elem.SetAttribute("width", FiddlerControls.Options.ArtItemSizeWidth.ToString());
             elem.SetAttribute("height", FiddlerControls.Options.ArtItemSizeHeight.ToString());
             sr.AppendChild(elem);
@@ -206,7 +247,7 @@ namespace UoFiddler
 
         private static void Load()
         {
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Options.xml");
+            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, "Options.xml");
             if (!File.Exists(FileName))
                 return;
 
@@ -214,7 +255,16 @@ namespace UoFiddler
             dom.Load(FileName);
             XmlElement xOptions = dom["Options"];
 
-            XmlElement elem = (XmlElement)xOptions.SelectSingleNode("ItemSize");
+            XmlElement elem = (XmlElement)xOptions.SelectSingleNode("OutputPath");
+            if (elem != null)
+            {
+                FiddlerControls.Options.OutputPath = elem.GetAttribute("path");
+                if (!Directory.Exists(OutputPath))
+                    FiddlerControls.Options.OutputPath = FiddlerControls.Options.AppDataPath;
+            }
+            else
+                FiddlerControls.Options.OutputPath = FiddlerControls.Options.AppDataPath;
+            elem = (XmlElement)xOptions.SelectSingleNode("ItemSize");
             if (elem != null)
             {
                 FiddlerControls.Options.ArtItemSizeWidth = int.Parse(elem.GetAttribute("width"));
@@ -411,7 +461,7 @@ namespace UoFiddler
         #region Downloader
         private static void DownloadFile(string file)
         {
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, file);
+            string FileName = Path.Combine(FiddlerControls.Options.OutputPath, file);
             using (WebClient web = new WebClient())
             {
                 web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);

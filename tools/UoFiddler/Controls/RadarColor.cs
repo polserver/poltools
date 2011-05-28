@@ -228,7 +228,7 @@ namespace FiddlerControls
 
         private void onClickSaveFile(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, "radarcol.mul");
             Ultima.RadarCol.Save(FileName);
             MessageBox.Show(

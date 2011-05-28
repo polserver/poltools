@@ -163,7 +163,7 @@ namespace FiddlerControls
 
         private void OnClickExportBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("{0}.bmp",CheckedToString()));
             Bitmap bit = new Bitmap(pictureBox.Image);
             bit.Save(FileName, ImageFormat.Bmp);
@@ -173,7 +173,7 @@ namespace FiddlerControls
 
         private void OnClickExportTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("{0}.tiff", CheckedToString()));
             pictureBox.Image.Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(String.Format("{0} saved to {1}", CheckedToString(), FileName), "Export",
@@ -182,7 +182,7 @@ namespace FiddlerControls
 
         private void OnClickExportJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("{0}.jpg", CheckedToString()));
             pictureBox.Image.Save(FileName, ImageFormat.Jpeg);
             MessageBox.Show(String.Format("{0} saved to {1}", CheckedToString(), FileName), "Export",
@@ -248,7 +248,7 @@ namespace FiddlerControls
                             return;
                         }
                         Cursor.Current = Cursors.WaitCursor;
-                        string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                        string path = FiddlerControls.Options.OutputPath;
                         string FileName = Path.Combine(path, "MultiMap.rle");
                         using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
                         {
@@ -275,7 +275,7 @@ namespace FiddlerControls
                     if (image != null)
                     {
                         Cursor.Current = Cursors.WaitCursor;
-                        string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                        string path = FiddlerControls.Options.OutputPath;
                         string FileName = Path.Combine(path, "facet.mul");
                         Ultima.MultiMap.SaveFacetImage(FileName, image);
                         Cursor.Current = Cursors.Default;

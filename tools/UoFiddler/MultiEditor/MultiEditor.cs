@@ -165,7 +165,7 @@ namespace MultiEditor
         {
             if (compList != null)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format(@"{0}.txt", textBox_Export.Text));
                 MultiComponentList sdklist = compList.ConvertToSDK();
                 sdklist.ExportToTextFile(FileName);
@@ -176,7 +176,7 @@ namespace MultiEditor
         {
             if (compList != null)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format(@"{0}.uoa", textBox_Export.Text));
                 MultiComponentList sdklist = compList.ConvertToSDK();
                 sdklist.ExportToUOAFile(FileName);
@@ -187,7 +187,7 @@ namespace MultiEditor
         {
             if (compList != null)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format(@"{0}.wsc", textBox_Export.Text));
                 MultiComponentList sdklist = compList.ConvertToSDK();
                 sdklist.ExportToWscFile(FileName);
@@ -478,7 +478,7 @@ namespace MultiEditor
             FiddlerControls.Options.LoadedUltimaClass["Multis"] = true;
             FiddlerControls.Options.LoadedUltimaClass["Hues"] = true;
             XML_InitializeToolBox();
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
 
             string FileName = Path.Combine(path, "Multilist.xml");
             XmlDocument dom = null;
@@ -1111,7 +1111,7 @@ namespace MultiEditor
 
         private void XML_InitializeToolBox()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
             string FileName = Path.Combine(path, @"plugins/multieditor.xml");
             if (!File.Exists(FileName))
                 return;

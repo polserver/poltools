@@ -22,7 +22,7 @@ namespace FiddlerControls
 {
     public partial class Multis : UserControl
     {
-        private string MultiXMLFileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Multilist.xml");
+        private string MultiXMLFileName = Path.Combine(FiddlerControls.Options.AppDataPath, "Multilist.xml");
         private XmlDocument xDom = null;
         private XmlElement xMultis = null;
 
@@ -291,7 +291,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickBmp(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.bmp", int.Parse(TreeViewMulti.SelectedNode.Name)));
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
@@ -302,7 +302,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickTiff(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.tiff", int.Parse(TreeViewMulti.SelectedNode.Name)));
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
@@ -313,7 +313,7 @@ namespace FiddlerControls
 
         private void extract_Image_ClickJpg(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.jpg", int.Parse(TreeViewMulti.SelectedNode.Name)));
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
@@ -395,7 +395,7 @@ namespace FiddlerControls
                 return;
             int id = int.Parse(TreeViewMulti.SelectedNode.Name);
 
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.txt", id));
             multi.ExportToTextFile(FileName);
             MessageBox.Show(String.Format("Multi saved to {0}", FileName),
@@ -414,7 +414,7 @@ namespace FiddlerControls
                 return;
             int id = int.Parse(TreeViewMulti.SelectedNode.Name);
 
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.wsc", id));
             multi.ExportToWscFile(FileName);
             MessageBox.Show(String.Format("Multi saved to {0}", FileName),
@@ -433,7 +433,7 @@ namespace FiddlerControls
                 return;
             int id = int.Parse(TreeViewMulti.SelectedNode.Name);
 
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.uoa", id));
             multi.ExportToUOAFile(FileName);
             MessageBox.Show(String.Format("Multi saved to {0}", FileName),
@@ -446,9 +446,9 @@ namespace FiddlerControls
 
         private void OnClickSave(object sender, EventArgs e)
         {
-            Ultima.Multis.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            Ultima.Multis.Save(FiddlerControls.Options.OutputPath);
             MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,

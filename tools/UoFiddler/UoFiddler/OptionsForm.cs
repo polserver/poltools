@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System.Windows.Forms;
+using System.IO;
 using Ultima;
 
 namespace UoFiddler
@@ -37,6 +38,7 @@ namespace UoFiddler
             map5Nametext.Text = FiddlerControls.Options.MapNames[5];
             cmdtext.Text = FiddlerControls.Options.MapCmd;
             argstext.Text = FiddlerControls.Options.MapArgs;
+            textBoxOutputPath.Text = FiddlerControls.Options.OutputPath;
         }
 
         private void OnClickApply(object sender, System.EventArgs e)
@@ -98,6 +100,19 @@ namespace UoFiddler
             }
             FiddlerControls.Options.MapCmd = cmdtext.Text;
             FiddlerControls.Options.MapArgs = argstext.Text;
+            if (Directory.Exists(textBoxOutputPath.Text))
+                FiddlerControls.Options.OutputPath = textBoxOutputPath.Text;
+        }
+
+        private void onClickBrowseOutputPath(object sender, System.EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    textBoxOutputPath.Text = dialog.SelectedPath;
+            }
         }
     }
 }

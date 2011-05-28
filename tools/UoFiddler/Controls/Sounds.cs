@@ -165,7 +165,7 @@ namespace FiddlerControls
             int id = (int)treeView.SelectedNode.Tag - 1;
             string name = "";
             Ultima.Sounds.IsValidSound(id, out name);
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("{0}", name));
+            string FileName = Path.Combine(FiddlerControls.Options.OutputPath, String.Format("{0}", name));
             using (MemoryStream stream = new MemoryStream(Ultima.Sounds.GetSound(id).buffer))
             {
                 using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -179,7 +179,7 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             Ultima.Sounds.Save(path);
             Cursor.Current = Cursors.Default;
             MessageBox.Show(
@@ -295,7 +295,7 @@ namespace FiddlerControls
 
         private void OnClickExtractSoundList(object sender, EventArgs e)
         {
-            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "SoundList.csv");
+            string FileName = Path.Combine(FiddlerControls.Options.OutputPath, "SoundList.csv");
             Ultima.Sounds.SaveSoundListToCSV(FileName);
             MessageBox.Show(String.Format("SoundList saved to {0}", FileName),
                 "Saved",

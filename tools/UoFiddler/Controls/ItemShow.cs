@@ -54,7 +54,7 @@ namespace FiddlerControls
 
         private void MakeHashFile()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.AppDataPath;
             string FileName = Path.Combine(path, "UOFiddlerArt.hash");
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
@@ -163,9 +163,9 @@ namespace FiddlerControls
             listView1.BeginUpdate();
             listView1.Clear();
             List<ListViewItem> itemcache = new List<ListViewItem>();
-            if (((Files.UseHashFile) && (Files.CompareHashFile("Art"))) && (!Ultima.Art.Modified))
+            if (((Files.UseHashFile) && (Files.CompareHashFile("Art", FiddlerControls.Options.AppDataPath))) && (!Ultima.Art.Modified))
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.AppDataPath;
                 string FileName = Path.Combine(path, "UOFiddlerArt.hash");
                 if (File.Exists(FileName))
                 {
@@ -501,11 +501,11 @@ namespace FiddlerControls
             {
                 ProgressBar bar = new ProgressBar(Art.GetIdxLength(), "Save");
                 Cursor.Current = Cursors.WaitCursor;
-                Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                Art.Save(FiddlerControls.Options.OutputPath);
                 bar.Dispose();
                 Cursor.Current = Cursors.Default;
                 Options.ChangedUltimaClass["Art"] = false;
-                MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                MessageBox.Show(String.Format("Saved to {0}", FiddlerControls.Options.OutputPath),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
@@ -736,7 +736,7 @@ namespace FiddlerControls
                 return;
             if (!Art.IsValidStatic(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
             if (bit != null)
@@ -757,7 +757,7 @@ namespace FiddlerControls
                 return;
             if (!Art.IsValidStatic(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
             if (bit != null)
@@ -778,7 +778,7 @@ namespace FiddlerControls
                 return;
             if (!Art.IsValidStatic(i))
                 return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string path = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
             if (bit != null)

@@ -73,7 +73,7 @@ namespace UoFiddler
         private void DownloadFile(string file)
         {
             progresslabel.Text = "Starting download...";
-            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string filepath = FiddlerControls.Options.OutputPath;
             string FileName = Path.Combine(filepath, file);
 
             using (WebClient web = new WebClient())

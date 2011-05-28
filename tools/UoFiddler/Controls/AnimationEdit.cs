@@ -387,7 +387,7 @@ namespace FiddlerControls
                 ImageFormat format = ImageFormat.Bmp;
                 if (((string)menu.Tag) == ".tiff")
                     format = ImageFormat.Tiff;
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 int body, action;
                 if (treeView1.SelectedNode.Parent == null)
                 {
@@ -534,9 +534,9 @@ namespace FiddlerControls
         {
             if (FileType != 0)
             {
-                Ultima.AnimationEdit.Save(FileType, AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                Ultima.AnimationEdit.Save(FileType, FiddlerControls.Options.OutputPath);
                 MessageBox.Show(
-                        String.Format("AnimationFile saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                        String.Format("AnimationFile saved to {0}", FiddlerControls.Options.OutputPath),
                         "Saved",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information,
@@ -734,19 +734,19 @@ namespace FiddlerControls
                     string name = String.Format("palette_anim{0}_{1}_{2}_{3}", FileType, CurrBody, CurrAction, CurrDir);
                     if (((string)menu.Tag) == "txt")
                     {
-                        string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + ".txt");
+                        string path = Path.Combine(FiddlerControls.Options.OutputPath, name + ".txt");
                         edit.ExportPalette(path, 0);
                     }
                     else
                     {
-                        string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + "." + (string)menu.Tag);
+                        string path = Path.Combine(FiddlerControls.Options.OutputPath, name + "." + (string)menu.Tag);
                         if (((string)menu.Tag) == "bmp")
                             edit.ExportPalette(path, 1);
                         else
                             edit.ExportPalette(path, 2);
                     }
                     MessageBox.Show(
-                        String.Format("Palette saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                        String.Format("Palette saved to {0}", FiddlerControls.Options.OutputPath),
                         "Saved",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information,
@@ -880,11 +880,11 @@ namespace FiddlerControls
         {
             if (FileType != 0)
             {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string path = FiddlerControls.Options.OutputPath;
                 string FileName = Path.Combine(path, String.Format("anim{0}_0x{1:X}.vd", FileType, CurrBody));
                 Ultima.AnimationEdit.ExportToVD(FileType, CurrBody, FileName);
                 MessageBox.Show(
-                        String.Format("Animation saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                        String.Format("Animation saved to {0}", FiddlerControls.Options.OutputPath),
                         "Export",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information,
