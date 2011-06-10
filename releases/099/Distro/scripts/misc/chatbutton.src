@@ -1,6 +1,0 @@
-use uo;
-
-program core_chatButton(mobile)
-
-	return 1;
-endprogram

@@ -1,7 +1,0 @@
-/* $Id: destroy.src 868 2006-10-04 08:21:24Z austinheilman $
- *
- */
-
-program OnDestroy(board)
-	return 1;
-endprogram
