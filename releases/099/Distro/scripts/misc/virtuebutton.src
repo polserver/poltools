@@ -1,6 +1,0 @@
-use uo;
-
-program core_virtueButton(mobile)
-
-	return 1;
-endprogram
