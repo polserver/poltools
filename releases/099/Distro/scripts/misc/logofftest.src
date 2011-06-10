@@ -1,0 +1,41 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-10-17
+*/
+use uo;
+
+include ":areas:managment";
+include ":timeutils:time";
+include ":areas:innFunctions";
+include ":timedscripts:timedScripts";
+
+program LogOffTest( mobile )
+
+	// Send event to the 'timed scripts' package to run log off scripts.
+	TS_LogOff( mobile );
+ 
+        var logout_delay := SECONDS_IN_MINUTE * 2;
+
+	if(( mobile.cmdlevel >=1 ) || ( GetObjProperty( mobile, "Delete" )))
+		// Let staff or characters being deleted/banned logout immediately.
+		return 10;
+	endif
+ 
+	if( IsInInn( mobile ) && !A_IsIn( mobile, AREAS_NO_LITTERING ))
+		logout_delay := 10;
+	elseif( CInt( GetObjProperty( mobile, "#camped" )) == 1 )
+		EraseObjProperty( mobile, "#camped" );
+		logout_delay := 10;
+	endif
+ 
+	// Check if player is in a house
+	// Then check if player is the owner or  friend of the owner.
+	// elseif ( IsInHouse( mobile ))
+
+	return logout_delay;
+endprogram
+

@@ -1,0 +1,31 @@
+/*
+        Maintened by *Edwards
+        FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-08-30
+
+        Last Modifications 2010-03-12
+             * Moved functions to :equipment:unequip
+*/
+use uo;
+use os;
+use math;
+
+include ":equipment:unequip";
+
+program UnequipTest( mobile, item )
+
+	if( mobile.npctemplate || item.IsA( POLCLASS_CONTAINER ))
+                return 1;
+	elseif( mobile.frozen || mobile.paralyzed )
+		return 0;
+        elseif( GetObjProperty( item, "Cursed" ) == 2 && mobile.cmdlevel < 3 )
+		return 0;
+	elseif( !UnEquipEffect( mobile, item ))
+		return 0;
+        endif
+
+        return 1;
+endprogram
