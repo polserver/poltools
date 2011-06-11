@@ -1,0 +1,54 @@
+/*
+        Created by *Edwards
+
+        2009-10-31
+        
+        Last Modifications 2010-03-01
+             * Removed check to block payer from accessing the house fiel if not house's friend
+             
+        Last Modifications 2010-07-24
+             * Only Friends/Co-Owner/Owner can "refresh" the house
+        
+        Note: Pol no support correctly this for the moment but use it to nt accept banned players from
+               house accessing the multi...
+*/
+use uo;
+use util;
+
+include "include/facings";
+
+program WalkOn_House( mobile, house_tile, last_x, last_y, last_z )
+
+        //Avoid compiler warnings
+        house_tile := house_tile;
+        last_x := last_x;
+        last_y := last_y;
+        last_z := last_z;
+        
+        var house := mobile.multi;
+        
+        if( house.IsBanned( mobile ))
+                var components := house.components,
+                    sign := 0;
+                    
+                foreach item in components
+                        if( item.IsHouseSign() == house.serial )
+                                sign := item;
+                        endif
+                        SleepMS(5);
+                endforeach
+                
+                if( sign )
+                        MoveObjectToLocation( mobile, sign.x, sign.y, 0, sign.realm, MOVEOBJECT_FORCELOCATION );
+                        SendSysMessage( mobile, "You are banned from this house." );
+                        return 0;
+                endif
+        endif
+        
+        if( house.CanAccess( mobile ) && !mobile.cmdlevel )
+                house.AddVisit( mobile );
+                house.SetLastVisit();
+        endif
+        
+	return 1;
+endprogram

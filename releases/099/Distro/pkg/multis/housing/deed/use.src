@@ -1,0 +1,144 @@
+/*
+        Created by *Edwards
+
+        2009-12-11
+        
+        Last Modifications 2010-01-25
+             * Added substraction of deed when multi is about to be created.
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include "include/security";
+include ":areas:managment";
+include ":datafile:datafile";
+include ":keys:key";
+include ":multicommands:multicommands";
+include ":statistics:account";
+include ":timeutils:gameTime";
+include ":timeutils:time";
+
+var stats_datafile := DFOpenDataFile( ":statistics:statistics" );
+
+program UseHouseDeed( mobile, deed )
+
+       	if( !useItem_check( mobile, deed, ITEM_INCONTAINER ))
+		return 0;
+        elseif( GetObjProperty( deed, "LFucker" ))
+                SendSysMessage( mobile, "You shall consider therapy." );
+                return 0;
+        endif
+
+        var data_elem := DFFindElement( stats_datafile, mobile.acctname ),
+            online_Time := CInt( data_elem.GetProp( "OnlineTime" )),
+            delay_young := CInt( SEC_DAY * 2 );
+
+        if( online_Time < delay_young && !mobile.cmdlevel )
+                var delay_left := CInt( delay_young - online_Time ),
+                    delay_string := TIME_GetTimeDesc( delay_left );
+                    
+                SendSysMessage( mobile, "Your character is too young to own a house yet. You must wait "+delay_string+"." );
+                return 0;
+        endif
+        
+        if( mobile.cmdlevel < 3 )
+                var boat_serial := GetAccountProperty( mobile.acctname, "HasHouse" );
+                if( boat_serial )
+                        var boat := SystemFindObjectBySerial( boat_serial );
+                        if( !boat )
+                                EraseAccountProperty( mobile.acctname, "HasHouse" );
+                        else
+                	        SendSysMessage( mobile, "You already have a house." );
+			        return 0;
+                        endif
+	        endif
+        endif
+ 
+        var multi_name := deed.GetHouseName();
+        if( multi_name.errortext )
+                SendSysMessage( mobile, "Error to get multi name -->"+multi_name.errortext );
+                return 0;
+        endif
+        
+        var multi_flags := 0;
+        if( mobile.cmdlevel )
+                multi_flags := CRMULTI_IGNORE_ALL;
+        endif
+        
+        var targ := Multi_GetTarget( mobile, multi_name, multi_flags, 20 );
+        if( !targ )
+                return 0;
+        elseif( !isValidLand( mobile, targ ))
+                return 0;
+        elseif( !A_IsInArea( targ, "Britannia-Fantasia", 1 ) && mobile.cmdlevel <= 2 )
+                if( !A_IsInArea( targ, "Britannia-IceIsland" ))
+                        SendSysMessage( mobile, "You cannot place your house in this territory." );
+                        return 0;
+                endif
+        endif
+        
+        var house := Multi_MakeMulti( mobile, multi_name, targ, multi_flags );
+        if( !house )
+                return 0;
+        endif
+        
+        if( !SubtractAmount( deed, 1 ))
+                return 0;
+        endif
+        
+        CreateHouseKeys( mobile, house );
+        house.SetOwner( mobile );
+
+        SetAccountProperty( mobile.acctname, "HasHouse", house.serial );
+ 
+	return 1;
+endprogram
+
+function isValidLand( mobile, targ )
+
+        var land_type := Hex( GetMapInfo( targ.x, targ.y ).landtile );
+        
+        if( land_type >= 0x71 && land_type <= 0x78 || land_type >= 0x27e && land_type <= 0x281 || land_type >= 0x377 && land_type <= 0x37a || land_type >= 0x553 && land_type <= 0x556 )
+                PrintTextAbovePrivate( mobile, "You can't build here.", mobile );
+                return 0;
+        elseif( targ.objtype >= 0x31f4 && targ.objtype <= 0x31fb ) // dirt
+                PrintTextAbovePrivate( mobile, "You can't build on farmland.", mobile );
+                return 0;
+        elseif( targ.objtype >= 0x515 && targ.objtype <= 0x518 ) // cobblestone
+                PrintTextAbovePrivate( mobile, "You can't build on the road.", mobile );
+                return 0;
+        endif
+        
+        var near_telepad := ListItemsNearLocationOfType( targ.x, targ.y, targ.z, 30, 0x6203, targ.realm );
+        if( near_telepad.Size() > 0 )
+                PrintTextAbovePrivate( mobile, "You can't build here.", mobile );
+                return 0;
+        endif
+        
+        return 1;
+endfunction
+
+function CreateHouseKeys( mobile, multi )
+
+        var lock_id := AllocLockId();
+        
+        var key := CreateItemInBackpack( mobile, 0x100F );
+        if( !key )
+                CreateItemAtLocation( mobile.x, mobile.y, mobile.z, 0x100F, 1, mobile.realm );
+        endif
+
+        key.SetLockId( lock_id );
+        
+        foreach item in ( multi.components )
+                if( item.IsDoor() )
+                        item.locked := 1;
+                        SetObjProperty( item, "LockId", lock_id );
+                endif
+                SleepMS(5);
+        endforeach
+        
+        multi.Add_Component( key );
+
+        return 1;
+endfunction
