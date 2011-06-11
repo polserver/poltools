@@ -1,18 +1,19 @@
                               README
 
-                 Zulu Hotel, Fantasia Shard Edition
+                            POL Server
                         Escript Environment
-                            POL099 BETA
+                 POL Core099 BETA - POL Distro099
 
 
-Fantasia Shard is a fully realistic universe created by experienced 
-players and offered with professionnalism to offer the entertainment 
-that we seek. A free shard worth to be legendary but mostly enjoyable.
+POL is an Ultima Online® emulator that has been in development for over 
+12 years and supports most of the features that players have enjoyed 
+from Ultima Online: The Second Age® to Ultima Online: Mondain's Legacy®. 
+POL is the most flexible and customizable UO emulator around.
 
 
 =======================================================================
             How To Create Your Own Shard by Kirin 12/13/2006
-          Modifications for Fantasia Shard by Edwards 4/29/2011
+          Modifications for POL DIstro099 by Edwards 4/29/2011
 =======================================================================
 
 Greetings friends !
@@ -34,7 +35,7 @@ Step 1: Creating the Directory and Downloading the necessary files
       --> Download the latest UO client here: 
 		ftp://largedownloads.ea.com/pub/uo/setup-1.46.0.3.exe
 
-      --> Download the Fantasia Shard project here:                						http://forums.polserver.com/viewtopic.php?f=43&t=2607
+      --> Download the POL Distro099 project here:                						link
 
       --> Download UORice here:
 		http://stud4.tuwien.ac.at/%7Ee9425109/UO_RICE.zip
@@ -46,7 +47,7 @@ Step 2: Extracting/Installing files and Fleshing out the 'MyShard' Directory
 -----------------------------------------------------------------------
 
       --> Unzip the following to your 'MyShard' folder:
-          - Fantasia Shard project
+          - POL Distro099 project
           - UORice
 
       --> Make a folder called 'Original Downloads':
@@ -85,11 +86,11 @@ aspects/mechanics of your shard and help setup your 'realm's!
           for the various .src files to compile, it will look something 
           like this:
 
-ModuleDirectory    	c:\distro\pol\scripts\modules
-IncludeDirectory        c:\distro\pol\scripts
-PolScriptRoot        	c:\distro\pol\scripts
-PackageRoot      	c:\distro\pol\pkg
-PackageRoot      	c:\distro\pol\devpkg
+ModuleDirectory    	c:\MyShard\pol\scripts\modules
+IncludeDirectory        c:\MyShard\pol\scripts
+PolScriptRoot        	c:\MyShard\pol\scripts
+PackageRoot      	c:\MyShard\pol\pkg
+PackageRoot      	c:\MyShard\pol\devpkg
 GenerateListing      	1
 GenerateDebugInfo   	1
 GenerateDebugTextInfo   1
@@ -102,37 +103,15 @@ DisplaySummary 		1
 GenerateDependencyInfo 	1
 DisplayUpToDateScripts 	0
 
-      --> You will now change where ecompile looks to the proper directory, 
-          in your case, following the examples in this tutorial it would 
-          come out as follows:
-
-ModuleDirectory    	c:\MyShard\scripts\modules
-IncludeDirectory    	c:\MyShard\scripts
-PolScriptRoot       	c:\MyShard\scripts
-PackageRoot      	c:\MyShard\pkg
-PackageRoot      	c:\MyShard\devpkg
-GenerateListing      	1
-GenerateDebugInfo   	1
-GenerateDebugTextInfo   1
-DisplayWarnings 	1
-CompileAspPages 	1
-AutoCompileByDefault 	1
-UpdateOnlyOnAutoCompile 1
-OnlyCompileUpdatedScripts 1
-DisplaySummary 		1
-GenerateDependencyInfo 	1
-DisplayUpToDateScripts 	0
-
-      --> Now that it knows where to look save the file. 
+      Note: you may want to edit this file if you rename your "MyShard" 
+            directory.
       
       --> Start StartHere.bat:
           In your 'MyShard' folder you'll find a file called 
-          'starthere.bat'. Double click it and you'll be presented 
-          with a menu select option 'b' and press return. Next, select 
-          option 'd' and press return in order to compile all the .src 
-          files you just told ecompile to look for. Close this out when
-          it complete, you now have the barebones scripts for getting 
-          your world started !
+          'fast compile.bat'. Double click it in order to compile all 
+          the .src files you just told ecompile to look for. Close this 
+          out when it complete, you now have the barebones scripts for 
+          getting your world started !
 
       --> Create a new folder:
 	  In your 'MyShard' folder called 'MUL'. Open it. In a new window 
@@ -196,14 +175,13 @@ Step 4: THE FINALE!
           user name and password enter:
 
 		Username: admin
-		Password:admin
+		Password: admin
 
-Select the 'POL Local Server or whichever appears' and create a character, 
+Select the 'POL Server or whichever appears' and create a character, 
 you will load into your barebones shard! Everything is customizable with 
 the emulator it's just a matter of figuring it out, but hopefully this document 
 will allow you to get on an even and exciting ground where you can SEE results 
-in game. From this point on the section of this webpage entitled 'Documentation' 
-would be most useful.
+in game.
 
 If there are any problems or inquiries I regret to inform you that I doubt I can 
 help ! But if you feel the need to ask me directly then do so. The POL community 
