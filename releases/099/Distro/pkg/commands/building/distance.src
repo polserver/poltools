@@ -1,0 +1,34 @@
+/* $Id$ */
+
+use uo;
+
+program textcmd_Distance(mobile, text)
+	var targ_a, targ_b;
+
+	if ( !text )
+		targ_a := struct;
+		targ_a.+x := mobile.x;
+		targ_a.+y := mobile.y;
+		print(targ_a);
+	else
+		SendSysMessage(mobile, "Select a location (A)");
+		var targ_a := TargetCoordinates(mobile);
+		if ( !targ_a )
+			SendSysMessage(mobile, "Cancelled.");
+			return 0;
+		endif
+	endif
+
+	SendSysMessage(mobile, "Select a location (B)");
+	targ_b := TargetCoordinates(mobile);
+	if ( !targ_b )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
+	var dist := CoordinateDistance(targ_a.x, targ_a.y, targ_b.x, targ_b.y);
+
+	SendSysMessage(mobile, "Distance = '"+dist+"'");
+
+	return 1;
+endprogram

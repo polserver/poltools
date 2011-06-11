@@ -1,0 +1,37 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        2008-05-30
+*/
+use uo;
+use os;
+
+include "include/security";
+
+program textcmd_DestroyType( who, text )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	text := SplitWords( text );
+	var ranget := CInt( text[1] );
+	var graphic := CInt( text[2] );
+
+    	if( ranget > 20 )
+    		SendSysMessage( who, "Range exceeded 20. Setting range to 20." );
+    		ranget := 20;
+    	endif
+
+	foreach object in ( ListItemsNearLocation( who.x, who.y, who.z, ranget, who.realm ))
+		if( graphic == object.graphic )
+			DestroyItem( object );
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	SendSysMessage( who, "Destroyed every "+graphic+" tile over a range of "+ranget );
+endprogram

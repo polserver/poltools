@@ -1,0 +1,54 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        2008-05-30
+*/
+use uo;
+use os;
+
+include "include/security";
+
+program textcmd_CreateStack( who, text )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	text := SplitWords( text );
+	var item := text[1];
+	var amount := CInt( text[2] );
+	
+	if( GetObjTypeByName( text[1] ))
+		item := GetObjTypeByName( text[1] );
+	else
+		item := CInt( item );
+	endif
+	
+	if( amount < 1 )
+		amount := 1;
+	endif
+	
+	var created := CreateItemInBackPack(who, item, amount);
+	if( !created )
+		/*if( amount > 10 && who.cmdlevel <= 2 )
+			SendSysMessage( who, "Item is not stackable. No more than 10 will be created at a time." );
+			amount := 10;
+		endif*/
+		
+		for( amount; amount>0; amount-=1 )
+			created := CreateItemInBackPack( who, item, 1 );
+                        SetObjProperty( created, "LFucker", who.serial );
+			SleepMS(2);
+		endfor
+        else
+                SetObjProperty( created, "LFucker", who.serial );
+	endif
+	
+	if( !created )
+		SendSysMessage( who, "Error: Could not create "+Hex( item ));
+	endif
+
+	return 1;
+endprogram

@@ -1,0 +1,40 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-08-15
+*/
+use uo;
+
+include "include/security";
+
+program textcommand_BarterBane( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Select the player you would like to toggle barter statut." );
+        var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_MOBILE ) || targ.IsA( POLCLASS_NPC ))
+                SendSysMessage( mobile, "You must select a player." );
+                return 0;
+        endif
+        
+        var barter_toggle := GetObjProperty( targ, "BarterBAN" );
+        if( barter_toggle )
+                EraseObjProperty( targ, "BarterBAN" );
+                SendSysMessage( mobile, targ.name+" is no longer banned from barter." );
+        else
+                SetObjProperty( targ, "BarterBAN", 1 );
+                SendSysMessage( mobile, targ.name+" is now banned from barter." );
+        endif
+        
+        return 1;
+endprogram

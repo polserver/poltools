@@ -1,0 +1,43 @@
+/*
+        Created by *Edwards
+        Fôr FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-02-13
+*/
+use uo;
+use os;
+use util;
+
+include "include/client";
+
+program Command_multiColor( mobile )
+
+         var targ := Target( mobile );
+         if( !targ )
+                   SendSysMessage( mobile, "Cancelled." );
+                   return 0;
+         endif
+         
+         if( GetObjProperty( targ, "#MultiColor" ))
+                   EraseObjProperty( targ, "#MultiColor" );
+                   SendSysMessage( mobile, "Cancelled." );
+                   return 0;
+         endif
+         
+         SetObjProperty( targ, "#MultiColor", array{mobile.serial, targ.color} );
+         
+         while( mobile.connected && GetObjProperty( targ, "#MultiColor" ))
+                   var new_color := RandomInt( 1000 );
+                   targ.color := new_color;
+                   SleepMS(100);
+         endwhile
+         
+         var multiColor := GetObjProperty( targ, "#MultiColor" );
+         targ.color := multiColor[2];
+         
+         EraseObjProperty( targ, "#MultiColor" );
+         
+         return 1;
+endprogram

@@ -1,0 +1,58 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        2008-05-30
+*/
+use uo;
+use os;
+
+include "include/security";
+
+program textcmd_MoveObject( mobile, text )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+	var targ;
+	text := CInt( text );
+	if( text )
+		targ := SystemFindObjectBySerial( text );
+		if( !targ )
+			SendSysMessage( mobile, "No object found with that serial." );
+			return 0;
+		endif
+	else
+		targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+	endif
+
+	if( !targ )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	elseif( targ.multi )
+		SendSysMessage( mobile, "Changing "+targ+" to its multi "+targ.multi );
+		targ := targ.multi;
+	endif
+
+	SendSysMessage( mobile, "Place where?" );
+	var coords := TargetCoordinates( mobile );
+	if( !coords )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	endif
+
+	var movable := targ.movable;
+	if( !targ.movable )
+		targ.movable := 1;
+	endif
+
+	var result := MoveObjectToLocation( targ, coords.x, coords.y, coords.z, mobile.realm, MOVEOBJECT_FORCELOCATION );
+
+	targ.movable := movable;
+
+	SendSysMessage( mobile, "Result: "+result );
+
+	return 1;
+endprogram

@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+        For FantasaiaShard.com
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+use os;
+
+include "include/client";
+include ":security:commandReport";
+
+program textcmd_goxyz( who, text )
+
+	var params := SplitWords( text );
+   	if( len( params ) < 3 ) // didn't pass Z
+        	params[3] := GetMapInfo( CInt( params[1]), CInt( params[2] )).z;
+    	endif
+        
+        var realm := CInt( params[4] );
+        case( realm )
+              0:
+                      realm := REALM_BRITANNIA;
+                      break;
+              1:
+                      realm := REALM_BRITANNIA;
+                      break;
+              2:
+                      realm := REALM_ILSHENAR;
+                      break;
+              3:
+                      realm := REALM_MALAS;
+                      break;
+              4:
+                      realm := REALM_TOKUNO;
+                      break;
+              5:
+                      realm := REALM_TERMUR;
+                      break;
+              default:
+                      realm := params[4];
+        endcase
+        
+        if( !realm )
+                realm := who.realm;
+        endif
+
+	var move := MoveObjectToLocation( who, CInt( params[1] ), CInt( params[2] ), CInt( params[3] ), realm, MOVEOBJECT_FORCELOCATION );
+    	if( !move )
+        	SendSysMessage( who, "Unable to teleport: "+move.errortext );
+                return 0;
+    	endif
+
+        CMD_ReportText( "Moving to x:"+params[1]+" y:"+params[2]+" z:"+params[3]+" realm:"+realm, CMD_REPORT_SYSLOG );
+        
+        return 0;
+endprogram

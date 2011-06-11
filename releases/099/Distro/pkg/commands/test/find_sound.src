@@ -1,0 +1,31 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-03
+*/
+use uo;
+use os;
+
+program command_find_sfx( who, text )
+
+        var targ := Target( who ),
+            sfx := CInt( text );
+            
+        while( targ )
+        
+               SendSysMessage( who, "Sound Effect: "+sfx );
+               PlaySoundEffect( targ, sfx );
+               sfx += 1;
+               
+               if( sfx > 500 )
+                      break;
+               endif
+               
+               Sleep(1);
+        endwhile
+        
+	return 1;
+endprogram

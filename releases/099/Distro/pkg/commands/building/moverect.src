@@ -1,0 +1,76 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        2008-05-30
+*/
+use uo;
+use os;
+
+include "include/security";
+
+program textcmd_MoveRect( who, params )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var x_diff, y_diff, z_diff, objtype;
+
+	params := SplitWords( params );
+	x_diff := FindIntArg( params, "x" );
+	y_diff := FindIntArg( params, "y" );
+	z_diff := FindIntArg( params, "z" );
+	objtype := FindIntArg( params, "objtype=" );
+
+	SendSysMessage( who, "Target the top-left corner" );
+	var topleft := TargetCoordinates( who );
+	if( !topleft )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+
+	SendSysMessage( who, "Target the bottom-left corner" );
+	var botright := TargetCoordinates( who );
+	if( !botright )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+
+	var lowz, highz;
+	if( topleft.z > botright.z )
+		lowz := botright.z;
+		highz := topleft.z;
+	else
+		lowz := topleft.z;
+		highz := botright.z;
+	endif
+
+	foreach item in ( ListObjectsInBox( topleft.x, topleft.y, lowz, botright.x, botright.y, highz, who.realm ))
+		if( objtype == 0 || item.objtype == objtype )
+			MoveObjectToLocation( item, ( item.x+x_diff ), ( item.y+y_diff ), ( item.z+z_diff ), item.realm, MOVEOBJECT_FORCELOCATION );
+		endif
+		SleepMS(2);
+	endforeach
+
+	SendSysMessage( who, "Done." );
+ 
+	return 1;
+endprogram
+
+function FindIntArg( params, prefix )
+
+	var pfxlen := Len( prefix );
+
+	foreach param in params
+		if( Lower( param[1,pfxlen] ) == Lower( prefix ))
+			param[prefix] := "";
+			return CInt( param );
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	return 0;
+endfunction
