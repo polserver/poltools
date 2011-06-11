@@ -1,0 +1,103 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwarda@FantasiaShard.com
+
+        2009-07-26
+        
+        Last Modifications 2010-01-17
+             * The poll is de-activated for the players because the shard is too young to get feedbacks..
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":statistics:account";
+include ":statistics:poll_questions";
+include "include/yesNo";
+
+program textcmd_poll( mobile )
+
+        //SendSysMessage( mobile, "This command is not activated because the shard is too young yet." );
+        //SendSysMessage( mobile, "You can contact a staff member to give your feedback." );
+
+	if( GetProcess( CInt( GetObjProperty( mobile, "#CmdPollPid" ))))
+		return 0;
+	else
+		SetObjProperty( mobile, "#CmdPollPid", GetPid() );
+	endif
+
+	var poll_answers := GetAccountProperty( mobile.acctname, "FS_poll" );
+        if( poll_answers )
+                if( yesNo( mobile, "Start again?" ))
+		        EraseAccountProperty( mobile.acctname, "FS_poll" );
+                else
+                        return 0;
+                endif
+        endif
+
+	poll_answers := {};
+
+        var i;
+        for( i:=1; i<=poll_questions.Size(); i+=1 )
+
+                var poll := poll_questions[i],
+                    question := poll[1],
+                    answers := poll[2];
+
+                var answer := DisplayQuestion( mobile, question, answers, i );
+                if( answer )
+                        poll_answers[i] := answer;
+                else
+                        break;
+                endif
+
+		SleepMS(5);
+        endfor
+
+        SetAccountProperty( mobile.acctname, "FS_poll", poll_answers );
+
+	SendSysMessage( mobile, "Thank you for participating in the poll!" );
+
+        return 1;
+endprogram
+
+function DisplayQuestion( mobile, question, answers, iter )
+
+        var gump := GFCreateGump();
+
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 300, 400 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 270, 25 );
+	GFTextMid( gump, 15, 17, 270, 1720, "Fantasia Shard Official Poll" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 270, 345 );
+        GFTextMid( gump, 15, 60, 270, 1720, "Question "+ CStr( iter+"/"+poll_questions.Size() ));
+
+        GFResizePic( gump, 30, 90, GFGetCfgConst( "Backgrounds", "GOLDTRIM" ), 240, 70 );
+        GFHTMLArea( gump, 45, 100, 220, 50, question, 0, 1 );
+
+        var y_pos := 180;
+
+        foreach result in ( answers )
+                GFTextLine( gump, 50, y_pos, 2100, result );
+                GFAddButton( gump, 30, y_pos, 2117, 2118, GF_CLOSE_BTN, _result_iter );
+
+                y_pos += 20;
+
+        	SleepMS(5);
+        endforeach
+
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+        	return 0;
+        endif
+
+        input := input[0];
+
+	return answers[input];
+endfunction

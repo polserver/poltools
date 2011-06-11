@@ -1,0 +1,20 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Modifications 2010-04-14
+*/
+use uo;
+use os;
+
+program statistics_Logoff( mobile )
+
+        var script := Start_Script( ":statistics:playTime/endTimer", mobile );
+        if( script.errortext )
+	       SysLog( script.errortext );
+        endif
+
+        return 1;
+endprogram
