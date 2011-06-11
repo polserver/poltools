@@ -1,0 +1,21 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwarda@FantasiaShard.com
+
+        2010-10-16
+*/
+use uo;
+use os;
+
+include "include/packets";
+
+program command_classe_rank( mobile )
+
+        SendSysMessage( mobile, "Please wait a moment." );
+
+        return OpenBrowser( mobile, "http://"+SHARD_IP+":"+SHARD_WWWPORT+"/pkg/statistics/taming_guide.ecl" );
+
+        return 1;
+endprogram

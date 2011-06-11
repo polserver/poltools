@@ -1,0 +1,29 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-14
+*/
+use uo;
+
+program textcmd_lFucker( mobile )
+
+	SendSysMessage( mobile, "What would you like to check?" );
+	var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+	if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	endif
+
+        var lfucker := GetObjProperty( targ, "LFucker" );
+        if( !lfucker )
+                SendSysMessage( mobile, "LFucker has not been found.", 3, 70 );
+                return 0;
+        endif
+        
+        SendSysMessage( mobile, "LFucker has been found! Serial:"+lfucker, 3, 33 );
+
+        return 1;
+endprogram
