@@ -1,6 +1,0 @@
-<CENTER><U>Awards</U></CENTER>
-<BR>
-We have implemented lots of different medals that can be earned by achieving any kind of heroic deed you can think of. 
-<BR>
-<BR>
-These medals are displayed in your profile; they are awarded for all kinds of milestones by staff members, from being a diligent builder to a fearless dueler. Over 40 different awards have been implemented and we will add more awards for various achievement within the next updates. Rest assured, everyone has the chance to earn few medals, no matter what kind of tactics you have chosen for your character.
