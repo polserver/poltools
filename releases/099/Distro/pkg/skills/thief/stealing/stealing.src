@@ -1,0 +1,166 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-14
+        
+        Last Modifications 2009-08-24
+             * Added useItem()
+             * Fixed HasThiefGloves() with methods
+             * Added random chances to be detected while snooping by others nearby
+             * Added ClasseBonus with range
+             * Fixed few things for better performances
+*/
+use uo;
+use os;
+use math;
+
+include ":attributes:attributes";
+include "include/facings";
+include "include/security";
+include ":reputation:reputation";
+include "include/client";
+include ":areas:managment";
+include "include/itemUtil";
+include ":classes:classes";
+
+program skill_Stealing( mobile )
+
+        if( GetEquipmentByLayer( mobile, LAYER_HAND1 ) || GetEquipmentByLayer( mobile, LAYER_HAND2 ))
+                SendSysMessage( mobile, "You need empty hands to perform this action!" );
+		return 0;
+        elseif( !HasThiefGloves( mobile ))
+                SendSysMessage( mobile, "You need to equip thief gloves to do that!" );
+		return 0;
+        endif
+
+	SendSysMessage( mobile, "Select the player you would like to steal." );
+	var targ := Target( mobile );
+	if( !targ.IsA( POLCLASS_MOBILE ) || targ.IsA( POLCLASS_NPC ))
+		SendSysMessage( mobile, "That is not a player." );
+		return 0;
+        elseif( mobile.serial == targ.serial )
+		SendSysMessage( mobile, "You should consider therapy." );
+		return 0;
+        elseif( targ.cmdlevel >= 1 )
+		SendSysMessage( mobile, "You can't steal a staff member." );
+		return 0;
+        elseif( A_IsIn( mobile, AREAS_NO_STEALING ))
+		SendSysMessage( mobile, "You cannot steal here." );
+		return 0;
+        elseif( Distance( mobile, targ ) != 1 )
+		SendSysMessage( mobile, "You must consider your position." );
+		return 0;
+        elseif( !IsBehind( targ, mobile.x, mobile.y ))
+                SendSysMessage( mobile, "It is not wise to steal "+targ.name+" from here." );
+		return 0;
+	endif
+
+	var difficulty := CInt(( AP_GetStat( targ, INTELLIGENCE ) / 2 ) + ( AP_GetStat( targ, DEXTERITY ) / 2 ));
+	difficulty += RandomInt( 30 );
+
+	if( SkillCheck( mobile, STEALING, difficulty ) > 0 )
+
+                TurnObjectToward( mobile, targ.x, targ.y );
+
+		var item_list := FindStealableItems( targ.backpack );
+		var stolen := item_list[RandomInt( item_list.Size() )+1];
+
+		var item := MoveItemToContainer( stolen, mobile.backpack );
+		if( item )
+                        SendSysMessage( mobile, "You manage to steal "+stolen.desc+" from "+targ.name+"." );
+                        if( Get_Reputation( KARMA, mobile ) > 500 )
+                                 Award_Reputation( mobile, KARMA, -( RandomInt(200) + 1 ));
+                        endif
+                        if( Get_Reputation( FAME, mobile ) > 500 )
+                                 Award_Reputation( mobile, FAME, -( RandomInt(200) + 1 ));
+                        endif
+
+                        SetObjProperty( mobile, "#StealWait", ReadGameClock() + 30 );
+                else
+                        SendSysMessage( mobile, "You were unable to steal anything." );
+                endif
+        else
+                SendSysMessage( mobile, "You were unable to steal anything." );
+
+		var start := start_script( ":areas:misc/callguards", targ );
+                if( start.errortext )
+		       SysLog("Error::command_CallGuards() - unable to start script [:areas:callguards] ->"+start.errortext);
+	        endif
+        endif
+
+        NotifyNoticers( mobile, targ );
+
+        return 0;
+endprogram
+
+function FindStealableItems( container )
+
+	var item_list := array;
+	foreach item in ( EnumerateItemsInContainer( container ))
+
+		if( item.amount > 1 )
+                        continue;
+                elseif( item.IsA( POLCLASS_CONTAINER ))
+                        continue;
+                elseif( !item.movable )
+                        continue;
+                elseif( item.newbie )
+                        continue;
+                elseif( GetObjProperty( item, "CantSteal" ))
+			continue;
+                elseif( item.container.serial != container.serial )
+                        continue;
+                endif
+                
+                item_list.Append( item );
+
+                SleepMS(5);
+	endforeach
+
+	return item_list;
+endfunction
+
+function NotifyNoticers( mobile, targ )
+
+	var skill := AP_GetSkill( mobile, STEALING );
+	// Ex: 100 -> 5, 60 -> 9, 23.7 -> 13
+	var range := 20 - CInt( skill / 12 );
+
+        if( GetObjProperty( mobile, THIEF ))
+                range /= ClasseBonus( mobile, THIEF );
+        endif
+
+	foreach player in ( ListMobilesInLineOfSight( targ, CInt( range )))
+
+                if( mobile.serial == player.serial )
+			continue;
+  	        elseif( targ.IsA( POLCLASS_NPC ))
+                	continue;
+                endif
+
+        	var random := RandomInt(4);
+                if( random == 2 )
+                	if( mobile.serial != player.serial )
+				SendSysMessage( player, "You notice "+mobile.name+" attempting to steal "+targ.name+"!" );
+                	elseif( targ.serial == player.serial )
+                		SendSysMessage( player, "You notice "+mobile.name+" attempting to steal from you!" );
+                	endif
+                endif
+
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function HasThiefGloves( mobile )
+
+        foreach item in ListEquippedItems( mobile )
+                if( item.IsThiefGloves() )
+                	return 1;
+                endif
+                SleepMS(5);
+        endforeach
+
+        return 0;
+endfunction

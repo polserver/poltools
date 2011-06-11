@@ -1,0 +1,83 @@
+/*
+        Created by *Edwards
+
+        2010-01-03
+*/
+use uo;
+use os;
+use util;
+
+include "include/itemUtil";
+include "include/shapes";
+include ":alchemy:drinkPotion";
+include ":damage:damage";
+
+Program PoisonFlask( parms )
+
+	var potion := parms[1],
+	    who := parms[2],
+            thecenter := potion;
+
+	while( thecenter.container )
+		thecenter := thecenter.container;
+	endwhile
+
+	SetScriptController( who );
+
+       	var power := CInt( GetPotionStrength( potion )),
+ 	    range := power + 2;
+
+	var location := struct;
+	location.+x := thecenter.x;
+	location.+y := thecenter.y;
+	location.+z := thecenter.z;
+	location.+objtype := potion.objtype;
+
+        SubtractAmount( potion, 1 );
+
+	foreach mobile in ListMobilesNearLocationEX( location.x, location.y, location.z, range, LISTEX_FLAG_NORMAL, who.realm )
+                if( !CheckLosAt( mobile, location.x, location.y, location.z ))
+                        continue;
+                endif
+                
+		SendSysMessage( mobile, "A blast of smoke burns your eyes. You are unable to see." );
+                var duration := GetProximity( location, mobile );
+                
+                mobile.SetLightLevel( 30, duration );
+                ApplyDamageEX( mobile, 0, "FlashBomb", who );
+
+		PlayObjectCenteredEffect( mobile, 0x0373a, 7, 14 );
+		PlaySoundEffect( mobile, 0x01e4 );
+
+		SleepMS(2);
+	endforeach
+
+        return 1;
+endprogram
+
+function GetProximity( targ, mobile )
+
+        var duration;
+        case( CoordinateDistance( targ.x, targ.y, mobile.x, mobile.y ))
+                0:
+                       duration := RandomInt(7)+5;
+                       break;
+                1:
+                       duration := RandomInt(6)+4;
+                       break;
+                2:
+                       duration := RandomInt(5)+3;
+                       break;
+                3:
+                       duration := RandomInt(4)+2;
+                       break;
+                4:
+                       duration := RandomInt(3)+1;
+                       break;
+                       
+                default:
+                       duration := RandomInt(1)+2;
+        endcase
+        
+        return duration;
+endfunction

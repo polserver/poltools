@@ -1,0 +1,127 @@
+/*
+        Maintened by *Edwards
+        
+        2008-10-23
+        
+        Last Modifications 2009-01-18
+             * Verifications of the codes
+             * Mobile will now face targ
+
+        Last Modifications 2009-07-30
+             * Revised code for better performances.
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/facings";
+include "include/itemUtil";
+include ":attributes:attributes";
+include ":classes:classes";
+include ":brainAI:npcUtil";
+include ":brainAI:npcCommands";
+include ":musicianship:bard";
+        
+program skill_Herding( mobile, shepherd )
+
+        if( CInt( GetObjProperty( mobile, "#Herding" )) > ReadGameClock() )
+                SendSysMessage( mobile, "You must wait to perform another action." );
+                return 0;
+        else
+                SetObjProperty( mobile, "#Herding", ReadGameClock() + 10 );
+        endif
+        
+        EquipItem( mobile, shepherd );
+        if( !useItem_check( mobile, shepherd, ITEM_EQUIPPED ))
+		return 0;
+	endif
+
+        var range := GetBardRange( mobile );
+
+        SendSysMessage( mobile, "What would you like to herd?" );
+        var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_NPC ))
+                SendSysMessage( mobile, "You cannot herd that!" );
+                return 0;
+        elseif( !MainCheckTarget( mobile, targ, range ))
+                return 0;
+        elseif( GetObjProperty( mobile, "#HerdTime" ))
+                SendSysMessage( mobile, "Something else is already controlling the creature." );
+                return 0;
+	endif
+
+        if( targ.IsA( POLCLASS_NPC ))
+                var targ_npc_cfg := NPC_GetNPCConfig( targ.npctemplate );
+                if( targ_npc_cfg.Privs == "invul" || targ_npc_cfg.Settings == "invul" )
+		         SendSysMessage( mobile, "Invulnerable NPCs are not affected by your skills." );
+		         return 0;
+                endif
+        endif
+
+        var difficulty := GetMobileDifficulty( mobile, targ );
+        if( !difficulty )
+                SendSysMessage( mobile, "You cannot herd that!" );
+                return 0;
+        endif
+        
+        TurnObjectToward( mobile, targ.x, targ.y );
+        
+        if( SkillCheck( mobile, HERDING, -1 ) > 0 )
+                SendSysMessage( mobile, "Where would you like "+targ.name+" to move?" );
+                var location := TargetCoordinates( mobile );
+                if( !CheckLosAt( mobile, location.x, location.y, location.z ))
+                         SendSysMessage( mobile, "You cannot see that location!" );
+                         return 0;
+                elseif( !CheckLosAt( targ, location.x, location.y, location.z ))
+                         SendSysMessage( mobile, targ.name+" cannot see that location!" );
+                         return 0;
+                elseif( Distance( mobile, targ ) > range )
+                         SendSysMessage( mobile, "The location is too far away from "+targ.name+"." );
+                         return 0;
+                endif
+                
+                var delay := 3 * ClasseBonus( mobile, BARD );
+                
+                PrintTextAbove( targ, "*"+targ.name+" is herded by "+mobile.name+"*" );
+                
+                SetObjProperty( targ, "#HerdTime", ReadGameClock() + CInt( delay ));
+                
+                var skill := CInt( AP_GetSkill( mobile, HERDING )),
+                    option := NEMOVE_WALK;
+                    
+                if( skill > 90 )
+                         option := NEMOVE_RUN;
+                endif
+                
+                MoveTarget( targ, location, option );
+        else
+                SendSysMessage( mobile, "You have failed to herd "+targ.name+"." );
+        endif
+        
+        return 1;
+endprogram
+
+function MoveTarget( targ, location, option )
+
+        AI_SetAnchor( targ, targ.x, targ.y, 0, 100 );
+        var timeOut := GetObjProperty( targ, "#HerdTime" );
+        
+        while( ReadGameClock() < timeOut )
+                AI_Move( targ, location.x, location.y, location.z, NEMOVE_TOWARD, option, 1 );
+                if( CoordinateDistance( targ.x, targ.y, location.x, location.y ) <= 1 )
+                        break;
+                endif
+                SleepMS(50);
+        endwhile
+        
+        AI_ClearThoughts( targ, CLR_NERVE );
+        EraseObjProperty( targ, "#HerdTime" );
+        
+        return 1;
+endfunction

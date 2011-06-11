@@ -1,0 +1,160 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-12
+        
+        Last Modifications 2009-01-18
+             * Verifications of the codes
+             * [FIXED] Code was looking for anatomy instead of evalint
+
+        Last Modifications 2009-10-22
+             * Cleaned codes for better performances
+             * Distance between the targ and mobile is now CInt( 5 * ClasseBonus( mobile, MAGE ))
+
+        Last Modifications 2009-10-25
+             * Cleaned codes for better performances
+*/
+use cfgfile;
+use uo;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include ":classes:classes";
+
+var mental_cfg := ReadConfigFile(":evalint:intelligence");
+
+program skill_EvaluatingIntelligence( who )
+
+	SendSysMessage( who, "What do you wish to evaluate?" );
+	var subject := Target( who );
+	if( !subject )
+                SendSysMessage( who, "Cancelled." );
+		return 0;
+	elseif( subject.serial == who.serial )
+		PrintTextAbovePrivate( who, "You know your mental capabilities quite well enough already.", who );
+		return 0;
+	elseif( subject.dead )
+		SendSysMessage( who, "It looks pretty dead to you." );
+		return 0;
+	elseif( !subject.isA( POLCLASS_MOBILE ))
+		SendSysMessage( who, "That cannot be evaluated." );
+		return 0;
+	elseif( !CheckLineOfSight( who, subject ))
+		SendSysMessage( who, "You cannot see the subject from here." );
+		return 0;
+  
+	endif
+ 
+        var range := 5 * ClasseBonus( who, MAGE );
+	if( Distance( who, subject ) > range )
+		SendSysMessage( who, "The subject is too far away." );
+		return 0;
+        endif
+
+	// variables for sys messages
+	var MOB_APPROVED := { 400, 401 };
+	var str_reply := struct { sub_name, sub_fail, sub_intel, sub_mana };
+
+	if( !( subject.graphic in MOB_APPROVED ))
+		str_reply.sub_name := "That creature";
+		str_reply.sub_fail := "that creature's mental abilities.";
+	else
+		str_reply.sub_name := subject.name;
+		if( upper( subject.name[Len( subject.name )] ) != "S" || lower( subject.name[Len( subject.name )] ) != "s" )
+			str_reply.sub_fail := subject.name+"'s mental abilities.";
+		else
+			str_reply.sub_fail := subject.name+"' mental abilities.";
+		endif
+	endif
+
+	HandleSubIntell( subject, str_reply );
+	HandleSubMentalStrength( subject, str_reply );
+
+	// Replaces the <strength> and <gender> from config file results.
+	HandleSubParsing( subject, str_reply );
+
+	var eval_response := str_reply.sub_name+" looks "+str_reply.sub_intel+".";
+	var mana_resonse  := str_reply.sub_name+" is at "+str_reply.sub_mana+" mana.";
+
+	if( SkillCheck( who, EVALUATING_INTELLIGENCE, -1 ) > 0 )
+		PrintTextAbovePrivate( subject, eval_response, who );
+		if( AP_GetSkill( who, EVALUATING_INTELLIGENCE ) >= 75 )
+			PrintTextAbovePrivate( subject, mana_resonse, who );
+		endif
+		return 1;
+	else
+		PrintTextAbovePrivate( subject, "You cannot judge "+str_reply.sub_fail, who );
+		return 0;
+	endif
+endprogram
+
+function HandleSubIntell( subject, byref str_reply )
+
+	var sub_smarts := AP_GetStat(subject, "Intelligence");
+	var intel_elem := mental_cfg["Intelligence"];
+	var phrase_list := GetConfigStringArray(intel_elem, "Int");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords( entry, "\t" );
+		if( sub_smarts < CDbl( p_array[1] ))
+			str_reply.sub_intel := p_array[2];
+                        if( !str_reply.sub_intel )
+                        	str_reply.sub_intel :=  SplitWords( entry )[2];
+                        endif
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find intelligence phrase for serial "+subject.serial};
+endfunction
+
+function HandleSubMentalStrength( subject, byref str_reply )
+
+	var sub_mana_level := CInt(CInt(AP_GetVital(subject, "Mana"))/CDbl(AP_GetVitalMaximumValue(subject, "Mana"))*100);
+	var mana_elem := mental_cfg["Mana"];
+	var phrase_list := GetConfigStringArray(mana_elem, "Mana");
+ 
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_mana_level < CDbl(p_array[1]) )
+			str_reply.sub_mana := p_array[2];
+                        if( !str_reply.sub_mana )
+                        	str_reply.sub_mana :=  SplitWords( entry )[2];
+                        endif
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find mana phrase for serial "+subject.serial};
+
+endfunction
+
+// I HATE THIS!! But Austin wants cfgs used for stuff......
+function HandleSubParsing( subject, byref str_reply )
+
+	var sub_gender   := "it";
+
+	case ( subject.graphic )
+		0x25D:
+		0x190: sub_gender := "he";
+		0x25E:
+		0x191: sub_gender := "she";
+	endcase
+
+	while( Find( str_reply.sub_intel, "<gender>", 1 ) != 0 )
+		str_reply.sub_intel["<gender>"] := sub_gender;
+		SleepMS(2);
+	endwhile
+
+	while( Find( str_reply.sub_mana, "<gender>", 1 ) != 0 )
+		str_reply.sub_mana["<gender>"] := sub_gender;
+		SleepMS(2);
+	endwhile
+
+	return 1;
+endfunction

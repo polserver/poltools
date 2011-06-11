@@ -1,0 +1,227 @@
+/*
+        Maintened by *Edwards
+
+        2009-01-18
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include "include/objType";
+include "include/facings";
+include ":attributes:attributes";
+
+program use_fishingNet( mobile, fishingNet )
+
+       	if( !useItem_check( mobile, fishingNet, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+        var use_on := TargetCoordinates( mobile );
+        if( !use_on )
+                SendSysMessage( mobile, "Canceled." );
+                return 0;
+        elseif( Distance( mobile, use_on ) > 5 )
+                SendSysMessage( mobile, "That is too far away." );
+	        return 0;
+        elseif( !CheckLosAt( mobile, use_on.x, use_on.y, use_on.z ))
+                SendSysMessage( mobile, "You cannot see that." );
+                return 0;
+        endif
+
+        if( !IsWater( use_on ))
+                SendSysMessage( mobile, "That is not deep sea." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "You throw the net out into sea." );
+        TurnObjectToward( mobile, use_on.x, use_on.y );
+        PlaySoundEffect( fishingNet, 0x0026 );
+        DestroyItem( fishingNet );
+        
+        var splash := CreateItemAtLocation( use_on.x, use_on.y, use_on.z, 0x352d, 1, use_on.realm );
+        splash.movable := 0;
+	SleepMS( 500 );
+	splash.graphic := 0x352e;
+	SleepMS( 500 );
+	splash.graphic := 0x352f;
+	SleepMS( 500 );
+	splash.graphic := 0x3530;
+	SleepMS( 500 );
+	DestroyItem( splash );
+        
+        var x := mobile.x,
+            y := mobile.y;
+
+        var delay := 10;
+        while( delay )
+		Sleep( 1 );
+		delay -= 1;
+		if( x != mobile.x || y != mobile.y )
+			SendSysMessage( mobile, "You must be patient while fishing." );
+                        return 0;
+		endif
+	endwhile
+        
+        if( !SkillCheck( mobile, FISHING, -1 ) > 0 )
+                SendSysMessage( mobile, "You did not catch anything." );
+                return 0;
+        endif
+
+        case( RandomInt( 7 ))
+                0:          var npc := CreateNpcFromTemplate( ":ai_sea:SeaMonster", use_on.x, use_on.y, use_on.z );
+                            if( npc.errortext )
+                                    SendSysMessage( mobile, "Error creating <:ai_sea:SeaMonster> -->"+npc.errotext );
+                            endif
+                            
+                            SendSysMessage( mobile, "You caught something dangerous in your net!" );
+                            return 1;
+                1:          CreateItemInContainer( mobile.backpack, 0xa360, 1 );
+                            SendSysMessage( mobile, "You caught an old bottle!" );
+                            return 1;
+                2:          if( RandomInt( 10 ) > 3 )
+                                    var bag := CreateItemInContainer( mobile.backpack, 0xE76, 1 );
+                                    bag.color := 1160;
+                                    bag.decay := 120;
+                                    
+                                    var randomNum := RandomInt( 2500 );
+                                    if( GetObjProperty( mobile, RANGER ))
+                                            randomNum *= GetObjProperty( mobile, RANGER );
+                                    endif
+                                    
+                                    CreateItemInContainer( bag, 0xeed, randomNum + 125 );
+                                    SendSysMessage( mobile, "You find an old bag!" );
+                                    return 1;
+                            endif
+                            break;
+                3:
+                            if( RandomInt( 10 ) > 8 )
+                                    CreateItemInContainer( mobile.backpack, RandomShell( mobile ), 1 );
+                                    SendSysMessage( mobile, "You find something valuable!" );
+                                    return 1;
+                            endif
+                            break;
+                4:
+                            if( RandomInt( 10 ) > 6 )
+                                    CreateItemInContainer( mobile.backpack, RandomFish(), 1 );
+                                    SendSysMessage( mobile, "You caught a magical fish!" );
+                                    return 1;
+                            endif
+                            break;
+                5:
+                            if( RandomInt( 10 ) > 2 )
+                                    CreateItemInContainer( mobile.backpack, 0x09cc, RandomInt(20)+5 );
+                                    SendSysMessage( mobile, "You caught some fishes!" );
+                                    return 1;
+                            endif
+                            break;
+                6:
+                            if( RandomInt( 20 ) == 16 )
+                                    var trophy := "0x1E62";
+                                    if( RandomInt( 2 ) == 1 )
+                                           trophy := "0x1E69";
+                                    endif
+
+                                    var troph := CreateItemInContainer( mobile.backpack, trophy, 1 );
+                                    SetObjProperty( troph, "Fish", mobile.serial );
+                                    SendSysMessage( mobile, "You catch a trophy!" );
+                                    return 1;
+                            endif
+                            break;
+                7:
+                            if( RandomInt( 10 ) == 10 )
+                                    CreateItemInContainer( mobile.backpack, RandomArmor( mobile ), 1 );
+                                    SendSysMessage( mobile, "You find a human skeleton rests!" );
+                                    return 1;
+                            endif
+                            break;
+        endcase
+        
+        SendSysMessage( mobile, "You did not catch anything." );
+        
+        return 1;
+endprogram
+
+function RandomShell( mobile )
+
+        case( RandomInt( 5 ))
+                0: return 0xA350;
+                1: return 0xA351;
+                2: return 0xA352;
+                3: return 0xA353;
+                4: if( AP_GetSkill( mobile, FISHING ) > 100 )
+	                    if( RandomInt( 3 ) == 2 )
+	                            return 0xA354;
+	                    else
+	                            return 0xA355;
+	                    endif
+                   else
+   	                    return 0xA356;
+                   endif
+                5: return 0xA357;
+        endcase
+
+        return 0;
+endfunction
+
+function RandomArmor( mobile )
+
+        var skill_fishing := AP_GetSkill( mobile, FISHING );
+        
+        case( RandomInt( 5 ))
+                0: if( skill_fishing > 100 )
+	                 if( RandomInt( 3 ) == 2 )
+	                        return 0x8255; //Gloves of Terror
+	                 endif
+                   endif
+                   break;
+                1: if( skill_fishing > 105 )
+	                 if( RandomInt( 3 ) == 2 )
+	                        return 0x8253;  //Arms of Terror
+	                 endif
+                   endif
+                   break;
+                2: if( skill_fishing > 110 )
+	                 if( RandomInt( 3 ) == 2 )
+	                        return 0x8256; //Helm of Terror
+	                 endif
+                   endif
+                   break;
+                3: if( skill_fishing > 115 )
+	                 if( RandomInt( 3 ) == 2 )
+	                        return 0x8257; //Legs of Terror
+	                 endif
+                   endif
+                   break;
+                4: if( skill_fishing > 120 )
+	                 if( RandomInt( 3 ) == 2 )
+	                        return 0x8254; //Tunic of Terror
+	                 endif
+                   endif
+                   break;
+                5: if( skill_fishing > 125 )
+	                 if( RandomInt( 3 ) == 2 )
+	                        return 0x8252; //HeavyCrossbow of Terror
+	                 endif
+                   endif
+                   break;
+        endcase
+
+        return 0;
+endfunction
+
+function RandomFish()
+
+        case( RandomInt( 7 ))
+                0: return 0xA350;
+                1: return 0xA351;
+                2: return 0xA352;
+                3: return 0xA353;
+                4: return 0xA354;
+                5: return 0xA355;
+                6: return 0xA356;
+                7: return 0xA357;
+        endcase
+
+        return 0;
+endfunction

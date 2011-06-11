@@ -1,0 +1,32 @@
+/*
+        Created by *Edwards
+
+        2010-05-03
+*/
+use uo;
+use os;
+
+include "include/security";
+include ":itemid:itemID";
+
+program textcmd_IDContainer( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Select an item to identify." );
+        var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_EQUIPMENT ))
+                SendSysMessage( mobile, "That is not a something you can identify magical effects." );
+		return 0;
+	endif
+ 
+        IDItem( mobile, targ );
+
+        return 1;
+endprogram

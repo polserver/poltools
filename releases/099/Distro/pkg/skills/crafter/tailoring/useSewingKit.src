@@ -1,0 +1,163 @@
+/*
+        Created by *Edwards
+
+        2009-11-05
+
+        Last Modifications 2009-12-04
+             * Added loop messages
+             * Removed deprecated var counter and now using only amt for while loop
+*/
+use uo;
+use os;
+use cfgfile;
+
+include "include/itemUtil";
+include "include/string";
+include "include/uo_extend";
+include ":areas:managment";
+include ":crafting:crafting";
+include ":equipment:damageItem";
+
+var item_config := ReadConfigFile( ":*:itemdesc" );
+var craft_config := ReadConfigFile( ":tailoring:tailoring" );
+
+program use_MapmakersPen( who, tool )
+
+	if( !useItem_check( who, tool, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	var rinfo := sendCraftGump( who, TAILORING );
+	if( rinfo == 0 )
+		return 0;
+	endif
+
+	var the_objtype := rinfo[1],
+	    amt := rinfo[2],
+	    repair := rinfo[3],
+	    fortify := rinfo[5];
+     
+     	if( repair )
+                RepairItem( who, TAILORING );
+		return 0;
+	elseif( fortify )
+                FortifyItem( who );
+		return 0;
+	endif
+
+	makeTailorItem( who, tool, the_objtype, amt );
+
+	return 1;
+endprogram
+
+function makeTailorItem( who, tool, the_objtype, amt )
+
+	if( !the_objtype || !amt )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+
+	var ressource := MaterialSelection( who, craft_skill, Lower( craft_config[the_objtype].type ));
+	if( !ressource )
+		return 0;
+	endif
+
+ 	var craft_elem := craft_config[the_objtype],
+ 	    skill_elem := menu_config[craft_skill],
+            material := CInt( craft_elem.Material ),
+            use_on := ressource[1],
+            useOn_obj := ressource[2],
+            mat_diff := ressource[1].GetRessourceDifficulty(),
+            x := who.x,
+	    y := who.y;
+
+        SendSysMessage( who, "You start "+skill_elem.EndMessage+"...", 3, 89 );
+
+	while( amt )
+		if( !tool )
+			break;
+		endif
+
+                if( amt != -1 )
+                	SendSysMessage( who, "Looping ["+amt+" more to go].", 3, 89 );
+                else
+                	SendSysMessage( who, "Looping.", 3, 89 );
+                endif
+                
+                Sleep( CRAFT_DELAY );
+
+                Craft_PlayEffects( who, skill_elem );
+
+                if( who.x != x || who.y != y )
+			SendSysMessage( who, "Cancelled." );
+			break;
+                elseif( material > use_on.amount )
+			SendSysMessage( who, "You do not have the required materials to make that." );
+                	break;
+                elseif( !SubtractAmount( use_on, material ))
+			SendSysMessage( who, "You do not have the required materials to make that." );
+                	break;
+                elseif( Craft_SkillCheck( who, craft_elem, CRAFT_ADV_ALL, mat_diff ) > 0 )
+			var the_item := Craft_CreateItem( who, the_objtype, craft_elem, useOn_obj );
+                        Craft_ExpCheck( who, craft_elem, the_item );
+		else
+			SendSysMessage( who, "You lost some materials." );
+		endif
+
+                CheckToolWear( who, tool, craft_skill );
+
+                if( amt != -1 )
+                	amt -= 1;
+                endif
+	endwhile
+
+        SendSysMessage( who, "You stop "+skill_elem.EndMessage+"...", 3, 89 );
+
+	return 1;
+endfunction
+
+function FortifyItem( who )
+
+        SendSysMessage( who, "Select the hat you would like to fortify." );
+        var hat := Target( who );
+        if( !hat )
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        elseif( !useItem_check( who, hat, ITEM_INCONTAINER ))
+                return 0;
+        elseif( !hat.IsHat() )
+                SendSysMessage( who, "That is not a hat!" );
+                return 0;
+        endif
+        
+        SendSysMessage( who, "Select the helm you would like to fortify "+hat.desc+"." );
+        var helm := Target( who );
+        if( !helm )
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        elseif( !useItem_check( who, helm, ITEM_INCONTAINER ))
+                return 0;
+        elseif( !helm.IsHelm() && !helm.IsCoif() )
+                SendSysMessage( who, "That is not a helm or a coif!" );
+                return 0;
+        endif
+
+	Craft_PlayEffects( who, menu_config[craft_skill] );
+
+	if( SkillCheck( who, TAILORING, -1 ) > 0 )
+		DupeItem( hat, helm );
+  
+                if( !GetObjProperty( hat, "ArBonus" ))
+                        helm.color := hat.color;
+                endif
+                
+		SetName( helm, "a fortified "+TruncateArticle( hat.desc ));
+		DestroyItem( hat );
+        else
+                SendSysMessage( who, "You failed to fortify "+hat.desc+"!" );
+		DestroyItem( helm );
+		DamageItem( who, hat, 1 );
+	endif
+
+        return 1;
+endfunction

@@ -1,0 +1,52 @@
+/*
+        Created by *Edwards
+
+        2010-04-23
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":attributes:attributes";
+include ":musicianship:bard";
+
+program skill_Meditation( mobile, instrument )
+
+        if( GetObjProperty( mobile, "#Musicianship" ) > ReadGameClock() )
+                SendSysMessage( mobile, "You must wait to perform another action." );
+                return 0;
+        else
+                SetObjProperty( mobile, "#Musicianship", ReadGameClock() + 10 );
+        endif
+
+       	if( !useItem_check( mobile, instrument, ITEM_INCONTAINER ))
+		return 0;
+	endif
+ 
+        var sfx_success := instrument.SfxSuccess(),
+            sfx_failure := instrument.SfxFaillure();
+
+        if( SkillCheck( mobile, MUSICIANSHIP, -1 ) > 0 )
+  		PlaySoundEffect( mobile, sfx_success );
+                PrintTextAbovePrivate( mobile, "You start playing...", mobile );
+        else
+                PlaySoundEffect( mobile, sfx_failure );
+		PrintTextAbovePrivate( mobile, "*you play a musical instrument... poorly.*", mobile );
+                return 0;
+        endif
+        
+	var skill := AP_GetSkill( mobile, MUSICIANSHIP ),
+	    bonus := CInt(( skill / 15 ) + ( AP_GetStat( mobile, DEXTERITY ) / 20 )),
+            base_stam := AP_GetVital( mobile, STAMINA ),
+            max_stam := AP_GetVitalMaximumValue( mobile, STAMINA );
+            
+        bonus *= ClasseBonus( mobile, BARD );
+        
+        if(( base_stam + bonus ) >= max_stam )
+                AP_SetVital( mobile, STAMINA, max_stam );
+        else
+                AP_SetVital( mobile, STAMINA, CInt( base_stam + bonus ));
+        endif
+ 
+        return 1;
+endprogram

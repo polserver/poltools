@@ -1,0 +1,31 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-13
+        
+        Last Modifications 2009-01-18
+             * Modified checkskill difficulty is influenced by armor rating
+*/
+use uo;
+use os;
+
+include ":meditation:functions";
+include ":attributes:attributes";
+
+program skill_Meditation( mobile )
+
+	if( GetObjProperty( mobile, "#LastMeditation" ) > ReadGameClock() )
+		SendSysMessage( mobile, "You must wait before being able to meditate again." );
+		return 0;
+	endif
+
+	if( !canMedit( mobile ))
+                return 0;
+	elseif( SkillCheck( mobile, MEDITATION, -1 ) > 0 );
+                StartMeditating( mobile );
+		return 1;
+	else
+		SendSysMessage( mobile, "You cannot focus your concentration." );
+		return 0;
+	endif
+endprogram

@@ -1,0 +1,194 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-12
+        
+        Last Modifications 2009-01-18
+             * Verifications of the codes
+             * Mobile will now face targ
+
+        Last Modifications 2009-07-31
+             * Revised script for better performances
+             * Player no longer need to stick at the same position when begging
+
+        Last Modifications 2009-11-17
+             * Cleaned codes for better performances
+*/
+use uo;
+use util;
+use cfgfile;
+
+include ":begging:begging";
+include ":brainAI:npcUtil";
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include ":classes:classes";
+include "include/client";
+include ":reputation:reputation";
+include "include/facings";
+
+CONST UOBJ_GOLDCOIN :=0xEED;
+
+program skill_Begging( who );
+
+	// Human.
+	var MOB_APPROVED  := { 400, 401 };
+ 
+	SendSysMessage( who, "Select the person you wish to beg." );
+	var beggee := Target( who );
+	if( !beggee )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+  	elseif( beggee == who )
+  		SendSysMessage( who, "You should consider therapy!" );
+  		return 0;
+	elseif( beggee.acctname )
+		SendSysMessage( who, "Perhaps talking to them would be a better idea." );
+		return 0;
+	elseif( !MainCheckTarget( who, beggee ))
+		return 0;
+	elseif(( !beggee.IsA( POLCLASS_NPC )) || !( beggee.graphic in MOB_APPROVED ))
+		SendSysMessage( who, "You might look a little silly doing that." );
+		return 0;
+	endif
+ 
+        PerformAction( who, ANIM_BOW );
+
+	if( who.graphic == 401 )
+		PrintBeggingMessage( who, beggee, "Sorry... lady!" );
+	else
+		PrintBeggingMessage( who, beggee, "Sorry... sir!" );
+	endif
+ 
+        var delay1 := 3;
+ 	while( delay1 )
+		delay1 -= 1;
+		if( !MainCheckTarget( who, beggee ))
+			return PrintBeggingMessage( who, beggee, Flee );
+		endif
+		Sleep(1);
+	endwhile
+ 
+	PrintBeggingMessage( who, beggee, Pleade );
+        
+ 	while( delay1 )
+		delay1 -= 1;
+		if( !MainCheckTarget( who, beggee ))
+			return PrintBeggingMessage( who, beggee, Flee );
+		endif
+		Sleep(1);
+	endwhile
+ 
+        var restock_money := GetObjProperty( beggee, "#LastBegged" );
+	if( restock_money > ReadGameClock() )
+	        return PrintBeggingMessage( who, beggee, None );
+	endif
+ 
+        var delay2 := 2;
+ 	while( delay2 )
+		Sleep( 1 );
+		delay2 -= 1;
+		if( !MainCheckTarget( who, beggee ))
+			return PrintBeggingMessage( who, beggee, Flee );
+		endif
+	endwhile
+
+	var karma := CInt( GetObjProperty( who, "Karma" ));
+	if( karma < 0 )
+		return PrintBeggingMessage( beggee, who, NegKarma );
+	endif
+ 
+	var last_begging := CInt( GetObjProperty( beggee, "#begpurse" )),
+            bTemplate := NPC_GetNPCConfig( beggee.npctemplate ); //Assume its NPC...
+            
+	var wealth := bTemplate.Wealth;
+	if( !wealth )
+		return PrintBeggingMessage( beggee, who, None );
+	endif
+            
+	if( !last_begging )
+                var purse := 0;
+                case( wealth )
+			"Upper":	purse := RandomDiceRoll( "10d50+25" );
+					break;
+			"Middle":	purse := RandomDiceRoll( "5d25+15" );
+                                        break;
+			"Poor":		purse := RandomDiceRoll( "6d8+5" );
+                                        break;
+	       endcase
+        
+               if( purse )
+                      SetObjProperty( beggee, "#begpurse", purse );
+               endif
+        elseif( last_begging < 10 )
+		PrintBeggingMessage( beggee, who, Empty );
+                EraseObjProperty( beggee, "#begpurse" );
+		return 0;
+	endif
+
+	if( SkillCheck( who, BEGGING, -1 ) > 0 )
+ 
+		var gold;
+		case( wealth )
+			"Upper":	gold := RandomDiceRoll( "5d5+6" );
+                                        break;
+			"Middle":	gold := RandomDiceRoll( "4d4+4" );
+                                        break;
+			"Poor":		gold := RandomDiceRoll( "3d3+2" );
+                                        break;
+                                        
+			default:	PrintBeggingMessage( beggee, who, Broke );
+					return 0;
+		endcase
+  
+		gold *= ClasseBonus( who, BARD );
+  
+		last_begging -= gold;
+		SetObjProperty( beggee, "#begpurse", CInt( last_begging ));
+                SetObjProperty( beggee, "#LastBegged", ReadGameClock() + 120 );
+                
+                if( who.graphic == 401 )
+			PrintBeggingMessage( beggee, who, "Ohh! Poor woman!");
+		else
+			PrintBeggingMessage( beggee, who, "Ohh! Poor man!");
+		endif
+  
+                Sleep(2);
+                
+                PrintBeggingMessage( beggee, who, Accept );
+  
+		if( !CreateItemInContainer( who.backpack, 0xeed, CInt( gold )))
+			SendSysMessage( who, "You miss and the coins bounce into cracks on the ground!" );
+		else
+			var coin := "coin";
+			if( gold > 1 )
+				coin := "coins";
+			endif
+   
+			SendSysMessage( who, "You quickly stuff "+CInt( gold )+" "+coin+" in your backpack!" );
+   
+		        if( GetObjProperty( who, "Karma" ) > 10 )
+			        SendSysMessage( who, "You lose a little karma." );
+			        Award_Reputation( who, "Karma", -5 );
+		        endif
+		endif
+	else
+		PrintBeggingMessage( beggee, who, Failed );
+	endif
+
+        return 1;
+endprogram
+
+function MainCheckTarget( who, beggee )
+
+	if( Distance( who, beggee ) > 2 )
+		SendSysMessage( who, "You are too far away." );
+		return 0;
+	elseif( !CheckLineOfSight( who, beggee ))
+		SendSysMessage( who, "You cannot see the subject from here." );
+		return 0;
+        endif
+        
+        return 1;
+endfunction
