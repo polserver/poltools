@@ -1,0 +1,99 @@
+/*
+        Maintened by *Edwards
+
+        2008-04-25
+        
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+
+        Last Modifications 2009-10-20
+             * Cleaned codes for better performances
+
+        Thanks to ZuluHotel for this original idea.
+*/
+use uo;
+use basic;
+
+include "include/itemUtil";
+
+program use_commcrystal( mobile, crystal )
+
+       var CrystalStatus := GetObjProperty( crystal, "Status" ),
+           LinkString := GetObjProperty( crystal, "Links" ),
+           Links := Splitwords( LinkString ),
+           LinkCount := Len( Links ),
+           CrystalId := crystal.serial;
+           
+       var i,
+           blank,
+           placeholder,
+           receiver;
+           
+       SendSysMessage( mobile, "Select a crystal." );
+       var TargetItem := Target( mobile );
+       if( !TargetItem )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+       elseif( !useItem_check( mobile, TargetItem, DEFAULT_ITEM ))
+		return 0;
+       elseif( !TargetItem.IsCommCrystal() && !TargetItem.IsReceiverCrystal() )
+                SendSysMessage( mobile, "That is not a crystal." );
+                return 0;
+       endif
+       
+       if( TargetItem.serial == crystal.serial )
+                if( CrystalStatus == "OFF" )
+                         SendSysMessage( mobile, "Crystal activated.  You are linked to "+( LinkCount-1 )+" receivers." );
+                         SetObjProperty( crystal, "Status", "ON" );
+                         return 1;
+                else
+                         SendSysMessage( mobile, "Crystal deactivated." );
+                         SetObjProperty( crystal, "Status", "OFF" );
+                         return 1;
+                endif
+       endif
+       
+       if( TargetItem.IsReceiverCrystal() )
+                var Master := CInt( GetObjProperty( TargetItem, "Master" ));
+                if( Master == 0 )
+                         if( LinkCount > 10 )
+                                  SendSysMessage( mobile, "Too many receivers.   Aborted." );
+                                  return 0;
+                         endif
+                         
+                         SendSysMessage( mobile, "Linked." );
+                         SetObjProperty( TargetItem, "Master", CrystalId );
+                         LinkString := Cstr( LinkString )+" "+Cstr( TargetItem.serial );
+                         SetObjProperty( crystal, "Links", LinkString );
+                         return 1;
+                endif
+                
+                if( Master == CrystalId )
+                         receiver := CStr( TargetItem.serial );
+                         placeholder := "";
+                         LinkCount := LinkCount + 1;
+                         SetObjProperty( TargetItem, "Master", 0 );
+                         
+                         i := 1;
+                         while( i < LinkCount )
+                                  blank := CStr( Links[i] );
+                                  if( blank == receiver )
+                                           blank := "nothing";
+                                           //we ignore this one
+                                  else
+                                           placeholder := placeholder+ " "+blank;
+                                  endif
+                                  i += 1;
+                         endwhile
+                         
+                         SetObjProperty( crystal, "Links", placeholder );
+                         SendSysMessage( mobile, "Unlinked." );
+                         return 0;
+                else
+                         SendSysMessage( mobile, "That receiver is in use." );
+                         return 0;
+                endif
+       endif
+       
+       return 1;
+endprogram

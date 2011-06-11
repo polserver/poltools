@@ -1,0 +1,92 @@
+/*
+        Created by *Edwards
+
+        2009-10-02
+*/
+use uo;
+use os;
+use util;
+
+program walkonscript_bonusBomb( mobile, tile )
+
+        var chances := RandomDiceRoll( "1d50+1" );
+        if( chances < 5 )
+                DecreasePower( mobile, tile );
+        elseif( chances < 15 )
+                IncreaseBombPower( mobile, tile );
+        else
+                CrateMultiplicator( mobile, tile );
+        endif
+
+	return 1;
+endprogram
+
+function CrateMultiplicator( mobile, tile )
+
+        DestroyItem( tile );
+	SendSysMessage( mobile, "You've got the crate multiplicator!" );
+
+        var x := mobile.x,
+            y := mobile.y;
+
+        var num := RandomDiceRoll( "1d10+1" );
+
+        while( mobile.connected && num )
+                if( x != mobile.x && y != mobile.y )
+                        var create := CreateItemAtLocation( x, y, mobile.z, 3645, 1, mobile.realm ); //largecrate
+                        if( create.errortext )
+                                SendSysMessage( mobile, "Error creating large crate -->"+create.errortext );
+                                break;
+                        endif
+                        create.movable := 0;
+
+                        x := mobile.x;
+                        y := mobile.y;
+
+                        num -= 1;
+                endif
+                SleepMS(10);
+        endwhile
+
+        return 1;
+endfunction
+
+function IncreaseBombPower( mobile, tile )
+
+	DestroyItem( tile );
+	SendSysMessage( mobile, "You've received a bomb bonus!" );
+
+	var power := GetObjProperty( mobile, "#BomberPower" );
+	if( !power )
+		power := 2;
+	else
+		power += 1;
+                if( power > 16 )
+                	power := 16;
+                endif
+	endif
+
+        SetObjProperty( mobile, "#BomberPower", power );
+
+        return 1;
+endfunction
+
+function DecreasePower( mobile, tile )
+
+	DestroyItem( tile );
+	SendSysMessage( mobile, "You've lost a bomb bonus!" );
+
+	var power := GetObjProperty( mobile, "#BomberPower" );
+	if( !power )
+		power := 2;
+	else
+		power -= 1;
+                if( power < 2 )
+                	power := 2;
+                endif
+	endif
+
+        SetObjProperty( mobile, "#BomberPower", power );
+
+        return 1;
+endfunction

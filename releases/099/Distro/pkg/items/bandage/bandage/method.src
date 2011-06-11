@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+        
+        2009-10-19
+*/
+use uo;
+use os;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsBandage( item )
+
+        item := item; //Avoid compiler warnings
+        
+	return 1;
+endfunction

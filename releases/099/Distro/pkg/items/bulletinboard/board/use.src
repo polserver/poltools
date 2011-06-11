@@ -1,0 +1,207 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-20
+        
+        Last Modifications 2009-10-20
+             * Only staff can delete posts now
+*/
+use uo;
+
+include ":bulletinboard:settings";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+CONST INDEX_BTN		:= 0xA0000;
+CONST POST_MSG_BTN	:= 0xA0001;
+CONST SUBMIT_MSG_BTN	:= 0xA0002;
+CONST DELETE_BTN	:= 0xA0003;
+
+CONST SUBJECT_TXT_POS	:= 0xA00;
+CONST MSG_TXT_START	:= 0xB00;
+
+CONST READ_MSG_START	:= 0xD00;
+
+program UseBulletinBoard( mobile, board )
+
+	var settings := BBRD_GetSettingsCfgElem( "Settings" );
+	var gump, cur_menu := INDEX_BTN, cur_msg := 0;
+
+	while( mobile.connected )
+		if( cur_menu == INDEX_BTN )
+			gump := GetPostIndexGump( board );
+		elseif( cur_menu == READ_MSG_START )
+			gump := GetReadPostGump( mobile, board, cur_msg );
+		elseif( cur_menu == POST_MSG_BTN )
+			gump := GetNewPostGump( mobile, board );
+		endif
+
+		var input := GFSendGump( mobile, gump );
+
+		if( !input[0] )
+			SendSysMessage( mobile, "Cancelled." );
+			break;
+		elseif( input[INDEX_BTN] )
+			cur_menu := INDEX_BTN;
+		elseif( input[POST_MSG_BTN] )
+			cur_menu := POST_MSG_BTN;
+		elseif( input[SUBMIT_MSG_BTN] )
+			NewPost( board, mobile, input, settings );
+			cur_menu := INDEX_BTN;
+		elseif( input[DELETE_BTN] )
+                        if( mobile.cmdlevel )
+			           DeletePost( board, mobile, cur_msg, settings );
+                        endif
+			cur_menu := INDEX_BTN;
+		elseif( input[0] >= READ_MSG_START )
+			cur_msg := input[0] - READ_MSG_START;
+			cur_menu := READ_MSG_START;
+		else
+			SendSysMessage( mobile, "Cancelled." );
+			break;
+		endif
+	endwhile
+
+	return 1;
+endprogram
+
+function GetGumpTemplate( board )
+
+	var gump := GFCreateGump( 20, 20 );
+ 
+	GFGumpPic( gump, 0, 0, 0x87A ); // Bulletin board background
+	GFTextMid( gump, 240, 37, 0, 2100, board.desc );
+	GFAddButton( gump, 1, 153, 0x1524, 0x1525, GF_CLOSE_BTN, POST_MSG_BTN );
+
+	return gump;
+endfunction
+
+function GetPostIndexGump( board )
+
+	var gump := GetGumpTemplate( board );
+
+	GFPage( gump, 1 );
+
+	var y_pos := 160;
+	var counter := 0;
+	var posts := board.GetBoardPosts();
+	var num_posts := posts.Size();
+ 
+	foreach post_id in ( posts )
+		var post := board.GetPost( post_id );
+  
+		GFAddButton( gump, 115, y_pos+3, 0xFC1, 0xFC1, GF_CLOSE_BTN, READ_MSG_START+CInt( post_id ));
+		GFTextLine( gump, 135, y_pos, 2100, post.subject );
+		y_pos += 20;
+		counter += 1;
+
+		if( counter >= 8 && _post_id_iter < num_posts )
+			GFAddButton( gump, 357, 316, 0xFC, 0xFD, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 357, 140, 0xFA, 0xFB, GF_PAGE_BTN, gump.cur_page-1 );
+			y_pos := 160;
+			counter := 0;
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	return gump;
+endfunction
+
+function GetNewPostGump( mobile, board )
+
+	var gump := GetGumpTemplate( board );
+ 
+	GFGumpPic( gump, 180, 123, 0x883 );
+	GFTextLine( gump, 120, 155, 2100, "Author:" );
+	GFTextLine( gump, 175, 155, 2100, mobile.name );
+	GFTextLine( gump, 120, 175, 2100, "Subject:" );
+	GFTextEntry( gump, 180, 175, 185, 20, 2100, "SUBJECT", SUBJECT_TXT_POS );
+
+	GFGumpPic( gump, 150, 200, 0x60 );
+
+	var y_pos := 205;
+	for i:=MSG_TXT_START to ( MSG_TXT_START+5 )
+		GFTextEntry( gump, 110, y_pos, 255, 20, 2100, "", i );
+		y_pos += 20;
+		SleepMS(2);
+	endfor
+
+	GFAddButton( gump, 115, 347, 0x15E3, 0x15E7, GF_CLOSE_BTN, INDEX_BTN );
+	GFTextLine( gump, 135, 345, 2100, "Index" );
+
+	GFGumpPic( gump, 330, 350, 0x886 );
+	GFAddButton( gump, 365, 348, 2117, 2118, GF_CLOSE_BTN, SUBMIT_MSG_BTN );
+
+	return gump;
+endfunction
+
+function GetReadPostGump( mobile, board, post_id )
+
+	var post := board.GetPost( post_id );
+	var gump := GetGumpTemplate( board );
+
+	var msg := "<basefont color=#111111>"
+	+"From: "+post.author.name+"<br>"
+	+"Subject: "+post.subject+"<br>"
+	+"Message:<br>"
+	+post.message;
+
+	GFHTMLArea( gump, 110, 160, 263, 160, msg, 0, 1 );
+
+	GFAddButton( gump, 115, 347, 0x15E3, 0x15E7, GF_CLOSE_BTN, INDEX_BTN );
+	GFTextLine( gump, 135, 345, 2100, "Index" );
+ 
+        if( mobile.cmdlevel )
+	        GFGumpPic( gump, 310, 350, 0x885 );
+	        GFAddButton( gump, 365, 348, 2117, 2118, GF_CLOSE_BTN, DELETE_BTN );
+        endif
+
+	return gump;
+endfunction
+
+function NewPost( board, mobile, byref input, byref settings )
+
+	var subject := GFExtractData( input, SUBJECT_TXT_POS );
+	var message :="";
+
+	for i:=MSG_TXT_START to ( MSG_TXT_START+5 )
+		var data := GFExtractData( input, i );
+		if( data )
+			message += CStr( data )+" ";
+		endif
+		SleepMS(2);
+	endfor
+ 
+	board.AddPost( subject, message, mobile );
+	SendSysMessage( mobile, "Your post has been submitted." );
+
+	if( settings.MaxPosts )
+		if( board.GetNextPostId() > settings.MaxPosts )
+			board.SetNextPostId(1);
+		endif
+	endif
+
+	return 1;
+endfunction
+
+function DeletePost( board, mobile, post_id, byref settings )
+
+	var post := board.GetPost( post_id );
+	if( post.author.serial != mobile.serial )
+		// Only time the following checks would even matter.
+		if( settings.MinAgeToDelete )
+			var age := POLCore().systime - post.time;
+			if( age < settings.MinAgeToDelete )
+				SendSysMessage( mobile, "Post is not old enough to delete." );
+				return 0;
+			endif
+		endif
+	endif
+
+	board.DeletePost( post_id );
+	SendSysMessage( mobile, "Deleted." );
+
+	return 1;
+endfunction

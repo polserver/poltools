@@ -1,0 +1,42 @@
+/*
+        Created by *Edwards
+        
+        2009-10-18
+*/
+use uo;
+use os;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsAmbienceRune( rune )
+
+        rune := rune;
+        
+	return 1;
+endfunction
+
+exported function GetDelay( rune )
+
+	return GetObjProperty( rune, "Delay" );
+endfunction
+
+exported function GetRange( rune )
+
+	return GetObjProperty( rune, "Range" );
+endfunction
+
+exported function GetSounds( rune )
+
+	return GetObjProperty( rune, "SoundList" );
+endfunction
+
+exported function ActivateAmbience( rune )
+
+        SetObjProperty( rune, "NameSpec", "Activated" );
+	PrintTextAbove( rune, "Ambience is now active." );
+
+	return 1;
+endfunction

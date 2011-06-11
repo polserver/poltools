@@ -1,0 +1,45 @@
+/*
+        Made by *Edwards
+        
+        08-02-2008
+
+        Updated 2008-08-31
+
+        Last Modifications 2009-10-18
+             * Cleaned codes for better performanc
+
+        Thanks to Zulu and his developers for these awesome ideas...
+*/
+use uo;
+use util;
+
+program OnHitScript_Banish( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	//var rawDamage      := parms[3];
+	var armorDefender  := parms[4];
+	parms := 0;
+ 
+        var cursed := GetObjProperty( armorDefender, "Cursed" );
+        if( cursed )
+		attacker := defender;
+        endif
+
+        var chance :=  GetObjProperty( armorDefender, "ChanceOfEffect" );
+        if( !chance )
+                chance := 10;
+        endif
+
+	if( GetObjProperty( attacker, "SummonedBy" ))
+		if( RandomDiceRoll( "1d100" ) <= CInt( chance ))
+			PlayObjectCenteredEffect( attacker, 0x3728, 7, 14 );
+                	PlaySoundEffect( attacker, 0x202 );
+                
+			SetObjProperty( attacker, "GuardKill", 1 );
+                	attacker.Kill();
+		endif
+	endif
+
+        return 1;
+endprogram

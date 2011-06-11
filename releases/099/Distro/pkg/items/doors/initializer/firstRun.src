@@ -1,0 +1,82 @@
+/*
+        Maintened by *Edwards
+        
+        2009-10-21
+*/
+use uo;
+use os;
+use cfgfile;
+use polsys;
+
+include ":security:report";
+include ":datafile:datafile";
+
+program InitializeDoors( realm_list )
+
+	if( !realm_list )
+		if( GetGlobalProperty( "DoorsInitialized" ))
+			return 0;
+		else
+			SetGlobalProperty( "DoorsInitialized", 1 );
+		endif
+		
+		// Started up by start.ecl most likely.
+		realm_list := Realms().Keys();
+	elseif( Lower( TypeOf( realm_list )) != "array" )
+		// Manual door creation was done.
+		realm_list := array{realm_list};
+	endif
+	
+	foreach realm in ( realm_list )
+		var cfg_file := ReadConfigFile( ":doors:doors-"+realm );
+		if( cfg_file.errortext )
+			ReportText( "No config file found for realm "+realm, REPORT_SYSLOG );
+			continue;
+		endif
+		
+		// Allowing unlimited elem names so people can sort the configs as they wish!
+		foreach elem_name in ( GetConfigStringKeys( cfg_file ))
+			ReportText( "Setting up doors in config elem "+elem_name, REPORT_SYSLOG );
+			var cfg_elem := cfg_file[elem_name];
+			CreateDoorsForElem( cfg_elem, realm );
+			
+			SleepMS(2);
+		endforeach
+		
+		UnloadConfigFile( ":doors:doors-"+realm );
+		
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endprogram
+
+function CreateDoorsForElem( byref cfg_elem, byref realm )
+
+	MAIN: foreach entry in ( GetConfigStringArray( cfg_elem, "Door" ))
+		entry := SplitWords( entry );
+		var x := CInt( entry[1] );
+		var y := CInt( entry[2] );
+		var z := CInt( entry[3] );
+		var type := CInt( entry[4] );
+		
+		// First check to make sure the door isn't already there.
+		foreach object in ( ListObjectsInBox( x, y, z, x, y, z, realm ))
+			if( object.IsA( POLCLASS_DOOR ))
+				ReportText( "Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - Door already found on that position.", REPORT_SYSLOG );
+				continue MAIN;
+			endif
+			
+			SleepMS(2);
+		endforeach				
+		
+		var door := CreateItemAtLocation( x, y, z, type, 1, realm );
+		if( door.errortext )
+			ReportText( "Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - "+door.errortext, REPORT_SYSLOG );
+		endif
+		
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endfunction

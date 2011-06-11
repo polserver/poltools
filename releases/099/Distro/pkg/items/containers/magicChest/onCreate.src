@@ -1,0 +1,54 @@
+/*
+        Created by *Edwards
+
+        2010-11-04
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":loot:lootParser";
+
+program MagicChest_OnCreate( chest )
+
+        var cfg_containers := ReadConfigFile( ":containers:itemdesc" );
+        if( cfg_containers.errortext )
+                PrintTextAbove( chest, "Error reading config <:containers:itemdesc> -->"+cfg_containers.errortext );
+                return 0;
+        endif
+
+        var poss_containers := GetConfigStringKeys( cfg_containers );
+        if( poss_containers.errortext )
+                PrintTextAbove( chest, "Error couldn't build array for containers -->"+poss_containers.errortext );
+                return 0;
+        endif
+                
+        var the_objtype := chest.graphic;
+
+        var list_items := ListItemsAtLocation( chest.x, chest.y, chest.z, chest.realm );
+        if( list_items.Size() )
+                foreach item in list_items
+                        if(+ Hex( item.objtype ) in poss_containers )
+                                the_objtype := item.objtype;
+                                DestroyItem( item );
+                        endif
+                        SleepMS(5);
+                endforeach
+        endif
+        
+        var magic_chest := CreateItemAtLocation( chest.x, chest.y, chest.z, the_objtype, 1, chest.realm );
+        if( magic_chest.errortext )
+                PrintTextAbove( chest, "Error couldn't create magic_chest -->"+magic_chest.errortext );
+                return 0;
+        endif
+        
+        magic_chest.movable := 0;
+        magic_chest.saveonexit := 0;
+
+	var level := RandomInt(5)+1;
+	Loot_Generate( magic_chest, level, 1 );
+        
+        DestroyItem( chest );
+
+        return 1;
+endprogram
