@@ -1,0 +1,21 @@
+/*
+        MaintenCreateded by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-11-04
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsTalisman( item )
+
+	item := item; // Avoid compiler warnings.
+	
+	return 1;
+endfunction

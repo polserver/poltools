@@ -1,0 +1,21 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-05-29
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsBoostStone( item )
+
+	item := item; // Avoid compiler warnings.
+	
+	return 1;
+endfunction

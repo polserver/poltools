@@ -1,0 +1,22 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-09-26
+*/
+use uo;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsTranscendenceScroll( item )
+
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction

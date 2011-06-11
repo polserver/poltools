@@ -1,0 +1,48 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+*/
+use uo;
+use os;
+use cfgfile;
+
+program useWand( who, wand )
+
+        if( !ReserveItem( wand ))
+		SendSysMessage( who, "That is already in use." );
+		return 0;
+	elseif( !wand.movable )
+		SendSysMessage( who, "You cannot use that." );
+		return 0;
+        else
+                var can_use := 0;
+                foreach item in ListEquippedItems( who )
+    		        if( wand.serial == item.serial )
+			       can_use := 1;
+		        endif
+                        SleepMS(5);
+	        endforeach
+         
+                if( !can_use )
+                        SendSysMessage( who, "You must equip "+wand.desc+"." );
+                        return 0;
+                endif
+	endif
+ 
+	var item_cfg := ReadConfigFile( ":*:itemdesc" );
+	item_cfg := item_cfg[wand.objtype];
+	
+	var spell_id := item_cfg.SpellId;
+	
+	var script := Start_Script( ":magery:spellStarter", {who, spell_id, wand, "", 1, 1} );
+	if( script.errortext )
+		SendSysMessage( who, "Error - Could not start spell starter ->"+script.errortext );
+		return 0;
+	endif
+	
+	return 1;
+endprogram

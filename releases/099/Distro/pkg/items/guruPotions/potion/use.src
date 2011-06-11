@@ -1,0 +1,41 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+
+        2010-11-02
+*/
+use uo;
+use util;
+
+include ":attributes:attributes_ex";
+include ":security:itemReport";
+include "include/itemUtil";
+
+program use_GuruPotion( mobile, potion )
+
+       	if( !useItem_check( mobile, potion, ITEM_INCONTAINER ))
+		return 0;
+	elseif( GetObjProperty( potion, "LFucker" ))
+                SendSysMessage( mobile, "The potion has no power." );
+                return 0;
+        endif
+
+        var stat_name := GetObjProperty( potion, "StatBonus" );
+        
+        var substract := SubtractAmount( potion, 1 );
+        if( substract.errortext )
+                ITEM_ReportText( mobile, "Error to substract a GuruPotion -->"+substract.errortext, ITEM_REPORT_SYSLOG );
+                return 0;
+        endif
+        
+        AP_SetTrueStat( mobile, stat_name, CDbl( AP_GetTrueStat( mobile, stat_name ) + 1 ));
+
+        PlaySoundEffect( mobile, 0x1F3 );
+        PlayObjectCenteredEffect( mobile, 0x373A, 7, 14 );
+        
+        ITEM_ReportText( mobile, "Use GuruPotion and increase "+stat_name+" by "+stat_name, ITEM_REPORT_SYSLOG );
+
+        return 1;
+endprogram

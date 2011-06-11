@@ -1,0 +1,91 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-21
+        
+        Last Modifications 2010-01-26
+             * Added cmdlevel check for skipping locks, traps, etc.
+*/
+use uo;
+use os;
+
+include ":brainAI:npcCommands";
+include ":doors:doors";
+include ":keys:key";
+include ":traps:traps";
+
+program useScript( mobile, door )
+
+        if( !door )
+                var serial := GetObjProperty( mobile, "#DoorSerial" );
+                
+                door := SystemFindObjectBySerial( CInt( serial ));
+                if( door.errortext )
+                      SendSysMessage( mobile, "Cant find door --> "+door.errortext );
+                endif
+                
+                EraseObjProperty( mobile, "#DoorSerial" );
+        endif
+        
+        if( mobile.cmdlevel >= 3 )
+                //Potential abuse of this from staff.
+                SendSysMessage( mobile, "Command level is present - door is skipping locks, traps, etc." );
+                SetObjProperty( door, "LastStaffUsed", array{mobile.serial, ReadGameClock()} );
+        elseif( DoorIsLocked( mobile, door ))
+		RunTraps( door, mobile );
+		return 0;
+	endif
+ 
+	foreach mob in ( ListMobilesInLineOfSight( mobile, 7 ))
+                if( mob.IsA( POLCLASS_NPC ))
+			AI_WakeUp( mob );
+                endif
+		SleepMS(5);
+	endforeach
+ 
+        var list_doors := ListItemsNearLocation( door.x, door.y, door.z, 1, door.realm ),
+            door_status := door.IsOpen();
+
+        foreach the_door in list_doors
+		SleepMS(5);
+
+                if( !the_door.IsDoor() )
+                        continue;
+                elseif( mobile.cmdlevel >= 3 )
+                        //Potential abuse of this from staff.
+                        SetObjProperty( the_door, "LastStaffUsed", array{mobile.serial, ReadGameClock()} );
+                elseif( DoorIsLocked( mobile, the_door ))
+		        RunTraps( the_door, mobile );
+                        continue;
+	        endif
+
+		if( door_status != the_door.IsOpen() )
+			Door_Close( the_door );
+		else
+			Door_Toggle( the_door );
+		endif
+	endforeach
+ 
+	return 1;
+endprogram
+
+function DoorIsLocked( mobile, door )
+
+	if( !door.locked )
+		// Nothing to worry about.
+		return 0;
+	elseif( door.IsOpen() )
+		// Allow an open door to always be closed.
+		return 0;
+	elseif( KP_HasKeyForLock( mobile, door ))
+		SendSysMessage( mobile, "You use your key to open the door." );
+		return 0;
+        endif
+        
+	PrintTextAbovePrivate( door, "That is locked.", mobile );
+ 
+	return 1;
+endfunction

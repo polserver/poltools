@@ -1,0 +1,45 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-06-01
+
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+        
+        Thank you Austin for this original Idea.
+*/
+use uo;
+use os;
+use util;
+
+include "include/itemUtil";
+
+program CoinFlip( who, coin )
+
+	if( !useItem_check( who, coin, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	PrintTextAbove( who, "*flips a coin*" );
+
+	var objtype := coin.objtype;
+	SubtractAmount( coin, 1 );
+
+	var new_coin := CreateItemAtLocation( who.x, who.y, who.z, objtype, 1 );
+ 
+	PlaySoundEffect( new_coin, 54 );
+	SleepMS(400);
+
+	var side := RandomDiceRoll( "1d2" );
+	case( side )
+		1: side := "heads";
+		2: side := "tails";
+	endcase
+ 
+	PrintTextAbove( new_coin, "*"+side+"*" );
+
+        return 1;
+endprogram

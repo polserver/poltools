@@ -1,0 +1,22 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-03-21
+*/
+use uo;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsHellSpawnBone( item )
+
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction

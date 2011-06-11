@@ -1,0 +1,72 @@
+/*
+        Made by *Edwards
+        From FantasiaShard.com
+        08-02-2008
+
+        Updated 2008-08-31
+
+        Last Modifications 2009-10-22
+             * Cleaned codes for better performances
+
+        Edwards@FantasiaShard.com
+
+        Thanks to Zulu and his developers for these awesome ideas...
+*/
+use uo;
+use os;
+use util;
+
+include ":damage:damage";
+include ":attributes:attributes";
+
+program HitScript_( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	var weaponAttacker := parms[3];
+        var rawDamage      := parms[4];
+
+        var drained := defender;
+	var drainer := attacker;
+
+        var cursed := GetObjProperty( weaponAttacker, "Cursed" );
+        if( cursed )
+		drained := attacker;
+                drainer := defender;
+        endif
+
+        var vital;
+	case( RandomInt(2) + 1 )
+		1:      vital := HITS;
+                        break;
+
+		2:      vital := MANA;
+			break;
+
+		3:	vital := STAMINA;
+			break;
+		default:
+	endcase
+ 
+        //Drain vital to the attacker...
+        var drained_vital := AP_GetVital( drained, vital ) - rawDamage;
+        if( drained_vital < 1 )
+                AP_SetVital( drained, vital, 1 );
+        else
+                AP_SetVital( drained, vital, drained_vital );
+        endif
+
+        //Get drained vital to the defender...
+        var drainer_vital := AP_GetVital( drainer, vital ) + rawDamage;
+        var drainer_maxvital := AP_GetVitalMaximumValue( drainer, vital );
+
+        if( drainer_vital > drainer_maxvital );
+                AP_SetVital( drainer, vital, drainer_maxvital );
+        else
+                AP_SetVital( drainer, vital, drainer_vital );
+        endif
+
+        ApplyDamageEX( drained, rawDamage+5, DMG_PHYSICAL, attacker );
+        
+        return 1;
+endprogram

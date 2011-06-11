@@ -1,0 +1,81 @@
+/*
+        Created by *Edwards
+        For PolServer.com
+
+        Mr_Lacerte@Hotmail.com
+
+        2009-04-04
+*/
+use uo;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program pokerTable( params )
+
+        var npc := params[1];
+        var mobile := params[2];
+
+        if( !advise( npc, mobile ))
+                 SendSysMessage( mobile, "Cancelled." );
+                 return 0;
+        endif
+        
+        SendSysMessage( mobile, "Connecting to the table..." );
+        Sleep(1);
+        
+        var start := start_script( ":pokerTable:table/pokerTable", {npc, mobile} );
+        if( start.errortext )
+                 SendSysMessage( mobile, "Error cannot start script <:pokerTable:dealer/startup> -->"+start.errortext );
+        endif
+ 
+        return 1;
+endprogram
+
+function advise( npc, mobile )
+
+        var gump := GFCreateGump();
+
+        GFResizePic( gump, 250, 40, GFGetCfgConst( "BackGrounds", "STONESLAB" ), 290, 350 );
+        GFAddAlphaRegion( gump, 250, 40, 290, 350 ); //Transparency
+
+	GFTextLine( gump, 270, 60, 1720, "Join Poker Table" );
+ 
+        var text := "You are asking to join a poker table. If you are unfamiliar with the
+                    rules of Texas Hold'em nor are uneasy about losing gold, then you are advised
+                    against proceeding. Only specify a buy-in amount that you would be comfortable
+                    losing. All bets are real gold and there are no refounds.";
+                    
+	GFDrawWrappedText( gump, 270, 80, GFWordWrap( text, 300 ));
+ 
+        send_table_specifications( npc, gump );
+ 
+        //OK Button
+        GFAddButton( gump, 500, 360, 0XFB7, 0XFB8, GF_CLOSE_BTN, 0xA00 );
+
+        var input := GFSendGump( mobile, gump );
+        if( !input[0xA00] )
+                 return 0;
+        endif
+        
+        return 1;
+endfunction
+
+function send_table_specifications( npc, byref gump )
+
+        GFTextLine( gump, 270, 250, 1720, "Table Specifications" );
+
+        var small_blind := CInt( GetObjProperty( npc, "small_blind" ));
+        GFTextLine( gump, 270, 270, 2100, "Small Blind: "+small_blind );
+
+        var big_blind := CInt( GetObjProperty( npc, "big_blind" ));
+        GFTextLine( gump, 270, 290, 2100, "Big Blind: "+big_blind );
+
+        var min_buyIn := CInt( GetObjProperty( npc, "min_buyIn" ));
+        GFTextLine( gump, 270, 330, 2100, "Minimum Buy-In: "+min_buyIn );
+
+        var max_buyIn := CInt( GetObjProperty( npc, "max_buyIn" ));
+        GFTextLine( gump, 270, 350, 2100, "Maximum Buy-In: "+max_buyIn );
+        
+        return 1;
+endfunction

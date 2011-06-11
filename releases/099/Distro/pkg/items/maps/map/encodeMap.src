@@ -1,0 +1,21 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-21
+*/
+use uo;
+use os;
+
+program create_encodeMap( the_map )
+
+	// NOTE: At this time maps dont support realms in the core!
+
+	var area_name := GetObjProperty( the_map, "Area" );
+	the_map.SetForArea( area_name, "britannia" );
+
+	return 1;
+
+endprogram 

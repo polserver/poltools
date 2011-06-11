@@ -1,0 +1,59 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-06-01 //Happy Birthay Momy!
+
+        Thanks to ZuluHotel and his developers for this original Idea!
+*/
+use os;
+use uo;
+
+program command_MakeCannon( mobile, direction )
+
+        var item,
+            targ := TargetCoordinates( mobile );
+
+        if( !targ )
+                  SendSysMessage( mobile, "Canceled." );
+                  return 0;
+        endif
+        
+        direction := Lower( direction );
+
+        if( direction == "north" )
+                 //Cannon (facing north)
+                 CreateItemAtLocation( targ.x, targ.y,   targ.z, 0x0e8b, 1, targ.realm );
+                 CreateItemAtLocation( targ.x, targ.y-1, targ.z, 0x0e8c, 1, targ.realm );
+                 item := CreateItemAtLocation( targ.x, targ.y-2, targ.z, 0x0e8d, 1, targ.realm );
+                 SetObjProperty( item, "working", 1 );
+
+        elseif( direction == "south" )
+                 //Cannon (facing south)
+                 CreateItemAtLocation( targ.x, targ.y,   targ.z, 0x0e93, 1, targ.realm );
+                 CreateItemAtLocation( targ.x, targ.y+1, targ.z, 0x0e92, 1, targ.realm );
+                 item := CreateItemAtLocation( targ.x, targ.y+2, targ.z, 0x0e91, 1, targ.realm );
+                 SetObjProperty( item, "working", 1 );
+
+        elseif( direction == "east" )
+                 //Cannon (facing east)
+                 CreateItemAtLocation( targ.x-1, targ.y, targ.z, 0x0e95, 1, targ.realm );
+                 CreateItemAtLocation( targ.x-2, targ.y, targ.z, 0x0e94, 1, targ.realm );
+                 item := CreateItemAtLocation( targ.x,   targ.y, targ.z, 0x0e96, 1, targ.realm );
+                 SetObjProperty(item, "working", 1 );
+                 
+        elseif( direction == "west" )
+                 //Cannon (facing west)
+                 CreateItemAtLocation( targ.x,   targ.y, targ.z, 0x0e90, 1, targ.realm );
+                 CreateItemAtLocation( targ.x-1, targ.y, targ.z, 0x0e8f, 1, targ.realm );
+                 item := CreateItemAtLocation( targ.x-2, targ.y, targ.z, 0x0e8e, 1, targ.realm );
+                 SetObjProperty( item, "working", 1 );
+        else
+                 SendSysMessage( mobile, ".makecannon <north> <south> <east> or <west>" );
+                 return 0;
+        endif
+        
+        return 1;
+endprogram

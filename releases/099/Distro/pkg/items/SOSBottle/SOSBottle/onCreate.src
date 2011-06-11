@@ -1,0 +1,29 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-01-18
+*/
+use uo;
+use util;
+use cfgfile;
+
+program TreasureSOSBottle_OnCreate( bottle )
+
+	var cfg_file := ReadConfigFile( ":SOSBottle:treasure" ),
+	    cfg_keys := GetConfigMaxIntKey( cfg_file ),
+	    random_key := RandomInt( cfg_keys ) + 1,
+	    info_coords := FindConfigElem( cfg_file, random_key );
+
+	var x := GetConfigInt( info_coords, "X" ),
+	    y := GetConfigInt( info_coords, "Y" ),
+	    z := GetConfigInt( info_coords, "Z" );
+
+        SetObjProperty( bottle, "XPos", x );
+        SetObjProperty( bottle, "YPos", y );
+        SetObjProperty( bottle, "ZPos", z );
+
+        return 1;
+endprogram

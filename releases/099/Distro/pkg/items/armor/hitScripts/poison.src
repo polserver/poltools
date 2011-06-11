@@ -1,0 +1,40 @@
+/*
+        Made by *Edwards
+        From FantasiaShard.com
+        08-02-2008
+
+        Updated 2008-08-31
+
+        Last Modifications 2009-10-22
+             * Cleaned codes for better performances
+
+        Edwards@FantasiaShard.com
+
+        Thanks to Zulu and his developers for these awesome ideas...
+*/
+use uo;
+
+include ":timedScripts:timedScripts";
+
+program OnHitScript_Poison( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	//var rawDamage      := parms[3];
+	var armorDefender  := parms[4];
+	parms := 0;
+
+        var cursed := GetObjProperty( armorDefender, "Cursed" );
+        if( cursed )
+		attacker := defender;
+        endif
+
+        var level := GetObjProperty( armorDefender, "PoisonLevel" );
+        if( !level )
+                level := 1;
+        endif
+
+	TS_StartTimer( attacker, "DefaultPoison", 300, level, defender );
+ 
+        return 1;
+endprogram

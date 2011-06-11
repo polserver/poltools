@@ -1,0 +1,117 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-12-14
+        
+        Last Modifications 2009-10-20
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":bountyBoard:bounty";
+
+program bountyBoard( mobile, board )
+
+        board.MaintainBountySystem();
+        
+        var gump := GFCreateGump();
+
+  	GfGumpPic( gump, 0, 0, 2170 );
+
+  	GFTextLine( gump, 195, 35, 0, "Bounty Board" );
+  	GFTextLine( gump, 200, 40, 0x0035, "Bounty Board" );
+
+        var bounties := GetBounties(),
+            num := bounties.Size();
+
+        var y_pos := 170,
+            counter := 0;
+
+        GFPage( gump, 1 );
+        foreach entry in bounties
+
+                if( entry[4] < ReadGameClock() )
+                       g_datafile.DeleteElement( entry[5] );
+                       continue;
+                elseif( !entry[1] || !entry[2] )
+                       continue;
+                endif
+
+		GFTextLine( gump, 125, y_pos, 2100, entry[1]+" : "+entry[2]+" gold(s)." );
+		GFAddButton( gump, 105, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _entry_iter );
+
+		y_pos += 20;
+		counter += 1;
+
+		if( counter >= 7 && _entry_iter < num )
+			GFAddButton( gump, 357, 316, 0xFC, 0xFD, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 357, 140, 0xFA, 0xFB, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 170;
+		endif
+		SleepMS(2);
+	endforeach
+
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                 SendSysMessage( mobile, "Cancelled." );
+                 return 0;
+        endif
+
+        input := input[0];
+
+        GenerateDetails( mobile, bounties[input] );
+
+        return 1;
+endprogram
+
+function GenerateDetails( mobile, selection )
+
+        var gump := GFCreateGump();
+
+        //Main Background
+  	GFGumpPic( gump, 83, 63, 0x820 );
+  	GFGumpPic( gump, 100, 100, 0x821 );
+  	GFGumpPic( gump, 100, 170, 0x822 );
+  	GFGumpPic( gump, 100, 240, 0x821 );
+  	GFGumpPic( gump, 100, 310, 0x822 );
+  	GFGumpPic( gump, 100, 380, 0x823 );
+
+        //Top/Bottom Deco
+  	GFGumpPic( gump, 120, 100, 0x82b );
+  	GFGumpPic( gump, 120, 365, 0x82b );
+
+        //Center line
+  	GFGumpPic( gump, 120, 170, 0x39 );
+  	GFGumpPic( gump, 150, 170, 0x3a );
+  	GFGumpPic( gump, 165, 170, 0x3a );
+  	GFGumpPic( gump, 180, 170, 0x3a );
+  	GFGumpPic( gump, 195, 170, 0x3a );
+  	GFGumpPic( gump, 210, 170, 0x3a );
+  	GFGumpPic( gump, 225, 170, 0x3a );
+  	GFGumpPic( gump, 240, 170, 0x3a );
+  	GFGumpPic( gump, 255, 170, 0x3a );
+  	GFGumpPic( gump, 270, 170, 0x3a );
+  	GFGumpPic( gump, 285, 170, 0x3a );
+  	GFGumpPic( gump, 300, 170, 0x3b );
+
+  	GFTextLine( gump, 110, 110, 0, "Name: "+ selection[1] );
+  	GFTextLine( gump, 110, 150, 0, "Bounty: "+ selection[2] );
+  	GFTextLine( gump, 110, 130, 0, "Murders: "+ selection[3] );
+
+        var text := "The foul scum known as "+selection[1]+" cannot continue to kill! For he is responsible
+                for "+selection[3]+" murder(s). Lord British's bounty of "+selection[2]+" gold pieces
+                will be rewarded to the first citizen to bring his head to any of the city guards.";
+	GFDrawWrappedText( gump, 110, 190, GFWordWrap( text, 250 ));
+
+        GFSendGump( mobile, gump );
+
+        return 0;
+endfunction

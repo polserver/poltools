@@ -1,0 +1,77 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-10-18
+*/
+use uo;
+use os;
+
+include "include/sounds";
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsAltar( altar )
+
+	altar := altar; // Avoid unused var compiler warning
+
+	return 1;
+endfunction
+
+exported function GetObjects( altar )
+
+	return GetObjProperty( altar, "Objects" );
+endfunction
+
+exported function GetOption( altar )
+
+	return GetObjProperty( altar, "Option" );
+endfunction
+
+exported function GetTargets( altar )
+
+	return GetObjProperty( altar, "Targets" );
+endfunction
+
+exported function GetCharges( altar )
+
+	return GetObjProperty( altar, "Charges" );
+endfunction
+
+exported function ActivateAltar( altar )
+
+	altar.color := 1159;
+        SetObjProperty( altar, "NameSpec", "Activated" );
+        
+	PrintTextAbove( altar, "Altar is now active." );
+
+	return 1;
+endfunction
+
+exported function ResetAltar( altar )
+
+	altar.color := 1172;
+
+	EraseObjProperty( altar, "Option" );
+        EraseObjProperty( altar, "Targets" );
+        EraseObjProperty( altar, "Objects" );
+        EraseObjProperty( altar, "Charges" );
+        EraseObjProperty( altar, "NameSpec" );
+
+	return 1;
+endfunction
+
+exported function CompletedSequence( altar )
+
+        PrintTextAbove( altar, "Congratulation!" );
+        
+        PlayLightningBoltEffect( altar );
+        PlaySoundEffect( altar, SFX_LIGHTNING );
+
+	return 1;
+endfunction

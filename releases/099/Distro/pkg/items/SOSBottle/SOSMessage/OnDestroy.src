@@ -1,0 +1,20 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-05-26
+*/
+use uo;
+
+program OnDestroy( item )
+
+	var SOSTile := SystemFindObjectBySerial( CInt( GetObjProperty( item, "SOSTileSerial" )));
+        if( SOSTile )
+                DestroyItem( SOSTile );
+        endif
+	
+	return 1;
+endprogram
+		

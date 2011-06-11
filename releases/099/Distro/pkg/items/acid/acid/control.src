@@ -1,0 +1,17 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-10-10
+*/
+use uo;
+use os;
+use util;
+
+program ControlScript( acid )
+
+	Sleep( RandomInt(30) );
+	DestroyItem( acid );
+endprogram

@@ -1,0 +1,201 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-12-28
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use uo;
+use cfgfile;
+use util;
+
+include "include/facings";
+include "include/itemUtil";
+include ":attributes:attributes";
+include ":autoloop:autoloop";
+include ":botanic:botanic";
+include ":crafting:crafting";
+
+var craft_config := ReadConfigFile( ":tailoring:tailoring" );
+
+program use_scissors( who, tool )
+
+        if( !useItem_check( who, tool, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( who, "Select an item to cut." );
+	var targ := Target( who );
+        if( !targ )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+        endif
+        
+        if( targ.graphic == 0xcf  || targ.graphic == 0xcf || targ.graphic == 0x00df )
+                CarveSheep( who, tool, targ );
+        elseif( targ.IsBolt() )
+                UseOnBolt( who, tool, targ );
+        elseif( targ.IsCloth() )
+                CutCloth( who, tool, targ );
+        elseif( targ.IsClothPiece() )
+                CutForBandages( who, tool, targ );
+        elseif( targ.IsHides() )
+                CutForBridle( who, tool, targ );
+        elseif( targ.IsHides() )
+                CutForBridle( who, tool, targ );
+        elseif( targ.IsBotanic() )
+                HarvestBotanic( who, targ );
+        elseif( targ.IsFlowerRoot() )
+                HarvestFlower( who, targ );
+        else
+                SendSysMessage( who, "Scissors cannot be used on that to produce anything." );
+        endif
+        
+        return 1;
+endprogram
+
+function CarveSheep( who, tool, targ )
+
+        SendAutoLoop( who );
+
+        SendSysMessage( who, "You start shearing.", 3, 89 );
+        while( AutoLoop( who ))
+                if( Distance( who, targ ) > 2 )
+                        SendSysMessage( who, "That sheep is too far away." );
+                        return 0;
+                elseif( targ.graphic == 0x00df )
+                        SendSysMessage( who, "There is not enough wool here to shear." );
+                        return 0;
+                endif
+                
+                var amount_whool := CInt( GetObjProperty( targ, "#Whool" ));
+                if( !amount_whool )
+                        SendSysMessage( who, "There is not enough wool to shear." );
+                        return 0;
+                endif
+                
+                TurnObjectToward( who, targ.x, targ.y );
+                PerformAction( who, 0x0020 );
+                PlaySoundEffect( who, 0x249 );
+                
+                CreateItemInBackpack( who, 0xf125, 1 );
+                amount_whool -= 1;
+                SetObjProperty( targ, "#Whool", amount_whool );
+                
+                if( !amount_whool )
+                        targ.graphic := 0x00df;
+                endif
+
+                CheckToolWear( who, tool, craft_skill );
+        endwhile
+
+        EndAutoLoop( who );
+        
+        return 1;
+endfunction
+
+function UseOnBolt( who, tool, targ )
+
+        if( !useItem_check( who, targ, ITEM_INCONTAINER ))
+		return 0;
+        endif
+        
+        PlaySoundEffect( who, 0x249 );
+        Sleep(1);
+        
+        var amount := CInt( targ.amount * 50 );
+        if( DestroyItem( targ ))
+
+                while( amount > 60000 )
+                        var created := CreateItemInBackpack( who, 0x1767, 60000 );
+                        amount -= 60000;
+                        SleepMS(5);
+                endwhile
+                CreateItemInBackpack( who, 0x1767, amount );
+
+		SendSysMessage( who, "You create "+amount+" cut cloths." );
+
+                CheckToolWear( who, tool, craft_skill );
+        endif
+        
+        return 1;
+endfunction
+
+function CutCloth( who, tool, targ )
+
+        if( !useItem_check( who, targ, ITEM_INCONTAINER ))
+		return 0;
+	elseif( targ in ListEquippedItems( who ))
+		SendSysMessage( who, "You cannot cut something being worn!" );
+		return 0;
+        endif
+
+        PlaySoundEffect( who, 0x249 );
+        Sleep(1);
+        
+        var amount := CInt( craft_config[targ.objtype].material );
+        if( DestroyItem( targ ))
+                if( SkillCheck( who, TAILORING, 5 ) > 0 )
+                        var created := CreateItemInBackpack( who, 0xEE9, amount );
+                        if( !created )
+                                CreateItemAtLocation( who.x, who.y, who.z, 0x1767, amount, who.realm );
+                        endif
+
+		        SendSysMessage( who, "You create "+amount+" bandages." );
+                else
+		        SendSysMessage( who, "You lost some materials." );
+                endif
+
+                CheckToolWear( who, tool, craft_skill );
+        endif
+        
+        return 1;
+endfunction
+
+function CutForBandages( who, tool, targ )
+
+        if( !useItem_check( who, targ, ITEM_INCONTAINER ))
+		return 0;
+        endif
+        
+        PlaySoundEffect( who, 0x249 );
+        Sleep(1);
+        
+        var amount := CInt( targ.amount * ( RandomInt(3) + 1 ));
+        
+        if( SkillCheck( who, TAILORING, 5, "", ADV_DISABLE ) > 0 )
+                DestroyItem( targ );
+                
+                var created := CreateItemInBackpack( who, 0xEE9, amount );
+                if( !created )
+                        CreateItemAtLocation( who.x, who.y, who.z, 0x1767, amount, who.realm );
+                endif
+
+                SendSysMessage( who, "You create "+amount+" bandages." );
+        else
+                SubtractAmount( targ, 1 );
+                SendSysMessage( who, "You lost some materials." );
+        endif
+
+        CheckToolWear( who, tool, craft_skill );
+        
+        return 1;
+endfunction
+
+function CutForBridle( who, tool, targ )
+
+        if( !useItem_check( who, targ, ITEM_INCONTAINER ))
+		return 0;
+        endif
+
+        PlaySoundEffect( who, 0x249 );
+        Sleep(1);
+        
+        //No bridle desc given yet...
+
+        return 1;
+endfunction

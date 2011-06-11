@@ -1,0 +1,62 @@
+/*
+        Made by *Edwards
+        From FantasiaShard.com
+        08-02-2008
+
+        Updated 2008-08-31
+
+        Last Modifications 2009-10-22
+             * Cleaned codes for better performances
+
+        Edwards@FantasiaShard.com
+
+        Thanks to Zulu and his developers for these awesome ideas...
+*/
+use uo;
+use os;
+use util;
+
+include ":attributes:attributes";
+include ":damage:damage";
+
+program OnHitScript_DrainVital( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	var weaponAttacker  := parms[3];
+        var rawDamage      := parms[4];
+
+        var drained := defender;
+	var drainer := attacker;
+
+        var cursed := GetObjProperty( weaponAttacker, "Cursed" );
+        if( cursed )
+		drained := attacker;
+                drainer := defender;
+        endif
+
+        var ac_vital := GetObjProperty( weaponAttacker, "DrainVital" );
+        if( ac_vital.errortext )
+                SendSysMessage( attacker, "Unable to start DrainVital -> "+ac_vital.errortext );
+        endif
+
+ 	rawDamage /= 1.5;
+
+        var drainer_vital := AP_GetVital( drainer, ac_vital ),
+            drainer_maxVital := AP_GetVitalMaximumValue( drainer, ac_vital );
+
+        var drainer_amount := CInt( drainer_vital + rawDamage );
+        if( drainer_amount > drainer_maxVital )
+                drainer_amount := drainer_maxVital;
+        endif
+
+        AP_SetVital( drainer, ac_vital, drainer_amount );
+        
+        if( ac_vital != "Hits" )
+                AP_ConsumeVital( drained, ac_vital, rawDamage );
+        endif
+        
+        ApplyDamageEX( drained, rawDamage, DMG_PHYSICAL, attacker );
+        
+        return 1;
+endprogram

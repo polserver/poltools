@@ -1,0 +1,26 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-05-29
+*/
+use uo;
+use os;
+
+include ":mounts:mounts";
+
+program WalkOn_dismounter( mobile, dismounter )
+
+        //Avoid compiler warnings
+        dismounter := dismounter;
+
+        var unmount := MP_Unmount( mobile );
+        if( unmount.errortext )
+                 SysLog( "Couldn't unmount mobile --> "+unmount.errortext );
+                 return 0;
+        endif
+        
+	return 1;
+endprogram

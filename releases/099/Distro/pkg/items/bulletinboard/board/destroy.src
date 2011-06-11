@@ -1,0 +1,13 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-20
+*/
+
+program OnDestroy( board )
+
+	return board.CleanUpData();
+endprogram

@@ -1,0 +1,22 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FAntasiaShard.com
+
+        2009-02-21
+*/
+use uo;
+use cfgfile;
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsMount( item )
+
+	item := item; // To avoid compiler warnings.
+	return 1;
+endfunction
+
+

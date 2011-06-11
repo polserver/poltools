@@ -1,0 +1,6 @@
+use os;
+
+var script := Start_Script("initializer/firstRun");
+if( script.errortext )
+	SysLog("Error starting teleporter initializer ->"+script.errortext);
+endif

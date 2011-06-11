@@ -1,0 +1,46 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-03-21
+*/
+use uo;
+use polsys;
+
+include "include/yesNo";
+include ":doom:doomWarning";
+
+program walkOnScript( mobile, tile )
+
+	doomWarning( mobile );
+
+	if( JustTeleported( mobile ))
+		return 0;
+	elseif( Distance( mobile, tile ) > 1 )
+		SendSysMessage( mobile, "No longer close enough to the moongate." );
+		return 0;
+	endif
+
+	SetObjProperty( mobile, "#Teleported", ReadMillisecondClock() );
+	var result := tile.SendToDestination( mobile );
+	if( result.errortext )
+		SendSysMessage( mobile, "Error teleporting:"+result.errortext );
+		return 0;
+	endif
+
+	return 1;
+endprogram
+
+function JustTeleported( mobile )
+
+	var tele_time := CInt( GetObjProperty( mobile, "#Teleported" ));
+	if( tele_time > ReadMillisecondClock()-800 )
+		// Mobile just teleported. Too soon to teleport again.
+		return 1;
+	else
+		// Safe to teleport the mobile
+		return 0;
+	endif
+endfunction

@@ -1,0 +1,28 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-22
+*/
+use uo;
+use util;
+
+include "include/client";
+include ":damage:damage";
+
+program trapScript( params )
+
+	var mobile := params[1];
+	//var object := params[2];
+	//var trap_info := params[3];
+	//var trap_index := params[4];
+	params := 0; // Not needed anymore.
+	
+	SendSysMessage( mobile, "You set off a trap!" );
+	PlayObjectCenteredEffect( mobile, GFX_EXPLODE_3, 10, 10 );
+	ApplyDamageEX( mobile, RandomDiceRoll("5d10"), DMG_FIRE );
+	
+	return 1;
+endprogram

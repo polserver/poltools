@@ -1,0 +1,29 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-08-21
+        
+        Last Modifications 2008-12-12
+             * Now the player must accept being resurected.
+*/
+use uo;
+use os;
+
+include ":resgate:resgate";
+
+program walkon( mobile, tile )
+
+	// Used to fix unused var report by ecompile: tile;
+	tile := tile;
+
+	if( mobile.dead )
+                ResurrectGate( mobile );
+	else
+		SendSysMessage( mobile, "You are at peace..." );
+	endif
+
+	return 1;
+endprogram

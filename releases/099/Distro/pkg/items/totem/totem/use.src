@@ -1,0 +1,71 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+        
+        2001-01-29
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":animaltaming:taming";
+include ":classes:classes";
+include ":totem:totem";
+
+program Use_Totem( mobile, item )
+
+       	if( !useItem_check( mobile, item, ITEM_INCONTAINER ))
+		return 0;
+        elseif( !GetObjProperty( mobile, MAGE ))
+                SendSysMessage( mobile, "Your magic power are too weak to use the item." );
+                return 0;
+        endif
+
+        var totem_found := Totem_Find( mobile ),
+            owner := GetObjProperty( item, "Owner" );
+            
+        if( totem_found || owner )
+                if( owner != mobile.serial )
+                        SendSysMessage( mobile, "This does not belong to you!" );
+                        return 0;
+                elseif( Totem_GetTotemItem( totem_found ).serial != item.serial )
+                        SendSysMessage( mobile, "You already have a totem." );
+                        return 0;
+                endif
+                Totem_UnShrink( mobile );
+                return 1;
+        elseif( !SubtractAmount( item, 1 ))
+                return 0;
+	endif
+        
+        var totem := CreateNPCFromTemplate( ":ai_totem:Totem", mobile.x, mobile.y, mobile.z, 0, mobile.realm );
+	if( totem.errortext )
+		SendSysMessage( mobile, "Error creating NPC <:ai_totem:Totem> --> "+totem.errortext );
+		return 0;
+	endif
+
+        SetObjProperty( mobile, "HasTotem", totem.serial );
+        
+        tameCreature( totem, mobile );
+        totem.name := mobile.name;
+
+        var totem_level := CInt( GetObjProperty( item, "ByTrueMage" ));
+        if( totem_level )
+                SetObjProperty( totem, MAGE, totem_level );
+        endif
+        
+        Sleep(1);
+        var totem_item := CreateItemInContainer( totem.backpack, 0x25a6, 1 );
+        if( totem_item.errortext )
+                SendSysMessage( mobile, "Erorr creating totem item -->"+totem_item.errortext );
+                return 0;
+        endif
+        
+        SetObjProperty( totem, "TotemItemSerial", CInt( totem_item.serial ));
+        SetObjProperty( totem_item, "NameSpec", mobile.name );
+        SetObjProperty( totem_item, "Owner", mobile.serial );
+ 
+        return 1;
+endprogram	
