@@ -1,0 +1,33 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-05-18
+*/
+use uo;
+
+program textcommand_summonSerial( mobile, serial )
+
+        if( !serial )
+                SendSysMessage( mobile, "Usage is .summonSerial <serial number>" );
+                return 0;
+        endif
+        
+        var object := SystemFindObjectBySerial( CInt( serial ));
+        if( object )
+                var move := MoveItemToContainer( object, mobile.backpack );
+                if( move.errortext )
+                        SendSysMessage( mobile, "Error couldn't move object -->"+move.errortext );
+                        return 0;
+                endif
+        else
+                SendSysMessage( mobile, "Serial not found!" );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Done!" );
+        
+        return 1;
+endprogram

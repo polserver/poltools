@@ -1,0 +1,29 @@
+/*
+        Maintened by *Edwards
+        For FantasaiaShard.com
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+use os;
+
+include ":security:commandReport";
+
+program command_Staff( who, text )
+
+        if( !text )
+                SendSysMessage( who, "Cancelled" );
+                return 0;
+        endif
+        
+	foreach player in ( EnumerateOnlineCharacters() )
+		if( player.cmdlevel )
+			SendSysMessage( player, who.name+": "+text, 3, 100 );
+		endif
+		SleepMS(2);
+	endforeach
+ 
+        CMD_ReportText( "Staff Chat: "+text, CMD_REPORT_SYSLOG );
+
+	return 1;
+endprogram

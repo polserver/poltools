@@ -1,0 +1,39 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-10-24
+*/
+use uo;
+use os;
+
+include "include/security";
+
+program textcommand_squelch( mobile, duration )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        if( !duration )
+                SendSysMessage( mobile, "Usage is .squelch <duration>  ( -1 means forever, 0 clears the squelch )." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Select a player to mute." );
+        var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( targ.IsA( POLCLASS_NPC ) && !targ.IsA( POLCLASS_MOBILE ))
+                SendSysMessage( mobile, "You must select a player." );
+                return 0;
+        endif
+
+        targ.Squelch( CInt( duration ));
+
+        return 1;
+endprogram

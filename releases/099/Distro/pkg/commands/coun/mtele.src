@@ -1,0 +1,45 @@
+/*
+        Maintened by *Edwards
+        For FantasaiaShard.com
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+
+include "include/client";
+include "include/sounds";
+include ":security:commandReport";
+
+program command_MTele( who )
+
+	SendSysMessage( who, "Where do you want to teleport?" );
+	while( who.connected )
+ 
+		var targ := TargetCoordinates( who );
+	        if( !targ )
+		       SendSysMessage(who, "Cancelled.");
+		       return 0;
+	        endif
+
+	        // This is done so the user doesn't get stuck inside of statics (stairs, boats, etc.)
+	        var z_pos := GetStandingHeight(targ.x, targ.y, targ.z, who.realm).z;
+	        if ( !z_pos )
+		       // Occurs when there is no real 'standing' platform for the user.
+		       // Example: Teleporting into a wall.
+		       z_pos := targ.z;
+	        endif
+
+	        var result := MoveObjectToLocation( who, targ.x, targ.y, z_pos, who.realm, MOVEOBJECT_FORCELOCATION );
+	        if( result.errortext )
+		       SendSysMessage(who, "Unable to move ->"+result.errortext);
+		       return 0;
+	        elseif( !who.concealed )
+		       PlaySoundEffect( who, SFX_TELEPORT );
+		       PlayObjectCenteredEffect( who, GFX_SMOKE, 0, 5 );
+	        endif
+         
+                CMD_ReportText( "Moving to x:"+targ.x+" y:"+targ.y+" z:"+targ.z+" realm:"+targ.realm, CMD_REPORT_SYSLOG );
+	endwhile
+	
+	return 1;
+endprogram

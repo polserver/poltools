@@ -1,0 +1,38 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-06-02
+*/
+use uo;
+
+include "include/security";
+
+program textcmd_releaseItem( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Select the item you would like to release." );
+        var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_ITEM ))
+                SendSysMessage( mobile, "You must target an item." );
+                return 0;
+        endif
+        
+	if( !ReserveItem( targ ))
+                ReleaseItem( targ );
+                SendSysMessage( mobile, "You release the item." );
+        else
+                SendSysMessage( mobile, "Item is not reserved." );
+        endif
+        
+        return 1;
+endprogram

@@ -1,0 +1,31 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-12-13
+*/
+use uo;
+use os;
+
+program textcmd_e2( staff )
+
+        PlaySoundEffect( staff, 0x231 );
+        PlayMovingEffectXYZ( staff.x, staff.y, staff.z+100, staff.x, staff.y, staff.z, 6002, 10, 0, 0, staff.realm );
+        
+        SleepMS(100);
+        PlaySoundEffect( staff, 0x146 );
+        SleepMS(180);
+	PlaySoundEffect( staff,0x15b );
+ 
+        PerformAction( staff, 22 );
+        SleepMS(1200);
+        
+        staff.concealed := 1;
+        SleepMS(200);
+        
+        PlaySoundEffect( staff, 0x246 );
+        
+        return 1;
+endprogram

@@ -1,0 +1,25 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-02-08
+*/
+use uo;
+use polsys;
+
+include ":timeutils:gameTime";
+
+program txtcmd_ServerTime( mobile )
+
+	var core_ref := POLCore();
+ 
+ 	var uptime := TIME_GetTimeDesc( core_ref.uptime, 1 ),
+	    longest_uptime := TIME_GetTimeDesc( GetGlobalProperty( "MaxUptime" ), 1 );
+ 
+        SendSysMessage( mobile, "System Uptime: "+uptime, 3, 55 );
+        SendSysMessage( mobile, "System Longest Uptime: "+longest_uptime, 3, 55 );
+        
+        return 1;
+endprogram

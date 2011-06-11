@@ -1,0 +1,39 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        2008-05-30
+*/
+use uo;
+use os;
+
+include "include/security";
+
+CONST MAX_RANGE := 10;
+
+program textcmd_LockRadius( who, text )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	if( !text )
+		SendSysMessage( who, "Syntax: .lockradius <radius>" );
+		return 0;
+	endif
+
+	var range := CInt( text );
+ 	if( range > MAX_RANGE )
+		SendSysMessage(who, "Range has been set to the maximum distance of "+MAX_RANGE );
+		range := MAX_RANGE;
+	endif
+ 
+	foreach item in ( ListItemsNearLocation( who.x, who.y, who.z, range, who.realm ))
+		item.movable := 0;
+		SleepMS(2);
+	endforeach
+
+	SendSysMessage( who, "Done." );
+	return 1;
+endprogram
