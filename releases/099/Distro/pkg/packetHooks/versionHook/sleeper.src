@@ -1,0 +1,13 @@
+/*
+        Maintened by *Edwards
+
+        2010-06-27
+*/
+use uo;
+use os;
+
+program version_Sleeper( who );
+
+        Sleep(5);
+        DisconnectClient( who );
+endprogram

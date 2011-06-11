@@ -1,0 +1,32 @@
+/*
+        Maintened by *Edwards
+
+        Last Maintenances 2011-03-31
+*/
+use uo;
+use os;
+
+program charprofile()
+
+	print( "INSTALLING: Character Profile..." );
+	return 1;
+endprogram
+
+exported function HandleCharProfileRequest( mobile, byref packet )
+
+	var id := packet.GetInt32(4);  //serial of requested profile
+	var chr := SystemFindObjectBySerial( id );
+        if( chr.errortext )
+                //Let's be honest, this check is useless..
+                return 0;
+	elseif( chr.IsA( POLCLASS_NPC ))
+		return 0;
+	endif
+ 
+        var script := Start_Script( ":charprofile:parseCharProfile", array{mobile, chr} );
+        if( script.errortext )
+                SendSysMessage( mobile, "Error starting script <:charprofile:parseCharProfile> -->"+script.errortext );
+        endif
+
+	return 1;
+endfunction

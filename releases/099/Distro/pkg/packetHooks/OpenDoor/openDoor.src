@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+
+        2009-05-30
+        
+        Last Modifications 2009-11-22
+             * Changed range to 2 tiles
+        
+        Purpose: The OpenDoor Client macro is never used on freeshards for lack of support. However,
+                 hose familiar with OSI know and use this a lot. This hook was made to show the purpose
+                 of the macro and for learning a bit on packets.
+
+        Notes:   The script will check for doors the player can access. However, it will check them and
+                 open them only if the player is 1 tile away, and facing the door. As per the OSI method
+
+        To Do:   Integrate ability to use this to "close" the door also. To tired to do so now.
+*/
+use uo;
+use os;
+
+include "include/facings";
+
+program openDoor()
+
+	print( "INSTALLING: OpenDoor Action Macro PH..." );
+	return 1;
+endprogram
+
+exported function HandleOpenDoorMacro( character, byref packet )
+
+ 	packet := packet;
+  
+        if( GetObjProperty( character, "#DoorMacro" ) > ReadGameClock() )
+ 		return 1;
+        else
+                SetObjProperty( character, "#DoorMacro", ReadGameClock() + 1 );
+ 	endif
+  
+        var near_doors := ListItemsNearLocationWithFlag( character.x, character.y, character.z, 2, TILEDATA_FLAG_DOOR, character.realm );
+        foreach door in near_doors
+                if( !IsBehind( character, door.x, door.y ))
+                        if( door.IsA( POLCLASS_DOOR ))
+                               if( character.dead )
+ 			              return 1;
+ 		               elseif( !CheckLineOfSight( character, door ))
+ 			              return 1;
+ 		               endif
+                  
+ 		               UseItem( door, character );
+ 	                endif
+                endif
+                
+                SleepMS(5);
+        endforeach
+        
+        return 1;
+endfunction
