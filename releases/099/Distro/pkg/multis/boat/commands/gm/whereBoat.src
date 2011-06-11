@@ -1,0 +1,44 @@
+/*
+        Created by *Edwards
+
+        2010-08-20
+*/
+use uo;
+use os;
+
+include "include/security";
+include ":statistics:account";
+
+program textcmd_WhereBoat( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+	SendSysMessage( mobile, "Select a player." );
+        var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_MOBILE ) || targ.IsA( POLCLASS_NPC ))
+                SendSysMessage( mobile, "You must target a player." );
+                return 0;
+        endif
+        
+        var boat_serial := GetAccountProperty( targ.acctname, "HasBoat" );
+        if( !boat_serial )
+                SendSysMessage( mobile, targ.name+" has no boat." );
+                return 0;
+	endif
+ 
+	var boat := SystemFindObjectBySerial( boat_serial );
+	if( !boat )
+		EraseAccountProperty( targ.acctname, "HasBoat" );
+		SendSysMessage( mobile, targ.name+" has no boat." );
+	endif
+
+        SendSysMessage( mobile, "Boat X: "+boat.x+" Y: "+boat.y+" Z: "+boat.z+" Realm: "+boat.realm );
+ 
+	return 1;
+endprogram
