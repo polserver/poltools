@@ -1,0 +1,30 @@
+/*
+        Maintened by *Edwards
+        
+        Last Modifications 2008-12-02
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/packets";
+
+program core_reconnect( mobile )
+
+	SysLog( "IP: "+mobile.ip+" Account: "+mobile.acctname+" Character: "+mobile.name+" reconnected." );
+        SendSysMessage( mobile, "Reconnected.", 3, 55 );
+
+        SendPacket( mobile, "B9801B" );
+        mobile.SetWarMode(0);
+        GrantPrivilege( mobile, "seeghosts" );
+	mobile.Enable( "seeghosts" );
+        EraseObjProperty( mobile, "#AuthCodeGiven" );
+        EraseObjProperty( mobile, "#SpeedBoost" );
+        mobile.Deaf(0);
+        
+        if( mobile.cmdlevel )
+                mobile.SetLightLevel( 0, 5000 );
+        endif
+
+	return 1;
+endprogram

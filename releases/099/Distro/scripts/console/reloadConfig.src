@@ -1,0 +1,15 @@
+use polsys;
+use os;
+use uo;
+use cfgfile;
+
+program console_reloadConfig()
+
+	print("System Message: Reloading configuration.");
+ 
+	Unload_Scripts( "" );
+	ReloadConfiguration();
+
+	return 1;
+
+endprogram

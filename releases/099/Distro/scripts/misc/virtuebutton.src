@@ -1,0 +1,8 @@
+use uo;
+
+program core_virtueButton( mobile )
+
+        SendSysMessage( mobile, "Not implemented yet." );
+
+	return 1;
+endprogram

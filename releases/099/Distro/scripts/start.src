@@ -1,0 +1,10 @@
+/*
+        Maintened by *Edwards
+        
+        2010-01-16
+*/
+use os;
+
+program GlobalStartup()
+	return 1;
+endprogram

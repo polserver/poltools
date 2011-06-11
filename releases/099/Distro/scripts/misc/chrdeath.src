@@ -1,0 +1,15 @@
+use uo;
+use os;
+
+program core_chrDeath(corpse, ghost)
+
+	var params := array{corpse, ghost};
+ 
+	var script := Start_Script(":death:plyrdeath", params);
+	if( script.errortext )
+		SysLog("Error Start script <:death:plyrdeath> -->"+script.errortext);
+		return 0;
+	endif
+	
+	return 1;
+endprogram
