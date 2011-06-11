@@ -215,6 +215,10 @@ function Loot_ParseString( line )
 	if( !amount )
 		amount := 1;
 	endif
+ 
+        if( RandomDiceRoll( "1d100" ) <= 10 )
+                amount *= 2;
+        endif
 
 	var name := CStr( line[2] );
 	var objtype;
