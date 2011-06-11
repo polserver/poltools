@@ -1,0 +1,28 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2008-12-26
+*/
+use uo;
+use os;
+
+program explosion_timer( parms )
+
+	var potion := parms[1];
+	var script := parms[3];
+
+	PrintTextAbove( potion, "3" );
+	Sleep(1);
+	PrintTextAbove( potion, "2" );
+	Sleep(1);
+	PrintTextAbove( potion, "1" );
+	Sleep(1);
+ 
+	var start := start_script( script, parms );
+        if( start.errortext )
+                PrintTextAbove( potion, "Error starting script <"+script+"> -->"+start.errortext );
+                return 0;
+        endif
+ 
+        return 1;
+endprogram

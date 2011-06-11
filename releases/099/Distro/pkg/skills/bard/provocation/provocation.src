@@ -1,0 +1,109 @@
+/*
+        Maintened by *Edwards
+
+        2009-01-17
+
+        Last Modifications 2009-07-30
+             * Revised code for better performances.
+*/
+use uo;
+use os;
+
+include ":areas:managment";
+include ":attributes:attributes";
+include ":classes:classes";
+include ":musicianship:bard";
+include ":brainAI:npcUtil";
+include ":brainai:npcCommands";
+include "include/facings";
+
+program skill_Provocation( mobile )
+
+        var instrument := CheckInstrument( mobile );
+        if( !instrument )
+                SendSysMessage( mobile, "You do not have any instruments to play!" );
+                return 0;
+        elseif( A_IsIn( mobile, AREAS_NO_DAMAGE ))
+                SendSysMessage( mobile, "You cannot provoke here!" );
+                return 0;
+        endif
+
+        var range := GetBardRange( mobile );
+
+        SendSysMessage( mobile, "Select the creature you would like to provoke." );
+        var targ := Target( mobile );
+	if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+		return 0;
+        elseif( !targ.IsA( POLCLASS_NPC ))
+		SendSysMessage( mobile, "You must target an NPC!" );
+		return 0;
+        elseif( !MainCheckTarget( mobile, targ, range ))
+                return 0;
+        elseif( A_IsIn( targ, AREAS_NO_DAMAGE ))
+                SendSysMessage( mobile, "You cannot provoke "+targ.name+" from here!" );
+                return 0;
+	endif
+
+        if( targ.IsA( POLCLASS_NPC ))
+                var targ_npc_cfg := NPC_GetNPCConfig( targ.npctemplate );
+                if( targ_npc_cfg.Privs == "invul" || targ_npc_cfg.Settings == "invul" )
+		         SendSysMessage( mobile, "Invulnerable NPCs are not affected by your skills." );
+		         return 0;
+                endif
+        endif
+
+        var difficulty := GetMobileDifficulty( mobile, targ );
+        if( !difficulty )
+                SendSysMessage( mobile, "You cannot provoke this creature!" );
+                return 0;
+        endif
+        
+        TurnObjectToward( mobile, targ.x, targ.y );
+
+        SendSysMessage( mobile, "Select the victim you would like to provoke "+targ.name+"." );
+        var victim := Target( mobile );
+	if( !victim )
+                SendSysMessage( mobile, "Cancelled." );
+		return 0;
+        elseif( victim.serial == targ.serial )
+                SendSysMessage( mobile, "You should consider therapy." );
+                return 0;
+        elseif( !MainCheckTarget( mobile, victim, range ))
+                return 0;
+        elseif( A_IsIn( victim, AREAS_NO_DAMAGE ))
+                SendSysMessage( mobile, "You cannot provoke "+targ.name+" against "+victim.name+" from here!" );
+                return 0;
+	endif
+
+        if( victim.IsA( POLCLASS_NPC ))
+                var victim_npc_cfg := NPC_GetNPCConfig( victim.npctemplate );
+                if( victim_npc_cfg.Privs == "invul" || victim_npc_cfg.Settings == "invul" )
+		         SendSysMessage( mobile, "Invulnerable NPCs are not affected by your skills." );
+		         return 0;
+                endif
+        endif
+
+        var sfx_success := instrument.SfxSuccess(),
+            sfx_failure := instrument.SfxFaillure();
+
+        if( SkillCheck( mobile, MUSICIANSHIP, difficulty, 0, ADV_DISABLE ) > 0 )
+		if( SkillCheck( mobile, DISCORDANCE, -1 ) > 0 )
+                        PlaySoundEffect( mobile, sfx_success );
+                        PrintTextAbovePrivate( targ, "You provoke "+targ.name+" against "+victim.name+"!", mobile );
+                        AI_Attack( targ, victim );
+                        return 1;
+                endif
+        endif
+        
+        PlaySoundEffect( mobile, sfx_failure );
+        PrintTextAbovePrivate( targ, "You enrage "+targ.name+"!", mobile );
+                
+        AI_Attack( targ, mobile );
+                
+        if( victim.IsA( POLCLASS_NPC ))
+                AI_Attack( targ, victim );
+        endif
+
+        return 1;
+endprogram

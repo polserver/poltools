@@ -1,0 +1,66 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2008-12-26
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":alchemy:drinkPotion";
+include ":mounts:mounts";
+include ":timedscripts:timedScripts";
+include "include/itemUtil";
+
+program potion_polymorph( who, potion )
+
+       	if( !useItem_check( who, potion, ITEM_INCONTAINER ))
+		return 0;
+	elseif( !CheckToDrink( who ))
+		return 0;
+	elseif( GetObjProperty( who, "PolymorphMod" ))
+                SendSysMessage( who, "Already under the influence!" );
+		return 0;
+        elseif( GetObjProperty( who, "LicheMod" ))
+                SendSysMessage( who, "Already under the influence!" );
+		return 0;
+        elseif( GetObjProperty( who, "WraithMod" ))
+                SendSysMessage( who, "Already under the influence!" );
+		return 0;
+        elseif( MP_GetMount( who ))
+                SendSysMessage( who, "You cannot use that spell when you are mounted!" );
+		return 0;
+	endif
+
+        var power := GetPotionStrength( potion ),
+ 	    duration := power * 120,
+	    amount := RandomDiceRoll( CInt( power )+"d5" );
+
+        var graph;
+        case( power )
+		1:	graph := array{ 6, 51, 48 }; //bird, slime, scorpion
+			break;
+
+		2:	graph := array{ 48, 18, 21 }; //scorpion, ettin, giant serp
+			break;
+
+		3:	graph := array{ 18, 8, 4 }; //ettin, corpser, gargoyle
+			break;
+
+		4:	graph := array{ 1, 4, 9 }; //ogre, gargoyle, daemon
+			break;
+
+		5:	graph := array{ 9, 12, 10 }; //daemon, dragon, daemon with sword
+			break;
+	endcase
+
+        who.graphic := graph[RandomInt(graph.Size())+1];
+        who.color := 0;
+
+	TS_StartTimer( who, "Polymorph", duration, amount );
+
+	return empty_bottle( who, potion );
+endprogram

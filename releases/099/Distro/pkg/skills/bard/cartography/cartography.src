@@ -1,0 +1,22 @@
+/*
+        Maintened by *Edwards
+
+        2008-12-27
+        
+        Last Modifications 2009-11-19
+             * Added check if in backpack and use it if found.
+*/
+use uo;
+use os;
+
+program skill_Cartography( who )
+
+        var item := FindObjtypeInContainer( who.backpack, 0x6400 );
+        if( item )
+                UseItem( item, who );
+        else
+		SendSysMessage( who,"You must use a mapmaker's pen to make maps and no such item has been found in your backpack." );
+        endif
+
+	return 1;
+endprogram

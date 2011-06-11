@@ -1,0 +1,36 @@
+/*
+        Created by *Edwards
+
+        2009-09-29
+*/
+use uo;
+use os;
+
+include "include/security";
+include ":itemid:itemID";
+
+program textcmd_IDContainer( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Select a corpse with loot to identify." );
+        var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_CORPSE ))
+                SendSysMessage( mobile, "That is not a corpse." );
+		return 0;
+	endif
+ 
+        foreach item in ( EnumerateItemsInContainer( targ ))
+                IDItem( mobile, item );
+                
+                SleepMS(5);
+        endforeach
+
+        return 1;
+endprogram

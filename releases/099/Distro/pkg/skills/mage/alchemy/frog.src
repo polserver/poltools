@@ -1,0 +1,34 @@
+/*
+        Created by *Edwards
+
+        2010-02-01
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+include "include/itemUtil";
+
+program potion_frogcurse( who, potion )
+
+       	if( !useItem_check( who, potion, ITEM_INCONTAINER ))
+		return 0;
+  	elseif( GetObjProperty( who, "PolymorphMod" ))
+                SendSysMessage( who, "Already under the influence!" );
+		return 0;
+        elseif( GetObjProperty( who, "LicheMod" ))
+                SendSysMessage( who, "Already under the influence!" );
+		return 0;
+        elseif( GetObjProperty( who, "WraithMod" ))
+                SendSysMessage( who, "Already under the influence!" );
+		return 0;
+	elseif( !CheckToDrink( who ))
+		return 0;
+	endif
+
+        TS_StartTimer( who, "FrogCurse", 120 );
+
+	return empty_bottle( who, potion );
+endprogram

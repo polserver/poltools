@@ -1,0 +1,206 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-20
+
+        Last Modifications 2009-01-20
+             * Added difficulty for Type shown
+
+        Last Modifications 2009-08-23
+             * Fixed var nearby : cannot track hidden mobile
+
+        Last Modifications 2009-08-23
+             * Added spec Crafter cannot get tracked at all now..
+                     Note: it might help them crafting in the wild...
+                           but could also be exploited in various situation.
+
+        Last Modifications 2010-02-18
+             * Removed: human and creature can be tracked without difficulty level
+*/
+use uo;
+use cfgfile;
+
+include ":attributes:attributes";
+include ":classes:classes";
+
+program skill_Tracking( mobile )
+
+        var config := ReadConfigFile( ":tracking:tracking" );
+        if( config.errortext )
+		SysLog("Error:: Unable to read config [:tracking:tracking] -->"+config.errortext);
+                return 0;
+	endif
+
+        var range := CInt(( AP_GetSkill( mobile, TRACKING )) + 5 );
+        if( GetObjProperty( mobile, RANGER ))
+                range *= ClasseBonus( mobile, RANGER );
+        endif
+
+        var nearby := ListMobilesNearLocationEx( mobile.x, mobile.y, mobile.z, CInt( range ), LISTEX_FLAG_NORMAL, mobile.realm );
+	if( Len( nearby ) <= 1 )
+		SendSysMessage( mobile, "There don't seem to be any creatures nearby." );
+		return 0;
+	elseif( !SkillCheck( mobile, TRACKING, -1 ))
+        	SendSysMessage( mobile, "You fail to find any creatures nearby." );
+		return 0;
+        endif
+
+        var track_list := CreateMenu( "Select a category." ),
+            track_menu := CreateMenu( "Select a creature." ),
+            animal := 0,
+            monster := 0,
+            human := 0,
+            player := 0;
+
+        foreach character in nearby
+        
+                if( mobile.serial == character.serial )
+                        continue;
+                elseif( character.dead || character.hidden || character.concealed || character.cmdlevel )
+                        continue;
+                elseif( GetObjProperty( character, CRAFTER ))
+                        continue;
+                elseif( GetObjProperty( character, "NPCBoss" ))
+                        continue;
+                endif
+                
+                if( !character.IsA( POLCLASS_NPC ))
+                        player := 1;
+                        continue;
+                endif
+                
+		var elem := FindConfigElem( config, CInt( character.graphic ));
+                if( elem )
+	                case( GetConfigString( elem, "Type" ))
+                                "Animal":
+					animal := 1;
+					break;
+                                "Monster":
+					monster := 1;
+					break;
+                                "Human":
+					human := 1;
+					break;
+                        endcase
+                endif
+                
+                SleepMS(5);
+	endforeach
+ 
+        if( animal )
+                AddMenuItem( track_list, 0x20cf, "Animals" );
+        endif
+        if( monster )
+                AddMenuItem( track_list, 0x20d9, "Monsters" );
+        endif
+        if( human )
+                AddMenuItem( track_list, 0x2106, "Humans" );
+        endif
+        if( player )
+                AddMenuItem( track_list, 0x2D90, "Players" );
+        endif
+
+        var selection := SelectMenuItem2( mobile, track_list ),
+	    listtype := {};
+
+	case( selection.objtype )
+                0x20cf: listtype := "Animal";
+                      break;
+		0x20d9: listtype := "Monster";
+                      break;
+                0x2106: listtype := "Human";
+                      break; 
+                0x2D90: listtype := "Player";
+                      break;
+	endcase
+
+        var final_type,
+            ids := array,
+            count := 0;
+
+        foreach character in nearby
+		if( mobile.serial != character.serial && !character.dead )
+			var elem := FindConfigElem( config, character.graphic );
+			if( elem )
+				final_type := GetConfigString( elem, "Type" );
+    
+                                if( !character.IsA( POLCLASS_NPC ))
+                                        final_type := "Player";
+                                endif
+                                
+				if( final_type == listtype )
+					count += 1;
+					ids[count] := character;
+     
+					var type := GetConfigInt( elem, "Tile" );
+                                        
+					AddMenuItem( track_menu, type, character.name );
+				endif
+			endif
+		endif
+                SleepMS(5);
+	endforeach
+
+        if( count > 0 )
+		selection := SelectMenuItem2( mobile, track_menu );
+		if( !selection )
+			SendSysMessage( mobile, "Cancelled." );
+			return 0;
+		endif
+
+		var critter := ids[selection.index];
+
+		Detach();
+  
+                var tracking_pid := GetProcess( CInt( GetObjProperty( mobile, "#TrackingPID" )));
+                if( tracking_pid )
+                        tracking_pid.Kill();
+                endif
+                
+                SetObjProperty( mobile, "#TrackingPID", GetPid() );
+                
+		var timer := 0;
+		while( Distance( mobile, critter ) <= range && !critter.dead && timer <= 12 )
+                        SendQuestArrow( mobile, critter.x, critter.y );
+			timer += 1;
+   
+			if( Distance( mobile, critter ) < 10 )
+				SendQuestArrow( mobile, -1, -1 );
+                                return 1;
+			endif
+			Sleep(10);
+		endwhile
+  
+                SendQuestArrow( mobile, -1, -1 );
+		SendSysMessage( mobile, "You have lost your quarry." );
+	endif
+
+        return 1;
+endprogram
+
+function Get_direction( mobile, critter )
+
+	var ns,
+	    ew,
+	    desc;
+
+	if( mobile.y >= critter.y )
+		ns := "north";
+	elseif( mobile.y < critter.y )
+		ns := "south";
+	endif
+
+	if( mobile.x >= critter.x )
+		ew := "west";
+	elseif( mobile.x < critter.x )
+		ew := "east";
+	endif
+
+	if( !ns && !ew )
+		desc := "nearby";
+	else
+		desc := ns +"-"+ ew;
+	endif
+
+	return CStr( desc );
+endfunction

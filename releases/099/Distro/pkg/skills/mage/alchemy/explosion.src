@@ -1,0 +1,64 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2008-12-26
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+include ":damage:damage";
+include "include/itemUtil";
+
+program potion_explosion( who, potion )
+
+       	if( !useItem_check( who, potion, ITEM_INCONTAINER ))
+		return 0;
+        elseif( potion.amount > 1 )
+                SendSysMessage( who, "You can not use a stack of explosion potions." );
+                return 0;
+        elseif( !CheckToDrink( who ))
+		return 0;
+	endif
+
+	SendSysMessage( who, "Select a target." );
+
+	if( CInt( GetObjProperty( potion, "#bomb" )) < ReadGameClock() )
+		start_script( ":alchemy:explosionTimer", {potion, who, ":alchemy:exploder"} );
+	endif
+	SetObjProperty( potion, "#bomb", ReadGameClock() + 3 );
+ 
+	ReleaseItem( potion ); // allows bomb to be destroyed in pack
+
+	var throw_to := TargetCoordinates( who );
+	if( !throw_to )
+		return 0;
+	elseif( !potion )
+		return 0;
+	elseif( !CheckLosAt( who, throw_to.x, throw_to.y, throw_to.z ))
+		MoveObjectToLocation( potion, who.x, who.y, who.z, who.realm, MOVEOBJECT_FORCELOCATION );
+		SendSysMessage( who, "You can't see that!" );
+		return 0;
+	elseif( !potion )
+		return 0;
+	endif
+ 
+        PrintTextAbove( who, "*Throws a potion!*" );
+        PerformAction( who, 0x9 );
+	SleepMS(300);
+ 
+	Detach();
+	PlayMovingEffectXYZ( who.x, who.y, who.z+15, throw_to.x, throw_to.y, throw_to.z, potion.graphic, 8, 0, 0, who.realm );
+	if( !potion )
+		return 0;
+	endif
+ 
+	MoveObjectToLocation( potion, throw_to.x, throw_to.y, throw_to.z, who.realm, MOVEOBJECT_FORCELOCATION );
+
+	return 1;
+endprogram

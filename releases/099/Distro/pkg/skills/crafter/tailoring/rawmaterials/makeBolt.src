@@ -1,0 +1,67 @@
+/*
+        Maintened by *Edwards
+        
+        2008-12-28
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use uo;
+use cfgfile;
+use util;
+
+include ":attributes:attributes";
+include "include/itemUtil";
+
+CONST UOBJ_LOOM_START := 0x105f;
+CONST UOBJ_LOOM_END := 0x1066;
+CONST UOBJ_BOLT := 0xf95;
+
+var item_config := ReadConfigFile( ":*:itemdesc" );
+
+program make_Bolt( who, thread )
+
+        if( !useItem_check( who, thread, ITEM_INCONTAINER ))
+		return 0;
+	endif
+	
+	SendSysMessage( who, "Select the Loom to use." );
+	var tool := Target( who );
+	if( !tool )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+
+	if(( tool.objtype < UOBJ_LOOM_START ) || ( tool.objtype > UOBJ_LOOM_END ))
+		SendSysMessage( who, "You can only use that on a loom." );
+		return 0;
+	else
+		makeBolt( who, thread );
+	endif
+ 
+        return 1;
+endprogram
+
+function makeBolt( who, item )
+
+	if( item.amount <= 0 )
+		SendSysMessage( who, "You don't have any thread!" );
+		return 0;
+	endif
+
+	if(( item.amount > 0 ) && ( item.amount <= 4 ))
+		SendSysMessage( who, "You don't have enough thread to create a bolt." );
+		return 0;
+	endif
+
+	if( SubtractAmount( item, 5 ))
+		var bolt := CreateItemInBackpack( who, UOBJ_BOLT, 1 );
+		if( !bolt )
+			SendSysMessage( who, "You fail to create the bolt of cloth." );
+		else
+			SendSysMessage( who, "You work at the loom and create bolts." );
+		endif
+	endif
+ 
+        return 1;
+endfunction

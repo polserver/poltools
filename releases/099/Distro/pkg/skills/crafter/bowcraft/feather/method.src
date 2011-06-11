@@ -1,0 +1,15 @@
+/*
+        Created by *Edwards
+        
+        2010-03-16
+*/
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsFeather( item )
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction

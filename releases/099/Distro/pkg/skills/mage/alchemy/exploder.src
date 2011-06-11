@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2008-12-26
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+include ":damage:damage";
+
+program potion_explosion( parms )
+
+	var potion := parms[1],
+	    who := parms[2],
+            thecenter := potion;
+
+	while( thecenter.container )
+		thecenter := thecenter.container;
+	endwhile
+
+	SetScriptController( who );
+
+        var power := GetPotionStrength( potion ),
+	    amount := RandomDiceRoll( CInt( power * 2 )+"d2+2" );
+
+	var location := struct;
+	location.+x := thecenter.x;
+	location.+y := thecenter.y;
+	location.+z := thecenter.z;
+	location.+objtype := potion.objtype;
+
+	PlayStationaryEffect( potion.x, potion.y, potion.z, 0x36b0, 7, 10, 1, potion.realm );
+	PlaySoundEffect( potion, 0x208 );
+	SubtractAmount( potion, 1 );
+
+	foreach critter in ListMobilesNearLocationEx( location.x, location.y, location.z, 1, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, who.realm );
+		PlayObjectCenteredEffect( critter, 0x36b0, 7, 0x10 );
+		PlaySoundEffect( critter, 0x208 );
+		ApplyDamageEX( critter, amount, DMG_FIRE, who );
+                SleepMS(5);
+	endforeach
+
+	var potions := {0xDC07, 0xDC08, 0xDC09};
+	foreach item in ListItemsNearLocation( location.x, location.y, location.z, 1, who.realm )
+		if( item.objtype in potions )
+			var passparms := {item, who, ":alchemy:exploder"};
+			Sleep(1); // Makes the cascading effect more dramatic and less instantaneous
+			start_script( ":alchemy:exploder", passparms );
+		endif
+                SleepMS(5);
+	endforeach
+
+	return 1;
+endprogram

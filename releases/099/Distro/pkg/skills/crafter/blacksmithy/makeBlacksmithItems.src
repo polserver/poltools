@@ -1,0 +1,132 @@
+/*
+        Created by *Edwards
+
+        2009-11-05
+
+        Last Modifications 2009-12-04
+             * Added loop messages
+             * Removed deprecated var counter and now using only amt for while loop
+*/
+use uo;
+use os;
+use cfgfile;
+
+include "include/itemUtil";
+include ":crafting:crafting";
+
+var item_config := ReadConfigFile( ":*:itemdesc" );
+var craft_config := ReadConfigFile( ":blacksmithy:blacksmithy" );
+
+program use_MapmakersPen( who, tool )
+
+        EquipItem( who, tool );
+	if( !useItem_check( who, tool, ITEM_EQUIPPED ))
+		return 0;
+	endif
+
+	var anvil_near;
+	foreach item in ( ListItemsNearLocation( who.x, who.y, who.z, 1 ))
+		if( item.IsAnvil() )
+			anvil_near := item;
+			break;
+		endif
+                SleepMS(5);
+	endforeach
+
+	if( !anvil_near )
+		SendSysMessage( who, "You must be near an anvil to smith items." );
+		return 0;
+	endif
+
+	var rinfo := sendCraftGump( who, BLACKSMITHY );
+	if( rinfo == 0 )
+		return 0;
+	endif
+
+	var the_objtype := rinfo[1],
+	    amt := rinfo[2],
+	    repair := rinfo[3],
+	    resmelt := rinfo[4];
+     
+	if( repair )
+                RepairItem( who, BLACKSMITHY );
+                return 1;
+	elseif( resmelt )
+                var script := Start_Script( ":blacksmithy:smeltDown", who );
+                if( script.errortext )
+                        SendSysMessage( who, "Error starting script <:blacksmithy:smeltDown> -->"+script.errortext );
+                endif
+                return 1;
+	endif
+
+	makeBlacksmithItem( who, tool, the_objtype, amt, anvil_near );
+
+	return 1;
+endprogram
+
+function makeBlacksmithItem( who, tool, the_objtype, amt, anvil )
+
+	if( !the_objtype || !amt )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+ 
+	var ressource := MaterialSelection( who, craft_skill, Lower( craft_config[the_objtype].type ));
+	if( !ressource )
+		return 0;
+	endif
+
+ 	var craft_elem := craft_config[the_objtype],
+ 	    skill_elem := menu_config[craft_skill],
+            material := CInt( craft_elem.Material ),
+            use_on := ressource[1],
+            useOn_obj := ressource[2],
+            mat_diff := ressource[1].GetRessourceDifficulty(),
+            x := who.x,
+	    y := who.y;
+
+
+        SendSysMessage( who, "You start "+skill_elem.EndMessage+"...", 3, 89 );
+        
+	while( amt )
+		if( !tool )
+			break;
+		endif
+
+                if( amt != -1 )
+                	SendSysMessage( who, "Looping ["+amt+" more to go].", 3, 89 );
+                else
+                	SendSysMessage( who, "Looping.", 3, 89 );
+                endif
+                
+                Sleep( CRAFT_DELAY );
+
+                Craft_PlayEffects( who, skill_elem, anvil );
+                
+                if( who.x != x || who.y != y )
+			SendSysMessage( who, "Cancelled." );
+			break;
+		elseif( material > use_on.amount )
+			SendSysMessage( who, "You do not have the required materials to make that." );
+                	break;
+                elseif( !SubtractAmount( use_on, material ))
+			SendSysMessage( who, "You do not have the required materials to make that." );
+                	break;
+                elseif( Craft_SkillCheck( who, craft_elem, CRAFT_ADV_ALL, mat_diff ) > 0 )
+			var the_item := Craft_CreateItem( who, the_objtype, craft_elem, useOn_obj );
+                        Craft_ExpCheck( who, craft_elem, the_item );
+		else
+			SendSysMessage( who, "You lost some materials." );
+		endif
+
+                CheckToolWear( who, tool, craft_skill );
+
+                if( amt != -1 )
+                	amt -= 1;
+                endif
+	endwhile
+
+        SendSysMessage( who, "You stop "+skill_elem.EndMessage+"...", 3, 89 );
+
+	return 1;
+endfunction
