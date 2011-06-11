@@ -1,0 +1,43 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-24
+
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+*/
+use uo;
+
+include ":gumps:requestgump";
+include "include/itemUtil";
+
+program UseRune( who, rune )
+
+       	if( !useItem_check( who, rune, ITEM_INCONTAINER ))
+		return 0;
+	elseif( !rune.GetDestination() )
+		SendSysMessage( who, "This rune is not marked." );
+		return 0;
+	endif
+ 
+	var dest_prop := rune.GetDestination();
+	var name := dest_prop["name"];
+	if( !name )
+		name := "a marked recall rune";
+	endif
+	
+	var desc := RequestGump( who, "Enter a new name for this rune.", "", rune.desc, CANCEL_BTN_ON );
+	if( !desc )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+	
+        dest_prop["name"] := desc;
+
+        SetObjProperty( rune, "Destination", dest_prop );
+        
+	SetName( rune, desc );
+	SendSysMessage( who, "Rune has been renamed." );
+	
+	return 1;
+endprogram

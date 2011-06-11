@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+
+        2008-12-14
+*/
+use uo;
+use os;
+
+include ":bountyBoard:bounty";
+include ":containers:storageAreas";
+
+program collectBounty( parms )
+
+	var guard := parms[1];
+	var citizen := parms[2];
+        var head := parms[3];
+
+        var serial := GetObjProperty( head, "Serial" ),
+            mobile := SystemFindObjectBySerial( serial, SYSFIND_SEARCH_OFFLINE_MOBILES ),
+            bounty := GetBounty( mobile );
+            
+	if( !bounty[2] )
+    		PrintTextAbove( guard, "I'm sorry, but there doesnt seem to be a bounty on "+head.name+"." );
+    		return 0;
+        endif
+        
+        if( !guard.backpack )
+                var bpack := CreateItemAtLocation( guard.x, guard.y, guard.z, "backpack", 1, guard.realm );
+                EquipItem( guard, bpack );
+        endif
+        
+        MoveItemToContainer( head, guard.backpack );
+        
+        PrintTextAbove( guard, "Ooooh!" );
+        Sleep(3);
+        PrintTextAbove( guard, "You have brought in the head of "+bounty[1]+". That fiend was responsible for "+bounty[3]+" murders." );
+        Sleep(8);
+    	PrintTextAbove( guard, "Lord British has offered a reward of "+bounty[2]+" gold pieces, which I shall place in your bankbox." );
+        Sleep(3);
+    	PrintTextAbove( guard, "Thank you "+citizen.name+"." );
+     
+        var gold := CInt( bounty[2] ),
+            bank_box := CP_GetStorageContainerForMobile( citizen, CP_DEFAULT_AREA, CP_CREATE );
+            
+        EraseBounty( serial );
+            
+        while( gold >= 60000 )
+      		gold -= 60000;
+      		CreateItemInContainer( bank_box, 0xeed, 60000 );
+                SleepMS(5);
+    	endwhile
+
+        CreateItemInContainer( bank_box, 0xeed, gold );
+    	DestroyItem( head );
+        
+        return 1;
+endprogram

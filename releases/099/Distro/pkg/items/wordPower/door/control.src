@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+        
+        2008-05-28
+        
+        Gates remain in place until a player speaks the appropriate words
+        of power.  They will then "disappear" for 10 seconds, and then
+        reappear.  In case of a crash, the gate will store it's old pic in
+        memory, so when the server restarts the gate will return to normal.
+*/
+use uo;
+use os;
+use basic;
+
+include "include/sysEvent";
+include "include/sounds";
+
+program WordOfPowerGate( gate )
+
+	var old_graphic := GetObjProperty( gate, "Old" );
+	if( old_graphic )
+                gate.graphic := old_graphic;
+		EraseObjProperty( gate, "Old" );
+	endif
+
+	var wordofpower;
+
+	RegisterForSpeechEvents( gate, 1 );
+	EnableEvents( SYSEVENT_SPEECH, 1 );
+
+	var ev;
+	var text;
+ 
+        while( gate )
+                ev := os::wait_for_event( 10 );
+                if( ev )
+                        wordofpower := GetObjProperty( gate , "WordOfPower" );
+			if( wordofpower )
+                                  wordofpower := wordofpower;
+			          text := ev.text;
+             
+          			  if( text == wordofpower )
+					PlaySoundEffect( gate, SFX_LIGHTNING );
+				        old_graphic := gate.graphic;
+					SetObjProperty( gate, "Old", old_graphic );
+					gate.graphic := 0x0001;
+                			Sleep(10);
+					gate.graphic := old_graphic;
+					EraseObjProperty( gate, "Old");
+					PlaySoundEffect( gate, SFX_LIGHTNING );
+				  endif
+	                endif
+               endif
+        endwhile
+        
+        return 1;
+endprogram

@@ -1,0 +1,8 @@
+use os;
+
+var script := Start_Script( "spawnpointManager" );
+if( script.errortext )
+	SysLog( "Error starting spawnpoint manager ->"+script.errortext );
+else
+	Print( "Starting spawnpoint manager... OK." );
+endif

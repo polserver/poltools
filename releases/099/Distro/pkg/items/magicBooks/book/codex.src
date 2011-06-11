@@ -1,0 +1,131 @@
+/*
+        Maintened by *Edwards
+
+        2008-11-18
+        
+        Last Modifications 2008-12-10
+             * Removed the sysmessage "cancelled" when no inputs
+
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+
+        Last Modifications 2009-10-30
+             * Rewritten all codes for new core support with spellbooks
+
+        Last Modifications 2010-02-04
+             * Added: button to temporaly minimize spellbook
+*/
+use uo;
+use os;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":spells:spells";
+include ":spells:spells_ex";
+include "include/itemUtil";
+
+program CodexDamnorum( mobile, book )
+
+       	if( !useItem_check( mobile, book, DEFAULT_ITEM ))
+		return 0;
+	endif
+
+        SendBookSpells( mobile, book );
+
+        return 1;
+endprogram
+
+function SendBookSpells( mobile, book )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+	GFGumpPic( gump, 100, 100, 0x2b00 );
+
+        GFTextLine( gump, 180, 110, 28, "Lesser Chants" );
+        GFTextLine( gump, 340, 110, 28, "Greater Chants" );
+
+        GFAddButton( gump, 105, 202, 0x1519, 0x1519, GF_CLOSE_BTN, 0xA00 );
+
+        var spell_ids := {  81, //ControlUndead
+                        82, //Darkness
+                        83, //DecayingRay
+                        84, //Spectre'sTouch
+                        85, //AbyssalFlame
+                        86, //AnimateDead
+                        87, //Sacrifice
+                        88, //Wraith'sBreath
+                        89, //Sorcerer'sBane
+                        90, //SummonSpirit
+                        91, //Wraithform
+	                92, //WyvernStrike
+	                93, //Kill
+	                94, //Liche
+	                95, //Plague
+	                96 }; //Spellbind
+
+        var codex_ids := book.GetSpellID();
+
+        GFPage( gump, 1 );
+
+	var x_pos := 190,
+            y_pos := 135,
+            counter := 1;
+
+	foreach spellID in spell_ids
+
+                if( spellID in codex_ids )
+		        var spell_elem := SPELL_GetSpellsCfgElem( spellID ),
+                            spell_name := spell_elem.Name;
+
+                        GFTextLine( gump, x_pos, y_pos, 0, spell_name );
+                        GFAddButton( gump, x_pos-20, y_pos+5, 0x837, 0x838, GF_CLOSE_BTN, _spellID_iter );
+                endif
+
+		y_pos += 20;
+                counter += 1;
+
+		if( counter >= 9 )
+			x_pos := 345;
+			y_pos := 135;
+                        counter := 0;
+		endif
+
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+		return 0;
+        elseif( input[0xA00] )
+                ChangeBookShape( mobile, book );
+		return 0;
+	endif
+
+        input := input[0];
+
+        var script := Start_Script( ":magery:spellStarter", {mobile, spell_ids[input]} );
+	if( script.errortext )
+		SendSysMessage( mobile, "Error - Could not start spell starter ->"+script.errortext );
+		return 0;
+	endif
+
+        return SendBookSpells( mobile, book );
+endfunction
+
+function ChangeBookShape( mobile, book )
+
+        var gump := GFCreateGump();
+        
+        GFAddButton( gump, 100, 100, 0x2b03, 0x2b03, GF_CLOSE_BTN, 0xA01 );
+        
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+		return 0;
+        elseif( input[0xA01] )
+		SendBookSpells( mobile, book );
+	endif
+
+        return 1;
+endfunction

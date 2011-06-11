@@ -1,0 +1,34 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-22
+*/
+use uo;
+use util;
+
+include "include/client";
+include ":damage:damage";
+
+program trapScript( params )
+
+	var mobile := params[1];
+	//var object := params[2];
+	var trap_info := params[3];
+	//var trap_index := params[4];
+	params := 0; // Not needed anymore.
+	
+	SendSysMessage( mobile, "You set off a trap!" );
+	PlayObjectCenteredEffect( mobile, GFX_EXPLODE_3, 10, 10 );
+	
+	if( trap_info.Strength )
+		if( trap_info.Strength["d"] )
+			ApplyDamageEX( mobile, RandomDiceRoll( trap_info.Strength ));
+		else
+			ApplyDamageEX( mobile, RandomDiceRoll( CInt( trap_info.Strength )));
+		endif
+	else
+		ApplyDamageEX( mobile, RandomDiceRoll( "10d5" ), DMG_MAGIC );
+	endif
+	
+	return 1;
+endprogram

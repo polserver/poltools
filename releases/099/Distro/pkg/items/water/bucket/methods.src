@@ -1,0 +1,62 @@
+/*
+        Maintened by *Edwards
+
+        2010-08-30
+*/
+use uo;
+
+include ":water:buckets";
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function FillBucket( bucket, type := FRESH_WATER_BUCKET )
+
+	return SwapBucket( bucket, type );
+endfunction
+
+exported function EmptyBucket( bucket )
+
+	return SwapBucket( bucket, EMPTY_BUCKET );
+endfunction
+
+function SwapBucket( bucket, change_to )
+
+	var info := struct;
+	info.+container := bucket.container;
+	info.+color := bucket.color;
+	info.+x := bucket.x;
+	info.+y := bucket.y;
+	info.+z := bucket.z;
+
+	var new_bucket;
+	if( info.container )
+		new_bucket := CreateItemInContainer( info.container, change_to, 1 );
+	else
+		new_bucket := CreateItemAtLocation( info.x, info.y, info.z, change_to, 1 );
+	endif
+ 
+	new_bucket.color := info.color;
+
+	return new_bucket;
+endfunction
+
+exported function IsFilled( bucket )
+
+	if( bucket.objtype != EMPTY_BUCKET )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+exported function IsEmpty( bucket )
+
+	if( bucket.objtype == EMPTY_BUCKET )
+		return 1;
+	endif
+
+	return 0;
+endfunction

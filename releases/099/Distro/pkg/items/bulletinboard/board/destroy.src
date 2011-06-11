@@ -1,0 +1,10 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-20
+*/
+
+program OnDestroy( board )
+
+	return board.CleanUpData();
+endprogram

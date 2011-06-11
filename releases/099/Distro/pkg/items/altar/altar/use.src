@@ -1,0 +1,194 @@
+/*
+        Created by *Edwards
+
+        2008-05-03
+        
+        Last Modifications 2009-08-26
+             * Will now display desc of items selected instead of serials
+
+        Last Modifications 2009-10-18
+             * Cleaned codes for better performances
+             * Altar can store charges now and be used more than once
+*/
+
+use uo;
+use os;
+
+include "include/itemUtil";
+include "include/yesNo";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program altarInterface( mobile, altar )
+
+         if( !useItem_check( mobile, altar, DEFAULT_ITEM ))
+                  return 0;
+         elseif( mobile.cmdlevel < 2 )
+                  return Send_HowTo( mobile );
+         endif
+        
+         Send_Interface( mobile, altar );
+
+         return 1;
+endprogram
+
+function Send_HowTo( mobile )
+
+         //Initialize the gump
+         var gump := GFCreateGump();
+
+         GFClosable(gump, 1);
+
+         //Load Main Background
+	 GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 350, 325 );
+
+         GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 25 );
+	 GFTextMid( gump, 15, 17, 320, 1720, "Altar Interface" );
+
+         //BackgroundAltar
+	 GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 270 );
+         GFTextMid( gump, 15, 55, 320, 1720, "Quest Altar" );
+
+         //Okay Button
+         GFAddButton( gump, 150, 285, 2128, 2129, GF_CLOSE_BTN, 0xA00 );
+
+         //Initialize the text...
+         var text := "The quest Altar scans it's surface for assigned items every few seconds. If a
+                     correct item has been placed, it is consumed by flames, otherwise nothing happens. Once
+                     all correct items have been consumed, it either destroys assigned obstacles
+                     (no houses, no boats), unlocks assigned doors/containers or kills assigned creatures.";
+
+	 GFDrawWrappedText( gump, 60, 80, GFWordWrap( text, 250 ));
+
+         //And now we need to know the answer...
+         var input := GFSendGump( mobile, gump );
+         if( input[0xA00] )
+                  return 0;
+         endif
+
+         return 1;
+endfunction
+
+function Send_Interface( mobile, altar )
+
+         //Initialize the gump
+         var gump := GFCreateGump();
+
+         GFClosable( gump, 1 );
+
+         //Load Main Background
+	 GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 350, 225 );
+
+         GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 25 );
+	 GFTextMid( gump, 15, 17, 320, 1720, "Altar Interface" );
+
+         //BackgroundAreas
+	 GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 170 );
+         GFTextMid( gump, 15, 60, 320, 1720, "Quest Altar" );
+
+         //Initialize the options...
+         GFTextLine( gump, 60, 90, 1153, "Options 1: Destroy obstacles." );
+         GFAddButton( gump, 45, 95, 0x837, 0x838, GF_CLOSE_BTN, 1 );
+
+         GFTextLine( gump, 60, 110, 1153, "Options 2: Unlock doors/containers." );
+         GFAddButton( gump, 45, 115, 0x837, 0x838, GF_CLOSE_BTN, 2 );
+
+         GFTextLine( gump, 60, 130, 1153, "Options 3: Kill NPCs." );
+         GFAddButton( gump, 45, 135, 0x837, 0x838, GF_CLOSE_BTN, 3 );
+
+         GFTextLine( gump, 60, 150, 1153, "Options 4: Set altar with charges." );
+         GFAddButton( gump, 45, 155, 0x837, 0x838, GF_CLOSE_BTN, 4 );
+
+         //And now we need to know the answer...
+         var option;
+         var input := GFSendGump( mobile, gump );
+         if( input[1] )
+                  option := 1;
+                  SendSysMessage( mobile, "Select item(s) to be destroyed by the Altar. ( ESC to stop )" );
+         elseif( input[2] )
+                  option := 2;
+                  SendSysMessage( mobile, "Select door(s)/container(s) to be unlocked by the Altar. ( ESC to stop )" );
+         elseif( input[3] )
+                  option := 3;
+                  SendSysMessage( mobile, "Select NPC(s) to be killed by the Altar. ( ESC to stop )" );
+         elseif( input[4] )
+                  var charges := SendTextEntryGump( mobile, "Enter the number of charges for the altar ( 99 is unlimited ).", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, 99 );
+                  if( !charges )
+                           SendSysMessage( mobile, "Cancelled." );
+                           return 0;
+                  endif
+                  SetObjProperty( altar, "Charges", CInt( charges ));
+                  return 1;
+         else
+                  SendSysMessage( mobile, "Cancelled." );
+                  return 0;
+         endif
+        
+         Send_Instructions( mobile, altar, option );
+         SendSysMessage( mobile, "Altar will active within the next minute." );
+
+         return 1;
+endfunction
+
+function Send_Instructions( mobile, altar, option )
+
+         var targets := array{};
+         var objects := array{};
+
+         // Target selection
+         var current_Target := Target( mobile );
+         while( current_Target )
+                  if( current_Target == altar )
+                           SendSysMessage( mobile, "SKIPPING: You should consider therapy." );
+                  elseif( current_Target.IsA( POLCLASS_MOBILE ) && ( option == 1 || option == 2 ))
+                           SendSysMessage( mobile, "SKIPPING: Target must be an item or container." );
+                  elseif( !current_Target.IsA( POLCLASS_NPC ) && option == 3 )
+                           SendSysMessage( mobile, "SKIPPING: Target must be an NPC." );
+                  else
+                           if( current_Target.serial in targets )
+                                    SendSysMessage( mobile, "SKIPPING: Target already on the list." );
+                           else
+                                    targets.Append( current_Target.serial );
+                                    SendSysMessage( mobile, "Target "+targets.Size()+" assigned ( "+current_Target.desc+" )." );
+                           endif
+                  endif
+
+                  current_Target := Target( mobile );
+         endwhile
+
+         if( !targets[1] )
+                  SendSysMessage( mobile, "ABORTING: No target(s) assigned." );
+                  return 0;
+         endif
+
+         // Item selection
+         SendSysMessage( mobile, "Select item(s) to be placed on the Altar. ( ESC to stop )" );
+         
+         current_Target := Target( mobile );
+         while( current_Target )
+                  if( current_Target.IsA( POLCLASS_MOBILE ))
+                           SendSysMessage( mobile, "SKIPPING: Target must be an item or container." );
+                  else
+                           if( current_Target.objtype in objects )
+                                    SendSysMessage( mobile, "SKIPPING: Objtype already on the list." );
+                           else
+                                    objects.Append( current_Target.objtype );
+                                    SendSysMessage( mobile, "Item "+objects.size()+" assigned ( "+current_Target.desc+" )." );
+                           endif
+                  endif
+
+                  current_Target := Target( mobile );
+         endwhile
+
+         // Empty array check & finalization
+         if( !objects[1] )
+                  SendSysMessage( mobile, "ABORTING: No item(s) assigned." );
+                  return 0;
+         endif
+
+         SetObjProperty( altar, "Option", option );
+         SetObjProperty( altar, "Objects", objects );
+         SetObjProperty( altar, "Targets", targets );
+
+         return 1;
+endfunction

@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+
+        2011-01-29
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsTotemItem( item )
+
+        //Avoid compiler warnings
+	item := item;
+ 
+	return 1;
+endfunction

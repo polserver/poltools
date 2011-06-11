@@ -1,0 +1,111 @@
+/*
+        Maintened by *Edwards
+
+        2010-09-08
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":mounts:mounts";
+include ":timeutils:time";
+
+program VitalHunger( mobile )
+
+        Sleep(10);
+
+        if( mobile.cmdlevel )
+                SendSysMessage( mobile, "Command level is present - skipping hunger system." );
+                AP_SetVital( mobile, HUNGER, 10 );
+                return 0;
+        endif
+        
+	while( mobile.connected )
+
+		Sleep( SEC_HOUR * 2 );
+
+                var eat_food := EatFood( mobile );
+
+		var hunger := CInt( AP_GetVital( mobile, HUNGER ));
+                if( !hunger )
+			hunger := 0;
+		elseif( hunger >= 10 )
+			hunger := 10;
+		endif
+
+		hunger -= 1;
+  
+                AP_SetVital( mobile, HUNGER, hunger );
+                
+		case( CInt( hunger ))
+			0:
+				SendSysMessage( mobile, "You are DYING of hunger!" );
+				if( !eat_food )
+					HungerDamage( mobile );
+				endif
+                        	break;
+			4:
+				SendSysMessage( mobile, "You're getting pretty hungry..." );
+                        	break;
+			8:
+				SendSysMessage( mobile, "You could use a bite to eat..." );
+                        	break;
+		endcase
+
+		CheckMount( mobile );
+	endwhile   
+
+        return 1;
+endprogram
+
+function EatFood( mobile )
+
+	if( mobile.hidden )
+		return 0;
+	endif
+
+	foreach item in EnumerateItemsInContainer( mobile.backpack )
+                if( item.IsFood() )
+                	UseItem( item, mobile );
+                        return 1;
+                endif
+                SleepMS(5);
+	endforeach
+
+	return 0;
+endfunction
+
+function HungerDamage( mobile )
+
+	while( mobile.connected )
+                var hunger := CInt( AP_GetVital( mobile, HUNGER ));
+                if( hunger )
+                        return 0;
+		elseif( mobile.dead )
+			return 0;
+		else
+			AP_ConsumeVital( mobile, STAMINA, 1 );
+		endif
+  
+		Sleep(6);
+	endwhile
+
+	SendSysMessage( mobile, "You're no longer starving." );
+ 
+        return 1;
+endfunction
+
+function CheckMount( mobile )
+
+	var mount := MP_GetMount( mobile );
+	if( !mount )
+                //For estetic use only: do not create "poop" for players :P
+		return 0;
+	endif
+
+        if( RandomInt(2) == 1 )
+                CreateItemAtLocation( mobile.x, mobile.y, mobile.z, 0xF3C, 1, mobile.realm );
+        endif
+        
+        return 1;
+endfunction

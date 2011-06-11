@@ -1,0 +1,19 @@
+/*
+        Maintened by *Edwards
+        
+        2009-10-22
+*/
+include ":races:races";
+include ":races:settings";
+
+program Logon( mobile )
+
+	var settings := RACE_GetSettingsCfgElem( "Settings" );
+	if( settings.ShowTitle_Race )
+		if( !mobile.title_race )
+			mobile.title_race := RACE_GetMobileRaceName( mobile );
+		endif
+	endif
+
+	return 1;
+endprogram

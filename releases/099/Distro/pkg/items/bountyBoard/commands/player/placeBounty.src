@@ -1,0 +1,213 @@
+/*
+        Created by *Edwards
+
+        2008-12-14
+        
+        Last Modifications 2010-02-08
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+use util;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":datafile:datafile";
+include ":bountyBoard:bounty";
+
+program textcmd_placeBounty( mobile )
+
+	if( GetProcess( CInt( GetObjProperty( mobile, "#CmdBountyPid" ))))
+		return 0;
+	else
+		SetObjProperty( mobile, "#CmdBountyPid", GetPid() );
+	endif
+ 
+        var char_list := GetCharactersList();
+        if( !char_list.Size() )
+                SendSysMessage( mobile, "There is currently no possibility to place a bounty." );
+                return 0;
+        endif
+
+        var the_serial := CInt( GetPlayerForBounty( mobile, char_list ));
+        if( !the_serial )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        var the_player := SystemFindObjectBySerial( the_serial ),
+            bounty := GetBounty( the_player ),
+            text := the_player.name;
+        
+        var gump := GFCreateGump();
+
+        //Main Background
+  	GFGumpPic( gump, 83, 63, 0x820 );
+  	GFGumpPic( gump, 100, 100, 0x821 );
+  	GFGumpPic( gump, 100, 170, 0x822 );
+  	GFGumpPic( gump, 100, 240, 0x821 );
+  	GFGumpPic( gump, 100, 310, 0x822 );
+  	GFGumpPic( gump, 100, 380, 0x823 );
+   
+        //Top/Bottom Deco
+  	GFGumpPic( gump, 120, 100, 0x82b );
+  	GFGumpPic( gump, 120, 365, 0x82b );
+   
+        //Center line
+  	GFGumpPic( gump, 120, 210, 0x39 );
+  	GFGumpPic( gump, 150, 210, 0x3a );
+  	GFGumpPic( gump, 165, 210, 0x3a );
+  	GFGumpPic( gump, 180, 210, 0x3a );
+  	GFGumpPic( gump, 195, 210, 0x3a );
+  	GFGumpPic( gump, 210, 210, 0x3a );
+  	GFGumpPic( gump, 225, 210, 0x3a );
+  	GFGumpPic( gump, 240, 210, 0x3a );
+  	GFGumpPic( gump, 255, 210, 0x3a );
+  	GFGumpPic( gump, 270, 210, 0x3a );
+  	GFGumpPic( gump, 285, 210, 0x3a );
+  	GFGumpPic( gump, 300, 210, 0x3b );
+   
+        //Center line Second
+  	GFGumpPic( gump, 120, 260, 0x39 );
+  	GFGumpPic( gump, 150, 260, 0x3a );
+  	GFGumpPic( gump, 165, 260, 0x3a );
+  	GFGumpPic( gump, 180, 260, 0x3a );
+  	GFGumpPic( gump, 195, 260, 0x3a );
+  	GFGumpPic( gump, 210, 260, 0x3a );
+  	GFGumpPic( gump, 225, 260, 0x3a );
+  	GFGumpPic( gump, 240, 260, 0x3a );
+  	GFGumpPic( gump, 255, 260, 0x3a );
+  	GFGumpPic( gump, 270, 260, 0x3a );
+  	GFGumpPic( gump, 285, 260, 0x3a );
+  	GFGumpPic( gump, 300, 260, 0x3b );
+   
+     	GFTextLine( gump, 110, 280, 2100, "Name: "+ text );
+  	GFTextLine( gump, 110, 300, 2100, "Bounty: "+ bounty[2] );
+  	GFTextLine( gump, 110, 320, 2100, "Murders: "+ bounty[3] );
+   
+        var message,
+            amount;
+            
+        if( mobile.gold < 5000 )
+               message := "You don't have a minimum of 5 000 gold coins from which you may
+                          place a bounty on "+text+ "'s head.";
+                          
+               GFAddButton( gump, 210, 390, 0x849, 0x848, GF_CLOSE_BTN, 0x00B );
+               
+               GFResizePic( gump, 130, 230, GFGetCfgConst( "Backgrounds", "GOLDTRIM" ), 190, 28 );
+               GFTextEntry( gump, 136, 234, 235, 20, 2100, mobile.gold );
+        else
+               message := "You have "+mobile.gold+" gold coins from which you may place a bounty on "+text+ "'s head.
+                           Simply enter the bounty amount you wish to place below and press apply.";
+                           
+               GFResizePic( gump, 130, 230, GFGetCfgConst( "Backgrounds", "GOLDTRIM" ), 190, 28 );
+               amount := GFTextEntry( gump, 136, 234, 235, 20, 2100, 5000 );
+               
+               GFAddButton( gump, 210, 390, 0x84a, 0x84b, GF_CLOSE_BTN, 0x00A );
+        endif
+        
+	GFDrawWrappedText( gump, 110, 110, GFWordWrap( message, 250 ));
+
+        var input := GFSendGump( mobile, gump );
+        if( input[0x00A] )
+                var money := CInt( GFExtractData( input, amount ));
+                if( money < 5000 )
+                          SendSysMessage( mobile, "Minimum of 5 000 gold coins!" );
+                          return 0;
+                endif
+                
+                var my_gold := mobile.gold;
+                if( money > my_gold )
+                          SendSysMessage( mobile, "You do not have enough gold in your backpack!" );
+                          return 0;
+                endif
+
+                var find_money := FindObjtypeInContainer( mobile.backpack, 0xeed );
+                if( find_money.errortext )
+                          SendSysMessage( mobile, "Error couldn't find money -->"+find_money.errortext );
+                          return 0;
+                endif
+                
+                var pay := SubtractAmount( find_money, money );
+                if( pay.errortext )
+                          SendSysMessage( mobile, "Error couldn't substract money -->"+pay.errortext );
+                          return 0;
+                endif
+                
+                SetBounty( the_player, money );
+        else
+                SendSysMessage( mobile, "Cancelled." );
+        endif
+ 
+        return 1;
+endprogram
+
+function GetPlayerForBounty( mobile, char_list )
+
+        var gump := GFCreateGump();
+
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 310, 420 );
+	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 280, 390 );
+
+	GFTextLine( gump, 25, 20, 2100, "Player Name" );
+	GFTextLine( gump, 210, 20, 2100, "Place Bounty" );
+
+	var num_players := char_list.Size();
+        var list_keys := char_list.Keys();
+        
+	var counter := 0;
+	var y_pos := 45;
+
+	GFPage( gump, 1 );
+	foreach serial in ( list_keys )
+                
+                var character := SystemFindObjectBySerial( serial );
+		GFTextLine( gump, 25, y_pos, 2100, character.name );
+  
+		GFAddButton( gump, 240, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _serial_iter );
+
+		y_pos += 20;
+		counter += 1;
+
+		if( counter >= 18 && _serial_iter < num_players )
+			GFAddButton( gump, 283, 385, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 283, 40, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 40;
+		endif
+		SleepMS(2);
+	endforeach
+
+	var input := GFSendGump( mobile, gump );
+	if( !input )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	endif
+ 
+	input := input[0];
+
+	return list_keys[input];
+endfunction
+
+function GetCharactersList();
+
+	var the_list := dictionary; // Used to store names in ABC order
+ 	foreach acct_name in ( ListAccounts() )
+		var account := FindAccount( acct_name );
+		var i := 1;
+                while( i <= 5 )
+                       var character := account.GetCharacter(i);
+                       if( character )
+                              if( GetMurders( character ))
+                                     the_list.Insert( character.serial, character.name );
+                              endif
+                       endif
+                       i += 1;
+                       SleepMS(5);
+                endwhile
+		SleepMS(5);
+	endforeach
+
+	return the_list;
+endfunction

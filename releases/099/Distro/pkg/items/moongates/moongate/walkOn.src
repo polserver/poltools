@@ -1,0 +1,50 @@
+/*
+        Maintened by *Edwards
+
+        2009-09-06
+*/
+use uo;
+use polsys;
+
+include "include/yesNo";
+
+program walkOnScript( mobile, tile )
+
+        if( mobile.IsA( POLCLASS_NPC ))
+                return 0;
+        endif
+        
+	if( JustTeleported( mobile ))
+		return 0;
+	elseif( !GetObjProperty( mobile, "MoongateWarning" ))
+		if( !YesNo( mobile, "Teleport?", 10 ))
+                        return 0;
+                endif
+	endif
+ 
+	if( Distance( mobile, tile ) > 1 )
+		SendSysMessage( mobile, "No longer close enough to the moongate." );
+		return 0;
+	endif
+
+	SetObjProperty( mobile, "#Teleported", ReadMillisecondClock() );
+	var result := tile.SendToDestination( mobile );
+	if( result.errortext )
+		SendSysMessage( mobile, "Error teleporting:"+result.errortext );
+		return 0;
+	endif
+
+	return 1;
+endprogram
+
+function JustTeleported( mobile )
+
+	var tele_time := CInt( GetObjProperty( mobile, "#Teleported" ));
+	if( tele_time > ReadMillisecondClock()-800 )
+		// Mobile just teleported. Too soon to teleport again.
+		return 1;
+	else
+		// Safe to teleport the mobile
+		return 0;
+	endif
+endfunction

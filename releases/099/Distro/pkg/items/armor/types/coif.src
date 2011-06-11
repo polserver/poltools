@@ -1,0 +1,22 @@
+/*
+        Created by *Edwards
+
+        2010-11-19
+*/
+use uo;
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsChainmail( item )
+	item := item; // Avoid compiler warnings.
+
+	return 1;
+endfunction
+
+exported function IsCoif( item )
+	item := item; // Avoid compiler warnings.
+
+	return 1;
+endfunction

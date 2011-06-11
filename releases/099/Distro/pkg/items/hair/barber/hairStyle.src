@@ -1,0 +1,266 @@
+/*
+        Maintened by *Edwards
+
+        2008-06-11
+        
+        Last Modifications 2009-10-21
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+use util;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include "include/client";
+
+program do_hair_style( parms )
+
+	var merchant := parms[1];
+	var paying_customer := parms[2];	//the player
+	var customer := parms[3];		//maybe the player, or maybe a follower
+
+	if( customer.graphic == 400 )
+		if( customer == paying_customer )
+			PrintTextAbovePrivate( merchant, "Welcome sir! What can I do for you?", paying_customer );
+		endif
+	elseif( customer.graphic == 401 )
+		if( customer == paying_customer )
+			PrintTextAbovePrivate( merchant, "Welcome madame! What can I do for you?", paying_customer );
+		endif
+	elseif( customer.graphic == 987 )
+                if( customer == paying_customer )
+			PrintTextAbovePrivate( merchant, "Welcome "+customer.cmdlevelstr+"! What can I do for you?", paying_customer );
+		endif
+        else
+		PrintTextAbovePrivate( merchant, "Ack! Get out of my shop you... you... THING!", paying_customer );
+		return 0;
+	endif
+ 
+        DisplayHairOptions( merchant, paying_customer, customer );
+ 
+        return 1;
+endprogram
+
+function DisplayHairOptions( merchant, paying_customer, customer )
+
+        var gump := GFCreateGump();
+        
+        //Load Main Background
+	GFResizePic( gump, 20, 20, 3000, 500, 400 );
+
+        //HairStyles
+        GFTextLine( gump, 120, 50, 1345, "Hairstyles" );
+        
+        
+        GFTextLine( gump, 70, 70, 1153, "Short hair" );
+        GFAddButton( gump, 55, 74, 2103, 2104, GF_CLOSE_BTN, 1 );
+        
+        GFTextLine( gump, 70, 90, 1153, "Long hair" );
+        GFAddButton( gump, 55, 94, 2103, 2104, GF_CLOSE_BTN, 2 );
+        
+        GFTextLine( gump, 70, 110, 1153, "Pony tail" );
+        GFAddButton( gump, 55, 114, 2103, 2104, GF_CLOSE_BTN, 3 );
+        
+        GFTextLine( gump, 70, 130, 1153, "Mohawk" );
+        GFAddButton( gump, 55, 134, 2103, 2104, GF_CLOSE_BTN, 4 );
+        
+        GFTextLine( gump, 70, 150, 1153, "Pageboy" );
+        GFAddButton( gump, 55, 154, 2103, 2104, GF_CLOSE_BTN, 5 );
+        
+        GFTextLine( gump, 70, 170, 1153, "Buns" );
+        GFAddButton( gump, 55, 174, 2103, 2104, GF_CLOSE_BTN, 6 );
+        
+        GFTextLine( gump, 70, 190, 1153, "Afro" );
+        GFAddButton( gump, 55, 194, 2103, 2104, GF_CLOSE_BTN, 7 );
+        
+        GFTextLine( gump, 70, 210, 1153, "Receding" );
+        GFAddButton( gump, 55, 214, 2103, 2104, GF_CLOSE_BTN, 8 );
+        
+        GFTextLine( gump, 70, 230, 1153, "Pigtails" );
+        GFAddButton( gump, 55, 234, 2103, 2104, GF_CLOSE_BTN, 9 );
+        
+        GFTextLine( gump, 70, 250, 1153, "Krisna" );
+        GFAddButton( gump, 55, 254, 2103, 2104, GF_CLOSE_BTN, 10 );
+        
+        GFTextLine( gump, 70, 270, 1153, "Clean shave" );
+        GFAddButton( gump, 55, 274, 2103, 2104, GF_CLOSE_BTN, 111 );
+
+        if( customer.graphic != 401 )
+            //BeardStyles
+            GFTextLine( gump, 350, 50, 1345, "Facial hair" );
+
+
+            GFTextLine( gump, 320, 70, 1153, "Short beard w/mustache" );
+            GFAddButton( gump, 305, 74, 2103, 2104, GF_CLOSE_BTN, 11 );
+
+            GFTextLine( gump, 320, 90, 1153, "Long beard w/mustache" );
+            GFAddButton( gump, 305, 94, 2103, 2104, GF_CLOSE_BTN, 12 );
+
+            GFTextLine( gump, 320, 110, 1153, "Vandyke" );
+            GFAddButton( gump, 305, 114, 2103, 2104, GF_CLOSE_BTN, 13 );
+
+            GFTextLine( gump, 320, 130, 1153, "Clean shave" );
+            GFAddButton( gump, 305, 134, 2103, 2104, GF_CLOSE_BTN, 217 );
+        endif
+        
+	if( customer.cmdlevel >= 1 || paying_customer.cmdlevel >= 1 )
+                GFTextLine( gump, 200, 390, 1153, "Select Character" );
+                GFAddButton( gump, 180, 395, 2103, 2104, GF_CLOSE_BTN, 500 );
+        endif
+        
+        GFTextLine( gump, 70, 370, 1153, "Enter a hair color" );
+        GFAddButton( gump, 55, 375, 2103, 2104, GF_CLOSE_BTN, 150 );
+                
+        GFTextLine( gump, 320, 370, 1153, "Enter a beard color" );
+        GFAddButton( gump, 305, 375, 2103, 2104, GF_CLOSE_BTN, 250 );
+ 
+        var gold_charge := GetObjProperty( merchant, "GoldCharge" );
+        if( !gold_charge )
+                gold_charge := 25;
+        endif
+        
+        GFTextLine( gump, 180, 350, 1153, "All services, only "+gold_charge+" gold." );
+
+	var gump_return := GFSendGump( paying_customer, gump );
+	if( !gump_return )
+		PrintTextAbovePrivate( merchant, "Ok, never mind then.", paying_customer );
+		return 0;
+	elseif( gump_return[500] )
+		PrintTextAbove( merchant, "Who's hair do you want me to do?" );
+		var targ := Target( paying_customer );
+		if( !targ )
+			PrintTextAbovePrivate( merchant, "Ok, never mind then.", paying_customer );
+			return 0;
+		endif
+  
+		if( targ.npctemplate )
+			PrintTextAbovePrivate( merchant, "I don't think so, bub.", paying_customer );
+			return 0;
+		endif
+
+		var parms := array;
+		    parms[1] := merchant;
+		    parms[2] := paying_customer;
+		    parms[3] := targ;
+      
+		var start := start_script( ":hair:barber/hairStyle", parms );
+                if( start.errortext )
+                       PrintTextAbove( merchant, "Error starting hairStyle -->"+start.errortext );
+                       return 0;
+                endif
+	elseif( gump_return[150] )
+		var old_hair := GetEquipmentByLayer( customer, LAYER_HAIR );
+		if( !old_hair )
+			SendSysMessage( paying_customer, "But they don't have any hair!" );
+			return 0;
+		endif
+  
+		var picked_color := CInt( Sendtextentrygump( paying_customer, "Enter a hair color ID:", TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 4, "(0 to cancel)" ));
+		if( !picked_color || picked_color > 2000 )
+			SendSysMessage( paying_customer, "Canceled." );
+		else
+			old_hair.color := picked_color;
+		endif
+	elseif( gump_return[250] )
+		var old_beard := GetEquipmentByLayer( customer, LAYER_BEARD );
+		if( !old_beard )
+			SendSysMessage( paying_customer, "But they don't have a beard!" );
+			return 0;
+		endif
+  
+		var picked_color := CInt( Sendtextentrygump( paying_customer, "Enter a beard color ID:", TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 4, "(0 to cancel)" ));
+		if( !picked_color || picked_color > 2000 )
+			SendSysMessage( paying_customer, "Canceled." );
+		else
+			old_beard.color := picked_color;
+		endif
+        endif
+        
+        if( paying_customer.cmdlevel < 1 )
+		if( !paying_customer.spendgold( GOLD_CHARGE ))
+			PrintTextAbovePrivate( merchant,  "You don't have enough gold!", paying_customer );
+			return 0;
+		endif
+	endif
+ 
+	if( gump_return[111] )
+ 		var old_hair := GetEquipmentByLayer( customer, LAYER_HAIR );
+		DestroyItem( old_hair );
+	elseif( gump_return[217] )
+		var old_beard := GetEquipmentByLayer( customer, LAYER_BEARD );
+		DestroyItem( old_beard );
+        elseif( gump_return[1] )
+                ChangeHairToStyle( customer, 0x203b );
+        elseif( gump_return[2] )
+                ChangeHairToStyle( customer, 0x203c );
+        elseif( gump_return[3] )
+                ChangeHairToStyle( customer, 0x203d );
+        elseif( gump_return[4] )
+                ChangeHairToStyle( customer, 0x2044 );
+        elseif( gump_return[5] )
+                ChangeHairToStyle( customer, 0x2045 );
+        elseif( gump_return[6] )
+                ChangeHairToStyle( customer, 0x2046 );
+        elseif( gump_return[7] )
+                ChangeHairToStyle( customer, 0x2047 );
+        elseif( gump_return[8] )
+                ChangeHairToStyle( customer, 0x2048 );
+        elseif( gump_return[9] )
+                ChangeHairToStyle( customer, 0x2049 );
+        elseif( gump_return[10] )
+                ChangeHairToStyle( customer, 0x204a );
+        elseif( gump_return[11] )
+                ChangeBeardToStyle( customer, 0x204b );
+        elseif( gump_return[12] )
+                ChangeBeardToStyle( customer, 0x204c );
+        elseif( gump_return[13] )
+                ChangeBeardToStyle( customer, 0x204d );
+        endif
+
+        return 1;
+endfunction
+
+function ChangeHairToStyle( customer, hairstyle )
+
+	var old_hair := GetEquipmentByLayer( customer, LAYER_HAIR );
+	var old_hair_color := old_hair.color;
+	if( !old_hair )
+		var old_beard := GetEquipmentByLayer( customer, LAYER_BEARD );
+		if( old_beard )
+			old_hair_color := old_beard.color;
+		else
+			old_hair_color := RandomInt(46) + 1102;
+		endif
+	endif
+
+	var new_hair := CreateItemAtLocation( customer.x, customer.y, customer.z, hairstyle, 1, customer.realm );
+	new_hair.color := old_hair_color;
+
+	DestroyItem( old_hair );
+	EquipItem( customer, new_hair );
+ 
+        return 1;
+endfunction
+
+function ChangeBeardToStyle( customer, beardtype )
+
+	var old_beard := GetEquipmentByLayer( customer, LAYER_BEARD );
+	var old_beard_color := old_beard.color;
+	if( !old_beard )
+		var old_hair := GetEquipmentByLayer( customer, LAYER_HAIR );
+		if( old_hair )
+			old_beard_color := old_hair.color;
+		else
+			old_beard_color := RandomInt(46) + 1102;
+		endif
+	endif
+
+	var new_beard := CreateItemAtLocation( customer.x, customer.y, customer.z, beardtype, 1, customer.realm );
+	new_beard.color := old_beard_color;
+
+	DestroyItem( old_beard );
+	EquipItem( customer, new_beard );
+ 
+        return 1;
+endfunction

@@ -1,0 +1,123 @@
+/*
+        Maintened by *Edwards
+
+        2010-02-05
+*/
+use uo;
+use os;
+
+include ":classes:classes";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":spells:spells";
+include ":spells:spells_ex";
+include "include/itemUtil";
+
+program SongBook( mobile, book )
+
+       	if( !useItem_check( mobile, book, DEFAULT_ITEM ))
+		return 0;
+	endif
+
+        SendBookSpells( mobile, book );
+
+        return 1;
+endprogram
+
+function SendBookSpells( mobile, book )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+	GFGumpPic( gump, 100, 100, 0x2b01 );
+
+        GFTextLine( gump, 185, 110, 28, "Lesser Songs" );
+        GFTextLine( gump, 345, 110, 28, "Greater Songs" );
+
+        GFAddButton( gump, 105, 202, 0x1519, 0x1519, GF_CLOSE_BTN, 0xA00 );
+
+        var spell_ids := {  108, //Song of Light
+                        109, //Song of Cloaking
+                        110, //Song of Glory
+                        111, //Song of Defense
+                        112, //Song of Haste
+                        113, //Song of Remedy
+                        114, //Song of Life
+                        115, //Song of Dismissal
+                        116, //Song of Sirens
+	                117, //Song of Beckon
+	                118, //Song of Fright
+	                119, //Song of Salvation
+                        120, //Song of Earth
+                        121, //Song of Air
+	                122, //Song of Fire
+	                123 }; //Song of Water
+
+        var song_ids := book.GetSpellID();
+
+        GFPage( gump, 1 );
+
+	var x_pos := 180,
+            y_pos := 135,
+            counter := 1;
+
+	foreach spellID in spell_ids
+
+                if( spellID in song_ids )
+		        var spell_elem := SPELL_GetSpellsCfgElem( spellID ),
+                            spell_name := spell_elem.Name;
+
+                        GFTextLine( gump, x_pos, y_pos, 0, spell_name );
+                        GFAddButton( gump, x_pos-20, y_pos+5, 0x837, 0x838, GF_CLOSE_BTN, _spellID_iter );
+                endif
+
+		y_pos += 20;
+                counter += 1;
+
+		if( counter >= 9 )
+			x_pos := 340;
+			y_pos := 135;
+                        counter := 0;
+		endif
+
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+		return 0;
+        elseif( input[0xA00] )
+                ChangeBookShape( mobile, book );
+		return 0;
+        elseif( !GetObjProperty( mobile, BARD ) && !GetObjProperty( mobile, PP ))
+                SendSysMessage( mobile, "You do not have the specialization to play this song." );
+                return 0;
+	endif
+
+        input := input[0];
+
+        var script := Start_Script( ":magery:spellStarter", {mobile, spell_ids[input]} );
+	if( script.errortext )
+		SendSysMessage( mobile, "Error - Could not start spell starter ->"+script.errortext );
+		return 0;
+	endif
+
+        return SendBookSpells( mobile, book );
+endfunction
+
+function ChangeBookShape( mobile, book )
+
+        var gump := GFCreateGump();
+        
+        GFAddButton( gump, 100, 100, 0x2b04, 0x2b04, GF_CLOSE_BTN, 0xA01 );
+        
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+		return 0;
+        elseif( input[0xA01] )
+		SendBookSpells( mobile, book );
+	endif
+
+        return 1;
+endfunction

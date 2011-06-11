@@ -1,0 +1,79 @@
+/*
+        Maintened by *Edwards
+
+        2009-02-22
+        
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+
+        Last Modifications 2010-03-12
+             * Cleaned codes for better performances
+             * Fixed good cfg_file
+             * Fixed when smelting ores to say "You create "+amount+" gold coins"+...
+*/
+use uo;
+use os;
+
+include "include/client";
+include ":attributes:attributes";
+include ":classes:classes";
+include "include/facings";
+include "include/itemUtil";
+
+program use_Ore( mobile, ore )
+
+        if( !useItem_check( mobile, ore, ITEM_INCONTAINER ))
+		return 0;
+        endif
+
+	var cfg_file := ReadConfigFile( ":ores:itemdesc" ),
+	    difficulty := cfg_file[ore.objtype].Difficulty;
+     
+        if( !difficulty )
+                difficulty := 1;
+        endif
+
+	var ingot := cfg_file[ore.objtype].IngotType;
+	SmeltOre( mobile, ore, ingot, difficulty );
+ 
+        return 1;
+endprogram
+
+function SmeltOre( mobile, ore, ingot, difficulty )
+
+	var near := ListItemsNearLocation( mobile.x, mobile.y, mobile.z, 1, mobile.realm ),
+            forge := 0;
+ 
+	foreach item in near
+		if( item.IsForge() )
+			forge := 1;
+                        break;
+		endif
+                SleepMS(10);
+	endforeach
+ 
+        if( forge )
+                if( SkillCheck( mobile, MINING, difficulty, 0, ADV_DISABLE ) > 0 )
+                        var amount := ore.amount;
+			if( DestroyItem( ore ))
+			        var ingots := CreateItemInBackpack( mobile, ingot, CInt( amount ));
+                                if( !ingots )
+                                        CreateItemAtLocation( mobile.x, mobile.y, mobile.z, ingot, CInt( amount ), mobile.realm );
+                                endif
+
+                                if( ingots.objtype == 0xee18 )
+                                        SendSysMessage( mobile, "You create "+CInt( amount )+" gold coins and place them in your backpack." );
+                                else
+                                        SendSysMessage( mobile, "You create "+CInt( amount )+" ingots and place them in your backpack." );
+                                endif
+                        endif
+                else
+                        SubtractAmount( ore, 1 );
+                        SendSysMessage( mobile, "You destroy some ore." );
+                endif
+        else
+		SendSysMessage( mobile, "You must be near a forge to smelt ore!" );
+        endif
+ 
+        return 1;
+endfunction

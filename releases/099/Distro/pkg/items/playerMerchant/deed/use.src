@@ -1,0 +1,59 @@
+/*
+        Created by *Edwards
+
+        2009-12-29
+*/
+use uo;
+
+include "include/itemUtil";
+include ":datafile:datafile";
+
+var g_datafile := DFOpenDataFile( ":playerMerchant:playerMerchant", DF_CREATE );
+
+program UsePlayerMerchantDeed( mobile, deed )
+
+       	if( !useItem_check( mobile, deed, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	var data_elem := DFFindElement( g_datafile, mobile.serial, DF_CREATE ),
+            merchant_serial := data_elem.GetProp( "HasMerchant" );
+            
+        if( merchant_serial )
+                var merchant := SystemFindObjectBySerial( merchant_serial );
+                if( !merchant )
+                        data_elem.EraseProp( "HasMerchant" );
+                else
+                	SendSysMessage( mobile, "You already have a merchant." );
+			return 0;
+                endif
+	endif
+        
+        SendSysMessage( mobile, "Select where you would like to place your player merchant." );
+        var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsPlayerMerchantTile() && mobile.cmdlevel < 3 )
+                SendSysMessage( mobile, "You can only place your player merchant on a vendor tile." );
+                return 0;
+        endif
+        
+        var creatures := ListMobilesNearLocation( targ.x, targ.y, targ.z, 0, mobile.realm );
+        if( creatures.Size() )
+                SendSysMessage( mobile, "The player merchant tile is already being used by "+creatures[1].name );
+                return 0;
+        endif
+ 
+        var npc := CreateNPCFromTemplate( ":ai_utility:PlayerMerchant", targ.x, targ.y, targ.z, 0, mobile.realm );
+        npc.facing := mobile.facing;
+        
+        npc.name := npc.name+" - "+mobile.name+"'s merchant";
+        
+        SetObjProperty( npc, "Owner", mobile.serial );
+        data_elem.SetProp( "HasMerchant", npc.serial );
+        
+        DestroyItem( deed );
+ 
+        return 1;
+endprogram

@@ -1,0 +1,50 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-22
+
+*/
+use uo;
+use os;
+use polsys;
+
+include ":gumps:requestgump";
+include "include/security";
+
+program command_RemoveTeleporters( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	var realm_name := RequestGump( who, "Enter the realm name to perform the wipe on.", "", who.realm );
+
+	var realm_info := Realms()[realm_name];
+	if( !realm_info )
+		SendSysMessage( who, "Invalid realm name." );
+		return 0;
+	endif
+
+	var x1 := 1, y1 := 1, x2 := realm_info.width, y2 := realm_info.height;
+	var z1 := -120, z2 := 120;
+
+	var count := 0;
+	foreach thing in ( ListObjectsInBox( x1, y1, z1, x2, y2, z2, realm_name ))
+		if( thing.multi )
+			continue;
+		endif
+
+		if( thing.IsTeleporter() )
+			if( DestroyItem( thing ))
+				count += 1;
+			endif
+		endif
+
+		SleepMS(5);
+	endforeach
+
+	SendSysMessage( who, "Removed "+count+" teleporters." );
+
+	return 1;
+endprogram

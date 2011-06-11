@@ -1,0 +1,15 @@
+/*
+        Created by *Edwards
+        
+        2009-08-22
+*/
+use uo;
+use os;
+
+program controlScript( burnedwood )
+
+	Sleep( 60 );
+	DestroyItem( burnedwood );
+
+	return 1;
+endprogram

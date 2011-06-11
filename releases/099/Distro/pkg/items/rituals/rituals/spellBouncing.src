@@ -1,0 +1,45 @@
+/*
+        Maintened by *Edwards
+
+        2010-11-19
+*/
+use uo;
+use os;
+
+include "include/string";
+include ":loot:identify";
+include ":rituals:rituals";
+
+program ritual_spellBouncing( parms )
+
+        var mobile := parms[1],
+            spell_id := parms[2];
+
+        var item := PerformRitual( mobile, spell_id );
+	if( !item )
+                ChangeLightLevel( mobile, 0 );
+		return 0;
+	endif
+
+        ApplyRitualEffect( mobile, item );
+
+        return 1;
+endprogram
+
+function ApplyRitualEffect( mobile, item )
+
+        var item_desc := TruncateArticle( item.desc );
+
+        var level := GetObjProperty( mobile, MAGE );
+        if( GetObjProperty( item, "PermSpellReflection" ) >= level )
+		SendSysMessage( mobile, "This "+item_desc+" already have a more powerful enchantment on it." );
+                return 0;
+        endif
+
+	SetObjProperty( item, "PermSpellReflection", level );
+	NameByEnchant( item );
+
+	SendSysMessage( mobile, "This "+item_desc+" will now reflect certain spells casted at his wearer." );
+
+        return 1;
+endfunction

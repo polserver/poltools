@@ -1,0 +1,39 @@
+/*
+        Created by *Edwards
+
+        2009-10-21
+*/
+use uo;
+use os;
+
+include "include/sounds";
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsLever( item )
+
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction
+
+exported function GetOption( lever )
+
+	return GetObjProperty( lever, "Option" );
+endfunction
+
+exported function GetTargets( lever )
+
+	return GetObjProperty( lever, "Targets" );
+endfunction
+
+exported function CompletedSequence( lever )
+        
+        PlayLightningBoltEffect( lever );
+        PlaySoundEffect( lever, SFX_LIGHTNING );
+
+	return 1;
+endfunction

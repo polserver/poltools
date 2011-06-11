@@ -1,0 +1,280 @@
+/*
+        Maintened by *Edwards
+
+        2008-06-01
+
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+
+        Last Modifications 2009-10-21
+             * Cleaned codes for better performances
+
+        Last Modifications 2010-02-02
+             * Added: Digging will now reset stamina.
+
+        Last Modifications 2010-02-03
+             * Changed: Stamina will not reset if crafter level is found.
+
+        Last Modifications 2010-02-018
+             * Changed: Stamina will reset if skillcheck mining failed.
+
+        If you are close enough to the chest coords (chestx, y, z
+        in the map) according to your mining skill, a chest is created
+        and yummy loot is placed in it according to the map's level.
+        The map and the digging tool are deleted after the chest is
+        'found'. The chest decays in 30 minutes. Author: Racalac, 4/24/99
+*/
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/client";
+include "include/itemUtil";
+include "include/sounds";
+include ":attributes:attributes";
+include ":classes:classes";
+include ":loot:lootParser";
+include ":timeutils:time";
+include ":traps:traps";
+
+const DELAY_GUARDIANS := 10; //minutes
+
+var guardians := {};
+
+program dig_Treasure( mobile, shovel )
+
+       	if( !useItem_check( mobile, shovel, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( mobile, "Target a treasure map to dig from." );
+	var targ_map := Target( mobile );
+	if( !targ_map )
+		SendSysMessage( mobile, "Canceled." );
+		return 0;
+        elseif( !targ_map.IsMap() )
+		SendSysMessage( mobile, "You must select a treasure map." );
+		return 0;
+	endif
+ 
+	SendSysMessage( mobile, "Target a location to dig." );
+	var targ_dig := TargetCoordinates( mobile );
+	if( !targ_dig )
+		SendSysMessage( mobile, "Canceled." );
+		return 0;
+	elseif( !CheckLosAt( mobile, targ_dig.x, targ_dig.y, targ_dig.z ))
+		SendSysMessage( mobile, "You can't see that." );
+		return 0;
+	endif
+ 
+        var dist := CoordinateDistance( mobile.x, mobile.y, targ_dig.x, targ_dig.y );
+	if( dist > 2 )
+		SendSysMessage( mobile, "That is too far away." );
+		return 0;
+	endif
+
+        if( !SkillCheck( mobile, MINING, 90, 0, ADV_DISABLE ))
+		AP_SetVital( mobile, STAMINA, 0 );
+        endif
+ 
+        CheckDiggingLocation( mobile, shovel, targ_map, targ_dig );
+        
+        return 1;
+endprogram
+
+function CheckDiggingLocation( mobile, shovel, targ_map, targ_dig )
+
+        var chest := GetObjProperty( targ_map, "Chest" ),
+	    chestX := chest["X"],
+	    chestY := chest["Y"],
+	    chestZ := chest["Z"],
+	    chestRealm := chest["Realm"];
+     
+	var level := GetObjProperty( targ_map, "Level" );
+        if( !level )
+                level := 1;
+        endif
+     
+        var dist := CoordinateDistance( targ_dig.x, targ_dig.y, chestX, chestY );
+	if( dist < 2 )
+                Detach();
+                var the_creatures := SetupGuardians( mobile, shovel, targ_map );
+                if( the_creatures )
+                        if( CheckGuardians( mobile, the_creatures ))
+                                CreateTreasure( level, chestX, chestY, chestZ, chestRealm );
+                        endif
+                endif
+		return 1;
+	endif
+  
+	var dir_ns := "None";
+	var dir_ew := "None";
+
+	if( targ_dig.y > chestY )
+		dir_ns := "North";
+	endif
+  
+	if( targ_dig.y < chestY )
+		dir_ns := "South";
+	endif
+  
+	if( targ_dig.x < chestX )
+		dir_ew := "East";
+	endif
+  
+	if( targ_dig.x > chestX )
+		dir_ew := "West";
+	endif
+
+	if( dir_ew == "None" )
+		SendSysMessage( mobile, "You dig for awhile and have a feeling to travel to the "+dir_ns+"." );
+	else
+		SendSysMessage( mobile, "You dig for awhile and have a feeling to travel to the "+dir_ns+", "+dir_ew+"." );
+	endif
+        
+        return 0;
+endfunction
+
+function SetupGuardians( mobile, shovel, targ_map )
+        
+        var chest := GetObjProperty( targ_map, "Chest" ),
+	    chestX := chest["X"],
+	    chestY := chest["Y"],
+	    chestZ := chest["Z"],
+	    chestRealm := chest["Realm"];
+                
+        var current_items := ListItemsNearLocation( chestX, chestY, chestZ, 2, chestRealm );
+        foreach thing in current_items
+                if( thing.objtype == 0x608 )
+                        DestroyItem( thing );
+                endif
+                SleepMS(5);
+        endforeach
+        
+	var level := GetObjProperty( targ_map, "Level" );
+        if( !level )
+                level := 1;
+        elseif( level > 6 )
+                level := 6;
+        endif
+        
+        var dest_map := DestroyItem( targ_map ),
+            dest_shovel := DestroyItem( shovel );
+            
+	if( dest_map.errortext )
+        	SendSysMessage( mobile, "Error destroying targ_map -->"+dest_map.errortext );
+                return 0;
+        elseif( dest_shovel.errortext )
+        	SendSysMessage( mobile, "Error destroying shovel -->"+dest_shovel.errortext );
+                return 0;
+        endif
+  
+        SendSysMessage( mobile, "You unleash the treasure's guardians!" );
+        SendSysMessage( mobile, "The chest will appears when all guardians will be destroyed." );
+        SendSysMessage( mobile, "You have "+DELAY_GUARDIANS+" minutes." );
+		
+        var cfgfile := ReadConfigFile( ":maps:guardians" );
+        if( cfgfile.errortext )
+                SendSysMessage( mobile, "Error reading cfg <:maps:guardians> -->"+cfgfile.errortext );
+                return 0;
+        endif
+                
+        var elem := FindConfigElem( cfgfile, level );
+        if( elem.errortext )
+                SendSysMessage( mobile, "Error reading element <"+level+"> in <:maps:guardians> -->"+elem.errortext );
+                return 0;
+        endif
+
+        var creatures := GetConfigStringArray( elem, "Creature" ),
+            created_creatures := array{};
+
+        var i;
+        for( i:=1; i<=10; i+=1 )
+                var template := creatures.RandomEntry();
+                created_creatures.Append( CreateGuardian( template, chestX, chestY, chestZ, chestRealm ));
+                SleepMS(5);
+        endfor
+
+        return created_creatures;
+endfunction
+
+function CreateGuardian( template, x, y, z, realm )
+
+	var created := CreateNpcFromTemplate( template, x, y, z, 0, realm );
+        if( created.errortext )
+                SysLog( "Error creating creatures guard for treasure map <"+template+"> -->"+created.errortext );
+        endif
+
+	SetObjProperty( created, "GuardKill", 1 );
+
+        return created;
+endfunction
+
+function CheckGuardians( mobile, the_creatures )
+		
+        var max_delay := ReadGameClock() + ( DELAY_GUARDIANS * SEC_MINUTE ),
+            time_elapsed := 0;
+            
+        while( Len( the_creatures ))
+        
+                if( ReadGameClock() > max_delay )
+                        time_elapsed := 1;
+                endif
+
+                var temp_array := array{};
+                foreach guard in the_creatures
+                        if( time_elapsed )
+                                guard.Kill();
+                        elseif( guard || guard.name )
+                                temp_array.Append( guard );
+                        endif
+                        SleepMS(5);
+                endforeach
+                
+                the_creatures := temp_array;
+                
+                Sleep(1);
+        endwhile
+        
+        if( time_elapsed )
+                SendSysMessage( mobile, "You did not defeat all guardians on time, the treasure is not revealed!" );
+                return 0;
+        else
+                SendSysMessage( mobile, "Now that all guardians were defeated, the treasure is revealed!" );
+        endif
+        
+        return 1;
+endfunction
+
+function CreateTreasure( level, x, y, z, realm )
+
+        var chest := CreateItemAtLocation( x, y, z-10, 0xE40, 1, realm );
+        if( chest.errortext )
+                SysLog( "Error creating treasureChest -->"+chest.errortext );
+        endif
+
+        var loot := Loot_Generate( chest, level, 1 );
+        if( loot.errortext )
+                PrintTextAbove( chest, "Error creating loot -->"+loot.errortext );
+        endif
+
+        AddTrap( chest, "Explosion", level * ( RandomInt( 50 ) + 1 ), RandomInt(3) + 1 );
+        
+        var i := 0;
+        while( i < 10 )
+                chest.movable := 1;
+                MoveObjectToLocation( chest, chest.x, chest.y, chest.z+1, chest.realm, MOVEOBJECT_FORCELOCATION );
+                chest.movable := 0;
+
+                i += 1;
+                SleepMS(250);
+        endwhile
+        
+        Detach();
+        
+        Sleep(600);
+        DestroyItem( chest );
+ 
+	return 1;
+endfunction

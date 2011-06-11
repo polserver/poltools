@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+        
+        2009-11-19
+*/
+use uo;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsInscriptionPen( item )
+
+	item := item; // Avoid compiler warnings.
+	
+	return 1;
+endfunction

@@ -1,0 +1,90 @@
+/*
+        Created by *Edwards
+
+        2009-10-26
+*/
+use uo;
+use os;
+
+include ":lottery:lottery";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program textcmd_LotoFantasia( mobile )
+
+	if( GetProcess( CInt( GetObjProperty( mobile, "#CmdLotoPid" ))))
+		return 0;
+	else
+		SetObjProperty( mobile, "#CmdLotoPid", GetPid() );
+	endif
+ 
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 250, 425 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 25 );
+	GFTextMid( gump, 15, 17, 240, 1720, "Loto Fantasia" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 370 );
+        GFTextMid( gump, 15, 60, 240, 1720, "Main Menu" );
+        
+        
+        var cur_lottery := Loto_GetLottery();
+	GFTextLine( gump, 30, 100, 1720, "Current Lottery #" );
+	GFTextLine( gump, 160, 100, 2100, cur_lottery );
+ 
+ 	GFTextLine( gump, 30, 120, 1720, "Current Prize" );
+ 	GFTextLine( gump, 160, 120, 2100, Loto_GetLotteryPrize( cur_lottery ));
+  
+  	GFTextLine( gump, 30, 140, 1720, "Current Tickets" );
+  	GFTextLine( gump, 160, 140, 2100, Loto_GetTickets( cur_lottery ).Size() );
+   
+   	GFTextLine( gump, 30, 180, 1720, "Last Winning Ticket (Loto #"+CInt( cur_lottery - 1 )+")" );
+   	GFTextLine( gump, 30, 200, 66, Loto_GetLotteryWinner( cur_lottery - 1 ));
+    
+        if( mobile.cmdlevel > 2 )
+	        GFTextLine( gump, 50, 380, 1720, "Start New Lottery" );
+	        GFAddButton( gump, 30, 383, 2117, 2118, GF_CLOSE_BTN, 0xA1 );
+        endif
+    
+    	GFTextLine( gump, 30, 240, 1720, "Last Winners" );
+        GFTextLine( gump, 180, 240, 1720, "Prize" );
+     
+        var the_winners := Loto_GetLotteryWinners(),
+	    num := the_winners.Size(),
+	    counter := 0,
+	    y_pos := 260;
+
+	GFPage( gump, 1 );
+	foreach entry in ( the_winners )
+
+		GFTextLine( gump, 30, y_pos, 2100, entry.name );
+                GFTextLine( gump, 180, y_pos, 2100, entry.prize );
+
+		y_pos += 20;
+		counter += 1;
+
+		if( counter >= 5 && _entry_iter < num )
+			GFAddButton( gump, 220, 355, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 220, 235, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 260;
+		endif
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( input[0xA1] )
+                Loto_MainNewLottery();
+        endif
+
+	return 1;
+endprogram

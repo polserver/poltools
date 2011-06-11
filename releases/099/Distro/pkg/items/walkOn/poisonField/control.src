@@ -1,0 +1,80 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-21
+
+        Last Modifications 2009-10-26
+             * Added elemental damage functions
+*/
+use uo;
+use os;
+use util;
+
+include ":timedscripts:timedScripts";
+include ":equipment:protections";
+include ":spells:spells_math";
+
+program controlScript( field )
+
+	SetObjProperty( field, "#PID", GetPid() );
+
+	var creator := field.GetOwner();
+	if( creator.IsA( POLCLASS_MOBILE ))
+		SetScriptController( creator );
+	endif
+
+	// Kludge to keep this script from running before cprops are set
+	SleepMS(500);
+
+	while( field )
+		var poison_level := "1d"+GetObjProperty( field, "PoisonLevel" );
+		if( !poison_level )
+			poison_level := "1";
+		endif
+  
+		PoisonNearbyMobiles( field, poison_level, creator );
+
+		if( ReadGameClock() % 7 == 0 )
+			// Play once every 7 seconds.
+			PlaySoundEffect( field, 0x475 );
+		endif
+
+		var event := Wait_For_Event(1);
+		if( event )
+			//Someone just walked onto the tile.
+			//PoisonMobile( event, poison_level, creator );
+		endif
+		
+		if( field.IsExpired() )
+			DestroyItem( field );
+			return 1;
+		endif
+	endwhile
+endprogram
+
+function PoisonNearbyMobiles( field, poison_level, creator )
+
+	var nearby := ListMobilesNearLocationEX( field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, field.realm );
+	foreach mobile in ( nearby )
+		PoisonMobile( mobile, poison_level, creator );
+
+		SleepMS(2);
+	endforeach
+
+	return( nearby.Size() );
+endfunction
+
+function PoisonMobile( mobile, poison_level, creator )
+
+        if( mobile.dead )
+                return 0;
+        endif
+        
+        var prot_level := GetMobileProtection( mobile, "PermPoisonProtection" );
+        if( prot_level < CInt( poison_level ))
+                poison_level := SPELL_GetResist( creator, mobile, 5, poison_level );
+                TS_StartTimer( mobile, "DefaultPoison", 120, poison_level, creator );
+        endif
+        
+	return 1;
+endfunction

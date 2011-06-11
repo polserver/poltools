@@ -1,0 +1,50 @@
+/*
+        Maintened by *Edwards
+
+        2010-11-19
+*/
+use uo;
+use os;
+
+include "include/string";
+include ":loot:identify";
+include ":rituals:rituals";
+
+program ritual_protectiveAura( parms )
+
+        var mobile := parms[1],
+            spell_id := parms[2];
+
+        var item := PerformRitual( mobile, spell_id );
+	if( !item )
+                ChangeLightLevel( mobile, 0 );
+		return 0;
+	endif
+
+        ApplyRitualEffect( mobile, item );
+
+        return 1;
+endprogram
+
+function ApplyRitualEffect( mobile, item )
+
+        var item_desc := TruncateArticle( item.desc );
+
+        var ar_bonus := GetObjProperty( item, "ArBonus" );
+        if( !ar_bonus )
+                ar_bonus := 0;
+        elseif( ar_bonus >= 6 )
+		SendSysMessage( mobile, "There's already a stronger enchantment on "+item_desc+"." );
+                return 0;
+        endif
+
+        var new_bonus := ar_bonus + 1;
+        
+	SetObjProperty( item, "ArBonus", new_bonus );
+	SetObjProperty( item, "MagicPenalty", new_bonus );
+	NameByEnchant( item );
+
+	SendSysMessage( mobile, "This "+item_desc+" is now grant a protective aura to his wearer." );
+
+        return 1;
+endfunction
