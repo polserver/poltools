@@ -1,0 +1,73 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-07-07
+*/
+use uo;
+use os;
+
+program textcommand_castSpell( mobile, text )
+        
+        var info_text := SplitWords( text ),
+            book_name := CStr( info_text[1] ),
+            spell_number := CInt( info_text[2] );
+        
+        var valid_spellbook := 0,
+            book_objtype;
+            
+        case( Lower( book_name ))
+                "earth":
+                            book_objtype := 0xF701;
+                            valid_spellbook := 1;
+                            break;
+                "necro":
+                            book_objtype := 0xF700;
+                            valid_spellbook := 1;
+                            break;
+                "song":
+                            book_objtype := 0xffe4;
+                            valid_spellbook := 1;
+                            break;
+        endcase
+        
+        if( !valid_spellbook )
+                SendUsageInfo( mobile );
+                return 0;
+        endif
+        
+        var book := FindObjtypeInContainer( mobile.backpack, book_objtype );
+        if( !book )
+                SendSysMessage( mobile, "Couldn't find a "+book_name+" book in your backpack." );
+                return 0;
+        endif
+        
+        if( spell_number <= 0 || spell_number > 16 )
+                SendUsageInfo( mobile );
+                return 0;
+        endif
+        
+        var book_ids := book.GetSpellID(),
+            spell_id := CInt( book_ids[spell_number] );
+            
+        if( !book.HasSpellID( spell_id ))
+                SendSysMessage( mobile, "You don't know that spell." );
+                return 0;
+        endif
+        
+        var script := Start_Script( ":magery:spellStarter", {mobile, spell_id} );
+	if( script.errortext )
+		SendSysMessage( mobile, "Error - Could not start spell starter ->"+script.errortext );
+		return 0;
+	endif
+        
+        return 1;
+endprogram
+
+function SendUsageInfo( mobile )
+
+        SendSysMessage( mobile, "Usage is .castSpell <earth, necro or song> <1, 2, ...>" );
+        return 0;
+endfunction

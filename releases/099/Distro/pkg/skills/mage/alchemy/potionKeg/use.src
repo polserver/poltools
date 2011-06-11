@@ -1,0 +1,134 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-12-18
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use os;
+use uo;
+use cfgfile;
+
+include "include/itemUtil";
+
+program potionKeg( mobile, keg )
+
+       	if( !useItem_check( mobile, keg, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( mobile, "Select a potion." );
+	var targ := Target( mobile );
+	if( !targ )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	elseif( !targ.IsPotion() && targ.objtype != 0xF0E )
+		SendSysMessage( mobile, "This is not a valid item." );
+		return 0;
+       	elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+        var kegType := GetObjProperty( keg, "PotionType" ),
+            objtype := targ.objtype;
+        
+        var x := mobile.x,
+            y := mobile.y,
+            z := mobile.z,
+            realm := mobile.realm;
+
+        while( mobile.x == x && mobile.y == y && mobile.z == z && mobile.realm == realm && mobile.connected && !mobile.dead )
+                
+                var kegAmount := CInt( GetObjProperty( keg, "Amount" ));
+                if( !kegAmount )
+                         kegAmount := 0;
+                endif
+                         
+                if( targ.IsPotion() )
+                         if( kegAmount >= 100 )
+		                SendSysMessage( mobile, "That keg is already full." );
+		                return 0;
+                         elseif( !targ )
+		                return 0;
+                         endif
+                         
+                         if( kegType && kegType != objtype )
+		                SendSysMessage( mobile, "It is not a good idea to mix these types of potions together." );
+		                return 0;
+                         endif
+
+		         PlaySoundEffect( mobile, 0x0241 );
+		         SetObjProperty( keg, "PotionType", CInt( objtype ));
+		         SetObjProperty( keg, "Amount", kegAmount + 1 );
+		         CreateItemInBackpack( mobile, 0xF0E, 1 );
+		         SubtractAmount( targ, 1 );
+           
+                         getKegName( keg );
+  
+                elseif( targ.objtype == 0xF0E )
+                         if( kegAmount < 1 )
+		                SendSysMessage( mobile, "The keg is empty." );
+		                return 0;
+                         elseif( !targ )
+		                SendSysMessage( mobile, "You're out of bottles." );
+		                return 0;
+                         endif
+
+                         PlaySoundEffect( mobile, 0x0241 );
+		         SubtractAmount( targ, 1 );
+   
+                         CreateItemInBackpack( mobile, kegType, 1 );
+
+                         kegAmount -= 1;
+                         if( kegAmount < 1 )
+                     	        EraseObjProperty( keg, "PotionType" );
+			        EraseObjProperty( keg, "Amount" );
+                         else
+                                SetObjProperty( keg, "Amount", kegAmount );
+                         endif
+                         
+                         getKegName( keg );
+                         
+                else // The only reason it's because no targ found...
+                         if( kegAmount > 1 )
+                	        SendSysMessage( mobile, "You're out of bottles." );
+		                return 0;
+                         endif
+                endif
+                
+                if( !targ )
+                         foreach item in EnumerateItemsInContainer( mobile.backpack )
+                                if( item.objtype == objtype )
+                                          targ := item;
+                                          break;
+                                endif
+                                SleepMS(5);
+                         endforeach
+                endif
+                
+                Sleep(1);
+        endwhile
+        
+        return 1;
+endprogram
+
+function getKegName( keg )
+
+        var amount := GetObjProperty( keg, "Amount" ),
+            potion := GetObjProperty( keg, "PotionType" );
+
+        if( amount && potion )
+                var cfg := ReadConfigFile( ":alchemy:itemdesc" ),
+                    potionName := cfg[potion].desc;
+                
+                SetName( keg, "a keg of "+potionName+" ["+amount+"]" );
+        else
+                SetName( keg, "an empty keg" );
+        endif
+        
+        return 1;
+endfunction

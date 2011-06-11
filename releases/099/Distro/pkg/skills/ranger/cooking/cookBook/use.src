@@ -1,0 +1,227 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-11-24
+
+        Last Modifications 2009-12-04
+             * Added loop messages
+             * Removed deprecated var counter and now using only amt for while loop
+*/
+use uo;
+use os;
+use cfgfile;
+
+include "include/itemUtil";
+include ":crafting:crafting";
+
+var item_config := ReadConfigFile( ":*:itemdesc" );
+var craft_config := ReadConfigFile( ":cooking:cooking" );
+
+program use_MapmakersPen( who, tool )
+
+	if( !useItem_check( who, tool, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	var rinfo := sendCraftGump( who, COOKING );
+	if( rinfo == 0 )
+		return 0;
+	endif
+
+	var the_objtype := rinfo[1],
+	    amt := rinfo[2];
+
+	makeCookingItem( who, tool, the_objtype, amt );
+
+	return 1;
+endprogram
+
+function makeCookingItem( who, tool, the_objtype, amt )
+
+	if( !the_objtype || !amt )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+
+        var fish_amount := 0;
+        if( the_objtype == 0x97b )
+                fish_amount := CInt( SendTextEntryGump( who, "How many fish would you like to bake?", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, 15, "( Difficulty = fish * 10 )" ));
+                if( !fish_amount )
+		        SendSysMessage( who, "Cancelled." );
+		        return 0;
+                endif
+        endif
+
+ 	var craft_elem := craft_config[the_objtype],
+ 	    skill_elem := menu_config[craft_skill],
+            cook_method := craft_elem.Method,
+            x := who.x,
+	    y := who.y;
+
+ 	if( !FindSourceNear( who, cook_method ))
+ 	 	SendSysMessage( who, "It appears that you have no fire source near." );
+ 	 	return 0;
+ 	endif
+
+        StartCooking( who, cook_method );
+
+	while( amt )
+		if( !tool )
+			break;
+ 	        elseif( !FindSourceNear( who, cook_method ))
+ 	 		SendSysMessage( who, "It appears that your fire has gone out." );
+ 	 		break;
+		endif
+
+                if( amt != -1 )
+                	SendSysMessage( who, "Looping ["+amt+" more to go].", 3, 89 );
+                else
+                	SendSysMessage( who, "Looping.", 3, 89 );
+                endif
+                
+                Sleep( CRAFT_DELAY );
+
+                Craft_PlayEffects( who, skill_elem );
+
+                if( who.x != x || who.y != y )
+                        SendSysMessage( who, "Cancelled." );
+			break;
+ 	        elseif( !FindSourceNear( who, cook_method ))
+ 	 		SendSysMessage( who, "It appears that your fire has gone out." );
+ 	 		break;
+                endif
+
+                var parts_list := Craft_CheckParts( who, craft_elem );
+                if( !parts_list )
+                	break;
+                elseif( !Craft_ConsumeParts( who, parts_list ))
+                	break;
+                endif
+                
+		if( fish_amount )
+                        CookFish( who, fish_amount );
+                elseif( Craft_SkillCheck( who, craft_elem, CRAFT_ADV_ALL ) > 0 )
+			Craft_CreateItem( who, the_objtype, craft_elem );
+		else
+			SendSysMessage( who, "You lost some materials." );
+                endif
+
+                if( amt != -1 )
+                	amt -= 1;
+                endif
+	endwhile
+
+        SendSysMessage( who, "You stop "+skill_elem.EndMessage+"...", 3, 89 );
+
+	return 1;
+endfunction
+
+function StartCooking( who, cook_method )
+
+	if( !cook_method )
+		SendSysMessage( who, "The receipe is not available yet but we're working on it!" );
+		return 0;
+	endif
+
+        var message := "";
+        case( cook_method )
+              0:
+                        SendSysMessage( who, "The receipe is not available yet but we're working on it!" );
+                        return 0;
+              1:
+                        message := "That's beginning to smell good";
+                        break;
+              2:
+                        message := "You place the item in the oven";
+                        break;
+              3:
+                        message := "That's beginning to smell good";
+                        break;
+              4:
+                        message := "You begin to mix the ingredients";
+                        break;
+        endcase
+
+        SendSysMessage( who, message+"...", 3, 89 );
+
+	return 1;
+endfunction
+
+function FindSourceNear( who, cook_method )
+
+        case( cook_method )
+              1:        //if it requires a fire, search through all var items for a fire
+                        foreach item in ListItemsNearLocation( who.x, who.y, who.z, 1, who.realm )
+			        if(( item.objtype >= 0x045d ) && ( item.objtype <= 0x0460 ))
+				        return 1;
+			        elseif(( item.objtype >= 0x0475 ) && ( item.objtype <= 0x048e ))
+				        return 1;
+			        elseif(( item.objtype >= 0x0935 ) && ( item.objtype <= 0x096c ))
+				        return 1;
+			        elseif(( item.objtype >= 0x0de3 ) && ( item.objtype <= 0x0de8 ))
+				        return 1;
+			        endif
+                                SleepMS(5);
+		        endforeach
+		        return 0;
+              2:        //if it requires an oven, search for an oven
+                        foreach item in ListItemsNearLocation( who.x, who.y, who.z, 1, who.realm )
+                                if(( item.objtype >= 0x0461 ) && ( item.objtype <= 0x046f ))
+				        return 1;
+			        elseif(( item.objtype >= 0x092b ) && ( item.objtype <= 0x0934 ))
+				        return 1;
+			        endif
+                                SleepMS(5);
+		        endforeach
+		        return 0;
+              3:        //if it can be made in either a fire of an oven, check for both
+                        foreach item in ListItemsNearLocation( who.x, who.y, who.z, 1, who.realm )
+                                if((item.objtype >= 0x0461) && ( item.objtype <= 0x046f ))
+				        return 1;
+			        elseif(( item.objtype >= 0x092b ) && ( item.objtype <= 0x0934 ))
+				        return 1;
+			        elseif(( item.objtype >= 0x045d ) && ( item.objtype <= 0x0460 ))
+				        return 1;
+			        elseif(( item.objtype >= 0x0475 ) && ( item.objtype <= 0x048e ))
+				        return 1;
+			        elseif(( item.objtype >= 0x0935 ) && ( item.objtype <= 0x096c ))
+				        return 1;
+			        elseif(( item.objtype >= 0x0de3 ) && ( item.objtype <= 0x0de8 ))
+				        return 1;
+			        endif
+                                SleepMS(5);
+		        endforeach
+		        return 0;
+              4:
+		        return 1;
+        endcase
+
+        return 0;
+endfunction
+
+function CookFish( who, fish_amount )
+
+        if( CInt( fish_amount - 1 ))
+                var consume := ConsumeSubstance( who.backpack, 0x097a, CInt( fish_amount - 1 ));
+                if( consume.errortext )
+                        SendSysMessage( who, "You do not have the required materials to make that." );
+                        return 0;
+                endif
+        endif
+
+        if( SkillCheck( who, COOKING, CInt( fish_amount*10 )) > 0 );
+   
+		var the_item := CreateItemInBackpack( who, 0x97b, fish_amount );
+		if( !the_item )
+			the_item := CreateItemAtLocation( who.x, who.y, who.z, 0x97b, fish_amount, who.realm );
+		endif
+		SendSysMessage( who, "You create the item and put it in your backpack." );
+        else
+                SendSysMessage( who, "You lost some materials." );
+        endif
+
+	return 1;
+endfunction

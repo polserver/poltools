@@ -1,0 +1,45 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Modifications 2008-12-26
+
+        Last Modifications 2009-07-31
+             * Added useItem_check()
+*/
+use uo;
+use os;
+use cfgfile;
+
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+include "include/itemUtil";
+
+program potion_cure( who, potion )
+
+       	if( !useItem_check( who, potion, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	if( !CheckToDrink( who ))
+		return 0;
+  	elseif( !who.poisoned )
+		SendSysMessage( who, "You aren't poisoned!" );
+                return 0;
+	endif
+ 
+	var current_poison := CInt( GetObjProperty( who, "#PoisonedLevel" )),
+	    power := GetPotionStrength( potion ),
+	    bonus := GetObjProperty( who, "HealingIncrease" ),
+	    difficulty := power + bonus;
+         
+	if( difficulty < current_poison )
+		SendSysMessage( who, "The potion isn't strong enough to cure you!" );
+	else
+		TS_LowerDuration( who, "DefaultPoison", -1 );
+	endif
+
+	return empty_bottle( who, potion );
+endprogram
