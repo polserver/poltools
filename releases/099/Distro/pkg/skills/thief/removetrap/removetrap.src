@@ -1,0 +1,51 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-19
+        
+        Last Modifications 2009-08-24
+             * Added useItem_check()
+*/
+use uo;
+
+include ":attributes:attributes";
+include ":traps:traps";
+include ":classes:classes";
+include "include/itemUtil";
+
+program skill_RemoveTrap( mobile )
+
+        SendSysMessage( mobile, "Select a trapped container to disarm." );
+        var targ := Target( mobile ),
+            traps := GetTrapList( targ );
+            
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !useItem_check( mobile, targ, DEFAULT_ITEM, 1 ))
+		return 0;
+        elseif( !targ.IsA( POLCLASS_CONTAINER ))
+                SendSysMessage( mobile, "You must select a trapped container!" );
+                return 0;
+        elseif( Len( traps ) < 1 )
+                SendSysMessage( mobile, "That may not be trapped at all." );
+                return 0;
+        elseif( !IsTrapRevealed( targ ))
+                SendSysMessage( mobile, "You must reveal the trap before being able to remove it!" );
+                return 0;
+        endif
+        
+        if( SkillCheck( mobile, REMOVE_TRAP, -1 ) > 0 )
+               SendSysMessage( mobile, "You sucessfully disarmed "+targ.desc+"." );
+        else
+               SendSysMessage( mobile, "You failed to disarm "+targ.desc+"." );
+               RunTraps( targ, mobile );
+        endif
+        
+        RemoveTrap( targ );
+        
+	return 1;
+endprogram

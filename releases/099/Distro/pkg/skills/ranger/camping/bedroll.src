@@ -1,0 +1,96 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-12
+        
+        Last Modifications 2009-01-18
+             * Fixed a lot of sysmessage
+*/
+use uo;
+use os;
+
+include ":gumps:yesno";
+include "include/itemUtil";
+
+CONST UOBJECT_CAMPFIRE  := 0xDE3;
+
+program use_Bedroll( who, bedroll )
+
+	if( !useItem_check( who, bedroll, DEFAULT_ITEM ))
+		return 0;
+	endif
+
+	var items := ListItemsNearLocationOfType( bedroll.x, bedroll.y, bedroll.z, 2, UOBJECT_CAMPFIRE, bedroll.realm );
+	if( Len( items ) == 0 )
+		SendSysMessage( who, "You must have a campfire nearby to use this." );
+		return 0;
+	endif
+ 
+        var canStart := 0;
+        foreach item in items
+                var secured := GetObjProperty( item, "#camped" );
+                if( secured && secured > ReadGameClock() )
+                          canStart := 1;
+                          break;
+                endif
+                SleepMS(5);
+        endforeach
+        
+        if( !canStart )
+                SendSysMessage( who, "Your campfire is nearly finish." );
+                return 0;
+        endif
+
+	case( bedroll.graphic )
+		0xa58: bedroll.graphic := 0xa55;
+		0xa59: bedroll.graphic := 0xa56;
+	endcase
+
+	if( YesNo( who, "Do you wish to log off?" ))
+		case( bedroll.graphic )
+			0xa55: bedroll.graphic := 0xa58;
+			0xa56: bedroll.graphic := 0xa59;
+		endcase
+  
+                if( SendLogoutDelay( who ))
+		        MoveItemToContainer( bedroll, who.backpack );
+		        DisconnectClient( who );
+		        return 1;
+                else
+                        return 0;
+                endif
+	else
+		case( bedroll.graphic )
+			0xa55: bedroll.graphic := 0xa58;
+			0xa56: bedroll.graphic := 0xa59;
+		endcase
+  
+		MoveItemToContainer( bedroll, who.backpack );
+	endif		
+
+        return 1;
+endprogram
+
+function SendLogoutDelay( who )
+
+        var x := who.x,
+            y := who.y,
+            delay := 30;
+          
+        while( delay )
+                SendSysMessage( who, "You must wait "+delay+" seconds to log out." );
+        
+                delay -= 5;
+                Sleep(5);
+                
+                if( x != who.x || y != who.y )
+                          SendSysMessage( who, "You abandon your preparations to camp." );
+                          return 0;
+                endif
+       endwhile
+       
+       return 1;
+endfunction

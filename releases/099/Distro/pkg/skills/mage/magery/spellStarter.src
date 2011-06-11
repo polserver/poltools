@@ -1,0 +1,363 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-10-24
+        
+        Last Modifications 2008-12-06
+             * Fizle effect will not play if npc
+             * Added check for target if mobile.cmdlevel < targ.cmdlevel it returns 0
+             
+        Last Modifications 2008-12-12
+             * no_checkSkill toggle added for npc/staff
+             
+        Last Modifications 2009-01-18
+             * Mobile will face targ
+
+        Last Modifications 2009-02-14
+             * If warrior cast they will always fail
+             * Ranger can cast one circle per level they have achieved
+
+        Last Modifications 2009-10-08
+             * Fixed Protection property with ProtectionPreventsCastingDisruption
+
+        Last Modifications 2009-10-14
+             * Added NPC_GetCastSpellGraphic() when performing action of NPC
+
+        Last Modifications 2009-10-26
+             * Changed FailSpell( mobile, message:="The spell fizzles." ) now support new param: message
+
+        Last Modifications 2009-10-26
+             * Cleaned codes for better performances
+
+        Last Modifications 2009-12-21
+             * Moved Area check with notoriety: only helpful spell can be casted in no damage area
+*/
+use uo;
+use os;
+use cfgfile;
+
+include "include/client";
+include "include/facings";
+include "include/sounds";
+include ":areas:managment";
+include ":attributes:attributes";
+include ":brainAI:npcEffects";
+include ":classes:classes";
+include ":containers:containers";
+include ":itemutils:itemdesc";
+include ":spells:spells";
+
+program SpellStarter( params )
+
+	var mobile := params[1];		// Caster
+	var spell_id := CInt(params[2]);	// Id # of the spell
+	var scroll := params[3];		// Scroll object being used
+	var targ := params[4];			// NPC target
+	var no_words := CInt(params[5]);	// WordsOfPower toggle
+        var no_checkSkill := CInt(params[6]);	// checkSkill toggle
+        var no_delay := CInt(params[7]);	// noDelay toggle
+        var no_equipment := CInt(params[8]);	// check equipment toggle
+        var no_mana := CInt(params[9]);	        // check mana toggle
+	params := 0; // Not needed anymore
+
+        mobile.hidden := 0;
+
+	var requires_mana := 1,
+	    requires_regs := 1;
+
+	var settings_elem := SPELL_GetSettingsCfgElem( "Settings" );
+	if( mobile.IsA( POLCLASS_NPC ) || mobile.cmdlevel >= settings_elem.StaffCmdLvl || no_mana )
+		requires_mana := 0;
+		requires_regs := 0;
+	endif
+
+	if( !Attach( mobile ))
+		SendSysMessage( mobile, "You are already doing something else." );
+		return 0;
+	elseif( GetProcess( CInt( GetObjProperty( mobile, "#Casting" ))))
+		SendSysMessage( mobile, "You are already casting a spell." );
+		return 0;
+	elseif( mobile.frozen )
+		FailSpell( mobile, "You cannot cast a spell while frozen." );
+		return 0;
+	elseif( mobile.paralyzed && settings_elem.CanCastWhileParalyzed != 1 )
+		FailSpell( mobile, "You cannot cast a spell while paralyzed." );
+		return 0;
+        endif
+        
+        if( !no_equipment )
+		if( !EquipmentCheck( mobile ))
+			FailSpell( mobile, "Your hands must be free to cast spells." );
+			return 0;
+		endif
+        endif
+
+	var spell_elem := SPELL_GetSpellsCfgElem( spell_id );
+	if( spell_elem.TestOnly && !mobile.cmdlevel )
+		if( !GetObjProperty( mobile, "#SpellTester" ))
+			FailSpell( mobile, "This spell has been temporarily disabled." );
+			return 0;
+		endif
+	elseif( spell_elem.NPCOnly && !mobile.npctemplate )
+                FailSpell( mobile, "Unable to cast - NPC only spell." );
+		return 0;
+	endif
+
+        SetObjProperty( mobile, "#Casting", GetPid() );
+        
+	if( requires_regs )
+		if( !CheckReagents( mobile, spell_elem, scroll ))
+			FailSpell( mobile );
+			return 0;
+		endif
+	endif
+ 
+        if( mobile.graphic == 400 || mobile.graphic == 401 )
+	        if( spell_elem.Animation )
+		        PerformAction( mobile, spell_elem.Animation );
+	        else
+		        case( Lower( spell_elem.Target ))
+			        "none":
+			        "direct":
+				       PerformAction( mobile, ANIM_CAST_DIR );
+				       break;
+			        "notarget_area":
+			        "area":
+			        "summon":
+				       PerformAction( mobile, ANIM_CAST_AREA );
+				       break;
+			        default:
+				       PerformAction( mobile, ANIM_CAST_DIR );
+		        endcase
+	        endif
+        else
+                var action := ANIM_RUN_ARMED;
+                if( mobile.IsA( POLCLASS_NPC ))
+                        action := NPC_GetCastSpellGraphic( mobile );
+                endif
+
+                PerformAction( mobile, action );
+        endif
+        
+	if( !no_words )
+                if( spell_elem.PWColor )
+		        PrintTextAbove( mobile, spell_elem.PowerWords, 3, spell_elem.PWColor );
+		endif
+	endif
+ 
+        if( !no_delay )
+		var orig_hp := AP_GetVital( mobile, HITS ),
+	   	    protection := GetObjProperty( mobile, "ProtectionMod" ),
+                    delay := spell_elem.Delay;
+                    
+                if( mobile.IsA( POLCLASS_NPC ) || mobile.cmdlevel >= settings_elem.StaffCmdLvl )
+                        delay := 1000;
+                elseif( scroll )
+                        delay := CInt( delay * 2.5 );
+                endif
+
+                var orig_x,
+	            orig_y;
+             
+	        // Check for health changes and fail the spell if caster becomes damaged
+	        while( delay > 0 )
+		        if(( !protection && settings_elem.ProtectionPreventsCastingDisruption ) && !mobile.IsA( POLCLASS_NPC ))
+			        if( orig_hp > AP_GetVital( mobile, HITS ))
+				        FailSpell( mobile, "Your concentration is disturbed, thus ruining thy spell." );
+				        return 0;
+			        endif
+		        elseif( mobile.hidden || mobile.frozen || mobile.paralyzed )
+			        FailSpell( mobile, "Your concentration is disturbed, thus ruining thy spell." );
+			        return 0;
+                        endif
+
+                        orig_x := mobile.x;
+	                orig_y := mobile.y;
+
+                        delay -= 100;
+		        SleepMS(100);
+	        endwhile
+
+                if( targ )
+			if( mobile.x != orig_x || mobile.y != orig_y )
+				SendSysMessage( mobile, "Your concentration is disturbed while moving." );
+				return 0;
+			endif
+                endif
+        endif
+        
+        var mana_required;
+        if( requires_mana || GetObjProperty( mobile, "IsTotem" ))
+                mana_required := CInt( spell_elem.ManaCost );
+                if( GetObjProperty( mobile, MAGE ))
+                        mana_required /= ClasseBonus( mobile, MAGE );
+                endif
+
+		if( !AP_ConsumeVital( mobile, MANA, CInt( mana_required )))
+			FailSpell( mobile, "You don't have enough mana to cast that spell!" );
+			return 0;
+		endif
+        endif
+ 
+	var attribute := spell_elem.Attribute;
+	if( !attribute )
+		attribute := MAGERY;
+	endif
+
+	var difficulty := CInt( spell_elem.Difficulty );
+	if( !difficulty )
+		difficulty := -1;
+	endif
+
+        var skill_check := 1;
+        if( !no_checkSkill )
+                var ranger_level := CInt( GetObjProperty( mobile, RANGER ));
+                var warrior_level := CInt( GetObjProperty( mobile, WARRIOR ));
+                var circle := CInt( SPELL_GetCircle( spell_id ));
+                
+                if( ranger_level )
+                        if( ranger_level + 1 < circle )
+                                FailSpell( mobile );
+                                return 0;
+                        endif
+                elseif( warrior_level )
+                        if( CInt( warrior_level / 2 ) < circle )
+                                FailSpell( mobile );
+                                return 0;
+                        endif
+                endif
+                
+                skill_check := SkillCheck( mobile, attribute, difficulty );
+        endif
+        
+	if( skill_check > 0 )
+ 
+		var info := struct;
+		    info.+script := spell_elem.Script;
+		    info.+attribute := attribute;
+		    info.+difficulty := difficulty;
+		    info.+pid := GetPid();
+		    info.+spell_id := spell_id;
+		    info.+spell_config := spell_elem;
+                
+		var noto := GetConfigString( spell_elem, "Noto" ),
+		    opts;
+
+		case( noto )
+			default:
+			"neutral": opts += TGTOPT_NEUTRAL;
+				break;
+			"harmful": opts += TGTOPT_HARMFUL;
+				break;
+			"helpful": opts += TGTOPT_HELPFUL;
+				break;
+		endcase
+
+		var cfg_targ := GetConfigString( spell_elem, "Target" );
+		if( !targ && cfg_targ != "none" && cfg_targ != "notarget_area" )
+			var prompt := GetConfigString( spell_elem, "Prompt" );
+			if( !prompt )
+				prompt := "Select a target.";
+			endif
+
+			if( cfg_targ == "area" || cfg_targ == "summon" )
+				targ := SPELL_TargetCoordinates( mobile, prompt );
+			else
+				targ := SPELL_Target( mobile, prompt, opts );
+			endif
+   
+                        if( !targ )
+                                EraseObjProperty( mobile, "#Casting" );
+				return 1;
+                        elseif( mobile != targ )
+                                TurnObjectToward( mobile, targ.x, targ.y );
+                        endif
+		endif
+  
+                if( !canDamage( mobile, targ, noto ))
+                        EraseObjProperty( mobile, "#Casting" );
+			return 0;
+                endif
+
+		var script := Start_Script( spell_elem.SpellScript, {mobile, info, targ} );
+		if( script.errortext )
+			if( mobile.npctemplate )
+				PrintTextAbove( mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext );
+			else
+				SendSysMessage( mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext );
+			endif
+		endif
+	else
+                if( requires_mana )
+                        AP_SetVital( mobile, MANA, AP_GetVital( mobile, MANA ) + CInt( mana_required ));
+                endif
+                
+		FailSpell( mobile );
+	endif
+
+	EraseObjProperty( mobile, "#Casting" );
+
+	return 1;
+endprogram
+
+function EquipmentCheck( mobile )
+
+	var hand1 := GetEquipmentByLayer( mobile, LAYER_HAND1 ),
+	    hand2 := GetEquipmentByLayer( mobile, LAYER_HAND2 ),
+            cfg := ReadConfigFile( ":*:itemdesc" );
+            
+        if( hand1 )
+                if( cfg[hand1.objtype].CanCastIfInHand != 1 && !GetObjProperty( hand1, "IsGMItem" ))
+                        return 0;
+                endif
+        endif
+        
+        if( hand2 )
+                if( cfg[hand2.objtype].CanCastIfInHand != 1 && !GetObjProperty( hand2, "IsGMItem" ))
+                        return 0;
+                endif
+        endif
+
+	return 1;
+endfunction
+
+function CheckReagents( mobile, byref spell_elem, scroll )
+
+	if( mobile.npctemplate )
+		// NPCs don't need reagents to cast.
+		return 1;
+	elseif( scroll == 1 )
+		// Scroll == 1 when called from runebooks, wands, etc to bypass reg requirements
+		return 1;
+	elseif( scroll.IsA( POLCLASS_ITEM ))
+		return SubtractAmount( scroll, 1 );
+	endif
+
+	var reg_cost := GetConfigStringDictionary( spell_elem, "RegCost" );
+	foreach amount in ( reg_cost )
+		amount := CInt( amount );
+		if( !amount )
+			amount := 1;
+		endif
+
+		var objtype := GetObjTypeByName( _amount_iter );
+		var properties := dictionary{ "objtype"->objtype };
+
+		if( AmountInContainer( mobile.backpack, properties ) < amount )
+			SendSysMessage( mobile, "You do not have enough "+GetObjTypeDesc( objtype, ( amount > 1 ))+"." );
+			return 0;
+		endif
+
+		SleepMS(2);
+	endforeach
+ 
+	foreach amount in ( reg_cost )
+		ConsumeSubstance( mobile.backpack, GetObjTypeByName( _amount_iter ), amount );
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction

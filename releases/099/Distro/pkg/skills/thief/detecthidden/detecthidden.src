@@ -1,0 +1,62 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-12
+        
+        Last Modifications 2009-08-24
+             * Fixed fast increase with detecting multiple locked containers
+             * Removed message if no traps detected.
+*/
+use uo;
+
+include ":attributes:attributes";
+include ":classes:classes";
+include ":detecthidden:detectHidden";
+include ":traps:traps";
+
+program skill_DetectHidden( mobile )
+
+        if( !SkillCheck( mobile, DETECTING_HIDDEN, -1 ) && !mobile.multi )
+		SendSysMessage( mobile, "You do not detect anything." );
+                return 0;
+        endif
+
+        var radius := CInt( AP_GetSkill( mobile, DETECTING_HIDDEN ) / 15 );
+        radius *= ClasseBonus( mobile, THIEF );
+
+        var hiders := ListMobilesNearLocationEx( mobile.x, mobile.y, mobile.z, CInt( radius ), LISTEX_FLAG_HIDDEN, mobile.realm ),
+            mobiles_found := 0;
+
+        foreach hider in hiders
+                if( hider.serial != mobile.serial )
+                        // Skill check against hidden's hiding skill
+                        if( DetectHidden( mobile, hider ))
+                                mobiles_found += 1;
+                                PrintTextAbovePrivate( hider, "Found someone!!", mobile );
+                        else
+                                SendSysMessage( hider, mobile.name+" is trying to discover you!" );
+                        endif
+                endif
+                SleepMS(5);
+        endforeach
+ 
+        var items := ListItemsNearLocation( mobile.x, mobile.y, mobile.z, CInt( radius ), mobile.realm );
+        foreach item in items
+                if( !IsTrapRevealed( item ))
+                        var reaveal := RevealTraps( item );
+                        if( reaveal )
+                                PrintTextAbovePrivate( item, "*Trapped*", mobile );
+                        endif
+                endif
+                SleepMS(5);
+        endforeach
+         
+        if( !mobiles_found )
+                SendSysMessage( mobile, "You do not find anyone hiding." );
+        endif
+
+	return 1;
+endprogram

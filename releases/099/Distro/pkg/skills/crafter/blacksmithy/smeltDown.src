@@ -1,0 +1,168 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-11-25
+
+        Description:  This script will melt metal items into ingots, 1/2 the
+                      amount it took to make the item.
+*/
+use uo;
+use os;
+
+include "include/facings";
+include "include/itemUtil";
+include ":attributes:attributes";
+include ":autoloop:autoloop";
+include ":classes:classes";
+include ":crafting:crafting";
+
+program Smelt_Down( mobile, tool )
+
+	if( !tool )
+                tool := FindObjtypeInContainer( mobile.backpack, 0xFBB );
+                if( !tool )
+                	SendSysMessage( mobile, "You need tongs to smelt down an item." );
+                	return 0;
+                endif
+	endif
+ 
+       	if( !useItem_check( mobile, tool, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+        SendSysMessage( mobile, "Select a forge to use that on." );
+        var forge := Target( mobile );
+        if( !forge )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !forge.IsForge() )
+                SendSysMessage( mobile, "You must use that on a forge!" );
+                return 0;
+        elseif( !useItem_check( mobile, forge, DEFAULT_ITEM ))
+                return 0;
+        endif
+
+	SendSysMessage( mobile, "What do you wish to smelt down into ingots?" );
+	var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+       	elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+		return 0;
+        elseif( targ.IsIngot() )
+                SendSysMessage( mobile, "That cannot be smelted down!" );
+                return 0;
+        elseif( !GetObjProperty( targ, "material" ))
+                SendSysMessage( mobile, "That item has not been crafted!" );
+                return 0;
+        elseif( !GetMaterial( mobile, targ ))
+                SendSysMessage( mobile, "That cannot be smelted down!" );
+                return 0;
+        endif
+                
+        SendAutoLoop( mobile );
+
+        var x := mobile.x,
+	    y := mobile.y;
+     
+        SendSysMessage( mobile, "You start looping.", 3, 89 );
+        while( AutoLoop( mobile ))
+                if( mobile.x != x || mobile.y != y )
+			SendSysMessage( mobile, "Cancelled." );
+			break;
+                elseif( !tool )
+			break;
+                endif
+                
+                var to_smelt := FindObjtypeInContainer( mobile.backpack, targ.objtype );
+                if( !to_smelt )
+                	break;
+                elseif( to_smelt.color != targ.color )
+                        break;
+                endif
+                
+		SmeltToIngots( mobile, to_smelt, forge );
+
+                CheckToolWear( mobile, tool, BLACKSMITHY );
+        endwhile
+
+        EndAutoLoop( mobile );
+
+        return 1;
+endprogram
+
+function SmeltToIngots( mobile, item, forge )
+
+        var material_objtype := GetObjProperty( item, "material" );
+        if( !material_objtype )
+                SendSysMessage( mobile, "That item has not been crafted!" );
+                return 0;
+        endif
+
+        var item_elem := GetMaterial( mobile, item );
+        if( !item_elem )
+                SendSysMessage( mobile, "That cannot be smelted down!" );
+                return 0;
+        endif
+
+        var material := item_elem.Material,
+            difficulty := item_elem.Difficulty,
+            item_desc := item.desc,
+            modifier := 60 + CInt( difficulty / 3 ),
+	    amount := CInt( AP_GetSkill( mobile, BLACKSMITHY ) - difficulty );
+
+        modifier := CInt( modifier / ClasseBonus( mobile, CRAFTER ));
+        amount := CInt( amount * ClasseBonus( mobile, CRAFTER ));
+
+        TurnObjectToward( mobile, forge.x, forge.y );
+        
+	PlaySoundEffect( mobile, 0x2c );
+	Sleep( 1 );
+	PlaySoundEffect( mobile, 0x2c );
+	Sleep( 1 );
+	PlaySoundEffect( mobile, 0x22 );
+
+        if( DestroyItem( item ))
+                if( SkillCheck( mobile, BLACKSMITHY, CInt( modifier ), "", ADV_DISABLE ) > 0 )
+
+		        if( amount > 95 )
+			        amount := 95;
+		        endif
+
+		        amount := CInt( amount * material / 100 );
+		        if( amount < 1 )
+			        amount := 1;
+		        endif
+
+		        var created := CreateItemInBackpack( mobile, material_objtype, amount );
+		        if( !created )
+                                CreateItemAtLocation( mobile.x, mobile.y, mobile.z, material_objtype, amount, mobile.realm );
+		        endif
+
+		        SendSysMessage( mobile, "You turned your "+item_desc+" back into "+amount+" ingots." );
+                else
+                        SendSysMessage( mobile, "You fail to smelt down the item and destroy it in your attempt!" );
+                endif
+        endif
+
+        return 1;
+endfunction
+
+function GetMaterial( mobile, item )
+
+        var smith_cfg := ReadConfigFile( ":blacksmithy:blacksmithy" );
+        if( smith_cfg.errortext )
+                SendSysMessage( mobile, "Error reading cfg <:blacksmithy:blacksmithy> -->"+smith_cfg.errortext );
+                return 0;
+        endif
+
+        var ingot_elem := smith_cfg[item.objtype];
+	if( ingot_elem.errortext )
+                return 0;
+        endif
+
+	return ingot_elem;
+endfunction

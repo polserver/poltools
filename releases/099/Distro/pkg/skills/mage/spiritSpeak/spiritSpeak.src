@@ -1,0 +1,126 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-10-14
+        
+        Last Modifications 2009-08-20
+             * Added classe bonus
+             * Modified few lines for better performances.
+
+        Last Modifications 2009-10-22
+             * Cleaned codes for better performances
+             * Fixed when ChannelFromSelf() was always returned
+*/
+use uo;
+use os;
+
+include ":timedscripts:timedScripts";
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include "include/sounds";
+include ":classes:classes";
+
+program skill_SpiritSpeak( who )
+
+        if( GetObjProperty( who, "#SpiritSpeak" ))
+                SendSysMessage( who, "You are already in contact with the netherworld." );
+                return 0;
+        elseif( !( SkillCheck( who, SPIRIT_SPEAK, -1 ) > 0 ))
+                SendSysMessage( who, "You fail your attempt at contacting the netherworld." );
+                return 0;
+        endif
+        
+        PlaySoundEffect( who, 0x024b );
+   
+        if( AP_GetVital( who, HITS ) < AP_GetVitalMaximumValue( who, HITS ))
+        
+                var my_skill := CInt( AP_GetSkill( who, SPIRIT_SPEAK )),
+                    num_corpses := 0;
+                
+                if( my_skill > 120 )
+                        var range := SS_GetRange( who, my_skill );
+                        foreach item in ( ListItemsNearLocation( who.x, who.y, who.z, range, who.realm ))
+                                SleepMS(2);
+                                if( !item.IsCorpse() )
+                                        continue;
+                                elseif( !CheckLineOfSight( who, item ))
+                                        continue;
+                                elseif( GetObjProperty( item, "npctemplate" ))
+                                        continue;
+                                endif
+                                
+                                ChannelFromCorpse( who, item );
+                        endforeach
+                endif
+                
+                if( my_skill >= 75 && !num_corpses )
+                        ChannelFromSelf( who );
+                endif
+        endif
+                
+        SendSysMessage( who, "You contact the netherworld." );
+        TS_StartTimer( who, "spiritspeak", 120 );
+
+        return 1;
+endprogram
+
+function ChannelFromSelf( who )
+
+	var amount := SS_GetAmount( who );
+	if( AP_ConsumeVital( who, "Mana", amount ))
+		HealDamage( who, amount );
+		SendSysMessage( who, "You channel your own energy to heal some damage." );
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function ChannelFromCorpse( who, corpse )
+
+	if( corpse.color == 1001 )
+		return 0;
+	endif
+        
+        PrintTextAbovePrivate( corpse, "You channel energy from a nearby corpse to heal some damage.", who );
+	corpse.color := 1001;
+
+	var amount := SS_GetAmount( who ) * 2;
+	HealDamage( who, amount );
+ 
+	return 1;
+endfunction
+
+function SS_GetRange( who, my_skill )
+        
+        var range := CInt( my_skill / 50 );
+        if( range < 1 )
+                range := 1;
+        endif
+
+        if( GetObjProperty( who, MAGE ))
+                range *= ClasseBonus( who, MAGE );
+        endif
+        
+        return CInt( range );
+endfunction
+
+function SS_GetAmount( who )
+
+        var my_skill := CInt( AP_GetSkill( who, SPIRIT_SPEAK ));
+        
+	var amnount := RandomInt( my_skill / 30 );
+        if( amnount < 1 )
+        	amnount := 1;
+        endif
+
+        if( GetObjProperty( who, MAGE ))
+                amnount *= ClasseBonus( who, MAGE );
+        endif
+
+        return CInt( amnount );
+endfunction

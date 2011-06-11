@@ -1,0 +1,52 @@
+/*
+        Created by *Edwards
+        Fôr FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-02-14
+*/
+use uo;
+use os;
+
+include ":brainAI:npcUtil";
+
+program Command_ResPet( mobile )
+
+         var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+         if( !targ )
+                   SendSysMessage( mobile, "Cancelled." );
+                   return 0;
+         elseif( !targ.IsA( POLCLASS_CORPSE ) && !GetObjProperty( targ, "npctemplate" ))
+                   SendSysMessage( mobile, "You must target a NPC corpse." );
+                   return 0;
+         endif
+         
+         ResurrectBeast( mobile, targ );
+         
+         return 1;
+endprogram
+
+function ResurrectBeast( mobile, targ )
+
+        var npcCorpse_cfg := NPC_GetNPCConfig( GetObjProperty( targ, "npctemplate" )),
+            master := GetObjProperty( targ, "Master" ),
+            prev_tame := GetObjProperty( targ, "PreviouslyTamed" );
+
+        var npc := CreateNPCFromTemplate( npcCorpse_cfg, targ.x, targ.y, targ.z, 0, mobile.realm );
+	if( npc.errortext )
+                   SendSysMessage( mobile, "Error creating NPC ["+npcCorpse_cfg+"] -> "+npc.errortext );
+	else
+                   SendSysMessage( mobile, "You bring "+npc.name+" back to life!" );
+                   npc.facing := mobile.facing;
+                   SetObjProperty( npc, "Master", master );
+                   SetObjProperty( npc, "PreviouslyTamed", prev_tame );
+                   SetObjProperty( npc, "PreviouslyRes", mobile.serial );
+
+                   RestartScript( npc );
+        endif
+        
+        DestroyItem( targ );
+        
+	return 1;
+endfunction

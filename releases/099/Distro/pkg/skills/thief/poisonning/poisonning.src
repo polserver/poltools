@@ -1,0 +1,132 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-19
+        
+        Last Modifications 2009-01-31
+             * Added definitions for PoisonWeapon() & PoisonFood()
+             
+        Last Modifications 2009-08-24
+             * Added useItem()
+             * Fixed PoisonItem() now handle all types of poisonning
+             * var power for the poison is now affected by ClasseBonus()
+             * Fixed SkillCheck() that couldnt failed
+
+        Last Modifications 2009-11-16
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":classes:classes";
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+include ":reputation:reputation";
+include "include/itemUtil";
+
+program skill_Poisonning( mobile )
+
+        SendSysMessage( mobile, "Select a poison potion you would like to use." );
+        var poison_potion := Target( mobile );
+        if( !poison_potion )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( poison_potion.graphic != 0xF0a )
+                SendSysMessage( mobile, "You must select a poison potion!");
+                return 0;
+        elseif( !useItem_check( mobile, poison_potion, ITEM_INCONTAINER ))
+		return 0;
+	endif
+        
+        SendSysMessage( mobile, "Select the object you would like to apply the poison." );
+        var targ := Target( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+		return 0;
+        elseif( targ.newbie )
+		return 0;
+	endif
+        
+        if( targ.IsA( POLCLASS_WEAPON ) || targ.IsFood() || targ.IsDrink() )
+                PoisonItem( mobile, poison_potion, targ );
+        else
+                SendSysMessage( mobile, "You cannot apply the poison to this object!" );
+        endif
+
+        return 1;
+endprogram
+
+function PoisonItem( mobile, poison_potion, targ )
+
+	var power := CInt( GetPotionStrength( poison_potion )),
+	    diff  := CInt( power * 25 ),
+	    poisoning_skill := AP_GetSkill( mobile, POISONING );
+
+	if( GetObjProperty( targ, "IsGMItem" ))
+		diff += 30;
+	endif
+
+	if( diff > 160 )
+		diff := 160;
+	endif
+
+	SubtractAmount( poison_potion, 1 );
+	CreateItemInBackpack( mobile, 0x0f0e, 1 );
+
+	if( poisoning_skill < 50 )
+		power -= 2;
+	elseif( poisoning_skill < 75 )
+		power -= 1;
+	elseif( poisoning_skill > 160 )
+		power += 2;
+	elseif( poisoning_skill > 135 )
+		power += 1;
+	endif
+
+	if( power < 1 )
+		power := 1;
+	endif
+
+	if( SkillCheck( mobile, POISONING, diff ) > 0 )
+		if( GetObjProperty( mobile, THIEF ))
+			power *= ClasseBonus( mobile, THIEF );
+		endif
+  
+                if( power > 5 )
+                	power := 5;
+                endif
+  
+                var charges := CInt( GetObjProperty( targ, "PoisonCharges" ));
+                if( !charges )
+                	charges := 1;
+                else
+                	charges += 1;
+                endif
+                
+		SetObjProperty( targ, "PoisonCharges", charges );
+		SetObjProperty( targ, "PoisonLevel", CInt( power ));
+
+		PlaySoundEffect( mobile, 0x0248 );
+		SendSysMessage( mobile, "You successfully apply the poison." );
+	else
+		poisoning_skill -= CInt( diff / 2 );
+		if( GetObjProperty( mobile, THIEF ))
+			poisoning_skill *= ClasseBonus( mobile, THIEF );
+		endif
+
+		if( RandomInt( 120 ) > poisoning_skill )
+                        TS_StartTimer( mobile, "defaultPoison", 120, power );
+			SendSysMessage( mobile, "You fail and poison yourself!" );
+		else
+			SendSysMessage( mobile, "You fail to apply the poison properly." );
+		endif
+	endif
+
+        return 1;
+endfunction
