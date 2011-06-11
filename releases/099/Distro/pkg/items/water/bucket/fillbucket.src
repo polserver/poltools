@@ -1,0 +1,106 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-08-30
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/facings";
+include "include/itemUtil";
+include "include/objType";
+include ":timeutils:time";
+include ":water:buckets";
+
+const SPLASH_SOUND	:= 0x26;
+
+program FillBucket( who, bucket )
+
+       	if( !useItem_check( who, bucket, ITEM_INCONTAINER ))
+		return 0;
+	endif
+	
+	SendSysMessage( who, "What do you want to use this on?" );
+	var targ := TargetCoordinates( who );
+       	if( !CoordinateDistance( who.x, who.y, targ.x, targ.y ) > 2 )
+		return 0;
+	elseif( targ.mobile )
+		MilkIt( who, targ.mobile, bucket );
+	else
+		GetWater( who, targ, bucket );
+	endif
+ 
+        return 1;
+endprogram
+
+function MilkIt( who, mobile, bucket )
+
+	if( CInt( GetObjProperty( mobile, "#MilkWait" )) > ReadGameClock() )
+		SendSysMessage( who, "That has already been milked in the last hour." );
+		return 0;
+	endif
+	
+	var cow_graphics := array(0xd8, 0xe7);
+	var mob_graphic := mobile.graphic;
+ 
+	if( mob_graphic in cow_graphics )
+		SetObjProperty( mobile, "#MilkWait", CInt( ReadGameClock() + SECONDS_IN_HOUR ));
+
+                var i;
+                for( i:=1; i<=3; i+=1 )
+                	TurnObjectToward( who, mobile.x, mobile.y );
+                	PerformAction( who, ANIM_BOW );
+			PlaySoundEffect( mobile, 0x7A );
+			Sleep(3);
+                endfor
+		
+		var new_bucket := bucket.FillBucket( MILK_BUCKET );
+		if( new_bucket.errortext )
+			SendSysMessage( who, "Unable to create filled bucket ->"+new_bucket.errortext );
+                        return 0;
+		endif
+  
+                DestroyItem( bucket );
+		SendSysMessage( who, "You fill the bucket with milk." );
+	else
+		SendSysMessage( who, "You can not milk that." );
+		return 0;
+	endif
+ 
+        return 1;
+endfunction
+
+function GetWater( who, targ, bucket )
+
+	if( !IsWater( targ ))
+		SendSysMessage( who, "That is not a water source." );
+		return 0;
+	endif
+
+	var i;
+	for( i:=1; i<=3; i+=1 )
+		TurnObjectToward( who, targ.x, targ.y );
+		PerformAction( who, ANIM_BOW );
+		PlaySoundEffect( who, SPLASH_SOUND );
+		PlayStationaryEffect( targ.x, targ.y, targ.z, 13613, 10, 10, 1 );
+		Sleep(3);
+	endfor
+ 
+	PlaySoundEffect( who, SPLASH_SOUND );
+	PlayStationaryEffect( targ.x, targ.y, targ.z, 13613, 10, 10, 1 );
+ 
+	var new_bucket := bucket.FillBucket( FRESH_WATER_BUCKET );
+	if( new_bucket.errortext )
+		SendSysMessage( who, "Unable to create filled bucket ->"+new_bucket.errortext );
+                return 0;
+	endif
+
+        DestroyItem( bucket );
+	SendSysMessage( who, "You fill the bucket up with fresh water." );
+ 
+        return 1;
+endfunction

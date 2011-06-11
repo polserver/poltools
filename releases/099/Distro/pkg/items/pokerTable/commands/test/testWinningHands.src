@@ -1,0 +1,449 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-02-05
+*/
+
+use uo;
+use os;
+use util;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+const POKER_HIGH_CARD := 0;
+const POKER_PAIR := 1;
+const POKER_TWO_PAIRS := 2;
+const POKER_THREE_OF_A_KIND := 3;
+const POKER_STRAIGHT := 4;
+const POKER_FLUSH := 5;
+const POKER_FULL_HOUSE := 6;
+const POKER_FOUR_OF_A_KIND := 7;
+const POKER_STRAIGHT_FLUSH := 8;
+const POKER_ROYAL_FLUSH := 9;
+
+var clubs := {2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"};
+var diamonds := {2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"};
+var hearts := {2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"};
+var spades := {2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"};
+
+program Reconnect_fsmangmr( mobile )
+
+	var gump := GFCreateGump();
+
+	var first_card := getCard();
+	if( first_card )
+		GFResizePic( gump, 80, 145, 2171, 50, 65 );
+		GFTextLine( gump, 85, 145, displayColor( first_card ), first_card[2] );
+		GFTextLine( gump, 115, 190, displayColor( first_card ), first_card[2] );
+		GFTextMid( gump, 80, 170, 55, 2100, first_card[1] );
+	endif
+
+	var second_card := getCard();
+	if( second_card )
+		GFResizePic( gump, 140, 145, 2171, 50, 65 );
+		GFTextLine( gump, 145, 145, displayColor( second_card ), second_card[2] );
+		GFTextLine( gump, 175, 190, displayColor( second_card ), second_card[2] );
+		GFTextMid( gump, 140, 170, 55, 2100, second_card[1] );
+	endif
+
+	var third_card := getCard();
+	if( third_card )
+		GFResizePic( gump, 200, 145, 2171, 50, 65 );
+		GFTextLine( gump, 205, 145, displayColor( third_card ), third_card[2] );
+		GFTextLine( gump, 235, 190, displayColor( third_card ), third_card[2] );
+		GFTextMid( gump, 200, 170, 55, 2100, third_card[1] );
+	endif
+
+	var fourth_card := getCard();
+	if( fourth_card )
+		GFResizePic( gump, 260, 145, 2171, 50, 65 );
+		GFTextLine( gump, 265, 145, displayColor( fourth_card ), fourth_card[2] );
+		GFTextLine( gump, 295, 190, displayColor( fourth_card ), fourth_card[2] );
+		GFTextMid( gump, 260, 170, 55, 2100, fourth_card[1] );
+	endif
+
+	var fifth_card := getCard();
+	if( fifth_card )
+		GFResizePic( gump, 320, 145, 2171, 50, 65 );
+		GFTextLine( gump, 325, 145, displayColor( fifth_card ), fifth_card[2] );
+		GFTextLine( gump, 355, 190, displayColor( fifth_card ), fifth_card[2] );
+		GFTextMid( gump, 320, 170, 55, 2100, fifth_card[1] );
+	endif
+ 
+	GFTextLine( gump, 67, 330, 2100, "My Cards" );
+
+	var card1 := getCard();
+	GFResizePic( gump, 40, 350, 2171, 50, 65 );
+	GFTextLine( gump, 45, 350, displayColor( card1 ), card1[2] );
+	GFTextLine( gump, 75, 395, displayColor( card1 ), card1[2] );
+	GFTextMid( gump, 40, 375, 55, 2100, card1[1] );
+
+	var card2 := getCard();
+	GFResizePic( gump, 100, 350, 2171, 50, 65 );
+	GFTextLine( gump, 105, 350, displayColor( card2 ), card2[2] );
+	GFTextLine( gump, 135, 395, displayColor( card2 ), card2[2] );
+	GFTextMid( gump, 100, 375, 55, 2100, card2[1] );
+ 
+        var cards := array{first_card, second_card, third_card, fourth_card, fifth_card, card1, card2};
+        
+        ValidateCards( cards );
+ 
+        GFSendGump( mobile, gump );
+        
+	return 1;
+endprogram
+
+function getCard()
+
+        //Shall never run out of cards.
+        var the_card;
+        while( !the_card )
+                the_card := pickCard();
+                SleepMS(2);
+        endwhile
+
+        var color_name := the_card[1],
+            color := the_card[3];
+
+        return the_card;
+endfunction
+
+function pickCard()
+
+         var pick_color := RandomDiceRoll( "1d4" ),
+            pick_card := RandomDiceRoll( "1d13" ),
+            color,
+            color_name,
+            card;
+
+         case( pick_color )
+              1: color := clubs;
+                 color_name := "clubs";
+                 break;
+              2: color := diamonds;
+                 color_name := "diamonds";
+                 break;
+              3: color := hearts;
+                 color_name := "hearts";
+                 break;
+              4: color := spades;
+                 color_name := "spades";
+                 break;
+         endcase
+
+         card := color[pick_card];
+
+         var result := color.Erase( pick_card );
+         if( !result )
+                 return 0;
+         endif
+
+         return {color_name, card, color};
+endfunction
+
+function displayColor( card )
+
+        if( card[1] == "diamonds" || card[1] == "hearts" )
+              return 33;
+        else
+              return 0;
+        endif
+endfunction
+
+function ValidateCards( e_cards )
+
+         //Main Hand
+	 var bestHand := POKER_HIGH_CARD;
+	 var handValues := array{};
+
+	 //The cards
+	 var first_card := e_cards[1],
+	     second_card := e_cards[2],
+	     third_cards := e_cards[3],
+	     fourth_card := e_cards[4],
+	     fifth_card := e_cards[5],
+	     playerCard1 := e_cards[6],
+	     playerCard2 := e_cards[7];
+
+	 //Right now I'm testing with all the 7cards on the table for each players. I might fix later to read
+	 //the process flop-turn & || river to append in var the_cards
+
+	 var the_cards := {first_card, second_card, third_cards, fourth_card, fifth_card, playerCard1, playerCard2};
+
+	 var cards := array{0,0,0,0,0,0,0,0,0,0,0,0,0},
+             the_card;
+
+	 foreach card in the_cards
+		the_card := card[2];
+		case( card[2] )
+			2:      cards[2] += 1;
+                                break;
+			3:      cards[3] += 1;
+                                break;
+			4:      cards[4] += 1;
+                                break;
+			5:      cards[5] += 1;
+                                break;
+			6:      cards[6] += 1;
+                                break;
+			7:      cards[7] += 1;
+                                break;
+			8:      cards[8] += 1;
+                                break;
+			9:      cards[9] += 1;
+                                break;
+			10:     cards[10] += 1;
+                                break;
+			"J":	cards[11] += 1;
+                                the_cards[_card_iter][2] := 11;
+                                break;
+			"Q":	cards[12] += 1;
+                                the_cards[_card_iter][2] := 12;
+                                break;
+			"K":	cards[13] += 1;
+                                the_cards[_card_iter][2] := 13;
+                                break;
+			"A":	cards[1] += 1;
+                                the_cards[_card_iter][2] := 14;
+                                break;
+		endcase
+
+		SleepMS(2);
+	 endforeach
+
+	 var flush_clubs := array{},
+             flush_diamonds := array{},
+             flush_hearts := array{},
+             flush_spades := array{},
+	     flush;
+
+	 foreach card in the_cards
+		case( card[1] )
+			"clubs":     flush_clubs.Append( card[2] );
+                                     break;
+			"diamonds":  flush_diamonds.Append( card[2] );
+                                     break;
+			"hearts":    flush_hearts.Append( card[2] );
+                                     break;
+			"spades":    flush_spades.Append( card[2] );
+                                     break;
+		endcase
+
+		SleepMS(2);
+	 endforeach
+
+         var suitCards := array{flush_clubs, flush_diamonds, flush_hearts, flush_spades};
+	 foreach suit in suitCards
+		if( suit.Size() >= 5 )
+			bestHand := POKER_FLUSH;
+			flush := suit;			// we need to remember we have a flush for later evaluation.
+                        if( flush == flush_clubs )
+                        	 handValues.Insert( 1, "clubs" );
+                        elseif( flush == flush_diamonds )
+                        	 handValues.Insert( 1, "diamonds" );
+                        elseif( flush == flush_hearts )
+                        	 handValues.Insert( 1, "hearts" );
+                        elseif( flush == flush_spades )
+                        	 handValues.Insert( 1, "spades" );
+                        endif
+		endif
+
+		SleepMS(2);
+	 endforeach
+
+	 var lastValue := 0,
+	     streak := 0,
+             kicker := 2;
+
+	 foreach cardAmt in cards
+  
+		var card_value := _cardAmt_iter;
+		if( card_value == 1 )
+			card_value := 14;
+		endif
+                
+		case( cardAmt )
+			4:	bestHand := POKER_FOUR_OF_A_KIND;
+				handValues.Insert( 1, _cardAmt_iter );
+				if( handValues[1] == 1 )
+					handValues[1] := 14;		// Make sure aces aren't beatable
+				endif
+				streak := 0;
+				break;
+    
+			3:	if( bestHand in array{POKER_PAIR, POKER_TWO_PAIRS} )
+					bestHand := POKER_FULL_HOUSE;
+					handValues.Insert( 1, _cardAmt_iter );
+					if( handValues[1] == 1 )
+						handValues[1] := 14;		// Make sure aces aren't beatable
+					endif
+				elseif( bestHand < POKER_THREE_OF_A_KIND )
+					bestHand := POKER_THREE_OF_A_KIND;
+					handValues.Insert( 1, _cardAmt_iter );
+					if( handValues[1] == 1 )
+						handValues[1] := 14;		// Make sure aces aren't beatable
+					endif
+				endif
+
+				if( lastValue && lastValue <= 3 )
+					streak += 1;
+				endif
+				break;
+    
+			2:	if( bestHand == POKER_THREE_OF_A_KIND )
+					bestHand := POKER_FULL_HOUSE;
+					handValues.Insert( 2, _cardAmt_iter );
+				elseif( besthand == POKER_PAIR )
+					bestHand := POKER_TWO_PAIRS;
+					handValues.Insert( 1, _cardAmt_iter );
+				elseif( bestHand < POKER_PAIR )
+					bestHand := POKER_PAIR;
+					handValues.Insert( 1, _cardAmt_iter );
+					if( handValues[1] == 1 )
+						handValues[1] := 14;		// Make sure aces aren't beatable
+					endif
+				endif
+
+				if( lastValue && lastValue <= 3 )
+					streak += 1;
+				endif
+				break;
+    
+			1:	if( lastValue == 1 )
+					streak += 1;
+				endif
+                                
+                                if( card_value > kicker )
+                                	if( bestHand == POKER_FLUSH )
+                                                Broadcast( flush );
+                                                Broadcast( card_value );
+                                                Broadcast( _cardAmt_iter );
+                                                Broadcast( cardAmt );
+                                                Broadcast( flush[_cardAmt_iter] );
+                                                Broadcast( flush[cardAmt] );
+                                                
+                                                if( flush[cardAmt] )
+                                        	        handValues.Insert( 2, _cardAmt_iter );
+                                                endif
+                                	elseif( bestHand == POKER_HIGH_CARD )
+                                        	handValues.Insert( 1, _cardAmt_iter );
+                                	elseif( bestHand == POKER_PAIR )
+                                        	handValues.Insert( 2, _cardAmt_iter );
+                                	elseif( bestHand == POKER_TWO_PAIRS )
+                                        	handValues.Insert( 3, _cardAmt_iter );
+                                	elseif( bestHand == POKER_THREE_OF_A_KIND )
+                                        	handValues.Insert( 2, _cardAmt_iter );
+                                	else
+                                        	handValues.Append( _cardAmt_iter );
+                                	endif
+                                                
+                                	kicker := card_value;
+                                endif
+				break;
+    
+			0:	streak := 0;
+		endcase
+
+		if( streak >= 5 || ( streak >= 4 && _cardAmt_iter == 13 && cards[1] ))   // if 5 straight or straight from at least 10 to K and Aces are present (remember aces are 1 in this array)
+			if( flush )
+				if( cards[1] && cards[10] && cards[11] && cards[12] && cards[13] )
+					bestHand := POKER_ROYAL_FLUSH;
+					handValues.Insert( 1, 14 );
+				else
+					besthand := POKER_STRAIGHT_FLUSH;
+				        if( _cardAmt_iter == 13 && cards[1] )		// make sure we don't forget to count the aces if King is high
+						handValues.Insert( 1, 14 );
+					else
+						handValues.Insert( 1, _cardAmt_iter );
+					endif
+				endif
+			else
+				if( bestHand < POKER_STRAIGHT )
+					bestHand := POKER_STRAIGHT;
+					if( _cardAmt_iter == 13 && cards[1] )		// make sure we don't forget to count the aces if King is high
+						handValues.Insert( 1, 14 );
+					else
+						handValues.Insert( 1, _cardAmt_iter );
+					endif
+				endif
+			endif
+		endif
+  
+                Broadcast( handValues );
+                
+		lastValue := cardAmt;
+                SleepMS(2);
+	 endforeach
+
+	 case( bestHand )
+		POKER_ROYAL_FLUSH:	handValues.Shrink(1);
+					break;
+
+		POKER_STRAIGHT_FLUSH:	handValues.Shrink(1);
+					break;
+
+		POKER_FOUR_OF_A_KIND:	handValues.Shrink(0);
+					break;
+
+		POKER_FULL_HOUSE:	handValues.Shrink(2);
+					break;
+
+		POKER_FLUSH:		handValues.Shrink(3);
+					break;
+
+		POKER_STRAIGHT:		handValues.Shrink(1);
+					break;
+
+		POKER_THREE_OF_A_KIND:	handValues.Shrink(3);
+					break;
+
+		POKER_TWO_PAIRS:	handValues.Shrink(3);
+					break;
+
+		POKER_PAIR:		handValues.Shrink(4);
+		                        break;
+
+		POKER_HIGH_CARD:	handValues.Shrink(5);
+		                        break;
+	 endcase
+  
+           var winner_name := "Edwards";
+           
+           Broadcast( handValues );
+
+         foreach value in handValues
+                  if( value == 14 || value == 1 )
+                           value := "A";
+                  endif
+                  if( value == 13 )
+                           value := "K";
+                  endif
+                  if( value == 12 )
+                           value := "Q";
+                  endif
+                  if( value == 11 )
+                           value := "J";
+                  endif
+         endforeach
+         
+                 case( bestHand )
+                         0: Broadcast(  winner_name+" won the pot with high card "+handValues[1]+"!" );
+                         1: Broadcast(  winner_name+" won the pot with one pair of "+handValues[1]+"'s and "+handValues[2]+" kicker!" );
+                         2: Broadcast(  winner_name+" won the pot with two pairs "+handValues[1]+"'s and "+handValues[2]+"'s with "+handValues[3]+" kicker!" );
+                         3: Broadcast(  winner_name+" won the pot with three of a kind of "+handValues[1]+"'s with "+handValues[2]+" kicker!" );
+                         4: Broadcast(  winner_name+" won the pot with straight to "+handValues[1]+"!" );
+                         5: Broadcast(  winner_name+" won the pot with flush of "+handValues[1]+" to "+handValues[2]+"!" );
+                         6: Broadcast(  winner_name+" won the pot with full house of "+handValues[1]+"'s to "+handValues[2]+"!" );
+                         7: Broadcast(  winner_name+" won the pot with four of a kind "+handValues[1]+"'s with "+handValues[2]+" kicker!" );
+                         8: Broadcast(  winner_name+" won the pot with a straight flush to "+handValues[1]+"!" );
+                         9: Broadcast( winner_name+" won the pot with a royal flush!" );
+                 endcase
+
+
+
+	 return 1;
+endfunction

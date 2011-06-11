@@ -1,0 +1,84 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-07-07
+*/
+use uo;
+use os;
+use util;
+
+include ":damage:damage";
+include ":equipment:protections";
+include ":spells:spells_math";
+
+program ControlScript( field )
+
+	SetObjProperty( field, "#PID", GetPid() );
+
+	var creator := field.GetOwner();
+	if( creator )
+		SetScriptController( creator );
+	endif
+
+	// Kludge to keep this script from running before cprops are set
+	SleepMS(60);
+
+	while( field )
+		var dmg_dice := "1d"+GetObjProperty( field, "DamageDice" );
+                if( dmg_dice )
+			DmgNearbyMobiles( field, dmg_dice, creator );
+		endif
+
+		if( ReadGameClock() % 3 == 0 )
+			// Play once every 3 seconds.
+			PlaySoundEffect( field, 0x5d0 );
+		endif
+
+		var event := Wait_For_Event(1);
+		if( event )
+			//Someone just walked onto the tile.
+			//DmgMobile( event, poison_level, creator );
+		endif
+
+		if( field.IsExpired() )
+			DestroyItem( field );
+		endif
+                Sleep(1);
+	endwhile
+
+	return 1;
+endprogram
+
+function DmgNearbyMobiles( field, dmg_dice, creator )
+
+	var nearby := ListMobilesNearLocationEX( field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, field.realm );
+	foreach mobile in ( nearby )
+		DmgMobile( mobile, dmg_dice, creator );
+
+		SleepMS(2);
+	endforeach
+
+	return( nearby.Size() );
+endfunction
+
+function DmgMobile( mobile, dmg_dice, creator )
+
+        if( mobile.dead )
+                return 0;
+        endif
+
+	var dmg := RandomDiceRoll( dmg_dice );
+ 
+        if( creator.IsA( POLCLASS_NPC ))
+        	dmg := PROT_GetElementalDamage( mobile, dmg, DMG_WATER );
+        else
+        	dmg := SPELL_GetResist( creator, mobile, 4, dmg );
+        endif
+        
+        ApplyDamageEX( mobile, dmg, DMG_WATER );
+
+	return 1;
+endfunction

@@ -1,0 +1,20 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-10-26
+*/
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsTicket( item )
+
+	item := item; // Stop compiler warnings
+
+	return 1;
+endfunction

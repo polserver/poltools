@@ -1,0 +1,45 @@
+/*
+        Made by *Edwards
+        From FantasiaShard.com
+        08-02-2008
+
+        Updated 2008-08-31
+
+        Last Modifications 2009-10-22
+             * Cleaned codes for better performances
+
+        Edwards@FantasiaShard.com
+
+        Thanks to Zulu and his developers for these awesome ideas...
+*/
+use uo;
+use os;
+use util;
+
+include ":damage:damage";
+
+program HitScript_Blinding( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	var weaponAttacker := parms[3];
+        var rawDamage      := parms[4];
+
+        var cursed := GetObjProperty( weaponAttacker, "Cursed" );
+        if( cursed )
+		defender := attacker;
+        endif
+
+        var chance := GetObjProperty( weaponAttacker, "ChanceOfEffect" );
+        if( !chance )
+                chance := 10;
+        endif
+        
+	if( RandomDiceRoll("1d100") <= CInt( chance ))
+                defender.SetLightLevel( 20, 15 );
+	endif
+ 
+        ApplyDamageEX( defender, rawDamage, DMG_PHYSICAL, attacker );
+        
+        return 1;
+endprogram

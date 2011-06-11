@@ -1,0 +1,67 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-26
+*/
+use uo;
+use os;
+use util;
+
+include ":lottery:lottery";
+include ":brainAI:npcCommands";
+
+program do_lottery_checks( parms )
+
+	var npc := parms[1];
+	var source := parms[2];
+	var item := parms[3];
+ 
+        if( !item.IsTicket() )
+                AI_Speak( npc, "That is not a lottery ticket." );
+                return 0;
+        endif
+        
+        var ticket_lottery := CInt( GetObjProperty( item, "Lottery" ));
+        if( !ticket_lottery )
+                AI_Speak( npc, "You should verify the ticked!" );
+                return 0;
+        endif
+        
+        var cur_lottery := Loto_GetLottery();
+        
+        if( ticket_lottery == cur_lottery )
+                AI_Speak( npc, "This lottery #"+cur_lottery+" drawing has not taken place yet for this ticket." );
+                return 0;
+        elseif( cur_lottery - ticket_lottery >= 2 )
+                AI_Speak( npc, "This ticket is expired, sorry." );
+		DestroyItem( item );
+                return 0;
+        endif
+
+        var win_ticket := Loto_GetLotteryWinner( cur_lottery - 1 );
+        var num_ticket := GetObjProperty( item, "TicketNum" );
+        
+        if( num_ticket == win_ticket )
+                AI_Speak( npc, "Congratulations, you are the winner of the lottery #"+cur_lottery+"!" );
+		DestroyItem( item );
+
+                var prize := Loto_GetLotteryPrize( cur_lottery - 1 );
+                while( prize > 60000 )
+		        CreateItemInBackpack( source, 0xeed, 60000 );
+		        prize -= 60000;
+                endwhile
+	        CreateItemInBackpack( source, 0xeed, prize );
+         
+                Loto_SaveLotteryWinner( cur_lottery - 1, source );
+                Loto_EraseLottery( cur_lottery - 1 );
+        else
+                AI_Speak( npc, "Sorry, you are not the winner for lottery #"+ticket_lottery+"." );
+		DestroyItem( item );
+                return 0;
+        endif
+ 
+        return 1;
+endprogram

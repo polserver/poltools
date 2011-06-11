@@ -1,0 +1,48 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        2008-04-07
+        
+        Last Modifications 2009-10-21
+             * Changed error messages now reported with printtextabove()
+
+        Last Modifications 2009-11-11
+             * Added CProp UnIDedMagicalItem so players can ID the pent.
+*/
+use uo;
+use util;
+
+include ":elementals:settings";
+
+program ElPent_OnCreate( pentagram )
+
+	var luck := RandomDiceRoll( "1d80" ),
+            element;
+
+	if( luck < 5 )
+		element := "Holy";
+	elseif( luck < 10 )
+		element := "Poison";
+	elseif( luck < 20 )
+		element := "Water";
+        elseif( luck < 35 )
+		element := "Fire";
+        elseif( luck < 55 )
+		element := "Earth";
+        else
+		element := "Air";
+	endif
+ 
+        var settings := ELE_GetSettingsCfgElem( element );
+        if( settings.errortext )
+		PrintTextAbove( pentagram, "Error:: Unable to find element [:elementals:settings.cfg] ->"+settings.errortext );
+                return 0;
+	endif
+ 
+        SetObjProperty( pentagram, "Enchanted", element );
+        SetObjProperty( pentagram, "EnchantColor", settings.Color );
+	SetObjProperty( pentagram, "UnIDedMagicalItem", 1 );
+ 
+        return 1;
+endprogram

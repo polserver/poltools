@@ -1,0 +1,21 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-03-19
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsFixGate( item )
+
+	item := item; // Avoid compiler warnings.
+	
+	return 1;
+endfunction

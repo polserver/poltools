@@ -1,0 +1,42 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-21
+*/
+use uo;
+use os;
+use util;
+use cfgfile;
+
+program OnCreate( feces )
+
+        var list_items := ListItemsAtLocation( feces.x, feces.y, feces.z, feces.realm );
+        foreach item in list_items
+                 if( item.IsFecal() )
+                         return 0;
+                 endif
+                 SleepMS(5);
+        endforeach
+
+	var feces_cfg := ReadConfigFile( ":feces:settings" );
+        if( feces_cfg.errortext )
+                PrintTextAbove( feces, "Error reading cfg <:blood:settings> -->"+feces_cfg.errortext );
+                return 0;
+        endif
+        
+	var graphic_elem := feces_cfg["Graphics"];
+        if( graphic_elem.errortext )
+                PrintTextAbove( feces, "Error reading elem <Graphics> in cfg <:feces:settings> -->"+graphic_elem.errortext.errortext );
+                return 0;
+        endif
+        
+	var graphics := GetConfigStringArray( graphic_elem, "Graphic" );
+	if( graphics.Size() > 0 )
+		feces.graphic := graphics.RandomEntry();
+	endif
+	
+	return 1;
+endprogram

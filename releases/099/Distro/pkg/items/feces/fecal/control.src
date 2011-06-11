@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-09-29
+*/
+use uo;
+use os;
+use util;
+
+include ":timeutils:time";
+
+program ControlScript( blood )
+
+	Sleep( SECONDS_IN_DAY );
+	DestroyItem( blood );
+endprogram

@@ -1,0 +1,21 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-01-03
+*/
+use uo;
+use os;
+
+include ":timeutils:time";
+
+program Control_Debris( debris )
+
+	Sleep( SEC_HOUR );
+	
+	DestroyItem( debris );
+ 
+        return 1;
+endprogram

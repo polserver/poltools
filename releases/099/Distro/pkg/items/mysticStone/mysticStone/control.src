@@ -1,0 +1,49 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-20
+*/
+use uo;
+use os;
+
+include "include/security";
+include "include/sysEvent";
+
+const HEARING_RADIUS := 2;
+
+program mysticStoneControl( stone )
+
+	var targ := VerifyTarg( stone );
+
+	EnableEvents( SYSEVENT_SPEECH, HEARING_RADIUS );
+	RegisterForSpeechEvents( stone, HEARING_RADIUS );
+ 
+        while( stone )
+		var ev := os::wait_for_event( 10 );
+		if( ev )
+			if( ev.type == SYSEVENT_SPEECH )
+				NotifyStaffOnline( stone, ev.source.name+": "+ev.text );
+			endif
+		endif
+
+                if( !targ )
+                        targ := VerifyTarg( stone );
+                endif
+	endwhile
+ 
+        return 1;
+endprogram
+
+function VerifyTarg( stone )
+
+	var targ := SystemFindObjectBySerial( GetObjProperty( stone, "Listen" ));
+        while( !targ )
+               Sleep(10);
+               targ := SystemFindObjectBySerial( GetObjProperty( stone, "Listen" ));
+        endwhile
+
+        return targ;
+endfunction

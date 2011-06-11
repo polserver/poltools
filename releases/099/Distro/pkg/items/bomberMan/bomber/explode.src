@@ -1,0 +1,46 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-09-06
+*/
+use uo;
+use os;
+
+program BomberExplode( parms )
+
+        var potion := parms[1],
+            power := parms[2];
+        
+        var x := potion.x,
+            y := potion.y,
+            z := potion.z,
+            realm := potion.realm;
+
+        PlaySoundEffect( potion, 0x208 );
+        PlayStationaryEffect( x, y, z, 0x36b0, 7, 10, 0, realm );
+            
+        var i;
+        for( i:=1; i<=power; i+=1 )
+                if( CheckLosAt( potion, x+i, y, z ))
+		        PlayStationaryEffect( x+i, y, z, 0x36b0, 7, 0x10, 0, realm );
+                endif
+                
+	        if( CheckLosAt( potion, x-i, y, z ))
+		        PlayStationaryEffect( x-i, y, z, 0x36b0, 7, 0x10, 0, realm );
+                endif
+                
+	        if( CheckLosAt( potion, x, y+i, z ))
+		        PlayStationaryEffect( x, y+i, z, 0x36b0, 7, 0x10, 0, realm );
+                endif
+                
+	        if( CheckLosAt( potion, x, y-i, z ))
+		        PlayStationaryEffect( x, y-i, z, 0x36b0, 7, 0x10, 0, realm );
+                endif
+                SleepMS(10);
+        endfor
+        
+	return 1;
+endprogram

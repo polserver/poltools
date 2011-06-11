@@ -1,0 +1,112 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-08-23
+*/
+use uo;
+use os;
+use util;
+
+include ":damage:damage";
+include ":resgate:resgate";
+
+program controlCampfire( campfire )
+
+	SetObjProperty( campfire, "#PID", GetPid() );
+ 
+	var creator := campfire.GetOwner();
+	if( creator )
+		SetScriptController( creator );
+	endif
+ 
+	var dmg_dice := "1d5";
+        
+	while( campfire )
+		BurnNearbyMobiles( campfire, dmg_dice );
+		ResurrectNearbyMobiles( campfire, creator );
+
+		if( ReadGameClock() % 3 == 0 )
+			// Play once every 3 seconds.
+			PlaySoundEffect( campfire, 0x1DE );
+		endif
+
+		if( campfire.IsExpired() && campfire.graphic != 0x0fac ) //is expired but is not a firepit
+	                var burned_wood := CreateItemAtLocation( campfire.x, campfire.y, campfire.z, 0x0DEA, 1, campfire.realm );
+                        if( !burned_wood )
+                                Syslog( "Error creating burned wood." );
+                                return 0;
+                        endif
+                        
+			SubtractAmount( campfire, 1 );
+		endif
+  
+                Sleep(1);
+	endwhile
+
+	return 1;
+endprogram
+
+function BurnNearbyMobiles( campfire, dmg_dice )
+
+	var nearby := ListMobilesNearLocationEX( campfire.x, campfire.y, campfire.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, campfire.realm );
+        if( nearby.Size() < 1 )
+                //Nobody arround, abording.
+                return 0;
+        endif
+
+        foreach mobile in ( nearby )
+                if( !mobile.IsA( POLCLASS_NPC ))
+		        BurnMobile( mobile, dmg_dice );
+                endif
+		SleepMS(2);
+	endforeach
+
+	return nearby.Size();
+endfunction
+
+function BurnMobile( mobile, dmg_dice )
+
+        if( mobile.dead )
+                return 0;
+        endif
+
+	var dmg := RandomDiceRoll( dmg_dice );
+ 
+	ApplyDamageEX( mobile, dmg, DMG_FIRE );
+
+	return 1;
+endfunction
+
+function ResurrectNearbyMobiles( campfire, creator )
+
+        if( creator && !GetObjProperty( campfire, "Secured" ))
+                //Campfire is not secure, abording.
+                return 0;
+        elseif( campfire.multi )
+                //Campfire is in a multi, abording.
+                return 0;
+        endif
+        
+	var nearby := ListMobilesNearLocationEX( campfire.x, campfire.y, campfire.z, 1, LISTEX_FLAG_GHOST, campfire.realm );
+        if( nearby.Size() < 1 )
+                //Nobody arround, abording.
+                return 0;
+        endif
+        
+	foreach mobile in ( nearby )
+		SleepMS(2);
+  
+                if( !mobile.dead )
+			continue;
+                elseif( mobile.multi )
+                        continue;
+                endif
+                
+		ResurrectGate( mobile );
+	endforeach
+ 
+	return 1;
+endfunction

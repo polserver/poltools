@@ -1,0 +1,253 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.coms
+
+        2009-10-21
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":keys:key";
+
+program altarInterface( mobile, lever )
+
+         if( !useItem_check( mobile, lever, DEFAULT_ITEM ))
+                  return 0;
+         elseif( mobile.cmdlevel >= 2 )
+                  Send_Interface( mobile, lever );
+                  return 1;
+         endif
+        
+         Check_Lever( mobile, lever );
+
+         return 1;
+endprogram
+
+function Send_Interface( mobile, lever )
+
+         //Initialize the gump
+         var gump := GFCreateGump();
+
+         GFClosable( gump, 1 );
+
+         //Load Main Background
+	 GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 350, 225 );
+
+         GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 25 );
+	 GFTextMid( gump, 15, 17, 320, 1720, "Lever Interface" );
+
+         //BackgroundAreas
+	 GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 170 );
+         GFTextMid( gump, 15, 60, 320, 1720, "Quest Lever" );
+
+         //Initialize the options...
+         GFTextLine( gump, 60, 90, 1153, "Options 1: Destroy obstacles." );
+         GFAddButton( gump, 45, 95, 0x837, 0x838, GF_CLOSE_BTN, 1 );
+
+         GFTextLine( gump, 60, 110, 1153, "Options 2: Unlock doors/containers." );
+         GFAddButton( gump, 45, 115, 0x837, 0x838, GF_CLOSE_BTN, 2 );
+
+         GFTextLine( gump, 60, 130, 1153, "Options 3: Kill NPCs." );
+         GFAddButton( gump, 45, 135, 0x837, 0x838, GF_CLOSE_BTN, 3 );
+
+         GFTextLine( gump, 60, 150, 1153, "Options 4: Teleport mobile." );
+         GFAddButton( gump, 45, 155, 0x837, 0x838, GF_CLOSE_BTN, 4 );
+
+         //And now we need to know the answer...
+         var option;
+         var input := GFSendGump( mobile, gump );
+         if( input[1] )
+                  option := 1;
+                  SendSysMessage( mobile, "Select item(s) to be destroyed by the Lever. ( ESC to stop )" );
+         elseif( input[2] )
+                  option := 2;
+                  SendSysMessage( mobile, "Select door(s)/container(s) to be unlocked by the Lever. ( ESC to stop )" );
+         elseif( input[3] )
+                  option := 3;
+                  SendSysMessage( mobile, "Select NPC(s) to be killed by the Lever. ( ESC to stop )" );
+         elseif( input[4] )
+                  option := 4;
+                  SendSysMessage( mobile, "Select where you are teleported by the Lever." );
+                  var targ := TargetCoordinates( mobile );
+                  if( !targ )
+                           SendSysMessage( mobile, "Cancelled." );
+                           return 0;
+                  endif
+                  
+                  SetObjProperty( lever, "Destination", targ );
+                  SetObjProperty( lever, "Option", 4 );
+                  
+                  SendSysMessage( mobile, "Lever will active within the next minute." );
+                  return 1;
+         else
+                  SendSysMessage( mobile, "Cancelled." );
+                  return 0;
+         endif
+
+         Send_Instructions( mobile, lever, option );
+         SendSysMessage( mobile, "Lever will active within the next minute." );
+
+         return 1;
+endfunction
+
+function Send_Instructions( mobile, lever, option )
+
+         var targets := array{};
+
+         // Target selection
+         var current_Target := Target( mobile, TGTOPT_NOCHECK_LOS );
+         while( current_Target )
+                  if( current_Target == lever )
+                           SendSysMessage( mobile, "SKIPPING: You should consider therapy." );
+                  elseif( current_Target.IsA( POLCLASS_MOBILE ) && ( option == 1 || option == 2 ))
+                           SendSysMessage( mobile, "SKIPPING: Target must be an item or container." );
+                  elseif( !current_Target.IsA( POLCLASS_NPC ) && option == 3 )
+                           SendSysMessage( mobile, "SKIPPING: Target must be an NPC." );
+                  else
+                           if( current_Target.serial in targets )
+                                    SendSysMessage( mobile, "SKIPPING: Target already on the list." );
+                           else
+                                    targets.Append( current_Target.serial );
+                                    SendSysMessage( mobile, "Target "+targets.Size()+" assigned ( "+current_Target.desc+" )." );
+                           endif
+                  endif
+
+                  current_Target := Target( mobile, TGTOPT_NOCHECK_LOS );
+         endwhile
+
+         if( !targets[1] )
+                  SendSysMessage( mobile, "ABORTING: No target(s) assigned." );
+                  return 0;
+         endif
+
+         SetObjProperty( lever, "Option", option );
+         SetObjProperty( lever, "Targets", targets );
+         
+         PrintTextAbove( lever, "Lever is now active." );
+
+         return 1;
+endfunction
+
+function Check_Lever( mobile, lever )
+
+        Detach();
+
+        Usage( lever );
+
+  	var targetlist := lever.GetTargets(),
+            option := lever.GetOption();
+            
+        if( option == 4 ) //Teleport
+                var dest := GetObjProperty( lever, "Destination" );
+                if( dest.errortext )
+                        SendSysMessage( mobile, "Error reading destination -->"+dest.errortext );
+                        return 0;
+                endif
+
+                var move := MoveObjectToLocation( mobile, dest.x, dest.y, dest.z, dest.realm, MOVEOBJECT_FORCELOCATION );
+                if( move.errortext )
+                        SendSysMessage( mobile, "Error moving to destination -->"+move.errortext );
+                        return 0;
+                endif
+                return 1;
+        endif
+
+        if( option )
+                lever.CompletedSequence();
+
+                checkEffects( option, targetlist );
+                
+                Sleep(10);
+                Usage( lever );
+                
+                if( option == 2 )
+                        checkEffects( option, targetlist );
+                endif
+        endif
+         
+        return 1;
+endfunction
+
+function checkEffects( option, targetlist )
+        
+        foreach thing in targetlist
+                var current := SystemFindObjectBySerial( thing );
+                if( current )
+                        case( option )
+                                1: DestroyItem( current );
+                                   break;
+                                2: KP_ToggleLock( current );
+                                   break;
+                                3: PlayLightningBoltEffect( current );
+                                   current.Kill();
+                                   break;
+                        endcase
+                endif
+                SleepMS(5);
+        endforeach
+        
+        return 1;
+endfunction
+
+function Usage( lever )
+
+	var mid := 0,
+            fin, snd;
+
+	case( lever.graphic )
+		0x108c: mid := 0x108d;
+		        fin := 0x108e;
+		        snd := 0x4c;
+		0x108e: mid := 0x108d;
+		        fin := 0x108c;
+		        snd := 0x4c;
+		0x1093: mid := 0x1094;
+		        fin := 0x1095;
+		        snd := 0x4c;
+		0x1095: mid := 0x1094;
+		        fin := 0x1093;
+		        snd := 0x4c;
+		0x108f: fin := 0x1090;
+		        snd := 0x4b;
+		0x1090: fin := 0x108f;
+		        snd := 0x4b;
+		0x1091: fin := 0x1092;
+		        snd := 0x4b;
+		0x1092: fin := 0x1091;
+		        snd := 0x4b;
+	endcase
+
+	if( !mid )
+		mid := fin;
+	endif
+
+	SleepMS( 500 );
+
+	PlaySoundEffect( lever, snd );
+	lever.graphic := mid;
+
+	SleepMS( 500 );
+ 
+	lever.graphic := fin;
+
+	ChangeLeverState( lever );
+
+        return 1;
+endfunction
+
+function ChangeLeverState( lever )
+
+	var status := CInt( GetObjProperty( lever, "status" ));
+	if( !status )
+		SetObjProperty( lever, "status", 1 );
+	else
+		EraseObjProperty( lever, "status" );
+	endif
+
+	return 1;
+endfunction

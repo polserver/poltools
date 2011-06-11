@@ -1,0 +1,59 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+        
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+*/
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/uo_extend";
+include "include/itemUtil";
+
+const SFX_23A   :=  0x023a;
+
+var male_scream := array(341, 342, 343, 344, 345);
+var female_scream := array(332, 333, 334, 335, 336);
+
+program WhipIt( who, whip )
+
+       	if( !useItem_check( who, whip, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( who, "Who do you want to whip?" );
+	
+	var targ := Target( who );
+	if( !targ )
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+	elseif( Distance( who, targ ) > 2 )
+		SendSysMessage( who, "Too far away." );
+		return 0;
+	elseif( !targ.isa( POLCLASS_MOBILE ))
+		SendSysMessage( who, "Cancelled" );
+		return 0;
+	endif
+ 
+        PlaySoundEffect( who, SFX_23A );
+	
+	PerformAction( who, ANIM_ATTACK_2HAND_DOWN );
+	if( targ.graphic == 400 || targ.graphic == 401 )
+		PerformAction( targ, ANIM_HIT );
+	endif
+ 
+        SleepMS(100);
+
+	if( !targ.gender )
+		PlaySoundEffect( targ, male_scream.RandomEntry() );
+        else
+		PlaySoundEffect( targ, female_scream.RandomEntry() );
+	endif
+ 
+        return 1;
+endprogram	

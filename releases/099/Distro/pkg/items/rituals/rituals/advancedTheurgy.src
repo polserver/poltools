@@ -1,0 +1,101 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-11-19
+*/
+use uo;
+use os;
+
+include "include/string";
+include ":itemutils:itemdesc";
+include ":loot:identify";
+include ":rituals:rituals";
+
+program ritual_advancedTheurgy( parms )
+
+        var mobile := parms[1],
+            spell_id := parms[2];
+
+        var item := PerformRitual( mobile, spell_id );
+	if( !item )
+                ChangeLightLevel( mobile, 0 );
+		return 0;
+	endif
+
+        ApplyRitualEffect( mobile, item );
+
+        return 1;
+endprogram
+
+function ApplyRitualEffect( mobile, item )
+
+        var item_desc := TruncateArticle( item.desc ),
+	    weapon_type := CStr( GetObjProperty( item, "Enchanted" )),
+            item_name := GetItemDescInfo( item.objtype ).name,
+            new_name := "";
+
+        case( weapon_type )
+                "stygian":
+                        SendSysMessage( mobile, "This "+item_desc+" is already in it's strongest form." );
+                        break;
+                "mystical":
+                        item_name["Mystical"] := "";
+                        new_name := "Swift"+item_name;
+                        break;
+                "swift":
+                        item_name["Swift"] := "";
+                        new_name := "Stygian"+item_name;
+                        break;
+                default:
+                        new_name := "Mystical"+item_name;
+        endcase
+
+	var new_item := CreateItemInContainer( item.container, new_name );
+	if( new_item )
+		DupeItem( item, new_item );
+		NameByEnchant( new_item );
+
+		SendSysMessage( mobile, "This "+item_desc+" is improved to a new level." );
+		DestroyItem( item );
+	else
+		SendSysMessage( mobile, "This "+item_desc+" can not be improved." );
+	endif
+
+        return 1;
+endfunction
+
+function DupeItem( item, newitem )
+
+	if( item.maxhp_mod )
+                newitem.maxhp_mod := item.maxhp_mod;
+        endif
+	if( item.hp )
+                newitem.hp := item.hp;
+        endif
+	if( item.dmg_mod )
+                newitem.dmg_mod := item.dmg_mod;
+        endif
+	if( item.hitscript )
+                newitem.hitscript := item.hitscript;
+        endif
+	if( item.quality )
+                newitem.quality := item.quality;
+        endif
+	if( item.newbie )
+                newitem.newbie := item.newbie;
+        endif
+
+	foreach prop in GetObjPropertyNames( item )
+                SleepMS(5);
+                if( prop == "Enchanted" )
+                	continue;
+                endif
+                
+		SetObjProperty( newitem, prop, GetObjProperty( item, prop ));
+	endforeach
+
+        return 1;
+endfunction

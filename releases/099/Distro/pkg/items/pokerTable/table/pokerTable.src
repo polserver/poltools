@@ -1,0 +1,58 @@
+/*
+        Created by *Edwards
+        For PolServer.com
+
+        Mr_Lacerte@Hotmail.com
+        
+        Last Modification 20-07-2009
+        
+        Known Bugs:
+        - Takes a lot of process and may slow down the server and even the clients playing because of gumps?.
+        - while loop are made with npc ref because loop goes runaway for unknown reasons.
+*/
+use uo;
+use util;
+use math;
+
+include ":datafile:datafile";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":pokerTable:main";
+include ":pokerTable:cycle";
+include ":pokerTable:seats";
+include ":pokerTable:options";
+include ":pokerTable:cards";
+include ":pokerTable:dealer";
+include ":pokerTable:hands";
+include ":pokerTable:money";
+
+var g_datafile := DFOpenDataFile( ":pokerTable:pokerTable", DF_CREATE );
+
+program pokerTable( params )
+
+        var npc := params[1];
+        var mobile := params[2];
+        
+        var npcSerial := GetObjProperty( mobile, "#Poker" );
+	if( npcSerial == npc.serial )
+		SendSysMessage( mobile, "You already have a reserved seat on this table." );
+		return 0;
+	else
+		SetObjProperty( mobile, "#Poker", npc.serial );
+	endif
+ 
+        //Just make sure player is not flooding innocent players...
+        if( !Primary_Check( mobile, npc ))
+		SendSysMessage( mobile, "You could not connect to the table." );
+		EraseObjProperty( mobile, "#Poker" );
+		return 0;
+        endif
+        
+        var data_elem := DFFindElement( g_datafile, "Table "+npc.serial, DF_CREATE );
+        
+        mainTable( mobile, npc, data_elem );
+        
+        Remove_PlayerSeat( mobile, npc, data_elem );
+        
+        return 1;
+endprogram

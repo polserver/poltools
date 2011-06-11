@@ -1,0 +1,60 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-11-18
+*/
+use uo;
+use os;
+
+include "include/sysEvent";
+include ":rituals:rituals";
+
+program ritual_captor( captor )
+ 
+        Sleep(2);
+ 
+        var wizard_serial := GetObjProperty( captor, "#MasterSerial" ),
+            wizard := SystemFindObjectBySerial( wizard_serial ),
+            spell_id := GetObjProperty( captor, "SpellId" );
+            
+        if( !wizard )
+                //No master controlling the ritual.. Abord.
+                DestroyItem( captor );
+                return 0;
+        endif
+ 
+        while( captor )
+
+	        if( !GetProcess( CInt( GetObjProperty( wizard, "#Casting" ))))
+                        DestroyItem( captor );
+                endif
+
+		var near_circle := ListMobilesNearLocationEx( captor.x, captor.y, captor.z, 6, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, captor.realm ),
+                    wizard_found := 0;
+                    
+		foreach mobile in near_circle
+                        if( mobile.serial != wizard.serial )
+			        mobile.Kill();
+           
+                                DestroyItem( captor );
+                        else
+                                wizard_found := 1;
+                        endif
+   
+                        SleepMS(5);
+		endforeach
+  
+                if( !wizard_found )
+                        DestroyItem( captor );
+                elseif( !CheckRitualEquip( wizard, spell_id ))
+                        DestroyItem( captor );
+        	endif
+                
+                Sleep(1);
+        endwhile
+        
+	return 1;
+endprogram

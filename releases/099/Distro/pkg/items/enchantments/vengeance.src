@@ -1,0 +1,53 @@
+/*
+        Maintned by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-08-16
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":enchantments:enchantments";
+include ":attributes:attributes";
+include ":damage:damage";
+
+program vengeance( mobile, item )
+
+        if( useItem_check( mobile, item, ITEM_INCONTAINER ))
+                EquipItem( mobile, item );
+                return 1;
+        endif
+
+	if( !useItem_check( mobile, item, ITEM_EQUIPPED ))
+		return 0;
+	elseif( !watchDelay( mobile ))
+                return 0;
+        endif
+
+        useCharge( mobile, item );
+        
+        var victim := Target( mobile );
+        if( !victim )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( victim.serial == mobile.serial )
+                SendSysMessage( mobile, "You shall consider therapy." );
+                return 0;
+        elseif( !victim.IsA( POLCLASS_NPC ))
+                SendSysMessage( mobile, "That is not a NPC." );
+                return 0;
+        endif
+        
+        var damage := CInt( AP_GetVitalMaximumValue( mobile, HITS ) - AP_GetVital( mobile, HITS ));
+        if( !damage )
+                SendSysMessage( mobile, "You are full of life and cannot inflict damage." );
+                return 0;
+        endif
+ 
+	ApplyDamageEX( victim, damage );
+ 
+        return 1;
+endprogram

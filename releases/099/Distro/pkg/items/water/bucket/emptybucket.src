@@ -1,0 +1,65 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-08-30
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":water:buckets";
+
+program EmptyBucket( who, bucket )
+
+       	if( !useItem_check( who, bucket, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( who, "What do you want to use that on?" );
+	var targ := Target( who );
+	if( !targ )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+        elseif( !useItem_check( who, targ, ITEM_INCONTAINER ))
+		return 0;
+	elseif( targ.objtype == GetObjTypeByName( "glasspitcher" ))
+		FillPitcher( who, bucket, targ );
+	endif
+ 
+        return 1;
+endprogram
+
+function FillPitcher( who, bucket, targ )
+
+	var type := 0;
+	var contents := 0;
+ 
+        if( bucket.objtype == EMPTY_BUCKET )
+		SendSysMessage( who, "Cancelled." );
+		return;
+	elseif( bucket.objtype == FRESH_WATER_BUCKET )
+		type := "pitcherofwater";
+		contents := "water";
+	elseif( bucket.objtype == MILK_BUCKET )
+		type := "pitcherofmilk";
+		contents := "milk";
+	endif
+
+	SendSysMessage( who, "You empty the "+contents+" into your pitcher." );
+	SubtractAmount( targ, 1 );
+	PlaySoundEffect( who, 0x241 );
+ 
+	var new_pitcher := CreateItemInBackPack( who, type, 1 );
+	if( new_pitcher.errortext )
+		SendSysMessage( who, "Error creating new pitcher ->"+new_pitcher.errortext );
+		return 0;
+	endif
+ 
+        DestroyItem( bucket );
+	bucket.EmptyBucket();
+ 
+	return 1;
+endfunction

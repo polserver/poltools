@@ -1,0 +1,49 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-12-17
+*/
+use uo;
+use os;
+use polsys;
+
+include "include/security";
+include ":doors:doors";
+include ":gumps:requestgump";
+
+program textcmd_closeDoors( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var realm_name := RequestGump( who, "Enter the realm name to close all open doors.", "", who.realm );
+	var realm_info := Realms()[realm_name];
+
+	if( !realm_info )
+		SendSysMessage( who, "Invalid realm name." );
+		return 0;
+	endif
+
+	SendSysMessage( who, "Starting..." );
+
+	var x1 := 1, y1 := 1, x2 := realm_info.width, y2 := realm_info.height;
+	var z1 := -120, z2 := 120;
+
+	foreach object in ListObjectsInBox( x1, y1, z1, x2, y2, z2 )
+		SleepMS(5);
+                if( !object.IsDoor() )
+                        continue;
+		elseif( object.IsOpen() )
+			Door_Close( object );
+		endif
+	endforeach
+
+	SendSysMessage( who, "Done closeing all doors." );
+
+	return 1;
+endprogram

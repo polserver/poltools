@@ -1,0 +1,27 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        2010-09-26
+*/
+use uo;
+use util;
+
+include "include/string";
+include ":attributes:attributes_ex";
+
+program TRS_OnCreate( scroll )
+
+	var skill_id := RandomInt( SKILLID__HIGHEST );
+ 
+        var scroll_name := AP_SkillIdToAttributeName( skill_id );
+        if( scroll_name.errortext )
+                SysLog( "Error::TRS_OnCreate - Unable to create item -> "+scroll_name.errortext );
+                return;
+        endif
+        
+        SetObjProperty( scroll, "Skill", scroll_name );
+        SetName( scroll, "transcendence scroll of "+scroll_name );
+        
+        return 1;
+endprogram

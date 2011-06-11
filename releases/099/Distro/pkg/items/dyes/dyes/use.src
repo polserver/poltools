@@ -1,0 +1,41 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-08-29
+*/
+use uo;
+use cfgfile;
+
+include ":dyes:dyes";
+include "include/itemUtil";
+
+program UseDyes( mobile, dyes )
+
+	if( !useItem_check( mobile, dyes, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( mobile, "What do you want to use these dyes on?" );
+	var targ := Target( mobile );
+	if( !targ )
+		SendSysMessage( mobile, "Cancelled" );
+		return 0;
+	elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	if( CanDye( targ ) || mobile.cmdlevel >= 2 )
+		var color := SelectColor( mobile, targ );
+		if( ValidDyeColor( mobile, color ))
+			PlaySoundEffect( mobile, 0x25 );
+			targ.color := color;
+		endif
+	else
+		SendSysMessage( mobile, "You can not dye that." );
+	endif
+
+        return 1;
+endprogram

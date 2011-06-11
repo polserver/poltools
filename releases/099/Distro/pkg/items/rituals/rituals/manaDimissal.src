@@ -1,0 +1,48 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-11-19
+*/
+use uo;
+use os;
+
+include "include/string";
+include ":attributes:attributes";
+include ":loot:identify";
+include ":rituals:rituals";
+
+program ritual_manaDimissal( parms )
+
+        var mobile := parms[1],
+            spell_id := parms[2];
+
+        var item := PerformRitual( mobile, spell_id );
+	if( !item )
+                ChangeLightLevel( mobile, 0 );
+		return 0;
+	endif
+
+        ApplyRitualEffect( mobile, item );
+
+        return 1;
+endprogram
+
+function ApplyRitualEffect( mobile, item )
+
+        var item_desc := TruncateArticle( item.desc );
+
+        if( GetObjProperty( item, "MagicProtection" ))
+		SendSysMessage( mobile, "This "+item_desc+" already have a powerful enchantment on it." );
+                return 0;
+        endif
+        
+	SetObjProperty( item, "MagicProtection", CInt( AP_GetStat( mobile, INTELLIGENCE )));
+	NameByEnchant( item );
+ 
+	SendSysMessage( mobile, "This "+item_desc+" will now immunise his wearer from certain spells." );
+ 
+        return 1;
+endfunction

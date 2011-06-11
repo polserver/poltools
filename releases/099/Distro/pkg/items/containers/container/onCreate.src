@@ -1,0 +1,21 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2011-03-2011
+*/
+use uo;
+
+include ":containers:containers";
+include ":keys:key";
+
+program OnCreateContainer( item )
+
+        if( KP_IsLockable( item ))
+                Create_ChestKey( item );
+        endif
+        
+	return 1;
+endprogram

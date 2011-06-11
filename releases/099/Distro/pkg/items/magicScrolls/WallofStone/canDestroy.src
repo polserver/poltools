@@ -1,0 +1,18 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-24
+*/
+use uo;
+
+include "include/client";
+
+program CanDestroy( item )
+
+	PlayStationaryEffect( item.x, item.y, item.z, GFX_SMOKE, 10, 10, 0, item.realm );
+
+	return 1;
+endprogram

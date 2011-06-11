@@ -1,0 +1,56 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-09-06
+*/
+use uo;
+use os;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsBomber( potion )
+	potion := potion; // Avoid compiler warnings.
+	
+	return 1;
+endfunction
+
+exported function GetPower( potion )
+
+	return CInt( GetObjProperty( potion, "Power" ));
+endfunction
+
+exported function SetPower( potion, value )
+
+	return SetObjProperty( potion, "Power", CInt( value ));
+endfunction
+
+exported function StartBomb( potion, power )
+            
+        var script;
+
+        script := Start_Script( ":bomberMan:bomber/explode", {potion, power} );
+        if( script.errortext )
+	        PrintTextAbove( potion, "Error starting <:bomberMan:bomber/explode> ->"+script.errortext );
+                return 0;
+        endif
+
+        script := Start_Script( ":bomberMan:bomber/damage", {potion, power} );
+        if( script.errortext )
+	        PrintTextAbove( potion, "Error starting <:bomberMan:bomber/damage> ->"+script.errortext );
+                return 0;
+        endif
+        
+        script := Start_Script( ":bomberMan:bomber/destroy", {potion, power} );
+        if( script.errortext )
+	        PrintTextAbove( potion, "Error starting <:bomberMan:bomber/destroy> ->"+script.errortext );
+                return 0;
+        endif
+
+	return 1;
+endfunction

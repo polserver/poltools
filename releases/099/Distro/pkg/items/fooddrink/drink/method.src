@@ -1,0 +1,20 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+
+        2009-10-21
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsDrink( item )
+
+	item := item; // To avoid unused var warnings
+	return 1;
+endfunction

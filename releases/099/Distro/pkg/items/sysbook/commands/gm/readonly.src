@@ -1,0 +1,39 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-22
+
+*/
+use uo;
+use os;
+use cfgfile;
+
+program textcmd_readonly( character )
+
+	SendSysMessage( character, "Target a book to switch between read-only and read/write" );
+	var book := Target( character );
+	if( !book )
+		SendSysMessage( character, "Cancelled." );
+		return 0;
+	endif
+
+	// check to see if it's an itemdesc based book. If so, exit
+	var cfg := ReadConfigFile( ":*:itemdesc" );
+	cfg := cfg[book.objtype];
+	var author := GetConfigString( cfg, "Author" );
+	if( !author )
+		SendSysMessage( character, "This is a shared book and cannot be changed." );
+		return 0;
+	endif
+
+	if( book.IsWritable() )
+		book.ReadOnly(1);
+		SendSysMessage( character, "This book is now read-only." );
+	else
+		book.ReadOnly(0);
+		SendSysMessage( character, "This book is now read-write." );
+	endif
+endprogram

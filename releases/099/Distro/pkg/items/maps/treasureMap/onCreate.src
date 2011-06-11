@@ -1,0 +1,32 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+        
+        2008-06-01
+*/
+use uo;
+use util;
+
+program TreasureMap_OnCreate( map )
+
+	var luck := RandomInt(40),
+            level;
+
+	if( luck < 2 )
+		level := 5;
+	elseif( luck < 5 )
+		level := 4;
+	elseif( luck < 10 )
+		level := 3;
+        elseif( luck < 40 )
+		level := 5;
+        else
+		level := 1;
+	endif
+ 
+        SetObjProperty( map, "Level", level );
+
+        return 1;
+endprogram

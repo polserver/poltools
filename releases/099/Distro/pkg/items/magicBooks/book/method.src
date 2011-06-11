@@ -1,0 +1,82 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-08-15
+        
+        Last Modifications 2009-10-30
+             * Rewritten all codes for new core support with spellbooks
+*/
+use uo;
+use os;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsMagicBook( spellbook )
+
+	spellbook := spellbook; // Avoid compiler warnings.
+
+	return 1;
+endfunction
+
+exported function BookType( spellbook )
+
+        var cfg_file := ReadConfigFile( ":magicBooks:itemdesc" );
+        if( cfg_file.errortext )
+                SysLog( "Error reading config <:magicBooks:itemdesc> -->"+cfg_file.errortext );
+                return 0;
+        endif
+
+        var item_elem := cfg_file[spellbook.objtype];
+
+        return CStr( item_elem.SpellType );
+endfunction
+
+exported function GetSpellID( spellbook )
+
+        var spell_ids;
+        if( spellbook.objtype == 0xEFA ) //Normal spellbook has their own "core system" for storing scrolls...
+                spell_ids := spellbook.Spells();
+        else
+                spell_ids := GetObjProperty( spellbook, "SpellIDs" );
+                if( !spell_ids )
+                        spell_ids := array{};
+                endif
+        endif
+
+        return spell_ids;
+endfunction
+
+exported function HasSpellID( spellbook, spell_id )
+
+        var spell_ids := GetSpellID( spellbook );
+        if( spell_id in spell_ids )
+                return 1;
+        endif
+
+        return 0;
+endfunction
+
+exported function AddSpellID( spellbook, spell_id )
+
+        var spell_ids := GetSpellID( spellbook );
+        if( HasSpellID( spellbook, spell_id ))
+                //Do not add spell twice in the book...
+                return 0;
+        endif
+        
+        if( spellbook.objtype == 0xEFA ) //Normal spellbook has their own "core system" for storing scrolls...
+                spellbook.AddSpell( spell_id );
+        else
+                spell_ids.Append( spell_id );
+                SetObjProperty( spellbook, "SpellIDs", spell_ids );
+        endif
+
+        return 1;
+endfunction
