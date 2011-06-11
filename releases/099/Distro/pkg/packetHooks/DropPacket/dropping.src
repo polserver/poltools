@@ -1,0 +1,40 @@
+use uo;
+use os;
+use cfgfile;
+
+var config := ReadConfigFile("::tiles");
+
+program drag()
+	return 1;
+endprogram
+
+exported function dropping( who, byref packet )
+
+        who := who; //Avoid compiler warnings
+        
+	var dropserial := packet.GetInt32(10);
+ 
+        // If the character is not dropping it into the outside world
+	if( dropserial != 0xFFFFFFFF )
+		var dropitem := SystemFindObjectBySerial( dropserial );
+		var dragitem := SystemFindObjectBySerial( packet.GetInt32(1) );
+  
+                // If the graphics are the same and its not a container, its trying to stack them
+		if( dragitem.graphic == dropitem.graphic && !dragitem.isA( POLCLASS_CONTAINER ))
+			var elem := FindConfigElem( config, dropitem.graphic );
+   
+                        // If its not stackable...
+			if( !elem.stackable )
+				if( dropitem.container )
+                                        // If the stack is in a container then send it to the container instead
+					packet.SetInt32( 10, dropitem.container.serial );
+				else
+                                        // If the stack isn't in a container then send it to the outside world
+					packet.SetInt32( 10, 0xFFFFFFFF );
+				endif
+			endif
+		endif
+	endif
+ 
+	return 0;
+endfunction

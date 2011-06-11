@@ -1,0 +1,46 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Maintenances 2011-03-31
+*/
+use uo;
+use os;
+
+include ":charprofile:charProfile";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program ParseCharProfile( parms )
+ 
+        var mobile := parms[1],
+            chr := parms[2];
+
+ 	if( GetProcess( CInt( GetObjProperty( mobile, "#CharProfilePid" ))))
+		SendSysMessage( mobile, "You already have a profile open.");
+		return 0;
+	else
+		SetObjProperty( mobile, "#CharProfilePid", GetPid() );
+	endif
+
+	SendProfileInfos( mobile, chr );
+ 
+        return 1;
+endprogram
+
+function SendProfileInfos( mobile, chr )
+            
+        var gump := GFCreateGump();
+
+        MainBackground( gump, chr );
+        BuildPlaytimeInfo( gump, chr );
+        BuildVoteInfo( gump, chr );
+        BuildClasseInfo( gump, chr );
+        BuildReputationInfo( gump, chr );
+
+        GFSendGump( mobile, gump );
+
+        return 1;
+endfunction
