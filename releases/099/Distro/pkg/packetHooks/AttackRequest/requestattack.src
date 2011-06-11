@@ -1,0 +1,33 @@
+/*
+        Maintened by *Edwards
+        
+        Last Maintenance 2011-03-31
+        
+        Purpose: This hook will allow you to check LOS, Distance, or whatever you wish, when someone
+        DoubleClicks another mob while in war mode.
+*/
+use uo;
+
+include ":AttackRequest:canAttack";
+
+const OFFSET_DEFENDER_SERIAL := 1;
+
+program AttackRequest()
+
+        print( "INSTALLING: RequestAttack Packets..." );
+        
+        return 1;
+endprogram
+
+exported function HandleAttackRequest( attacker, byref packet )
+
+        var defender := SystemFindObjectBySerial( packet.GetInt32( OFFSET_DEFENDER_SERIAL ));
+        
+        if( !CanAttack( attacker, defender ))
+                return 1;
+	endif
+ 
+        CloseTradeWindow( attacker );
+
+        return 0;
+endfunction

@@ -1,0 +1,67 @@
+/*
+        Maintened by *Edwards
+
+        2010-06-27
+        
+        BY: Developer Link
+        link@zhparadyce.com
+*/
+use uo;
+use os;
+use cfgfile;
+
+program versionHook()
+        Print( "Link's VERISON HOOK IS ENABLED." );
+        return 1;
+endprogram
+
+exported function hookVersion( who, byref pkt )
+
+        if( who.cmdlevel )
+		return 0;
+	endif
+
+ 
+	var length := pkt.getint16(1);
+	var versionstring := pkt.getstring( 3, length-3 );
+	var converted := CAscZ( versionstring );
+        var newstring := array{};
+
+	//remove nullterminator or any other funk
+	foreach thing in converted
+		if( CInt( thing ) == 0 )
+			continue;
+		else
+			newstring.Append( thing );
+		endif
+                SleepMS(5);
+	endforeach
+		
+	var realstring := CChrZ( newstring );
+	
+	var cfg := ReadConfigFile( ":versionHook:clients" );
+	var aClients := GetConfigStringArray( cfg["Avaiable"], "Client" );
+	var pass := 0;
+
+	foreach Client in AClients
+        	if( realstring[Client] )
+            		pass := 1;
+            		break;
+        	endif
+                SleepMS(5);
+	endforeach
+
+	if( !pass )
+		SendSysMessage( who, "Please download our shard files.", 3, 33 );
+  
+		var script := start_script( ":versionHook:sleeper", who );
+                if( script.errortext )
+                	SendSysMessage( who, "Error starting script <:versionHook:sleeper> -->"+script.errortext );
+                endif
+
+	endif
+ 
+	return 1;
+endfunction
+
+
