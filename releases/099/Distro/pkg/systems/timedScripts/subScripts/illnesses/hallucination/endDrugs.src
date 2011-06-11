@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-09-02
+*/
+use uo;
+use os;
+
+program EndDrugs( params )
+
+	var mobile := params[1];
+
+        EraseObjProperty( mobile, "#hallucinating" );
+
+	return 1;
+endprogram

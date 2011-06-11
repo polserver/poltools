@@ -1,0 +1,86 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-05-29
+
+        MailSystem
+*/
+use uo;
+use os;
+
+include ":accounts:mailSystem";
+include ":datafile:datafile";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include "include/packets";
+include "include/yesNo";
+
+var email_datafile := DFOpenDataFile( ":accounts:emails", DF_CREATE );
+var msg := "";
+
+program Manager_MailSystem( mobile )
+
+	if( GetProcess( CInt( GetObjProperty( mobile, "#CmdChMailPid" ))))
+		return 0;
+	else
+		SetObjProperty( mobile, "#CmdChMailPid", GetPid() );
+	endif
+ 
+        while( Send_Command( mobile ))
+                SleepMS(100);
+        endwhile
+
+        return 1;
+endprogram
+
+function Send_Command( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        GFClosable( gump, 0 );
+        GFMovable( gump, 0 );
+
+        //Load Main Background
+	GFResizePic( gump, 100, 100, GFGetCfgConst( "Defaults", "BackGround" ), 410, 445 );
+        GFResizePic( gump, 115, 115, GFGetCfgConst( "Defaults", "ForeGround" ), 380, 25 );
+
+        //BackgroundAreas
+	GFResizePic( gump, 115, 145, GFGetCfgConst( "Defaults", "ForeGround" ), 380, 390 );
+        GFTextMid( gump, 115, 117, 380, 1720, "Mail System" );
+
+        GFAddButton(gump, 455, 502, 4012, 4013, GF_CLOSE_BTN, 0xA00 );
+        GFTextLine( gump, 410, 502, 1153, "Apply" );
+        
+        //Display text
+        var text := "Greetings! In order to keep our mail system up to date, periodically we need
+                    to request that you verify your email, address so that we may contact you if
+                    we need to pass on any shard related information. Your mail address will be
+                    kept confidential, and will not be shared with anyone outside Fantasia Shard,
+                    and will only be used for official shard business. At this time, we have the
+                    following email address on file for your account:";
+                    
+        GFDrawWrappedText( gump, 155, 180, GFWordWrap( text, 300 ));
+        
+        //Send Entry
+        var email := CheckEmail( mobile );
+        
+        GFResizePic( gump, 155, 450, GFGetCfgConst( "Backgrounds", "GOLDTRIM" ), 300, 28 );
+        var new_mail := GFTextEntry( gump, 160, 455, 280, 28, 2100, email );
+        
+        //Fix Message
+        GFTextMid( gump, 115, 420, 380, 1720, msg );
+
+        var input := GFSendGump( mobile, gump );
+        if( input[0xA00] ) //Apply Button
+                 if( SaveMail( mobile, input, new_mail ))
+                         return 0;
+                 endif
+                 error := "Not a valid Email";
+        endif
+
+        return 1;
+endfunction

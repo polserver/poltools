@@ -1,0 +1,293 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-01-03
+*/
+use uo;
+
+include "include/security";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":townRaid:settings";
+include ":townRaid:townRaid";
+
+program textcmd_startRaid( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        UnloadConfigFile( ":townRaid:locations" );
+	UnloadConfigFile( ":spawnSystem:defaultGroups" );
+	UnloadConfigFile( ":townRaid:levels" );
+
+        var location := SelectLocation( mobile );
+        if( !location )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        var raiders := SelectRaiders( mobile );
+        if( !raiders )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        var level := SelectLevel( mobile );
+        if( !level )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        var options := SelectOptions( mobile );
+        if( !options )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        var gold := 1,
+            ends_noGold := 1,
+            raiders_attack := 0;
+
+        if( options[3] )
+                gold := 0;
+        endif
+        if( !options[4] )
+                ends_noGold := 0;
+        endif
+        if( options[5] )
+                raiders_attack := 1;
+        endif
+        
+        var chest := SetupChestGold( location, level );
+        
+        SetObjProperty( chest, "IsActive", mobile.serial );
+        SetObjProperty( chest, "StartedBy", mobile.serial );
+        SetObjProperty( chest, "Location", location );
+        SetObjProperty( chest, "Raiders", raiders );
+        SetObjProperty( chest, "Level", level );
+        SetObjProperty( chest, "Gold", gold );
+        SetObjProperty( chest, "EndsNoGold", ends_noGold );
+        SetObjProperty( chest, "RaidersAttack", raiders_attack );
+        
+        NotifyStaffOnline( mobile, "has initiated townRaid." );
+
+        return 1;
+endprogram
+
+function SelectLocation( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 250, 425 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 25 );
+	GFTextMid( gump, 15, 17, 270, 1720, "FantasiaShard Raid-2.0 Starter" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 370 );
+        GFTextMid( gump, 15, 60, 240, 1720, "Choose Location" );
+        
+        var locations_cfg := ReadConfigFile( ":townRaid:locations" ),
+            location_elems := GetConfigStringKeys( locations_cfg ),
+	    num := location_elems.Size();
+
+	var counter := 0;
+	var y_pos := 100;
+
+	GFPage( gump, 1 );
+	foreach location in ( location_elems )
+ 
+                var location_name := locations_cfg[location].Name;
+
+		GFTextLine( gump, 30, y_pos, 2100, location_name );
+		GFAddButton( gump, 200, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _location_iter );
+
+		y_pos += 20;
+		counter += 1;
+
+		if ( counter >= 13 && _location_iter < num )
+			GFAddButton( gump, 283, 385, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 283, 40, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 100;
+		endif
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                 return 0;
+        endif
+
+        input := input[0];
+
+        return location_elems[input];
+endfunction
+
+function SelectRaiders( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 250, 425 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 25 );
+	GFTextMid( gump, 15, 17, 270, 1720, "FantasiaShard Raid-2.0 Starter" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 370 );
+        GFTextMid( gump, 15, 60, 240, 1720, "Choose Raiders" );
+
+        var groups_cfg := ReadConfigFile( ":spawnSystem:defaultGroups" ),
+            group_elems := GetConfigStringKeys( groups_cfg ),
+	    num := group_elems.Size();
+
+	var counter := 0;
+	var y_pos := 100;
+
+	GFPage( gump, 1 );
+	foreach group in ( group_elems )
+
+                //We do not want items ...
+                var item_fill := groups_cfg[group].Engine;
+                if( item_fill == "itemFill" )
+                        continue;
+                endif
+                
+		GFTextLine( gump, 30, y_pos, 2100, group );
+		GFAddButton( gump, 200, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _group_iter );
+
+		y_pos += 20;
+		counter += 1;
+
+		if ( counter >= 13 && _group_iter < num )
+			GFAddButton( gump, 220, 365, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 220, 70, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 100;
+		endif
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                 return 0;
+        endif
+
+        input := input[0];
+
+        return group_elems[input];
+endfunction
+
+function SelectLevel( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 250, 425 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 25 );
+	GFTextMid( gump, 15, 17, 270, 1720, "FantasiaShard Raid-2.0 Starter" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 370 );
+        GFTextMid( gump, 15, 60, 240, 1720, "Choose Level" );
+
+        var levels_cfg := ReadConfigFile( ":townRaid:levels" ),
+            level_elems := GetConfigStringKeys( levels_cfg ),
+	    num := level_elems.Size();
+
+	var counter := 0;
+	var y_pos := 100;
+
+	GFPage( gump, 1 );
+	foreach level in ( level_elems )
+
+		GFTextLine( gump, 30, y_pos, 2100, level );
+		GFAddButton( gump, 200, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _level_iter );
+
+		y_pos += 20;
+		counter += 1;
+
+		if ( counter >= 13 && _level_iter < num )
+			GFAddButton( gump, 220, 365, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 220, 70, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 100;
+		endif
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                 return 0;
+        endif
+
+        input := input[0];
+
+        return level_elems[input];
+endfunction
+
+function SelectOptions( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 250, 425 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 25 );
+	GFTextMid( gump, 15, 17, 270, 1720, "FantasiaShard Raid-2.0 Starter" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 220, 370 );
+        GFTextMid( gump, 15, 60, 240, 1720, "Misc Options" );
+        
+        //Okay Button
+        GFTextLine( gump, 70, 380, 33, "Start the RAID!!!" );
+        GFAddButton( gump, 30, 380, 0xFBF, 0xFBE, GF_CLOSE_BTN, 0xA01 );
+
+        var temp;
+        GFTextLine( gump, 30, 100, 1720, "Quest Type:" );
+
+        temp := GFRadioButton( gump, 210, 140, 0xD2, 0xD3, 1 );
+        GFTextLine( gump, 30, 140, 2100, "Raid with golds" );
+
+        temp := GFRadioButton( gump, 210, 160, 0xD2, 0xD3 );
+        GFTextLine( gump, 30, 160, 2100, "Raid without golds" );
+        
+        GFTextLine( gump, 30, 220, 1720, "Global Options:" );
+
+        temp := GFCheckBox( gump, 210, 260, 0xD2, 0xD3, 1 );
+        GFTextLine( gump, 30, 260, 2100, "Raid ends when no gold left" );
+
+        temp := GFCheckBox( gump, 210, 300, 0xD2, 0xD3 );
+        GFTextLine( gump, 30, 300, 2100, "Raiders attack other players" );
+        
+        GFTextLine( gump, 30, 320, 2100, "Monster Generator" );
+        GFGumpPic( gump, 210, 320, 0xD3 );
+        
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                 return 0;
+        elseif( !input[0xA01] )
+                 return 0;
+        endif
+
+        return input;
+endfunction

@@ -1,0 +1,43 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-08-22
+*/
+use uo;
+use os;
+use polsys;
+
+
+include "include/security";
+include ":security:report";
+include ":spawnsystem:engines";
+include ":spawnsystem:groups";
+include ":spawnsystem:regions";
+
+program textcommand_ForceRegionSpawn( mobile, region_name )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !region_name )
+                SendSysMessage( mobile, "Usage is .ForceRegionSpawn <region name>" );
+                return 0;
+        endif
+
+        foreach group_name in ( SS_GetGroupsInRegion( region_name ).Keys() )
+                var realm_name := SS_GetRegionRealm( region_name );
+                var engine_name := SS_GetGroupEngine( group_name );
+                var script := SS_StartSpawnEngine( engine_name, realm_name, region_name, group_name );
+                if( script.errortext )
+                        ReportText( "Error: Unable to start engine ("+engine_name+") for group ("+group_name+") in region ("+region_name+"). ->"+script.errortext, REPORT_SYSLOG );
+                endif
+
+                SS_SetRegionSpawnTime( region_name, POLCore().systime );
+                SleepMS(10);
+        endforeach
+
+        return 1;
+endprogram

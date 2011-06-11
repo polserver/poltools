@@ -1,0 +1,41 @@
+/*
+        Created by *Edwards
+        Fôr FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-02-09
+*/
+use uo;
+use os;
+
+include ":areas:managment";
+include ":areas:areas";
+
+program use_message( mobile )
+
+        var areas := ListAreasByType();
+
+        foreach area_name in areas
+
+                var area := GetAreaSettings( area_name ),
+                    MinX := CInt( area.Min_X ),
+                    MaxX := CInt( area.Max_X ),
+                    MinY := CInt( area.Min_Y ),
+                    MaxY := CInt( area.Max_Y ),
+                    Realm := CStr( area.Realm );
+
+                if( A_IsInBox( mobile, MinX, MaxX, MinY, MaxY, Realm ))
+                        SendSysMessage( mobile, "Area:"+area_name );
+                        SendSysMessage( mobile, "MinX:"+MinX );
+                        SendSysMessage( mobile, "MaxX:"+MaxX );
+                        SendSysMessage( mobile, "MinY:"+MinY );
+                        SendSysMessage( mobile, "MaxY:"+MaxY );
+                        SendSysMessage( mobile, "Realm:"+Realm );
+                endif
+
+                SleepMS(5);
+        endforeach
+
+        return 1;
+endprogram

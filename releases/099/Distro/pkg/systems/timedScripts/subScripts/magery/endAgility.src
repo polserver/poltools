@@ -1,0 +1,26 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Modifications 2009-12-09
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_EndAgility( params )
+
+	var mobile := params[1];
+	    params := 0;
+
+	var points := CInt( GetObjProperty( mobile, "AgilityMod" ));
+	AP_ModifyStatMod( mobile, DEXTERITY, -( points ));
+
+	EraseObjProperty( mobile, "AgilityMod" );
+
+	return 1;
+endprogram
+

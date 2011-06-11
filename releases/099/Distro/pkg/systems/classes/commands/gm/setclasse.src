@@ -1,0 +1,51 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-08-22
+*/
+use uo;
+use util;
+
+include ":attributes:attributes";
+include ":classes:classes";
+include "include/security";
+
+program textcmd_setclasse( who, text )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var params := SplitWords( text );
+        if( len( params ) != 2 )
+		SendSySMessage( who, ".setclasse [class] [amount]" );
+		return 0;
+	endif
+
+	var classe_name := CStr( GetName( Lower( params[1] )));
+	var amount := CInt( params[2] );
+
+	var classe_skills := GetClasseSkills( classe_name );
+        if( !classe_skills )
+                SendSysMessage( who, "Invalid classe name" );
+                return 0;
+        endif
+        
+	foreach attrib_name in AP_ListAttributesByType( "Skill" )
+                if( attrib_name in classe_skills )
+			AP_SetTrueSkill( who, attrib_name, amount );
+		else
+			AP_SetTrueSkill( who, attrib_name, 0 );
+		endif
+  
+		SleepMS(10);
+	endforeach
+
+	SendSysMessage( who, "Done!" );
+
+        return 1;
+endprogram

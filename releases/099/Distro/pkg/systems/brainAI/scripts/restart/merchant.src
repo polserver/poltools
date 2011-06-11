@@ -1,0 +1,27 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-10-12
+*/
+use uo;
+use os;
+
+include ":brainAI:commonFunctions";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainCriticalScript( params )
+
+	var npc		:= params[1];
+	var g_settings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+ 
+	NPC_SetAnchorInfos( npc, g_settings );
+        StartNerve( npc, "Virtual", ":brainAI:scripts/virtual/wander" );
+
+	return 1;
+endprogram

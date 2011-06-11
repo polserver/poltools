@@ -1,0 +1,111 @@
+/*
+        Maintened by *Edwards
+        For FantasiaSard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-01-18
+        
+        Last Modifications 2010-03-01
+             * Removed MaxAccountIPs() check
+             * Added Sleep delay to counter html attack
+*/
+use uo;
+use os;
+use http;
+
+include "include/security";
+include ":accounts:accounts";
+include ":accounts:mailSystem";
+include ":accounts:settings";
+include ":security:report";
+
+program Check_AccountCreation()
+
+       var ac_settings := ACCT_GetSettingsCfgElem( "Settings" );
+       if( !ac_settings.AllowWWWAccounts )
+              WriteHTMLRaw( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/webDisable.html'>" );
+              return 0;
+       endif
+
+       var account_name := QueryParam( "user" ),
+           password1 := QueryParam( "pass" ),
+	   password2 := QueryParam( "pass2" ),
+	   email_adress := QueryParam( "email" ),
+	   language := QueryParam( "language" ), //Not used yet.
+	   admin_pw := QueryParam( "adminpw" ),
+           settings := ACCT_GetSettingsCfgElem( "AccountCreation" ),
+           len_name := Len( account_name ),
+           len_pass := Len( password1 ),
+           ip := QueryIP();
+           
+       var aux_pass := ac_settings.AuxWebPassword;
+       if( aux_pass )
+              if( aux_pass != admin_pw )
+                     WriteHTMLRaw( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/authorization.html'>" );
+                     return 0;
+              endif
+       endif
+       
+       Sleep(5);
+    
+       if( TypeOf( account_name ) != "String" || account_name == "" )
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/emptyAccount.html'>" );
+       elseif( len_name < CInt( settings.MinLengthAccount ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/shortAccount.html'>" );
+       elseif( len_name > CInt( settings.MaxLengthAccount ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/longAccount.html'>" );
+       elseif( !ValidAccount( account_name ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/invalidAccount.html'>" );
+       elseif( TypeOf( password1 ) != "String" || password1 == "" )
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/emptyPassword.html'>" );
+       elseif( len_pass < CInt( settings.MinLengthPass ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/shortPass.html'>" );
+       elseif( len_pass > CInt( settings.MaxLengthPass ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/longPassword.html'>" );
+       elseif( !ValidPassword( password1 ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/invalidPassword.html'>" );
+       elseif( TypeOf( password2 ) != "String" || password2 == "" )
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/emptyConfirmPassword.html'>" );
+       elseif( password1 != password2 )
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/diffPass.html'>" );
+       elseif( account_name == password1 )
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/sameUserPass.html'>" );
+       elseif( TypeOf( email_adress ) != "String" || email_adress == "" )
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/emptyEmail.html'>" );
+       elseif( !Setmail( email_adress ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/invalidEmail.html'>" );
+       elseif( MaxAccountEmail( email_adress ))
+              WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/maxAccounts.html'>" );
+       else
+              var account := CreateNewAccount( account_name, password1, ip, email_adress );
+              if( !account )
+                     WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/dupeAccount.html'>" );
+              else
+                     WriteHTML( "<meta HTTP-EQUIV='REFRESH' content='0;URL=mkAccount/success.html'>" );
+                     
+                     ReportText( "WebAccount Created Account:"+account_name+" IP: "+ip, REPORT_CONSOLE+REPORT_SYSLOG );
+                     NotifyStaffOnline( "WebAccount", "Created Account: "+account_name+" IP: "+ip );
+              endif
+       endif
+
+       return 1;
+endprogram
+
+function ValidAccount( account_name )
+
+       if( account_name[" "] )
+              return 0;
+       endif
+
+       return 1;
+endfunction
+
+function ValidPassword( password1 )
+
+       if( password1[" "] )
+              return 0;
+       endif
+       
+       return 1;
+endfunction

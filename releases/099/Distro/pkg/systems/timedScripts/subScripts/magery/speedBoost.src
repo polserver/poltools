@@ -1,0 +1,32 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-02-06
+*/
+use uo;
+use os;
+
+include "include/packets";
+
+program TimedScript_SpeedBoost( params )
+
+	var defender := params[1];
+	    //attacker := params[2],
+	    //points := params[3];
+	    params := 0;
+	
+	// Prevents mod from being applied twice.
+	if( GetObjProperty( defender, "SpeedBoostMod" ))
+		return 0;
+	endif
+	
+	SetObjProperty( defender, "SpeedBoostMod", 1 );
+ 
+	PlayerSpeedBoost( defender, 1 );
+	
+	return 1;
+endprogram
+

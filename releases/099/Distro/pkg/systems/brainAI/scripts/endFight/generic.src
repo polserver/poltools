@@ -1,0 +1,45 @@
+/*
+        Maintained by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-10
+        
+        Last Modifications 200-10-12
+             * Added VirutalLooting() ability
+*/
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":attributes:attributes";
+include ":brainAI:commonFunctions";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var opponent	:= params[3];
+	var bsettings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	AI_WarMode( npc, 0 );
+
+	var corpse := opponent.GetCorpse();
+        if( corpse )
+                Virtual_Looting( npc, corpse, bsettings );
+        endif
+
+        var i;
+        for( i:=0; i<20; i+=1 )
+                AI_Wander( npc, WAKEUP );
+                Sleep(5);
+        endfor
+
+	AI_EndNerve( npc, nerve_name );
+
+        return 1;
+endprogram

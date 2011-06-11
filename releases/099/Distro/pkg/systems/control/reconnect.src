@@ -1,0 +1,22 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-25
+*/
+use uo;
+use os;
+
+include ":control:internal/icp-util";
+include ":control:internal/cmdbar";
+
+program Reconnect( who )
+
+	if( !ICP_LoadUserSetting( who, "NoCmdBarLogin" ) && !who.dead && who.cmdlevel )
+		Start_Script( ":control:commands/coun/cmdbar", who );
+	endif
+
+	return 1;
+endprogram

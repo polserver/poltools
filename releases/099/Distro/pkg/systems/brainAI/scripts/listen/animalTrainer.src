@@ -1,0 +1,211 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+
+        Last Modifications 2009-02-08
+             * Cleaned up the code
+
+        Last Modifications 2009-12-21
+             * Added check if player hidden or NPC to return 0
+
+        Last Modifications 2010-03-12
+             * Cleaned codes for better performances.
+             * Added restock value.
+
+        Last Modifications 2010-03-14
+             * Added vendor trainning
+             
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/yesNo";
+include ":attributes:attributes";
+include ":brainAI:eventid";
+include ":brainAI:merchantUtil";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":damage:damage";
+include ":merchants:merchant";
+include ":merchants:storage";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+ 	var event	:= params[3];
+	params := 0; // Not needed anymore.
+	
+	var merchant_type := CPM_GetMerchantType( npc ),
+	    forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event, forsale, merchant_type );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+ 
+        return 1;
+endprogram
+
+function SpeechEvent( npc, byref event, forsale, merchant_type )
+
+        if( event.source.hidden || event.source.IsA( POLCLASS_NPC ))
+		return 1;
+        endif
+        
+        var shopping_cart := Check_Restock( npc, merchant_type, forsale );
+
+        AI_Turn( npc, event.source, NETURN_TOWARD );
+        
+        var text := Lower( event.text );
+	if( text["help"] )
+		AI_Speak( npc, "I will obey the following orders:" );
+                Sleep(2);
+                AI_Speak( npc, "buy - sell - stable - vendor train - merchant train" );
+		return 1;
+	elseif( text["buy"] )
+		BuyStuff( npc, event.source, forsale, shopping_cart );
+		return 1;
+	elseif( text["sell"] )
+		SellCreature( npc, event.source );
+		return 1;
+	elseif( text["stable"] )
+		StablePet( npc, event.source );
+		return 1;
+	elseif( text["vendor train"] || text["merchant train"] )
+                MerchantTrain( npc, event.source, text );
+		return 1;
+	endif
+
+	return 1;
+endfunction
+
+function BuyStuff( npc, mobile, forsale, shopping_cart )
+
+        var result := SendBuyWindow( mobile, forsale, npc, shopping_cart );
+	if( result.errortext )
+		PrintTextAbove( npc, "SendBuyWindow() error - "+result.errortext );
+	endif
+
+	return 1;
+endfunction
+
+function StablePet( npc, source )
+
+	AI_Speak( npc, "Which pet would you like to stable?" );
+ 
+	var tamed := Target( source );
+        if( !tamed )
+                 AI_Speak( npc, "Huh? See ya soon!" );
+                 return 0;
+	elseif( !tamed.IsA( POLCLASS_NPC ))
+                 AI_Speak( npc, "I'm sorry but I can't stable that!" );
+                 return 0;
+        endif
+ 
+	//var master := GetObjProperty( tamed, "Master" );
+	if( tamed.master == source && !GetObjProperty( tamed, "SummonedBy" ))
+		 var price := CInt( AP_GetTrueStat( tamed, STRENGTH ) * 4 );
+                 AI_Speak( npc, "I charge "+price+" to take care of "+tamed.name+"." );
+
+                 SendSysMessage( source, "Select a stack of money." );
+                 var money := Target( source );
+                 if( !money )
+                         AI_Speak( npc, "That is not free!" );
+                         return 0;
+                 elseif( money.objtype != 0xeed )
+                         AI_Speak( npc, "Are you trying to dupe me?" );
+                         return 0;
+                 elseif( money.amount < price )
+                         AI_Speak( npc, "That is not free!" );
+                         return 0;
+                 endif
+                 
+                 var spendGold := SubtractAmount( money, price );
+	         if( spendGold )
+		         var ticket := CreateItemInBackpack( source, 0xF022, 1 );
+                         if( ticket.errortext )
+                                AI_Speak( npc, "I'm sorry "+source.name+" but I did an error and can't stable your pet." );
+                                return 0;
+                         endif
+                              
+		         var template := tamed.npctemplate;
+                         SetObjProperty( ticket, "Template", template );
+                         SetObjProperty( ticket, "Color", tamed.color );
+                         SetObjProperty( ticket, "Name", tamed.name );
+
+                         SetName( ticket, "Pet claim ticket - Name: "+tamed.name );
+                         SetObjProperty( ticket, "NameSpec", "Stable by "+source.name );
+                              
+                         AI_Speak( npc, "Keep this ticket and give it to me when you want "+tamed.name+" back." );
+                         
+                         SetObjProperty( tamed, "GuardKill", 1 );
+                         tamed.concealed := 1;
+                         tamed.Kill();
+	         else
+                         AI_Speak( npc, "You do not have enough money!" );
+                 endif
+	else
+                 AI_Speak( npc, "I'm sorry but I can't stable that!" );
+                 return 0;
+        endif
+
+        return 1;
+endfunction
+
+function SellCreature( npc, source )
+
+        AI_Speak( npc, "Which creature would you like to sell?" );
+
+	var creature := Target( source );
+        if( !creature )
+		SendSysMessage( source, "Cancelled." );
+		return 0;
+        elseif( !creature.IsA( POLCLASS_NPC ))
+		SendSysMessage( source, "That is not a valid creature!" );
+		return 0;
+        endif
+
+	var master := GetObjProperty( creature, "Master" ),
+	    summoned := GetObjProperty( creature, "SummonedBy" );
+
+	if( !master )
+		AI_Speak( npc, "You do not own this creature!" );
+		return 0;
+        elseif( summoned )
+		AI_Speak( npc, "That is not a valid creature!" );
+		return 0;
+        elseif( master && master != source.serial )
+		AI_Speak( npc, "That is not your creature!" );
+		return 0;
+	endif
+ 
+	var buyAmount := CInt( AP_GetTrueStat( creature, STRENGTH ) * 2 );
+ 
+        AI_Speak( npc, creature.name+" is worth "+buyAmount );
+
+	SetObjProperty( creature, "GuardKill", 1 );
+	creature.concealed := 1;
+        creature.Kill();
+
+	CreateItemInBackpack( source, 0xeed, buyAmount );
+
+        return 1;
+endfunction

@@ -1,0 +1,215 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        2009-06-04
+        
+        Last Modifications 2009-10-25
+             * Cleaned codes for better performances
+             
+        Last Modifications 2010-03-10
+             * Fixed problems with return values when should fail connecting.
+        
+        Description: Auto Account Creator. Just like many of you know this is a RunUO/SphereServer
+        feature and now a POL feature. What it does exactly is when a person trys to login with
+        an unknown(non-existant) account. This script creates the account and logs them in.
+        Bugs: There shouldn't be any, but you never really know. So if a bug does come up
+        please send me an email or post on the forum where you got this(polserver.com)
+*/
+use uo;
+use os;
+use polsys;
+
+include ":accounts:accounts";
+include ":accounts:settings";
+include ":security:report";
+include "include/security";
+include "include/string"; // Added for RemoveSpaces()
+
+CONST OFFSET_ACCOUNT_NAME	:= 0x01;
+CONST OFFSET_ACCOUNT_PASS	:= 0x1F;
+CONST INFO_LEN			:= 30;
+
+enum THEFT_LEVELS
+	ACCT_NOT_EXIST		:= 0,
+	ACCT_LOGIN_OKAY		:= 1,
+	ACCT_LOGIN_FAIL		:= 2,
+	ACCT_LOGIN_HACK		:= 3,
+endenum
+
+program Install()
+
+	Print( "INSTALLING: Auto Account/Theft Prevention." );
+ 
+	return 1;
+endprogram
+
+exported function LoginHook( connection, byref packet )
+
+	// RemoveSpaces() will also remove null values
+	var username := packet.GetString( OFFSET_ACCOUNT_NAME, INFO_LEN );
+	var password := packet.GetString( OFFSET_ACCOUNT_PASS, INFO_LEN );
+
+	if( username == error )
+		return 0;
+	elseif( password == error )
+		return 0;
+	endif
+
+	username := Lower( username );
+	password := password;
+
+	var theft_level := AcctHackChecks( username, password, connection.ip );
+	case( theft_level )
+		ACCT_NOT_EXIST:	 // Account doesn't yet exist.
+			break;
+		ACCT_LOGIN_OKAY: // Account credentials are valid.
+			return 0;
+			break;
+		ACCT_LOGIN_FAIL: // Account credentials are invalid.
+			return 0;
+			break;
+		ACCT_LOGIN_HACK: // Too many invalid logins for this IP. Leave user hanging.
+			return 0;
+			break;
+	endcase
+
+	var settings := ACCT_GetSettingsCfgElem( "Settings" );
+	if( !settings.AllowAutoAccounts )
+		// Automatic account creation is disabled.
+		return 0;
+        endif
+
+        var creation := ACCT_GetSettingsCfgElem( "AccountCreation" ),
+            min_pass := CInt( creation.MinLengthPass ),
+            min_account := CInt( creation.MinLengthAccount ),
+            max_pass := CInt( creation.MaxLengthPass ),
+            max_account := CInt( creation.MaxLengthAccount ),
+            len_name := Len( username ),
+            len_pass := Len( password );
+
+        if( len_name < min_account )
+                SysLog( "CreateAccount() Error: Username too short." );
+                return 0;
+        elseif( len_pass < min_pass )
+                SysLog( "CreateAccount() Error: Password too short." );
+                return 0;
+        elseif( len_name > max_account )
+                SysLog( "CreateAccount() Error: Username too long." );
+                return 0;
+        elseif( len_pass > max_pass )
+                SysLog( "CreateAccount() Error: Password too long." );
+                return 0;
+        elseif( !Check_ValidChar( username ))
+                SysLog( "CreateAccount() Error: Invalid Username." );
+                return 0;
+        elseif( !Check_ValidChar( password ))
+                SysLog( "CreateAccount() Error: Invalid Password." );
+                return 0;
+        endif
+
+	var account := CreateNewAccount( username, password, 0, settings.DefaultExpansion );
+
+	// In theory this should only return an error saying "Invalid parameter type".
+	// Should never return "Account already exists" because we already looked for the
+	// account and let POL handle it. And when it does return "Invalid parameter type"
+	// we don't have to worry, POL will do the right job for us and just say that account
+	// does not exist.
+
+	if( account.errortext )
+		SysLog( "CreateAccount() Error: "+account.errortext );
+		return 0;
+	endif
+
+	ReportText( "AutoAccount Created:"+username+" IP: "+connection.ip, REPORT_CONSOLE+REPORT_SYSLOG );
+        NotifyStaffOnline( "AutoAccount", "Created:"+CStr( username )+" IP: "+connection.ip );
+        
+	return 0;
+endfunction
+
+function AcctHackChecks( username, password, ip )
+
+	/*
+	 * This is just a little password protection, so someone doesn't go around
+	 * trying to steal peoples accounts trying 100's of passwords. It doesn't
+	 * really stop someone, but it slows them down a lot and may lead them off
+	 * from trying to steal the account.
+	 *
+	 */
+
+	var account := FindAccount( username );
+	if( !account )
+		return ACCT_NOT_EXIST;
+	elseif( !account.CheckPassword( password ))
+		var settings := ACCT_GetSettingsCfgElem( "Settings" );
+		var failure_interval := GetConfigInt( settings, "FailureInterval" );
+		var failed_login := account.GetProp( "#FailedLogin" );
+
+		// First attempt at failing the password check.
+		if( !failed_login[ip] )
+			if( Lower( TypeOf( failed_login )) != "dictionary" )
+				failed_login := dictionary{};
+			endif
+
+			failed_login.insert( ip, array{1, POLCore().systime+failure_interval} );
+			account.SetProp( "#FailedLogin", failed_login );
+			ReportText( "Invalid login credentials for account: "+username+" IP: "+ip, REPORT_SYSLOG );
+			return ACCT_LOGIN_FAIL; // Let pol tell the user it's an incorrect password.
+		else
+			var max_failures := GetConfigInt( settings, "MaxLoginFailures" );
+			var disable_length := GetConfigInt( settings, "DisableLength" ) * 60;
+			var disable_grace := GetConfigInt( settings, "DisableGrace" ) * 60;
+
+			if( failed_login[ip][1] >= max_failures && ( failed_login[ip][2] >= POLCore().systime ))
+		  	        // Too many failure attempts. Leave the user hanging at login for the next
+		  	        // disable_length minutes if disable timer is greater than disable_grace.
+		 		failed_login[ip][1] += 1;
+		 		if( failed_login[ip][2] > disable_grace )
+					failed_login[ip][2] := POLCore().systime+disable_length;
+					ReportText( "Disabling account ["+username+"] - IP ["+ip+"] for "+disable_length+" seconds. Invalid logins >= "+max_failures+"." , REPORT_SYSLOG );
+		 		endif
+				account.SetProp( "#FailedLogin", failed_login );
+	  		        return ACCT_LOGIN_HACK; // Leave user hanging.
+		 	elseif( failed_login[ip][1] >= max_failures && ( failed_login[ip][2] <= POLCore().systime ))
+		  	        // User attempted to login with the wrong password after disable_length minutes.
+		 		// Reset user's wait time.
+		 		ReportText( "Resetting disable timer on account ["+username+"] - IP ["+ip+"]", REPORT_SYSLOG );
+		 		failed_login.Erase( ip );
+		 		account.SetProp( "#FailedLogin", failed_login );
+		  	        return ACCT_LOGIN_FAIL;
+		 	elseif( failed_login[ip][1] <= max_failures )
+		  	        ReportText( "Invalid login credentials for account: "+username+" IP: "+ip, REPORT_SYSLOG );
+
+		 		if( failed_login[ip][2] >= POLCore().systime )
+					failed_login[ip][1] += 1;
+				else
+					failed_login[ip][1] := 1;
+				endif
+
+				failed_login[ip][2] := POLCore().systime+failure_interval;
+				account.SetProp( "#FailedLogin", failed_login );
+		  	        return ACCT_LOGIN_FAIL;
+		 	endif
+		endif
+	endif
+
+	// Passed password/hack check, let user login.
+	return ACCT_LOGIN_OKAY;
+endfunction
+
+function RemoveEndJunk( text )
+
+	var begin := CAsc("!");
+	var end := CAsc("~");
+
+	while( 1 )
+		if(( CAsc( text[Len( text )] ) < begin ) || ( CAsc( text[Len( text )] ) > end ))
+			text[Len( text )] := "";
+		else
+			break;
+		endif
+		SleepMS(2);
+	endwhile
+
+	return CStr( text );
+endfunction

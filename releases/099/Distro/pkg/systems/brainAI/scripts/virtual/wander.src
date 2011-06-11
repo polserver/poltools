@@ -1,0 +1,35 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-06-27
+*/
+use uo;
+use os;
+use util;
+use npc;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcEffects";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	//var settings	:= params[3];
+	//var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+                if( !npc.frozen && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
+			AI_Wander( npc );;
+                endif
+                
+		Sleep( RandomInt(8)+1 );
+	endwhile
+
+        return 1;
+endprogram

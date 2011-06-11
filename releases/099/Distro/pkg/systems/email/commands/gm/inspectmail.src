@@ -1,0 +1,46 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-05-10
+*/
+use os;
+
+include ":datafile:datafile";
+
+var email_datafile := DFOpenDataFile( "Emails", DF_CREATE );
+
+program ReadMail( mobile, serial )
+
+	if( !serial )
+                SendSysMessage( mobile, "Select a player to inspect emails." );
+		var targ := Target( mobile );
+                if( !targ )
+                	SendSysMessage( mobile, "Cancelled." );
+                	return 0;
+                elseif( !targ.IsA( POLCLASS_MOBILE ))
+                	SendSysMessage( mobile, "That is not a player." );
+                	return 0;
+                elseif( targ.IsA( POLCLASS_NPC ))
+                	SendSysMessage( mobile, "What you selected is not a player." );
+                	return 0;
+                endif
+                
+                serial := targ.serial;
+	endif
+	
+	var mail_elem := DFFindElement( email_datafile, Hex( serial ));
+	if( mail_elem )
+		var script := start_script( ":email:email", {mobile, serial} );
+        	if( script.errortext )
+                	SendSysMessage( mobile, "Error starting script <:email:email> -->"+script.errortext );
+                	return 0;
+        	endif
+	else
+		SendSysMessage( mobile, "Box "+serial+" does not exist." );
+	endif
+ 
+        return 1;
+endprogram

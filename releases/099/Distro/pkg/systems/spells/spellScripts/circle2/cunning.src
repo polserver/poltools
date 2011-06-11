@@ -1,0 +1,47 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Cunning( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+	
+	if( !SPELL_MobileCheck( mobile, targ ))
+		return 0;
+	elseif( GetObjProperty( targ, "CunningMod" ))
+                SendSysMessage( mobile, "Already under the influence!" );
+		return 0;
+	elseif( GetObjProperty( targ, "FeebleMindMod" ))
+                SendSysMessage( mobile, "Already under the influence!" );
+		return 0;
+	endif
+
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+
+	var amount := SPELL_GetAmount( mobile ),
+	    duration := SPELL_GetDuration( mobile );
+
+	SendBoostMessage( mobile, targ, "cunning", amount, duration );
+     
+	TS_StartTimer( targ, "Cunning", duration, amount, mobile );
+	
+	return 1;
+endprogram

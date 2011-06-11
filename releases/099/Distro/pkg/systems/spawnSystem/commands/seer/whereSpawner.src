@@ -1,0 +1,34 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-02-24
+*/
+use uo;
+use os;
+
+include "include/security";
+include ":spawnsystem:spawnerUtil";
+
+program command_WhereSpawner( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        var zones := SS_FindSpawnZone( mobile );
+        if( zones.Size() < 1 )
+                SendSysMessage( mobile, "You are not in any spawn region." );
+                return 0;
+        endif
+        
+        foreach region_name in zones
+                SendSysMessage( mobile, "SpawnRegion name: "+region_name );
+                SleepMS(5);
+        endforeach
+
+	return 1;
+endprogram

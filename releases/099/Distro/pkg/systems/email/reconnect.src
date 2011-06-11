@@ -1,0 +1,42 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-05-10
+*/
+use uo;
+
+include ":datafile:datafile";
+
+var email_datafile := DFOpenDataFile( "Emails", DF_CREATE );
+
+program Reconnect( mobile )
+
+	var mail_elem := DFFindElement( email_datafile, hex( mobile.serial ), DF_NO_CREATE ),
+            new_email := 0;
+
+	foreach mail_number in ( mail_elem.propnames() )
+                SleepMS(5);
+
+                var mail_info := mail_elem.GetProp( mail_number );
+                if( mail_number == "NewMsg" )
+                        continue;
+                elseif( mail_info.unread )
+                        new_email := 1;
+                        break; //Quit playing games with my heart...
+                endif
+        endforeach
+
+        if( new_email )
+		var script := start_script( ":email:emailMessage/newEmail", mobile );
+		if( script.errortext )
+			SendSysMessage( mobile, "Error starting script <:email:emailMessage/newEmail> -->"+script.errortext );
+			return 0;
+		endif
+        endif
+ 
+        return 1;
+endprogram
+	

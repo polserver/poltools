@@ -1,0 +1,98 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-08-20
+        
+        Last Modifications 2009-10-25
+             * Cleaned codes for better performances
+
+        Thanks to PolDistro Team
+*/
+use uo;
+use util;
+
+include "include/client";
+include "include/facings";
+include "include/sounds";
+include ":security:commandReport";
+include "include/security";
+
+program textcmd_Kill( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	SendSysMessage( who, "Select a target to kill." );
+	var targ := Target( who, TGTOPT_NOCHECK_LOS );
+        if( !targ )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	elseif( targ.serial == who.serial )
+		SendSysMessage( who, "You should consider therapy." );
+		return 0;
+	elseif( targ.cmdlevel >= who.cmdlevel && who.cmdlevel < 5 )
+                SendSysMessage( targ, who.name+" is trying to kill you." );
+                return 0;
+        endif
+
+	targ.Disable( "invul" );
+	if( targ.IsA( POLCLASS_NPC ))
+		SetObjProperty( targ, "GuardKill", 1 );
+	endif
+ 
+        var player := 0;
+        if( !targ.IsA( POLCLASS_NPC ))
+                TurnObjectToward( who, targ.x, targ.y );
+                PrintTextAbove( who, "*Foolishness!*" );
+                PerformAction( who, ANIM_CAST_AREA );
+                Sleep( 2 );
+                PrintTextAbove( who, "*By the Virtues!*" );
+                PerformAction( who, ANIM_CAST_DIR );
+                SleepMS( 750 );
+                PrintTextAbove( who, "*Die! "+targ.name+"!*" );
+                player := 1;
+        endif
+        
+        if( who.cmdlevel < 3 )
+	        PlayLightningBoltEffect( targ );
+	        PlaySoundEffect( targ, SFX_LIGHTNING );
+        elseif( who.cmdlevel < 4 )
+                var effect := RandomInt(3) + 1;
+                case( effect )
+                    1: PlayObjectCenteredEffect( targ, GFX_EXPLODE_1, 7, 14 );
+                       PlaySoundEffect( targ, SFX_EXPLOSION_1 );
+                       break;
+                    2: PlayObjectCenteredEffect( targ, GFX_EXPLODE_2, 7, 14 );
+                       PlaySoundEffect( targ, SFX_EXPLOSION_2);
+                       break;
+                    3: PlayObjectCenteredEffect( targ, GFX_EXPLODE_3, 7, 14 );
+                       PlaySoundEffect( targ, SFX_EXPLOSION_3 );
+                       break;
+                endcase
+        else
+                PlaySoundEffect( targ, SFX_LIGHTNING );
+                var x;
+                for( x:=1; x<7; x+=1 )
+                    PlayLightningBoltEffect( targ );
+                    SleepMS(3);
+                endfor
+        endif
+
+        targ.conceal := 1;
+        targ.Kill();
+        CMD_ReportText( "Kills Character:"+targ.serial, CMD_REPORT_SYSLOG );
+ 
+        if( player )
+                Sleep(5);
+                PrintTextAbove( who, "*I shall now compose a poem in memory of the departed.*" );
+                Sleep(2);
+                SendSysMessage( who, "That was fun.  Let's do it again!" );
+        endif
+
+	return 1;
+endprogram

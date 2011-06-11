@@ -1,0 +1,74 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-02-08
+*/
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/facings";
+include ":attributes:attributes";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+include ":timedscripts:timedScripts";
+include ":death:resurrection";
+include ":totem:totem";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var event	:= params[3];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_ENTEREDAREA:
+					EnteredArea( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+endprogram
+
+function EnteredArea( npc, byref event )
+
+	var source := event.source;
+        if( !CheckLineOfSight( npc, source ))
+		return 0;
+	elseif( source.dead )
+                Healer_Resurrect( npc, source );
+		return 1;
+        endif
+ 
+        return 1;
+endfunction
+
+function Healer_Resurrect( npc, source )
+
+        if( !IsTotem( npc ))
+                return 0;
+        elseif( Totem_GetLevel( npc ) < 8 )
+                return 0;
+        endif
+        
+	if( !ResurrectionGump( source ))
+                return 1;
+	endif
+
+        return 1;
+endfunction

@@ -1,0 +1,45 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+
+        2009-02-07
+        
+        Last Modifications 2010-01-07
+             * Fixed Peacemaking check
+*/
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":brainAI:npcWatchList";
+include ":areas:managment";
+
+program BrainCriticalScript( params )
+
+	var npc := params[1];
+	var mobile := params[2];
+	//var settings := params[3];
+	params := 0; // Not needed anymore
+        
+	if( mobile.cmdlevel )
+		return 0;
+	elseif( mobile.criminal )
+		return 1;
+	elseif( mobile.murderer )
+		return 1;
+	elseif( mobile.IsA( POLCLASS_NPC ))
+		var cfg_info := NPC_GetNPCConfig( mobile.npctemplate );
+		if( cfg_info.GuardIgnore )
+			return 0;
+		else
+			return 1;
+		endif
+	endif
+
+	return 0;
+endprogram

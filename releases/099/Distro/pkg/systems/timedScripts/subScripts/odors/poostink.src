@@ -1,0 +1,22 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-09
+*/
+use uo;
+use os;
+
+program TimedScript_PooStink( params )
+
+	var who := params[1];
+	
+	while( 1 )
+		PrintTextAbove( who, "*"+who.name+" smells like poo!*" );
+		Sleep(6);
+	endwhile
+	
+	return 1;
+endprogram

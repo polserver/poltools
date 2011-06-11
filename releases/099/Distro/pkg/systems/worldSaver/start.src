@@ -1,0 +1,8 @@
+use os;
+
+var script := Start_Script( "worldSaver" );
+if( script.errortext )
+	SysLog( "Error starting world saver ->"+script.errortext );
+else
+	Print( "Starting world saver... OK." );
+endif

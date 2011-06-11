@@ -1,0 +1,305 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-12-29
+        
+        Last Modifications 2010-01-11
+             * Fixed remove merchant from datafile if merchant fired
+
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/itemUtil";
+include "include/yesNo";
+include ":brainAI:eventid";
+include ":brainAI:merchantUtil";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":datafile:datafile";
+include ":merchants:merchant";
+include ":merchants:storage";
+
+var g_datafile := DFOpenDataFile( ":playerMerchant:playerMerchant", DF_CREATE );
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
+	var shopping_cart := CPM_GetMerchantContainer( npc, CPM_SHOPPINGCART, CP_CREATE );
+
+        LogInventory( npc, forsale );
+        
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event, forsale, shopping_cart );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+ 
+        return 1;
+endprogram
+
+function SpeechEvent( npc, byref event, forsale, shopping_cart )
+
+        var source := event.source;
+        if( source.hidden || source.IsA( POLCLASS_NPC ))
+		return 1;
+        endif
+
+	AI_Turn( npc, source, NETURN_TOWARD );
+ 
+        var text := Lower( event.text );
+        if( text["help"] )
+                AI_Speak( npc, "I will obey to the following orders:" );
+                Sleep(3);
+                AI_Speak( npc, "buy - purchase - collect release - sell - status - undress - strip - wear - equip - inventory" );
+	elseif( text["buy"] || text["purchase"] )
+		BuyStuff( npc, source, forsale, shopping_cart );
+        elseif( text["collect"] )
+		CashOut( npc, source );
+	elseif( text["inventory"] && source.cmdlevel > 3 )
+		OpenInventory( npc, source, forsale );
+        elseif( text["release"] || text["fire"] )
+		FireMerchant( npc, source );
+        elseif( text["sell"] )
+                AI_Speak( npc, "Just hand me what you want me to buy." );
+        elseif( text["status"] )
+                CheckStatus( npc, source, forsale );
+        elseif( text["undress"] || text["strip"] )
+                UndressMerchant( npc, source );
+                AI_Speak( npc, "This is so humiliating..." );
+        elseif( text["wear"] || text["equip"] )
+                DressMerchant( npc, source );
+	endif
+
+	return 1;
+endfunction
+
+function BuyStuff( npc, mobile, forsale, shopping_cart )
+
+	var result := SendBuyWindow( mobile, forsale, npc, shopping_cart, VENDOR_SEND_AOS_TOOLTIP );
+	if( result.errortext )
+		PrintTextAbove( npc, "SendBuyWindow() error - "+result.errortext );
+	endif
+
+	return 1;
+endfunction
+
+function LogInventory( npc, forsale )
+
+        // Could be used for a webpage in the futur...
+        
+        var items_forsale := CP_ListRootItemsInContainer( forsale );
+        if( !items_forsale.Size() )
+                return 0;
+        endif
+        
+        var owner := GetObjProperty( npc, "Owner" );
+        if( !owner )
+                return 0;
+        endif
+        
+        var data_elem := DFFindElement( g_datafile, owner, DF_CREATE );
+        
+	var log := array{},
+	    prop:= array{};
+ 
+    	prop.+name := "Vendor";
+    	prop.+value := npc.name+" at x: "+npc.x+", y: "+npc.y+", z: "+npc.z+", realm: "+npc.realm;
+	log[1] := prop;
+
+	foreach item in items_forsale
+		prop.name := "Item";
+		if( item.amount > 1 )
+			prop.value := item.amount+" "+item.desc+" at "+item.sellprice +" each.";
+		else
+			prop.value := item.desc+" at "+item.sellprice+".";
+		endif
+  
+		log[Len( log )+1] := prop;
+	endforeach
+ 
+        data_elem.SetProp( "Vendor", log );
+
+        return 1;
+endfunction
+
+function CashOut( npc, source )
+
+        if( !CanCommand( npc, source ))
+                return 0;
+        endif
+
+	var my_gold := CInt( GetObjProperty( npc, "MyGold" ));
+	if( my_gold )
+		var pay_amt := 0;
+		if( my_gold > 60000 )
+			pay_amt := 60000;
+		else
+			pay_amt := my_gold;
+		endif
+  
+		AI_Speak( npc, "Here is your "+pay_amt+" gold coins." );
+  
+        	var money := CreateItemInContainer( source.backpack, 0xeed, pay_amt );
+                if( !money )
+                	CreateItemAtLocation( source.x, source.y, source.z, 0xeed, pay_amt, source.realm );
+                endif
+                
+		my_gold -= pay_amt;
+		if( my_gold )
+			AI_Speak( npc, "I still hold "+my_gold+" gold coins." );
+		endif
+  
+        	SetObjProperty( npc, "MyGold", my_gold );
+        else
+                AI_Speak( npc, "I do not have any gold coins for you!" );
+	endif
+
+	return 1;
+endfunction
+
+function FireMerchant( npc, source )
+
+        if( !CanCommand( npc, source ))
+                return 0;
+        elseif( !YesNo( source, "Fire him?" ))
+		return 0;
+	endif
+ 
+        CashOut( npc, source );
+        UndressMerchant( npc, source );
+ 
+        SetObjProperty( npc, "GuardKill", 1 );
+        npc.Kill();
+        
+        var created := CreateItemInContainer( source.backpack, 0x2D90, 1 );
+        if( created.errortext )
+                SendSysMessage( source, "Error creating player's merchant deed -->"+created.errortext );
+                return 0;
+        endif
+        
+        var result := g_datafile.DeleteElement( CStr( source.serial ));
+        if( result.errortext )
+                SendSysMessage( source, "Error removing element from datafile -->"+result.errortext );
+                return 0;
+        endif
+ 
+	return 1;
+endfunction
+
+function CheckStatus( npc, source, forsale )
+
+        if( !CanCommand( npc, source ))
+                return 0;
+        endif
+        
+        if( forsale.Size() )
+		foreach thing in forsale
+                	AI_Speak( npc, "I have "+thing.desc );
+			SleepMS(500);
+		endforeach
+        else
+                AI_Speak( npc, "I don't have nothing to sell." );
+        endif
+
+	var my_gold := CInt( GetObjProperty( npc, "MyGold" ));
+
+	AI_Speak( npc, "I currently hold "+my_gold+" gold coin(s) for you." );
+ 
+	return 1;
+endfunction
+
+function UndressMerchant( npc, source )
+
+        if( !CanCommand( npc, source ))
+                return 0;
+        endif
+        
+	foreach thing in ListEquippedItems( npc )
+		if( thing.IsHair || thing.IsBeard || thing == npc.backpack )
+                	continue;
+                endif
+                
+		MoveItemToContainer( thing, source.backpack );
+
+                SleepMS(5);
+	endforeach
+ 
+	return 1;
+endfunction
+
+function DressMerchant( npc, source )
+
+        if( !CanCommand( npc, source ))
+                return 0;
+        endif
+        
+        SendSysMessage( source, "Select the item you would like to equip your merchant." );
+        var targ := Target( source );
+        if( !targ )
+                SendSysMessage( source, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_EQUIPMENT ))
+                SendSysMessage( source, "It is not possible to equip that item." );
+                return 0;
+        elseif( !useItem_check( source, targ, ITEM_INCONTAINER ))
+		return 0;
+        endif
+        
+        var equip := EquipItem( npc, targ );
+        if( !equip )
+                SendSysMessage( source, "Your merchant can not equip that item." );
+                return 0;
+        endif
+        
+	return 1;
+endfunction
+
+function OpenInventory( npc, source, forsale );
+
+        if( !CanCommand( npc, source ))
+                return 0;
+        endif
+
+	SendOpenSpecialContainer( source, forsale );
+
+	return 1;
+endfunction
+
+function CanCommand( npc, source )
+
+        if( source.cmdlevel >= 3 )
+               return 1;
+        elseif( GetObjProperty( npc, "Owner" ) == source.serial )
+               return 1;
+        endif
+        
+        AI_Speak( npc, "I don't think that's any of your business." );
+
+        return 0;
+endfunction

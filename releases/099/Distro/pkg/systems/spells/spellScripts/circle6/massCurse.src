@@ -1,0 +1,64 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":timedscripts:timedScripts";
+
+program SpellScript_MassCurse( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	//var targ := params[3];
+        var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+	// Get all targets in area excluding self.
+	var area_size := CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1,
+	    excludes := array{mobile.serial};
+
+	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
+	foreach vtarg in targs
+                SleepMS(5);
+
+                if( vtarg.dead || vtarg.hidden || vtarg.concealed )
+			continue;
+                elseif( vtarg.IsA( POLCLASS_NPC ))
+			continue;
+                elseif( !CheckLineOfSight( mobile, vtarg ))
+			continue;
+		elseif( GetObjProperty( vtarg, "BlessMod" ))
+			continue;
+                elseif( SPELL_Reflected( mobile, vtarg, circle ) == "Reflected" )
+			continue;
+                endif
+  
+                var amount := SPELL_GetResist( mobile, vtarg, circle, SPELL_GetAmount( mobile )),
+	            duration := SPELL_GetDuration( mobile );
+  
+                var protection := SPELL_GetImmunity( mobile, vtarg, circle );
+	        if( protection == "Immuned" )
+		       continue;
+                elseif( protection == "Cursed" )
+                       amount *= 1.50;
+                       duration *= 1.50;
+	        endif
+
+                SPELL_PlaySpellSFX( info.spell_id, vtarg );
+		SPELL_PlaySpellGFX( info.spell_id, vtarg, mobile );
+ 
+		TS_StartTimer( vtarg, "Curse", duration, amount, mobile );
+	endforeach
+	
+	return 1;
+endprogram

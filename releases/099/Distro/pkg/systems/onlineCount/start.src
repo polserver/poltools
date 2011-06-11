@@ -1,0 +1,16 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-05-28
+*/
+use os;
+
+var script := Start_Script( "cheatCount" );
+if( script.errortext )
+	SysLog( "Error starting cheat count ->"+script.errortext );
+else
+	Print( "Starting cheat count... OK." );
+endif

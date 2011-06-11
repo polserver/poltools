@@ -1,0 +1,23 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2008-06-11
+        
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+program classe_Logon( mobile )
+
+        var show_classe := start_script( ":classes:commands/player/showclasse", mobile );
+        if( show_classe.errortext )
+                  SysLog( "Error starting showclasse_logon -->"+show_classe.errortext );
+                  return 0;
+        endif
+        
+        return 1;
+endprogram

@@ -1,0 +1,63 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":timedscripts:timedScripts";
+
+program SpellScript_SummonWaterElemental( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+ 
+        if( mobile.IsA( POLCLASS_NPC ))
+                var message := RandomInt(3) + 1;
+                case( message )
+                        1:	PrintTextAbove( mobile, "I call upon the powers of water and ice!" );
+			        break;
+
+		        2:	PrintTextAbove( mobile, "Wash away my enemies, my pet!" );
+			        break;
+
+		        3:	PrintTextAbove( mobile, "Flow and conquer, servants!" );
+			        break;
+
+		        4:	PrintTextAbove( mobile, "Care for a drink, "+targ.name+"?" );
+			        break;
+                endcase
+        endif
+        
+        var template := ":AI_elemental:WaterElemental";
+
+        var summon := CreateNPCFromTemplate( template, targ.x, targ.y, targ.z, 0, targ.realm );
+	if( summon.errortext )
+		SendSysMessage( mobile, "Error summoning NPC <"+template+"> --> "+summon.errortext );
+		return 0;
+	endif
+
+	summon.facing := mobile.facing;
+
+        SleepMS(100);
+        PerformAction( summon, 12 );
+
+        var duration := SPELL_GetDuration( mobile );
+        TS_StartTimer( summon, "Summon", duration, template, mobile );
+
+	return 1;
+endprogram

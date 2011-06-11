@@ -1,0 +1,45 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Cure( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+	if( !SPELL_MobileCheck( mobile, targ ))
+		return 0;
+	endif
+ 
+        if( targ.poisoned )
+		var current_poison := CInt( GetObjProperty( mobile, "#PoisonedLevel" )),
+	   	    bonus := GetMobileProtection( mobile, "HealingIncrease" ),
+            	    difficulty := CInt((( current_poison * 15 ) + 60 ) - ( bonus * 10 ));
+
+        	difficulty /= ClasseBonus( mobile, MAGE );
+        
+        	if( SkillCheck( mobile, MAGERY, CInt( difficulty ), "", ADV_DISABLE ) > 0 )
+                	SPELL_PlaySpellSFX( info.spell_id, targ );
+			SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+			TS_LowerDuration( targ, "DefaultPoison", -1 );
+        	endif
+        endif
+
+	return 1;
+endprogram

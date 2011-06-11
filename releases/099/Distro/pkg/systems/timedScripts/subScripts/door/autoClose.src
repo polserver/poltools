@@ -1,0 +1,23 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-12-17
+*/
+use uo;
+use os;
+
+include ":doors:doors";
+
+program TimedScript_EndScript( params )
+
+	var door := params[1];
+
+	if( door.IsOpen() )
+		Door_Close( door );
+	endif
+
+	return 1;
+endprogram

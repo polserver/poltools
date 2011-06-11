@@ -1,0 +1,73 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-03-08
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+        
+        Suggestion from Loony
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":brainAI:npcNerves";
+
+program SpellScript_Nymphine( params )
+
+	var mobile := params[1];
+	//var info := params[2];
+	//var targ := params[3];
+	params := 0;
+ 
+	var targs := SPELL_GetValidTargets( mobile, 5, array{mobile.serial} );
+        if( targs.Size() )
+                var message := RandomInt(3) + 1;
+                case( message )
+                        1:	PrintTextAbove( mobile, "Come forth, servant!" );
+			        break;
+
+		        2:	PrintTextAbove( mobile, "Servant, I command you!" );
+			        break;
+
+		        3:	PrintTextAbove( mobile, "Fire and hail, blood and brimstone, heed me!" );
+			        break;
+
+		        4:	PrintTextAbove( mobile, "Back to your realm, servant of darkness!" );
+			        break;
+                endcase
+        endif
+        
+        Sleep(1);
+ 
+        var hits := CInt( AP_GetVital( mobile, HITS ));
+ 	foreach vtarg in targs
+                SleepMS(5);
+
+                if( !CheckLineOfSight( mobile, vtarg ))
+			continue;
+                elseif( !vtarg.IsA( POLCLASS_NPC ))
+			continue;
+                elseif( GetObjProperty( vtarg, "NPCBoss" ))
+			continue;
+                endif
+                
+                SetName( vtarg, "Soul of "+vtarg.name );
+                vtarg.color := mobile.color;
+                vtarg.ar := vtarg.ar + hits;
+	endforeach
+ 
+	var result := Start_Script( ":death:deathScripts/blueSparkle", mobile );
+	if( result.errortext )
+		PrintTextAbove( mobile, "Error starting script :death:deathScripts/blueSparkle -->"+result.errortext );
+	endif
+ 
+        SetObjProperty( mobile, "GuardKill", 1 );
+        mobile.Kill();
+
+	return 1;
+endprogram

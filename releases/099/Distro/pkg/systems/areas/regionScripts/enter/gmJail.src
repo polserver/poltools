@@ -1,0 +1,19 @@
+/* $Id: gmJail.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use uo;
+
+program EnterRegionZone( mobile, region_name )
+	
+	if( mobile.cmdlevel )
+		SendSysMessage(mobile, "Ahh another hard day of work in the office. (Entering "+region_name+")");
+		return 1;
+	else 
+                SendSysMessage( mobile, "[SYSTEM] You are in the GM jail. Your Skills & Stats gain are now disable.", 3, 33 );
+                SetObjProperty( mobile, "NoGains", 1 );
+		return 1;
+	endif
+	
+        return 1;
+endprogram

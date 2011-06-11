@@ -1,0 +1,14 @@
+/* $Id: gmJail.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use uo;
+
+program EnterRegionZone( mobile, region_name )
+
+        region_name := region_name; //Avoid compiler warnings
+	
+	SendSysMessage( mobile, "You have entered the protection of the town guards.", 3, 50 );
+	
+        return 1;
+endprogram

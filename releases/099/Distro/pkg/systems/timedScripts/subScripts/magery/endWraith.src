@@ -1,0 +1,34 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Modifications 2009-12-09
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_EndPolymorph( params )
+
+	var mobile := params[1];
+	    params := 0;
+ 
+        if( mobile.graphic != mobile.trueobjtype || mobile.color != mobile.truecolor )
+               mobile.graphic := mobile.trueobjtype;
+               mobile.color := mobile.truecolor;
+        endif
+        
+        EraseObjProperty( mobile, "WraithMod" );
+
+	var points := CInt( GetObjProperty( mobile, "BlessMod" ));
+        AP_ModifyStatMod(mobile, DEXTERITY, -( points ));
+        AP_ModifyStatMod(mobile, STRENGTH, -( points ));
+        AP_ModifyStatMod(mobile, INTELLIGENCE, -( points ));
+
+	EraseObjProperty( mobile, "BlessMod" );
+	
+	return 1;
+endprogram

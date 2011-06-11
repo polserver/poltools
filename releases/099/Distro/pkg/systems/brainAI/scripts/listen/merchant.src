@@ -1,0 +1,328 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-02-15
+        
+        Last Modifications 2009-10-26
+             * Now use flag VENDOR_SEND_AOS_TOOLTIP to fix newer clients sell/buy windows
+
+        Last Modifications 2009-12-21
+             * Added check if player hidden or NPC to return 0
+             
+        Last Modifications 2010-03-12
+             * Cleaned codes for better performances.
+             * Added restock value.
+             
+        Last Modifications 2010-03-18
+             * Added SellItem()
+
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/itemUtil";
+include "include/security";
+include ":attributes:attributes";
+include ":brainAI:eventid";
+include ":brainAI:merchantUtil";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":merchants:merchant";
+include ":merchants:storage";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	var merchant_type := CPM_GetMerchantType( npc ),
+	    forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
+     
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event, forsale, merchant_type );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+ 
+        return 1;
+endprogram
+
+function SpeechEvent( npc, byref event, forsale, merchant_type )
+
+        if( event.source.hidden || event.source.IsA( POLCLASS_NPC ))
+		return 1;
+        endif
+        
+        var shopping_cart := Check_Restock( npc, merchant_type, forsale );
+
+	AI_Turn( npc, event.source, NETURN_TOWARD );
+        
+        var text := Lower( event.text );
+        if( text["help"] )
+                AI_Speak( npc, "I will obey to the following orders:" );
+                Sleep(3);
+                AI_Speak( npc, "buy - sell all - sell bag - sell - vendor train - merchant train" );
+	elseif( text["buy"] )
+		BuyStuff( npc, event.source, forsale, shopping_cart );
+	elseif( text["sell all"] )
+		SellAll( npc, event.source );
+	elseif( text["sell bag"] )
+		SellBag( npc, event.source );
+	elseif( text["sell"] )
+		SellItem( npc, event.source );
+	elseif( text["vendor train"] || text["merchant train"] )
+                MerchantTrain( npc, event.source, text );
+	endif
+
+	return 1;
+endfunction
+
+function BuyStuff( npc, mobile, forsale, shopping_cart )
+
+	var result := SendBuyWindow( mobile, forsale, npc, shopping_cart, VENDOR_SEND_AOS_TOOLTIP );
+	if( result.errortext )
+		PrintTextAbove( npc, "SendBuyWindow() error - "+result.errortext );
+	endif
+
+	return 1;
+endfunction
+
+function SellItem( npc, mobile )
+
+	AI_Speak( npc, "Can I help thee?" );
+	var targ := Target( mobile );
+        ReleaseItem( targ );
+        
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( targ == mobile.backpack )
+                SendSysMessage( mobile, "You should consider therapy!" );
+                return 0;
+        elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+                return 0;
+        endif
+
+        var merchant_type := CPM_GetMerchantType( npc ),
+	    item_price := GetBuyPrice( npc, targ );
+        
+        //if( CanBuyItem( merchant_type, targ ))
+		if( !item_price || GetObjProperty( targ, "UnIDedMagicalItem" ))
+			AI_Speak( npc, "It is not something that I am interested in buying." );
+                        ReleaseItem( targ );
+			return 0;
+                elseif( targ.IsA( POLCLASS_CONTAINER ))
+                        var cont_items := EnumerateItemsInContainer( targ );
+                        if( Len( cont_items ))
+			        AI_Speak( npc, "Nah, remove the stuff from "+targ.desc+"." );
+                                ReleaseItem( targ );
+                                return 0;
+                        endif
+		endif
+        //else
+        //        AI_Speak( npc, "Sorry I can't buy this!" );
+        //        ReleaseItem( targ );
+        //        return 0;
+        //endif
+ 
+	var sale := 0;
+	if( targ.amount )
+		sale := CInt( item_price * targ.amount );
+	endif
+
+	var destroy := DestroyItem( targ );
+	if( destroy.errortext )
+		NotifyStaffOnline( mobile, "Error couldn't destroy item when selling -->"+destroy.errortext );
+		return 0;
+        endif
+
+        while( sale > 60000 )
+                CreateItemInBackpack( mobile, 0xeed, 60000 );
+                sale -= 60000;
+                SleepMS(5);
+        endwhile
+        CreateItemInBackpack( mobile, 0xeed, sale );
+        
+	AI_Speak( npc, "The total of your sale is "+sale+"." );
+        
+        return 1;
+endfunction
+
+function SellAll( npc, mobile )
+
+	AI_Speak( npc, "What would you like me to buy all of?" );
+	var targ := Target( mobile );
+        ReleaseItem( targ );
+        
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( targ == mobile.backpack )
+                SendSysMessage( mobile, "You should consider therapy!" );
+                return 0;
+        elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+                return 0;
+        endif
+
+        var merchant_type := CPM_GetMerchantType( npc ),
+	    item_price := GetBuyPrice( npc, targ );
+
+        //if( CanBuyItem( merchant_type, targ ))
+		if( !item_price || GetObjProperty( targ, "UnIDedMagicalItem" ) || targ.IsA( POLCLASS_CONTAINER ))
+			AI_Speak( npc, "It is not something that I am interested in buying." );
+                        ReleaseItem( targ );
+			return 0;
+                elseif( targ.IsA( POLCLASS_CONTAINER ))
+                        var cont_items := EnumerateItemsInContainer( targ );
+                        if( Len( cont_items ))
+			        AI_Speak( npc, "Nah, remove the stuff from "+targ.desc+"." );
+                                ReleaseItem( targ );
+                                return 0;
+                        endif
+		endif
+        //else
+        //        AI_Speak( npc, "Sorry I can't buy this!" );
+        //        ReleaseItem( targ );
+        //        return 0;
+        //endif
+
+	var item_amount := 0;
+	foreach object in EnumerateItemsInContainer( mobile.backpack )
+                SleepMS(5);
+                
+                ReleaseItem( object );
+                
+		if( object.objtype != targ.objtype )
+                	continue;
+                elseif( object.color != targ.color )
+                	continue;
+                elseif( object.container.serial != targ.container.serial )
+                	continue;
+                elseif( object.newbie )
+                	continue;
+                elseif( GetObjProperty( object, "UnIDedMagicalItem" ))
+                	continue;
+                elseif( item_price != GetBuyPrice( npc, object ))
+                	continue;
+                elseif( !useItem_check( mobile, object, ITEM_INCONTAINER ))
+                	continue;
+                endif
+                
+                if( object.IsA( POLCLASS_CONTAINER ))
+                        var cont_items := EnumerateItemsInContainer( object );
+                        if( Len( cont_items ))
+			        continue;
+                        endif
+                endif
+
+		item_amount += object.amount;
+  
+		var destroy := DestroyItem( object );
+		if( destroy.errortext )
+			NotifyStaffOnline( mobile, "Error couldn't destroy item when selling -->"+destroy.errortext );
+			return 0;
+        	endif
+	endforeach
+ 
+ 	var sale := 0;
+	if( item_amount )
+		sale := CInt( item_price * item_amount );
+	endif
+ 
+        while( sale > 60000 )
+                CreateItemInBackpack( mobile, 0xeed, 60000 );
+                sale -= 60000;
+                SleepMS(5);
+        endwhile
+        CreateItemInBackpack( mobile, 0xeed, sale );
+
+	AI_Speak( npc, "The total of your sale is "+sale+"." );
+ 
+        return 1;
+endfunction
+
+function SellBag( npc, mobile )
+
+	AI_Speak( npc, "What bag of stuff would you like to sell me?" );
+	var targ := Target( mobile );
+        ReleaseItem( targ );
+        
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( targ == mobile.backpack )
+                SendSysMessage( mobile, "You should consider therapy!" );
+                return 0;
+        elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+                return 0;
+        endif
+        
+        var merchant_type := CPM_GetMerchantType( npc ),
+	    sale := 0;
+
+        foreach item in ListRootItemsInContainer( targ )
+
+		ReleaseItem( item );
+                if( !useItem_check( mobile, item, ITEM_INCONTAINER ))
+                        return 0;
+                endif
+  
+                var item_price := GetBuyPrice( npc, item );
+  
+                //if( CanBuyItem( merchant_type, targ ))
+		        if( !item_price || item.newbie || GetObjProperty( item, "UnIDedMagicalItem" ))
+			        continue;
+		        endif
+                //else
+                //        continue;
+                //endif
+                
+		if( item.amount )
+			sale += CInt( item_price * item.amount );
+		endif
+  
+                DestroyItem( item );
+  
+                SleepMS(5);
+        endforeach
+        
+        if( !ListRootItemsInContainer( targ ).Size() )
+                var item_price := GetBuyPrice( npc, targ );
+            
+                sale += CInt( item_price );
+                DestroyItem( targ );
+        endif
+        
+        while( sale > 60000 )
+                CreateItemInBackpack( mobile, 0xeed, 60000 );
+                sale -= 60000;
+                SleepMS(5);
+        endwhile
+        CreateItemInBackpack( mobile, 0xeed, sale );
+
+	AI_Speak( npc, "The total of your sale is "+sale+"." );
+        
+        return 1;
+endfunction

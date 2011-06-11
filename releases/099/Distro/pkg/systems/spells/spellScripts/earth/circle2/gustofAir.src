@@ -1,0 +1,65 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+
+program SpellScript_GustofAir( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+	if( !SPELL_MobileCheck( mobile, targ ))
+		return 0;
+	endif
+
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+
+        if( SPELL_Reflected( mobile, targ, circle ) == "Reflected" )
+                SPELL_PlaySpellSFX( info.spell_id, mobile );
+
+                mobile := targ;
+                targ := mobile;
+        endif
+
+        var amount := SPELL_GetResist( mobile, targ, circle, SPELL_MathDamage( mobile, circle ));
+
+        var protection := SPELL_GetImmunity( mobile, targ, circle );
+	if( protection == "Immuned" )
+		return 0;
+        elseif( protection == "Cursed" )
+                amount *= 1.50;
+	endif
+ 
+        var magery := AP_GetSkill( mobile, MAGERY ) / 10,
+	    kickBackX := RandomInt( CInt( magery / 2 )),
+	    kickBackY := RandomInt( CInt( magery / 2 )),
+            kickBackZ := RandomInt( CInt( magery / 2 )),
+     	    newX := targ.x + kickBackX,
+	    newY := targ.y + kickBackY,
+            newZ := targ.z + kickBackZ;
+
+	if( CheckLosAt( targ, newX, newY, newZ ))
+                MoveObjectToLocation( targ, newX, newY, newZ, targ.realm );
+	endif
+
+        SPELL_ApplyDamage( targ, amount, DMG_EARTH, mobile, DMG_EARTH+DMG_AIR );
+
+	return 1;
+endprogram
