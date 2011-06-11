@@ -1,0 +1,61 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-24
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsWallOfStoneField( item )
+
+        item := item;
+
+	return 1;
+endfunction
+
+exported function SetDuration( item, seconds )
+
+	seconds := CInt( seconds );
+
+	return SetObjProperty( item, "Duration", ReadGameClock()+seconds );
+endfunction
+
+exported function GetDuration( item )
+
+	var duration := CInt( GetObjProperty( item, "Duration" ));
+
+	return duration;
+endfunction
+
+exported function IsExpired( item )
+
+	var duration := GetDuration( item );
+	if( !duration )
+		return 0;
+	endif
+
+	return( duration < ReadGameClock() );
+endfunction
+
+exported function SetOwner( item, serial )
+
+	if( serial.IsA( POLCLASS_UOBJECT ))
+		serial := serial.serial;
+	endif
+
+	return SetObjProperty( item, "Owner", serial );
+endfunction
+
+exported function GetOwner( item )
+
+	var owner := CInt( GetObjProperty( item, "Owner" ));
+	if( owner )
+		owner := SystemFindObjectBySerial( owner );
+	endif
+
+	return owner;
+endfunction

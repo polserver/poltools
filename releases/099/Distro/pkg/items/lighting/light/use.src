@@ -1,0 +1,19 @@
+/*
+        Maintened by *Edwards
+        
+        2009-08-29
+*/
+use uo;
+
+include "include/itemUtil";
+
+program useLight( mobile, light )
+
+       	if( !useItem_check( mobile, light, DEFAULT_ITEM ))
+		return 0;
+	endif
+ 
+	light.Toggle();
+
+	return 1;
+endprogram

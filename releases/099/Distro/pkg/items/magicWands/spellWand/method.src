@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+        
+        2009-10-22
+*/
+use uo;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsMagicWand( item )
+
+	item := item; // Avoid compiler warnings.
+
+	return 1;
+endfunction

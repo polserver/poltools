@@ -1,0 +1,40 @@
+/*
+        Maintned by *Edwards
+        
+        2009-08-16
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":enchantments:enchantments";
+
+program SpellCastingItem( mobile, item )
+
+        if( useItem_check( mobile, item, ITEM_INCONTAINER ))
+                EquipItem( mobile, item );
+                return 1;
+        endif
+
+	if( !useItem_check( mobile, item, ITEM_EQUIPPED ))
+		return 0;
+	elseif( !watchDelay( mobile ))
+                return 0;
+        endif
+
+        var spell_id := GetObjProperty( item, "SpellId" );
+        if( !spell_id )
+		SendSysMessage( mobile, "No spell ID specified for this item." );
+		return 0;
+        endif
+        
+        useCharge( mobile, item );
+ 
+	var script := Start_Script( ":magery:spellStarter", {mobile, spell_id, item, "", 1, 1} );
+	if( script.errortext )
+		SendSysMessage( mobile, "Error - Could not start spell starter ->"+script.errortext );
+		return 0;
+	endif
+ 
+        return 1;
+endprogram

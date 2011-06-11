@@ -1,0 +1,58 @@
+/*
+        Maintened by *Edwards
+        
+        200-10-21
+*/
+use uo;
+use os;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsInstrument( item )
+
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction
+
+exported function SfxFaillure( item )
+
+        var cfg_item := ReadConfigFile( ":instruments:itemdesc" );
+        if( cfg_item.errortext )
+                PrintTextAbove( item, "Error reading config <:instruments:itemdesc> -->"+cfg_item.errortext );
+        endif
+
+        var obj_elem := cfg_item[item.objtype],
+            sfxs := SplitWords( obj_elem.Fail );
+
+	return CInt( sfxs.RandomEntry() );
+endfunction
+
+exported function SfxSuccess( item )
+
+        var cfg_item := ReadConfigFile( ":instruments:itemdesc" );
+        if( cfg_item.errortext )
+                PrintTextAbove( item, "Error reading config <:instruments:itemdesc> -->"+cfg_item.errortext );
+        endif
+
+        var obj_elem := cfg_item[item.objtype],
+            sfxs := SplitWords( obj_elem.Succeed );
+
+	return CInt( sfxs.RandomEntry() );
+endfunction
+
+exported function InstrumentDelay( item )
+
+        var cfg_item := ReadConfigFile( ":instruments:itemdesc" );
+        if( cfg_item.errortext )
+                PrintTextAbove( item, "Error reading config <:instruments:itemdesc> -->"+cfg_item.errortext );
+        endif
+
+        var obj_elem := cfg_item[item.objtype];
+
+	return CInt( obj_elem.SongDelay );
+endfunction

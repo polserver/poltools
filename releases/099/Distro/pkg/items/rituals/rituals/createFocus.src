@@ -1,0 +1,44 @@
+/*
+        Maintened by *Edwards
+
+        2010-11-19
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":classes:classes";
+include ":rituals:rituals";
+
+program ritual_createFocus( parms )
+
+        var mobile := parms[1],
+            spell_id := parms[2];
+
+        var item := PerformRitual( mobile, spell_id );
+	if( !item )
+                ChangeLightLevel( mobile, 0 );
+		return 0;
+	endif
+
+        ApplyRitualEffect( mobile, item );
+
+        return 1;
+endprogram
+
+function ApplyRitualEffect( mobile, item )
+
+        var mana_level := GetObjProperty( item, "ManaLevel" ),
+	    mana_amount := CInt( AP_GetStat( mobile, INTELLIGENCE ) * 2 );
+     
+        mana_amount *= ClasseBonus( mobile, MAGE );
+        
+        var new_mana := CInt( mana_level + mana_amount );
+        
+        SetObjProperty( item, "ManaLevel", new_mana );
+        SetObjProperty( item, "NameSpec", "Charges: "+new_mana );
+
+	SendSysMessage( mobile, "The crystal now has "+new_mana+" charges left." );
+ 
+        return 1;
+endfunction

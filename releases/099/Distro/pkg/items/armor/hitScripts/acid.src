@@ -1,0 +1,22 @@
+/*
+        Created by *Edwards
+        
+        2010-07-08
+*/
+use uo;
+use util;
+
+include ":equipment:damageItem";
+
+program OnHitScript_Acid( parms )
+
+        var attacker       := parms[1];
+	//var defender       := parms[2];
+	//var rawDamage      := parms[3];
+	//var armorDefender  := parms[4];
+	parms := 0;
+        
+        DamageItem( attacker, attacker.weapon, 1 );
+
+        return 1;
+endprogram

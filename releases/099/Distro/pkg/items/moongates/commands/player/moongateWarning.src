@@ -1,0 +1,22 @@
+/*
+        Created by *Edwards
+        
+        2010-01-17
+*/
+use uo;
+use os;
+
+program command_moongateWarning( mobile )
+
+	var status := GetObjProperty( mobile, "MoongateWarning" );
+
+        if( !status )
+             SetObjProperty( mobile, "MoongateWarning", 1 );
+             SendSysMessage( mobile, "*Walkon moongate warning OFF*", 3, 33 );
+        else
+             EraseObjProperty( mobile, "MoongateWarning" );
+             SendSysMessage( mobile, "*Walkon moongate warning ON*", 3, 70 );
+        endif
+
+        return 1;
+endprogram

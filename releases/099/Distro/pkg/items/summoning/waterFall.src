@@ -1,0 +1,145 @@
+/*
+        Maintened by *Edwards
+
+        2008-11-18
+*/
+use uo;
+use os;
+
+program MagicWaterFall( parms )
+
+        var mobile := parms[1],
+	    duration := CInt( parms[2] ),
+	    color := CInt( parms[3] ),
+	    sfx	:= CInt( parms[4] ),
+            name := CStr( parms[5] );
+
+	var x := mobile.x,
+	    y := mobile.y,
+	    z := mobile.z,
+            realm := mobile.realm;
+            
+        if( !name )
+		name := "water";
+        endif
+
+	if( sfx )
+		PlaySoundEffect( mobile, sfx );
+	endif
+
+	var wavetop1 := CreateItemAtLocation( x, y, z+110, 0x350b, 1 ),
+	    wavetop2 := CreateItemAtLocation( x, y, z+110, 0x34ed, 1 );
+
+	wavetop1.movable := 0;
+	wavetop2.movable := 0;
+
+	if( color )
+		wavetop1.color := color;
+		wavetop2.color := color;
+	endif
+
+	var i;
+	var waterfall_array := {};
+	var waterfall_base := {};
+
+	for( i := 10; i >= 0; i -= 1 )
+		waterfall_array.append( CreateItemAtLocation( x, y, z+i*10, 0x3517, 1, realm ));
+		waterfall_array[len( waterfall_array )].movable := 0;
+		if( color )
+			waterfall_array[len( waterfall_array )].color := color;
+                        waterfall_array[len( waterfall_array )].name := name;
+		endif
+
+		waterfall_array.append( CreateItemAtLocation( x, y, z+i*10, 0x34f9, 1, realm ));
+		waterfall_array[len( waterfall_array )].movable := 0;
+		if( color )
+			waterfall_array[len( waterfall_array )].color := color;
+                        waterfall_array[len( waterfall_array )].name := name;
+		endif
+		SleepMS( 50 );
+	endfor
+
+	waterfall_base.append( CreateItemAtLocation( x, y+1, z, 0x17a1, 1, realm ));
+	waterfall_base[1].movable := 0;
+	if( color )
+		waterfall_base[1].color := color;
+		waterfall_base[1].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x+1, y, z, 0x179d, 1, realm ));
+	waterfall_base[2].movable := 0;
+	if( color )
+		waterfall_base[2].color := color;
+		waterfall_base[2].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x, y-1, z, 0x179f, 1, realm ));
+	waterfall_base[3].movable := 0;
+	if( color )
+		waterfall_base[3].color := color;
+		waterfall_base[3].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x-1, y, z, 0x17a3, 1, realm ));
+	waterfall_base[4].movable := 0;
+	if( color )
+		waterfall_base[4].color := color;
+		waterfall_base[4].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x+1, y+1, z, 0x17a7, 1, realm ));
+	waterfall_base[5].movable := 0;
+	if( color )
+		waterfall_base[5].color := color;
+		waterfall_base[5].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x-1, y+1, z, 0x17a8, 1, realm ));
+	waterfall_base[6].movable := 0;
+	if( color )
+		waterfall_base[6].color := color;
+		waterfall_base[6].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x+1, y-1, z, 0x17a5, 1, realm ));
+	waterfall_base[7].movable := 0;
+	if( color )
+		waterfall_base[7].color := color;
+		waterfall_base[7].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x-1, y-1, z, 0x17a6, 1, realm ));
+	waterfall_base[8].movable := 0;
+	if( color )
+		waterfall_base[8].color := color;
+		waterfall_base[8].name := name;
+	endif
+
+	waterfall_base.append( CreateItemAtLocation( x, y, z, 0x1797, 1, realm ));
+	waterfall_base[9].movable := 0;
+	if( color )
+		waterfall_base[9].color := color;
+		waterfall_base[9].name := name;
+	endif
+
+	PlaySoundEffect( mobile, 0x11 );
+
+	Sleep( duration );
+
+	DestroyItem( wavetop1 );
+	DestroyItem( wavetop2 );
+
+	foreach item in waterfall_array
+		DestroyItem( item );
+		SleepMS(5);
+	endforeach
+
+	Sleep( 10 );
+
+	foreach item in waterfall_base
+		DestroyItem( item );
+		SleepMS(5);
+	endforeach
+
+        return 1;
+endprogram

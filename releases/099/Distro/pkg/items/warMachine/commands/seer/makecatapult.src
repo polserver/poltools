@@ -1,0 +1,132 @@
+/*
+        Maintened by *Edwards
+
+        Thanks to ZuluHotel and his developers for this original Idea!
+*/
+use os;
+use uo;
+
+program command_Maketargapult( mobile, direction )
+
+        var item,
+            targ := TargetCoordinates( mobile );
+
+        if( !targ )
+                  SendSysMessage( mobile, "Canceled." );
+                  return 0;
+        endif
+        
+        direction := Lower( direction );
+
+        if( direction == "north" )
+                  item := CreateItemAtlocation( targ.x, targ.y, targ.z, 0x1695, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y, targ.z, 0x16b1, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y-1, targ.z, 0x1697, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y, targ.z, 0x1696, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-1, targ.z, 0x16a2, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-2, targ.z, 0x1699, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-3, targ.z, 0x16ac, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-4, targ.z, 0x169a, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y, targ.z, 0x1694, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-1, targ.z, 0x169d, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-2, targ.z, 0x1698, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-3, targ.z, 0x16a7, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-4, targ.z, 0x169c, 1, targ.realm );
+                  item.movable := 0;
+
+        elseif( direction == "south" )
+                  item := CreateItemAtlocation( targ.x, targ.y, targ.z, 0x1649, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y, targ.z, 0x1663, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y-2, targ.z, 0x1648, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y-3, targ.z, 0x164d, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y, targ.z, 0x165e, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-1, targ.z, 0x164b, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-2, targ.z, 0x1659, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-3, targ.z, 0x164c, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y, targ.z, 0x164f, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-1, targ.z, 0x164a, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-2, targ.z, 0x1654, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-3, targ.z, 0x164e, 1, targ.realm );
+                  item.movable := 0;
+                  
+        elseif( direction == "east" )
+                  item := CreateItemAtlocation( targ.x, targ.y, targ.z, 0x1672, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y+1, targ.z, 0x168d, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-2, targ.y, targ.z, 0x1678, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-3, targ.y, targ.z, 0x1676, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y-1, targ.z, 0x1688, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y-1, targ.z, 0x1674, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-2, targ.y-1, targ.z, 0x1683, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-3, targ.y-1, targ.z, 0x1675, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y+1, targ.z, 0x1679, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-1, targ.y+1, targ.z, 0x1673, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-2, targ.y+1, targ.z, 0x167e, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x-3, targ.y+1, targ.z, 0x1677, 1, targ.realm );
+                  item.movable := 0;
+                  
+        elseif( direction == "west" )
+                  item := CreateItemAtlocation( targ.x+3, targ.y, targ.z, 0x16bc, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+4, targ.y+1, targ.z, 0x16d6, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+4, targ.y, targ.z, 0x16ba, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y+1, targ.z, 0x16cc, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+2, targ.y+1, targ.z, 0x16bd, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+3, targ.y+1, targ.z, 0x16c2, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+4, targ.y+1, targ.z, 0x16b9, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x, targ.y-1, targ.z, 0x16bf, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+1, targ.y-1, targ.z, 0x16d1, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+2, targ.y-1, targ.z, 0x16be, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+3, targ.y-1, targ.z, 0x16c7, 1, targ.realm );
+                  item.movable := 0;
+                  item := CreateItemAtlocation( targ.x+4, targ.y-1, targ.z, 0x16bb, 1, targ.realm );
+                  item.movable := 0;
+        else
+                 SendSysMessage( mobile, ".makecannon <north> <south> <east> or <west>" );
+                 return 0;
+        endif
+
+        return 1;
+endprogram

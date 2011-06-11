@@ -1,0 +1,38 @@
+/*
+        Maintened by *Edwards
+
+        2010-11-19
+*/
+use uo;
+use os;
+
+include "include/string";
+include ":loot:identify";
+include ":rituals:rituals";
+
+program ritual_purification( parms )
+
+        var mobile := parms[1],
+            spell_id := parms[2];
+
+        var item := PerformRitual( mobile, spell_id );
+	if( !item )
+                ChangeLightLevel( mobile, 0 );
+		return 0;
+	endif
+
+        ApplyRitualEffect( mobile, item );
+
+        return 1;
+endprogram
+
+function ApplyRitualEffect( mobile, item )
+
+        var item_desc := TruncateArticle( item.desc );
+
+	BanishCurse( item );
+ 
+	SendSysMessage( mobile, "This "+item_desc+" is now free from the presence of all curses." );
+
+        return 1;
+endfunction

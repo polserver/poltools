@@ -1,0 +1,106 @@
+/*
+        Maintened by *Edwards
+
+        2010-08-29
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/itemUtil";
+
+program crystalball( who, crystal )
+
+       	if( !useItem_check( who, crystal, DEFAULT_ITEM, 2 ))
+                SendSysMessage( who, "The spirits can only tell one future at a time!." );
+		return 0;
+	endif
+
+	SendSysMessage( who, "Whom do you wish to read the future of?" );
+	var targ := Target( who );
+	if( !targ )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+        elseif( targ.serial == who.serial )
+		SendSysMessage( who, "You can't tell your own future!" );
+		return 0;
+	elseif( Distance( targ, crystal ) > 2 )
+		SendSysMessage( who, targ.name+" is too far away for the ritual to work." );
+		return 0;
+	elseif( targ.graphic != 400 && targ.graphic != 401 )
+		SendSysMessage( who, "You cannot tell the future of that." );
+		return 0;
+	endif
+ 
+	if( crystal.graphic == 0x0e2d )
+		crystal.graphic := 0x0e2e;
+	endif
+ 
+	PrintTextAbove( crystal, "*Within the ball, the mists begin to swirl...*" );
+ 
+	PlaySoundEffect( crystal, 260 );
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+ 
+	PrintTextAbove( crystal, "*An image appears in the mist and begins to speak*" );
+	Sleep(8);
+	PrintTextAbove( crystal, targ.name+", your future will now be unveiled!" );
+	Sleep(8);
+	TellFortune( crystal );
+	Sleep(8);
+ 
+	PlaySoundEffect( crystal, 260 );
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+	PlayObjectCenteredEffect( crystal, 0x373A, 0x0a, 0x1e );
+	Sleep(2);
+ 
+	PrintTextAbove( crystal, "*The image in the crystal ball fades*" );
+	if( crystal.graphic == 0x0e2e )
+		crystal.graphic := 0x0e2d;
+	endif
+ 
+        return 1;
+endprogram
+
+function TellFortune( crystal )
+
+     var poss_answers := array{ "The future is unclear at this time, ask again later...",
+                                "The future does not bode well for you, I cannot say more.",
+                                "Beware of those closest to you, for they will betray you!",
+                                "I suggest you keep your friends close and your enemies closer.",
+                                "The future's bright, the future's, um, *coughs* orange?.",
+                                "What goes around, comes around.  You will get what you deserve soon enough!",
+                                "You will find happiness with a new love.",
+                                "Do not be quick to refuse a favor.",
+                                "Think before you speak, you never know who might be listening.",
+                                "Leave the GM's alone for they are mightily sick of all your whining.",
+                                "Beware, your love has eyes for another.",
+                                "Mighty dragons shall fall before the wrath of your blade.",
+                                "If you were given an open-book exam, you'd forget the book.",
+                                "You would look good on a llama.",
+                                "Failure surely comes your way.",
+                                "You will be a great bore in your later years.",
+                                "Save now for a future calamity.",
+                                "Simplicity and boredom are your themes in dress.",
+                                "If you do something right the first time, nobody will appreciate how difficult it was.",
+                                "Now is not the time for something new.",
+                                "You will be unfortunate in all things you put your hands on.",
+                                "Your life will never be graced with the presence of stardom.",
+                                "Your greatest danger is your stupidity.",
+                                "You are filled with lifes most precious treasure.........Hope!." };
+
+        PrintTextAbove( crystal, poss_answers.RandomEntry() );
+        
+        return 1;
+endfunction

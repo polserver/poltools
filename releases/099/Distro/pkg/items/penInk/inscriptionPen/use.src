@@ -1,0 +1,638 @@
+/*
+        Created by *Edwards
+
+        2009-08-15
+*/
+use uo;
+use os;
+use cfgfile;
+
+include "include/itemUtil";
+include "include/string";
+include ":attributes:attributes";
+include ":autoloop:autoloop";
+include ":classes:classes";
+include ":crafting:crafting";
+include ":loot:loot_effects";
+include ":spells:spells_ex";
+
+program use_InscTool( mobile, tool )
+
+	if( Lower( TypeOf( mobile )) == "array" )
+		tool := mobile[2];
+		mobile := mobile[1];
+	endif
+ 
+	if( !useItem_check( mobile, tool, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+        SendSysMessage( mobile, "What would you like to inscribe?" );
+        var targ := Target( mobile );
+        if( !targ )
+		SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !targ.IsA( POLCLASS_ITEM ))
+		SendSysMessage( mobile, "You shall consider therapy!" );
+                return 0;
+        elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+        if( IsExceptionalItem( mobile, targ ))
+		var enchanted := GetObjProperty( targ, "EnchantedWith" );
+		if( enchanted )
+			RechargeEngravedItem( mobile, tool, targ, enchanted );
+		else
+			EnchantItem( mobile, tool, targ );
+		endif
+  	elseif( targ.objtype == 0xE34 ) //BlankScroll
+                CreateScroll( mobile, tool, targ );
+        elseif( targ.BookType() == "Magic" )
+		CopyBook( mobile, tool, targ );
+	elseif( targ.IsRecallRune() )
+		CreateRunebook( mobile, targ );
+	else
+		SendSysMessage( mobile, "You cannot inscribe that!" );
+        endif
+
+        return 1;
+endprogram
+
+function RechargeEngravedItem( mobile, tool, targ, enchanted )
+
+        var cfg_file := ReadConfigFile( ":inscription:inscription" );
+        if( cfg_file.errortext )
+                SendSysMessage( mobile, "Error reading cfg_file <:inscription:inscription> -->"+cfg_file.errortext );
+                return 0;
+        endif
+
+        var enchant_elem := cfg_file[enchanted];
+        if( enchant_elem.errortext )
+                SendSysMessage( mobile, "Error reading elem "+enchanted+" -->"+enchant_elem.errortext );
+                return 0;
+        endif
+
+        var charges := CInt( GetObjProperty( targ, "Charges" )),
+            init_charges := charges;
+
+        var difficulty := CInt( enchant_elem.Difficulty + charges ),
+            chargeCost := CInt( enchant_elem.ChargeCost ),
+            gemType := enchant_elem.GemType,
+            gemName := CStr( enchant_elem.GemName );
+
+       	if( GetObjProperty( mobile, MAGE ))
+                chargeCost /= ClasseBonus( mobile, MAGE );
+	endif
+
+        SendSysMessage( mobile, "Select "+CInt( chargeCost )+ " "+gemName+" for each charge you wish to recharge on the item." );
+        var the_gems := Target( mobile );
+        if( !the_gems )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( the_gems.objtype != gemType )
+                SendSysMessage( mobile, "You did not select the good gems." );
+		return 0;
+        endif
+
+        SendAutoLoop( mobile );
+
+        var x := mobile.x,
+	    y := mobile.y;
+     
+        SendSysMessage( mobile, "You start looping.", 3, 89 );
+        while( AutoLoop( mobile ))
+
+        SendSysMessage( mobile, "loop "+loop_left );
+        
+        	if( mobile.x != x || mobile.y != y )
+                        SendSysMessage( mobile, "Cancelled." );
+			break;
+                elseif( !useItem_check( mobile, the_gems, ITEM_INCONTAINER ))
+	                break;
+                endif
+
+		var amount := CInt( the_gems.Amount / CInt( chargeCost ));
+		if( amount )
+			SubtractAmount( the_gems, CInt( chargeCost ));
+
+                        if( SkillCheck( mobile, INSCRIPTION, difficulty ) > 0 )
+				charges += 1;
+				SendSysMessage( mobile, "There is now "+charges+" charges stored." );
+			else
+				SendSysMessage( mobile, "The magical energy go out of your control!" );
+                                ApplyRawDamage( mobile,  CInt( charges * chargeCost ));
+				DestroyItem( targ );
+				return 0;
+			endif
+
+                        CheckToolWear( mobile, tool, INSCRIPTION );
+		else
+			SendSysMessage( mobile, "There is not enough "+gemName+", you need "+CInt( chargeCost )+" gems per charges." );
+                        break;
+		endif
+        endwhile
+
+        EndAutoLoop( mobile );
+
+	if( charges > init_charges )
+		SetObjProperty( targ, "Charges", charges );
+		SendSysMessage( mobile, "The item was successfully recharged to "+charges+" charges." );
+	endif
+
+        return 1;
+endfunction
+
+function EnchantItem( mobile, tool, targ )
+
+        SendSysMessage( mobile, "Select a focus." );
+        var alch_sym := Target( mobile );
+	if( !alch_sym )
+		return 0;
+	elseif( !alch_sym.IsAlchemySymbol() )
+		SendSysMessage( mobile, "You must select an alchemical symbol." );
+		return 0;
+       	elseif( !useItem_check( mobile, alch_sym, DEFAULT_ITEM ))
+		return 0;
+	endif
+
+        var cfg_file := ReadConfigFile( ":inscription:inscription" );
+        if( cfg_file.errortext )
+                SendSysMessage( mobile, "Error reading cfg_file <:inscription:inscription> -->"+cfg_file.errortext );
+                return 0;
+        endif
+
+        var enchant_elem := cfg_file[alch_sym.objtype];
+        if( enchant_elem.errortext )
+                SendSysMessage( mobile, "Error reading elem "+alch_sym.objtype+" -->"+enchant_elem.errortext );
+                return 0;
+        endif
+
+        var difficulty := CInt( enchant_elem.Difficulty ),
+            chargeCost := CInt( enchant_elem.ChargeCost ),
+            gemType := enchant_elem.GemType,
+            gemName := CStr( enchant_elem.GemName ),
+            chant_script := CStr( enchant_elem.Script ),
+            chant_name := CStr( enchant_elem.Name ),
+            charges := 0;
+
+       	if( GetObjProperty( mobile, MAGE ))
+                chargeCost /= ClasseBonus( mobile, MAGE );
+	endif
+
+        SendSysMessage( mobile, "Select "+CInt( chargeCost )+ " "+gemName+" for each charge you wish to place on the item." );
+        var the_gems := Target( mobile );
+        if( !the_gems )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( the_gems.objtype != gemType )
+                SendSysMessage( mobile, "You did not select the good gems." );
+		return 0;
+        endif
+
+        SendAutoLoop( mobile );
+
+        var x := mobile.x,
+	    y := mobile.y;
+
+        SendSysMessage( mobile, "You start looping.", 3, 89 );
+        while( AutoLoop( mobile ) && targ )
+        	if( mobile.x != x || mobile.y != y )
+                        SendSysMessage( mobile, "Cancelled." );
+			break;
+                elseif( !useItem_check( mobile, the_gems, ITEM_INCONTAINER ))
+	                break;
+                endif
+
+		var amount := CInt( the_gems.Amount / CInt( chargeCost ));
+		if( amount )
+			SubtractAmount( the_gems, CInt( chargeCost ));
+
+                        if( SkillCheck( mobile, INSCRIPTION, difficulty + charges ) > 0 )
+				charges += 1;
+				SendSysMessage( mobile, "There is now "+charges+" charges stored." );
+			else
+				SendSysMessage( mobile, "The magical energy go out of your control!" );
+                                ApplyDamageEX( mobile, CInt( charges * chargeCost ), DMG_FORCED );
+				DestroyItem( targ );
+                                DestroyItem( alch_sym );
+			endif
+
+                        CheckToolWear( mobile, tool, INSCRIPTION );
+		else
+			SendSysMessage( mobile, "There is not enough "+gemName+", you need "+CInt( chargeCost )+" gems per new charges." );
+                        break;
+		endif
+        endwhile
+
+        EndAutoLoop( mobile );
+
+        if( !charges )
+		SendSysMessage( mobile, "You didn't set any charges!" );
+	else
+		PlayObjectCenteredEffect( mobile, 0x373a, 7, 0x10 );
+		PlaySoundEffect( mobile, 0x1e8 );
+
+                var spell_id := CInt( enchant_elem.SpellId );
+                if( spell_id )
+                    	SetObjProperty( targ, "SpellId", spell_id );
+                endif
+
+		SetObjProperty( targ, "Charges", charges );
+                SetObjProperty( targ, "EnchantedWith", alch_sym.objtype );
+
+		ChangeName( targ, chant_name );
+	    	targ.UseScript := chant_script;
+	endif
+
+	DestroyItem( alch_sym );
+
+        return 1;
+endfunction
+
+function CreateScroll( mobile, tool, blankscroll )
+
+        SendSysMessage( mobile, "Select a spellbook from which to inscribe." );
+        var spellbook := Target( mobile );
+        if( !spellbook )
+		SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !spellbook.IsMagicBook() )
+		SendSysMessage( mobile, "That is not a magic book!" );
+                return 0;
+        elseif( !useItem_check( mobile, spellbook, ITEM_INCONTAINER ))
+		return 0;
+        elseif( spellbook.GetSpellID().Size() < 1 )
+		SendSysMessage( mobile, "You cannot copy from an empty book." );
+                return 0;
+	endif
+
+        CreateNormalScroll( mobile, tool, blankscroll, spellbook );
+
+        return 1;
+endfunction
+
+function CopyBook( mobile, tool, book )
+
+        if( book.GetSpellID().Size() < 1 )
+		SendSysMessage( mobile, "You cannot copy an empty book." );
+		return 0;
+        endif
+
+        SendSysMessage( mobile, "Select an empty "+TruncateArticle( book.desc )+" to copy to." );
+        var copy_to := Target( mobile );
+        if( !copy_to )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+        elseif( book.objtype != copy_to.objtype )
+		SendSysMessage( mobile, "This is not an empty "+TruncateArticle( book.desc )+"!" );
+                return 0;
+        elseif( !useItem_check( mobile, copy_to, ITEM_INCONTAINER ))
+		return 0;
+        elseif( copy_to.GetSpellID().Size() > 1 )
+		SendSysMessage( mobile, "The book you selected is not empty!" );
+		return 0;
+        endif
+
+        CopyMagicbook( mobile, tool, book, copy_to );
+
+        return 1;
+endfunction
+
+function CopyMagicbook( mobile, tool, book, copy_to )
+
+        if( AP_GetSkill( mobile, INSCRIPTION ) < 120 )
+                SendSysMessage( mobile, "You are not skilled enough to do that." );
+                return 0;
+        endif
+
+	var mana := 130;
+        if( GetObjProperty( mobile, MAGE ))
+                mana /= ClasseBonus( mobile, MAGE );
+        endif
+
+        if( AP_GetVital( mobile, MANA ) < CInt( mana ))
+		SendSysMessage( mobile, "You don't have enough mana." );
+		AP_SetVital( mobile, MANA, 0 );
+		return 0;
+	else
+		AP_SetVital( mobile, MANA, AP_GetVital( mobile, MANA ) - CInt( mana ));
+	endif
+
+        if( SkillCheck( mobile, INSCRIPTION, 130, CInt( 130 * 15 )) > 0 )
+      		SendSysMessage( mobile, "You copy the spellbook successfully." );
+        
+		var i;
+		for( i:=1; i<=64; i+=1 )  // 64 is MaxSpellId for normal spellbook
+                        if( book.HasSpellID(i) )
+				var scroll := copy_to.AddSpellID(i);
+				if( scroll.errortext )
+					SendSysMessage( mobile, "Unable to add spell --> "+scroll.errortext );
+				endif
+			endif
+			SleepMS(5);
+		endfor
+        else
+      		SendSysMessage( mobile, "You fail to copy the spellbook." );
+		DestroyItem( copy_to );
+        endif
+
+        CheckToolWear( mobile, tool, INSCRIPTION );
+
+        return 1;
+endfunction
+
+function CreateNormalScroll( mobile, tool, blankscroll, spellbook );
+
+        var product := MakeAndProcessMenu( mobile, spellbook );
+	if( !product )
+                SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	endif
+
+        var scrolls_cfg := ReadConfigFile( ":magicScrolls:itemdesc" );
+        if( scrolls_cfg.errortext )
+                SendSysMessage( mobile, "Error reading config <:magicScrolls:itemdesc> -->"+scrolls_cfg.errortext );
+		return 0;
+        endif
+
+        var spells_cfg := ReadConfigFile( ":spells:spells" );
+        if( spells_cfg.errortext )
+                SendSysMessage( mobile, "Error reading config <:spells:spells> -->"+spells_cfg.errortext );
+		return 0;
+        endif
+
+        var scroll_elem := scrolls_cfg[product],
+            scroll_id := scroll_elem.SpellId;
+
+        var spell_elem := spells_cfg[scroll_id],
+            difficulty := CInt( spell_elem.Difficulty ),
+            mana := CInt( spell_elem.ManaCost );
+
+        CreateProduct( mobile, tool, blankscroll, product, difficulty, mana );
+
+        return 1;
+endfunction
+
+function MakeAndProcessMenu( mobile, spellbook )
+
+        var circles := array{};
+        
+        foreach spell_id in ( spellbook.GetSpellID() )
+        
+                var circle := SPELL_GetCircle( spell_id );
+                if( circle )
+                        if( circle >= 10 && circle < 12 ) //EarthBook Circle 1
+ 				circles[1] := 1;
+                        elseif( circle >= 12 && circle < 14 ) //EarthBook Circle 2
+ 				circles[2] := 1;
+                        elseif( circle >= 17 && circle < 19 ) //NecroBook Lesser or SongBook Lesser
+ 				circles[1] := 1;
+                        elseif( circle >= 19 && circle < 21 ) //NecroBook Greater or SongBook Greater
+ 				circles[2] := 1;
+                        else
+                                circles[circle] := 1;
+                        endif
+                endif
+
+                SleepMS(5);
+	endforeach
+
+        var menu_circle := CreateMenu( "Select a circle to inscribe" );
+
+        var i;
+        for( i:=1; i<=8; i+=1 )
+		if( circles[i] )
+                        AddMenuItem( menu_circle, 0x20bf+i, "Circle "+i+" Spells" );
+		endif
+                SleepMS(5);
+	endfor
+
+        var circle_choice := SelectMenuItem2( mobile, menu_circle );
+	if( circle_choice.errortext )
+		return 0;
+	endif
+
+        var menu_spell := CreateMenu( "Select a spell to inscribe" );
+
+        var scrolls_type := {};
+        
+        foreach spell_id in ( spellbook.GetSpellID() )
+        
+                var circle := SPELL_GetCircle( spell_id );
+                if( circle )
+ 			if( circle >= 10 && circle < 12 ) //EarthBook Circle 1
+ 				circle := 1;
+                        elseif( circle >= 12 && circle < 14 ) //EarthBook Circle 2
+ 				circle := 2;
+                        elseif( circle >= 17 && circle < 19 ) //NecroBook Lesser or SongBook Lesser
+ 				circle := 1;
+                        elseif( circle >= 19 && circle < 21 ) //NecroBook Greater or SongBook Greater
+ 				circle := 2;
+                        else
+                                circle[circle] := 1;
+                        endif
+                endif
+
+		if( circle == circle_choice.Index )
+                        var spell_graphic := SPELL_SpellIDToScrollGraphic( spell_id ),
+                            spell_name := SPELL_SpellIDToScrollName( spell_id ),
+                            spell_objtype := SPELL_SpellIDToScrollObjType( spell_id );
+
+                        scrolls_type.Append( spell_objtype );
+			AddMenuItem( menu_spell, spell_graphic, spell_name );
+		endif
+                SleepMS(5);
+	endforeach
+
+        var spell_choice := SelectMenuItem2( mobile, menu_spell );
+	if( !spell_choice.Index )
+		return 0;
+	endif
+
+        return scrolls_type[spell_choice.Index];
+endfunction
+
+function CreateProduct( mobile, tool, blankscroll, product, difficulty, mana )
+
+        if( GetObjProperty( mobile, MAGE ))
+		mana /= ClasseBonus( mobile, MAGE );
+	endif
+
+        SendAutoLoop( mobile );
+
+        var x := mobile.x,
+	    y := mobile.y;
+
+        SendSysMessage( mobile, "You start looping.", 3, 89 );
+        while( AutoLoop( mobile ))
+        	if( mobile.x != x || mobile.y != y )
+                        SendSysMessage( mobile, "Cancelled." );
+			break;
+                elseif( !SubtractAmount( blankscroll, 1 ))
+		       	SendSysMessage( mobile, "You don't have any more blank scrolls." );
+                        break;
+                elseif( AP_GetVital( mobile, MANA ) < mana )
+		        SendSysMessage( mobile, "You do not have enough mana." );
+		        AP_SetVital( mobile, MANA, 0 );
+		       	break;
+                endif
+
+                AP_SetVital( mobile, MANA, AP_GetVital( mobile, MANA ) - mana );
+
+                var bonus_pts := difficulty * 15;
+                if( SkillCheck( mobile, INSCRIPTION, difficulty, bonus_pts ) > 0 )
+                        PlaySoundEffect( mobile, 0x50 );
+
+                        var the_scroll := CreateItemInBackpack( mobile, product );
+                        if( the_scroll.errortext )
+                                SendSysMessage( mobile, "You don't have enough room in your backpack!" );
+                                break;
+                        endif
+
+                        SendSysMessage( mobile, "You create the scroll and put it in your backpack." );
+                else
+                        SendSysMessage( mobile, "You fail and destroy the scroll." );
+                endif
+                
+                CheckToolWear( mobile, tool, INSCRIPTION );
+        endwhile
+
+        EndAutoLoop( mobile );
+
+        return 1;
+endfunction
+
+function IsExceptionalItem( mobile, item )
+
+	if( !GetObjProperty( item, "IsExceptional" ))
+		return 0;
+        endif
+
+	var magic_cfg := ReadConfigFile( ":loot:enchantable" );
+        if( magic_cfg.errortext )
+	        SendSysMessage( mobile, "Error reading config <:loot:enchantable> -->"+magic_cfg.errortext );
+                return 0;
+        endif
+
+        var clothing_elem := magic_cfg[CLOTHINGS];
+        if( clothing_elem.errortext )
+	        SendSysMessage( mobile, "Error reading elem <"+CLOTHINGS+"> -->"+clothing_elem.errortext );
+                return 0;
+        endif
+
+	var cfg_files := ReadConfigFile( ":*:itemdesc" );
+        var item_elem := cfg_files[item.objtype];
+        if( item_elem.errortext )
+	        SendSysMessage( mobile, "Error reading elem <"+item.desc+"> -->"+item_elem.errortext );
+                return 0;
+        endif
+
+        var item_name := Lower( item_elem.Name );
+
+	if( GetConfigInt( clothing_elem, item_name ))
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function ChangeName( item, suffix )
+
+	var cur_desc := CStr( item.desc ),
+	    space := Find( item.desc, "[", 1 );
+
+	if( space )
+		var first_part  := cur_desc[1, ( space-1 )];
+		var second_part := cur_desc[space, ( Len( cur_desc ) - space - 1 )];
+
+		SetName( item, first_part+suffix+" "+second_part );
+	else
+		SetName( item, cur_desc+" "+suffix );
+	endif
+
+        return 1;
+endfunction
+
+function CreateRunebook( mobile, rune )
+
+	if( rune.GetDestination() )
+		SendSysMessage( mobile, "You must target a blank rune." );
+		return 0;
+        elseif( AP_GetSkill( mobile, INSCRIPTION ) < 130 )
+                SendSysMessage( mobile, "You are not skilled enough to do that." );
+                return 0;
+	endif
+
+        var required_materials := array{0x1F4C, 0x1F60, 0xE34}, //In order: recall scroll, gatetravel scroll, blankscroll
+            mage := GetObjProperty( mobile, MAGE ),
+            insc_diff := 120,
+            magery_diff := 120,
+            mana_cost := 150;
+
+        if( mage )
+                mana_cost /= ClasseBonus( mobile, MAGE );
+        endif
+
+        foreach objtype in required_materials
+
+                var amount := 1;
+                if( _objtype_iter == 3 ) //BlankScroll
+                        amount := 8;
+                endif
+
+                var consume := ConsumeSubstance( mobile.backpack, objtype, amount );
+		if( consume.errortext )
+			SendSysMessage( mobile, "You do not have the required materials to make that." );
+			return 0;
+		endif
+
+                SleepMS(5);
+        endforeach
+
+        DestroyItem( rune );
+
+        if( AP_GetVital( mobile, MANA ) < mana_cost )
+                SendSysMessage( mobile, "You don't have enough mana." );
+                return 0;
+        endif
+
+        AP_ConsumeVital( mobile, MANA, mana_cost );
+
+        if( SkillCheck( mobile, INSCRIPTION, insc_diff ) < 0 )
+		SendSysMessage( mobile, "You fail to create the runebook." );
+                return 0;
+        elseif( SkillCheck( mobile, INSCRIPTION, magery_diff, "", ADV_DISABLE ) < 0 )
+		SendSysMessage( mobile, "You fail to create the runebook." );
+                return 0;
+        endif
+
+	PlaySoundEffect( mobile, 0x50 );
+
+	var runebook := CreateItemInBackpack( mobile, 0x6100 );
+	if( !runebook )
+		CreateItemAtLocation( mobile.x, mobile.y, mobile.z, 0x6100, 1, mobile.realm );
+	endif
+
+        var charges := 5 + RandomInt(4);
+        if( mage )
+                charges *= ClasseBonus( mobile, MAGE );
+        endif
+
+        var charge_prop := GetObjProperty( runebook, "%Charges%" );
+            charge_prop["max_charges"] := CInt( charges );
+
+        if( RandomInt( 100 ) < 10 )
+                SendSysMessage( mobile, "You create an exceptional runebook and put it in your backpack." );
+                charge_prop["max_charges"] += 3;
+
+                SetObjProperty( runebook, "ExceptionalType", "Scribed by" );
+		SetObjProperty( runebook, "Exceptional", mobile.serial );
+        else
+                SendSysMessage( mobile, "You create a runebook and put it in your backpack." );
+        endif
+
+        SetObjProperty( runebook, "%Charges%", charge_prop );
+
+        return 1;
+endfunction

@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+
+        2009-01-18
+
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+*/
+use uo;
+use os;
+use util;
+
+include "include/itemUtil";
+
+program use_bottle( mobile, SOSBottle )
+
+       	if( !useItem_check( mobile, SOSBottle, ITEM_INCONTAINER ))
+		return 0;
+	endif
+        
+        var bottle_x := CInt( GetObjProperty( SOSBottle, "XPos" )),
+            bottle_y := CInt( GetObjProperty( SOSBottle, "YPos" )),
+            bottle_z := CInt( GetObjProperty( SOSBottle, "ZPos" ));
+            
+        if( !bottle_x || !bottle_y )
+	       SendSysMessage( mobile, "Error --> No location given for this bottle." );
+	       return 0;
+        endif
+            
+        var dest := DestroyItem( SOSBottle );
+        if( dest.errortext )
+	       SendSysMessage( mobile, "Error destroyin SOS bottle -->"+dest.errortext );
+	       return 0;
+        endif
+        
+        var SOSMessage := CreateItemInContainer( mobile.backpack, 0xa363 );
+        if( SOSMessage )
+               SetObjProperty( SOSMessage, "XPos", bottle_x );
+               SetObjProperty( SOSMessage, "YPos", bottle_y );
+               SetObjProperty( SOSMessage, "Message", RandomInt( 5 ));
+               
+               SendSysMessage( mobile, "You have extracted a message from the bottle!" );
+               
+               var sos_tile := CreateItemAtLocation( bottle_x, bottle_y, bottle_z, 0xa365, 1, mobile.realm );
+               if( sos_tile.errortext )
+                       SendSysMessage( mobile, "Error creating sos_tile -->"+sos_tile.errortext );
+                       return 0;
+               endif
+               
+               SetObjProperty( sos_tile, "SOSMsgSerial", SOSMessage.serial );
+               SetObjProperty( SOSMessage, "SOSTileSerial", sos_tile.serial );
+        else
+	       SendSysMessage( mobile, "Error --> Cannot create SOSMessage -->"+SOSMessage.errortext+"." );
+        endif
+
+        return 1;
+endprogram

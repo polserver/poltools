@@ -1,0 +1,18 @@
+/*
+        Created by *Edwards
+        
+        2009-12-29
+*/
+use datafile;
+
+include ":datafile:datafile";
+
+program charPlayerMerchant_onDelete( who )
+
+	var g_datafile  := DFOpenDataFile( ":playerMerchant:playerMerchant", DF_NO_CREATE );
+	if( g_datafile )
+		return g_datafile.DeleteElement( CStr( who.serial ));
+	endif
+ 
+	return 1;
+endprogram

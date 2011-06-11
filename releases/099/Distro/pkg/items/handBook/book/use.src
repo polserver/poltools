@@ -1,0 +1,139 @@
+/*
+        Maintened by *Edwards
+
+        2008-06-01
+
+        Last Modifications 2009-08-29
+             * Added useItem_check()
+
+        Last Modifications 2009-09-02
+             * Can see if priv is enabled only select on/off
+
+        Thank you Dev Dot[zhSA] for your original Idea
+*/
+use uo;
+use os;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include "include/security";
+include "include/itemUtil";
+
+program system_spawnPoint( mobile, handbook )
+
+        if( !useItem_check( mobile, handbook, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+        if( mobile.cmdlevel < 1 )
+              SendSysMessage( mobile, "You do not have authorization! Staff has been notified." );
+              NotifyStaffOnline( mobile, "Is not allowed to use a staff handbook --> Book Destroyed." );
+              DestroyItem( handbook );
+              return 0;
+        endif
+
+        Send_Command( mobile );
+
+        return 1;
+endprogram
+
+function Send_Command( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+        GFGumpPic( gump, 30, 30, 2203 );
+
+        //Main Data
+        GFTextLine( gump, 60, 40, 75, "On" );
+        GFTextLine( gump, 170, 40, 35, "Off" );
+
+
+        GFTextLine( gump, 80, 65, 1153, "Hear Ghost" );
+        if( mobile.enabled( "hearghosts" ))
+                GFAddButton( gump, 175, 70, 0x837, 0x838, GF_CLOSE_BTN, 0xA02 );
+        else
+                GFAddButton( gump, 60, 70, 0x837, 0x838, GF_CLOSE_BTN, 0xA01 );
+        endif
+
+        GFTextLine( gump, 80, 95, 1153, "See Ghost" );
+        if( mobile.enabled( "seeghosts" ))
+                GFAddButton( gump, 175, 100, 0x837, 0x838, GF_CLOSE_BTN, 0xA04 );
+        else
+                GFAddButton( gump, 60, 100, 0x837, 0x838, GF_CLOSE_BTN, 0xA03 );
+        endif
+
+        GFTextLine( gump, 80, 125, 1153, "See Hidden" );
+        if( mobile.enabled( "seehidden" ))
+                GFAddButton( gump, 175, 130, 0x837, 0x838, GF_CLOSE_BTN, 0xA06 );
+        else
+                GFAddButton( gump, 60, 130, 0x837, 0x838, GF_CLOSE_BTN, 0xA05 );
+        endif
+
+        GFTextLine( gump, 80, 155, 1153, "Invlunerable" );
+        if( mobile.enabled( "invul" ))
+                GFAddButton( gump, 175, 160, 0x837, 0x838, GF_CLOSE_BTN, 0xA08 );
+        else
+                GFAddButton( gump, 60, 160, 0x837, 0x838, GF_CLOSE_BTN, 0xA07 );
+        endif
+
+        GFTextLine( gump, 80, 185, 1153, "Free Move" );
+        if( mobile.enabled( "freemove" ))
+                GFAddButton( gump, 175, 190, 0x837, 0x838, GF_CLOSE_BTN, 0xA10 );
+        else
+                GFAddButton( gump, 60, 190, 0x837, 0x838, GF_CLOSE_BTN, 0xA09 );
+        endif
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( input[0xA01] )
+                GrantPriv( mobile, "hearghosts" );
+        elseif( input[0xA02] )
+                RevokePriv( mobile, "hearghosts" );
+        elseif( input[0xA03] )
+                GrantPriv( mobile, "seeghosts" );
+        elseif( input[0xA04] )
+                RevokePriv( mobile, "seeghosts" );
+        elseif( input[0xA05] )
+                GrantPriv( mobile, "seehidden" );
+        elseif( input[0xA06] )
+                RevokePriv( mobile, "seehidden" );
+        elseif( input[0xA07] )
+                GrantPriv( mobile, "invul" );
+        elseif( input[0xA08] )
+                RevokePriv( mobile, "invul" );
+        elseif( input[0xA09] )
+                GrantPriv( mobile, "freemove" );
+        elseif( input[0xA10] )
+                RevokePriv( mobile, "freemove" );
+        else
+              return 0;
+        endif
+
+        return 1;
+endfunction
+
+function GrantPriv( who, privilege )
+
+	if( GrantPrivilege( who, privilege ))
+	        who.enable ( privilege );
+	        SendSysMessage( who, "Privilege: "+privilege+" has been enabled." );
+	        return 1;
+        endif
+
+        SendSysMessage( who, "Could not set "+privilege );
+        return 0;
+endfunction
+
+function RevokePriv( who, privilege )
+
+	if( RevokePrivilege( who, privilege ))
+	        who.disable ( privilege );
+	        SendSysMessage( who, "Privilege: "+privilege+" has been disabled." );
+                return 1;
+	endif
+
+        SendSysMessage( who, "Could not set " + privilege );
+	return 0;
+endfunction

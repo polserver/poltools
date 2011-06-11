@@ -1,0 +1,29 @@
+/*
+        *Edwards
+
+        2008-05-28
+
+        Yeah, I had some time to lose. But atleast, it's a cool game ;)
+*/
+use uo;
+use os;
+
+program soccergame( mobile )
+
+         SendSysMessage( mobile, "Target coordinates to spawn the ball" );
+	 var targ := TargetCoordinates( mobile );
+         if( !targ )
+               SendSysMessage( mobile, "Invalid coordinate." );
+               return 0;
+         endif
+
+         PrintTextAbove( mobile, "*Spawning the ball*" );
+         Sleep(4);
+         
+         var ball := CreateItemAtLocation( targ.x, targ.y, targ.z, 0xc948, 1, targ.realm );
+         ball.SetDuration(600);
+         SetObjProperty( ball, "Playable", 1 );
+         PrintTextAbove( ball, "*Play!*" );
+         
+         return 1;
+endprogram

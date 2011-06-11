@@ -1,0 +1,35 @@
+/*
+        Maintened by *Edwards
+        
+        2008-06-01
+        
+        Original Idea by Zulu, thank you man.
+*/
+use uo;
+use util;
+
+include "include/client";
+include ":damage:damage";
+
+program trapScript( params )
+
+	var mobile := params[1];
+	//var object := params[2];
+	//var trap_info := params[3];
+	//var trap_index := params[4];
+	params := 0; // Not needed anymore.
+
+	SendSysMessage( mobile, "You set off a trap!" );
+ 
+	var coord_list := GetCoordsInLine( mobile.x-5, mobile.y-5, mobile.x+5, mobile.y+5 );
+	foreach coord in coord_list
+		var field := CreateItemAtLocation( coord.x, coord.y, mobile.z, "FireField_NS", 1, mobile.realm );
+		field.SetDuration(30);
+		SleepMS(105);
+	endforeach
+
+	PlaySoundEffect( mobile, 0x208 );
+	ApplyDamageEX( mobile, RandomDiceRoll("5d10"), DMG_FIRE );
+
+	return 1;
+endprogram

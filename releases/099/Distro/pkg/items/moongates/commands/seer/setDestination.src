@@ -1,0 +1,47 @@
+/*
+        Created by *Edwards
+        
+        2008-05-29
+*/
+use uo;
+use os;
+
+program comman_setDestination( mobile, text )
+
+        var parms := SplitWords( text );
+        var x := parms[1],
+            y := parms[2],
+            z := parms[3],
+            realm := parms[4];
+            
+        if( !text )
+               SendSysMessage( mobile, "Usage is .setDestination x y z realm" );
+               return 0;
+        endif
+
+        SendSysMessage( mobile, "Please select the item to setDestination" );
+        var moongate := Target( mobile );
+        if( moongate )
+               if( !SetDestination( moongate, x, y, z, realm ))
+                       SendSysMessage( mobile, "Usage is .setDestination x y z realm" );
+                       return 0;
+               endif
+        else
+               SendSysMessage( mobile, "Invalid Target." );
+        endif
+
+        return 1;
+endprogram
+
+function SetDestination( moongate, x, y, z, realm )
+
+	var coords := struct;
+	coords.+x := CInt(x);
+	coords.+y := CInt(y);
+	coords.+z := CInt(z);
+	coords.+realm := CStr(realm);
+ 
+        SetObjProperty( moongate, "Destination", coords );
+
+	return 1;
+endfunction

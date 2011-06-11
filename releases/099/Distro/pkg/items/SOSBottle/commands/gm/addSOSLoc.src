@@ -1,0 +1,63 @@
+/*
+        Created by *Edwards
+
+        2009-01-18
+*/
+use uo;
+use os;
+use cfgfile;
+
+include "include/security";
+
+program textcmd_addSOSLoc( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Please select a new location for SOS bottle." );
+        var targ := TargetCoordinates( mobile );
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        var props:= array;
+        var prop:= array;
+        prop.+ pname;
+        prop.+ pvalue;
+
+        prop.pname := "X";
+        prop.pvalue := targ.x;
+        props[1] := prop;
+
+        prop.pname := "Y";
+        prop.pvalue := targ.y;
+        props[2] := prop;
+
+        prop.pname := "Realm";
+        prop.pvalue := targ.realm;
+        props[3] := prop;
+        
+        prop.pname := "Added By";
+        prop.pvalue := mobile.serial;
+        props[4] := prop;
+        
+        var locations := ListLocations();
+	var new_location := locations.Size() + 1;
+
+        AppendConfigFileElem( ":SOSBottle:treasure", "Location", new_location, props );
+        UnloadConfigFile( ":SOSBottle:treasure" );
+        SendSysMessage( mobile, "Done!" );
+        
+        return 1;
+endprogram
+
+function ListLocations()
+
+	var cfg_file := ReadConfigFile( ":SOSBottle:treasure" );
+        if( cfg_file )
+		return GetConfigStringKeys( cfg_file );
+	endif
+endfunction

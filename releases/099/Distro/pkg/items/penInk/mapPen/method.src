@@ -1,0 +1,18 @@
+/*
+        Created by *Edwards
+
+        2009-10-28
+*/
+use uo;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsMapPen( item )
+
+	item := item; // To avoid unused var warnings
+ 
+	return 1;
+endfunction

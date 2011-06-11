@@ -1,0 +1,11 @@
+/*
+        Created by *Edwards
+
+        2010-01-24
+*/
+use os;
+
+var script := Start_Script( "initializer/firstRun" );
+if( script.errortext )
+	SysLog( "Error starting resgates initializer -->"+script.errortext );
+endif

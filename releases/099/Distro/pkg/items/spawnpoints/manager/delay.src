@@ -1,0 +1,33 @@
+/*
+        Maintened by *Edwards
+
+        2010-04-02
+*/
+use uo;
+use os;
+
+include ":security:report";
+include ":spawnpoints:spawnpoints";
+include ":timeutils:time";
+
+program Spawnpoint_DefaultDelay( parms )
+	
+        var spawnpoint := parms[1],
+            delay := parms[2];
+            
+	if( !spawnpoint || !delay )
+		return 0;
+	endif
+ 
+        SetObjProperty( spawnpoint, "#SpawnpointDelay", GetPid() );
+	
+	Sleep( delay );
+ 
+        var script := Start_Script( ":spawnpoints:manager/spawnpointControl", spawnpoint );
+        if( script.errortext )
+                ReportText( "Error starting script <:spawnpoints:manager/spawnpointControl> -->"+script.errortext, REPORT_SYSLOG );
+                return 0;
+        endif
+	
+	return 1;
+endprogram

@@ -1,0 +1,19 @@
+/*
+        Created by *Edwards
+        
+        2010-11-02
+*/
+use uo;
+use cfgfile;
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsGuruPotion( item )
+
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction

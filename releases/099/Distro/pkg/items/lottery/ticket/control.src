@@ -1,0 +1,36 @@
+/*
+        Created by *Edwards
+
+        2010-01-17
+*/
+use uo;
+
+include ":lottery:lottery";
+
+program Control_Ticket( ticket )
+
+        while( ticket && GetAvailability( ticket ))
+                Sleep(1);
+        endwhile
+        
+        DestroyItem( ticket );
+
+	return 1;
+endprogram
+
+function GetAvailability( ticket )
+
+	var ticket_lottery := CInt( GetObjProperty( ticket, "Lottery" ));
+	if( !ticket_lottery )
+                //Avoid destroying the ticket because the player didn't startup the lottery on it with dblClick.
+		return 1;
+	endif
+
+	var cur_lottery := Loto_GetLottery();
+	if( cur_lottery - ticket_lottery >= 2 )
+                //The winning ticket has expired. We can destroy this ticket..
+                return 0;
+	endif
+
+	return 1;
+endfunction

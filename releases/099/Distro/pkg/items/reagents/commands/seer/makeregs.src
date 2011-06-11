@@ -1,0 +1,41 @@
+/*
+        Maintened by *Edwards
+
+        2008-12-18
+*/
+use os;
+use uo;
+
+include "include/security";
+
+program textcmd_MakeRegs( who, amount )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	amount := CInt( amount );
+	if( !amount )
+		amount := 20;
+        elseif( amount > 50 )
+                amount := 50;
+	endif
+  
+	var backpack := CreateItemInBackpack( who, "backpack", 1 );
+        SetObjProperty( backpack, "LFucker", who.serial );
+  	backpack.color := 0x3;
+   
+        var regs := {0xF78, 0xF79, 0xF7A, 0xF7B, 0xF7C, 0xF7D, 0xF7E, 0xF7F,
+                     0xF80, 0xF81, 0xF82, 0xF83, 0xF84, 0xF85, 0xF86, 0xF87,
+                     0xF88, 0xF89, 0xF8A, 0xF8B, 0xF8C, 0xF8D, 0xF8E, 0xF8F,
+                     0xF90, 0xF91};
+
+	foreach thing in regs
+		var item := CreateItemInContainer( backpack, thing, amount );
+                SetObjProperty( item, "LFucker", who.serial );
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endprogram

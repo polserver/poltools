@@ -1,0 +1,17 @@
+/*
+        Maintened by *Edwards
+        
+        200-10-21
+*/
+
+program Install()
+
+	return 1;
+endprogram
+
+exported function IsGem( item )
+
+	item := item; // Avoid unused var compiler warning
+
+	return 1;
+endfunction

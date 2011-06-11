@@ -1,0 +1,24 @@
+/*
+        Created by *Edwards
+        
+        2009-11-16
+*/
+use uo;
+use os;
+use util;
+
+include ":damage:damage";
+
+program HitScript_( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	//var weaponAttacker := parms[3];
+        var rawDamage      := parms[4];
+        
+        PlayObjectCenteredEffectEx( defender, 0x375a, 1, 17, 1174 );
+
+        ApplyDamageEX( defender, rawDamage, DMG_ASTRAL, attacker );
+        
+        return 1;
+endprogram
