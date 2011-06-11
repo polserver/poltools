@@ -1,0 +1,14 @@
+/*
+        Maintened by *Edwards
+
+        2009-12-15
+*/
+use uo;
+use polsys;
+
+program core_questButton( mobile )
+
+        SendSysMessage( mobile, "That is not implemented, but we are working on it!", 3, 11 );
+        
+	return 1;
+endprogram

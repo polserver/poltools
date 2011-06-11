@@ -1,0 +1,44 @@
+/*
+        Maintened by *Edwards
+        
+        2010-10-11
+*/
+use uo;
+use os;
+
+program LogOff( mobile )
+
+        if( mobile.cmdlevel <= 1 )
+                Broadcast( "Character ["+mobile.name+"] has departed", 3, 40 );
+        else
+                mobile.concealed := mobile.cmdlevel;
+        endif
+
+        SysLog( "IP: "+mobile.ip+" Account: "+mobile.acctname+" Character: "+mobile.name+" logged out." );
+        
+        RevokePrivilege( mobile, "seeghosts" );
+	mobile.Disable( "seeghosts" );
+ 
+        DisplayLogoff( mobile );
+        
+	return 1;
+endprogram
+
+function DisplayLogoff( mobile )
+
+        var shrink_mobile := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, 0x20F8, 1, mobile.realm );
+        if( shrink_mobile.errortext )
+                PrintTextAbove( mobile, "Error couldn't create shrink mobile -->"+shrink_mobile.errortext );
+                return 0;
+        endif
+        
+        shrink_mobile.invisible := 1;
+        shrink_mobile.saveonexit := 0;
+        
+        SetName( shrink_mobile, mobile.name );
+        
+        SetObjProperty( mobile, "ShrinkLogoff", shrink_mobile.serial );
+        SetObjProperty( shrink_mobile, "ShrinkLogoff", mobile.serial );
+        
+        return 1;
+endfunction
