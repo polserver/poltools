@@ -1,0 +1,96 @@
+/*
+        Created by *Edwards
+
+        2009-12-29
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":brainAI:merchantUtil";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":merchants:merchant";
+include ":merchants:storage";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
+ 
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_ITEM_GIVEN:
+					ItemGivenEvent( npc, event, forsale );
+					ReleaseItem( event.item );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+
+        return 1;
+endprogram
+
+function ItemGivenEvent( npc, byref event, forsale )
+
+	var item := event.item;
+	var source := event.source;
+ 
+        if( source.hidden || source.IsA( POLCLASS_NPC ))
+		return 0;
+        elseif( !CanCommand( npc, source ))
+                AI_Speak( npc, "I don't know what this is for, but thanks!" );
+		MoveItemToContainer( item, source.backpack );
+                return 0;
+        elseif( item.objtype == 0xeed )
+                AI_Speak( npc, "Are you trying to cheat?!" );
+                MoveItemToContainer( item, source.backpack );
+                return 0;
+        endif
+
+        var cost := CInt( SendTextEntryGump( source, "How much shall I charge for that?", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, 1000000 ));
+        if( !cost )
+                AI_Speak( npc, "Well, just keep it." );
+		MoveItemToContainer( item, source.backpack );
+                return 0;
+        endif
+        
+        if( item.amount > 1 )
+                var price := CInt( cost );
+                item.sellprice := price;
+                
+                AI_Speak( npc, "I will sell each "+item.desc+" for "+cost+" gold coins." );
+        else
+                item.sellprice := CInt( cost );
+                AI_Speak( npc, "I will sell "+item.desc+" for "+cost+" gold coins." );
+        endif
+        
+        MoveItemToContainer( item, forsale );
+        
+	return 1;
+endfunction
+
+function CanCommand( npc, source )
+
+        if( source.cmdlevel >= 3 )
+               return 1;
+        elseif( GetObjProperty( npc, "Owner" ) == source.serial )
+               return 1;
+        endif
+
+        return 0;
+endfunction

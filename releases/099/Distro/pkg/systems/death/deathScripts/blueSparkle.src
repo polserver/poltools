@@ -1,0 +1,20 @@
+/*
+        Created by *Edwards
+
+        2008-05-28
+        
+        Last Modifications 2009-10-25
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+use util;
+
+program DeathScript( corpse )
+ 
+        PlaySoundEffect( corpse, 0x1F3 );
+	PlayObjectCenteredEffect( corpse, 0x373A, 7, 14 );
+        PlayMovingEffectXYZ( corpse.x, corpse.y, corpse.z, corpse.x, corpse.y, corpse.z+75, 0x373A, 7, 14, 0, corpse.realm );
+	
+	return 1;
+endprogram

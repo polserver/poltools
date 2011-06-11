@@ -1,0 +1,23 @@
+/*
+        Modified by *Edwards
+
+        2008-04-07
+
+        Thanks to ZuluHotel for this idea
+*/
+
+use uo;
+use os;
+
+include ":areas:areasConstants";
+
+program Logon(who)
+
+        var script := Start_Script( ":areas:control/areaban", who );
+        if( script.errortext )
+	        SysLog( script.errortext );
+        endif
+
+        return 1;
+endprogram
+

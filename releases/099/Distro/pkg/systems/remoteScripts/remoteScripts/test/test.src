@@ -1,0 +1,14 @@
+/*
+        Created by *Edwards
+
+        2011-04-13
+*/
+use uo;
+use os;
+
+program RemoveScriptsControl()
+
+        Broadcast( "remoteScripts" );
+
+	return 1;
+endprogram

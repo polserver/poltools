@@ -1,0 +1,57 @@
+/*
+        Created by *Edwards
+
+        2010-07-07
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/shapes";
+include ":acid:acid";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":spells:spells";
+
+program SpellScript_BlowFire( params )
+
+	var mobile := params[1];
+	//var info := params[2];
+	var targ := params[3];
+        //var circle := MS_GetCircle( info.spell_id );
+	params := 0;
+ 
+        if( Distance( mobile, targ ) < 5 )
+                return 0;
+        endif
+
+	var coord_list := GetCoordsInLine( mobile.x, mobile.y, targ.x, targ.y );
+	foreach coord in coord_list
+		SleepMS(105);
+  
+		if( _coord_iter == 1 ) // Dont make one where its standing
+			continue;
+		endif
+
+                var z_pos := CInt( GetWorldHeight( coord.x, coord.y, mobile.realm ));
+                
+		CreateItemAtLocation( coord.x, coord.y, z_pos, "acid", 1, mobile.realm );
+	endforeach
+
+	SpitAcid( mobile, targ );
+
+        var npc_cfg := NPC_GetNPCConfig( mobile.npctemplate );
+	foreach coord in GetCoordsInSquare( targ.x, targ.y, CInt( npc_cfg.SpellRadius ))
+		SleepMS(5);
+  
+		if( RandomInt(2) != 1 ) // Don't place a fire field
+			continue;
+		endif
+
+                var z_pos := CInt( GetWorldHeight( coord.x, coord.y, mobile.realm ));
+                
+		CreateItemAtLocation( coord.x, coord.y, z_pos, "acid", 1, mobile.realm );
+	endforeach
+       
+	return 1;
+endprogram

@@ -1,0 +1,39 @@
+/*
+        Maintened by *Edwards
+        
+        2009-10-09
+
+        Last Modifications 2009-10-25
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/sysEvent";
+include ":attributes:attributes";
+include ":damage:damage";
+
+program DeathScript( corpse )
+	
+	foreach mobile in ( ListMobilesNearLocationEx( corpse.x, corpse.y, corpse.z, 2, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, corpse.realm ))
+		PlayStationaryEffect( mobile.x, mobile.y, mobile.z, SelectRandomExplosion(), 10, 10, 0, corpse.realm );
+		
+		var dmg := RandomDiceRoll( "3d20+18" );
+                ApplyDamageEX( mobile, dmg );
+				
+		SleepMS(2);
+	endforeach	
+	
+	return 1;
+endprogram
+
+function SelectRandomExplosion()
+
+	case( RandomInt( 3 ))
+		1: return GFX_EXPLODE_2; break;
+		2: return GFX_EXPLODE_3; break;
+		default: return GFX_EXPLODE_1; break;
+	endcase
+endfunction

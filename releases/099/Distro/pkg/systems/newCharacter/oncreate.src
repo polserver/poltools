@@ -1,0 +1,182 @@
+/*
+        Maintened by *Edwards
+
+        2008-12-02
+        
+        Last Modifications 2009-07-26
+             * Added CheckName()
+*/
+use uo;
+use os;
+use file;
+use cfgfile;
+use util;
+
+include "include/security";
+include ":attributes:attributes";
+include ":attributes:attributes_ex";
+include ":newcharacter:newCharacter";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:gumpprompt";
+
+program OnCreate( params )
+
+	var who := params[1];
+	var selected_skills := params[2];
+	params := 0; // No longer needed.
+ 
+        who.frozen := 1;
+	SysLog( "Account ("+who.acctname+") is creating character ("+who.name+")" );
+
+	// Convert skill ID numbers to attribute names.
+	// Core currently sends them as skill IDs!
+	foreach skill in ( selected_skills )
+		skill := AP_SkillIdToAttributeName( skill );
+		SleepMS(2);
+	endforeach
+
+	// Save the chosen skills.
+	NC_SetStartupSkills( who, selected_skills );
+ 
+        /*if( CounterCheatingProfText( who ))
+                var account := FindAccount( who.acctname );
+                account.Ban();
+                NotifyStaffOnline( who.name, "Account ("+who.acctname+") didn't pass CounterCheatingProfText() for character ("+who.name+") --> Account banned." );
+		return 0;
+        endif*/
+
+	var uniques := array{};
+	GenerateItemsForSkill( who, "All", uniques );
+
+	foreach skill in ( selected_skills )
+		GenerateItemsForSkill( who, skill, uniques );
+		SleepMS(2);
+	endforeach
+ 
+        AP_SetVital( who, HUNGER, 10 );
+ 
+        var script := Start_Script( ":newcharacter:moveRaceRoom", who );
+        if( script.errortext )
+                SendSysMessage( who, "Error starting script <:newcharacter:moveRaceRoom> -->"+script.errortext );
+                return 0;
+        endif
+        
+	return 1;
+endprogram
+
+function CounterCheatingProfText( who )
+        
+        var stat_total := 0;
+        foreach stat in AP_ListAttributesByType( "Stat" )
+                var stat_value :=  AP_GetStat( who, stat );
+                if( stat_value > 45 )
+                         return 1;
+                endif
+                
+		stat_total += stat_value;
+                SleepMS(5);
+	endforeach
+ 
+        var skill_total := 0;
+	foreach skill in AP_ListAttributesByType( "Skill" )
+                var skill_value :=  AP_GetSkill( who, skill );
+                if( skill_value > 50 )
+                         return 1;
+                endif
+                
+		skill_total += skill_value;
+                SleepMS(5);
+	endforeach
+        
+        if( stat_total > 80 )
+                return 1;
+        elseif( skill_total > 100 )
+                return 1;
+        endif
+        
+        return 0;
+endfunction
+
+function GenerateItemsForSkill( who, attribute, byref uniques )
+
+	var cfg_file := ReadConfigFile( ":newcharacter:startEquip" );
+	var cfg_elem := cfg_file[attribute];
+
+	CreateItemsInElem( cfg_elem, who.backpack, "All" );
+
+	foreach entry in ( GetConfigStringArray( cfg_elem, "Unique" ))
+		entry := ParseItemString( entry );
+		var objtype := GetObjTypeByName( entry.name );
+		if( !( objtype in uniques ))
+			uniques.Append( objtype );
+			var item := CreateItemInContainer( who.backpack, entry.name, entry.amount );
+                        item.newbie := 1;
+		endif
+		SleepMS(2);
+	endforeach
+
+	foreach entry in ( GetConfigStringArray( cfg_elem, "Random" ))
+		entry := SplitWords( entry );
+		var tmp_elem := cfg_file[entry[1]];
+		var amount := CInt( entry[2] );
+
+		var item := CreateItemsInElem( tmp_elem, who.backpack, amount );
+                item.newbie := 1;
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function CreateItemsInElem( cfg_elem, container, amount )
+
+	var items := GetConfigStringArray( cfg_elem, "Item" );
+	if( amount == "All" )
+		foreach entry in ( GetConfigStringArray( cfg_elem, "Item" ))
+			entry := ParseItemString( entry );
+			var item := CreateItemInContainer( container, entry.name, entry.amount );
+                        item.newbie := 1;
+			SleepMS(2);
+		endforeach
+	else
+		for( amount; amount>0; amount-=1 )
+			var entry := items[RandomInt( items.Size() )+1];
+			entry := ParseItemString( entry );
+			var item := CreateItemInContainer( container, entry.name, entry.amount );
+                        item.newbie := 1;
+			SleepMS(2);
+		endfor
+	endif
+
+	return 1;
+endfunction
+
+function CreateItemFromElem( who, byref cfg_elem )
+
+	var item_list := GetConfigStringArray( cfg_elem, "Item" );
+	var entry := item_list[RandomInt( item_list.Size() )+1];
+	entry := SplitWords( entry );
+
+	var item := CreateItemInBackPack( who, CInt( entry[1] ), entry[2] );
+	if( item.errortext )
+		SendSysMessage( who, "Error creating "+entry+" ->"+item.errortext );
+        else
+                item.newbie := 1;
+	endif
+
+	return item;
+endfunction
+
+function ParseItemString( line )
+
+	line := SplitWords( line );
+	var name := CStr( line[1] );
+	var amount := RandomDiceRoll( CStr( line[2] ));
+
+	var result := struct;
+	result.+name := name;
+	result.+amount := CInt( amount );
+
+	return result;
+endfunction

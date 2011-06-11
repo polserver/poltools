@@ -1,0 +1,15 @@
+/*
+        Created by *Edwards
+        
+        2010-04-21
+*/
+use uo;
+
+program EnterRegionZone( mobile, region_name )
+
+        region_name := region_name; //Avoid compiler warnings
+	
+	SendSysMessage( mobile, "Double right-click the boost stone.", 3, 50 );
+	
+        return 1;
+endprogram

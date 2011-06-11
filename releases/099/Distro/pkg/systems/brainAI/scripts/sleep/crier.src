@@ -1,0 +1,64 @@
+/*
+        Created by *Edwards
+
+        2009-12-28
+*/
+use uo;
+use os;
+use util;
+use npc;
+
+include ":attributes:attributes";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	//var settings	:= params[3];
+	//var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+
+	// Shut down appropriate nerves.
+	foreach nerve in ( LoadNerves( npc ))
+		if( nerve.flags & NF_CONTINUE_ON_SLEEP )
+			continue;
+		elseif( _nerve_iter != nerve_name )
+			StopNerve( npc, _nerve_iter );
+		endif
+		SleepMS(2);
+	endforeach
+
+        AP_RefreshVitals( npc );
+
+        if( RandomInt(500) > 490 )
+                SpoutTheNews( npc );
+        endif
+
+        var hiding := AP_GetSkill( npc, HIDING );
+        if( hiding && !npc.hidden )
+                npc.hidden := 1;
+        elseif( !npc.hidden && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
+                AI_Wander( npc, NOWAKE );
+        endif
+
+        return 1;
+endprogram
+
+function SpoutTheNews( npc )
+
+	var news := GetObjProperty( npc, "News" );
+	if( !news )
+                AI_Speak( npc, "No news is good news!" );
+		return 0;
+	endif
+
+	var i;
+	for( i:=1; i<=Len( news ); i+=1 )
+                AI_Speak( npc, news[i] );
+		Sleep(2);
+	endfor
+
+	return 1;
+endfunction

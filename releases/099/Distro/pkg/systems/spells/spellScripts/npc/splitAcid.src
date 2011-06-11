@@ -1,0 +1,28 @@
+/*
+        Created by *Edwards
+
+        2009-10-10
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":acid:acid";
+
+program SpellScript_SplitAcid( params )
+
+	var mobile := params[1];
+	var targ := params[3];
+	params := 0;
+
+        if( !CheckLineOfSight( mobile, targ ))
+                return 0;
+        endif
+        
+        SpitAcid( mobile, targ );
+
+	return 1;
+endprogram

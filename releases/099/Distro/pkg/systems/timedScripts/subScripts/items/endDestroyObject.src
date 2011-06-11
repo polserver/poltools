@@ -1,0 +1,17 @@
+/*
+        Maintened by *Edwards
+
+        2009-12-09
+*/
+use uo;
+use os;
+
+program TimedScript_EndDestroyObject( params )
+
+	var object := params[1];
+	
+	DestroyItem( object );
+	
+	return 1;
+endprogram
+

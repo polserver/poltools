@@ -1,0 +1,83 @@
+/*
+        Modified by *Edwards
+
+        2008-04-07
+        
+        Last Modifications 2009-02-08
+             * Replacement of guards by magical lightning
+
+        Thanks to ZuluHotel for this idea
+*/
+use uo;
+use os;
+use npc;
+use cfgfile;
+
+include "include/sysEvent";
+include ":areas:managment";
+include ":brainai:npcUtil";
+include ":damage:damage";
+
+program Call_Guards_Controller( mobile )
+
+	if( mobile.dead )
+		SendSysMessage( mobile, "You cannot call the guards while you're dead." );
+		return 0;
+	elseif( mobile.murderer )
+		SendSysMessage( mobile, "Guards won't answer to murderers' call." );
+		return 0;
+	elseif( mobile.criminal )
+		SendSysMessage( mobile, "Guards won't answer to criminals' call." );
+		return 0;
+	elseif( !A_IsIn( mobile, AREAS_GUARDED ))
+		SendSysMessage( mobile, "You are not in a guarded area." );
+		return 0;
+	elseif( CleanAround( mobile ))
+		SendSysMessage( mobile, "The city guards have come to your rescue." );
+	else
+		SendSysMessage( mobile, "The guards didn't answer your call since there's nothing to protect you from." );
+	endif
+
+        return 1;
+endprogram
+		
+function CleanAround( mobile )
+
+ 	var found := 0;
+  
+	foreach person in ListMobilesNearLocation( mobile.x, mobile.y, mobile.z, 15, mobile.realm )
+		if( person.IsA( POLCLASS_NPC ))
+                        var npc := NPC_GetNPCConfig( person.npctemplate );
+			if( !npc.GuardIgnore && !GetObjProperty( person, "GuardIgnore" ))
+				if( A_IsIn( person, AREAS_GUARDED ))
+                                        PlaySoundEffect( person, 0x2A );
+                                        var x;
+                                        for( x:=1; x<7; x+=1 )
+                                                 PlayLightningBoltEffect( person );
+                                                 SleepMS(3);
+                                        endfor
+                                        SetObjProperty( person, "GuardKill", mobile.serial );
+					ApplyRawDamage( person, CInt( AP_GetVitalMaximumValue( person, HITS ) + 1 ));
+     					found := 1;
+				endif
+			endif
+		elseif( !person.cmdlevel )
+			if( person.criminal || person.murderer )
+				if( A_IsIn( person, AREAS_GUARDED ))
+                                        PlaySoundEffect( person, 0x2A );
+                                        var x;
+                                        for( x:=1; x<7; x+=1 )
+                                                 PlayLightningBoltEffect( person );
+                                                 SleepMS(3);
+                                        endfor
+					ApplyRawDamage( person, CInt( AP_GetVitalMaximumValue( person, HITS ) + 1 ));
+     					found := 1;
+				endif
+			endif
+		endif
+  
+                SleepMS(5);
+	endforeach
+
+	return found;
+endfunction

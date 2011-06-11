@@ -1,0 +1,156 @@
+/*
+        Maintened by *Edwards
+
+        2008-08-23
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/itemUtil";
+
+program textcmd_disarm( mobile, text )
+
+	if( mobile.dead )
+		return 0;
+        elseif( !text )
+                SendSysMessage( mobile, "Equip a weapon and use .arm #" );
+                SendSysMessage( mobile, "To select where you would like to disarm use .disarm bag" );
+	endif
+
+	if( lower( text ) == "bag" )
+		SetDisarmBag( mobile );
+                return 1;
+	endif
+
+	var my_pack := mobile.backpack,
+            bag_serial := CInt( GetObjProperty( mobile, "DisarmBag" ));
+            
+	if( bag_serial )
+                my_pack := SystemFindObjectBySerial( bag_serial );
+                if( !my_pack )
+                	my_pack := mobile.backpack;
+                elseif( !useItem_check( mobile, my_pack, ITEM_INCONTAINER ))
+                	my_pack := mobile.backpack;
+                endif
+	endif
+
+	var weaponOne := GetEquipmentByLayer( mobile, LAYER_HAND1 );
+	var weaponTwo := GetEquipmentByLayer( mobile, LAYER_HAND2 );
+	var weaponOneCursed := CInt( GetObjProperty( weaponOne, "Cursed" ));
+	var weaponTwoCursed := CInt( GetObjProperty( weaponTwo, "Cursed" ));
+
+	if( weaponOne )
+		if( !weaponOneCursed )
+			MoveItemToContainer( weaponOne, my_pack, 1, 1 );
+		endif
+	endif
+
+	if( weaponTwo )
+		if( !weaponTwoCursed )
+			MoveItemToContainer( weaponTwo, my_pack, 1, 1 );
+		endif
+	endif
+
+	var weapon := {};
+            weapon[1] := 0;
+            weapon[2] := 0;
+            weapon[3] := 0;
+            weapon[4] := 0;
+            weapon[5] := 0;
+            weapon[6] := 0;
+            weapon[7] := 0;
+            weapon[8] := 0;
+            weapon[9] := 0;
+            weapon[10] := 0;
+            weapon[11] := 0;
+            weapon[12] := 0;
+
+	if( GetObjProperty( mobile, "#Weapon" ))
+		weapon := GetObjProperty( mobile, "#Weapon" );
+	endif
+ 
+        case( CInt( text ))
+                1:     weapon[1] := 0;
+		       weapon[2] := 0;
+                       if( weaponOne )
+			       weapon[1] := weaponOne.serial;
+                       endif
+		       if( weaponTwo )
+			       weapon[2] := weaponTwo.serial;
+                       endif
+                       SetObjProperty( mobile, "#Weapon", weapon );
+                       break;
+                2:     weapon[3] := 0;
+		       weapon[4] := 0;
+                       if( weaponOne )
+			       weapon[3] := weaponOne.serial;
+                       endif
+		       if( weaponTwo )
+			       weapon[4] := weaponTwo.serial;
+                       endif
+                       SetObjProperty( mobile, "#Weapon", weapon );
+                       break;
+                3:     weapon[5] := 0;
+		       weapon[6] := 0;
+                       if( weaponOne )
+			       weapon[5] := weaponOne.serial;
+                       endif
+		       if( weaponTwo )
+			       weapon[6] := weaponTwo.serial;
+                       endif
+                       SetObjProperty( mobile, "#Weapon", weapon );
+                       break;
+                4:     weapon[7] := 0;
+		       weapon[8] := 0;
+                       if( weaponOne )
+			       weapon[7] := weaponOne.serial;
+                       endif
+		       if( weaponTwo )
+			       weapon[8] := weaponTwo.serial;
+                       endif
+                       SetObjProperty( mobile, "#Weapon", weapon );
+                       break;
+                5:     weapon[9] := 0;
+		       weapon[10] := 0;
+                       if( weaponOne )
+			       weapon[9] := weaponOne.serial;
+                       endif
+		       if( weaponTwo )
+			       weapon[10] := weaponTwo.serial;
+                       endif
+                       SetObjProperty( mobile, "#Weapon", weapon );
+                       break;
+                6:     weapon[11] := 0;
+		       weapon[12] := 0;
+                       if( weaponOne )
+			       weapon[11] := weaponOne.serial;
+                       endif
+		       if( weaponTwo )
+			       weapon[12] := weaponTwo.serial;
+                       endif
+                       SetObjProperty( mobile, "#Weapon", weapon );
+                       break;
+        endcase
+
+        return 1;
+endprogram
+
+function SetDisarmBag( mobile )
+
+	SendSysMessage( mobile, "Select a container." );
+	var bag := Target( mobile );
+        if( !bag )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        elseif( !bag.IsA( POLCLASS_CONTAINER ))
+                SendSysMessage( mobile, "You must select a container." );
+                return 0;
+       	elseif( !useItem_check( mobile, bag, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SetObjProperty( mobile, "DisarmBag", bag.serial );
+ 
+        return 1;
+endfunction

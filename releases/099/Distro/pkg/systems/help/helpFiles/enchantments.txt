@@ -1,0 +1,34 @@
+<CENTER><U><B>Questions & Answers</B></U></CENTER><BR>
+<I>What is an enchantment?</I>
+<BR>
+<BR>
+It is a capacity to use some kind of magic charges from items regardless your skills.
+<BR>
+<BR>
+<BR>
+<I>How I can find them?</I>
+<BR>
+<BR>
+These kinds of items are only made by mages with a lot of inscription.
+<BR>
+<BR>
+<BR>
+<I>How to create an enchanted items?</I>
+<BR>
+<BR>
+First you need an alchemical symbol, only made by crafters with a lot of magery. Alchemycal symbol retains the magical effects to eventually apply on the item.
+<BR>
+<BR>
+Secondly you need any kind of excepionnal clothing ( excepionnal robe, excepionnal half apron, excepionnal pants, ... ). No magic or normal items can be used.
+<BR>
+<BR>
+Then use your skill inscription on your exceptionnal clothing item. 
+<BR>
+<BR>
+You will now be prompted to target an alchemical symbol that will determine the magic effect on the item. 
+<BR>
+<BR>
+And finally, gems will be requested. Some gems are found with a jeweler merchant some others are only found on creatures.
+<BR>
+<BR>
+Note: The same process apply if you want to recharge your enchanted item again.

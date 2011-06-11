@@ -1,0 +1,75 @@
+/*
+        Created by *Edwards
+
+        2009-12-22
+*/
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+var following := 0,
+    chaseloop := 0;
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var source	:= params[3];
+	//var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+        
+        SetObjProperty( npc, "#Guard", source.serial );
+        
+	while( npc )
+                if( !canGuard( npc, source ))
+			// No need to follow any longer.
+			AI_EndNerve( npc, nerve_name );
+			break;
+                endif
+
+                Guard( npc, source );
+
+		SleepMS(400);
+		AI_ClearThoughts( npc, CLR_NERVE );
+	endwhile
+ 
+        return 1;
+endprogram
+
+function canGuard( npc, source )
+
+        if( npc.opponent )
+                return 0;
+        elseif( npc.frozen || npc.paralyzed )
+                return 0;
+        elseif( npc.hidden || npc.concealed )
+                return 0;
+        elseif( source.hidden || source.concealed )
+                return 0;
+        elseif( source.dead )
+                return 0;
+        elseif( !source.connected )
+                return 0;
+        elseif( GetObjProperty( npc, "#Guard" ) != source.serial )
+                return 0;
+        elseif( Distance( npc, source ) > 15 )
+                return 0;
+        endif
+        
+        return 1;
+endfunction
+
+function Guard( npc, source )
+        
+	foreach mobile in ListHostiles( source, 9, LH_FLAG_LOS );
+                if( mobile )
+			AI_Attack( npc, mobile );
+                endif
+                break;
+	endforeach
+ 
+        return 1;
+endfunction

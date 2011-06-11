@@ -1,0 +1,14 @@
+/*
+        Maintened by *Edwards
+
+        2009-12-09
+*/
+use uo;
+use os;
+
+program TimedScript_EndParalysis( mobile )
+
+	mobile.frozen := 0;
+	
+	return 1;
+endprogram

@@ -1,0 +1,23 @@
+/*
+        Created by *Edwards
+
+        2009-12-29
+*/
+use uo;
+use os;
+use util;
+
+include ":datafile:datafile";
+include ":death:death";
+
+program DeathScript( corpse )
+        
+	var g_datafile  := DFOpenDataFile( ":playerMerchant:playerMerchant", DF_NO_CREATE );
+ 
+        var owner := GetObjProperty( corpse, "Owner" );
+        
+	g_datafile.DeleteElement( CStr( owner ));
+ Broadcast( g_datafile.DeleteElement( CStr( owner )) );
+
+	return 1;
+endprogram

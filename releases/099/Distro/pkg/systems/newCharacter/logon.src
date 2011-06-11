@@ -1,0 +1,16 @@
+/*
+        Created by *Edwards
+
+        2009-07-26
+*/
+use uo;
+use os;
+
+include ":newcharacter:newCharacter";
+
+program Logon( mobile )
+
+	CheckName( mobile );
+        
+	return 1;
+endprogram

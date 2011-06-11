@@ -1,0 +1,36 @@
+/*
+        Modified by *Edwards
+
+        2008-04-07
+
+        Thanks to ZuluHotel for this idea
+*/
+
+use uo;
+use os;
+
+program command_CallGuards( mobile )
+
+	if( CInt( GetObjProperty( mobile, "#CallGuards" )) > ReadGameClock() )
+		SendSysMessage( mobile, "You must wait before calling the guards again." );
+		return 0;
+	else
+		SetObjProperty( mobile, "#CallGuards", ReadGameClock() + 2 );
+	endif
+
+	if( mobile.hidden )
+		SendSysMessage( mobile, "You can't call the guards while hidden." );
+	elseif( mobile.dead )
+		SendSysMessage( mobile, "You can't call the guards while dead." );
+	elseif( mobile.concealed )
+		SendSysMessage( mobile, "You can't call the guards while concealed." );
+	else
+		PrintTextAbove( mobile, "Guards!!!" );
+		var start := start_script( ":areas:misc/callguards", mobile );
+                if( start.errortext )
+		       SysLog("Error::command_CallGuards() - unable to start script [:areas:callguards] ->"+start.errortext);
+	        endif
+	endif
+ 
+        return 1;
+endprogram

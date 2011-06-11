@@ -1,0 +1,23 @@
+/*
+        Created by *Edwards
+
+        Last Modifications 2009-12-09
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_EndFeebleMind( params )
+
+	var mobile := params[1];
+	    params := 0;
+	
+	var points := CInt( GetObjProperty( mobile, "FeebleMindMod" ));
+	AP_ModifyStatMod( mobile, INTELLIGENCE, points );
+ 
+	EraseObjProperty( mobile, "FeebleMindMod" );
+	
+	return 1;
+endprogram
+

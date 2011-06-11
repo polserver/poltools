@@ -1,0 +1,49 @@
+/*
+        Maintened by *Edwards
+
+        2009-02-10
+        
+        Last Modifications 2009-10-06
+             * Fixed server will automatically save by itself now
+*/
+use uo;
+use os;
+use math;
+
+include ":worldsaver:saver";
+include ":worldsaver:settings";
+
+program WorldSaver()
+
+	SetGlobalProperty( "#WorldSaverPid", GetPid() );
+
+	var savetimes:=struct{"nextsave":=0, "lasttick":=0};
+	UpdateTimes( savetimes );
+
+	while( 1 )
+		var event := Wait_For_Event( GetWaitTime( savetimes ));
+		if( event )
+			savetimes.lasttick := POLCore().systime;
+			case( event.type )
+				EVENT_SAVE_NOW:
+					WarnPlayers();
+                                        DoTheSave();
+					UpdateTimes( savetimes );
+					break;
+				EVENT_START_SHUTDOWN:
+					DoShutDown( event.data );
+					break;
+			endcase
+		endif
+		
+		if( ShouldSave( savetimes ))
+			WarnPlayers();
+			DoTheSave();
+			UpdateTimes( savetimes );
+		endif
+
+		SleepMS(2);
+	endwhile
+
+	return 1;
+endprogram

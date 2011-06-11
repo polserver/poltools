@@ -1,0 +1,71 @@
+/*
+        Maintened by *Edwards
+        
+        2009-02-08
+*/
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/facings";
+include ":attributes:attributes";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+include ":timedscripts:timedScripts";
+include ":death:resurrection";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var event	:= params[3];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_ENTEREDAREA:
+					EnteredArea( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+endprogram
+
+function EnteredArea( npc, byref event )
+
+	var source := event.source;
+        if( !CheckLineOfSight( npc, source ))
+		return 0;
+	elseif( source.dead )
+                Healer_Resurrect( npc, source );
+		return 1;
+        endif
+ 
+        return 1;
+endfunction
+
+function Healer_Resurrect( npc, source )
+
+        if( GetObjProperty( source, "PriestUpset" ))
+		AI_Speak( npc, "Hahah I see that thee was finally killed, that is what thee deserved!" );
+		Sleep( 2 );
+		AI_Speak( npc, "After what he did in the past against the holy Virtues!" );
+		return 0;
+        endif
+        
+	if( !ResurrectionGump( source ))
+                return 1;
+	endif
+
+        return 1;
+endfunction

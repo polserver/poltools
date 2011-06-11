@@ -1,0 +1,8 @@
+include ":newcharacter:newCharacter";
+
+program OnDelete(who)
+	var data_file := NC_GetDataFile();
+	data_file.DeleteElement(Hex(who.serial));
+	
+	return 1;
+endprogram

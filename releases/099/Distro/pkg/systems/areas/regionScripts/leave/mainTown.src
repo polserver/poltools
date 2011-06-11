@@ -1,0 +1,15 @@
+/*
+        Created by *Edwards
+        
+        2009-10-06
+*/
+use uo;
+
+program EnterRegionZone( mobile, region_name )
+
+        region_name := region_name; //Avoid compiler warnings
+
+	SendSysMessage( mobile, "You have left the protection of the main town guards.", 3, 50 );
+
+        return 1;
+endprogram

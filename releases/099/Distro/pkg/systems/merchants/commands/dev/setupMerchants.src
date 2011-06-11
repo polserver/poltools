@@ -1,0 +1,30 @@
+/*
+        Created by *Edwards
+
+        2009-02-21
+*/
+use uo;
+use os;
+use polsys;
+use vitals;
+
+include ":gumps:yesno";
+include ":gumps:requestgump";
+include "include/security";
+
+program textcmd_spawnMerchantsC(mobile)
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        EraseGlobalProperty( "MerchantInitialized" );
+
+        var script := Start_Script(":merchants:initializer/firstRun");
+        if ( script.errortext )
+	        SysLog("Error starting merchant initializer ->"+script.errortext);
+        endif
+
+        return 1;
+endprogram

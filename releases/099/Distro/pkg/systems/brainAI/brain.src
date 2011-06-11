@@ -1,0 +1,90 @@
+/*
+        Maintened by *Edwards
+        
+        2009-10-10
+        
+        Last Modifications 2009-10-26
+             * Added NPC_SetupTamed();;
+        
+        NPC AI-Script to control all non-setup actions. Acts as the "brain"
+        and fires off external scripts that act as the "nerves" of the NPC.
+*/
+use uo;
+use os;
+use npc;
+use cfgfile;
+use polsys;
+use vitals;
+
+include "include/sysEvent";
+include ":brainAI:braincore/cycleScript";
+include ":brainAI:braincore/error";
+include ":brainAI:braincore/eventProcessor";
+include ":brainAI:braincore/movement";
+include ":brainAI:braincore/setup";
+include ":brainAI:braincore/sleep";
+include ":brainAI:eventid";
+include ":brainAI:npcCommands";
+include ":brainAI:npcError";
+include ":brainAI:npcNerves";
+include ":brainAI:npcSettings";
+include ":brainAI:npcScripts";
+include ":brainAI:npcUtil";
+include ":brainAI:tamedUtil";
+
+var npc := Self();
+var idle_ticks := 0;
+var sleep_mode := 0;
+var master := 0;
+
+//Would be nice in future pol releases if these could be handled
+//as references rather than copies within the brain and nerves.
+
+var g_settings := dictionary; //"setting name"->value
+var g_scripts := dictionary; // "script type"->value{.flags, .script}
+
+program BrainAI()
+ 
+        master := NPC_SetupTamed();
+        
+	InitializeSettings();
+	InitializeEvents();
+ 
+	StartupScripts();
+
+        npc.speech_color := 55;
+        
+        var speed := CInt( npc.run_speed * 0.90 );
+        npc.run_speed := speed;
+
+	Sleep(1);
+ 
+	while( npc )
+		var ev;
+		if( !sleep_mode )
+			RunCycleScript();
+			ev := Wait_For_Event( CInt( g_settings["CycleWait"] ));
+		else
+			ev := Wait_For_Event( CInt( g_settings["SleepWait"] ));
+		endif
+
+		if( ev )
+			if( ev.WakeUp )
+				LeaveSleepMode();
+			endif
+
+			ProcessEvent( ev );
+		else
+			if( !sleep_mode )
+				idle_ticks += 1;
+				if( ShouldSleep() )
+					EnterSleepMode();
+				endif
+			endif
+		endif
+  
+                SleepMS(10);
+	endwhile
+ 
+        return 1;
+endprogram

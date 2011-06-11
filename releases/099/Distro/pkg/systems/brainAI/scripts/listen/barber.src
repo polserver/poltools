@@ -1,0 +1,87 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-12
+
+        Last Modifications 2009-12-21
+             * Added check if player hidden or NPC to return 0
+
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":containers:storageAreas";
+include ":containers:containers";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+
+        return 1;
+endprogram
+
+function SpeechEvent( npc, byref event )
+
+        if( event.source.hidden || event.source.IsA( POLCLASS_NPC ))
+		return 1;
+        endif
+        
+	var text := Lower(event.text);
+	var source := event.source;
+
+	if( source.IsA( POLCLASS_NPC ))
+		// Remember - NPCs can send speech events now.
+		return 0;
+	elseif( !CheckLineOfSight( npc, event.source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
+
+	if( text["help"] )
+		AI_Speak( npc, "I will obey the following orders:" );
+                Sleep(2);
+                AI_Speak( npc, "buy" );
+		return 1;
+	elseif( text["buy"] )
+		AI_Turn( npc, source, NETURN_TOWARD );
+  
+		var parms := array;
+		    parms[1] := npc;
+		    parms[2] := source;
+     	            parms[3] := source;
+                  
+                var start := start_script( ":hair:barber/hairStyle", parms );
+                if( start.errortext )
+                       AI_Speak(npc, "Error starting hairStyle -->"+start.errortext );
+                       return 0;
+                endif
+	endif
+
+	return 1;
+endfunction

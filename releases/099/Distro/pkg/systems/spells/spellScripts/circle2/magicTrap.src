@@ -1,0 +1,39 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":traps:traps";
+
+program SpellScript_MagicTrap( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+ 
+	var traps := GetTrapList( targ );
+	if( !targ.IsA( POLCLASS_CONTAINER ))
+		SendSysMessage( mobile, "This spell wont work on that!" );
+		return 0;
+        elseif( Len( traps ))
+                SendSysMessage( mobile, "This container is already trapped!" );
+                return 0;
+	endif
+	
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+	
+	var amount := SPELL_MathDamage( mobile, targ, circle );
+	AddTrap( targ, "magicTrap", amount );
+	
+	return 1;
+endprogram

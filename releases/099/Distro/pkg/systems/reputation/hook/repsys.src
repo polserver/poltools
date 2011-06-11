@@ -1,0 +1,100 @@
+/*
+        Maintened by *Edwards
+        
+        2008-12-02
+*/
+use uo;
+use os;
+use cfgfile;
+
+enum NPCALIGNMENT
+	ALIGNMENT_NEUTRAL 	:= 0,
+	ALIGNMENT_EVIL		:= 1,
+	ALIGNMENT_GOOD		:= 2
+endenum
+
+// Stored as globals because hook scripts handle them in a special way.
+var g_name_colors, g_general_elem;
+
+program Install()
+
+	Set_Critical(1);
+
+	var rep_cfg := ReadConfigFile( "::repsys" );
+	if( !rep_cfg )
+		return 0;
+	endif
+
+	g_name_colors := rep_cfg["NameColoring"];
+	if( !g_name_colors )
+		return 0;
+	endif
+
+	Set_Critical(0);
+
+	return 1;
+endprogram
+
+exported function NameColor( mobile, seen_by )
+
+	var color := 0;
+
+	if( mobile.master )
+		return NameColor( mobile.master, seen_by );
+        elseif( GetObjProperty( mobile, "NPCBoss" ))
+		color := GetConfigInt( g_name_colors, "NPCBoss" );
+	elseif( mobile.murderer || mobile.alignment == ALIGNMENT_EVIL )
+		color := GetConfigInt( g_name_colors, "Murderer" );
+	elseif( mobile.criminal || mobile.alignment == ALIGNMENT_NEUTRAL )
+		color := GetConfigInt( g_name_colors, "Criminal" );
+	elseif(( mobile.guildid == seen_by.guildid ) && mobile.guildid )
+		color := GetConfigInt( g_name_colors, "GuildAlly" );
+        elseif(( seen_by.guild ).IsAllyGuild( mobile.guild ))
+		color := GetConfigInt( g_name_colors, "GuildAlly" );
+        elseif(( seen_by.guild ).IsEnemyGuild( mobile.guild ))
+                color := GetConfigInt( g_name_colors, "GuildEnemy" );
+	elseif( mobile.Enabled( "invul" ))
+		color := GetConfigInt( g_name_colors, "Invulnerable" );
+        elseif( GetObjProperty( mobile, "HookColor" ))
+		color := GetObjProperty( mobile, "HookColor" );
+	else
+		color := GetConfigInt( g_name_colors, "Innocent" );
+	endif
+
+	if( color.errortext )
+		SysLog( "NameColor() - "+color.errortext );
+	endif
+
+	return CInt( color );
+endfunction
+
+exported function HighLightColor( mobile, seen_by )
+
+	var color := 0;
+
+	if( mobile.master )
+		return HighLightColor( mobile.master, seen_by );
+        elseif( GetObjProperty( mobile, "NPCBoss" ))
+		color := GetConfigInt( g_name_colors, "NPCBossHighLight" );
+	elseif( mobile.murderer || mobile.alignment == ALIGNMENT_EVIL )
+		color := GetConfigInt( g_name_colors, "MurdererHighLight" );
+	elseif( mobile.criminal || mobile.alignment == ALIGNMENT_NEUTRAL )
+		color := GetConfigInt( g_name_colors, "CriminalHighLight" );
+	elseif(( mobile.guildid == seen_by.guildid ) && mobile.guildid )
+		color := GetConfigInt( g_name_colors, "GuildAllyHighLight" );
+        elseif(( seen_by.guild ).IsAllyGuild( mobile.guild ))
+		color :=GetConfigInt( g_name_colors, "GuildAllyHighLight" );
+        elseif(( seen_by.guild ).IsEnemyGuild( mobile.guild ))
+                color :=GetConfigInt( g_name_colors, "GuildEnemyHighLight" );
+	elseif( mobile.Enabled( "invul" ))
+		color := GetConfigInt( g_name_colors, "InvulnerableHighLight" );
+	else
+		color := GetConfigInt( g_name_colors, "InnocentHighLight" );
+	endif
+
+	if( color.errortext )
+		SysLog( "HighLightColor() - "+color.errortext );
+	endif
+
+	return CInt( color );
+endfunction

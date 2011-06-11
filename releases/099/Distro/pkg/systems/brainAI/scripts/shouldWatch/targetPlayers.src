@@ -1,0 +1,35 @@
+/*
+        Maintained by *Edwards
+
+        2009-10-10
+
+        Last Modifications 2010-01-07
+             * Fixed Peacemaking check
+*/
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve( params )
+
+	var npc := params[1];
+	var mobile := params[2];
+	//var settings := params[3];
+	params := 0; // Not needed anymore
+
+	if( mobile.cmdlevel )
+		return 0;
+	elseif( mobile.IsA( POLCLASS_NPC ) && !mobile.master )
+		return 0;
+	elseif( GetObjProperty( npc, "#Peacemaking" ) >= ReadGameClock() )
+		return 0;
+        elseif( GetObjProperty( mobile, "#JustRess" ) >= ReadGameClock() )
+                return 0;
+	endif
+  
+	return 1;
+endprogram

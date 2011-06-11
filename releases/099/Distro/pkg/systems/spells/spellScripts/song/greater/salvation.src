@@ -1,0 +1,67 @@
+/*
+        Created by *Edwards
+
+        2010-02-04
+
+        Last Modifications 2010-02-16
+             * Changed: Now PP can cast song without bonuses..
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":death:resurrection";
+include ":musicianship:bard";
+
+program SpellScript_Salvation( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	//var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+        var instrument := CheckInstrument( mobile );
+        if( !instrument )
+                SendSysMessage( mobile, "You do not have any instruments to play!" );
+                return 0;
+        elseif( !cast_Song( mobile ))
+                FailSpell( mobile );
+                return 0;
+        elseif( !CheckStamina( mobile, info ))
+                FailSpell( mobile, "You don't have enough stamina to cast that spell!" );
+                return 0;
+        endif
+
+        SleepMS( CInt( instrument.InstrumentDelay() ));
+
+        var musicianship := AP_GetSkill( mobile, MUSICIANSHIP ),
+	    area_size := CInt( musicianship / 15 ) + 1,
+	    excludes := array{ mobile.serial };
+
+	SPELL_PlaySpellSFX( info.spell_id, mobile );
+
+	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
+	foreach vtarg in targs
+		SleepMS(5);
+
+                if( !vtarg.dead || vtarg.hidden || vtarg.concealed || vtarg.multi )
+			continue;
+                elseif( vtarg.IsA( POLCLASS_NPC ))
+			continue;
+                elseif( !CheckLineOfSight( mobile, vtarg ))
+			continue;
+                endif
+
+                if( !ResurrectionGump( vtarg ))
+                        continue;
+                endif
+	endforeach
+
+	return 1;
+endprogram
