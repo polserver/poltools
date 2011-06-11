@@ -1,0 +1,84 @@
+/*
+        Maintened by *Edwards
+
+        2008-06-16
+
+        Last Modification 2009-01-14
+             * Moved funcions in a new script
+             
+        Last Modification 2009-01-15
+             * Removed report include and modified by Broadcast()
+
+        Last Modification 2009-10-30
+             * Added VerifyServerUptime()
+*/
+use uo;
+use os;
+use util;
+
+include ":statistics:account";
+include ":timeutils:gameTime";
+include ":timeutils:time";
+
+program statistics_Logon( mobile )
+
+        VerifyShardMaxCounter();
+        RecordLogin( mobile );
+
+        var script := Start_Script( ":statistics:playTime/startTimer", mobile );
+        if( script.errortext )
+	       SendSysMessage( mobile, "Error starting script <:statistics:playTime/startTimer> -->"+script.errortext );
+               return 0;
+        endif
+
+        return 1;
+endprogram
+
+function VerifyShardMaxCounter()
+
+	var count := 0;
+	foreach person in EnumerateOnlineCharacters()
+		if( person.cmdlevel < 1 )
+			count += 1;
+		endif
+                SleepMS(10);
+	endforeach
+
+	var max_count := CInt( GetGlobalProperty( "MaxPlayers" ));
+	if( count > max_count )
+                SetGlobalProperty( "MaxPlayers", count );
+                Broadcast( "A new online player record has been reached! ["+GetGlobalProperty( "MaxPlayers" )+"]",3, 63 );
+	endif
+
+        return 1;
+endfunction
+
+function RecordLogin( mobile )
+
+	var record := GetAccountProperty( mobile.acctname, "Connection_Record" );
+	if( !record )
+		record := dictionary;
+	endif
+
+	//only record the last 10
+	var r_keys := record.keys();
+	if( r_keys.size() )
+		if( r_keys.size() > 10 )
+			record.erase( r_keys[1] );
+		endif
+	endif
+
+        var time_stamp := POLCore().systime;
+        var format_string := "%m-%d-%Y %I:%M:%S %p";
+        var time := StrFormatTime( format_string, CInt( time_stamp ));
+
+	var newlogon := {};
+            newlogon[1] := time;
+	    newlogon[2] := mobile.ip;
+	    newlogon[3] := mobile.name;
+
+	    record.insert( ReadGameClock(), newlogon );
+	    SetAccountProperty( mobile.acctname, "Connection_Record", record );
+
+        return 1;
+endfunction

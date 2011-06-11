@@ -1,0 +1,125 @@
+/*
+        Maintened by *Edwards
+
+        2008-06-16
+        
+        Last Modifications 2008-11-03
+*/
+use uo;
+use os;
+use http;
+
+include ":timeutils:gameTime";
+include ":statistics:account";
+
+program GetPlaytimeInformation()
+
+	WriteHTML ("<html><head><title>Account Playtime Information</title></head>");
+	WriteHTML ("<body bgcolor=\"#dcdeed\">");
+	
+	var month := Lower( QueryParam( "month" ));
+	var year := QueryParam( "year" );
+	if( !month || !year )
+		WriteHTML( "<form method=GET action=playtime_info.ecl>" );
+		WriteHTML( "Select a month and year to display information for:<p>" );
+		WriteHTML( "<select name=\"month\">" );
+		WriteHTML( "<option>April</option>" );
+		WriteHTML( "<option>May</option>" );
+		WriteHTML( "<option>June</option>" );
+		WriteHTML( "<option>July</option>" );
+		WriteHTML( "<option>August</option>" );
+		WriteHTML( "<option>September</option>" );
+		WriteHTML( "<option>October</option>" );
+		WriteHTML( "<option>November</option>" );
+		WriteHTML( "<option>December</option>" );
+		WriteHTML( "</select>" );
+		WriteHTML( "<select name=\"year\">" );
+		WriteHTML( "<option>2010</option>" );
+		WriteHTML( "</select>" );
+		WriteHTML( "<input id=submit1 name=submit1 type=submit value=Search>" );
+		WriteHTML( "</form>" );
+		WriteHTML( "</body></html>" );
+		return;
+	endif
+
+	var searchstring := year+"_"+month+"_play_time";
+	
+	WriteHTML ("<h3>Playtimes for "+month+", "+year+"</h3>");
+ 
+	var active_acct_counter := 0;
+	var total_monthly_playtime := 0;
+	var monthly_under_10_hours := 0;
+	var monthly_10_to_25_hours := 0;
+	var monthly_25_to_50_hours := 0;
+	var monthly_50_to_75_hours := 0;
+	var monthly_75_to_100_hours := 0;
+	var monthly_over_100_hours := 0;
+	
+	var acctdict := dictionary;
+	
+	foreach account in ListAccounts()
+                var acct := account;
+     		var monthly_online_time := GetAccountProperty( acct, searchstring );
+                if( monthly_online_time && monthly_online_time > 0 )
+	               active_acct_counter += 1;
+	               total_monthly_playtime += monthly_online_time;
+
+		       var hours := SecondsToHours( monthly_online_time );
+		       if( hours >= 100 )
+			      monthly_over_100_hours += 1;
+		       elseif ( hours >= 75 )
+			      monthly_75_to_100_hours += 1;
+		       elseif ( hours >= 50 )
+			      monthly_50_to_75_hours += 1;
+		       elseif ( hours >= 25 )
+			      monthly_25_to_50_hours += 1;
+		       elseif ( hours >= 10 )
+			      monthly_10_to_25_hours += 1;
+		       else
+			      monthly_under_10_hours += 1;
+		       endif
+
+		       acctdict[acct] := monthly_online_time;
+	       endif
+               SleepMS(10);
+	endforeach
+	
+	WriteHTML( "<p>Total active accounts this month: "+active_acct_counter );
+	WriteHTML( "<p>Total playtime this month: "+SecondsToHours( total_monthly_playtime )+" hours" );
+	
+	WriteHTML( "<table border=1>");
+	WriteHTML( "<tr><td>Over 100 hours</td><td>"+monthly_over_100_hours+"</td></tr>" );
+	WriteHTML( "<tr><td>75 to 100 hours</td><td>"+monthly_75_to_100_hours+"</td></tr>" );
+	WriteHTML( "<tr><td>50 to 75 hours</td><td>"+monthly_50_to_75_hours+"</td></tr>" );
+	WriteHTML( "<tr><td>25 to 50 hours</td><td>"+monthly_25_to_50_hours+"</td></tr>" );
+	WriteHTML( "<tr><td>10 to 25 hours</td><td>"+monthly_10_to_25_hours+"</td></tr>" );
+	WriteHTML( "<tr><td>Under 10 hours</td><td>"+monthly_under_10_hours+"</td></tr>" );
+	WriteHTML( "</table>" );
+	WriteHTML( "<br /><br /><br /><br /><br />" );
+	
+	WriteHTML( "<table border=1>" );
+	
+	var countto := Len( acctdict.keys() );
+	for i:=1 to countto
+		var current_highest := 0;
+		var current_acctname := "";
+		foreach key in ( acctdict.keys() )
+			if( acctdict[key] > current_highest )
+				current_highest := acctdict[key];
+				current_acctname := key;
+			endif
+                        SleepMS(10);
+		endforeach
+                var time := GetAccountProperty( current_acctname, searchstring );
+		WriteHTML ("<tr><td>"+i+"</td><td>Account: ["+current_acctname+"]</td><td>"+TIME_GetTimeDesc( time )+"</td></tr>");
+		acctdict.erase( current_acctname );
+	endfor
+	
+	WriteHTML ("</table>");
+	WriteHTML ("</body></html>");
+endprogram
+
+function SecondsToHours( amount )
+
+	return CInt( amount / 3600 );
+endfunction
