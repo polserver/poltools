@@ -1,0 +1,90 @@
+/*
+        Created by *Edwards
+
+        2010-07-04
+*/
+use uo;
+use os;
+
+include ":newcharacter:newCharacter";
+include ":onlineCount:settings";
+
+program CheckMobileName( who )
+
+	while( who.connected )
+                if( ValidName( who ))
+                	break;
+                endif
+                
+                SleepMS(5);
+		var new_name := CStr( SendTextEntryGump( who, "Your name is already used or invalid. Enter a new name.", TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 16 ));
+                if( !new_name )
+     		        continue;
+                elseif( Len( new_name ) < 3 )
+     		        continue;
+                endif
+
+		SetName( who, new_name );
+	endwhile
+
+        FixName( who );
+
+	return 1;
+endprogram
+
+function ValidName( who )
+
+        if( !Check_ValidChar( who.name, 1 ))
+                SetObjProperty( who, "NameAlreadyUsed", 1 );
+                return 0;
+        endif
+        
+        foreach acctname in ( ListAccounts() )
+                var acct := FindAccount( acctname );
+                for counter := 1 to 5
+                        SleepMS(5);
+
+                        var char := acct.GetCharacter( counter );
+     		        if( char )
+                                if( char.serial == who.serial )
+                                        continue;
+                                elseif( Lower( char.name ) == Lower( who.name ))
+					SetObjProperty( who, "NameAlreadyUsed", 1 );
+					return 0;
+			        endif
+     		        endif
+   	        endfor
+                SleepMS(5);
+        endforeach
+
+        var bots_name := OC_GetnameList();
+        foreach name in bots_name
+                if( Lower( name ) == Lower( who.name ))
+                        SetObjProperty( who, "NameAlreadyUsed", 1 );
+                        return 0;
+                endif
+                SleepMS(5);
+        endforeach
+
+        EraseObjProperty( who, "NameAlreadyUsed" );
+
+	return 1;
+endfunction
+
+function FixName( who )
+
+        var who_name := TruncateArticle( who.name ),
+            split_name := SplitWords( who_name );
+
+        foreach name in ( split_name )
+                who_name[name] := UCFirst( name );
+
+                SleepMS(5);
+        endforeach
+        
+        who_name := RemoveSpaces( who_name, CLR_LEADING_SPACES+CLR_TRAILING_SPACES+CLR_DOUBLE_SPACES );
+
+        SetName( who, who_name );
+
+        return 1;
+endfunction

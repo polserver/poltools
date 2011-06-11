@@ -1,0 +1,93 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":damage:damage";
+
+program SpellScript_MeteorSwarm( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	//var targ := params[3];
+        var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+ 
+        var delay := 15 * ClasseBonus( mobile, MAGE );
+ 
+        var center := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, 0xeed, 1, mobile.realm );
+        center.graphic := 1;
+        
+        var i;
+        for( i:=delay; i>0; i-=1 )
+                var fire_x := center.x + RandomInt(15) - 7,
+                    fire_y := center.y + RandomInt(15) - 7;
+                
+                var item := CreateItemAtLocation( fire_x, fire_y, mobile.z, 0xeed, 1, mobile.realm );
+                item.graphic := 1;
+                
+                SPELL_PlaySpellSFX( info.spell_id, mobile );
+                PlayMovingEffectXYZ( item.x, item.y, item.z+80, item.x, item.y, item.z, 0x36d4, 0x18, 0x3C30, 0, item.realm );
+                DestroyItem( item );
+                
+                if( GetObjProperty( mobile, MAGE ) >= 4 )
+                         var fire_x2 := center.x + RandomInt(15) - 7,
+                             fire_y2 := center.y + RandomInt(15) - 7;
+                             
+                         var item2 := CreateItemAtLocation( fire_x2, fire_y2, mobile.z, 0xeed, 1, mobile.realm );
+                         item2.graphic := 1;
+                         
+                         PlayMovingEffectXYZ( item2.x, item2.y, item2.z+80, item2.x, item2.y, item2.z, 0x3C30, 0x18, 0x10, 0, item2.realm );
+                         DestroyItem( item2 );
+                endif
+                
+                SendMeteorSwamDamage( mobile, circle, center );
+                SleepMS( 200 );
+        endfor
+        
+        DestroyItem( center );
+        
+        return 1;
+endprogram
+
+function SendMeteorSwamDamage( mobile, circle, center )
+
+        // Get all targets in area excluding party and self. Damaged is divided by number of valid targets.
+	var area_size := ( CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1 ) * 2;
+        var excludes := array{ mobile.serial };
+        
+	var targs := SPELL_GetValidTargets( center, area_size, 1, excludes );
+	foreach vtarg in targs
+		SleepMS(5);
+
+                if( vtarg.dead || vtarg.hidden || vtarg.concealed )
+			continue;
+                elseif( !CheckLineOfSight( mobile, vtarg ))
+			continue;
+                elseif( vtarg.IsA( POLCLASS_NPC ) && vtarg.master == mobile )
+			continue;
+                elseif( SPELL_Reflected( mobile, vtarg, circle ) == "Reflected" )
+			continue;
+                endif
+  
+		var amount := SPELL_GetResist( mobile, vtarg, circle, SPELL_MathDamage( mobile, circle ));
+                    
+                var protection := SPELL_GetImmunity( mobile, vtarg, circle );
+	        if( protection == "Immuned" )
+		       continue;
+                elseif( protection == "Cursed" )
+                       amount *= 1.50;
+	        endif
+
+                SPELL_ApplyDamage( vtarg,( amount / 20 ) + 1, "MeteorSwarm", mobile, DMG_FIRE );
+	endforeach
+
+	return 1;
+endfunction

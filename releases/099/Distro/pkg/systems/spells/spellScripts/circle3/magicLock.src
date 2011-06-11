@@ -1,0 +1,60 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-26
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include ":areas:managment";
+include ":keys:key";
+include ":spells:spells";
+
+program SpellScript_MagicLock( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+        if( !targ )
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+       	elseif( !useItem_check( mobile, targ, DEFAULT_ITEM ))
+		return 0;
+	elseif( targ.locked )
+		SendSysMessage( mobile, "That object is already locked." );
+		return 0;
+	elseif( !KP_IsLockable( targ ))
+		SendSysMessage( mobile, "That is not lockable." );
+		return 0;
+        elseif( targ.IsA( POLCLASS_DOOR ) && targ.multi )
+                SendSysMessage( mobile, "The Gods frown locking this door!" );
+                return 0;
+        elseif( GetObjProperty( targ, "NoLockpick" ))
+                SendSysMessage( mobile, "It's seem to be magically protected." );
+                return 0;
+        elseif( A_IsInArea( targ, "Britannia-Dungeons", 1 ))
+                SendSysMessage( mobile, "It's seem to be magically protected here." );
+                return 0;
+	endif
+ 
+        var lock_level := CInt( GetObjProperty( mobile, MAGE ));
+        if( !lock_level )
+                lock_level := 1;
+        endif
+        
+        SetObjProperty( targ, "LockLevel", lock_level );
+
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	targ.locked := 1;
+ 
+        PrintTextAbove( targ, "*Locked*" );
+	
+	return 1;
+endprogram

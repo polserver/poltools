@@ -1,0 +1,63 @@
+/*
+        Maintened by *Edwards
+
+        2009-08-19
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":timedscripts:timedScripts";
+
+program SpellScript_SummonEarthElemental( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+
+        if( mobile.IsA( POLCLASS_NPC ))
+                var message := RandomInt(3) + 1;
+                case( message )
+                        1:	PrintTextAbove( mobile, "Awake, Lord of Earth!" );
+			        break;
+
+		        2:	PrintTextAbove( mobile, "Mud and stone, arise and walk!" );
+			        break;
+
+		        3:	PrintTextAbove( mobile, "I call upon the Lord of stones and earth to drive forth my foes!" );
+			        break;
+
+		        4:	PrintTextAbove( mobile, "Return to earth, "+targ.name+"!" );
+			        break;
+                endcase
+        endif
+
+        var summon := CreateNPCFromTemplate( ":AI_elemental:EarthLordElemental", targ.x, targ.y, targ.z, 0, targ.realm );
+	summon.facing := mobile.facing;
+
+	if( summon.errortext )
+		SendSysMessage( mobile, "Error summoning NPC [:AI_elemental:EarthLordElemental] -> "+summon.errortext );
+		return 0;
+	endif
+
+        SleepMS(100);
+        PerformAction( summon, 12 );
+
+        if( mobile.IsA( POLCLASS_NPC ))
+                SetObjProperty( summon, "GuardKill", 1 );
+        else
+                var duration := CInt( SPELL_GetDuration( mobile )  / 10 );
+                TS_StartTimer( summon, "Summon", duration, "", mobile );
+        endif
+
+	return 1;
+endprogram

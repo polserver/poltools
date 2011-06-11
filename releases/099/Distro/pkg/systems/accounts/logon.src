@@ -1,0 +1,25 @@
+/*
+        Maintened by *Edwards
+        
+        2008-11-03
+*/
+ 
+use uo;
+use os;
+
+include ":accounts:accounts";
+
+program Logon( who )
+
+	ACCT_SetLastLogin( who.acct );
+ 
+        if( !CheckForMaxClientsOnline( who ))
+                SysLog( "LoginAccount() Error: trying to login too many accounts." );
+                DisconnectClient( who );
+                return 0;
+        endif
+        
+        VerifyStaffOnline( who );
+        
+	return 1;
+endprogram

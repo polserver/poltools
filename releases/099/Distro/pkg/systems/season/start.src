@@ -1,0 +1,22 @@
+/*
+        Created by *Edwards
+        
+        2010-01-17
+*/
+use uo;
+
+include ":season:season";
+
+program start_season()
+
+	Print(" Starting seasons setup... OK." );
+ 
+	var season := SetDataShardSeason();
+
+        foreach player in EnumerateOnlineCharacters()
+                SendSeasonForPlayer( player, season );
+                SleepMS(5);
+	endforeach
+
+	return 1;
+endprogram

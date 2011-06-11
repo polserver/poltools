@@ -1,0 +1,74 @@
+/*
+        Maintened by *Edwards
+        
+        2009-02-08
+*/
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":animaltaming:taming";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var event	:= params[3];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_MERCHANT_SOLD:
+					SoldEvent( npc, event );
+					break;
+				SYSEVENT_MERCHANT_BOUGHT:
+					BoughtEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+ 
+        return 1;
+endprogram
+
+function SoldEvent( npc, byref event )
+
+	PrintTextAbovePrivate( npc, "The total of thy purchase is "+event.amount, event.source, 3, npc.speech_color );
+
+        foreach item in EnumerateItemsInContainer( event.source.backpack )
+                if( item.IsAnimal() )
+                        var template := item.NPCTemplate(),
+			    creature := CreateNPCFromTemplate( template, event.source.x, event.source.y, event.source.z, 0, event.source.realm );
+       
+                        if( creature.errortext )
+                                 PrintTextAbove( npc, "Error creating <"+template+"> -->"+creature.errortext );
+                                 DestroyItem( item );
+                                 continue;
+                        endif
+                        
+                        npc.facing := event.source.facing;
+                        DestroyItem( item );
+
+                        tameCreature( creature, event.source );
+                endif
+		SleepMS(5);
+        endforeach
+
+	return 1;
+endfunction
+
+function BoughtEvent( npc, byref event )
+        
+	PrintTextAbovePrivate( npc, "The total of thy sell is "+event.amount, event.source, 3, npc.speech_color );
+
+	return 1;
+endfunction

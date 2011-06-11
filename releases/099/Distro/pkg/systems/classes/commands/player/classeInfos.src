@@ -1,0 +1,188 @@
+/*
+        Created by *Edwards
+
+        2009-02-15
+        
+        Last Modifications 2009-06-05
+             * Completed the system :)
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":attributes:attributes_ex";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include "include/string";
+include ":classes:classes";
+
+program Command_ClassesInfo( mobile, classe )
+
+	if( GetProcess( CInt( GetObjProperty( mobile, "#CmdClassePid" ))))
+		return 0;
+	else
+		SetObjProperty( mobile, "#CmdClassePid", GetPid() );
+	endif
+
+        SendMain( mobile, classe );
+
+        return 1;
+endprogram
+
+function SendMain( mobile, classe )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 650, 355 );
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 620, 25 );
+        GFTextMid( gump, 15, 17, 620, 1720, "Classe System" );
+
+        //Upper Background
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 620, 175 );
+
+        //Upper-Left Background
+        GFResizePic( gump, 15, 45, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 160, 175 );
+
+        var classes_list := ListClasses();
+	var y_pos := 60;
+
+	foreach classe in ( classes_list )
+
+		GFTextLine( gump, 50, y_pos, 2100, classe );
+		GFAddButton( gump, 30, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _classe_iter );
+
+		y_pos += 20;
+		SleepMS(5);
+	endforeach
+
+        if( classe )
+		Display_Description( gump, classe );
+		Display_ClasseInfo( gump, classe );
+        else
+                Display_GeneralInfo( gump );
+        endif
+
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                 return 0;
+        endif
+
+        input := input[0];
+        var option := classes_list[input];
+
+        SendMain( mobile, option );
+
+        return 1;
+endfunction
+
+function Display_Description( byref gump, classe )
+
+        var classe_name := CStr( GetName( Lower( classe ))),
+            classe_skills := GetClasseSkills( classe_name );
+            
+        if( !classe_skills )
+                return 0;
+        endif
+        
+        var iter := 8;
+        if( classe_name == PP )
+                iter := 49;
+        endif
+        
+        var text := "Skills: ";
+
+	for i:=1 to iter
+                if( i == 1 )
+                        text += classe_skills[i];
+                else
+                        text += ", "+classe_skills[i];
+                endif
+                SleepMS(5);
+	endfor
+
+        GFHTMLArea( gump, 15, 220, 620, 120, text, 1, 1 );
+
+        return gump;
+endfunction
+
+function Display_ClasseInfo( byref gump, classe )
+
+        var index_cfg := ReadConfigFile( ":classes:systemInfo" ),
+            classes_elem := index_cfg[classe],
+            info_list := GetConfigStringArray( classes_elem, "Info" );
+
+	var y_pos := 60;
+	foreach info in ( info_list )
+
+		GFTextLine( gump, 200, y_pos, 2100, "- "+info );
+
+		y_pos += 20;
+		SleepMS(5);
+	endforeach
+
+        return gump;
+endfunction
+
+function Display_GeneralInfo( byref gump )
+
+	GFTextLine( gump, 200, 60, 1720, "Level        Average          Total-Classe-Skill         %" );
+
+        GFTextLine( gump, 215, 95, 1720, "1" );
+        GFTextLine( gump, 305, 95, 2100, "75" );
+        GFTextLine( gump, 450, 95, 2100, "600" );
+        GFTextLine( gump, 585, 95, 2100, "60" );
+        
+        GFTextLine( gump, 215, 115, 1720, "2 " );
+        GFTextLine( gump, 305, 115, 2100, "90" );
+        GFTextLine( gump, 450, 115, 2100, "720" );
+        GFTextLine( gump, 585, 115, 2100, "68" );
+        
+        GFTextLine( gump, 215, 135, 1720, "3" );
+        GFTextLine( gump, 305, 135, 2100, "105" );
+        GFTextLine( gump, 450, 135, 2100, "840" );
+        GFTextLine( gump, 585, 135, 2100, "76" );
+        
+        GFTextLine( gump, 215, 155, 1720, "4" );
+        GFTextLine( gump, 305, 155, 2100, "120" );
+        GFTextLine( gump, 450, 155, 2100, "960" );
+        GFTextLine( gump, 585, 155, 2100, "84" );
+        
+        GFTextLine( gump, 215, 175, 1720, "5" );
+        GFTextLine( gump, 305, 175, 2100, "135" );
+        GFTextLine( gump, 450, 175, 2100, "1080" );
+        GFTextLine( gump, 585, 175, 2100, "92" );
+        
+        GFTextLine( gump, 215, 195, 1720, "6" );
+        GFTextLine( gump, 305, 195, 2100, "150" );
+        GFTextLine( gump, 450, 195, 2100, "1200" );
+        GFTextLine( gump, 585, 195, 2100, "100" );
+
+        var text := "Classes in Fantasia are subsets of skills specializing in a particular
+                     game-play style. To obtain classed status a player must achieve a total skill
+                     requirement and a overall skill percentage requirement for the chosen class.
+                     A classed player receives both class bonuses and penalties, which increase
+                     proportionally to the players classed level. The maximum base level that can
+                     be achieved is level 6, with a total of 1200 skill points. However, it is
+                     possible to achieve level 6 in your class with the use of skill bonus from
+                     magical items.";
+
+        var text_result := "";
+        foreach line in ( GFWordWrap( text, 570 ))
+                text_result += line+" ";
+		SleepMS(5);
+        endforeach
+        
+        GFHTMLArea( gump, 15, 220, 620, 120, text_result, 1, 1 );
+
+        return gump;
+endfunction
+
+function ListClasses()
+
+        var index_cfg := ReadConfigFile( ":classes:systemInfo" );
+        var classes_elem := index_cfg["Classes"];
+
+        return GetConfigStringArray( classes_elem, "Classe" );
+endfunction

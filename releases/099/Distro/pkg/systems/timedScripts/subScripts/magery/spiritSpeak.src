@@ -1,0 +1,27 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-14
+
+        Last Modifications 2009-12-09
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_SpiritSpeak( params )
+
+	var defender := params[1];
+	    //attacker := params[2],
+	    //points := params[3];
+	    params := 0;
+
+	defender.Enable( "hearghosts" );
+	GrantPrivilege( defender, "hearghosts" );
+ 
+        SetObjProperty( defender, "#SpiritSpeak", 1 );
+	
+	return 1;
+endprogram
+

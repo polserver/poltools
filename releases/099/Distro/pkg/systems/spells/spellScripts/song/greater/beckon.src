@@ -1,0 +1,57 @@
+/*
+        Created by *Edwards
+
+        2010-02-04
+
+        Last Modifications 2010-02-16
+             * Changed: Now PP can cast song without bonuses..
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":timedscripts:timedScripts";
+include ":musicianship:bard";
+
+program SpellScript_Beckon( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+        var instrument := CheckInstrument( mobile );
+        if( !instrument )
+                SendSysMessage( mobile, "You do not have any instruments to play!" );
+                return 0;
+        elseif( !cast_Song( mobile ))
+                FailSpell( mobile );
+                return 0;
+        elseif( !CheckStamina( mobile, info ))
+                FailSpell( mobile, "You don't have enough stamina to cast that spell!" );
+                return 0;
+        endif
+
+        SleepMS( CInt( instrument.InstrumentDelay() ));
+        
+        var template := ":ai_wisp:Wisp";
+        var summoned := CreateNPCFromTemplate( template, targ.x, targ.y, targ.z );
+	if( summoned.errortext )
+		SendSysMessage( mobile, "Error couldn't create template <"+template+"> -->"+summoned.errortext );
+                return 0;
+	endif
+
+	summoned.facing := mobile.facing;
+
+	var duration := SONG_GetDuration( mobile );
+ 
+	TS_StartTimer( summoned, "Summon", duration, template, mobile );
+
+	return 1;
+endprogram

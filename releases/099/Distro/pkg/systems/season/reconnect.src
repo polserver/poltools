@@ -1,0 +1,17 @@
+/*
+        Created by *Edwards
+        
+        2010-01-17
+*/
+use uo;
+
+include ":season:season";
+
+program season_Reconnect( mobile )
+
+        var season := GetDataShardSeason();
+        
+        SendSeasonForPlayer( mobile, season );
+
+	return 1;
+endprogram

@@ -1,0 +1,112 @@
+/*
+        Created by *Edwards
+
+        2008-10-03
+
+        Last Modifications 200/-12-12
+             * CmdLevel won't appeir in the list anymore
+             * Will remove the reportables if click Okay
+             * Gump cannot close by mouse
+
+        Original Idea developed by ZuluHotel
+
+        Last Modifications 2008-12-14
+             * Mobile get +1 kill with bounty system if reported murderer
+
+        Last Modifications 2009-10-19
+             * Cleaned codes for better performances
+*/
+use uo;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":bountyBoard:bounty";
+
+program DeathScript( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+        
+        GFClosable( gump, 0 );
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 350, 425 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 25 );
+	GFTextMid( gump, 15, 17, 320, 1720, "Report Murder" );
+
+        //BackgroundAreas
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 320, 370 );
+        GFTextMid( gump, 15, 60, 320, 1720, "Now is the time for retribution!" );
+        GFTextMid( gump, 15, 80, 320, 1153, "Check zero or more players" );
+        GFTextMid( gump, 15, 100, 320, 1153, "to report for your murder." );
+
+        //Okay Button
+        GFAddButton( gump, 150, 382, 2128, 2129, GF_CLOSE_BTN, 0xA00 );
+
+        var reportables := mobile.reportables,
+            num_report := reportables.Size();
+
+        GFPage( gump,  1 );
+
+        var y_pos := 140;
+	foreach entry in ( reportables )
+
+		GFTextLine( gump, 70, y_pos, 1153, entry.killer.name );
+                if( !entry.killer.cmdlevel )
+                         GFCheckBox( gump, 45, y_pos+5, 210, 211, 1, _entry_iter );
+                endif
+
+		y_pos := y_pos+20;
+
+                if( _entry_iter % 12 == 0 && _entry_iter < num_report )
+			GFAddButton( gump, 30, 348, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump,  gump.cur_page+1 );
+			GFAddButton( gump, 30, 95, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			y_pos := 140;
+		endif
+
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+
+        foreach key in ( input.keys )
+		if ( key >= 1 && key <= num_report )
+                         var value := reportables[key];
+                         mobile.removeReportable( value.serial, value.gameclock );
+
+                         var source := SystemFindObjectBySerial( value.serial );
+                         SendSysMessage( source, "You have been reported for murder!" );
+                         AdjustMurderCounts( source );
+		endif
+		SleepMS(2);
+	endforeach
+
+        foreach reportable in reportables
+	        mobile.removeReportable( reportable.serial, reportable.gameclock );
+		SleepMS(2);
+        endforeach
+
+        return 1;
+endprogram
+
+function AdjustMurderCounts( source )
+
+       var long_count := GetObjProperty( source, "#Murders" );
+       if( !long_count )
+	       long_count := 0;
+       endif
+
+       SetObjProperty( source, "#Murders", long_count + 1 );
+       AddMurder( source );
+
+       if( long_count > 2 )
+	        source.setMurderer(1);
+	        SendSysMessage( source, "You are now known as a murderer!" );
+                EraseObjProperty( source, "#Murders" );
+       endif
+
+       return 1;
+endfunction

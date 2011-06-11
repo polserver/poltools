@@ -1,0 +1,78 @@
+/*
+        Maintened by *Edwards
+
+        2008-05-22
+
+        Last Modifications 2009-10-12
+             * Cleaned codes for better performances
+
+        Last Modifications 2009-11-08
+             * Refresh vitals for npc is now called when sleep starts.. If we call refresh vitals
+               here, everytimes it sees nothing, it refresh.
+
+        Last Modifications 2009-12-21
+             * Fixed bug when NPC were never leaving lookAround nerve...
+*/
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+include ":classes:classes";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var nsettings	:= params[3];
+	var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( !npc.opponent && !npc.master )
+			if( NPC_LoadWatchList( npc ).Size() < 1 )
+				// No need to look around any longer. We're all alone :(
+				return AI_EndNerve( npc, nerve_name );
+			else
+				if( !FindOpponent( npc, nsettings, scripts ))
+					return AI_EndNerve( npc, nerve_name );
+				endif
+			endif
+                else
+			//return AI_EndNerve( npc, nerve_name );
+		endif
+
+		AI_ClearThoughts( npc, CLR_NERVE );
+		Sleep(1);
+	endwhile
+
+        return 1;
+endprogram
+
+function FindOpponent( npc, byref settings, byref scripts )
+
+	var attack_list := array;
+ 
+	foreach mobile in ( ListMobilesNearLocationEx( npc.x, npc.y, npc.z, CInt( settings["AreaSize"] ), LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, npc.realm ))
+		SleepMS(2);
+                if( !CheckLineOfSight( npc, mobile ))
+                        continue;
+                elseif( !NPC_IsInWatchList( npc, mobile ))
+                        continue;
+                elseif( !GetObjProperty( mobile, MAGE ))
+                        continue;
+                endif
+
+		attack_list.Append( mobile );
+	endforeach
+
+	if( attack_list.Size() > 0 )
+		var victim := attack_list.RandomEntry();
+		AI_Attack( npc, victim );
+		return victim;
+	endif
+
+	return 0;
+endfunction

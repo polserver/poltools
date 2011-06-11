@@ -1,0 +1,42 @@
+//Example: .resetnpcs -> Restarts the AI script of every npc on the shard.
+
+use uo;
+use os;
+use polsys;
+use vitals;
+
+include ":brainAI:npcCommands";
+include ":gumps:requestgump";
+include "include/security";
+include ":attributes:attributes";
+
+program textcmd_resetAllNPCs(who)
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	var realm_name := RequestGump(who, "Enter the realm name to perform the AI restarts on.", "", who.realm);
+	var realm_info := Realms()[realm_name];
+	if ( !realm_info )
+		SendSysMessage(who, "Invalid realm name.");
+		return 0;
+	endif
+	
+	SendSysMessage(who, "Starting NPC AI reset.");
+	
+	var x1 := 1, y1 := 1, x2 := realm_info.width, y2 := realm_info.height;
+	var z1 := -120, z2 := 120;
+	
+	foreach mobile in ListObjectsInBox( x1, y1, z1, x2, y2, z2)
+		if (mobile.npctemplate)
+			RestartScript(mobile);
+		endif
+		SleepMS(5);
+	endforeach
+	
+	SendSysMessage(who, "Done restarting all npcs.");
+	
+	return 1;
+endprogram

@@ -1,0 +1,22 @@
+/*
+        Created by *Edwards
+
+        Last Modifications 2009-12-09
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":damage:damage";
+
+program TimedScript_Agility( params )
+
+	var mobile := params[1];
+	    params := 0;
+
+        SetObjProperty( mobile, "GuardKill", 1 );
+	mobile.Kill();
+	
+	return 1;
+endprogram
+

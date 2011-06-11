@@ -1,0 +1,28 @@
+/*
+        Created by *Edwards
+
+        2011-04-09
+*/
+use uo;
+use os;
+
+include "include/security";
+
+program command_RestartWorldSaver( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var pid := CInt( GetGlobalProperty( "#WorldSaverPid" ));
+	var process := GetProcess( pid );
+
+	process.Kill();
+
+	Start_Script( ":worldsaver:worldSaver" );
+
+	SendSysMessage( who, "Done." );
+
+	return 1;
+endprogram

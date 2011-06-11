@@ -1,0 +1,24 @@
+/*
+        Maintened by *Edwards
+
+        2010-04-21
+*/
+use uo;
+use os;
+
+include "include/security";
+include ":spawnsystem:commonTasks";
+
+program command_RestartSpawner( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+        SS_RestartSpawner();
+
+	SendSysMessage( who, "Done." );
+
+	return 1;
+endprogram

@@ -1,0 +1,100 @@
+/*
+        Created by *Edwards
+
+        2009-12-28
+
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+
+include "include/facings";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+
+	return 1;
+endprogram
+
+function SpeechEvent( npc, byref event )
+
+	var source := event.source;
+        if( !CheckLineOfSight( npc, source ))
+		return 0;
+	elseif( source.dead )
+		return 0;
+	elseif( source.hidden || source.concealed )
+		return 0;
+        endif
+        
+        var text := Lower( event.text );
+
+	if( text["help"] )
+		AI_Speak( npc, "I will obey the following orders:" );
+                Sleep(2);
+                AI_Speak( npc, "news" );
+		return 1;
+	elseif( text["news"] )
+		SpoutTheNews( npc, source );
+	elseif( text["add"] && source.cmdlevel > 1 )
+		var news := SendTextEntryGump( source, "What should be the news?", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 100 );
+                if( !news )
+                	SendSysMessage( source, "Cancelled." );
+                	return 0;
+                endif
+                
+                var the_news := array{};
+                the_news.Append( news );
+                
+                SetObjProperty( npc, "News", the_news );
+	elseif( text["delete"] && source.cmdlevel > 1 )
+		EraseObjProperty( npc, "News" );
+	endif
+
+	return 1;
+endfunction
+
+function SpoutTheNews( npc, source )
+
+	var news := GetObjProperty( npc, "News" );
+	if( !news )
+                AI_Speak( npc, "No news is good news!" );
+		return 0;
+	endif
+ 
+	var i;
+	for( i:=1; i<=Len( news ); i+=1 )
+                TurnObjectToward( npc, source.x, source.y );
+                SleepMS(5);
+                AI_Speak( npc, news[i] );
+		Sleep(2);
+	endfor
+
+	return 1;
+endfunction

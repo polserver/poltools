@@ -1,0 +1,26 @@
+//Example: .puttosleep -> Puts targetted NPC to sleep.
+
+use uo;
+use os;
+
+include ":brainAI:npcCommands";
+include "include/security";
+
+program textcmd_putToSleep(who)
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	var targ := target(who);
+	if ( !targ.IsA(POLCLASS_NPC) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	else
+		AI_Sleep(targ);
+		SendSysMessage(who, "Done.");
+	endif
+	
+	return 1;
+endprogram

@@ -1,0 +1,44 @@
+/*
+        Maintained by *Edwards
+
+        2009-10-10
+
+        Last Modifications 2010-01-07
+             * Fixed Peacemaking check
+*/
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+include ":brainAI:npcUtil";
+
+program BrainNerve( params )
+
+	var npc := params[1];
+	var mobile := params[2];
+	//var settings := params[3];
+	params := 0; // Not needed anymore
+
+	if( mobile.cmdlevel )
+		return 0;
+	elseif( GetObjProperty( npc, "#Peacemaking" ) >= ReadGameClock() )
+		return 0;
+        elseif( GetObjProperty( mobile, "#JustRess" ) >= ReadGameClock() )
+                return 0;
+	elseif( mobile.npctemplate )
+		var hate_config := ReadConfigFile( ":brainAI:hatelist" );
+  
+		var config_list := FindConfigElem( hate_config, NPC_ParseTemplateName( npc.npctemplate ).template );
+		if( config_list == error )
+			return 0;
+		endif
+
+		var my_fear_list := GetConfigStringArray( config_list, "Fears" );
+		if( !( NPC_ParseTemplateName( mobile.npctemplate ).template in my_fear_list ))
+			return 0;
+		endif
+  
+		return 1;
+	endif
+ 
+	return 0;
+endprogram

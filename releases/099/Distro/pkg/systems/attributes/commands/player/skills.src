@@ -1,0 +1,13 @@
+/*
+        Created by *Edwards
+
+        2009-11-17
+*/
+use uo;
+
+program txtcommand_skills( mobile )
+
+	SendSysMessage( mobile, "Command is NO longer being used since all options are now supported by your main skills display on your paperdoll." );
+
+        return 1;
+endprogram

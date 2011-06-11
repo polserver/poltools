@@ -1,0 +1,69 @@
+//Example: .makeswarm [templateate] [radius] - Makes npcs on every tile in the radius around you.
+
+use uo;
+use os;
+use util;
+
+include ":gumps:requestgump";
+include "include/security";
+
+program MakeSwarm(who, text)
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var template:=0, radius:=0;
+	if ( text ) 
+		text := SplitWords(text);
+		template := text[1];
+		radius := CInt(text[2]);
+	endif
+		
+	if ( !template )
+		template := RequestGump(who, "Enter the npc template name to use.", "");
+		if ( !template )
+			SendSysMessage(who, "Cancelled.");
+			return 0;
+		endif
+	endif
+	if ( !radius )
+		if ( !radius )
+			radius := CInt(RequestGump(who, "Enter the radius to create npcs.", "", 1));
+		endif
+		if ( !radius )
+			SendSysMessage(who, "Radius is less than 1. Setting to 1.");
+			radius := 1;
+		endif
+	endif
+	if ( radius > 10 ) // 100 npcs
+		SendSysMessage(who, "Radius exceeds 10 spaces. Setting to 10.");
+		radius := 10;
+	endif
+	
+	var start_x := who.x - CInt(radius);
+	var start_y := who.y - CInt(radius);
+	var end_x := who.x + CInt(radius);
+	var end_y := who.y + CInt(radius);
+
+	var x := start_x, y := start_y;
+	var created := 0;
+	
+	for ( x:=start_x; x<=end_x; x+=1 )
+		for ( y:=start_y; y<=end_y; y+=1 )
+			var npc := CreateNPCFromTemplate(template, x, y, who.z, 0, who.realm);
+			if ( npc )
+				created += 1;
+			elseif ( npc.errortext )
+				Print(npc.errortext);
+			endif
+			
+			SleepMS(3);
+		endfor
+	endfor
+	
+	SendSysMessage(who, "Done making npc swarm. Created ["+created+"] ["+template+"] npcs.");
+	
+	return 1;
+endprogram        

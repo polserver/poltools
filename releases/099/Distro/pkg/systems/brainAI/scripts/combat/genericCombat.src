@@ -1,0 +1,73 @@
+/*
+        Maintained by *Edwards
+
+        2008-05-22
+
+        Last Modifications 2009-10-12
+             * Cleaned codes for better performances
+
+        Last Modifications 2009-11-08
+             * Fixed shouldFlee looping to infinite because doneFighting werent called before...
+
+        Last Modifications 2009-12-28
+             * Changed BattleCryWord now using arrays to determine the combat speech
+
+        Last Modifications 2010-02-24
+             * Added hidden check "*Spings from hiding!*"
+*/
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:commonFunctions";
+include ":attributes:attributes";
+include ":weapons:weaponInfo";
+include "include/facings";
+include ":damage:damage";
+
+var pathfind_ticker := 0;
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var event	:= params[3];
+	var bsettings	:= params[4];
+	var scripts	:= params[5];
+
+	NPC_SetuptCombat( npc );
+
+	var opponent := event.source;
+	AI_SetOpponent( npc, opponent );
+
+	var min_range, max_range;
+	NPC_WeaponRanges( npc, min_range, max_range );
+
+	while( npc )
+		var dist := Distance( npc, opponent );
+		if( DoneFighting( npc, opponent, dist, bsettings ))
+			if( scripts.Exists( "EndFight" ))
+				AI_StartNerve( npc, "EndFight", scripts["EndFight"].script, params );
+			else
+				AI_WarMode( npc, 0 );
+			endif
+			AI_EndNerve( npc, nerve_name );
+                        break;
+                elseif( ShouldFlee( npc, opponent, bsettings ))
+			AI_WarMode( npc, 0 );
+			AI_Move( npc, opponent.x, opponent.y, opponent.z, NEMOVE_AWAY, NEMOVE_RUN, 20 );
+		elseif( dist < min_range )
+			AI_Move( npc, opponent.x, opponent.y, opponent.z, NEMOVE_AWAY, NEMOVE_RUN, ( bsettings["MinRange"]-dist ));
+		elseif( dist > max_range )
+			AI_Move( npc, opponent.x, opponent.y, opponent.z, NEMOVE_TOWARD, NEMOVE_RUN, ( dist-bsettings["MaxRange"] ));
+		elseif( !IsFacing( npc, opponent.x, opponent.y ))
+			npc.facing := GetFacing(npc.x, npc.y, opponent.x, opponent.y);
+		endif
+
+		SleepMS(50);
+		AI_ClearThoughts( npc, CLR_NERVE );
+	endwhile
+
+        return 1;
+endprogram

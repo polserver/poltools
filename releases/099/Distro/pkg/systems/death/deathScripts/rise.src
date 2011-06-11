@@ -1,0 +1,42 @@
+/*
+        Maintened by *Edwards
+        
+        2008-06-11
+        
+        Last Modifications 2008-11-24
+
+        Last Modifications 2009-10-25
+             * Cleaned codes for better performances
+        
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+program rise( corpse )
+ 
+	var x := corpse.x,
+	    y := corpse.y,
+	    z := corpse.z,
+            realm := corpse.realm;
+
+        var npc_cfg := corpse.NPCTemplate(),
+	    template := npc_cfg.Rise,
+	    delay := npc_cfg.RiseDelay;
+
+	Sleep( delay );
+
+	if( corpse )
+		PrintTextAbove( corpse, "*the corpse begins to stir!*" );
+		SleepMS( 1500 );
+  
+		var creature := CreateNpcFromTemplate( template, x, y, z, 0, realm );
+		if( creature )
+			DestroyItem( corpse );
+		else
+                        SysLog( "Error rising new creature -->"+creature.errortext );
+                endif
+	endif
+ 
+        return 1;
+endprogram
