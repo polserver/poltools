@@ -1,0 +1,43 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use os;
+use uo;
+
+include ":gumps:requestgump";
+include "include/security";
+
+program command_rename(who, text)
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	var targ := TargetCoordinates( who );
+	if( !targ )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+        endif
+        
+        if( targ.item )
+                targ := targ.item;
+        elseif( targ.mobile )
+                targ := targ.mobile;
+        endif
+        
+	if( !text )
+		text := RequestGump( who, "New Name", "", "", CANCEL_BTN_ON );
+		if( !text || Len(text) < 1 )
+			SendSysMessage( who, "Cancelled." );
+			return 0;
+		endif
+	endif
+	
+	SetName( targ, text );
+        SetObjProperty( targ, "LFucker", who.serial );
+	
+	return 1;
+endprogram

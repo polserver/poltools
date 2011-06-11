@@ -1,0 +1,28 @@
+/*
+        Created by *Edwards
+
+        2009-09-23
+*/
+use uo;
+use os;
+
+program command_find_color( who, text )
+
+        var targ := Target( who ),
+            graphic := CInt( text );
+            
+        while( targ )
+        
+               SendSysMessage( who, "Graphic: "+graphic );
+               targ.graphic := graphic;
+               graphic += 1;
+               
+               if( graphic > 400 )
+                      break;
+               endif
+               
+               Sleep(1);
+        endwhile
+        
+	return 1;
+endprogram

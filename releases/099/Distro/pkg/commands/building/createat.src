@@ -1,0 +1,65 @@
+/*
+        Maintened by *Edwards
+
+        2008-05-30
+*/
+use uo;
+
+include ":gumps:requestgump";
+include "include/security";
+
+program textcmd_Create( who, text )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	var item, amount;
+
+	if( !text )
+		item := RequestGump( who, "Item ObjType or Name" );
+		if( !item )
+			SendSysMessage( who, "Cancelled" );
+			return 0;
+		endif
+		amount := CInt( RequestGump( who, "Amount to create" ));
+	else
+		text := SplitWords( text );
+		item := text[1];
+		amount := text[2];
+		if( !amount )
+			amount := 1;
+		endif
+	endif
+
+	amount := CInt( amount );
+	if( GetObjTypeByName( item ))
+		item := GetObjTypeByName( item );
+	else
+		item := CInt( item );
+	endif
+
+	if( !item )
+		SendSysMessage( who, "Syntax: .createat <objtype> (amount)" );
+		return 0;
+	endif
+
+	for( amount; amount > 0; amount := amount-1 )
+		var targ := TargetCoordinates( who );
+		var created := CreateItemAtLocation( targ.x, targ.y, targ.z, item, 1, who.realm );
+                SetObjProperty( created, "LFucker", who.serial );
+
+		if( !created )
+			SendSysMessage( who, "Error: Could not create "+Hex( item ));
+			return 0;
+		elseif( !targ )
+			SendSysMessage( who, "Cancelled" );
+			return 0;
+		endif
+	endfor
+
+	SendSysMessage( who, "Done." );
+ 
+	return 1;
+endprogram

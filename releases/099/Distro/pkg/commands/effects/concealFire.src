@@ -1,0 +1,24 @@
+/*
+        Created by *Edwards
+
+        2010-08-29
+*/
+use uo;
+use os;
+
+include "include/client";
+include "include/sounds";
+ 
+program textcmd_concealFire( who )
+
+ 	PlayObjectCenteredEffect( who, 0x3709, 0x0a, 0x1e );
+ 	PlayObjectCenteredEffect( who, GFX_EXPLODE_1, 7, 0x10 );
+	PlayObjectCenteredEffect( who, GFX_SMOKE, 7, 0x10 );
+	PlaySoundEffect( who,SFX_LIGHTNING );
+ 
+        SleepMS( 400 );
+        
+        who.concealed := who.cmdlevel;
+        
+        return 1;
+endprogram

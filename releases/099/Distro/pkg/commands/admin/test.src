@@ -1,0 +1,30 @@
+/*
+        Created by *Edwards
+
+        2010-05-18
+*/
+use uo;
+use os;
+
+
+program textcommand_summonSerial( mobile )
+
+/*var targ := target( mobile );
+        var house_serial := GetObjProperty( targ,  "house_serial" ),
+            house := SystemFindObjectBySerial( house_serial );
+            
+        house.setcustom(0);*/
+
+
+        mobile.multi.setcustom(1);
+        
+        var targ := target( mobile );
+        var house_serial := GetObjProperty( targ,  "house_serial" ),
+            house := SystemFindObjectBySerial( house_serial );
+            
+        var test := SendHousingTool( mobile, mobile.multi );
+        
+        SendSysMessage( mobile, "test "+test );
+        
+        return 1;
+endprogram

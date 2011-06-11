@@ -1,0 +1,393 @@
+////////////////////////////////////////////////////////
+//
+// Cprop Editor - ver 0.6
+//
+////////////////////////////////////////////////////////
+//
+// Created : Dougall
+//           27 Apr 02
+// Contact : dougalloogle@yahoo.com
+//
+//
+// Updated : *Edwards
+//           For FantasiaShard.com
+//           05 Apr 08
+// Contact : Edwards@FantasiShard.com
+//
+////////////////////////////////////////////////////////
+//
+// Notes:
+//
+//  - to use while online type: .propedit
+//    then target the item or mobile who's
+//    cprops you wish to view or edit.
+//
+//  - edit Cprop strings, doubles and integers
+//    directly into the gump.
+//
+//  - deals with the first 60 cprops on an object
+//    (you may be able to increase MAX_PAGES a little
+//    to deal with more if required)
+//
+//  - press the red flag in the top right corner
+//    to toggle the gump size (to help with larger
+//    Cprops)
+//
+//  - please send me an email if you find any bugs...
+//
+////////////////////////////////////////////////////////
+//
+// Warning & Disclaimer:
+//
+//	- !BE WARNED! It's really easy to make a mess of
+//    some pretty essential Cprops with this tool.
+//
+//  - Disclaimer: ...I didn't do it.....I wasn't there
+//    ....It wasn't me.... ....honest...
+//
+////////////////////////////////////////////////////////
+use uo;
+use os;
+
+include ":gumps:old/old-gumps";
+include "include/security";
+
+const GUMP_BACKGROUND := 2520;
+
+const MAX_X           := 600;
+
+var option_width      := 1;
+var hex_mod           := 1;
+
+program Prop_Editor( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( who, "Edit Cprops on what?" );
+
+        var thing := TargetCoordinates( who );
+        if( !thing )
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+        if( thing.item )
+                thing := thing.item;
+        elseif( thing.mobile )
+                thing := thing.mobile;
+        endif
+        
+        ReserveItem( thing );
+
+        while( SendCpropGump( who, thing ))
+                SleepMS(10);
+        endwhile
+
+        if( !thing )
+               SendSysMessage( who, "Item destroyed!" );
+        else
+               ReleaseItem( thing );
+        endif
+        
+        return 1;
+endprogram
+
+function SendCpropGump( who, thing )
+
+        //Read thing's props and apply gumps' settings
+        var prop_names := GetObjPropertyNames( thing );
+        var num        := len( prop_names );
+        var numpages   := 0;
+
+        while(( num > 0 ) or ( numpages == 0 ))
+               num -= 10;
+               numpages += 1;
+        endwhile
+
+        if( numpages > 6)
+               numpages := 6;
+        endif
+
+        var name := thing.name;
+        if( !name )
+               name := thing.desc;
+        endif
+
+        //Compose Cprop Page(s)...
+        var edit_cprop := array;
+        var delete_cprop := array;
+        var apply_buttons := array;
+        var add_buttons := array;
+
+        var hex_toggle;
+        var width_toggle;
+
+        ComposeMainPage( name, hex_toggle, width_toggle);
+
+        var page;
+        for( page:=1; page<=numpages; page+=1 )
+               ComposeCpropPage( page, thing, prop_names, edit_cprop, delete_cprop, apply_buttons, numpages );
+               SleepMS(5);
+        endfor
+
+        //Compose New/Erase Cprop Page(s)...
+        var set_propname;
+        var confirm_add;
+        var confirm_delete;
+
+        ComposeAddPropPage( numpages+1, set_propname, add_buttons, confirm_add );
+        ComposeConfirmDeletePage( numpages+2, confirm_delete );
+
+        var input := OLDGFSendGump( who );
+
+        //Setup the hex/int & width options
+        if( !thing )
+                return 0;
+        endif
+
+        if( input[hex_toggle] )
+             hex_mod := ( !hex_mod );
+             return 1;
+
+        elseif( input[width_toggle] );
+             option_width += 1;
+             if( !GetGumpWidth() )
+                    option_width := 1;
+             endif
+             return 1;
+        endif
+
+        //Adds the CProp wanted.
+        if( input[confirm_add] )
+             var prop_name := GetGumpText( input[set_propname] );
+             if( !prop_name )
+                     return 1;
+
+             elseif( GetObjProperty( thing, prop_name ))
+                     SendSysMessage( who, "That CProps already exists!" );
+                     return 1;
+             endif
+
+             if( input[add_buttons[1]] )
+                     SetObjProperty( thing, prop_name, Cint(0) );
+             elseif( input[add_buttons[2]] )
+                     SetObjProperty( thing, prop_name, Cdbl(0) );
+             else
+                     SetObjProperty( thing, prop_name, "" );
+             endif
+             return 1;
+        endif
+
+        //Deletes the CProp wanted.
+        if( input[confirm_delete] )
+             for( num:=1; num<=delete_cprop.size(); num+=1 )
+                    if( input[delete_cprop[num]] )
+                           if( prop_names[num] != "LFucker" )
+                                  EraseObjProperty( thing, prop_names[num] );
+                           endif
+                    endif
+             endfor
+             return 1;
+        endif
+
+        //Saves if apply button is pressed.
+        var this_prop;
+        foreach button in apply_buttons
+             if( input[button] )
+                    for( num:=1; num<=edit_cprop.size(); num+=1 )
+                          if( edit_cprop[num] )
+                                 this_prop := GetObjProperty( thing, prop_names[num] );
+                                 name := GetGumpText( input[edit_cprop[num]] );
+                                 if( prop_names[num] != "LFucker" )
+                                         SetObjProperty( thing, prop_names[num], SetPropType( name, typeof( this_prop )));
+                                 endif
+                          endif
+                    endfor
+                    
+                    return 1;
+             endif
+        endforeach
+
+        return 0;
+endfunction
+
+function ComposeMainPage( name, byref hex_toggle, byref width_toggle)
+
+        //Start the gump
+        OLDGFInitGump(0, 0);
+        OLDGFPage(0);
+
+        //Send the Gump Background
+	OLDGFResizePic( 0, 0, GUMP_BACKGROUND, GetGumpWidth(), 300 );
+        OLDGFTextLine( 50, 33, 1 , SHARD_NAME+" "+SHARD_VERSION );
+        OLDGFTextLine( 53, 35, 66, SHARD_NAME+" "+SHARD_VERSION );
+        OLDGFTextCrop( 50, 10, (GetGumpWidth()-200), 25, 0 , (name));
+
+        //Select if mobile has hex or int mod.
+        if(!hex_mod)
+              OLDGFTextLine( 70, 267, 34, "Show Hex");
+        else
+              OLDGFTextLine( 70, 267, 34, "Show Int");
+        endif
+
+        var button;
+        button := OLDGFButtonID( 50, 273, 0x4ba, 0x4b9, 1);
+        hex_toggle := button.keyid;
+
+        //Width Options
+        button := OLDGFButtonID( GetGumpWidth()-40, 10, 0x151a, 0x151a, 1);
+        width_toggle := button.keyid;
+
+endfunction
+
+function ComposeCpropPage( page, thing, byref prop_names, byref edit_cprop, byref delete_cprop, byref apply_buttons, numpages )
+
+        var button, propnum, this_prop;
+        var y := 60;
+        var ysize := 20;
+        var first_num := 10 * (page - 1) + 1;
+        var last_num := 10 * page;
+
+        OLDGFPage(page);
+
+        //Add "Page" button
+        if ( page < numpages )
+                 OLDGFButtonPage( GetGumpWidth()-60, 265, 0x0fc, 0x0fd, page+1);
+        endif
+        if ( page > 1 )
+                 OLDGFButtonPage( GetGumpWidth()-60, 10, 0x0fa , 0x0fb, page-1);
+        endif
+
+        //Gives page statut
+        if ( numpages > 1 )
+                 OLDGFTextLine( GetGumpWidth()-125, 267, 1153, "Page: "+page );
+        endif
+
+        //"New" Button
+        OLDGFButtonPage( 420, 38, 0x159e, 0x159d, numpages+1);
+        //"Delete" Button
+        OLDGFButtonPage( 500, 38, 0x159b, 0x159a, numpages+2);
+
+        //"Cancel" Button
+        OLDGFButtonID( 380, 267, 0x849, 0x848, 1);
+        //"Accept" Button
+        var accepted := OLDGFButtonID( 315, 267, 0x84a, 0x84b, 1 );
+        apply_buttons.append( accepted.keyid );
+
+        for( propnum:=first_num; propnum<=last_num; propnum+=1 )
+                if( prop_names[propnum] )
+                           this_prop := GetObjProperty( thing, prop_names[propnum] );
+
+                           OLDGFTextCrop( 50, y, 130, y+ysize, 0, prop_names[propnum] );
+                           OLDGFTextCrop( 200, y, 60, y+ysize, 0, TypeOf( this_prop ) );
+
+                           if( this_prop.errortext )
+                                     OLDGFTextCrop( 280, y, ( GetGumpWidth()-310 ), 20, 34, this_prop.errortext );
+                                     edit_cprop.append(0);
+
+                           elseif(( TypeOf( this_prop ) == "Integer") || (TypeOf( this_prop ) == "Double") || (TypeOf( this_prop ) =="String" ))
+                                     OLDGFGumpPic( 260, y+3, 0x03a );
+                                     button := ( OLDGFTextEntry( 280, y, ( GetGumpWidth()-310 ), ysize, 0, ToggleHex(this_prop) ));
+                                     edit_cprop.append( button.keyid );
+                           else
+                                     OLDGFTextCrop( 280, y, (GetGumpWidth()-310), 20, 0, Cstr( this_prop ));
+                                     edit_cprop.append(0);
+                           endif
+
+                           button := OLDGFCheckBox(  30, y, 0xd2, 0xd3, 0);
+                           delete_cprop.append( button.keyid );
+                           y += ysize;
+                endif
+        endfor
+endfunction
+
+function ComposeAddPropPage( page, byref set_propname, byref add_buttons, byref confirm_add )
+
+        var button;
+
+        OLDGFPage( page );
+
+        //Build another gump for the function
+        OLDGFResizePic( 160, 25, GUMP_BACKGROUND, 340, ( 250 ));
+        OLDGFTextLine( 280, 34, 1, "Add Cprop" );
+        OLDGFTextLine( 283, 35,34, "Add Cprop" );
+
+        OLDGFTextLine( 200,70,0, "Enter new propname. ");
+        OLDGFTextLine( 200,120,0, "Choose prop type." );
+
+        OLDGFTextLine( 260,144,0, "Integer" );
+        OLDGFTextLine( 260,174,0, "Double" );
+        OLDGFTextLine( 260,204,0, "String" );
+
+        OLDGFGumpPic( 190, 90, 0x477 );
+
+        //
+        button := OLDGFTextEntry( 200, 92, 200, 20, 0, "");
+        set_propname := (button.keyid);
+        //
+        button := OLDGFRadioButton( 220,140, 0x868, 0x86a, 1);
+        add_buttons[1]:= (button.keyid);
+        //
+        button := OLDGFRadioButton( 220, 170, 0x868, 0x86a, 0);
+        add_buttons[2]:= (button.keyid);
+        //
+        button := OLDGFRadioButton( 220, 200, 0x868, 0x86a, 0);
+        add_buttons[3]:=(button.keyid);
+
+        //
+        OLDGFButtonPage( 380, 242, 0x0817, 0x0818, 1);
+        button := OLDGFButtonID( 230, 242, 0x0ef, 0x0f0, 1);
+        confirm_add := ( button.keyid );
+
+endfunction
+
+function ComposeConfirmDeletePage( page, byref confirm_delete )
+
+        OLDGFPage( page );
+
+        //Build another gump for the function
+        OLDGFResizePic( 160, 25, GUMP_BACKGROUND, 340, 250 );
+        OLDGFTextLine( 260, 34, 1, "Confirm Delete" );
+        OLDGFTextLine( 263, 36, 34, "Confirm Delete" );
+        OLDGFTextLine( 240, 110, 0, "Delete Checked Cprops?" );
+        OLDGFButtonID( 380,242, 0x0817, 0x0818, 1 );
+
+        var button := OLDGFButtonID( 230, 242, 0x0ef, 0x0f0, 1 );
+        confirm_delete := ( button.keyid );
+endfunction
+
+function GetGumpWidth()
+
+        case ( option_width )
+              1:  return MAX_X;
+              2:  return MAX_X+150;
+              3:  return MAX_X+300;
+        endcase
+        return 0;
+endfunction
+
+function SetPropType( text, type )
+
+        case ( type )
+             "Integer" : return Cint( text );
+             "Double"  : return Cdbl( text );
+        endcase
+        return text;
+endfunction
+
+function ToggleHex( check )
+
+        if (( TypeOf( check ) == "Integer" ) && ( hex_mod ))
+                return Hex( check );
+        else
+                return Cstr( check );
+        endif
+endfunction
+
+function GetGumpText( text )
+
+        return text[Find(text,": ", 1)+2, len( text )];
+endfunction

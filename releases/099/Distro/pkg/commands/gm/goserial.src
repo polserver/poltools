@@ -1,0 +1,28 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+
+include ":security:commandReport";
+include "include/security";
+	
+program command_GoSerial( who, text )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var a := SystemFindObjectBySerial( CInt( text ));
+	if( !a )
+		SendSysMessage( who,"No such thing." );
+		return 0;
+	endif
+	
+	MoveObjectToLocation( who, a.x, a.y, a.z, a.realm, MOVEOBJECT_FORCELOCATION );
+        CMD_ReportText( "Going to serial:"+text, CMD_REPORT_SYSLOG );
+	
+	return 1;
+endprogram

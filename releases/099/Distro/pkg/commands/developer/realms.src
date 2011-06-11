@@ -1,0 +1,57 @@
+/*
+        Maintened by *Edwards
+
+        2008-09-28
+        
+        Purpose
+        Will show all realms, and their dimensions.
+        - Realms() dictionary
+        - "realm_name" ->
+        - "width"
+        - "height"
+        - "mapid"
+        - "toplevel_item_count"
+        - "mobile_count"
+*/
+use uo;
+use polsys;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include "include/security";
+
+program textcmd_Realms( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+	
+	var realm_list := Realms();
+	var gump := GFCreateGump();
+	
+	GFResizePic( gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 550, 300 );
+	GFResizePic( gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 510, 270 );
+	
+	GFTextLine( gump, 35, 25, 2100, "Realm Name" );
+	GFTextLine( gump, 145, 25, 2100, "Height" );
+	GFTextLine( gump, 210, 25, 2100, "Width" );
+	GFTextLine( gump, 270, 25, 2100, "MapID" );
+	GFTextLine( gump, 340, 25, 2100, "TLI" );
+	GFTextLine( gump, 410, 25, 2100, "MobileCount" );
+	
+	var y_pos := 50;
+	foreach realm in realm_list
+		GFTextLine( gump, 35, y_pos, 2100, _realm_iter );
+		GFTextLine( gump, 145, y_pos, 2100, realm.height );
+		GFTextLine( gump, 210, y_pos, 2100, realm.width );
+		GFTextLine( gump, 270, y_pos, 2100, realm.mapid );
+		GFTextLine( gump, 340, y_pos, 2100, realm.toplevel_item_count );
+		GFTextLine( gump, 410, y_pos, 2100, realm.mobile_count );
+		
+		SleepMS(2);
+		y_pos += 20;
+	endforeach
+	
+	GFSendGump( who, gump );
+endprogram

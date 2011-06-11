@@ -1,0 +1,32 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+
+include ":security:commandReport";
+include "include/security";
+
+program textcmd_kick( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+	SendSysMessage( mobile, "Whom do you want to kick?" );
+
+	var victim := Target( mobile, TGTOPT_NOCHECK_LOS );
+	if( victim )
+                if( victim.cmdlevel >= mobile.cmdlevel && mobile.cmdlevel < 4 )
+                         SendSysMessage( victim, mobile.name+" is trying to kick you." );
+                else
+		         DisconnectClient( victim );
+                         CMD_ReportText( "Kicked character:"+victim.serial, CMD_REPORT_SYSLOG );
+                endif
+
+	endif
+
+        return 1;
+endprogram

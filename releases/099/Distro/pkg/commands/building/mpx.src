@@ -1,0 +1,44 @@
+/*
+        Maintened by *Edwards
+
+        2008-05-30
+*/
+use uo;
+
+include "include/security";
+
+program textcmd_MoveX( who, howfar )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	var targ := Target( who, TGTOPT_NOCHECK_LOS );
+	if( !targ )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+
+	if( howfar == "" )
+		howfar := 1;
+	else
+		howfar := CInt( howfar );
+	endif
+
+	while( targ )
+		if( targ.movable == 0 )
+			targ.movable := 1;
+		endif
+
+		MoveObjectToLocation( targ, targ.x+howfar, targ.y, targ.z, targ.realm, MOVEOBJECT_FORCELOCATION );
+
+		targ.movable := 0;
+
+		targ := Target( who, TGTOPT_NOCHECK_LOS );
+	endwhile
+
+	SendSysMessage( who, "Done." );
+ 
+	return 1;
+endprogram

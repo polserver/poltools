@@ -1,0 +1,13 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+
+program command_Sfx( who, sound )
+	
+	PlaySoundEffect( who, CInt( sound ));
+	
+	return 1;
+endprogram
