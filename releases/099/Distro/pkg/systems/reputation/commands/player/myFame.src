@@ -1,0 +1,52 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        2009-05-30
+*/
+use os;
+use uo;
+
+program txtcommand_myFame( who )
+
+	var mobile_fame := GetObjProperty( who, "Fame" );
+ 	if( !mobile_fame )
+		mobile_fame := 0;
+	endif
+ 
+	var mobile_karma := GetObjProperty( who, "Karma" );
+	if( !mobile_karma )
+		mobile_karma := 0;
+	endif
+ 
+	SendSysmessage( who , "Fame : "+CInt( mobile_fame ));
+	SendSysmessage( who , "Karma : "+CInt( mobile_karma ));
+ 
+	ConsiderSins( who );
+ 
+        return 1;
+endprogram
+
+Function ConsiderSins( who )
+
+	var long_count := GetObjProperty( who, "#Murders" );
+	if( !long_count )
+		long_count := 0;
+	endif
+
+	var message;
+ 
+	if( !long_count )
+		message := "Fear not, thou hast not slain the innocent.";
+	elseif( long_count == 1 )
+		message := "Fear not, thou hast not slain the innocent in some time.";
+	elseif( long_count == 2 )
+		message := "You are known throughout the land as a murderous brigand.";
+	elseif( long_count > 2 )
+		message := "If thou should return to the land of the living, the innocent shall wreak havoc upon thy soul.";
+	endif
+
+	SendSysMessage( who, message );
+ 
+        return 1;
+Endfunction

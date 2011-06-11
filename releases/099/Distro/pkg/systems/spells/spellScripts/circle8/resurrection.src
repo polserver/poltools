@@ -1,0 +1,72 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2008-10-26
+        
+        Last Modifications 2008-12-12
+             * Now the player must accept being resurected.
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include ":death:resurrection";
+include ":spells:spells";
+
+program SpellScript_Resurrection( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+ 
+	// Do some checks
+	if( mobile.serial == targ.serial )
+		SendSysMessage( mobile, "You shall consider therapy." );
+		return 0;
+	elseif( targ.multi )
+		SendSysMessage( mobile, "You cannot resurrect in a house." );
+		return 0;
+	elseif( !targ.IsA( POLCLASS_MOBILE ))
+		SendSysMessage( mobile, "That cannot be dead." );
+		return 0;
+	endif
+        
+        if( targ.IsA( POLCLASS_NPC ))
+                if( GetObjProperty( targ, "Type" ) == "Undead" )
+                        var damage := RandomDiceRoll( "3d5" ) * ClasseBonus( mobile, MAGE );
+
+                        damage := SPELL_GetEfficiency( mobile, CInt( damage + AP_GetSkill( mobile, MAGERY )));
+
+                        ApplyDamageEX( targ, damage, "ResurrectUndead", mobile );
+                else
+                        SendSysMessage( mobile, "That is not dead." );
+                endif
+        else
+                if( !targ.dead )
+                        SendSysMessage( mobile, "That is not dead." );
+                        return 0;
+                endif
+
+                if( !ResurrectionGump( targ ))
+                        SendSysMessage( mobile, "Cancelled." );
+                        return 0;
+                endif
+
+                // Make the caster criminal for ressing a criminal
+                if( targ.criminal || targ.murderer )
+                        mobile.SetCriminal(1);
+                endif
+        endif
+	
+	SPELL_PlaySpellSFX( info.spell_id, targ );
+	SPELL_PlaySpellGFX( info.spell_id, targ, mobile );
+
+	return 1;
+endprogram

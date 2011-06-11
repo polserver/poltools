@@ -1,0 +1,51 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-29
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":brainAI:commonFunctions";
+include ":brainAI:npcNerves";
+include ":brainAI:npcInit";
+include ":brainAI:npcCommands";
+include ":dyes:dyes";
+include ":merchants:merchant";
+include ":merchants:storage";
+
+program BrainCriticalScript( params )
+
+	var npc		:= params[1];
+	var gsettings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+
+	npc.color := 1056 - RandomInt(55); // 1002-1056
+	npc.truecolor := npc.color;
+
+	NPC_SetupName( npc );
+	NPC_SetupRandomEquipment( npc );
+
+        gsettings["AreaSize"] *= 3;
+        NPC_SetAnchorInfos( npc, gsettings );
+
+	foreach item in ( ListEquippedItems( npc ))
+		if( CanDye( item ))
+			item.color := RandomDyeColor();
+		endif
+
+		SleepMS(2);
+	endforeach
+
+        var hiding := AP_GetSkill( npc, HIDING );
+        if( hiding )
+                npc.hidden := 1;
+        endif
+
+	return 1;
+endprogram

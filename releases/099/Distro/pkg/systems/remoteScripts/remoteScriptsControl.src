@@ -1,0 +1,96 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2011-04-13
+*/
+use uo;
+use os;
+
+include ":remoteScripts:settings";
+include ":security:report";
+
+program RemoveScriptsControl( mobile )
+
+        var system_pid := GetGlobalProperty( "#RemoteScriptsControlPID" );
+        if( GetProcess( system_pid ))
+                //Old spawn system is already running.
+		return 0;
+        endif
+        
+	SetObjProperty( mobile, "#RemoteScriptsControlPID", GetPid() );
+
+	while( 1 )
+		SetupRunTime();
+  
+                var delay := CalcNextTick();
+                
+                Wait_For_Event( delay );
+	endwhile
+
+	return 1;
+endprogram
+
+function SetupRunTime()
+
+        foreach script_elem in RS_GetScripts()
+
+                var cfg_elem := RS_GetSettingsCfgElem( script_elem );
+                var next_run := NextRunTime( cfg_elem );
+                if( next_run > POLCore().systime )
+                        continue;
+                endif
+                
+                var script_path := cfg_elem.Path;
+                var script := Start_Script( script_path );
+                if( script.errortext )
+                        ReportText( "Error starting script <"+script_path+"> -->"+script.errortext, REPORT_SYSLOG );
+                endif
+                
+                SleepMS(5);
+        endforeach
+        
+        return 1;
+endfunction
+
+function NextRunTime( cfg_elem )
+
+        var method := cfg_elem.Method,
+            date := cfg_elem.Date,
+            time : = cfg_elem.Time;
+        
+        
+
+
+	//Just get the time from cfg file..
+ //convert to polsystime
+
+	return ;
+endfunction
+
+function CalcNextTick()
+
+	var delay_time := 0;
+ 
+	var get_scripts := RS_GetScripts();
+	if( CInt( get_scripts.Size() ) < 1 )
+		return 60;
+	endif
+
+        foreach script_name in RS_GetScripts()
+		var next_run := NextRunTime( script_name );
+		if( !delay_time || next_run < delay_time )
+			delay_time := next_run;
+		endif
+
+		SleepMS(5);
+	endforeach
+
+	if( delay_time <= 0 )
+		delay_time := 60;
+	endif
+
+	return delay_time;
+endfunction

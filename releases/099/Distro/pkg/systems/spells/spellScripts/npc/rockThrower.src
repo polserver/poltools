@@ -1,0 +1,54 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-28
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+use util;
+
+include ":attributes:attributes";
+include ":damage:damage";
+
+program SpellScript_TeleportPhase( params )
+
+	var mobile := params[1];
+	//var info := params[2];
+	var targ := params[3];
+	params := 0;
+ 
+         var x := targ.x,
+	    y := targ.y,
+	    z := targ.z,
+            realm := targ.realm;
+
+        if( CheckLineOfSight( mobile, targ ))
+        
+                var graphic := array{0x1364, 0x1365, 0x1366, 0x1368, 0x1369},
+                    rock_graphic := graphic.RandomEntry();
+            
+                PlayMovingEffectXYZ( mobile.x, mobile.y, mobile.z+10, x, y, z+10, rock_graphic, 15, 0, 0, realm );
+                SleepMS(500);
+                
+                var the_rock := CreateItemAtLocation( x, y, z, rock_graphic, 1, realm );
+                the_rock.movable := 0;
+                the_rock.saveonexit := 0;
+
+                if( targ.x == x && targ.y == y )
+                        SendSysMessage( targ, "You are struck by the rock!" );
+                        
+		        var dmg := RandomDiceRoll( "5d10+4" );
+		        ApplyDamageEX( targ, dmg, "RockThrower", mobile );
+                else
+                        SendSysMessage( targ, "The rock misses you!" );
+	        endif
+        endif
+ 
+	return 1;
+endprogram

@@ -1,0 +1,154 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-09-02
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program StartDrugsScript( params )
+
+        var mobile := params[1];
+        
+	SetObjProperty( mobile, "#hallucinating", ReadGameClock() );
+ 
+        while( GetObjProperty( mobile, "#hallucinating" ))
+                Hallucinate( mobile );
+                Sleep(12);
+        endwhile
+	
+	return 1;
+endprogram
+
+function Hallucinate( mobile )
+
+        var graphics := {51, 42, 39, 31, 29, 28, 6, 5, 48, 7, 33, 30, 26, 24, 21, 17, 22, 18, 16, 15, 14, 13, 8, 47, 12, 10, 9, 5, 4, 3, 1, 2, 400, 401};
+        var graphic := graphics.RandomEntry();
+        var color := RandomInt(99) + 2;
+        
+        DrawGamePlayer( mobile, graphic, color );
+        
+        foreach character in ListMobilesNearLocation( mobile.x, mobile.y, mobile.z, 30, mobile.realm )
+                graphic := graphics.RandomEntry();
+                color := RandomInt(99) + 2;
+                if( character.serial != mobile.serial )
+                        DeleteObject( mobile, character );
+                        DrawObject( mobile, character, graphic, color, 1 );
+                endif
+                
+                SleepMS(5);
+        endforeach
+        
+        foreach item in ListItemsNearLocation( mobile.x, mobile.y, mobile.z, 30, mobile.realm )
+                color := RandomInt(99) + 2;
+                if(( item.amount == 1 ) && ( !item.IsA( POLCLASS_CORPSE )) && ( !item.invisible ))
+                        DeleteObject( mobile, item );
+                        DrawObject( mobile, item, item.graphic, color );
+                endif
+
+                SleepMS(5);
+        endforeach
+        
+	return 1;
+endfunction
+
+function ConvertIntToHex( astring, alength )
+
+	astring := Hex( astring );
+	astring := CStr( astring );
+ 
+	if( astring["0x"] )
+		astring := astring[3, Len( astring )];
+	endif
+ 
+	if( Len( astring ) > alength * 2 )
+		return 0;
+	endif
+ 
+	while( Len( astring ) < alength * 2 )
+		astring := "0"+astring;
+	endwhile
+ 
+	return astring;
+endfunction
+
+function DrawGamePlayer( mobile, graphic, color )
+
+	var PacketHexString := "20"+ConvertIntToHex( mobile.serial, 4 );
+ 
+	PacketHexString := PacketHexString+ConvertIntToHex( graphic, 2 );
+	PacketHexString := PacketHexString+"00";
+	PacketHexString := PacketHexString+ConvertIntToHex( color, 2 );
+	PacketHexString := PacketHexString+"00";
+	PacketHexString := PacketHexString+ConvertIntToHex( mobile.x, 2 );
+	PacketHexString := PacketHexString+ConvertIntToHex( mobile.y, 2 );
+	PacketHexString := PacketHexString+"0000";
+	PacketHexString := PacketHexString+ConvertIntToHex( mobile.facing, 1 );
+	PacketHexString := PacketHexString+ConvertIntToHex( mobile .z, 1 );
+     
+	SendPacket( mobile, PacketHexString );
+ 
+        return 1;
+endfunction
+
+function DrawObject( towhom, obj, graphic, color, eqitrandcolor := 0 )
+
+        var PacketHexStringPart1 := "78";
+        var PacketHexStringPart2 := ConvertIntToHex( obj.serial, 4 ) + ConvertIntToHex( graphic, 2 );
+        
+        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( obj.x, 2 );
+        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( obj.y, 2 );
+        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( obj.z, 1 );
+        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( obj.facing, 1 );
+        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( color, 2 );
+        PacketHexStringPart2 := PacketHexStringPart2+"0000";
+        
+        if(( obj.IsA( POLCLASS_MOBILE )) && (( obj.graphic == 400 ) || ( obj.graphic == 401 )))
+                var color;
+                var graphic;
+                
+                foreach item in ListEquippedItems( obj )
+                        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( item.serial, 4 );
+                        if( eqitrandcolor == 1 )
+                                color := RandomInt(99) + 2;
+                        else
+                                color := item.color;
+                        endif
+                        
+                        if( color == 0 )
+                                graphic := item.graphic;
+                        else
+                                graphic := item.graphic + 32768;
+                        endif
+                        
+                        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( graphic, 2 );
+                        PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( item.layer, 1 );
+                        if( color != 0 )
+                                PacketHexStringPart2 := PacketHexStringPart2+ConvertIntToHex( color, 2 );
+                        endif
+                        
+                        SleepMS(5);
+                endforeach
+        endif
+        
+        PacketHexStringPart2 := PacketHexStringPart2+"00000000";
+        
+        var FullPacketHexStringLength := ( Len( PacketHexStringPart1) + Len( PacketHexStringPart2 )) / 2 + 2;
+        var FullPacketHexString := PacketHexStringPart1+ConvertIntToHex( FullPacketHexStringLength, 2 ) + PacketHexStringPart2;
+        SendPacket( towhom, FullPacketHexString );
+        
+        return 1;
+endfunction
+
+function DeleteObject( mobile, obj )
+
+        var PacketHexString := "1D"+ConvertIntToHex( obj.serial, 4 );
+        SendPacket( mobile, PacketHexString );
+
+        return 1;
+endfunction

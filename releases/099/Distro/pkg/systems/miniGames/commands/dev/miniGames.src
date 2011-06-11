@@ -1,0 +1,245 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-06
+*/
+use uo;
+use os;
+use file;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":miniGames:engine";
+include "include/arrays";
+
+var cfg_ref;
+
+var listGames_ref := array{};
+var listOptions_ref := array{};
+
+program textcmd_gamesGump( mobile )
+
+        while( main_Board( mobile ) && mobile.connected )
+                SleepMS(10);
+        endwhile
+
+	return 1;
+endprogram
+
+function main_Board( mobile )
+
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 550, 405 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 520, 25 );
+	GFTextMid( gump, 15, 17, 550, 1720, "Fantasia Shard Games" );
+
+        List_Games( gump );
+        Lobby_Players( gump );
+        Game_Rules( gump );
+        Game_Stats( gump );
+        Game_Options( gump );
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+        	SendSysMessage( mobile, "Cancelled.", 3, 80 );
+        	return 0;
+        elseif( input[100] ) //Join Queue
+        	var script := Start_Script( ":miniGames:engines/"+game+"/join", {mobile, game} );
+        	if( script.errortext )
+			SendSysMessage( mobile, "Error starting script <:miniGames:engines/"+game+"/join> -->"+script.errortext );
+        	endif
+                return 0;
+        elseif( input[101] ) //Leave Queue
+                var script := Start_Script( ":miniGames:engines/"+game+"/leave", {mobile, game} );
+        	if( script.errortext )
+			SendSysMessage( mobile, "Error starting script <:miniGames:engines/"+game+"/leave> -->"+script.errortext );
+        	endif
+                return 0;
+        endif
+        
+        input := input[0];
+        
+        game := CStr( listGames_ref[input] );
+        
+        return 1;
+endfunction
+
+function List_Games( byref gump )
+
+        GFPage( gump, 0 );
+
+        //ListGames
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 120, 170 );
+	GFTextMid( gump, 15, 55, 135, 1720, "List Games" );
+ 
+        cfg_ref := MG_GetSettingsCfgElem( "ListGames" );
+        listGames_ref := GetConfigStringArray( cfg_ref, "Game" );
+        
+        var num_games := listGames_ref.Size(),
+            y_pos := 85,
+            counter := 0;
+
+        GFPage( gump, 1 );
+        foreach elem in listGames_ref
+
+                GFTextLine( gump, 50, y_pos, 1153, elem );
+		GFAddButton( gump, 30, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _elem_iter );
+
+                y_pos += 20;
+                counter += 1;
+
+		if( counter >= 5 && _elem_iter < num_games )
+			GFAddButton( gump, 115, 50, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 25, 50, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+                        counter := 0;
+			y_pos := 85;
+		endif
+
+                SleepMS(5);
+        endforeach
+ 
+	return gump;
+endfunction
+
+function Lobby_Players( byref gump )
+
+        GFPage( gump, 0 );
+
+        //Game Lobby
+	GFResizePic( gump, 15, 220, GFGetCfgConst( "Defaults", "ForeGround" ), 120, 170 );
+	GFTextMid( gump, 15, 230, 135, 1720, "Lobby" );
+ 
+        if( !game )
+		return gump;
+        endif
+ 
+        var data_elem := DFFindElement( g_datafile, game, DF_CREATE ),
+            queued_Players := data_elem.GetProp( "QueuedPlayers" ),
+            num_players := queued_Players.Size();
+
+        if( num_players )
+                var y_pos := 260,
+                    counter := 0;
+
+                GFPage( gump, 1 );
+                foreach serial in queued_Players
+
+                        GFTextLine( gump, 30, y_pos, 1153, SystemFind( serial ).name );
+
+                        y_pos += 20;
+                        counter += 1;
+
+		        if( counter >= 5 && _serial_iter < num_players )
+				GFAddButton( gump, 115, 230, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+				GFPage( gump, gump.cur_page+1 );
+				GFAddButton( gump, 25, 230, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+                                counter := 0;
+			        y_pos := 260;
+		        endif
+
+                        SleepMS(5);
+                endforeach
+        else
+                GFTextMid( gump, 15, 290, 135, 1153, "No players." );
+        endif
+ 
+	return gump;
+endfunction
+
+function Game_Rules( byref gump )
+
+        GFPage( gump, 0 );
+
+        //Game Rules
+	GFResizePic( gump, 140, 45, GFGetCfgConst( "Defaults", "ForeGround" ),  395, 170 );
+            
+	var file_path := ":miniGames:ruleFiles/"+game+".txt",
+            text_array := ReadFile( file_path ),
+            text := "";
+
+        if( text_array )
+		text := ImplodeArray( "", text_array );
+	endif
+
+        GFHTMLArea( gump, 155, 55, 380, 150, text, 0, 1 );
+
+	return gump;
+endfunction
+
+function Game_Stats( byref gump )
+
+        GFPage( gump, 0 );
+
+        //Statistics
+	GFResizePic( gump, 140, 220, GFGetCfgConst( "Defaults", "ForeGround" ),  270, 170 );
+	GFTextMid( gump, 140, 230, 280, 1720, "Stats" );
+ 
+        if( !game )
+		return gump;
+        endif
+
+        cfg_ref := MG_GetSettingsCfgElem( game );
+        
+        var listStats_ref := GetConfigStringArray( cfg_ref, "Stat" ),
+            num_stats := listStats_ref.Size();
+            
+        if( num_stats )
+                var y_pos := 260,
+                    counter := 0;
+
+                GFPage( gump, 1 );
+                foreach stat in listStats_ref
+
+                        GFTextLine( gump, 160, y_pos, 1153, stat );
+                        GFTextLine( gump, 340, y_pos, 1153, "Answer" );
+
+                        y_pos += 20;
+                        counter += 1;
+
+		        if( counter >= 5 && _stat_iter < num_stats )
+			        GFAddButton( gump, 115, 50, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			        GFPage( gump, gump.cur_page+1 );
+			        GFAddButton( gump, 25, 50, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+                                counter := 0;
+			        y_pos := 260;
+		        endif
+
+                        SleepMS(5);
+                endforeach
+        else
+                GFTextMid( gump, 140, 290, 305, 1153, "No stats available." );
+        endif
+ 
+	return gump;
+endfunction
+
+function Game_Options( byref gump )
+
+        GFPage( gump, 0 );
+
+        //Game Options
+	GFResizePic( gump, 415, 220, GFGetCfgConst( "Defaults", "ForeGround" ), 120, 170 );
+	GFTextMid( gump, 415, 230, 130, 1720, "Options" );
+ 
+        if( !game )
+		return gump;
+        endif
+        
+        GFTextLine( gump, 445, 260, 1153, "Join Queue" );
+        GFAddButton( gump, 425, 263, 2117, 2118, GF_CLOSE_BTN, 100 );
+
+        GFTextLine( gump, 445, 280, 1153, "Leave Queue" );
+        GFAddButton( gump, 425, 283, 2117, 2118, GF_CLOSE_BTN, 101 );
+ 
+	return gump;
+endfunction
+
+

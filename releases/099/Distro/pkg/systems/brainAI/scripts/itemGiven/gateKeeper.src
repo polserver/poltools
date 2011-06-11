@@ -1,0 +1,116 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-09-03
+
+        Last Modifications 2009-12-21
+             * Added check if player hidden or NPC to return 0
+
+        Original Idea added to polstyle by Hybrid
+        
+        To-Do
+             * Complete world position in script once extra realm accessible
+*/
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":datafile:datafile";
+include ":areas:managment";
+include ":timeutils:gameTime";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var event	:= params[3];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_ITEM_GIVEN:
+					ItemGivenEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+ 
+        return 1;
+endprogram
+
+function ItemGivenEvent( npc, byref event )
+
+	var item := event.item;
+	var source := event.source;
+
+        ReleaseItem( item );
+ 
+        if( source.hidden || source.IsA( POLCLASS_NPC ))
+		return 1;
+        endif
+ 
+        var g_datafile := DFOpenDataFile( ":doom:main", DF_CREATE );
+        var data_elem := DFFindElement( g_datafile, "Main", DF_CREATE );
+ 
+        if( !item.IsHellSpawnBone() )
+               AI_Speak( npc, "I require 10 000 Hellspawn bones of the damned." );
+               MoveItemToContainer( item, source.backpack );
+               return 1;
+        elseif( item.amount < 10000 )
+               MoveItemToContainer( item, source.backpack );
+               AI_Speak( npc, "Although your valor is considerable, you are not yet worthy to enter." );
+               Sleep(2);
+               AI_Speak( npc, "I require 10 000 Hellspawn bones of the damned." );
+               return 1;
+        endif
+        
+        var doom_started := data_elem.GetProp( "doomStarted" );
+        if( !doom_started )
+                //Eventually we need to define area DoomDungeon with good realm and also destination to exit
+                var doom_occupied := data_elem.GetProp( "doomOccupied" );
+                foreach serial in doom_occupied
+                        var mobile := SystemFindObjectBySerial( serial );
+                        //if( A_IsIn( mobile, "DoomDungeon" ))
+                                //MoveObjectToLocation( mobile, x, y, z, realm );
+                        //endif
+                        SleepMS(5);
+                endforeach
+                data_elem.SetProp( "doomStarted", ReadGameClock() );
+        else
+                var doom_respawn := CInt( data_elem.GetProp( "doomRespawn" ));
+                if( doom_respawn >= ReadGameClock() )
+                       var delay := TIME_GetTimeDesc( CInt( doom_respawn - ReadGameClock() ), 1 );
+                       AI_Speak( npc, delay+" until Doom Dungeon respawn correctly." );
+                endif
+                return 0;
+        endif
+        
+        data_elem.SetProp( "doomRespawn", ReadGameClock() + SECONDS_IN_DAY );
+        
+        AI_Speak( npc, "You are worthy of passage. Prepare yourself..." );
+        DestroyItem( item );
+        Sleep(5);
+        
+        var gate_entrance := CreateItemAtLocation( npc.x, npc.y, npc.z, 0x2051, 1, npc.realm );
+            //Setup destination for Doom Dungeon here
+            //gate_entrance.SetDestination( dest.x, dest.y, dest.z, dest.realm );
+        gate_entrance.SetDuration( 60 );
+        
+        npc.concealed := 1;
+        Sleep( 60 );
+        npc.concealed := 0;
+        
+        return 1;
+endfunction

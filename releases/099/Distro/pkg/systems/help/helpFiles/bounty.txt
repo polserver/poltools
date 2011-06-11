@@ -1,0 +1,26 @@
+<CENTER><U><B>Questions & Answers</B></U></CENTER><BR>
+
+<I>How does it work?</I><BR>
+<BR>
+When you are killed, all other players that participated in the attack may be reported for the murder. If reported, everyone will have the possibility to place a bounty for the head with the command:
+<BR>
+<BR>
+.placeBounty
+<BR>
+<BR>
+Bounties may not exceed the total amount of gold in your backpack.<BR>
+<BR>
+<BR>
+<I>How do I collect a bounty?</I><BR>
+<BR>
+You may return the head of another player to any town guard. The guard will check to see if a bounty exists for the head that was returned, and award a bounty straight to your bank box.
+<BR>
+<BR>
+<I>If I get a bounty, will it stick around forever?</I><BR>
+<BR>
+All bounties expire 1 week after placement. If you dont incurr any additional bounties and/or murders within that week period, then your bounty will be removed from the list, and guards will not reward any bounties on your head. Once a bounty is claimed, it will be removed from the list.
+<BR>
+<BR>
+<I>Are there any penalties for having a bounty on my head?</I><BR>
+<BR>
+Currently there are no penalties except the greed of other players. >:]

@@ -1,0 +1,78 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2010-07-24
+*/
+use uo;
+
+include ":attributes:attributes";
+include ":classes:classes";
+
+program show_classe( who )
+
+        var show_infos := 1;
+	if( Lower( TypeOf( who )) == "array" )
+		who := who[1];
+                show_infos := 0;
+	endif
+
+        var classe_level,
+            classe_name;
+            
+	foreach classe in ( GetClasseIds() )
+		var level := IsFromThatClasse( who, GetClasseSkills( classe ));
+		if( level )
+                        classe_level := level;
+			classe_name := classe;
+                else
+			EraseObjProperty( who, classe );
+		endif
+                SleepMS(10);
+	endforeach
+        
+        if( classe_name )
+                if( show_infos )
+                        var percent := GetClassePercent( who, classe_name );
+                        
+                        SendSysMessage( who, "You're qualified level "+classe_level+" "+lower( GetClasseName( classe_name ))+" ("+percent+"%).");
+                endif
+                SetObjProperty( who, classe_name, classe_level );
+        else
+                if( show_infos )
+                        SendSysMessage( who, "You aren't in any specific classe." );
+                endif
+        endif
+        
+        SendStatus( who );
+
+        return 0;
+endprogram
+
+function GetClassePercent( mobile, classe_name )
+
+        var classe_skills := GetClasseSkills( classe_name ),
+            classe := 0,
+	    total := 0;
+
+	foreach skill in AP_ListAttributesByType( "skill" )
+
+		var amount := AP_GetSkill( mobile, skill );
+		total += amount;
+		if( skill in classe_skills )
+			classe += amount;
+		endif
+                SleepMS(5);
+	endforeach
+
+	var percent := CDbl( classe / total * 100.0 );
+	var floating := CInt( percent * 10 );
+	var cuted := CInt( percent ) * 10;
+	var diffe := CInt( floating - cuted );
+
+	percent	:= CInt( percent )+"."+diffe;
+
+	return percent;
+endfunction

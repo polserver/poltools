@@ -1,0 +1,24 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-02
+*/
+use uo;
+
+program textcmd_notifyDamage( mobile )
+
+	var status := GetObjProperty( mobile, "NotifyDmg" );
+
+        if( !status )
+             SetObjProperty( mobile, "NotifyDmg", 1 );
+             SendSysMessage( mobile, "*Damage Messages ON*", 3, 70 );
+        else
+             EraseObjProperty( mobile, "NotifyDmg" );
+             SendSysMessage( mobile, "*Damage Messages OFF*", 3, 33 );
+        endif
+
+        return 1;
+endprogram

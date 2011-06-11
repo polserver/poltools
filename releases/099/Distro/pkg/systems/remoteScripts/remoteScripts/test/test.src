@@ -1,0 +1,17 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2011-04-13
+*/
+use uo;
+use os;
+
+program RemoveScriptsControl()
+
+        Broadcast( "remoteScripts" );
+
+	return 1;
+endprogram

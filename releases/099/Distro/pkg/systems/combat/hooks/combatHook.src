@@ -1,0 +1,36 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-02
+
+        Great thanks to ZuluHotel, UnrealLegend and PolDistroTeam.
+        
+        Finally! I can modify whitout restarting server everytime!!!
+
+        Almost dead doesn't change nothing,
+        Being dead change everything.
+*/
+use uo;
+use os;
+
+program Install()
+
+	Print( "INSTALLING: Fantasia Combat Hook." );
+	Print( "INSTALLING: Fantasia Combat Advancment Hook." );
+	Print( "INSTALLING: Fantasia Combat Parrying Hook." );
+ 
+	return 1;
+endprogram
+
+exported function Attack( attacker, defender )
+
+       var script := Start_Script( ":combat:mainHitScript", {attacker, defender} );
+       if( script.errortext )
+              SysLog( "Error starting <:combat:mainHitScript> -->"+script.errortext );
+       endif
+
+       return 1;
+endfunction

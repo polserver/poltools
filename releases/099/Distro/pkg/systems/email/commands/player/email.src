@@ -1,0 +1,21 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-05-10
+*/
+use uo;
+use os;
+
+program ReadMail( mobile )
+ 
+	var script := start_script( ":email:email", array{mobile, mobile.serial} );
+        if( script.errortext )
+                SendSysMessage( mobile, "Error starting script <:email:email> -->"+script.errortext );
+                return 0;
+        endif
+
+        return 1;
+endprogram

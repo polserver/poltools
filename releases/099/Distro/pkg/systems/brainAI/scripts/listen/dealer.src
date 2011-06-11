@@ -1,0 +1,92 @@
+/*
+        Created by *Edwards
+        For PolServer.com
+
+        Mr_Lacerte@Hotmail.com
+
+        2009-04-04
+
+        Last Modifications 2009-12-21
+             * Added check if player hidden or NPC to return 0
+
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+use util;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":datafile:datafile";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var event	:= params[3];
+	params := 0; // Not needed anymore.
+
+        setupDealer( npc );
+        
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+        
+        return 1;
+endprogram
+
+function SpeechEvent( npc, byref event )
+
+	var text := Lower( event.text );
+	var source := event.source;
+ 
+        if( source.hidden || source.IsA( POLCLASS_NPC ))
+		return 0;
+        endif
+
+	if( text["help"] )
+		AI_Speak( npc, "I will obey the following orders:" );
+                Sleep(2);
+                AI_Speak( npc, "poker" );
+		return 1;
+	elseif( text["poker"] )
+                var start := start_script( ":pokerTable:dealer/startup", {npc, source} );
+                if( start.errortext )
+                         SendSysMessage( source, "Error cannot start script <:pokerTable:dealer/startup> -->"+start.errortext );
+                endif
+	endif
+
+	return 1;
+endfunction
+
+function setupDealer( npc )
+
+         var g_datafile := DFOpenDataFile( ":pokerTable:pokerTable", DF_CREATE );
+         var data_elem := DFFindElement( g_datafile, "Table "+npc.serial, DF_CREATE );
+
+         var table_info := array{};
+         data_elem.SetProp( "Seats", table_info );
+
+         var tableSpec := struct;
+             tableSpec.+small_blind := CInt( GetObjProperty( npc, "small_blind" ));
+             tableSpec.+big_blind := CInt( GetObjProperty( npc, "big_blind" ));
+             tableSpec.+min_buyIn := CInt( GetObjProperty( npc, "min_buyIn" ));
+             tableSpec.+max_buyIn := CInt( GetObjProperty( npc, "max_buyIn" ));
+
+         data_elem.SetProp( "Specifications", tableSpec );
+
+         return 1;
+endfunction

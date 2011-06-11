@@ -1,0 +1,30 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-01-31
+*/
+use uo;
+use cfgfile;
+
+include "include/security";
+
+program command_unloadLoot( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	UnloadConfigFile( ":loot:effects_hit" );
+        UnloadConfigFile( ":loot:effects_onhit" );
+        UnloadConfigFile( ":loot:enchantable" );
+        UnloadConfigFile( ":loot:loot-groups" );
+        UnloadConfigFile( ":loot:loot-index" );
+        
+	SendSysMessage( who, "Config file unloaded." );
+
+	return 0;
+endprogram

@@ -1,0 +1,198 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-04-22
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":damage:damage";
+include ":equipment:protections";
+
+program TimedScript_DefaultPoison( params )
+
+	var who := params[1];
+	var attacker := params[2];
+	var level := CInt(params[3]);
+	params := 0; // No longer needed.
+
+	if( attacker )
+		SetScriptController( attacker );
+	endif
+
+	if( level < 1 )
+		level := 1;
+        elseif( level >= 10 )
+                level := 10;
+	endif
+
+	var protected := PoisonProtected( who, level );
+	if( protected == "Immuned" )
+		return 0;
+	elseif( protected == "Cursed" )
+		level += 2;
+	endif
+
+	var current_poison := CInt( GetObjProperty( who, "#PoisonedLevel" ));
+        if( !current_poison )
+                SendPoisonMessage( who, level );
+        elseif( level <= current_poison )
+                return 0;
+        endif
+
+	SetObjProperty( who, "#PoisonedLevel", level );
+
+        var duration := RandomInt( level ) + 8;
+	while( duration )
+ 
+		current_poison := CInt( GetObjProperty( who, "#PoisonedLevel" ));
+                if( !who )
+                	break;
+                elseif( who.dead )
+                	break;
+                elseif( !current_poison )
+                	break;
+                endif
+
+                ApplyPoisonDamage( who, level, attacker );
+
+		duration -= 1;
+		Sleep(5);
+	endwhile
+        
+        return 1;
+endprogram
+
+function SendPoisonMessage( who, level )
+
+	var poisonedmsg := "";
+	case( level )
+		1: poisonedmsg := "You feel a bit nauseous!";
+		   break;
+
+		2: poisonedmsg := "You feel disoriented and nauseous!";
+		   break;
+
+		3: poisonedmsg := "You begin to feel pain throughout your body!";
+		   break;
+
+		4: poisonedmsg := "You feel extremely weak and feel pain throughout your body!";
+		   break;
+
+		5: poisonedmsg := "You feel extremely weak and are in severe pain!";
+		   break;
+
+		default: poisonedmsg := "You are in extreme pain, and require immediate aid!";
+		   break;
+	endcase
+ 
+	PrintTextAbovePrivate( who, poisonedmsg, who );
+ 
+        return 1;
+endfunction
+
+function ApplyPoisonDamage( who, level, attacker )
+
+	var dmg := 0;
+	var stam := 0;
+ 
+	case( level )
+		1: dmg := CInt( AP_GetVitalMaximumValue( who, "Hits" ) / 30 );
+		   if( dmg < 2 )
+			dmg := 2;
+		   endif
+		   break;
+		2: dmg := CInt( AP_GetVitalMaximumValue( who, "Hits" ) / 25 );
+		   if( dmg < 4 )
+			dmg := 4;
+  		   endif
+		   break;
+		3: dmg := CInt( AP_GetVitalMaximumValue( who, "Hits" ) / 20 );
+		   if( dmg < 6 )
+			dmg := 6;
+		   endif
+     
+		   stam := CInt( AP_GetVitalMaximumValue( who, "Stamina" ) / 30 );
+		   break;
+		4: dmg := CInt( AP_GetVitalMaximumValue( who, "Hits" ) / 15 );
+		   if( dmg < 8 )
+			dmg := 8;
+		   endif
+     
+		   stam := CInt( AP_GetVitalMaximumValue( who, "Stamina" ) / 20 );
+		   break;
+		5: dmg := CInt( AP_GetVitalMaximumValue( who, "Hits" ) / 10 );
+		   if( dmg < 10 )
+			dmg := 10;
+		   endif
+     
+		   stam := CInt( AP_GetVitalMaximumValue( who, "Stamina" ) / 10 );
+		   break;
+		default: dmg := CInt( AP_GetVitalMaximumValue( who, "Hits" ) / 5 );
+		   if( dmg < 14 )
+			dmg := 14;
+		   endif
+
+		   stam := CInt( AP_GetVitalMaximumValue( who, "Stamina" ) / 10 );
+		   break;
+	endcase
+
+	ApplyDamageEX( who, RandomDiceRoll( CStr( "1d"+dmg+"+"+CInt( dmg / 2 ))), DMG_POISON, attacker );
+ 
+        if( stam )
+                AP_ConsumeVital( who, "Stamina", RandomDiceRoll( CStr( "1d"+stam+"+"+CInt( stam / 2 ))));
+        endif
+
+	return 1;
+endfunction
+
+function PoisonProtected( who, level )
+
+	var poison_reflect := GetMobileProtection( who, "PoisonProtection" ),
+            poison_immunity := GetMobileProtection( who, "PermPoisonProtection" ),
+            item, charges, cursed;
+
+	if( poison_reflect )
+		foreach thing in ListEquippedItems( who )
+                        var temp := CInt( GetObjProperty( thing, "PoisonProtection" ));
+			if( temp == poison_reflect )
+				item := thing;
+				charges := temp;
+    
+				if( !charges )
+					SetMobileProtection( who, "PoisonProtection", 0 );
+					EraseObjProperty( item, "PoisonProtection" );
+					PrintTextAbovePrivate( item, item.desc+" is out of charges!", who );
+                                else
+                                        break;
+				endif
+			endif
+                        SleepMS(5);
+		endforeach
+	endif
+
+        var cmi := 0 - poison_immunity;
+                
+	if( charges >= level )
+		charges -= level;
+		SetObjProperty( item, "PoisonProtection", charges );
+		SetMobileProtection( who, "PoisonProtection", charges );
+		if( !cursed )
+			PrintTextAbovePrivate( who, "Your "+item.desc+" protected you from the poison!", who );
+			return "Immuned";
+		else
+			return "Cursed";
+		endif
+	elseif( cmi >= level )
+		return "Cursed";
+	elseif( poison_immunity >= level )
+                PrintTextAbovePrivate( who, "Your poison immunity protect you from the poison", who );
+		return "Immuned";
+	endif
+
+        return 1;
+endfunction

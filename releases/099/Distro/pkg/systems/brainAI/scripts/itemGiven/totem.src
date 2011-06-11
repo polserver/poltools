@@ -1,0 +1,69 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2011-01-28
+*/
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":attributes:attributes";
+include ":brainAI:merchantUtil";
+include ":totem:totem";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_ITEM_GIVEN:
+					ItemGivenEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+
+        return 1;
+endprogram
+
+function ItemGivenEvent( npc, byref event )
+
+	var item := event.item;
+	var source := event.source;
+ 
+        ReleaseItem( item );
+ 
+        if( source.hidden )
+		return 1;
+        elseif( source.frozen || source.paralyzed )
+		return 1;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 1;
+        elseif( IsTotem( npc ) )
+		return 1;
+        elseif( Totem_GetLevel( npc ) < 7 )
+		return 1;
+        endif
+
+        MoveItemToContainer( item, npc.backpack );
+
+	return 0;
+endfunction

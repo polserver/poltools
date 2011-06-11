@@ -1,0 +1,26 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-09
+*/
+use uo;
+use os;
+
+include ":equipment:protections";
+
+program TimedScript_Paralysis( params )
+
+	var mobile := params[1];
+        
+        if( !GetMobileProtection( mobile, "FreeAction" ))
+		PlaySoundEffect( mobile, 0x205 );
+		SendSysMessage( mobile, "You are unable to move." );
+		mobile.frozen := 1;
+        endif
+	
+	return 1;
+endprogram
+

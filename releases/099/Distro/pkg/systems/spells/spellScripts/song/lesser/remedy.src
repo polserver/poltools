@@ -1,0 +1,78 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-02-04
+
+        Last Modifications 2010-02-16
+             * Changed: Now PP can cast song without bonuses..
+
+        Last Modifications 2010-04-27
+             * Cleaned codes for better performances
+
+        Original Idea from ZuluHotel
+*/
+use uo;
+use os;
+
+include ":spells:spells";
+include ":musicianship:bard";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Remedy( params )
+
+	var mobile := params[1];
+	var info := params[2];
+	//var targ := params[3];
+        //var circle := SPELL_GetCircle( info.spell_id );
+	params := 0;
+
+        var instrument := CheckInstrument( mobile );
+        if( !instrument )
+                SendSysMessage( mobile, "You do not have any instruments to play!" );
+                return 0;
+        elseif( !cast_Song( mobile ))
+                FailSpell( mobile );
+                return 0;
+        elseif( !CheckStamina( mobile, info ))
+                FailSpell( mobile, "You don't have enough stamina to cast that spell!" );
+                return 0;
+        endif
+
+        SleepMS( CInt( instrument.InstrumentDelay() ));
+
+        var musicianship := AP_GetSkill( mobile, MUSICIANSHIP ),
+	    area_size := CInt( musicianship / 15 ) + 1,
+	    includes := SPELL_GetFriendlies( mobile, area_size );
+
+	SPELL_PlaySpellSFX( info.spell_id, mobile );
+
+	var targs := SPELL_GetValidTargets( mobile, area_size, array{}, includes );
+	foreach vtarg in targs
+		SleepMS(5);
+
+                if( !SPELL_MobileCheck( mobile, vtarg ))
+			continue;
+                elseif( !CheckLineOfSight( mobile, vtarg ))
+			continue;
+                endif
+
+                if( vtarg.poisoned )
+		        var current_poison := CInt( GetObjProperty( vtarg, "#PoisonedLevel" )),
+	   	            bonus := GetObjProperty( mobile, "HealingIncrease" ),
+            	            difficulty := CInt((( current_poison * 15 ) + 60 ) - ( bonus * 10 ));
+
+        	        difficulty /= ClasseBonus( mobile, BARD );
+
+        	        if( SkillCheck( mobile, MUSICIANSHIP, CInt( difficulty ), "", ADV_DISABLE ) > 0 )
+                	        SPELL_PlaySpellSFX( info.spell_id, vtarg );
+			        SPELL_PlaySpellGFX( info.spell_id, vtarg, mobile );
+			        TS_LowerDuration( vtarg, "DefaultPoison", -1 );
+        	        endif
+                endif
+	endforeach
+
+	return 1;
+endprogram

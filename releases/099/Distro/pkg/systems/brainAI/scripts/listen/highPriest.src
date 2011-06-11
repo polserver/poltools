@@ -1,0 +1,193 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-02-08
+
+        Last Modifications 2009-12-21
+             * Added check if player hidden or NPC to return 0
+
+        Last Modifications 2010-09-26
+*/
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":attributes:attributes";
+
+program BrainNerve( params )
+
+	var npc		:= params[1];
+	var event	:= params[3];
+	params := 0; // Not needed anymore.
+
+	while( npc )
+		if( event )
+			case( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent( npc, event );
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(1);
+	endwhile
+
+        return 1;
+endprogram
+
+function SpeechEvent( npc, byref event )
+
+        if( event.source.hidden || event.source.IsA( POLCLASS_NPC ))
+		return 1;
+        endif
+
+        var text := Lower( event.text ),
+            source := event.source;
+            
+	AI_Turn( npc, source, NETURN_TOWARD );
+ 
+	if(( source.criminal || source.murderer || GetObjProperty( source, "PriestUpset" )) && !source.cmdlevel )
+		AI_Speak( npc, "No, I won't listen to thy request." );
+		Sleep(3);
+		AI_Speak( npc, "Thine past behavior made thee unworthy in the eyes of the Virtues" );
+                return 0;
+        endif
+
+        if( text["help"] )
+                AI_Speak( npc, "I will obey to the following orders:" );
+                Sleep(3);
+                AI_Speak( npc, "remove curse - uncurse - detect curse - purify - bless - cure - heal - protection - dispel" );
+	elseif( text["remove curse"] || text["uncurse"] )
+                Send_RemoveCurse( npc, source );
+		return 1;
+	elseif( text["detect curse"] )
+                Send_DetectCurse( npc, source );
+		return 1;
+	elseif( text["purify"] )
+                Send_Purify( npc, source );
+		return 1;
+	elseif( text["bless"] || text["cure"] || text["heal"] || text["protection"] || text["dispel"] )
+                Send_Cast( npc, source, text );
+		return 1;
+	else
+                AI_Speak( npc, "*hummm?*" );
+		return 1;
+	endif
+
+	return 1;
+endfunction
+
+function Send_RemoveCurse( npc, source )
+
+        AI_Speak( npc, "Show me the cursed item." );
+	var item := Target( source );
+        if( !item )
+		AI_Speak( npc, "I cannot evaluate anything." );
+        elseif( item.IsA( POLCLASS_MOBILE ))
+                AI_Speak( npc, "The Virues of Compassion teach us to always respect the people around us." );
+                Sleep(5);
+                AI_Speak( npc, "That also mean to not insult them by telling them they are a curse." );
+        else
+		var curse := GetObjProperty( item, "Cursed" );
+                if( GetObjProperty( item, "CannotBeUncursed" ))
+                        AI_Speak( npc, "That curse is too strong, I never saw something like that before!" );
+		elseif( curse == 2 )
+			var price := CInt( AP_GetTrueStat( source, STRENGTH ) * item.maxhp );
+			SetObjProperty( source, "#PriestDemand", array{"RemoveCurse", price, item.serial} );
+		        AI_Speak( npc, "I will remove the curse from that item for at least "+price+" gold pieces." );
+                else
+		        AI_Speak( npc, "I can't remove a curse from an item that isn't cursed or don't seem to be." );
+                endif
+        endif
+    
+        return 1;
+endfunction
+
+function Send_DetectCurse( npc, source )
+
+        AI_Speak( npc, "Show me the item." );
+	var item := Target( source );
+        if( !item )
+		AI_Speak( npc, "I cannot evaluate anything." );
+        elseif( item.IsA( POLCLASS_MOBILE ))
+                AI_Speak( npc, "I really don't think it's cursed, nor that it will ever be." );
+        else
+		var curse := GetObjProperty( item, "Cursed" );
+		if( curse == 2 || curse == 3 )
+                        AI_Speak( npc, "That item isn't only cursed, but the curse is also already revealed." );
+                elseif( curse == 1 )
+			var price := CInt( AP_GetTrueStat( source, STRENGTH ) * item.maxhp );
+			SetObjProperty( source, "#PriestDemand", array{"DetectCurse", price, item.serial} );
+		        AI_Speak( npc, "I'll tell thee if that item is cursed is thee can spare at least "+price+" gold pieces." );
+                endif
+        endif
+        
+        return 1;
+endfunction
+
+function Send_Purify( npc, source )
+
+        AI_Speak( npc, "What item dost thou want me to free from all malefic magical influences?" );
+	var item := Target( source );
+        if( !item )
+		AI_Speak( npc, "I cannot evaluate anything." );
+        elseif( item.IsA( POLCLASS_MOBILE ))
+                AI_Speak( npc, "I really don't think it's malefic, nor that it will ever be." );
+        else
+		var price := CInt( AP_GetTrueStat( source, STRENGTH ) * item.maxhp * 10 );
+                if( price > 55000 )
+                        price := 55000;
+                endif
+                
+		SetObjProperty( source, "#PriestDemand", array{"Purify", price, item.serial} );
+		AI_Speak( npc, "That's a hard feat and I'll only do it if thee agree to make a donation of at least "+price+" gold pieces." );
+        endif
+        
+        return 1;
+endfunction
+
+function Send_Cast( npc, source, text )
+
+         var price := 0;
+         case( text )
+                 "bless" :        price := 1500;
+                                  AI_Speak( npc, "For a small donation leaved to your discretion I can grant thee a blessing from the Virtues." );
+                                  SetObjProperty( source, "#PriestDemand", array{"bless", price} );
+                                  break;
+                                  
+                 "cure" :         price := 1000;
+                                  AI_Speak( npc, "Freeing thou from all toxins cost "+price+" gold pieces." );
+                                  SetObjProperty( source, "#PriestDemand", array{"cure", price} );
+                                  break;
+                                  
+                 "heal" :         price := 500;
+                                  AI_Speak( npc, "I'll heal all of thine wounds for a "+price+" gold pieces donation." );
+                                  SetObjProperty( source, "#PriestDemand", array{"heal", price} );
+                                  break;
+                                  
+                 "protection" :   price := 1500;
+                                  AI_Speak( npc, "For a small donation leaved to your discretion I can grant thee a protection from the Virtues." );
+                                  SetObjProperty( source, "#PriestDemand", array{"protection", price} );
+                                  break;
+
+                 "dispel" :       price := 2000;
+                                  AI_Speak( npc, "For a small donation leaved to your discretion I can grant thee a dispel from the Virtues." );
+                                  SetObjProperty( source, "#PriestDemand", array{"dispel", price} );
+                                  break;
+         endcase
+
+         return 1;
+endfunction

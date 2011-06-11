@@ -1,0 +1,19 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-09
+*/
+use uo;
+use os;
+
+program TimedScript_EndScript( params )
+
+	var mobile := params[1];
+
+	CancelTarget( mobile );
+
+	return 1;
+endprogram

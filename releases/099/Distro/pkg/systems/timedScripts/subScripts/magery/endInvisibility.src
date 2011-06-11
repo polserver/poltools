@@ -1,0 +1,24 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Modifications 2009-12-09
+*/
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_EndInvisibility( params )
+
+	var mobile := params[1];
+	    params := 0;
+	
+	EraseObjProperty( mobile, "Invisibility" );
+	mobile.hidden := 0;
+	
+	return 1;
+endprogram
+

@@ -1,0 +1,168 @@
+<CENTER><U><B>Commands</B></U></CENTER><BR>
+
+<I>.afk</I><BR>
+Toggle On/Off a message over your head showing you are away from keyboard.
+<BR>
+<BR>
+<I>.arm</I><BR>
+Equip up to 6 predefined weapons and shields automatically when using .arm # 
+<BR>
+<BR>
+<I>.autoloop</I><BR>
+Crafting often ask for an amount of item you want to create. You can set it with .autoloop so it won't ask you every time.
+<BR>
+<BR>
+<I>.barter</I><BR>
+Use this command to communicate with everyone online at every moment. 
+<BR>
+<BR>
+<I>.c</I><BR>
+Brings up guild chat menu if only .c or you can chat using .c message
+<BR>
+<BR>
+<I>.castSpell</I><BR>
+Easier way to cast spells from our custom spellbooks.
+<BR>
+<BR>
+<I>.changeMail</I><BR>
+This command has been changed for .myAccount
+<BR>
+<BR>
+<I>.changePassword</I><BR>
+This command has been changed for .myAccount
+<BR>
+<BR>
+<I>.classeInfos</I><BR>
+Brings up all informations about classes of Fantasia.
+<BR>
+<BR>
+<I>.count</I><BR>
+Tells you a small description of your inventory.
+<BR>
+<BR>
+<I>.disarm</I><BR>
+Unequip up to 6 predefined weapons and shield automatically using .disarm # or use .disarm bag to select where you want to disarm your items.
+<BR>
+<BR>
+<I>.email</I><BR>
+Brings up Fantasia Shard Messenger. You can add/block and send email to contacts.
+<BR>
+<BR>
+<I>.guards</I><BR>
+Use this option if you are attacked in a guarded zone and guards will come to your rescue.
+<BR>
+<BR>
+<I>.help</I><BR>
+Usage is .help topic to brings up help for a topic.
+<BR>
+<BR>
+<I>.hungry</I><BR>
+This will tells you what is your hungry level.
+<BR>
+<BR>
+<I>.jailTime</I><BR>
+Usefull to get the exact moment you will be freed from jail.
+<BR>
+<BR>
+<I>.lotoFantasia</I><BR>
+Brings up informations about current and previous lotteries.
+<BR>
+<BR>
+<I>.moongateWarning</I><BR>
+This enable/disable the warning when you walk on a moongate.
+<BR>
+<BR>
+<I>.motd</I><BR>
+Brings up the message of the day. Note that you will be warned everytimes we change it.
+<BR>
+<BR>
+<I>.move</I><BR>
+That command is usefull to move all items of same type in a container. You can also use .move number
+<BR>
+<BR>
+<I>.msg</I><BR>
+Brings up the list of players accepting private messages from others. Then you can select a player you want to send a message. Use .msg help to get all the possible commands you can use.
+<BR>
+<BR>
+<I>.myAccount</I><BR>
+Brings up a menu where you can change your password and/or email set for your account.
+<BR>
+<BR>
+<I>.myCaps</I><BR>
+Tells you what are your cap skills. You can get new cap skill from power scrolls found on high level creatures of Fantasia.
+<BR>
+<BR>
+<I>.myFame</I><BR>
+Tells you what is your current fame and karma.
+<BR>
+<BR>
+<I>.myLogs</I><BR>
+It shows you all the woods you have in your backpack.
+<BR>
+<BR>
+<I>.myOres</I><BR>
+It shows you all the ores you have in your backpack.
+<BR>
+<BR>
+<I>.myProts</I><BR>
+It shows an overview of all protections equipped on your character.
+<BR>
+<BR>
+<I>.myReags</I><BR>
+It shows you all the basic reagents you have in your backpack.
+<BR>
+<BR>
+<I>.notifyDamage</I><BR>
+Toggle on/off the damage display over your head.
+<BR>
+<BR>
+<I>.placeBounty</I><BR>
+Use this command if you want to place a bounty on the head of someone.
+<BR>
+<BR>
+<I>.point</I><BR>
+Use it if you want to point at something.
+<BR>
+<BR>
+<I>.poll</I><BR>
+Use this command if you want to answer a poll that may be used to increase the server rating.
+<BR>
+<BR>
+<I>.redeed</I><BR>
+useful to re-deed the objects already placed in your house.
+<BR>
+<BR>
+<I>.serverTime</I><BR>
+You can get the exact gametime of the server location when using this command. 
+<BR>
+<BR>
+<I>.setKillNoto</I><BR>
+Use this command to customize the message sent to your victims when they are killed.
+<BR>
+<BR>
+<I>.showClasse</I><BR>
+Tells you the specific classe you are.
+<BR>
+<BR>
+<I>.skills</I><BR>
+This command is NO longer being used since all options are now supported by your main skills display on your paperdoll.
+<BR>
+<BR>
+<I>.suicide</I><BR>
+You might want to suicide yourself for various reasons but this is not recommanded to be used often. 
+<BR>
+<BR>
+<I>.toggleQuote</I><BR>
+That is used to toggle ON/OFF the quotes above your head when you hit critical. 
+<BR>
+<BR>
+<I>.undress</I><BR>
+This option is deprecated with the newer clients that we are now using but we may keep it for a short time before removing it. 
+<BR>
+<BR>
+<I>.vote</I><BR>
+Select this option if you want to increase by your votes the server rating. 
+<BR>
+<BR>
+<I>.where</I><BR>
+Often used by players to retrace lost players. This also tells you where you are exactly.

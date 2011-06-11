@@ -1,0 +1,24 @@
+/*
+        Created by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2010-05-31
+*/
+use uo;
+
+include "include/security";
+include ":onlineCount:bots";
+
+program textcmd_disconnectBot( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        BOT_SendCommand( EVENT_DISCONNECT_BOT );
+
+        return 1;
+endprogram

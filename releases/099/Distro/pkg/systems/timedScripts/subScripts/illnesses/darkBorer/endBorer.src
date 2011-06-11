@@ -1,0 +1,21 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-12-09
+*/
+use uo;
+use os;
+
+program EndPoison( params )
+
+	var mobile := params[1];
+
+	SendSysMessage( mobile, "The dark borer is no longer within your body." );
+
+	EraseObjProperty( mobile, "DarkBorer" );
+
+	return 1;
+endprogram
