@@ -1,0 +1,25 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-30
+*/
+use uo;
+
+include "include/security";
+
+program textcmd_getglobal( who, propname )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+        
+	var res := GetGlobalProperty( propname );
+	if( res != error )
+		SendSysMessage( who, "Property "+propname+": "+res );
+	else
+		SendSysMessage( who, "Error getting property: "+res.errortext );
+	endif
+
+	return 1;
+endprogram

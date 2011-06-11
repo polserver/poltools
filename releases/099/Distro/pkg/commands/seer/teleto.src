@@ -1,0 +1,36 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+
+include ":security:commandReport";
+include "include/security";
+
+program command_TeleTo( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+	SendSysMessage( who, "Move who?" );
+	var what := Target( who, TGTOPT_NOCHECK_LOS );
+	if( !what )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+	
+	SendSysMessage( who, "Move where?" );
+	var where := TargetCoordinates( who );
+	if( !where )
+		SendSysMessage( who, "Cancelled." );
+		return 0;
+	endif
+	
+	MoveObjectToLocation( what, where.x, where.y, where.z, what.realm, MOVEOBJECT_FORCELOCATION );
+	CMD_ReportText( "Moving to x:"+where.x+" y:"+where.y+" z:"+where.z+" realm:"+where.realm, CMD_REPORT_SYSLOG );
+ 
+	return 1;
+endprogram

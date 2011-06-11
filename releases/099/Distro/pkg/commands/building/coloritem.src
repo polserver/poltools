@@ -1,0 +1,37 @@
+/*
+        Created by *Edwards
+
+        2010-03-23
+*/
+use uo;
+
+include "include/security";
+
+program textcmd_colorItem( mobile, num_color )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        if( !num_color )
+                num_color := SelectColor( mobile, mobile.backpack );
+        endif
+	
+	SendSysMessage( mobile, "What item you would like to color?" );
+	var targ := TargetCoordinates( mobile ).item;
+	if( !targ )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+        elseif( !targ.IsA( POLCLASS_ITEM ))
+		SendSysMessage( mobile, "You cannot color that item." );
+		return 0;
+        elseif( targ.IsA( POLCLASS_EQUIPMENT ) && mobile.cmdlevel < 3 )
+		SendSysMessage( mobile, "You are not allowed to color that item." );
+		return 0;
+        endif
+        
+	targ.color := num_color;
+ 
+        return 1;
+endprogram

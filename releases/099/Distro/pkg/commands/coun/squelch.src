@@ -1,0 +1,29 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+use os;
+
+include ":security:commandReport";
+
+program textcmd_squelch( mobile, duration )
+
+        if( CStr( duration ) == "-1" )
+                duration := 120;
+        endif
+
+	var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+	if( targ )
+                if( targ.cmdlevel >= mobile.cmdlevel && mobile.cmdlevel < 4 )
+                         SendSysMessage( targ, mobile.name+" is trying to squelch you." );
+                         return 0;
+                else
+		         targ.squelch( CInt( duration ));
+                         CMD_ReportText( "Squelch character:"+targ.serial+" Duration:"+duration, CMD_REPORT_SYSLOG );
+                endif
+	endif
+ 
+        return 1;
+endprogram

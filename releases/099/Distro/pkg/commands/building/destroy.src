@@ -1,0 +1,32 @@
+/*
+        Maintened by *Edwards
+
+        2008-05-30
+*/
+use uo;
+
+include "include/security";
+
+program textcmd_Destroy( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+	SendSysMessage( mobile, "What do you want to destroy?" );
+
+	var targ := TargetCoordinates( mobile ).item;
+	if( !targ )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	endif
+
+	var result := DestroyItem( targ );
+	if( result.errortext )
+		SendSysMessage( mobile, "DestroyItem() Error - "+result.errortext );
+		return 0;
+	endif
+
+	return 1;
+endprogram

@@ -1,0 +1,29 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use uo;
+use os;
+
+program textcmd_thaw( mobile, text )
+
+        if( Lower( text ) == "me" )
+                mobile.frozen := 0;
+                mobile.paralyzed := 0;
+                SendSysMessage( mobile, "Done!" );
+                return 1;
+        endif
+
+        SendSysMessage( mobile, "Who do you wish to thaw?" );
+        var targ := TargetCoordinates( mobile );
+        if( targ.mobile )
+                targ.frozen := 0;
+                targ.paralyzed := 0;
+                PrintTextAbovePrivate( targ, targ.name+" has been thawed", mobile );
+	else
+		SendSysMessage( mobile, "Cancelled." );
+	endif
+ 
+        PrintTextAbovePrivate( targ.mobile, targ.mobile.name + " has been thawed", mobile );
+endprogram

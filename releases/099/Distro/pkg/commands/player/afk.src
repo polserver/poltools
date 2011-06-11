@@ -1,0 +1,41 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+        
+        Last Modifications 2009-11-25
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+use util;
+
+program dotcmd ( mobile )
+
+	if( !GetObjProperty( mobile, "#afk" ))
+		IsAFK( mobile );
+        else
+                EraseObjProperty( mobile, "#afk" );
+	endif
+ 
+        return 1;
+endprogram
+
+function IsAFK( mobile )
+        
+        var x := mobile.x,
+            y := mobile.y,
+            randZ;
+            
+        SetObjProperty( mobile, "#afk", 1 );
+            
+	while( mobile.x == x && mobile.y == y && GetObjProperty( mobile, "#afk" ))
+		PlayObjectCenteredEffect( mobile, 0x3C3A, 1, 25 );
+  
+		Sleep( 10 );
+	endwhile
+ 
+	EraseObjProperty( mobile, "#afk" );
+ 
+        return 1;
+endfunction

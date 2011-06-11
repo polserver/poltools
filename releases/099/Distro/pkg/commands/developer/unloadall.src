@@ -1,0 +1,24 @@
+/*
+        Maintened by *Edwards
+
+        2008-09-28
+*/
+use os;
+use uo;
+use cfgfile;
+use polsys;
+
+include "include/security";
+
+program textcmd_UnloadAll( who )
+
+        if( !AuthorizationCode( who ))
+                SendSysMessage( who, "Cancelled." );
+                return 0;
+        endif
+
+        ReloadConfiguration();
+	SendSysMessage( who, "Number of scripts unloaded: "+Unload_Scripts( "" ));
+        
+	return 1;
+endprogram

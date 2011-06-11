@@ -1,0 +1,22 @@
+/*
+        Maintened by *Edwards
+
+        Last Modifications 2009-05-30
+*/
+use os;
+use uo;
+
+include ":security:commandReport";
+
+program textcmd_sayabove( who, text )
+
+	SendSysMessage( who, "Say above what or whom?" );
+
+	var what := Target( who, TGTOPT_NOCHECK_LOS );
+	if( what )
+		PrintTextAbove( what, ""+text, 3, 80 );
+                CMD_ReportText( "Sayabove:"+text, CMD_REPORT_SYSLOG );
+	endif
+
+	return 1;
+endprogram

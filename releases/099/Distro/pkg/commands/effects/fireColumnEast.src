@@ -1,0 +1,125 @@
+/*
+        Created by *Edwards
+
+        2008-12-13
+*/
+use uo;
+use os;
+
+program textcmd_e3( staff )
+
+	PlaySoundEffect( staff, 21 );
+	Sleep(2);
+	PlaySoundEffect( staff, 22 );
+	Sleep(3);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+16, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-16, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+15, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-15, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+14, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-14, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+13, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-13, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+12, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-12, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+11, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-11, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+10, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-10, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+9, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-9, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+8, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-8, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+7, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-7, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+6, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-6, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+5, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-5, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+4, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-4, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+3, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-3, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x, staff.y+2, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm );
+	PlayStationaryEffect( staff.x, staff.y-2, staff.z, 0x3709, 0x0a, 0x1e, 0, staff.realm);
+	SleepMS(250);
+
+	PlaySoundEffect( staff, 521 );
+	PlayStationaryEffect( staff.x-1, staff.y+1, staff.z, 0x3709, 0x0a, 0x1e, 1, staff.realm );
+	PlayStationaryEffect( staff.x-1, staff.y-1, staff.z, 0x3709, 0x0a, 0x1e, 1, staff.realm );
+	PlayStationaryEffect( staff.x+1, staff.y+1, staff.z, 0x3709, 0x0a, 0x1e, 1, staff.realm );
+	PlayStationaryEffect( staff.x+1, staff.y-1, staff.z, 0x3709, 0x0a, 0x1e, 1, staff.realm );
+	
+	PlaySoundEffect( staff, 520 );
+ 
+	PlaySoundEffect( staff, 0x02a );
+	PlayLightningBoltEffect( staff );
+	PlayLightningBoltEffect( staff );
+	PlayLightningBoltEffect( staff );
+	PlaySoundEffect( staff, 0x02a );
+	PlayLightningBoltEffect( staff );
+	PlayLightningBoltEffect( staff );
+	PlayLightningBoltEffect( staff );
+
+	PlayObjectCenteredEffect( staff, 0x3709, 0x0a, 0x1e );
+	PlayObjectCenteredEffect( staff, 0x375a, 7, 0x10 );
+	PlayObjectCenteredEffect( staff, 0x3709, 0x0a, 0x1e );
+	PlayObjectCenteredEffect( staff, 0x375a, 7, 0x10 );
+	PlayObjectCenteredEffect( staff, 0x3709, 0x0a, 0x1e );
+	PlayObjectCenteredEffect( staff, 0x375a, 7, 0x10 );
+ 
+	PlaySoundEffect( staff, 604 );
+ 
+        staff.concealed := 0;
+	PerformAction( staff, 0x11 );
+	PerformAction( staff, 0x0011 );
+ 
+	PlaySoundEffect( staff,520 );
+	PlaySoundEffect( staff,519 );
+
+        return 1;
+endprogram
