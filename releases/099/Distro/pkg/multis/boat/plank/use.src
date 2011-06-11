@@ -1,0 +1,28 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        2009-10-28
+*/
+use uo;
+
+program UsePlank( mobile, plank )
+
+	Detach();
+
+	if( plank.Extended() )
+		if( mobile.multi != plank.multi )
+			if( Distance( mobile, plank ) <= 2 )
+				MoveObjectToLocation( mobile, plank.x, plank.y, plank.z+1, plank.realm, MOVEOBJECT_FORCELOCATION );
+			endif
+		else
+			plank.Retract();
+		endif
+	else
+		plank.Extend();
+	endif
+
+	return 1;
+endprogram
