@@ -1,0 +1,49 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+
+        Edwards@FantasiaShard.com
+
+        Last Maintenance 2011-03-31
+*/
+use uo;
+use basic;
+
+include ":security:speechReport";
+
+program HandleSpeech()
+
+         print( "INSTALLING: HandleSpeech Hook..." );
+
+         return 1;
+endprogram
+
+exported function SpeechHandle( mobile, byref packet )
+
+         var speech := "",
+             speech_start := 12,
+             speech_len;
+
+         if( packet.GetInt8(3) == 0xC0 )
+                  var triggers := packet.GetInt16(12) / 16;
+                  var bytes := CInt( triggers * 1.5 + 2 );
+
+                  speech_start += bytes;
+
+                  speech_len := packet.GetInt16(1) - 1 - speech_start;
+                  speech := CStr( packet.GetString( speech_start, speech_len ));
+         else
+                  speech_len := ( packet.GetInt16(1) - 13 ) / 2;
+                  speech := CChrZ( packet.GetUnicodeString( speech_start, speech_len ));
+         endif
+         
+         var last_speech := GetObjProperty( mobile, "#LastSpeech" );
+         if(( speech[1] == "." && !mobile.cmdlevel ) && last_speech != speech )
+                  SetObjProperty( mobile, "#LastSpeech", speech );
+                  
+                  //The variable speech is now the exact text they said.
+                  Speech_ReportText( mobile, speech, ITEM_REPORT_SYSLOG );
+         endif
+         
+         return 0;
+endfunction

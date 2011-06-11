@@ -1,0 +1,60 @@
+/*
+        Maintened by *Edwards
+        For FantasiaShard.com
+        
+        Edwards@FantasiaShard.com
+        
+        2009-12-22
+        
+        author:  MuadDib
+
+        Purpose:  This hooks the core 0x11 stats packet, and rewrites it for sending the char all the
+                  extended stats for Age of Shadows like Pet Count, Min/Max Damage, statcap, etc. 2
+                  Flags used per a CONST in order to decide which of the type to send.
+
+        Notes:    This is done only for example functionality. Pet Count, Damage Reports, etc is NOT
+                  implemented into anything nor is the resists and luck. You can also change the global
+                  var STATCAP to be a variable if required for special rising stat cap systems.
+*/
+use polsys;
+
+include ":statushook:sendStat";
+
+program sendStats()
+
+	Print( "INSTALLING: Outgoing Status PH..." );
+ 
+	return 1;
+endprogram
+
+exported function HandleSendStats( character, byref packet )
+ 
+	// Increase by 22 for the new info to be added
+	packet.SetSize((( packet.GetSize() ) + 22 ));
+ 
+	// We do this to make sure it is the correct packet form. Otherwise it is for someone else
+	// and there is no need to send the additional info.
+ 
+	var packet_mode := packet.GetInt8(42);
+	var chk := 0;
+ 
+	case( packet_mode )
+		0: return 0;    // Base packet, so not needed
+		1:
+		3:
+		4:
+		5: chk := 1; // Continue processing! At this time 5 is not used, but it may in the future! Thanks OSI!
+		default: return 0;   // OHHHH, mommy :o
+	endcase
+
+	if( chk )
+                Send_StatCap( packet );
+                Send_CurrentPetInfos( packet, character );
+                Send_ResistInfos( packet, character );
+                Send_Luck( packet, character );
+                Send_DamageInfos( packet, character );
+                Send_TitchingPoints( packet );
+	endif
+
+	return 0;
+endfunction
