@@ -1,0 +1,57 @@
+/*
+        Created by *Edwards
+
+        Last Modifications 2009-10-18
+             * Cleaned codes for better performances
+             * Removed while loop if rune is in containers so might nt work if items is inside containers...
+*/
+use uo;
+use os;
+use util;
+
+include "include/sounds";
+
+program SoundPlay( rune )
+
+	while( rune )
+                var is_active := 0;
+                while( rune.GetSounds() )
+                        if( !is_active )
+  	  	  	  	rune.ActivateAmbience();
+                                is_active := 1;
+                        endif
+
+		        var delay := rune.GetDelay();
+		        if( delay.errortext )
+                                PrintTextAbove( rune, "Error reading delay for a sound_rune -->"+delay.errortext );
+			        return 0;
+		        endif
+		
+		        var range := rune.GetRange();
+		        if( range.errortext )
+                                PrintTextAbove( rune, "Error reading range for a sound_rune -->"+range.errortext );
+                                return 0;
+		        endif
+		
+		        var sound_list := rune.GetSounds();
+		        if( sound_list.errortext )
+                                PrintTextAbove( rune, "Error reading sounds for a sound_rune -->"+sound_list.errortext );
+                                return 0;
+		        endif
+		
+		        var effect := sound_list.RandomEntry();
+		        if( effect.errortext )
+                                PrintTextAbove( rune, "Error reading sound effect for a sound_rune -->"+effect.errortext );
+                                return 0;
+		        endif
+
+			PlaySoundEffect( rune, effect );
+   
+                        Sleep( RandomInt( delay ));
+                endwhile
+  
+		Sleep( 60 );
+	endwhile
+ 
+        return 1;
+endprogram

@@ -1,0 +1,56 @@
+/*
+        Created by *Edwards
+        
+        Last Modifications 2009-10-18
+             * Cleaned codes for better performances
+*/
+use uo;
+use os;
+
+include "include/itemUtil";
+include "include/security";
+
+program setupsound( mobile, rune )
+
+       	if( !useItem_check( mobile, rune, DEFAULT_ITEM ))
+		return 0;
+        elseif( mobile.cmdlevel < 2 )
+                SendSysMessage( mobile, "You do not have access to this item." );
+                return 0;
+	elseif( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+	
+	var range := SendTextEntryGump( mobile, "Enter distance people can hear the rune from (max 20).", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, 20 );
+	if( range.errortext )
+                SendSysMessage( mobile, "Error reading range description -->"+range.errortext );
+                return 0;
+	endif
+ 
+	var delay := SendTextEntryGump( mobile, "Enter the amount of time to wait between sound effects (seconds).", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, 500 );
+	if( delay.errortext )
+                SendSysMessage( mobile, "Error reading delay description -->"+delay.errortext );
+                return 0;
+	endif
+ 
+	var soundlist := array{};
+	while( mobile )
+		var sound := SendTextEntryGump( mobile, "Enter sound effects for it to cycle through (cancel to finish).", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 5 );
+		if( !sound )
+			break;
+		endif
+  
+		soundlist.Append( CInt( sound ));
+		PlaySoundEffect( mobile, CInt( sound ));
+	endwhile
+ 
+        SetObjProperty( rune, "Range", range );
+	SetObjProperty( rune, "Delay", delay );
+	SetObjProperty( rune, "SoundList", soundlist );
+
+        SendSysMessage( mobile, "Ambience rune will active within the next minute." );
+        rune.invisible := 1;
+ 
+        return 1;
+endprogram

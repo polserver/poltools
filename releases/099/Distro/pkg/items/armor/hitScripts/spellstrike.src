@@ -1,0 +1,58 @@
+/*
+        Made by *Edwards
+        08-02-2008
+
+        Updated 2008-08-31
+
+        Last Modifications 2009-10-18
+             * Cleaned codes for better performanc
+
+        Thanks to Zulu and his developers for these awesome ideas...
+*/
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcUtil";
+
+program OnHitScript_SpellStrike( parms )
+
+        var attacker       := parms[1];
+	var defender       := parms[2];
+	//var rawDamage      := parms[3];
+	var armorDefender  := parms[4];
+	parms := 0;
+
+        var cursed := GetObjProperty( armorDefender, "Cursed" );
+        if( cursed )
+		attacker := defender;
+        endif
+        
+        var spellid,
+            chance;
+
+        if( defender.IsA( POLCLASS_NPC ))
+                var npc := NPC_GetNPCConfig( defender.npctemplate );
+	        spellid := npc.HitWithSpell;
+                chance := npc.ChanceOfEffect;
+        else
+	        spellid := GetObjProperty( armorDefender, "HitWithSpell" );
+                if( spellid.errortext )
+                        SendSysMessage( defender, "Unable to read spell type -> "+spellid.errortext );
+                endif
+
+                chance := GetObjProperty( armorDefender, "ChanceOfEffect" );
+                if( !chance )
+                        chance := 10;
+                endif
+        endif
+
+	if( RandomDiceRoll( "1d100" ) <= CInt( chance ))
+                var script := start_script( ":magery:spellstarter", array{defender, spellid, 1, attacker, 1, 1, 1, 1, 1} );
+                if( script.errortext )
+                        SendSysMessage( defender, "Error starting <:magery:spellstarter> --> "+script.errortext );
+                endif
+	endif
+
+        return 1;
+endprogram

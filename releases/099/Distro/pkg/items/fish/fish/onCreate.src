@@ -1,0 +1,21 @@
+/*
+        Created by *Edwards
+        
+        2008-10-14
+*/
+use uo;
+use os;
+use util;
+
+program Fish_OnCreate( fish )
+
+        var objtype := {	0x09cc,
+		                0x09cd,
+		                0x09ce,
+                                0x09cf
+	               };
+        
+	fish.graphic := objtype.RandomEntry();
+        
+        return 1;
+endprogram

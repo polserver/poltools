@@ -1,0 +1,157 @@
+/*
+        Created by *Edwards
+
+        2010-05-28
+*/
+use os;
+use uo;
+
+include "include/client";
+include "include/shapes";
+include "include/string";
+include "include/itemUtil";
+include ":attributes:attributes";
+include ":classes:classes";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:yesno";
+include ":security:report";
+
+const SKILLS_AVERAGE := 75; // LEVEL 1
+
+program use_boostStone( mobile, stone )
+
+       	if( !useItem_check( mobile, stone, DEFAULT_ITEM ))
+		return 0;
+	endif
+
+        mobile.frozen := 1;
+        TurnLightLevel( mobile, "off" );
+
+        SendClasseSelection( mobile );
+
+        Sleep(1);
+
+        TurnLightLevel( mobile, "on" );
+        mobile.frozen := 0;
+
+        var move := MoveObjectToLocation( mobile, 2263, 1548, -28, "ilshenar", MOVEOBJECT_FORCELOCATION );
+        if( move.errortext )
+                SendSysMessage( mobile, "Error couldn't move to destination -->"+move.errortext );
+                return 0;
+        endif
+
+        mobile.Kill();
+
+        SendSysMessage( mobile, "Select the race you would like to be.", 3, 50 );
+
+        return 1;
+endprogram
+
+function TurnLightLevel( mobile, turn:="off" )
+
+        var i;
+        if( turn == "off" )
+                for( i:=0; i<=30; i+=1 )
+                        mobile.SetLightLevel( i, -1 );
+                        SleepMS(100);
+                endfor
+        else
+                for( i:=30; i>=1; i-=1 )
+                        mobile.SetLightLevel( i, -1 );
+                        SleepMS(100);
+                endfor
+        endif
+
+        Sleep(1);
+
+        return 1;
+endfunction
+
+function SendClasseSelection( mobile )
+
+        //Initialize the gump
+        var gump := GFCreateGump();
+
+        GFMovable( gump, 0 );
+        GFClosable( gump, 0 );
+
+        GFTextMid( gump, 315, 200, 220, 1720, "Select a classe" );
+
+        var classe_list := array{BARD, CRAFTER, MAGE, RANGER, THIEF, WARRIOR},
+	    y_pos := 240;
+
+	GFPage( gump, 1 );
+	foreach classe in ( classe_list )
+
+		GFTextLine( gump, 280, y_pos, 2100, UCFirst( GetClasseName( classe )));
+		GFAddButton( gump, 510, y_pos+5, 210, 211, GF_CLOSE_BTN, _classe_iter );
+
+		y_pos += 20;
+		SleepMS(2);
+	endforeach
+
+	GFAddButton( gump, 333, y_pos+10, 2440, 2440, GF_CLOSE_BTN, 0xA1 );
+        GFTextMid( gump, 317, y_pos+10, 220, 1720, "Click here for infos" );
+
+        //And now we need to know the answer...
+        var input := GFSendGump( mobile, gump );
+        if( !input )
+                SendClasseSelection( mobile );
+                return 0;
+        elseif( input[0xA1] )
+                var classes_info := Start_Script( ":classes:commands/player/classeInfos", mobile );
+                if( classes_info.errortext )
+                        SendSysMessage( mobile, "Error starting script <:classes:commands/player/classeInfos> -->"+classes_info.errortext );
+                endif
+
+                SendClasseSelection( mobile );
+                return 0;
+        endif
+
+        input := input[0];
+
+        var result := classe_list[input];
+        if( PlayerAccepted( mobile, result ))
+                return 1;
+        endif
+
+        return SendClasseSelection( mobile );
+endfunction
+
+function PlayerAccepted( mobile, classe_name )
+
+	var classe_skills := GetClasseSkills( classe_name );
+        if( !classe_skills )
+                SendSysMessage( mobile, "Invalid classe name" );
+                return 0;
+        elseif( !YesNo( mobile, "Are you sure you want to be classed "+UCFirst( GetClasseName( classe_name ))+" level 1?", "Yes, of course! Let's go!", "No! Please let me choose again!" ))
+                return 0;
+        endif
+
+        PlayEffect( mobile );
+
+	foreach attrib_name in AP_ListAttributesByType( "Skill" )
+                if( attrib_name in classe_skills )
+			AP_SetTrueSkill( mobile, attrib_name, 75 );
+
+		else
+			AP_SetTrueSkill( mobile, attrib_name, 0 );
+		endif
+
+		SleepMS(10);
+	endforeach
+
+        ReportText( mobile.name+" selected classe: "+classe_name, REPORT_SYSLOG );
+
+        return 1;
+endfunction
+
+function PlayEffect( mobile )
+
+        PlayMovingEffectXYZ( mobile.x, mobile.y, mobile.z+75, mobile.x, mobile.y-1, mobile.z, 0x373A, 7, 14, 0, mobile.realm );
+        PlaySoundEffect( mobile, 0x01f3 );
+        Sleep(1);
+
+        return 1;
+endfunction

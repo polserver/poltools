@@ -1,0 +1,30 @@
+/*
+        Maintened by *Edwards
+
+        2009-10-21
+*/
+use uo;
+use os;
+use polsys;
+
+include ":gumps:requestgump";
+
+program command_SetupDoors( who )
+
+	var realm_name := RequestGump( who, "Enter the realm name to setup doors for.", "", who.realm );
+	
+	var realm_info := Realms()[realm_name];
+	if( !realm_info )
+		SendSysMessage( who, "Invalid realm name." );
+		return 0;
+	endif
+	
+	var script := Start_Script( ":doors:initializer/firstRun", array{realm_name} );
+	if( script.errortext )
+		SendSysMessage( who, "Error -"+script.errortext );
+	else
+		SendSysMessage( who, "Running door initializer." );
+	endif
+	
+	return 1;
+endprogram
