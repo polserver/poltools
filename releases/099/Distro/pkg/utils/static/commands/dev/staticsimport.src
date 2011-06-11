@@ -1,0 +1,54 @@
+/*
+        Maintened by *Edwards
+
+        2009-12-20
+*/
+use uo;
+use os;
+use cfgfile;
+
+var itemdesc := ReadConfigFile (":*:itemdesc");
+
+program export_statics( mobile )
+
+	Set_Script_Option( SCRIPTOPT_NO_RUNAWAY, 1 );
+
+	var staticscfg := ReadConfigFile( ":static:statics" ),
+	    keys := GetConfigStringKeys( staticscfg );
+ 
+	if( !Len( keys ))
+		SendSysMessage( mobile, "But there are no items in statics.cfg!" );
+		return 0;
+	endif
+	
+	SendSysMessage( mobile, "Importing "+Len( keys )+" items. This will take a while..." );
+ 
+	var counter := 0;
+	foreach key in keys
+ 
+		var elem := staticscfg[key];
+  
+                //Old static was build with pol095 with no realm supports. Next line may fix the problem.
+                var realm := elem.realm;
+                if( !realm )
+                        realm := _DEFAULT_REALM;
+                endif
+                
+		var item := CreateItemAtLocation( elem.x, elem.y, elem.z, elem.id, 1, realm );
+		if( !item )
+			SendSysMessage( mobile, "Failed to import item "+key );
+		else
+			item.movable := 0;
+			item.decayat := 0;
+			item.color := elem.color;
+		endif
+  		SleepMS(5);
+	endforeach
+ 
+	SendSysMessage( mobile, "Finished! "+counter+" items imported!" );
+	SendSysMessage( mobile, "Remember to clean out statics.cfg!" );
+ 
+	UnloadConfigFile( ":static:statics" );
+ 
+        return 1;
+endprogram

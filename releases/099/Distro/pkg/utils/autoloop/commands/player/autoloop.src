@@ -1,0 +1,40 @@
+/*
+        Maintened by *Edwards
+        
+        2009-08-15
+*/
+use uo;
+use os;
+use math;
+
+include ":autoloop:autoloop";
+
+program textcmd_autoloop( mobile, text )
+
+	if( GetProcess( CInt( GetObjProperty( mobile, "#CmdAutoLoopPid" ))))
+		return 0;
+	else
+		SetObjProperty( mobile, "#CmdAutoLoopPid", GetPid() );
+	endif
+ 
+        if( CInt( text ) < 1 )
+                text := EnterAutoLoop( mobile );
+                if( !text )
+        	        SendSysMessage( mobile, "Cancelled." );
+                        return 0;
+                endif
+        endif
+
+        if( !SendAutoloop( mobile, text ))
+        	SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+        
+        if( text == -1 )
+                text := "infinite";
+        endif
+        
+        SendSysMessage( mobile, "Autoloop has been successfully set to "+text+"." );
+        
+        return 1;
+endprogram

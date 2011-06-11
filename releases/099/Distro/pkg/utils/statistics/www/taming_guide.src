@@ -1,0 +1,48 @@
+/*
+        Created by *Edwards
+
+        2010-08-28
+*/
+use uo;
+use os;
+use http;
+
+include "include/string";
+include ":brainAI:createNPC";
+include ":brainAI:npcUtil";
+
+program textcommand_test( mobile )
+
+	WriteHTML ("<html><head><title>Taming Guide</title></head>");
+	WriteHTML ("<body bgcolor=\"#dcdeed\">");
+ 
+        var list_creatures := GetTemplateList();
+        var difficulty_dict := dictionary;
+        
+        foreach template in list_creatures
+                SleepMS(10);
+                
+                var tame_skill := CInt( NPC_GetNPCConfig( template ).TameSkill );
+                if( !tame_skill )
+                        continue;
+                endif
+
+                var name := NPC_ParseTemplateName( template ).template;
+                
+                difficulty_dict.Insert( name, tame_skill );
+        endforeach
+
+        foreach key in ( difficulty_dict.Keys() )
+		var current_highest := difficulty_dict[key];
+		var current_name := key;
+  
+		WriteHTML ("[tr][td]"+current_name+"[/td][td][center]"+current_highest+"[/center][/td][/tr]<BR>");
+                SleepMS(10);
+        endforeach
+
+	WriteHTML ("</body></html>");
+        
+        SendSysMessage( mobile, "Done!" );
+ 
+        return 1;
+endprogram

@@ -1,0 +1,24 @@
+/*
+        Created by *Edwards
+
+        2008-10-03
+*/
+use uo;
+use os;
+
+include "include/packets";
+include "include/security";
+
+program command_serverstats( mobile )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+        SendSysMessage( mobile, "Please wait a moment." );
+
+        return OpenBrowser( mobile, "http://"+SHARD_IP+":"+SHARD_WWWPORT+"/pkg/myPOL/index.ecl" );
+
+        return 1;
+endprogram

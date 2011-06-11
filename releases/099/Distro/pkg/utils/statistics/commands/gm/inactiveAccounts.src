@@ -1,0 +1,18 @@
+/*
+        Created by *Edwards
+
+        2008-10-03
+*/
+use uo;
+use os;
+
+include "include/packets";
+
+program command_inactiveAccounts( mobile )
+
+        SendSysMessage( mobile, "Please wait a moment." );
+
+        return OpenBrowser( mobile, "http://"+SHARD_IP+":"+SHARD_WWWPORT+"/pkg/statistics/inactiveAccounts.ecl" );
+
+        return 1;
+endprogram

@@ -1,0 +1,100 @@
+/*
+        Created by *Edwards
+
+        2009-01-03
+*/
+use uo;
+use os;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:requestgump";
+include ":gumps:gumpprompt";
+include ":datafile:datafile";
+include "include/security";
+
+var g_datafile := DFOpenDataFile( ":statistics:statistics", DF_CREATE );
+
+program command_lastConnections( mobile, acctname )
+
+        if( !AuthorizationCode( mobile ))
+                SendSysMessage( mobile, "Cancelled." );
+                return 0;
+        endif
+
+	if( Lower( TypeOf( mobile )) == "array" )
+		acctname := mobile[2];
+		mobile := mobile[1];
+	endif
+
+	if( !acctname )
+		SendSysMessage( mobile, "Select a player." );
+		var targ := Target( mobile, TGTOPT_NOCHECK_LOS );
+		if( !targ.acctname )
+			SendSysMessage( mobile, "Cancelled." );
+			return 0;
+		else
+			acctname := targ.acctname;
+		endif
+	endif
+
+	if( !acctname )
+		acctname := RequestGump( mobile, "Enter the account name you want to look up.", "", "", CANCEL_BTN_ON );
+		if( !acctname )
+			SendSysMessage( mobile, "Cancelled." );
+			return 0;
+		endif
+	endif
+
+	var account := FindAccount( acctname );
+	if( account.errortext )
+		GumpPrompt( mobile, "Error with account name "+acctname+" [P] "+acctname.errortext );
+		return 0;
+	endif
+
+        var gump := GFCreateGump();
+
+        //Load Main Background
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 650, 375 );
+
+        GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 620, 25 );
+	GFTextMid( gump, 15, 17, 620, 1720, "Last 11 Connections for account "+acctname );
+
+	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 620, 320 );
+        GFTextLine( gump, 30, 60, 1720, "Date" );
+        GFTextLine( gump, 280, 60, 1720, "IP" );
+        GFTextLine( gump, 400, 60, 1720, "Character" );
+
+        var data_elem := DFFindElement( g_datafile, acctname, DF_CREATE ),
+            connect_list := data_elem.GetProp( "Connection_Record" );
+
+	var num := connect_list.Size();
+
+	var counter := 0;
+	var y_pos := 100;
+
+	GFPage( gump, 1 );
+	foreach elem in ( connect_list )
+
+		GFTextLine( gump, 30, y_pos, 2100, elem[1] );
+                GFTextLine( gump, 280, y_pos, 2100, elem[2] );
+                GFTextLine( gump, 400, y_pos, 2100, elem[3] );
+
+		y_pos += 20;
+		counter += 1;
+
+		if ( counter >= 13 && _elem_iter < num )
+			GFAddButton( gump, 283, 385, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+			GFPage( gump, gump.cur_page+1 );
+			GFAddButton( gump, 283, 40, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+			counter := 0;
+			y_pos := 100;
+		endif
+		SleepMS(2);
+	endforeach
+
+        //And now we need to know the answer...
+        GFSendGump( mobile, gump );
+
+        return 1;
+endprogram
