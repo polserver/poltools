@@ -16,10 +16,5 @@ program TimedScript( params )
 	PlaySoundEffect( mobile, SFX_MYSTERY_3 );
 	mobile.graphic := 0x51; // Frog
 
-	foreach item in ( EnumeratePhysicalItems( mobile ))
-		MoveObjectToLocation( item, mobile.x, mobile.y, mobile.z, item.realm, MOVEOBJECT_FORCELOCATION );
-		SleepMS(2);
-	endforeach
-
 	return 1;
 endprogram
