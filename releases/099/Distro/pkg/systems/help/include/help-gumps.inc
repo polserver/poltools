@@ -219,17 +219,19 @@ function BuildHelpStuckCommand( mobile )
                         return 0;
                 endif
         endif
-        
-        if( mobile.multi )
-                SendSysMessage( mobile, "You cannot use this privilege while inside a house/boat." );
-                return 0;
-        endif
 
         SendSysMessage( mobile, "You will be teleported within the next 5 minutes." );
         mobile.frozen := 1;
 
         var time := 0;
         while( time < 300 )
+
+                if( !mobile.dead && mobile.multi )
+                        SendSysMessage( mobile, "You cannot use this option while standing in a house or a boat alive." );
+                        mobile.frozen := 0;
+                        return 0;
+                endif
+                
                 var hostiles := ListHostiles( mobile, 20 );
                 if( hostiles.Size() >= 1 )
                         SendSysMessage( mobile, "You cannot use this option while you are being attacked." );
