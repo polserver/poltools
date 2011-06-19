@@ -43,7 +43,7 @@ program HitScript_Slayer( parms )
                 endforeach
                 
                 if( slaytype == "Human" && !bountyhunter )
-		        rawdamage *= 1.5;
+		        rawdamage *= 2;
                 endif
         else
                 if( type == slaytype || ( type && slaytype == "All" ))
