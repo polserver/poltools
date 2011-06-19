@@ -62,7 +62,7 @@ program SpellScript_Fright( params )
                 var amount := SONG_MathDamage( mobile, circle );
 
                 SPELL_PlaySpellGFX( info.spell_id, vtarg, mobile );
-                SPELL_ApplyDamage( vtarg, amount, "SongFire", mobile, DMG_FIRE );
+                SPELL_ApplyDamage( vtarg, amount, "SongFright", mobile, DMG_MAGIC );
 	endforeach
 
         return 1;
