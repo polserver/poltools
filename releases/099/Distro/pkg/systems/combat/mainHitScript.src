@@ -133,7 +133,7 @@ function Primary_Check( attacker, defender )
 		return 0;
         elseif( defender.cmdlevel > attacker.cmdlevel && attacker.cmdlevel < 4 )
                 return 0;
-        elseif( GetObjProperty( defender, "IsEthereal" ))
+        elseif( !attacker.IsA( POLCLASS_NPC ) && GetObjProperty( defender, "IsEthereal" ))
                 return 0;
         elseif( A_IsIn( defender, AREAS_NO_DAMAGE ) && attacker.cmdlevel <= 4 )
                 if( attacker.IsA( POLCLASS_NPC ))
