@@ -88,7 +88,7 @@ program skill_Provocation( mobile )
             sfx_failure := instrument.SfxFaillure();
 
         if( SkillCheck( mobile, MUSICIANSHIP, difficulty, 0, ADV_DISABLE ) > 0 )
-		if( SkillCheck( mobile, DISCORDANCE, -1 ) > 0 )
+		if( SkillCheck( mobile, PROVOCATION, -1 ) > 0 )
                         PlaySoundEffect( mobile, sfx_success );
                         PrintTextAbovePrivate( targ, "You provoke "+targ.name+" against "+victim.name+"!", mobile );
                         AI_Attack( targ, victim );
