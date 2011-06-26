@@ -14,7 +14,7 @@ use os;
 use http;
 use polsys;
 
-include ":myPOL:header";
+include ":POLManager:header";
 include ":attributes:attributes";
 include ":containers:storageAreas";
 include "include/uo_extend";
