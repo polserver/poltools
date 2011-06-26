@@ -17,7 +17,7 @@ endfunction
 
 function BOT_GetProcess()
 
-	var pid := GetGlobalProperty( "#OnlineCountPid" );
+	var pid := CInt( GetGlobalProperty( "#OnlineCountPid" ));
  
 	return GetProcess( pid );
 endfunction
