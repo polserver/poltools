@@ -2,7 +2,7 @@ use uo;
 use http;
 use cfgfile;
 
-include ":myPOL:header";
+include ":POLManager:header";
 
 Program HTMLPage()
 	DoHeader("Server Management Config Unloader");

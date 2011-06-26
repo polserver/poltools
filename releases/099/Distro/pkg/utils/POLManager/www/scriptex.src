@@ -3,7 +3,7 @@ use os;
 use http;
 use polsys;
 
-include ":myPOL:header";
+include ":POLManager:header";
 
 unload_scripts("");
 

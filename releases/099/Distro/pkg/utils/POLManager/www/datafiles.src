@@ -4,7 +4,7 @@ use http;
 use datafile;
 
 include ":datafile:datafile";
-include ":myPOL:header";
+include ":POLManager:header";
 
 program HTMLPage()
 	DoHeader("Server Management Data Files");

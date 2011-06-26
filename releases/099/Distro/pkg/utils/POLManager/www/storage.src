@@ -4,7 +4,7 @@ use http;
 use polsys;
 use storage;
 
-include ":myPOL:header";
+include ":POLManager:header";
 
 program HTMLPage()
 	DoHeader("Server Management Storage");

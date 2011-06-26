@@ -10,7 +10,7 @@ use http;
 use polsys;
 use storage;
 
-include ":myPOL:header";
+include ":POLManager:header";
 include ":timeutils:gameTime";
 
 Program HTMLPage()

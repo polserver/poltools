@@ -2,7 +2,7 @@ use uo;
 use os;
 use http;
 
-include ":myPOL:header";
+include ":POLManager:header";
 
 program HTMLPage()
 	DoHeader("Server Management Long-Running Scripts");
