@@ -108,7 +108,7 @@ function UseOnBolt( who, tool, targ )
         if( DestroyItem( targ ))
 
                 while( amount > 60000 )
-                        var created := CreateItemInBackpack( who, 0x1767, 60000 );
+                        CreateItemInBackpack( who, 0x1767, 60000 );
                         amount -= 60000;
                         SleepMS(5);
                 endwhile
@@ -168,7 +168,7 @@ function CutForBandages( who, tool, targ )
                 DestroyItem( targ );
 
                 while( amount > 60000 )
-                        var created := CreateItemInBackpack( who, 0xEE9, 60000 );
+                        CreateItemInBackpack( who, 0xEE9, 60000 );
                         amount -= 60000;
                         SleepMS(5);
                 endwhile
