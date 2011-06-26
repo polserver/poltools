@@ -187,7 +187,7 @@ function AI_TurnXY( npc, x, y, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
 	return SendEvent( npc, ev );
 endfunction
 
-function AI_WakeUp( npc, no_wake:=WAKEUP )
+function AI_WakeUp( npc )
 
 	var ev		:= struct;
 	ev.+type	:= NPCEVENT_WAKEUP;
