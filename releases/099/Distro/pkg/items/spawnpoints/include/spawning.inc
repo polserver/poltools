@@ -124,8 +124,8 @@ function SpawnContainer( spawnpoint, sp_settings )
                 return 0;
         endif
 
-        var loot_index := RandomInt(3) + 1;
-	Loot_Generate( chest, loot_index, 1 );
+        var lootIndex := RandomInt(3) + 1;
+	Loot_Generate( chest, lootIndex, 1 );
 
         SetObjProperty( chest, "spawnpoint_serial", spawnpoint.serial );
 
