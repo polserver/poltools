@@ -15,7 +15,7 @@ include ":timeutils:time";
 
 program Cheat_OnlineCount()
 
-        if( GetProcess( CInt( GetGlobalProperty( "#OnlineCountPid" ))))
+        if( BOT_GetProcess() )
                 //Avoid the feature to run twice...
                 return 0;
         endif
@@ -31,12 +31,12 @@ program Cheat_OnlineCount()
                         bots := array{};
                 endif
                 
-                var random_delay := RandomDiceRoll( "2d"+CInt( SEC_MINUTE * CInt( settings.DelayTime ))+"+180" );
-                if( !random_delay )
-                        random_delay := 180;
+                var setting_delay := CInt( SEC_MINUTE * CInt( settings.DelayTime ));
+                if( !setting_delay )
+                        setting_delay := 180;
                 endif
                 
-                var tickle_delay := ReadGameClock() + random_delay;
+                var tickle_delay := ReadGameClock() + setting_delay;
                 
 		var event := Wait_For_Event( 60 );
 		if( event )
@@ -48,11 +48,9 @@ program Cheat_OnlineCount()
 					CheckDisconnectBot( bots, settings, 1 );
 					break;
 			endcase
-                else
-                        if( ReadGameClock() > tickle_delay )
-                                if( !CheckDisconnectBot( bots, settings ))
-                                        CheckConnectBot( bots, settings );
-                                endif
+                elseif( ReadGameClock() > tickle_delay )
+                        if( !CheckDisconnectBot( bots, settings ))
+                                CheckConnectBot( bots, settings );
                         endif
 		endif
 
