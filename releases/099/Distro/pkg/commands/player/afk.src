@@ -24,8 +24,7 @@ endprogram
 function IsAFK( mobile )
         
         var x := mobile.x,
-            y := mobile.y,
-            randZ;
+            y := mobile.y;
             
         SetObjProperty( mobile, "#afk", 1 );
             
