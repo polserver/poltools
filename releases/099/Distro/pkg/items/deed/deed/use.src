@@ -165,8 +165,6 @@ program place_deed( who, deed )
 		SendSysMessage( who, "You may only place this in a house you own." );
 		return 0;
 	endif
-
-	var deed_name := deed.desc;
  
 	if( YesNo( who, "Placed well?" ))
                 
