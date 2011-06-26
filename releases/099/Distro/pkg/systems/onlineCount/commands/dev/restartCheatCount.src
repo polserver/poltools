@@ -15,7 +15,7 @@ program textcmd_disconnectBot( mobile )
                 return 0;
         endif
 
-        var kill_bots := GetProcess( BOT_GetProcess() ).Kill();
+        var kill_bots := BOT_GetProcess().Kill();
         if( kill_bots.errortext )
                 SendSysMessage( mobile, "Error couldn't kill bots -->"+kill_bots.errortext );
                 return 0;
