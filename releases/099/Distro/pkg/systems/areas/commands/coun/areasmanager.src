@@ -59,7 +59,7 @@ function Send_Command( mobile )
         //Okay Button
         GFAddButton( gump, 110, 370, 1148, 1149, GF_CLOSE_BTN, 0xA00 );
         
-        var areas_list := { AREAS_NO_DAMAGE, AREAS_DANGEROUS, AREAS_FORBIDDEN, AREAS_NO_GAINS, AREAS_NO_GATE,
+        var areas_list := { AREAS_NO_DAMAGE, AREAS_DANGEROUS, AREAS_NO_GAINS, AREAS_NO_GATE,
                            AREAS_GUARDED, AREAS_NO_LITTERING, AREAS_NO_LOOTING, AREAS_NO_MARK, AREAS_NO_RECALL,
                            AREAS_NO_STEALING },
                            
