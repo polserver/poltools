@@ -31,8 +31,6 @@ function EmailIndex( who )
         
         GFResizePic( gump, 500, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 125, 50 );
         GFResizePic( gump, 500, 70, GFGetCfgConst( "Defaults", "ForeGround" ), 125, 395 );
-        
-        GFAddAlphaRegion( gump, 0, 0, 640, 480 );
 
         GFTextLine( gump, 25, 20, 1720, "Read" );
         GFTextLine( gump, 80, 20, 1720, "Sender" );
@@ -136,8 +134,6 @@ function NewLetter( who, send_to:=" ", subject:=" ", message:=array{} )
 	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 80 );
  
 	GFResizePic( gump, 15, 410, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 55 );
- 
-        GFAddAlphaRegion( gump, 0, 0, 640, 480 );
 
 	GFTextLine( gump, 25, 23, 1720, "Send To :" );
 	GFGumpPic( gump, 100, 20, 1141 );
@@ -228,8 +224,6 @@ function ReadMail( who, number )
 	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 80 );
 
 	GFResizePic( gump, 15, 410, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 55 );
- 
-        GFAddAlphaRegion( gump, 0, 0, 640, 480 );
 
         var box_info := "[Box: "+mail_info.from_box+"]";
         if( mail_info.from_box == "None" )
@@ -288,8 +282,6 @@ function BlockList( who )
 	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 25 );
 
 	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 420 );
- 
-        GFAddAlphaRegion( gump, 0, 0, 640, 480 );
 
 	GFTextMid( gump, 15, 15, 620, 1720, "Block List" );
 
@@ -448,8 +440,6 @@ function SendMail( who, send_to, subject, msg_array )
 	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 25 );
 
 	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 610, 420 );
- 
-        GFAddAlphaRegion( gump, 0, 0, 640, 480 );
 
 	GFTextMid( gump, 15, 15, 620, 1720, "Mail Information" );
 
