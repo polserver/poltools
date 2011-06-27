@@ -28,7 +28,7 @@ program HelpQueue( mobile, queue_name )
 		elseif( cur_menu == PAGE_LIST_BTN )
 			gump := ShowPagesInQueue( queue_name, mobile.cmdlevel );
 		elseif( cur_menu == SHOW_PAGE_BTN )
-			gump := ShowPageInQueue( queue_name, page_id, mobile.cmdlevel );
+			gump := ShowPageInQueue( staff, queue_name, page_id, mobile.cmdlevel );
 		endif
 
 		input := GFSendGump( mobile, gump );
@@ -88,6 +88,20 @@ function PageButtons( mobile, byref input, byref cur_menu, byref queue_name, byr
 		var pager := SystemFindObjectBySerial( elem_info );
 		SendSysMessage( mobile, "Bringing "+pager.name+" to your location." );
 		MoveObjectToLocation( pager, mobile.x, mobile.y, mobile.z, mobile.realm, MOVEOBJECT_FORCELOCATION );
+		return 1;
+	elseif( input[ACCTNOTE_BTN] )
+		var pager := SystemFindObjectBySerial( elem_info );
+        	var script := Start_Script( ":accounts:commands/coun/acctnote", array{mobile, pager.acctname} );
+		if( script.errortext )
+			GumpPrompt( mobile, "Error - "+script.errortext );
+		endif
+		return 1;
+	elseif( input[INFO_BTN] )
+		var pager := SystemFindObjectBySerial( elem_info );
+        	var script := Start_Script( ":commands:gm/info", array{mobile, pager.serial} );
+		if( script.errortext )
+			GumpPrompt( mobile, "Error - "+script.errortext );
+		endif
 		return 1;
 	endif
 

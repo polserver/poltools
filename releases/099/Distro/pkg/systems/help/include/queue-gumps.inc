@@ -23,6 +23,8 @@ CONST DELETE_PAGE_BTN	:= 0xA04;
 CONST GOTO_BTN		:= 0xA06;
 CONST SUMMON_BTN	:= 0xA07;
 CONST EMAIL_BTN		:= 0xA0A;
+CONST ACCTNOTE_BTN      := 0xA0B;
+CONST INFO_BTN          := 0XA0C;
 
 CONST SHOW_QUEUE_START	:= 0xA000;
 CONST SHOW_PAGE_START	:= 0xB000;
@@ -114,7 +116,7 @@ function ShowPagesInQueue( queue_name, cmd_level )
 	return gump;
 endfunction
 
-function ShowPageInQueue( queue_name, page_id, cmdlevel )
+function ShowPageInQueue( staff, queue_name, page_id, cmdlevel )
 
 	var data_file := GetHelpDataFile(),
 	    data_elem := DFFindElement( data_file, "Queue-"+queue_name, DF_NO_CREATE ),
@@ -156,13 +158,22 @@ function ShowPageInQueue( queue_name, page_id, cmdlevel )
 
 	GFAddButton( gump, 30, 387, 2117, 2118, btn_type, GOTO_BTN );
 	GFTextLine( gump, 50, 385, 2100, "Goto" );
-	GFAddButton( gump, 30, 409, 2117, 2118, btn_type, SUMMON_BTN );
-	GFTextLine( gump, 50, 405, 2100, "Summon" );
+ 
+        if( staff.cmdlevel >= 3 )
+		GFAddButton( gump, 30, 409, 2117, 2118, btn_type, SUMMON_BTN );
+		GFTextLine( gump, 50, 405, 2100, "Summon" );
+  
+		GFAddButton( gump, 160, 409, 2117, 2118, btn_type, INFO_BTN );
+		GFTextLine( gump, 180, 405, 2100, "Info" );
+        endif
+ 
+	GFAddButton( gump, 160, 387, 2117, 2118, btn_type, ACCTNOTE_BTN );
+	GFTextLine( gump, 180, 385, 2100, "Acct Notes" );
 
-	GFAddButton( gump, 300, 385, 2117, 2118, GF_CLOSE_BTN, EMAIL_BTN );
-	GFTextLine( gump, 320, 382, 2100, "Send Email" );
-	GFAddButton( gump, 300, 409, 2117, 2118, GF_CLOSE_BTN, DELETE_PAGE_BTN );
-	GFTextLine( gump, 320, 405, 2100, "Delete Page" );
+	GFAddButton( gump, 290, 385, 2117, 2118, GF_CLOSE_BTN, EMAIL_BTN );
+	GFTextLine( gump, 310, 382, 2100, "Send Email" );
+	GFAddButton( gump, 290, 409, 2117, 2118, GF_CLOSE_BTN, DELETE_PAGE_BTN );
+	GFTextLine( gump, 310, 405, 2100, "Delete Page" );
 
 	return gump;
 endfunction
