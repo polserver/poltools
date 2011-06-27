@@ -844,17 +844,12 @@ function DeclareWar( mobile, guild, viewer )
         input := input[0];
 
         var guild_ref := total_guild[input];
-        var days_war := SendTextEntryGump( viewer, "How long shall be the war? [1-"+CInt( settings.MaxWarPeaceStatutDays )+" days]", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, CInt( settings.MaxWarPeaceStatutDays ));
-        if( !CInt( days_war ))
-                SendSysMessage( viewer, "Cancelled.", 3, 68 );
-                return showGuildInfo( mobile, viewer );
-        endif
 
-        if( Yesno( viewer, "Are you sure you want to declare war against "+guild_ref.GetProp( "Name" )+"?", "Yes, I am.", "No, I do not declare war against "+guild_ref.GetProp( "Name" )+"." ))
-                SendSysMessage( viewer, "Your declaration of war has been made.", 3, 68 );
+        if( Yesno( viewer, "Are you sure you want to declare war against "+guild_ref.GetProp( "Name" )+"?", "Yes, I am.", "No, it's a big mistake." ))
+                SendSysMessage( viewer, "Your declaration of war is now official!", 3, 68 );
                 
 		guild.AddEnemyGuild( guild_ref );
-                Broadcast( "The guild "+guild.GetProp( "Name" )+" declares war against "+guild_ref.GetProp( "Name" )+" for "+days_war+" days.", 3, 33 );
+                Broadcast( "The guild "+guild.GetProp( "Name" )+" declares war against "+guild_ref.GetProp( "Name" )+".", 3, 33 );
                 
                 var guildWar := guild.GetProp( "WarDelay" );
                 if( !guildWar )
@@ -864,7 +859,6 @@ function DeclareWar( mobile, guild, viewer )
                 var war_list := struct;
                 war_list.+guildid := guild_ref.guildid;
                 war_list.+started := CInt( POLCore().systime );
-                war_list.+days  := days_war;
 
                 var guildWar_size := guildWar.Size();
                 guildWar[guildWar_size+1] := war_list;
