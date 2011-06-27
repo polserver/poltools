@@ -17,7 +17,7 @@ include ":areas:areasConstants";
 function A_IsIn( object, option, obj_prop := 0 )
 
         if( object.multi )
-                //We do not want restrictions for someone who is in a multi ( boat/house )
+                //We do not want restrictions for someone in a multi ( boat/house )
                 return 0;
         endif
         
