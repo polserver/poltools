@@ -28,7 +28,7 @@ program HelpQueue( mobile, queue_name )
 		elseif( cur_menu == PAGE_LIST_BTN )
 			gump := ShowPagesInQueue( queue_name, mobile.cmdlevel );
 		elseif( cur_menu == SHOW_PAGE_BTN )
-			gump := ShowPageInQueue( staff, queue_name, page_id, mobile.cmdlevel );
+			gump := ShowPageInQueue( mobile, queue_name, page_id, mobile.cmdlevel );
 		endif
 
 		input := GFSendGump( mobile, gump );
