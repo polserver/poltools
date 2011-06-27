@@ -35,36 +35,42 @@ endprogram
 
 function CheckForDeletion( account, settings )
 
-	var max_idle_time := CInt( settings.MaxIdleTime );
-	if( !max_idle_time )
-		return 0;
-	elseif( settings.OnlyAutoDeleteEmpties )
-		if( ACCT_GetNumCharacters( account ) > 0 )
-			return 0;
-		endif
-	endif
-
 	var last_used := ACCT_GetLastLogin( account );
 	if( !last_used )
 		ReportText( "Account ("+account.name+") has no last login time. It has been set now though.", REPORT_SYSLOG );
 		ACCT_SetLastLogin(account);
 	endif
+ 
+	if( settings.OnlyAutoDeleteEmpties )
+		if( ACCT_GetNumCharacters( account ) <= 0 )
+			ReportText( "Account ("+account.name+") has no characters. Account is being deleted.", REPORT_SYSLOG );
+                        DeleteAccount( account );
+		endif
+        endif
+  
+	var max_idle_time := CInt( settings.MaxIdleTime );
+	if( !max_idle_time )
+                return 0;
+	endif
 	
 	var deletion_time := POLCore().systime - ( max_idle_time * SECONDS_IN_DAY );
 	if( deletion_time > last_used )
 		ReportText( "Account ("+account.name+") has not been used in "+max_idle_time+" days. Account is being deleted.", REPORT_SYSLOG );
-		
-		var result := ACCT_DeleteAccount( account );
-		if( result.errortext )
-			ReportText( "Unable to delete account ("+account.name+"). Error: "+result.errortext, REPORT_SYSLOG );
-			return 0;
-		else
-			ReportText( "Account ("+account.name+") was successfully deleted.", REPORT_SYSLOG );
-			return 1;
-		endif
+                DeleteAccount( account );
 	endif
 
-	return 0;
+	return 1;
+endfunction
+
+function DeleteAccount( account )
+
+	var result := ACCT_DeleteAccount( account );
+	if( result.errortext )
+		ReportText( "Unable to delete account ("+account.name+"). Error: "+result.errortext, REPORT_SYSLOG );
+		return 0;
+	endif
+ 
+        return 1;
 endfunction
 
 function CheckSuspension( account )
