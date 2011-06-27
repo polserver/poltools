@@ -42,3 +42,10 @@ function RS_GetScripts()
  
         return get_scripts;
 endfunction
+
+function Remote_GetProcess()
+
+	var pid := CInt( GetGlobalProperty( "#RemoteScriptsControlPID" ));
+
+	return GetProcess( pid );
+endfunction
