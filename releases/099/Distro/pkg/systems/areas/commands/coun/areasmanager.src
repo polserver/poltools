@@ -98,11 +98,7 @@ function Send_Command( mobile )
         input := input[0];
         
         var option := areas_list[input];
-        if( option == AREAS_MOBILE_BANNED )
-                 SelectAreaMobile( mobile, AREAS_MOBILE_BANNED );
-        else
-                 Send_Areas( mobile, option );
-        endif
+        Send_Areas( mobile, option );
 
         return 1;
 endfunction
