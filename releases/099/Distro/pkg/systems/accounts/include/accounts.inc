@@ -185,12 +185,6 @@ function VerifyStaffOnline( who )
                 elseif( player.ip != who.ip )
                         continue;
                 endif
-
-                /*if( !who.cmdlevel && player.cmdlevel < 3 )
-                        DisconnectClient( player );
-                elseif( who.cmdlevel < 3 && !player.cmdlevel )
-                        DisconnectClient( who );
-                endif*/
         endforeach
 
         return 1;
