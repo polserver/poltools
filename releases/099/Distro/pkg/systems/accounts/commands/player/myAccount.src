@@ -42,7 +42,7 @@ program textcmd_myaccount( mobile )
 	GFTextLine( gump, 60, 120, 1720, "Password" );
 
         var email := BuildEmailMenu( gump, mobile );
-        var password := BuildPasswordMenu( gump );
+        var passwords := BuildPasswordMenu( gump );
 
 	var input := GFSendGump( mobile, gump );
         if( !input )
@@ -51,13 +51,15 @@ program textcmd_myaccount( mobile )
         endif
         
 	if( input[UPDATE_PASS] )
-		var new_pass := GFExtractData( input, password );
+		var new_pass := GFExtractData( input, passwords[1] );
 		if( new_pass[" "] )
 			GumpPrompt( mobile, "Invalid Password: Your password can not have any spaces in it." );
 		elseif( len( new_pass ) < 4 )
 			GumpPrompt( mobile, "Invalid Password: Your password must be atleast 4 characters." );
 		elseif( len( new_pass ) > 10 )
 			GumpPrompt( mobile, "Invalid Password: Your password can not be more than 10 characters." );
+                elseif( new_pass != GFExtractData( input, passwords[2] ))
+			GumpPrompt( mobile, "Invalid Password: First password does not match the second." );
 		else
 			var res := account.SetPassword( new_pass );
 			if( res.errortext )
@@ -110,12 +112,15 @@ function BuildPasswordMenu( byref gump )
 
 	GFTextLine( gump, 40, 50, 1720, "New Password:" );
 	GFResizePic( gump, 40, 70, GFGetCfgConst( "Backgrounds", "GOLDTRIM" ), 240, 30 );
+	GFResizePic( gump, 40, 100, GFGetCfgConst( "Backgrounds", "GOLDTRIM" ), 240, 30 );
 
-	var password := GFTextEntry( gump, 50, 75, 230, 25, 1720 );
+	var password := GFTextEntry( gump, 50, 75, 230, 25, 1720, "new password" ),
+	    password2 := GFTextEntry( gump, 50, 105, 230, 25, 1720, "re-enter your new password" ),
+            passwords := array{password, password2};
 
         var text := "Notice: We will NEVER ask you your password. Never share your accounts.";
 
-        GFDrawWrappedText( gump, 40, 110, GFWordWrap( text, 300 ));
+        GFDrawWrappedText( gump, 40, 130, GFWordWrap( text, 300 ));
 
         GFAddButton( gump, 30, 183, 2117, 2118, GF_CLOSE_BTN, UPDATE_PASS );
 	GFTextLine( gump, 50, 180, 1720, "Update" );
@@ -123,5 +128,5 @@ function BuildPasswordMenu( byref gump )
         GFAddButton( gump, 240, 183, 2117, 2118, GF_PAGE_BTN, 1 );
 	GFTextLine( gump, 260, 180, 1720, "Back" );
  
-        return password;
+        return passwords;
 endfunction
