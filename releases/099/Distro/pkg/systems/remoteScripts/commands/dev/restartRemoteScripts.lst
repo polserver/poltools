@@ -1,0 +1,616 @@
+C:\Distro\pkg\systems\remoteScripts\commands\dev\restartRemoteScripts.src, Line 11
+program textcmd_disconnectBot( mobile )
+use cfgfile;
+0: get arg 'mobile'
+if( !AuthorizationCode( mobile ))
+1: local #0
+2: makelocal
+3: jmp userfunc @63
+4: if true goto 13
+SendSysMessage( mobile, "Cancelled." );
+5: local #0
+6: "Cancelled."
+7: 3L
+8: 1087L
+9: Func(2,3): SendSysMessage
+10: #
+return 0;
+11: 0L
+12: progend
+var kill_bots := Remote_GetProcess().Kill();
+13: decl local #1
+14: makelocal
+15: jmp userfunc @215
+16: Call Method id kill (#75, 0 params)
+17: :=
+18: #
+if( kill_bots.errortext )
+19: local #1
+20: get member 'errortext'
+21: if false goto 33
+SendSysMessage( mobile, "Error couldn't kill bots -->"+kill_bots.errortext );
+22: local #0
+23: "Error couldn't kill bots -->"
+24: local #1
+25: get member 'errortext'
+26: +
+27: 3L
+28: 1087L
+29: Func(2,3): SendSysMessage
+30: #
+return 0;
+31: 0L
+32: progend
+var script := Start_Script( ":remoteScripts:remoteScriptsControl" );
+33: decl local #2
+34: ":remoteScripts:remoteScriptsControl"
+35: 0L
+36: Func(3,3): Start_Script
+37: :=
+38: #
+if( script.errortext )
+39: local #2
+40: get member 'errortext'
+41: if false goto 53
+SendSysMessage( mobile, "Error starting script <:remoteScripts:remoteScriptsCon
+42: local #0
+43: "Error starting script <:remoteScripts:remoteScriptsControl> -->"
+44: local #2
+45: get member 'errortext'
+46: +
+47: 3L
+48: 1087L
+49: Func(2,3): SendSysMessage
+50: #
+return 0;
+51: 0L
+52: progend
+SendSysMessage( mobile, "Done!" );
+53: local #0
+54: "Done!"
+55: 3L
+56: 1087L
+57: Func(2,3): SendSysMessage
+58: #
+return 1;
+59: 1L
+60: progend
+61: leave block(3)
+62: progend
+c:/Distro/scripts/include/security.inc, Line 14
+function AuthorizationCode( mobile )
+63: pop param 'mobile'
+if( GetObjProperty( mobile, "#AuthCodeGiven" ));
+64: local #0
+65: "#AuthCodeGiven"
+66: Func(2,1): GetObjProperty
+67: if false goto 70
+return 1;
+68: 1L
+69: return
+var autocode := GetGlobalProperty( "CA" );
+70: decl local #1
+71: "CA"
+72: Func(2,2): GetGlobalProperty
+73: :=
+74: #
+if( !autocode )
+75: local #1
+76: if true goto 86
+SendSysMessage( mobile, "Authorization code is not given yet.", 3, 53 );
+77: local #0
+78: "Authorization code is not given yet."
+79: 3L
+80: 53L
+81: Func(2,3): SendSysMessage
+82: #
+return 0;
+83: 0L
+84: return
+85: goto128
+var code := SendTextEntryGump( mobile, "Enter the Authorization Code.", TE_CANC
+86: decl local #0
+87: local #0
+88: "Enter the Authorization Code."
+89: 1L
+90: 1L
+91: 10L
+92: ""
+93: Func(2,4): SendTextEntryGump
+94: :=
+95: #
+if( code == autocode )
+96: local #2
+97: local #1
+98: ==
+99: if false goto 114
+SendSysMessage( mobile, "Code Accepted!", 3, 70 );
+100: local #0
+101: "Code Accepted!"
+102: 3L
+103: 70L
+104: Func(2,3): SendSysMessage
+105: #
+SetObjProperty( mobile, "#AuthCodeGiven", 1 );
+106: local #0
+107: "#AuthCodeGiven"
+108: 1L
+109: Func(2,5): SetObjProperty
+110: #
+return 1;
+111: 1L
+112: return
+113: goto127
+SendSysMessage( mobile, "It is not the Authorization code.", 3, 33 );
+114: local #0
+115: "It is not the Authorization code."
+116: 3L
+117: 33L
+118: Func(2,3): SendSysMessage
+119: #
+NotifyStaffOnline( mobile, "has provided a wrong authorization code." );
+120: local #0
+121: "has provided a wrong authorization code."
+122: makelocal
+123: jmp userfunc @130
+124: #
+return 0;
+125: 0L
+126: return
+127: leave block(1)
+128: 0L
+129: return
+c:/Distro/scripts/include/security.inc, Line 39
+function NotifyStaffOnline( object, text )
+130: pop param 'text'
+131: pop param 'object'
+var name := object.name;
+132: decl local #2
+133: local #1
+134: get member id 'name' (3)
+135: :=
+136: #
+if( !name )
+137: local #2
+138: if true goto 146
+name := object.desc;
+139: local #1
+140: get member id 'desc' (19)
+141: local2 := 
+if( !name )
+142: local #2
+143: if true goto 146
+name := object;
+144: local #1
+145: local2 := 
+foreach character in EnumerateOnlineCharacters()
+146: Func(2,6): EnumerateOnlineCharacters
+147: initforeach @182
+if( GetObjProperty( character, "Notify" ))
+148: local #3
+149: "Notify"
+150: Func(2,1): GetObjProperty
+151: if false goto 179
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+152: local #1
+153: get member id 'cmdlevel' (46)
+154: local #3
+155: get member id 'cmdlevel' (46)
+156: <=
+157: local #3
+158: get member id 'cmdlevel' (46)
+159: 4L
+160: >=
+161: ||
+162: if false goto 179
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+163: local #3
+164: "You receive a notification:"
+165: 3L
+166: 55L
+167: Func(2,3): SendSysMessage
+168: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+169: local #3
+170: local #2
+171: " >>> "
+172: +
+173: local #0
+174: +
+175: 3L
+176: 55L
+177: Func(2,3): SendSysMessage
+178: #
+SleepMS(5);
+179: 5L
+180: Func(3,0): Sleepms
+181: #
+182: stepforeach @148
+183: leave block(3)
+if( object.serial )
+184: local #1
+185: get member id 'serial' (6)
+186: if false goto 203
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+187: local #2
+188: "["
+189: +
+190: local #1
+191: get member id 'serial' (6)
+192: +
+193: "] >>> "
+194: +
+195: local #0
+196: +
+197: 2L
+198: 0L
+199: makelocal
+200: jmp userfunc @224
+201: #
+202: goto213
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+203: local #2
+204: " >>> "
+205: +
+206: local #0
+207: +
+208: 2L
+209: 0L
+210: makelocal
+211: jmp userfunc @224
+212: #
+return 1;
+213: 1L
+214: return
+c:/Distro/pkg/systems/remoteScripts/include/settings.inc, Line 48
+function Remote_GetProcess()
+var pid := CInt( GetGlobalProperty( "#RemoteScriptsControlPID" ));
+215: decl local #0
+216: "#RemoteScriptsControlPID"
+217: Func(2,2): GetGlobalProperty
+218: Func(0,6): CInt
+219: :=
+220: #
+return GetProcess( pid );
+221: local #0
+222: Func(3,1): GetProcess
+223: return
+c:/Distro/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+224: pop param 'text_color'
+225: pop param 'flags'
+226: pop param 'report_text'
+if( !flags )
+227: local #1
+228: if true goto 232
+return 0;
+229: 0L
+230: return
+231: goto287
+elseif( flags & REPORT_CONSOLE )
+232: local #1
+233: 1L
+234: &
+235: if false goto 242
+Print( ""+report_text );
+236: ""
+237: local #2
+238: +
+239: Func(1,0): Print
+240: #
+241: goto287
+elseif( flags & REPORT_SYSLOG )
+242: local #1
+243: 2L
+244: &
+245: if false goto 276
+var script_name := CStr( GetProcess( GetPid() ).name ),
+246: decl local #0
+247: Func(3,2): GetPid
+248: Func(3,1): GetProcess
+249: get member id 'name' (3)
+250: Func(0,0): CStr
+251: :=
+252: #
+253: decl local #1
+254: local #3
+255: makelocal
+256: jmp userfunc @289
+257: :=
+258: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+259: "::log/"
+260: local #4
+261: +
+262: ".log"
+263: +
+264: "["
+265: local #3
+266: +
+267: "]: "
+268: +
+269: local #2
+270: +
+271: 1L
+272: Func(4,0): LogToFile
+273: #
+274: leave block(2)
+275: goto287
+elseif( flags & REPORT_BROADCAST )
+276: local #1
+277: 4L
+278: &
+279: if false goto 287
+Broadcast( ""+report_text, 3, text_color );
+280: ""
+281: local #2
+282: +
+283: 3L
+284: local #0
+285: Func(2,0): Broadcast
+286: #
+return 1;
+287: 1L
+288: return
+c:/Distro/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+289: pop param 'script_name'
+var i;
+290: decl local #1
+291: #
+for( i:=1; i<=len(script_name); i+=1 )
+292: local #1
+293: 1L
+294: :=
+295: #
+296: local #1
+297: local #0
+298: Func(0,1): Len
+299: <=
+300: if false goto 320
+if( !Check_ValidChar( script_name[i] ))
+301: local #0
+302: local #1
+303: [] 1
+304: 0L
+305: makelocal
+306: jmp userfunc @336
+307: if true goto 312
+script_name[i] := " ";
+308: local #0
+309: local #1
+310: " "
+311: [] := (1) #
+SleepMS(5);
+312: 5L
+313: Func(3,0): Sleepms
+314: #
+315: local #1
+316: 1L
+317: +=
+318: #
+319: goto296
+foreach poss_pkg in ( SplitWords( script_name ))
+320: local #0
+321: " "
+322: Func(0,5): SplitWords
+323: initforeach @332
+if( GetPackageByName( poss_pkg ))
+324: local #2
+325: Func(5,0): GetPackageByName
+326: if false goto 329
+return poss_pkg;
+327: local #2
+328: return
+SleepMS(5);
+329: 5L
+330: Func(3,0): Sleepms
+331: #
+332: stepforeach @324
+333: leave block(3)
+return 0;
+334: 0L
+335: return
+c:/Distro/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+336: pop param 'allow_space'
+337: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+338: decl local #2
+339: array
+340: "a"
+341: init{}
+342: "b"
+343: init{}
+344: "c"
+345: init{}
+346: "d"
+347: init{}
+348: "e"
+349: init{}
+350: "f"
+351: init{}
+352: "g"
+353: init{}
+354: "h"
+355: init{}
+356: "i"
+357: init{}
+358: "j"
+359: init{}
+360: "k"
+361: init{}
+362: "l"
+363: init{}
+364: "m"
+365: init{}
+366: "n"
+367: init{}
+368: "o"
+369: init{}
+370: "p"
+371: init{}
+372: "q"
+373: init{}
+374: "r"
+375: init{}
+376: "s"
+377: init{}
+378: "t"
+379: init{}
+380: "u"
+381: init{}
+382: "v"
+383: init{}
+384: "w"
+385: init{}
+386: "x"
+387: init{}
+388: "y"
+389: init{}
+390: "z"
+391: init{}
+392: "A"
+393: init{}
+394: "B"
+395: init{}
+396: "C"
+397: init{}
+398: "D"
+399: init{}
+400: "E"
+401: init{}
+402: "F"
+403: init{}
+404: "G"
+405: init{}
+406: "H"
+407: init{}
+408: "I"
+409: init{}
+410: "P"
+411: init{}
+412: "O"
+413: init{}
+414: "N"
+415: init{}
+416: "M"
+417: init{}
+418: "L"
+419: init{}
+420: "K"
+421: init{}
+422: "J"
+423: init{}
+424: "Q"
+425: init{}
+426: "R"
+427: init{}
+428: "S"
+429: init{}
+430: "T"
+431: init{}
+432: "U"
+433: init{}
+434: "V"
+435: init{}
+436: "W"
+437: init{}
+438: "X"
+439: init{}
+440: "Y"
+441: init{}
+442: "Z"
+443: init{}
+444: "1"
+445: init{}
+446: "2"
+447: init{}
+448: "3"
+449: init{}
+450: "4"
+451: init{}
+452: "5"
+453: init{}
+454: "6"
+455: init{}
+456: "7"
+457: init{}
+458: "8"
+459: init{}
+460: "9"
+461: init{}
+462: "0"
+463: init{}
+464: :=
+465: #
+var len_text := Len( text );
+466: decl local #3
+467: local #1
+468: Func(0,1): Len
+469: :=
+470: #
+var i;
+471: decl local #4
+472: #
+for( i:=1; i<=len_text; i+=1 )
+473: local #4
+474: 1L
+475: :=
+476: #
+477: local #4
+478: local #3
+479: <=
+480: if false goto 523
+SleepMS(5);
+481: 5L
+482: Func(3,0): Sleepms
+483: #
+var letter := CStr( text[i] );
+484: decl local #0
+485: local #1
+486: local #4
+487: [] 1
+488: Func(0,0): CStr
+489: :=
+490: #
+if( letter in valid_char )
+491: local #5
+492: local #2
+493: in
+494: if false goto 498
+continue;
+495: leave block(1)
+496: goto518
+497: goto515
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+498: local #0
+499: local #1
+500: local #4
+501: [] 1
+502: " "
+503: ==
+504: local #1
+505: local #4
+506: [] 1
+507: Func(0,4): CAsc
+508: 0L
+509: ==
+510: ||
+511: &&
+512: if false goto 515
+continue;
+513: leave block(1)
+514: goto518
+return 0;
+515: 0L
+516: return
+517: leave block(1)
+518: local #4
+519: 1L
+520: +=
+521: #
+522: goto477
+return 1;
+523: 1L
+524: return
