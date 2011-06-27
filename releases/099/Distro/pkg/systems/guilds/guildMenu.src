@@ -241,8 +241,7 @@ function showGuildMasterInfo( mobile, byref gump, guild, viewer )
                 DismissMember( mobile, guild, viewer );
                 return 1;
         elseif( input[0xc07] )
-                //DeclareWar( mobile, guild, viewer );
-                SendSysMessage( mobile, "Option not implemented yet, but we are working on it.", 3, 68 );
+                DeclareWar( mobile, guild, viewer );
                 return 1;
         elseif( input[0xc08] )
                 //DeclarePeace( mobile, guild, viewer );
