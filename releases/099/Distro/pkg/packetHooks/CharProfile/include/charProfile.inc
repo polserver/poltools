@@ -6,6 +6,7 @@
 use uo;
 
 include ":classes:classes";
+include ":classes:ranks";
 include ":statistics:playTime_ranks";
 include ":statistics:settings";
 include ":timeutils:gameTime";
@@ -94,8 +95,8 @@ function BuildClasseInfo( byref gump, chr )
         elseif( Get_Mobile_Classe_Name( chr ))
                 var classe := Get_Mobile_Classe_Name( chr ),
                     level := GetObjProperty( chr, classe ),
-                    classe_title := GetClasseName( classe );
-                    //classe_rank := GetClasseRank( chr, classe );
+                    classe_title := GetClasseName( classe ),
+                    classe_rank := GetClasseRankString( chr );
                     
                 if( level >= 6 )
                         classe_title := GetMaxClasseTitle( classe );
@@ -103,7 +104,7 @@ function BuildClasseInfo( byref gump, chr )
 
                 GFTextMid( gump, 80, 190, 340, 1153, "Qualified level "+level+" "+lower( classe_title )+"." );
                 GFTextMid( gump, 80, 210, 340, 1153, "Ranked 0th among the "+lower( GetClasseName( classe ))+"s." );
-                //GFTextMid( gump, 80, 210, 340, 1153, "Ranked "+classe_rank+" among the "+lower( GetClasseName( classe ))+"s." );
+                GFTextMid( gump, 80, 210, 340, 1153, "Ranked "+classe_rank+" among the "+lower( GetClasseName( classe ))+"s." );
         else
                 GFTextMid( gump, 80, 190, 340, 1153, "Isn't in any specific classe." );
         endif
