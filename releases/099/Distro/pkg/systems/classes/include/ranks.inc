@@ -23,7 +23,7 @@ function SetClasseRank()
                 var i;
                 for( i:=1; i<=5; i+=1 )
                         var character := account.GetCharacter(i);
-                        if( character )
+                        if( !character.cmdlevel )
                                 
                                 var classe := Get_Mobile_Classe_Name( character );
                                 if( !classe )
@@ -87,7 +87,7 @@ function DeleteAllRanks()
 
         var elem_keys := DFGetElemNames( ranks_datafile );
         foreach elem in elem_keys
-		ranks_datafile.EraseProp( elem );
+		ranks_datafile.EraseProp( Hex( elem ));
                 SleepMS(5);
         endforeach
         
