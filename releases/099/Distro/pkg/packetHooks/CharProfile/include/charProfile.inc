@@ -103,8 +103,12 @@ function BuildClasseInfo( byref gump, chr )
                 endif
 
                 GFTextMid( gump, 80, 190, 340, 1153, "Qualified level "+level+" "+lower( classe_title )+"." );
-                GFTextMid( gump, 80, 210, 340, 1153, "Ranked 0th among the "+lower( GetClasseName( classe ))+"s." );
-                GFTextMid( gump, 80, 210, 340, 1153, "Ranked "+classe_rank+" among the "+lower( GetClasseName( classe ))+"s." );
+                
+                if( classe_rank )
+                        GFTextMid( gump, 80, 210, 340, 1153, "Ranked "+classe_rank+" among the "+lower( GetClasseName( classe ))+"s." );
+                else
+                        GFTextMid( gump, 80, 210, 340, 1153, "You're not strong enough to be ranked." );
+                endif
         else
                 GFTextMid( gump, 80, 190, 340, 1153, "Isn't in any specific classe." );
         endif
