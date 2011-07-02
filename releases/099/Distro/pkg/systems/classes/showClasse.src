@@ -7,6 +7,7 @@ use uo;
 
 include ":attributes:attributes";
 include ":classes:classes";
+include ":classes:ranks";
 
 program show_classe( who )
 
@@ -40,6 +41,11 @@ program show_classe( who )
                         endif
                         
                         SendSysMessage( who, "You're qualified level "+classe_level+" "+lower( classe_title )+" ("+percent+"%).");
+                        
+                        var classe_rank := GetClasseRankString( who );
+                        if( classe_rank )
+                                SendSysMessage( who, "You're ranked "+classe_rank+" among the "+lower( classe_title )+"s." );
+                        endif
                 endif
                 SetObjProperty( who, classe_name, classe_level );
         else
