@@ -33,7 +33,7 @@ function CheckDisconnectBot( byref bots, settings, force:=0 )
                     bot_name := bot_info.name,
                     bot_gametime := bot_info.gametime;
 
-                if( bot_gametime > ReadGameClock() )
+                if( bot_gametime > ReadGameClock() && !force )
                         //Do not kill the BOT yet..
                         return 0;
                 endif
