@@ -29,21 +29,16 @@ function SetClasseRank()
                                 if( !classe )
                                         classe := PP;
                                 endif
-
-                                var total_skills := GetTotalClasseSkills( character, classe );
-                                if( total_skills < 960 )
-                                        //Classe system is level based.
-                                        //75 average * 8 classe skills = 600 total classe skills
-                                        //+120 total classe skills is required every additional lvl.
-                                        //So since it's easy to get lvl 4 ( 960 total skills ),
-                                        //avoid weak players that aren't in the course by sending a
-                                        //"no rank yet" message later.
+                                
+                                if( GetObjProperty( character, classe ) < 4 )
                                         continue;
                                 endif
 
                                 if( !classes.Exists( classe ))
 		                        classes[classe] := dictionary;
 	                        endif
+                         
+                                var total_skills := GetTotalClasseSkills( character, classe );
                                 classes[classe].Insert( total_skills, character.serial );
                         endif
                         SleepMS(5);
