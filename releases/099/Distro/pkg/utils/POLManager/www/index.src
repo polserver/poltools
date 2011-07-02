@@ -45,8 +45,12 @@ Program HTMLPage()
 	TableData("Tasks On Time Per Minute", core_ref.tasks_ontime_per_min);
 	TableData("Tasks Late Per Minute", core_ref.tasks_late_per_min+" ("+core_ref.tasks_late_ticks_per_min+" ticks)");
 	TableDataHeader("Data Transfer");
-	TableData("Bytes Received", core_ref.bytes_received);
-	TableData("Bytes Sent", core_ref.bytes_sent);
+ 
+        var KB_received := CInt( core_ref.bytes_received / 1024 ),
+            KB_sent := CInt( core_ref.bytes_sent / 1024 );
+            
+	TableData("KBytes Received", KB_received);
+	TableData("KBytes Sent", KB_sent);
 	TableDataHeader("Miscellaneous Information");
 	TableData("Error Creations Per Minute", core_ref.error_creations_per_min);
 	TableData("Events Per Minute", core_ref.events_per_min);
