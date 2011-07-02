@@ -475,10 +475,6 @@ endfunction
 
 function GetChanceLevel()
 
-        if( magicLevel > 7 )
-                magicLevel := 7;
-        endif
-
         var chances := CInt( RandomDiceRoll( "1d100+1" ) * magicLevel );
  
 	case( magicLevel )
