@@ -67,8 +67,6 @@ function Loot_Generate( container, npc_cfg, useLoot_Index := 0 )
                 magicLevel += 2;
         endif
         
-        magicLevel += 2;
-        
         if( !magicLevel )
 		magicLevel := 1;
         elseif( magicLevel > 7 )
