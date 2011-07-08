@@ -42,18 +42,12 @@ program BrainNerve( params )
  
         AP_RefreshVitals( npc );
 
-	while( npc )
-                var hiding := AP_GetSkill( npc, HIDING );
-                if( hiding && !npc.hidden )
-                	npc.hidden := 1;
-                elseif( !npc.hidden && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
-			AI_Wander( npc, NOWAKE );
-                endif
-
-		AI_ClearThoughts( npc, CLR_NERVE );
-  
-		Sleep( RandomInt(5)+1 );
-	endwhile
+        var hiding := AP_GetSkill( npc, HIDING );
+        if( hiding && !npc.hidden )
+                npc.hidden := 1;
+        elseif( !npc.hidden && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
+                AI_Wander( npc, NOWAKE );
+        endif
 
         return 1;
 endprogram
