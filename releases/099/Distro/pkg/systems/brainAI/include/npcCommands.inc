@@ -199,10 +199,6 @@ endfunction
 
 function AI_Wander( npc, loop:=0, no_wake:=NOWAKE )
 
-        if( GetObjProperty( npc, "#Follow" ))
-                return 0;
-        endif
-
 	var ev		:= struct;
 	ev.+type	:= NPCEVENT_WANDER;
 	ev.+WakeUp	:= no_wake;
