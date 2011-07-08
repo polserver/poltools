@@ -25,6 +25,10 @@ function ProcessEvent( byref event )
 			break;
 
 		NPCEVENT_WANDER:
+			if( GetObjProperty( npc, "#Follow" ))
+                		return 0;
+        		endif
+          
 			Wander();
 			break;
 
