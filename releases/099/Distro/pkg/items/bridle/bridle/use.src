@@ -57,7 +57,7 @@ program use_bridle( who, bridle )
         	var pack_npc := CreateNPCFromTemplate( template, targ.x, targ.y, targ.z, 0, targ.realm );
 		pack_npc.facing := targ.facing;
 		if( pack_npc.errortext )
-			SendSysMessage(mobile, "Error creating NPC ["+template+"] -> "+pack_npc.errortext);
+			SendSysMessage( who, "Error creating NPC ["+template+"] -> "+pack_npc.errortext );
                         targ.concealed := 0;
 			return 0;
 		endif
