@@ -20,13 +20,9 @@ program BrainNerve( params )
 	//var scripts	:= params[4];
 	params := 0; // Not needed anymore.
 
-	while( npc )
-                if( !npc.frozen && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
-			AI_Wander( npc );;
-                endif
-                
-		Sleep( RandomInt(8)+1 );
-	endwhile
+	if( !npc.frozen && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
+		AI_Wander( npc );;
+	endif
 
         return 1;
 endprogram
