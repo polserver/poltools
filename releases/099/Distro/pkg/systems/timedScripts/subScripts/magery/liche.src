@@ -14,15 +14,6 @@ program TimedScript_Polymorph( params )
 	    //attacker := params[2],
 	    points := params[3];
 	    params := 0;
-
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "PolymorphMod" ))
-		return 0;
-        elseif( GetObjProperty( defender, "LicheMod" ))
-		return 0;
-        elseif( GetObjProperty( defender, "WraithMod" ))
-		return 0;
-	endif
  
         defender.graphic := 0x18;
         defender.color := 0;

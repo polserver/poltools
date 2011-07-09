@@ -15,11 +15,6 @@ program TimedScript_Agility( params )
 	    points := params[3];
 	    params := 0;
 
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "ReactiveArmorMod" ))
-		return 0;
-	endif
-
 	SetObjProperty( defender, "ReactiveArmorMod", points );
  
 	defender.ar_mod := defender.ar_mod + points;

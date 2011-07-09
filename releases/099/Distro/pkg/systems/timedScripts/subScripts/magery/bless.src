@@ -14,11 +14,6 @@ program TimedScript_Agility( params )
 	    //attacker := params[2],
 	    points := params[3];
 	    params := 0;
-     
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "BlessMod" ))
-		return 0;
-	endif
 
 	SetObjProperty( defender, "BlessMod", points );
  
@@ -26,7 +21,6 @@ program TimedScript_Agility( params )
 	AP_ModifyStatMod( defender, STRENGTH, points );
 	AP_ModifyStatMod( defender, INTELLIGENCE, points );
 
-	
 	return 1;
 endprogram
 

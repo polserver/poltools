@@ -14,11 +14,6 @@ program TimedScript_Clumsy( params )
 	    //attacker := params[2],
 	    points := params[3];
 	    params := 0;
-     
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "CurseMod" ))
-		return 0;
-	endif
 
 	SetObjProperty( defender, "CurseMod", points );
 
