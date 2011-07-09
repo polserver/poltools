@@ -65,9 +65,6 @@ program Attack( parms )
                          endif
 
                          typeVital := CInt( AP_GetStat( attacker, STRENGTH ));
-                         if( typeVital > 300 && !attacker.IsA( POLCLASS_NPC ))
-                                 typeVital := 300;
-                         endif
 
                          Damage_Modification( damageType, attacker, defender, weaponElem, typeSkill, typeVital );
                 else
@@ -86,11 +83,7 @@ program Attack( parms )
                          return 1;
                 elseif( SkillCheck( attacker, attri, -1 ) > 0 )
                          typeSkill  := AP_GetSkill( attacker, attri );
-                         
                          typeVital  := CInt( AP_GetStat( attacker, STRENGTH ));
-                         if( typeVital > 300 && !attacker.IsA( POLCLASS_NPC ))
-                                 typeVital := 300;
-                         endif
 
                          Damage_Modification( damageType, attacker, defender, weaponElem, typeSkill, typeVital );
                 else
@@ -117,8 +110,6 @@ function Primary_Check( attacker, defender )
 
 	if( attacker.serial == defender.serial )
 		return 0;
-  	elseif( !CheckLosAt( attacker, defender.x, defender.y, defender.z ))
-		return 0;
     	elseif( attacker.dead || defender.dead )
 		return 0;
         elseif( defender.hidden || defender.concealed  )
@@ -129,6 +120,8 @@ function Primary_Check( attacker, defender )
                 return 0;
         elseif( !attacker.IsA( POLCLASS_NPC ) && GetObjProperty( defender, "IsEthereal" ))
                 return 0;
+  	elseif( !CheckLosAt( attacker, defender.x, defender.y, defender.z ))
+		return 0;
         elseif( A_IsIn( defender, AREAS_NO_DAMAGE ) && attacker.cmdlevel <= 4 )
                 if( attacker.IsA( POLCLASS_NPC ))
                          var x;
@@ -177,11 +170,11 @@ function AmmoChecks( attacker, defender, weaponElem )
                return 1;
         endif
 
-        if( attacker.IsA( POLCLASS_NPC ))
-               //Passed check
-        elseif( !ConsumeSubstance( attacker.backpack, ammoType, 1 ))
-               SendSysMessage( attacker, "You do not have any "+GetObjTypeDesc( ammoType, 1 )+"!" );
-	       return 0;
+        if( !attacker.IsA( POLCLASS_NPC ))
+                if( !ConsumeSubstance( attacker.backpack, ammoType, 1 ))
+                        SendSysMessage( attacker, "You do not have any "+GetObjTypeDesc( ammoType, 1 )+"!" );
+	                return 0;
+                endif
         endif
 
         PlaySoundEffect( attacker, weaponElem.ProjectileSound );
