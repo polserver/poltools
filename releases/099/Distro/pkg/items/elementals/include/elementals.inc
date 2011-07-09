@@ -116,37 +116,37 @@ function Create_ElementalLeather( mobile, elemental )
         create_ELarmor := CreateItemInBackpack( mobile, 0x7596, 1 );
                    create_ELarmor.color := settings.Color;
                    create_ELarmor.name := "Leather Gorget of the "+elemental+" Element";
-                   SetObjProperty( create_ELarmor, elemental+"Protection", 2 );
+                   SetObjProperty( create_ELarmor, elemental+"Protection", 3 );
 
         //Leather Sleeves
         create_ELarmor := CreateItemInBackpack( mobile, 0x7597, 1 );
                    create_ELarmor.color := settings.Color;
                    create_ELarmor.name := "Leather Sleeves of the "+elemental+" Element";
-                   SetObjProperty( create_ELarmor, elemental+"Protection", 2 );
+                   SetObjProperty( create_ELarmor, elemental+"Protection", 3 );
 
         //Leather Gloves
         create_ELarmor := CreateItemInBackpack( mobile, 0x7598, 1 );
                    create_ELarmor.color := settings.Color;
                    create_ELarmor.name := "Leather Gloves of the "+elemental+" Element";
-                   SetObjProperty( create_ELarmor, elemental+"Protection", 2 );
+                   SetObjProperty( create_ELarmor, elemental+"Protection", 3 );
 
         //Leather Cap
         create_ELarmor := CreateItemInBackpack( mobile, 0x7599, 1 );
                    create_ELarmor.color := settings.Color;
                    create_ELarmor.name := "Leather Cap of the "+elemental+" Element";
-                   SetObjProperty( create_ELarmor, elemental+"Protection", 2 );
+                   SetObjProperty( create_ELarmor, elemental+"Protection", 3 );
 
         //Leather Leggings
         create_ELarmor := CreateItemInBackpack( mobile, 0x759a, 1 );
                    create_ELarmor.color := settings.Color;
                    create_ELarmor.name := "Leather Leggings of the "+elemental+" Element";
-                   SetObjProperty( create_ELarmor, elemental+"Protection", 2 );
+                   SetObjProperty( create_ELarmor, elemental+"Protection", 3 );
 
         //Leather Tunic
         create_ELarmor := CreateItemInBackpack( mobile, 0x759b, 1 );
                    create_ELarmor.color := settings.Color;
                    create_ELarmor.name := "Leather Tunic of the "+elemental+" Element";
-                   SetObjProperty( create_ELarmor, elemental+"Protection", 2 );
+                   SetObjProperty( create_ELarmor, elemental+"Protection", 3 );
 
         return 1;
 endfunction
@@ -171,31 +171,31 @@ function Create_ElementalArmor( mobile, elemental )
         create_EParmor := CreateItemInBackpack( mobile, 0x1f0c, 1 );
                    create_EParmor.color := settings.Color;
                    create_EParmor.name := "Platemail Arms of the "+elemental+" Element";
-                   SetObjProperty( create_EParmor, Elemental+"Protection", 2 );
+                   SetObjProperty( create_EParmor, Elemental+"Protection", 3 );
 
         //Platemail Leggings
         create_EParmor := CreateItemInBackpack( mobile, 0x1f0d, 1 );
                    create_EParmor.color := settings.Color;
                    create_EParmor.name := "Platemail Leggings of the "+elemental+" Element";
-                   SetObjProperty( create_EParmor, Elemental+"Protection", 2 );
+                   SetObjProperty( create_EParmor, Elemental+"Protection", 3 );
 
         //Platemail Gloves
         create_EParmor := CreateItemInBackpack( mobile, 0x1f0e, 1 );
                    create_EParmor.color := settings.Color;
                    create_EParmor.name := "Platemail Gloves of the "+elemental+" Element";
-                   SetObjProperty( create_EParmor, Elemental+"Protection", 2 );
+                   SetObjProperty( create_EParmor, Elemental+"Protection", 3 );
 
         //Platemail Gorget
         create_EParmor := CreateItemInBackpack( mobile, 0x1f0f, 1 );
                    create_EParmor.color := settings.Color;
                    create_EParmor.name := "Platemail Gorget of the "+elemental+" Element";
-                   SetObjProperty( create_EParmor, Elemental+"Protection", 2 );
+                   SetObjProperty( create_EParmor, Elemental+"Protection", 3 );
 
         //Closed Helm
         create_EParmor := CreateItemInBackpack( mobile, 0x1f10, 1 );
                    create_EParmor.color := settings.Color;
                    create_EParmor.name := "Closed Helm of the "+elemental+" Element";
-                   SetObjProperty( create_EParmor, Elemental+"Protection", 2 );
+                   SetObjProperty( create_EParmor, Elemental+"Protection", 3 );
 
         return 1;
 endfunction
