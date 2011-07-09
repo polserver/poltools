@@ -59,6 +59,8 @@ program BrainAI()
 
 	Sleep(1);
  
+	EnterSleepMode();
+ 
 	while( npc )
 		var ev;
 		if( !sleep_mode )
