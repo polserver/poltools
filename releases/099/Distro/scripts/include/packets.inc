@@ -101,6 +101,10 @@ endfunction
 
 function DisplayDamage( damaged, amount )
 
+        if( damaged.hidden || damaged.concealed )
+                return 0;
+        endif
+
 	var dmg_packet := CreatePacket( 0x0B, 0x07 );
 
 	if( CInt( amount ) <= 255 )
@@ -110,10 +114,17 @@ function DisplayDamage( damaged, amount )
 	endif
 
 	dmg_packet.SetInt32( 0x01, damaged.serial );
-
-	if( damaged.acctname )
-		dmg_packet.SendPacket( damaged );
-	endif
+ 
+        foreach mobile in
+                SleepMS(5);
+                if( mobile.IsA( POLCLASS_NPC ))
+                        continue;
+                elseif( !GetObjProperty( mobile, "NotifyDmg" ))
+                        continue;
+                endif
+                
+		dmg_packet.SendPacket( mobile );
+        endforeach
 
 	return 1;
 endfunction
