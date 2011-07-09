@@ -42,8 +42,6 @@ program use_scissors( who, tool )
                 CutForBandages( who, tool, targ );
         elseif( targ.IsHides() )
                 CutForBridle( who, tool, targ );
-        elseif( targ.IsHides() )
-                CutForBridle( who, tool, targ );
         elseif( targ.IsBotanic() )
                 HarvestBotanic( who, targ );
         elseif( targ.IsFlowerRoot() )
@@ -189,12 +187,31 @@ function CutForBridle( who, tool, targ )
 
         if( !useItem_check( who, targ, ITEM_INCONTAINER ))
 		return 0;
+        elseif( targ.amount < 10 )
+		SendSysMessage( who, "You don't have enough leather." );
+                return 0;
         endif
 
         PlaySoundEffect( who, 0x249 );
         Sleep(1);
         
-        //No bridle desc given yet...
+        var substract := SubtractAmount( targ, 10 );
+        if( substract.errortext )
+                SendSysMessage( who, "Error substracting "+targ.desc+" -->"+substract.errortext );
+                return 0;
+        endif
+        
+        if( SkillCheck( who, TAILORING, 100 ) > 0 )
+                var bridle := CreateItemInBackpack( who, 0x1374, 1 );
+                if( bridle.errortext )
+                        SendSysMessage( who, "Error creating bridle -->"+bridle.errortext );
+                        return 0;
+                endif
+                
+                SendSysMessage( who, "You create the bridle and place it in you backpack." );
+        else
+                SendSysMessage( who, "You lost some materials." );
+        endif
 
         return 1;
 endfunction
