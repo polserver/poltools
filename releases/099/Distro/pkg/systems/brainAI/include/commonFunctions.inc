@@ -159,25 +159,28 @@ endfunction
 
 function GetNewPath( npc, x, y, z, pathfind_range, flags )
 
+	var search_field := ListItemsNearLocation( npc.x, npc.y, npc.z, 2, npc.realm );
+	foreach item in search_field
+		SleepMS(5);
+                if( item.movable ) //Automatic Anti-Blocking with items.
+			var npc_backpack := NPC_SetupBackPack( npc );
+			var move_item := MoveItemToContainer( item, npc_backpack );
+			if( move_item.errortext )
+				PrintTextAbove( npc, "Error looting items -->"+move_item.errortext );
+				continue;
+			endif
+			AI_Speak( npc, "*Yoink*", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE );
+		elseif( AP_GetSkill( npc, MAGERY )&& GetObjProperty( item, "SummonedField" )) //Automatic Anti-Walls if NPC has MAGERY
+			var script := Start_Script( ":magery:spellStarter", array{ npc, 34, 0, item } ); //Starts spell Dispel Field
+			if( script.errortext )
+				PrintTextAbove( npc, script.errortext );
+			endif
+			break;
+		endif
+	endforeach
+                        
 	var path := FindPath( npc.x, npc.y, npc.z, x, y, z, npc.realm, flags, pathfind_range );
         if( !path )
-                //Automatic Anti-Walls if NPC has MAGERY
-                if( AP_GetSkill( npc, MAGERY ))
-                        var search_field := ListItemsNearLocation( npc.x, npc.y, npc.z, 5, npc.realm );
-                        foreach item in search_field
-                                if( GetObjProperty( item, "SummonedField" ))
-                                        //Starts spell Dispel Field
-                                        var script := Start_Script( ":magery:spellStarter", array{ npc, 34, 0, item } );
-	                                if( script.errortext )
-		                                PrintTextAbove( npc, script.errortext );
-                                        endif
-                                        break;
-                                endif
-
-                                SleepMS(5);
-                        endforeach
-                endif
-
                 //Could not find any path to the destination, stop moving...
                 return 0;
         endif
