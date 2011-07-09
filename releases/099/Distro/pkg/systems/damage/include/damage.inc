@@ -82,9 +82,7 @@ function ApplyDamageEX( mobile, amount, type:=DMG_FORCED, source:=0, flag:=DAMAG
                 endif
         endif
 
-        if( GetObjProperty( mobile, "NotifyDmg" ))
-                DisplayDamage( mobile, amount );
-        endif
+        DisplayDamage( mobile, amount );
 
         ApplyRawDamage( mobile, CInt( amount ), flag );
         mobile.paralyzed := 0;
