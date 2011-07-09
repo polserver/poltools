@@ -12,6 +12,7 @@ use cfgfile;
 
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
+include ":brainAI:npcInit";
 include "include/client";
 include ":mounts:mounts";
 include ":totem:totem";
@@ -65,6 +66,10 @@ function DblClickEvent( npc, byref event )
 
         if( IsTotem( npc ))
                 Totem_Shrink( source );
+                return 1;
+        elseif( npc.graphic == 291 || npc.graphic == 292)
+                var backpack := NPC_SetupBackPack( npc );
+                SendViewContainer( source, backpack );
                 return 1;
         endif
  
