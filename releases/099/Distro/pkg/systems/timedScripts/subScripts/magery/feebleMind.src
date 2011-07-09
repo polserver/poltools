@@ -14,11 +14,6 @@ program TimedScript_FeebleMind( params )
 	    //attacker := params[2],
 	    points := params[3];
 	    params := 0;
-     
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "FeebleMindMod" ))
-		return 0;
-	endif
 
 	SetObjProperty( defender, "FeebleMindMod", points );
 	AP_ModifyStatMod( defender, INTELLIGENCE, -( points ));

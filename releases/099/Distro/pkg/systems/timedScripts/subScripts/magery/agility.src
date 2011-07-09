@@ -15,11 +15,6 @@ program TimedScript_Agility( params )
 	    points := params[3];
 	    params := 0;
 	
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "AgilityMod" ))
-		return 0;
-	endif
-	
 	SetObjProperty( defender, "AgilityMod", points );
 	AP_ModifyStatMod( defender, DEXTERITY, points );
 	

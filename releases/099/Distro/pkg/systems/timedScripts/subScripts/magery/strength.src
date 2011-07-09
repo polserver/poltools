@@ -15,11 +15,6 @@ program TimedScript_Strength( params )
 	    points := params[3];
 	    params := 0;
 	
-	// Prevents mod from being applied twice.
-	if( GetObjProperty( defender, "StrengthMod" ))
-		return 0;
-	endif
-	
 	SetObjProperty( defender, "StrengthMod", points );
  
 	AP_ModifyStatMod( defender, STRENGTH, points );
