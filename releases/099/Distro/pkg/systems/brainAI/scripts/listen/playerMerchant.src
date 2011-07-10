@@ -2,11 +2,8 @@
         Created by *Edwards
         
         2009-12-29
-        
-        Last Modifications 2010-01-11
-             * Fixed remove merchant from datafile if merchant fired
 
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 */
 use uo;
 use os;
@@ -34,42 +31,35 @@ program BrainNerve( params )
 	//var settings	:= params[4];
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
-	
-	var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
-	var shopping_cart := CPM_GetMerchantContainer( npc, CPM_SHOPPINGCART, CP_CREATE );
 
+	var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
         LogInventory( npc, forsale );
         
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					SpeechEvent( npc, event, forsale, shopping_cart );
-					break;
-				default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
+        if( source.hidden )
+		return 0;
+        elseif( source.dead )
+		return 0;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 0;
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
+        AI_Turn( npc, source, NETURN_TOWARD );
+
+        ProcessSpeech( npc, source, text, forsale );
  
         return 1;
 endprogram
 
-function SpeechEvent( npc, byref event, forsale, shopping_cart )
+function ProcessSpeech( npc, source, text, byref forsale )
 
-        var source := event.source;
-        if( source.hidden || source.IsA( POLCLASS_NPC ))
-		return 1;
-        endif
+	var shopping_cart := CPM_GetMerchantContainer( npc, CPM_SHOPPINGCART, CP_CREATE );
 
-	AI_Turn( npc, source, NETURN_TOWARD );
- 
-        var text := Lower( event.text );
         if( text["help"] )
                 AI_Speak( npc, "I will obey to the following orders:" );
                 Sleep(3);
@@ -92,8 +82,8 @@ function SpeechEvent( npc, byref event, forsale, shopping_cart )
         elseif( text["wear"] || text["equip"] )
                 DressMerchant( npc, source );
 	endif
-
-	return 1;
+ 
+        return 1;
 endfunction
 
 function BuyStuff( npc, mobile, forsale, shopping_cart )

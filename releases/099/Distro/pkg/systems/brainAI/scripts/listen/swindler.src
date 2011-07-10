@@ -3,7 +3,7 @@
 
         2010-08-28
 
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 
         Idea from Loony the magic. He took it from Diablo. Well, it's now UO feature.. :)
 */
@@ -29,48 +29,41 @@ program BrainNerve( params )
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 
-	var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
-     
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					SpeechEvent( npc, event, forsale );
-					break;
-				default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
+        if( source.hidden )
+		return 0;
+        elseif( source.dead )
+		return 0;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 0;
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
- 
+        AI_Turn( npc, source, NETURN_TOWARD );
+
+        ProcessSpeech( npc, source, text );
+        
         return 1;
 endprogram
 
-function SpeechEvent( npc, byref event, forsale )
+function ProcessSpeech( npc, source, text )
 
-        if( event.source.hidden || event.source.IsA( POLCLASS_NPC ))
-		return 1;
-        endif
-        
-        var shopping_cart := Swindler_Check_Restock( npc, forsale );
+	var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE ),
+            shopping_cart := Swindler_Check_Restock( npc, forsale );
 
-	AI_Turn( npc, event.source, NETURN_TOWARD );
-        
-        var text := Lower( event.text );
         if( text["help"] )
                 AI_Speak( npc, "I will obey to the following orders:" );
                 Sleep(3);
                 AI_Speak( npc, "buy" );
 	elseif( text["buy"] )
-		BuyStuff( npc, event.source, forsale, shopping_cart );
+		BuyStuff( npc, source, forsale, shopping_cart );
 	endif
 
-	return 1;
+        return 1;
 endfunction
 
 function BuyStuff( npc, mobile, forsale, shopping_cart )

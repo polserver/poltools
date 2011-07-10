@@ -3,7 +3,7 @@
         
         2009-12-28
 
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 */
 use uo;
 use os;
@@ -21,39 +21,31 @@ program BrainNerve( params )
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					SpeechEvent( npc, event );
-					break;
-                               default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
+        if( source.hidden )
+		return 0;
+        elseif( source.dead )
+		return 0;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 0;
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
+        Sleep(2);
+        AI_Turn( npc, source, NETURN_TOWARD );
+
+        ProcessSpeech( npc, text );
  
         return 1;
 endprogram
 
-function SpeechEvent( npc, byref event )
+function ProcessSpeech( npc, text )
 
-        if( event.source.hidden || event.source.concealed )
-		return 0;
-        elseif( RandomInt(5) == 1 )
-		return 0;
-        endif
-        
-        Sleep(2);
-        
-	var text := Lower( event.text ),
-            message := "";
-
+	var message := "";
 	if( text["yo"] )
 		message := "Yo ho yo ho a pirate's life for me!";
 	elseif( text["arr"] )
@@ -87,10 +79,10 @@ function SpeechEvent( npc, byref event )
 	elseif( text["river"] )
 		message := "Arr, the river's near Vesper, ye ken?";
 	endif
- 
+
         if( message )
                 AI_Speak( npc, message );
         endif
-	
-	return 1;
+        
+        return 1;
 endfunction

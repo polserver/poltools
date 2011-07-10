@@ -3,10 +3,7 @@
 
         2009-04-04
 
-        Last Modifications 2009-12-21
-             * Added check if player hidden or NPC to return 0
-
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 */
 use uo;
 use os;
@@ -20,39 +17,34 @@ include ":datafile:datafile";
 program BrainNerve( params )
 
 	var npc		:= params[1];
+	//var nerve_name:= params[2];
 	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 
         setupDealer( npc );
         
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					SpeechEvent( npc, event );
-					break;
-				default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
+        if( source.hidden )
+		return 0;
+        elseif( source.dead )
+		return 0;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 0;
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
+        ProcessSpeech( npc, source, text );
         
         return 1;
 endprogram
 
-function SpeechEvent( npc, byref event )
-
-	var text := Lower( event.text );
-	var source := event.source;
- 
-        if( source.hidden || source.IsA( POLCLASS_NPC ))
-		return 0;
-        endif
+function ProcessSpeech( npc, source, text )
 
 	if( text["help"] )
 		AI_Speak( npc, "I will obey the following orders:" );
@@ -65,8 +57,8 @@ function SpeechEvent( npc, byref event )
                          SendSysMessage( source, "Error cannot start script <:pokerTable:dealer/startup> -->"+start.errortext );
                 endif
 	endif
-
-	return 1;
+ 
+        return 1;
 endfunction
 
 function setupDealer( npc )
