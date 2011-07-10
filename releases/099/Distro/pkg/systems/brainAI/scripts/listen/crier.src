@@ -3,7 +3,7 @@
 
         2009-12-28
 
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 */
 use uo;
 use os;
@@ -16,44 +16,34 @@ include ":brainAI:npcWatchList";
 program BrainNerve( params )
 
 	var npc		:= params[1];
-	//var nerve_name	:= params[2];
+	//var nerve_name:= params[2];
 	var event	:= params[3];
 	//var settings	:= params[4];
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					SpeechEvent( npc, event );
-					break;
-				default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
+        if( source.hidden )
+		return 0;
+        elseif( source.dead )
+		return 0;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 0;
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
+        AI_Turn( npc, source, NETURN_TOWARD );
+
+        ProcessSpeech( npc, source, text );
 
 	return 1;
 endprogram
 
-function SpeechEvent( npc, byref event )
-
-	var source := event.source;
-        if( !CheckLineOfSight( npc, source ))
-		return 0;
-	elseif( source.dead )
-		return 0;
-	elseif( source.hidden || source.concealed )
-		return 0;
-        endif
-        
-        var text := Lower( event.text );
+function ProcessSpeech( npc, source, text )
 
 	if( text["help"] )
 		AI_Speak( npc, "I will obey the following orders:" );
@@ -68,16 +58,16 @@ function SpeechEvent( npc, byref event )
                 	SendSysMessage( source, "Cancelled." );
                 	return 0;
                 endif
-                
+
                 var the_news := array{};
                 the_news.Append( news );
-                
+
                 SetObjProperty( npc, "News", the_news );
 	elseif( text["delete"] && source.cmdlevel > 1 )
 		EraseObjProperty( npc, "News" );
 	endif
-
-	return 1;
+ 
+        return 1;
 endfunction
 
 function SpoutTheNews( npc, source )

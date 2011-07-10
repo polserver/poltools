@@ -3,13 +3,7 @@
         
         2008-11-05
 
-        Last Modifications 2009-12-21
-             * Added check if player hidden or NPC to return 0
-
-        Last Modifications 2009-12-22
-             * Added following mode
-
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 */
 use uo;
 use os;
@@ -34,61 +28,46 @@ program BrainNerve( params )
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					if( npc.master && event.source == npc.master )
-						SpeechEvent( npc, event );
-					endif
-					break;
-                               default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
-
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
- 
-        return 1;
-endprogram
-
-function SpeechEvent( npc, byref event )
-
-	var command := SplitWords( Lower( event.text )),
-            master := event.source;
-            
-        if( master.IsA( POLCLASS_NPC ))
+        if( source.hidden )
 		return 0;
-        elseif( master.dead )
+        elseif( source.dead )
 		return 0;
-        elseif( master.hidden )
+        elseif( source.IsA( POLCLASS_NPC ))
 		return 0;
-        endif
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-        if( !CheckPet( master ))
+        AI_Turn( npc, source, NETURN_TOWARD );
+
+        if( !CheckPet( source ))
                 StopActivities( npc );
 		TS_LowerDuration( npc, "Tame", -1 );
                 AI_Speak( npc, "*"+npc.name+" can roam free again*" );
                 return 0;
         endif
-        
-        SendStatus( event.source );
+
+        SendStatus( source );
         PlaySoundEffect( npc, NPC_GetBarkSound( npc ));
-                
+        
+        ProcessSpeech( npc, source, text, event );
+ 
+        return 1;
+endprogram
+
+function ProcessSpeech( npc, master, command, event )
+
 	if( command[1] == "all" || command[1] == TruncateArticle( npc.name ))
-                
-                SendStatus( event.source );
-                PlaySoundEffect( npc, NPC_GetBarkSound( npc ));
-                
+
 		// Get a target, if we need it
 		if( command[3] == "me" )
 			command[3] := master;
 		endif
-                
+
 		case( command[2] )
 			"stop":
 				Tamed_Stop( npc );
@@ -120,11 +99,11 @@ function SpeechEvent( npc, byref event )
                 elseif( GetObjProperty( npc, "#LastOrder" ) > ReadGameClock() )
                         return 0;
                 endif
-                
+
                 SetObjProperty( npc, "#LastOrder", ReadGameClock() + 5 );
-                
+
                 var the_order := Lower( command[1] );
-                
+
                 if( the_order == "help" );
                         Totem_Help( npc );
                 elseif( the_order == "loot" )
@@ -141,7 +120,7 @@ function SpeechEvent( npc, byref event )
                         if( Totem_GetLevel( npc ) < 7 )
                                 return 0;
                         endif
-                        
+
 		        Totem_CastSpell( npc, master, 7 ); //reactive armor
 		        Totem_CastSpell( npc, master, 9 ); //agility
 		        Totem_CastSpell( npc, master, 10 ); //cunning
@@ -172,8 +151,8 @@ function SpeechEvent( npc, byref event )
 		        Totem_CastSpell( npc, master, 48 );
                 endif
 	endif
-	
-	return 1;
+ 
+        return 1;
 endfunction
 
 function Tamed_Stop( npc )

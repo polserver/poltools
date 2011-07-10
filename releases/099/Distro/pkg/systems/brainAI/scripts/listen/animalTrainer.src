@@ -1,20 +1,7 @@
 /*
         Maintened by *Edwards
-
-        Last Modifications 2009-02-08
-             * Cleaned up the code
-
-        Last Modifications 2009-12-21
-             * Added check if player hidden or NPC to return 0
-
-        Last Modifications 2010-03-12
-             * Cleaned codes for better performances.
-             * Added restock value.
-
-        Last Modifications 2010-03-14
-             * Added vendor trainning
              
-        Last Modifications 2010-09-26
+        Last Modifications 2011-07-10
 */
 use uo;
 use os;
@@ -35,63 +22,59 @@ include ":merchants:storage";
 program BrainNerve( params )
 
 	var npc		:= params[1];
- 	var event	:= params[3];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
-	
-	var merchant_type := CPM_GetMerchantType( npc ),
-	    forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
 
-	while( npc )
-		if( event )
-			case( event.type )
-				SYSEVENT_SPEECH:
-					SpeechEvent( npc, event, forsale, merchant_type );
-					break;
-				default:
-					break;
-			endcase
+	var text := Lower( event.text ),
+	    source := event.source;
 
-			event := 0;
-		endif
+        if( source.hidden )
+		return 0;
+        elseif( source.dead )
+		return 0;
+        elseif( source.IsA( POLCLASS_NPC ))
+		return 0;
+	elseif( !CheckLineOfSight( npc, source ))
+		// No line of sight - ignore speech.
+		return 0;
+	endif
 
-		SleepMS(5);
-		event := Wait_For_Event(1);
-	endwhile
+        AI_Turn( npc, source, NETURN_TOWARD );
+
+        ProcessSpeech( npc, source, text );
  
         return 1;
 endprogram
 
-function SpeechEvent( npc, byref event, forsale, merchant_type )
+function ProcessSpeech( npc, source, text )
 
-        if( event.source.hidden || event.source.IsA( POLCLASS_NPC ))
-		return 1;
-        endif
-        
-        var shopping_cart := Check_Restock( npc, merchant_type, forsale );
+	var merchant_type := CPM_GetMerchantType( npc ),
+	    forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE ),
+            shopping_cart := Check_Restock( npc, merchant_type, forsale );
 
-        AI_Turn( npc, event.source, NETURN_TOWARD );
-        
-        var text := Lower( event.text );
 	if( text["help"] )
 		AI_Speak( npc, "I will obey the following orders:" );
                 Sleep(2);
                 AI_Speak( npc, "buy - sell - stable - vendor train - merchant train" );
 		return 1;
 	elseif( text["buy"] )
-		BuyStuff( npc, event.source, forsale, shopping_cart );
+		BuyStuff( npc, source, forsale, shopping_cart );
 		return 1;
 	elseif( text["sell"] )
-		SellCreature( npc, event.source );
+		SellCreature( npc, source );
 		return 1;
 	elseif( text["stable"] )
-		StablePet( npc, event.source );
+		StablePet( npc, source );
 		return 1;
 	elseif( text["vendor train"] || text["merchant train"] )
-                MerchantTrain( npc, event.source, text );
+                MerchantTrain( npc, source, text );
 		return 1;
 	endif
-
-	return 1;
+ 
+        return 1;
 endfunction
 
 function BuyStuff( npc, mobile, forsale, shopping_cart )
