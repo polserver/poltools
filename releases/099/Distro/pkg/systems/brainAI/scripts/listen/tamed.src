@@ -28,8 +28,9 @@ program BrainNerve( params )
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 
-	var text := Lower( event.text ),
-	    source := event.source;
+	var text := SplitWords( Lower( event.text )),
+	    source := event.source,
+            npc_master := npc.master;
 
         if( source.hidden )
 		return 0;
@@ -37,8 +38,9 @@ program BrainNerve( params )
 		return 0;
         elseif( source.IsA( POLCLASS_NPC ))
 		return 0;
-	elseif( !CheckLineOfSight( npc, source ))
-		// No line of sight - ignore speech.
+        elseif( !npc_master )
+		return 0;
+        elseif( source != npc_master );
 		return 0;
 	endif
 
