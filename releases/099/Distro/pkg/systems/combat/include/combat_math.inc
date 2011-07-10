@@ -47,7 +47,7 @@ function Damage_Modification( damageType, attacker, defender, weaponElem, typeSk
         rawDamage := CalcPercent( typeVital, rawDamage );
         rawDamage /= DIVIDER;
 
-        rawDamage := CalcRawDamage( attacker, defender, rawDamage, damageType, attackerWeapon );
+        rawDamage := CalcRawDamage( attacker, defender, rawDamage, damageType, attackerWeapon, typeSkill );
 
         var applyType;
         case( damageType )
@@ -64,7 +64,7 @@ function Damage_Modification( damageType, attacker, defender, weaponElem, typeSk
         return 1;
 endfunction
 
-function CalcRawDamage( attacker, defender, rawDamage, damageType, attackerWeapon )
+function CalcRawDamage( attacker, defender, rawDamage, damageType, attackerWeapon, typeSkill )
 
         VerifyPoison( attacker, defender, attackerWeapon );
 
@@ -72,7 +72,7 @@ function CalcRawDamage( attacker, defender, rawDamage, damageType, attackerWeapo
         rawDamage := CalcByClasse( attacker, defender, rawDamage, damageType );
         rawDamage := CriticalHit( attacker, defender, rawDamage );
         rawDamage := ModifyByProt( defender, rawDamage, damageType );
-        rawDamage := PiercingCheck( attacker, defender, rawDamage, damageType );
+        rawDamage := PiercingCheck( attacker, defender, rawDamage, damageType, typeSkill );
         rawDamage := CalcByArea( attacker, defender, rawDamage );
         
         DamageItem( attacker, attackerWeapon ); //Damage weapon only
@@ -157,7 +157,7 @@ function ModifyByProt( defender, rawDamage, damageType )
         return rawDamage;
 endfunction
 
-function PiercingCheck( attacker, defender, rawDamage, damageType )
+function PiercingCheck( attacker, defender, rawDamage, damageType, typeSkill )
 
         var xHitScript := GetWeaponHitScripts( attacker, attacker.weapon );
         if( xHitScript == ":weapons:hitScripts/piercing" )
@@ -176,7 +176,7 @@ function PiercingCheck( attacker, defender, rawDamage, damageType )
                 endif
         endif
         
-        rawDamage := ParryCheck( attacker, defender, rawDamage, damageType );
+        rawDamage := ParryCheck( attacker, defender, rawDamage, damageType, typeSkill );
         
         return CDbl( rawDamage );
 endfunction
@@ -193,24 +193,27 @@ function DamageTakeCalc( armorDefender, rawDamage )
         return CDbl( rawDamage );
 endfunction
 
-function ParryCheck( attacker, defender, rawDamage, damageType )
-
-        var parry_Chance := AP_GetSkill( defender, PARRY ),
-            attackChance := RandomInt( 300 );
+function ParryCheck( attacker, defender, rawDamage, damageType, attack_skill )
             
-        if( defender.shield || ( defender.IsA( POLCLASS_NPC ) && parry_Chance ))
+        if( defender.shield || defender.IsA( POLCLASS_NPC ))
+                 var parry_skill := AP_GetSkill( defender, PARRY );
+                 parry_skill *= ClasseBonus( defender, WARRIOR );
+                 
+                 case( damageType )
+                 1:      //Physical Damage
+                         attack_skill *= ClasseBonus( attacker, WARRIOR );
+                         break;
+                 2:      //Ranged Damage
+                         attack_skill *= ClasseBonus( attacker, RANGER );
+                         attack_skill *= 1.25; //Archery has a greater accuracy.
+                         break;
+                 3:      //Astral Damage
+                         attack_skill *= ClasseBonus( attacker, MAGE );
+                         break;
+                 endcase
 
-                 if( GetObjProperty( defender, WARRIOR ))
-                          parry_Chance *= ClasseBonus( defender, WARRIOR );
-                 endif
-
-                 if( damageType == 1 && GetObjProperty( attacker, WARRIOR ))
-                          attackChance *= ClasseBonus( attacker, WARRIOR );
-                 elseif( damageType == 2 && GetObjProperty( attacker, RANGER ))
-                          attackChance *= ClasseBonus( attacker, RANGER ) - 100;
-                 endif
-
-                 if( attackChance >= parry_Chance )
+                 var chances := CInt( 70 + (( attack_skill - parry_skill ) * 0.25 )); //For every point difference there will be a +- 1 percent
+                 if( RandomInt( 100 ) >= chances )
                           if( SkillCheck( defender, PARRY, -1 ) > 0 )
                                     SendSysMessage( defender, "You successfully parry the attack." );
                                     return 0;
