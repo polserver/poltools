@@ -35,9 +35,15 @@ program Attack( parms )
             typeVital;
             
         if( !Primary_Check( attacker, defender ))
-                return 0;
+                defender := FindNewOpponent( attacker, weaponElem );
+                if( !defender )
+                        return 0;
+                endif
         elseif( !Check_Distance( attacker, defender, weaponElem ))
-                return 0;
+                defender := FindNewOpponent( attacker, weaponElem );
+                if( !defender )
+                        return 0;
+                endif
         endif
         
         PlayAttackAnimations( attacker, defender, weaponElem );
@@ -253,4 +259,24 @@ function PlayMissSound( attacker, weaponElem )
 	PlaySoundEffect( attacker, CInt( missSound ));
 
 	return 1;
+endfunction
+
+function FindNewOpponent( attacker, weaponElem )
+
+        var hostiles := ListHostiles( attacker, CInt( weaponElem.MaxRange ), LH_FLAG_LOS );
+        if( hostiles.Size() )
+                foreach mobile in hostiles
+                        SleepMS(5);
+                        
+                        if( !Primary_Check( attacker, mobile ))
+                                continue;
+                        elseif( !Check_Distance( attacker, mobile, weaponElem ))
+                                continue;
+                        endif
+                        
+                        return mobile;
+                endforeach
+        endif
+        
+        return 0;
 endfunction
