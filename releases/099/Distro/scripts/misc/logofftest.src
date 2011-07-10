@@ -8,12 +8,8 @@ use uo;
 include ":areas:managment";
 include ":timeutils:time";
 include ":areas:innFunctions";
-include ":timedscripts:timedScripts";
 
 program LogOffTest( mobile )
-
-	// Send event to the 'timed scripts' package to run log off scripts.
-	TS_LogOff( mobile );
  
         var logout_delay := SECONDS_IN_MINUTE * 2;
 
