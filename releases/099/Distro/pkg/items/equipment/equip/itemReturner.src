@@ -21,7 +21,7 @@ program item_Returner( item )
         var owner := SystemFindObjectBySerial( owner_serial ),
             owner_name := CStr( owner.name );
 
-        EraseObjProperty( item, "#EquippedOn" );
+        EraseObjProperty( item, "EquippedOn" );
 
         //Return the item to the owner
         Set_Script_Option( SCRIPTOPT_CAN_ACCESS_OFFLINE_MOBILES, 1 );
