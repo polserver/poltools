@@ -33,7 +33,7 @@ program Attack( parms )
             attri            := weaponElem.Attribute,
             typeSkill,
             typeVital;
-            
+
         if( !Primary_Check( attacker, defender ))
                 defender := FindNewOpponent( attacker, weaponElem );
                 if( !defender )
@@ -47,7 +47,7 @@ program Attack( parms )
         endif
         
         PlayAttackAnimations( attacker, defender, weaponElem );
-        
+
         //We have a rule limiting to spar max 8 creatures
         if( !defender.IsA( POLCLASS_NPC ))
                 if( ListHostiles( defender, 2, LH_FLAG_LOS ).Size() > 8 )
@@ -265,17 +265,7 @@ function FindNewOpponent( attacker, weaponElem )
 
         var hostiles := ListHostiles( attacker, CInt( weaponElem.MaxRange ), LH_FLAG_LOS );
         if( hostiles.Size() )
-                foreach mobile in hostiles
-                        SleepMS(5);
-                        
-                        if( !Primary_Check( attacker, mobile ))
-                                continue;
-                        elseif( !Check_Distance( attacker, mobile, weaponElem ))
-                                continue;
-                        endif
-                        
-                        return mobile;
-                endforeach
+                return hostiles.RandomEntry();
         endif
         
         return 0;
