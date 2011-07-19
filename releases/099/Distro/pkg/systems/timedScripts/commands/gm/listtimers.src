@@ -8,7 +8,7 @@ use os;
 
 include ":timedscripts:timedScripts";
 
-program textcmd_listTimers( who, type )
+program textcmd_listTimers( who )
 
 	SendSysMessage( who, "Select a mobile." );
 	var targ := Target( who, TGTOPT_NOCHECK_LOS );
@@ -17,7 +17,7 @@ program textcmd_listTimers( who, type )
 		return 0;
 	endif
 
-	foreach timer_name in ( TS_GetTimerNames( targ, type ))
+	foreach timer_name in ( TS_GetTimerNames( targ ))
 		SendSysMessage( who, "->"+timer_name );
 		SleepMS(2);
 	endforeach
