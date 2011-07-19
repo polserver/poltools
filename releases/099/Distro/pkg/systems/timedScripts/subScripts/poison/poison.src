@@ -42,6 +42,7 @@ program TimedScript_DefaultPoison( params )
         endif
 
 	SetObjProperty( who, "#PoisonedLevel", level );
+	who.SetPoisoned(1);
 
         var duration := RandomInt( level ) + 8;
 	while( duration )
