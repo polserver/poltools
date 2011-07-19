@@ -23,7 +23,6 @@ CONST START_CONTROLLER			:= 0x1;
 function TS_GetCfgFile()
 
 	var cfg := ReadConfigFile( ":timedscripts:timedScripts" );
-
 	if( cfg.errortext )
 		ReportText( "Error::TS_GetSettingsCfgFile() - Unable to open [:timedscripts:timedScripts] ->"+cfg.errortext, REPORT_SYSLOG );
 	endif
@@ -38,7 +37,6 @@ function TS_GetCfgElem( elem_name, byref cfg_file:=0 )
 	endif
 
 	var elem := cfg_file[elem_name];
-
 	if( elem.errortext )
 		ReportText( "Error::TS_GetCfgElem - Unable to find elem ["+elem_name+"] ->"+elem.errortext, REPORT_SYSLOG );
 	endif
@@ -48,7 +46,8 @@ endfunction
 
 function TS_GetControllerProcess( mobile, start:=NOSTART_CONTROLLER )
 
-	var pid := CInt(GetObjProperty( mobile, "#TimerControlPID" ));
+	var pid := CInt( GetObjProperty( mobile, "#TimerControlPID" ));
+ 
 	var process := GetProcess( pid );
 	if( !process )
 		if( start )
@@ -88,24 +87,21 @@ function TS_SaveTimerList( mobile, byref timer_list )
 	return SetObjProperty( mobile, "%TimerList%", timer_list );
 endfunction
 
-function TS_GetTimerNames( mobile, type:="" )
+function TS_GetTimerNames( mobile )
 
-	type := Lower( type );
 	var timer_list := TS_GetTimerList( mobile );
 	var name_list := array{};
 
 	foreach timer_name in ( timer_list.Keys() )
-		if( type )
-			var elem_info := TS_GetCfgElem( timer_name );
-			if( elem_info.errortext )
-				ReportText( "Error::TS_GetTimerNames() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext, REPORT_SYSLOG );
-				return 0;
-			elseif( Lower( elem_info.Type ) == type )
-				name_list.Append( timer_name );
-			endif
+ 
+	        var elem_info := TS_GetCfgElem( timer_name );
+	        if( elem_info.errortext )
+			ReportText( "Error::TS_GetTimerNames() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext, REPORT_SYSLOG );
+			continue;
 		else
 			name_list.Append( timer_name );
 		endif
+  
 		SleepMS(2);
 	endforeach
 
@@ -115,11 +111,11 @@ endfunction
 function TS_GetTimerInfo( mobile, timer_name )
 
 	var timer_list := TS_GetTimerList( mobile );
-	if( timer_list.Exists( timer_name ))
-		return timer_list[timer_name];
-	else
+	if( !timer_list.Exists( timer_name ))
 		return error{"errortext":="Error::TS_GetTimerInfo() - No timer exists by that name."};
 	endif
+ 
+        return timer_list[timer_name];
 endfunction
 
 function TS_GetTimerDuration( mobile, timer_name )
