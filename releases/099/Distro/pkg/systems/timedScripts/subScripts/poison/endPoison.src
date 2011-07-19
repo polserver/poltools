@@ -11,6 +11,7 @@ include ":timedscripts:timedScripts";
 program TS_CurePoison( who )
 
 	EraseObjProperty( who, "#PoisonedLevel" );
+	who.SetPoisoned(0);
  
         SendSysMessage( who, "You have been cured of poison!" );
 
