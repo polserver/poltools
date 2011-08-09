@@ -1,0 +1,52 @@
+use uo;
+use os;
+
+unload_scripts();
+
+program SplitStackTest(mobile, text)
+	text := CInt(text);
+	
+	if ( text == 1 )
+		StackTestIn(mobile);
+	elseif ( text == 2 )
+		StackTestAt(mobile);
+	else
+		SendSysMessage(mobile, ".splitstack 1|2 (1=pack test, 2=world test)");
+	endif
+	
+	return 1;	
+endprogram
+
+function StackTestIn(mobile)
+	SendSysMessage(mobile, "Stack Test Inside Pack");
+	SendSysMEssage(mobile, "Hold on... lets make some gold where you're at.");
+	var item := CreateItemAtLocation(mobile.x, mobile.y, mobile.z, "GoldCoin", 3000, mobile.realm);
+	SendSysMessage(mobile, "Gold Item="+item);
+	
+	var result := item.SplitStackInto(mobile.backpack, 200);
+	SendSysMessage(mobile, "Result Item="+result);
+	
+	MoveObjectToLocation(item, mobile.x+1, mobile.y, mobile.z, mobile.realm);
+	PrintTextAbove(item, "Original Item");
+	MoveObjectToLocation(result, mobile.x-1, mobile.y, mobile.z, mobile.realm);	
+	PrintTextAbove(result, "Result Item");
+	
+	return 1;
+endfunction
+
+
+function StackTestAt(mobile)
+	SendSysMEssage(mobile, "Hold on... lets make some gold in your pack.");
+	var item := CreateItemAtLocation(mobile.x, mobile.y, mobile.z, "GoldCoin", 3000, mobile.realm);
+	SendSysMessage(mobile, "Gold Item="+item);
+	
+	var result := item.SplitStackAt(mobile.x, mobile.y, mobile.z, mobile.realm, 200);
+	SendSysMessage(mobile, "Result Item="+result);
+	
+	MoveObjectToLocation(item, mobile.x+1, mobile.y, mobile.z, mobile.realm);
+	PrintTextAbove(item, "Original Item");
+	MoveObjectToLocation(result, mobile.x-1, mobile.y, mobile.z, mobile.realm);	
+	PrintTextAbove(result, "Result Item");
+	
+	return 1;
+endfunction
