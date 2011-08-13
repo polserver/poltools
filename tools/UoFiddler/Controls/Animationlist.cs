@@ -638,7 +638,7 @@ namespace FiddlerControls
             if ((animEditEntry == null) || (animEditEntry.IsDisposed))
             {
                 animEditEntry = new AnimationEdit();
-                animEditEntry.TopMost = true;
+                //animEditEntry.TopMost = true;
                 animEditEntry.Show();
             }
         }

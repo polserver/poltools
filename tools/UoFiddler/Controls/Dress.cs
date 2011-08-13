@@ -16,7 +16,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Ntx.GD;
 using Ultima;
 
 namespace FiddlerControls
@@ -156,7 +155,6 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Gumps"] = true;
 
             extractAnimationToolStripMenuItem.Visible = false;
-            extractAnimatedAnimationToolStripMenuItem.Visible = false;
 
             DressPic.Image = new Bitmap(DressPic.Width, DressPic.Height);
             pictureBoxDress.Image = new Bitmap(pictureBoxDress.Width, pictureBoxDress.Height);
@@ -577,15 +575,9 @@ namespace FiddlerControls
         {
             animate = !animate;
             if (animate)
-            {
                 extractAnimationToolStripMenuItem.Visible = true;
-                extractAnimatedAnimationToolStripMenuItem.Visible = true;
-            }
             else
-            {
                 extractAnimationToolStripMenuItem.Visible = false;
-                extractAnimatedAnimationToolStripMenuItem.Visible = false;
-            }
             RefreshDrawing();
         }
 
@@ -711,39 +703,6 @@ namespace FiddlerControls
                 showAnimationToolStripMenuItem.Text = "Show Paperdoll";
             }
             RefreshDrawing();
-        }
-
-        private void onClickExtractAnimatedAnimation(object sender, EventArgs e)
-        {
-            string path = FiddlerControls.Options.OutputPath;
-            string gif = Path.Combine(path, "Dress Anim.gif");
-            string temp = Path.Combine(path, "temp.png");
-
-            using (FileStream fs = File.OpenWrite(gif))
-            {
-                m_Animation[0].Save(temp, ImageFormat.Png);
-                using (GD host = new GD(GD.FileType.Png, temp))
-                {
-                    host.GifAnimBegin(fs);
-                    GD prev = null;
-                    for (int i = 0; i < m_Animation.Length; ++i)
-                    {
-                        m_Animation[i].Save(temp, ImageFormat.Png);
-                        GD frame = new GD(GD.FileType.Png, temp);
-                        frame.GifAnimAdd(fs, 1, 0, 0, 15, GD.Disposal.None, prev);
-                        prev = frame;
-                    }
-                    File.Delete(temp);
-                    host.GifAnimEnd(fs);
-                }
-                fs.Close();
-            }
-            MessageBox.Show(
-                String.Format("InGame Anim saved to '{0}'", gif),
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
         }
 
         private void BuildDressList()
