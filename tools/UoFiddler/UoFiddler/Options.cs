@@ -63,7 +63,6 @@ namespace UoFiddler
                         file.CopyTo(newpath);
                     }
                 }
-                    
             }
         }
 

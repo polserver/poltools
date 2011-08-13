@@ -35,6 +35,7 @@ namespace FiddlerControls
             comboBoxMapID.Items.Add(new R_FeluccaOld());
             comboBoxMapID.Items.Add(new R_Felucca());
             comboBoxMapID.Items.Add(new R_Trammel());
+            comboBoxMapID.Items.Add(new R_Ilshenar());
             comboBoxMapID.Items.Add(new R_Malas());
             comboBoxMapID.Items.Add(new R_Tokuno());
             comboBoxMapID.Items.Add(new R_TerMur());

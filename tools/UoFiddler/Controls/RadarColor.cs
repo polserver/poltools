@@ -46,7 +46,7 @@ namespace FiddlerControls
                 {
                     CurrCol = value;
                     Updating = true;
-                    textBoxShortCol.Text = ((ushort)CurrCol).ToString();
+                    numericUpDownShortCol.Value = CurrCol;
                     Color col = Ultima.Hues.HueToColor(CurrCol);
                     pictureBoxColor.BackColor = col;
                     numericUpDownR.Value = col.R;
@@ -277,13 +277,11 @@ namespace FiddlerControls
             }
         }
 
-        private void OnChangeShortText(object sender, EventArgs e)
+        private void OnNumericShortColChanged(object sender, EventArgs e)
         {
             if (!Updating)
             {
-                short txtcol;
-                if (short.TryParse(textBoxShortCol.Text, out txtcol))
-                    CurrColor = txtcol;
+                CurrColor = (short)numericUpDownShortCol.Value;
             }
         }
 

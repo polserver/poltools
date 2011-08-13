@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace Ultima
 {
@@ -434,34 +435,43 @@ namespace Ultima
         //Soulblighter Modification
         public void GetGifPalette(Bitmap bit)
         {
-            int i;
-            ColorPalette PaletteTST = bit.Palette;
-            for (i = 0; i < 0x100; i++)
+            using (MemoryStream imageStreamSource = new MemoryStream())
             {
-                this.Palette[i] = 0;
-            }
-            try
-            {
-                i = 0;
-                while (i < 0x100)
+                System.Drawing.ImageConverter ic = new System.Drawing.ImageConverter();
+                byte[] btImage = (byte[])ic.ConvertTo(bit, typeof(byte[]));
+                imageStreamSource.Write(btImage, 0, btImage.Length);
+                GifBitmapDecoder decoder = new GifBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                BitmapPalette pal = decoder.Palette;
+                int i;
+                for (i = 0; i < 0x100; i++)
                 {
-                    int Red = PaletteTST.Entries[i].R / 8;
-                    int Green = PaletteTST.Entries[i].G / 8;
-                    int Blue = PaletteTST.Entries[i].B / 8;
-                    int contaFinal = (((0x400 * Red) + (0x20 * Green)) + Blue) + 0x8000;
-                    if (contaFinal == 0x8000)
-                        contaFinal = 0x8001;
-                    this.Palette[i] = (ushort)contaFinal;
-                    i++;
+                    this.Palette[i] = 0;
                 }
-            }
-            catch (System.IndexOutOfRangeException)
-            {
-            }
-            for (i = 0; i < 0x100; i++)
-            {
-                if (this.Palette[i] < 0x8000)
-                    this.Palette[i] = 0x8000;
+                try
+                {
+                    i = 0;
+                    while (i < 0x100)//&& i < pal.Colors.Count)
+                    {
+
+                        int Red = pal.Colors[i].R / 8;
+                        int Green = pal.Colors[i].G / 8;
+                        int Blue = pal.Colors[i].B / 8;
+                        int contaFinal = (((0x400 * Red) + (0x20 * Green)) + Blue) + 0x8000;
+                        if (contaFinal == 0x8000)
+                            contaFinal = 0x8001;
+                        this.Palette[i] = (ushort)contaFinal;
+                        i++;
+                    }
+                }
+                catch (System.IndexOutOfRangeException)
+                { }
+                catch (System.ArgumentOutOfRangeException)
+                { }
+                for (i = 0; i < 0x100; i++)
+                {
+                    if (this.Palette[i] < 0x8000)
+                        this.Palette[i] = 0x8000;
+                }
             }
         }
 
