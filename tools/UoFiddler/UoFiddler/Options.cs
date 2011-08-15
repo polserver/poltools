@@ -258,7 +258,7 @@ namespace UoFiddler
             if (elem != null)
             {
                 FiddlerControls.Options.OutputPath = elem.GetAttribute("path");
-                if (!Directory.Exists(OutputPath))
+                if (!Directory.Exists(FiddlerControls.Options.OutputPath))
                     FiddlerControls.Options.OutputPath = FiddlerControls.Options.AppDataPath;
             }
             else
