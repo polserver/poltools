@@ -21,6 +21,7 @@ function AuthorizationCode( mobile )
 
 	if( !autocode )
 		SendSysMessage( mobile, "Authorization code is not given yet.", 3, 53 );
+		SendSysMessage( mobile, "Uses .setauthcode to create a new code.", 3, 53 );
 		return 0;
 	else
 		var code := SendTextEntryGump( mobile, "Enter the Authorization Code.", TE_CANCEL_ENABLE,TE_STYLE_NORMAL, 10 );
