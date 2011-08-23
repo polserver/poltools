@@ -212,12 +212,9 @@ function ParryCheck( attacker, defender, rawDamage, damageType, attack_skill )
                          break;
                  endcase
 
-                 var chances := CInt( 70 + (( attack_skill - parry_skill ) * 0.25 )); //For every point difference there will be a +- 1 percent
-                 if( RandomInt( 100 ) >= chances )
-                          if( SkillCheck( defender, PARRY, -1 ) > 0 )
-                                    SendSysMessage( defender, "You successfully parry the attack." );
-                                    return 0;
-                          endif
+                 if( SkillCheck( defender, PARRY, attack_skill ) > 0 ))
+                          SendSysMessage( defender, "You successfully parry the attack." );
+                          return 0;
                  endif
          endif
          
