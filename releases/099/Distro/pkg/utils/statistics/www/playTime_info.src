@@ -35,6 +35,7 @@ program GetPlaytimeInformation()
 		WriteHTML( "</select>" );
 		WriteHTML( "<select name=\"year\">" );
 		WriteHTML( "<option>2010</option>" );
+		WriteHTML( "<option>2011</option>" );
 		WriteHTML( "</select>" );
 		WriteHTML( "<input id=submit1 name=submit1 type=submit value=Search>" );
 		WriteHTML( "</form>" );
