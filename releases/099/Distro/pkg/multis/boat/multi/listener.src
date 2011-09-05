@@ -40,7 +40,7 @@ program BoatController( boat )
 
 	while( boat )
 		var ev;
-
+                
 		if( sleep_mode )
 			if( last_effects < ReadGameClock() )
 				PlaySoundEffect( boat, SFX_WAVE_2 );
@@ -59,6 +59,9 @@ program BoatController( boat )
 		if( ev )
 			ProcessEvent( boat, ev, cur_cmd, cur_map );
 			sleep_mode := 0;
+                elseif( !GetMobileBoat( boat ))
+                        cur_cmd := 0;
+                        cur_map := 0;
 		elseif( cur_map )
 			FollowMap( boat, cur_cmd, cur_map );
 		elseif( cur_cmd )
@@ -126,6 +129,8 @@ function ProcessEvent( boat, byref ev, byref cur_cmd, byref cur_map )
 	if( !tillerman.IsOnBoat( ev.source ))
 		return 0;
 	elseif( ev.source == tillerman )
+		return 0;
+	elseif( ev.source.dead )
 		return 0;
 	elseif( ev.text )
 		var commands := ParseCommands( ev.text, g_cmd_list );
@@ -435,4 +440,20 @@ function DoEncounter( boat )
         created.saveonexit := 0;
         
         return 1;
+endfunction
+
+function GetMobileBoat( boat )
+
+        foreach mobile in ( ListMobilesNearLocation( boat.x, boat.y, boat.z, 12, boat.realm ))
+                SleepMS(5);
+                if( !boat.tillerman.IsOnBoat( mobile ))
+                        continue;
+                elseif( mobile.dead )
+                        continue;
+                endif
+                
+                return 1;
+        endforeach
+        
+        return 0;
 endfunction
