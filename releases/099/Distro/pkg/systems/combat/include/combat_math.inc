@@ -196,23 +196,19 @@ endfunction
 function ParryCheck( attacker, defender, rawDamage, damageType, attack_skill )
             
         if( defender.shield || defender.IsA( POLCLASS_NPC ))
-                 var parry_skill := AP_GetSkill( defender, PARRY );
-                 parry_skill *= ClasseBonus( defender, WARRIOR );
                  
                  case( damageType )
                  1:      //Physical Damage
-                         attack_skill *= ClasseBonus( attacker, WARRIOR );
                          break;
                  2:      //Ranged Damage
-                         attack_skill *= ClasseBonus( attacker, RANGER );
                          attack_skill *= 1.25; //Archery has a greater accuracy.
                          break;
                  3:      //Astral Damage
-                         attack_skill *= ClasseBonus( attacker, MAGE );
+                         attack_skill *= 0.75; //Astral has a lower accuracy.
                          break;
                  endcase
 
-                 if( SkillCheck( defender, PARRY, attack_skill ) > 0 ))
+                 if( SkillCheck( defender, PARRY, CInt( attack_skill )) > 0 )
                           SendSysMessage( defender, "You successfully parry the attack." );
                           return 0;
                  endif
