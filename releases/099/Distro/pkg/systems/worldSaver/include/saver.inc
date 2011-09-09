@@ -15,6 +15,7 @@ include ":security:report";
 CONST EVENT_SAVE_NOW		:= 0x1;
 CONST EVENT_START_SHUTDOWN	:= 0x2;
 CONST EVENT_CANCEL_SHUTDOWN	:= 0x4;
+CONST EVENT_STOPSAVING  	:= 0x5;
 
 function SVR_SendCommand( event_id, data:=0 )
 
