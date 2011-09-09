@@ -33,6 +33,8 @@ program WorldSaver()
 				EVENT_START_SHUTDOWN:
 					DoShutDown( event.data );
 					break;
+				EVENT_STOPSAVING:
+					return 0;
 			endcase
 		endif
 		
