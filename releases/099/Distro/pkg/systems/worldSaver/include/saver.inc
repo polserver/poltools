@@ -79,13 +79,13 @@ function DoShutDown( countdown:=0 )
 	countdown := CInt( countdown );
 
 	for( countdown; countdown>1; countdown-=1 )
-		ReportText( "SYSTEM: Fantasia Shard is restarting in "+countdown+" minutes.", REPORT_BROADCAST, 33 );
+		ReportText( "SYSTEM: Zulu Hotel is restarting in "+countdown+" minutes.", REPORT_BROADCAST, 33 );
 		Sleep(60);
 	endfor
  
         var i;
         for( i:=60; i>1; i-=1 )
-		ReportText( "SYSTEM: Fantasia Shard is restarting in "+i+" seconds.", REPORT_BROADCAST, 33 );
+		ReportText( "SYSTEM: Zulu Hotel is restarting in "+i+" seconds.", REPORT_BROADCAST, 33 );
 		Sleep(1);
         endfor
 
@@ -109,7 +109,7 @@ function DoTheSave()
         Set_Critical(0);
 
 	if( save_result == error )
-		ReportText( "!!! Error saving world state. Restarting Fantasia in 20 seconds !!!", REPORT_ALL );
+		ReportText( "!!! Error saving world state. Restarting Zulu Hotel in 20 seconds !!!", REPORT_ALL );
 		Sleep(20);
 		ShutDown();
 	else
