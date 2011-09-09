@@ -284,7 +284,7 @@ function ApplyStatMod( item )
 
         var level := CInt( GetChanceLevel() * 5 );
 
- 	case( RandomDiceRoll( "1d2+1" ))
+ 	case( RandomDiceRoll( "1d3" ))
 		1:
                         AddModifierToEquipment( item, "Strength", level );
 			break;
