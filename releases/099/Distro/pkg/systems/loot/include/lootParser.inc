@@ -152,7 +152,7 @@ function Loot_CreateItem( container, parsed, magicLevel )
 			if( is_magic )
 				Apply_Effect( item, is_magic, magicLevel );
 
-                                if( RandomDiceRoll( "1d10+1" == 5 ))
+                                if( RandomDiceRoll( "1d10" == 5 ))
                                         SetObjProperty( item, "Cursed", 1 );
                                 endif
 			endif
@@ -187,7 +187,7 @@ function Loot_CreateRandom( container, parsed, magicLevel )
         
         var i;
         for( i:=0; i<=5; i+=1 )
-		if( RandomDiceRoll( "1d100+1" ) <= item_chances )
+		if( RandomDiceRoll( "1d100" ) <= item_chances )
                 	parsed.name := elem[1];
                         Loot_CreateItem( container, parsed, magicLevel );
                         break;
@@ -200,7 +200,7 @@ endfunction
 
 function Loot_ChanceCheck( parsed )
 
-	if( RandomDiceRoll( "1d1000+1" ) <= CInt( CDbl( parsed.chance ) * 10.0 ))
+	if( RandomDiceRoll( "1d1000" ) <= CInt( CDbl( parsed.chance ) * 10.0 ))
 		return 1;
 	else
 		return 0;
