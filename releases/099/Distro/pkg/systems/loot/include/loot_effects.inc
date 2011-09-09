@@ -83,8 +83,8 @@ function ApplyARMod( item )
        	item.ar_mod := CInt( GetChanceLevel() * 5 );
 
 	//Check for another enchantment
-   	if( RandomDiceRoll( "1d100+1" ) <= ( 10 * magicLevel ))
-       		if(( RandomDiceRoll( "1d100+1" )) <= 75 )
+   	if( RandomDiceRoll( "1d100" ) <= ( 10 * magicLevel ))
+       		if(( RandomDiceRoll( "1d100" )) <= 75 )
        			ApplyHPMod( item );
 		else
 			ApplyArSkillMod( item );
@@ -96,25 +96,27 @@ endfunction
 
 function ApplyArSkillMod( item )
 
-	if( RandomDiceRoll( "1d1000+1" ) <= 5 )
+	if( RandomDiceRoll( "1d1000" ) <= 5 )
 		ApplyStatMod( item );
 		return 1;
 	endif
 
 	var skill_id;
-	case( RandomDiceRoll( "1d2+1" ))
+	case( RandomDiceRoll( "1d2" ))
 		1:
                         skill_id := 26;  //Resisting Spells
 			break;
 
-		default: skill_id := 27; //Tactics
+		2:
+                        skill_id := 27;  //Tactics
+			break;
 	endcase
 
         var skill_name := AP_SkillIdToAttributeName( skill_id );
         AddModifierToEquipment( item, skill_name, GetChanceLevel() );
 
 	//Check for another enchantment
-	if( RandomDiceRoll( "1d100+1" ) <= CInt( 10 * magicLevel ))
+	if( RandomDiceRoll( "1d100" ) <= CInt( 10 * magicLevel ))
 		ApplyHPMod( item );
 	endif
 
@@ -125,8 +127,8 @@ function ApplyDmgMod( item )
 
 	item.dmg_mod := CInt( GetChanceLevel() * 5 );
 
-   	if( RandomDiceRoll( "1d100+1" ) <= CInt( 10 * magicLevel ))
-       		if( RandomDiceRoll( "1d100+1" ) <= 75 )
+   	if( RandomDiceRoll( "1d100" ) <= CInt( 10 * magicLevel ))
+       		if( RandomDiceRoll( "1d100" ) <= 75 )
        			ApplyHPMod( item );
 		endif
    	endif
@@ -136,7 +138,7 @@ endfunction
 
 function ApplyElementalProtection( item )
 
-        var chance_case := RandomDiceRoll( "1d8+1" ),
+        var chance_case := RandomDiceRoll( "1d9" ),
             level := GetChanceLevel(),
             element;
             
@@ -177,7 +179,7 @@ endfunction
 
 function ApplyEnchant( item )
 
-        var chances := CInt( RandomDiceRoll( "1d100+1" ) * magicLevel );
+        var chances := CInt( RandomDiceRoll( "1d100" ) * magicLevel );
 	if( chances < 300 )
 		ApplyProtection( item );
 	elseif( chances < 500 )
@@ -187,8 +189,8 @@ function ApplyEnchant( item )
 	endif
 
 	//Check for another enchantment
-    	if( RandomDiceRoll( "1d100+1" ) <= CInt( 10 * magicLevel ))
-       		if( RandomDiceRoll( "1d100+1" ) <= 75 )
+    	if( RandomDiceRoll( "1d100" ) <= CInt( 10 * magicLevel ))
+       		if( RandomDiceRoll( "1d100" ) <= 75 )
        			ApplyMiscSkillMod( item );
 		else
 			ApplyMiscArMod( item );
@@ -208,7 +210,7 @@ endfunction
 
 function ApplyImmunity( item )
 
-        var chance_case := RandomDiceRoll( "1d2+1" ),
+        var chance_case := RandomDiceRoll( "1d3" ),
             level := GetChanceLevel(),
             element;
             
@@ -235,7 +237,7 @@ function ApplyMiscArMod( item )
         SetObjProperty( item, "ArBonus", level );
 
    	//Check for another enchantment
-   	if( RandomDiceRoll( "1d100+1" ) <= CInt( 10 * magicLevel ))
+   	if( RandomDiceRoll( "1d100" ) <= CInt( 10 * magicLevel ))
 		ApplyMiscSkillMod( item );
    	endif
 
@@ -244,7 +246,7 @@ endfunction
 
 function ApplyMiscSkillMod( item )
 
-	if( RandomDiceRoll( "1d1000+1" ) <= 5 )
+	if( RandomDiceRoll( "1d1000" ) <= 5 )
 		ApplyStatMod( item );
 		return 1;
 	endif
@@ -260,7 +262,7 @@ endfunction
 
 function ApplyProtection( item )
 
-        var chance_case := RandomDiceRoll( "1d2+1" ),
+        var chance_case := RandomDiceRoll( "1d3" ),
             charges := CInt( GetChanceLevel() * 5 ),
             element;
             
@@ -297,7 +299,7 @@ function ApplyStatMod( item )
 	endcase
 
 	//Check for another enchantment
-	if( RandomDiceRoll( "1d100+1" ) <= CInt( 2 * magicLevel ))
+	if( RandomDiceRoll( "1d100" ) <= CInt( 2 * magicLevel ))
 		ApplyHPMod( item );
 	endif
 
@@ -328,7 +330,7 @@ function SetHitscript( item )
 	if( cprop )
 		var power := CInt( cfg_entry.CPropVal );
 		if( !power )
-			power := CInt(( RandomDiceRoll( "1d10+1" ) * magicLevel ) / 5 );
+			power := CInt(( RandomDiceRoll( "1d10" ) * magicLevel ) / 5 );
 		endif
   
 		if( cprop == "PoisonLevel" )
@@ -358,7 +360,7 @@ function SetHitscript( item )
         if( spell )
 		SetObjProperty( item, "HitWithSpell", spell );
   
-                var circle := CInt(( RandomDiceRoll( "1d100+1" ) * magicLevel ) / 100 ),
+                var circle := CInt(( RandomDiceRoll( "1d100" ) * magicLevel ) / 100 ),
                     circle_mod := cfg_entry.AsCircleMod;
                     
                 if( circle_mod )
@@ -376,15 +378,15 @@ function SetHitscript( item )
 
 	//Check for another enchantment
 	if( cfg_entry.Place == "Prefix" )
-		if( RandomDiceRoll( "1d10+1" ) <= magicLevel )
-			if( RandomDiceRoll( "1d100+1" ) <= 75 )
+		if( RandomDiceRoll( "1d10" ) <= magicLevel )
+			if( RandomDiceRoll( "1d100" ) <= 75 )
        				ApplyDmgMod( item );
                         endif
 		endif
 
 	else
-		if( RandomDiceRoll( "1d10+1" ) <= magicLevel )
-			if( RandomDiceRoll( "1d100+1" ) <= 90 )
+		if( RandomDiceRoll( "1d10" ) <= magicLevel )
+			if( RandomDiceRoll( "1d100" ) <= 90 )
        				ApplyHPMod( item );
 			endif
 		endif
@@ -416,7 +418,7 @@ function SetOnHitscript( item )
 	if( cprop )
 		var power := cfg_entry.CPropVal;
 		if( !power )
-			power := CInt(( RandomDiceRoll( "1d10+1" ) * magicLevel ) / 6 );
+			power := CInt(( RandomDiceRoll( "1d10" ) * magicLevel ) / 6 );
    
 			var mult := cfg_entry.Multiplier;
 			if( mult )
@@ -447,7 +449,7 @@ function SetOnHitscript( item )
         if( spell )
 		SetObjProperty( item, "HitWithSpell", spell );
 
-                var circle := CInt(( RandomDiceRoll( "1d100+1" ) * magicLevel ) / 100 ),
+                var circle := CInt(( RandomDiceRoll( "1d100" ) * magicLevel ) / 100 ),
                     circle_mod := cfg_entry.AsCircleMod;
 
                 if( circle_mod )
@@ -465,7 +467,7 @@ function SetOnHitscript( item )
 
 	//Check for another enchantment
 	if( RandomDiceRoll( "1d10+1" ) <= magicLevel )
-		if( RandomDiceRoll( "1d100+1" ) <= 90 )
+		if( RandomDiceRoll( "1d100" ) <= 90 )
        			ApplyHPMod( item );
 		endif
 	endif
@@ -477,7 +479,7 @@ function GetChanceLevel()
 
         magicLevel += 2;
         
-        var chances := CInt( RandomDiceRoll( "1d100+1" ) * magicLevel );
+        var chances := CInt( RandomDiceRoll( "1d100" ) * magicLevel );
  
 	case( magicLevel )
 		5:	if( chances < 280 )
