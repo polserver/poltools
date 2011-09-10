@@ -24,10 +24,9 @@ program SpellScript_Plague( params )
 
 	// Get all targets in area excluding party and self. Damaged is divided by number of valid targets.
 	var area_size := CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1,
-	    excludes := array{ mobile.serial },
+	    targs := SPELL_GetValidTargets( mobile, area_size, 1, {mobile}, mobile.party ),
             attri := CInt( AP_GetSkill( mobile, MAGERY ) / 50 ) + 2;
 
-	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
 	foreach vtarg in targs
 		SleepMS(5);
 

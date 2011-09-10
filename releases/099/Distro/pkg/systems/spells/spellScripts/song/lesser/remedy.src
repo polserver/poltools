@@ -42,11 +42,10 @@ program SpellScript_Remedy( params )
 
         var musicianship := AP_GetSkill( mobile, MUSICIANSHIP ),
 	    area_size := CInt( musicianship / 15 ) + 1,
-	    includes := SPELL_GetFriendlies( mobile, area_size );
+	    targs := SPELL_GetValidTargets( mobile, area_size );
 
 	SPELL_PlaySpellSFX( info.spell_id, mobile );
 
-	var targs := SPELL_GetValidTargets( mobile, area_size, array{}, includes );
 	foreach vtarg in targs
 		SleepMS(5);
 

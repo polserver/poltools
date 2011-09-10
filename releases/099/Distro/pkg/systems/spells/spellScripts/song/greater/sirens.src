@@ -42,7 +42,7 @@ program SpellScript_Sirens( params )
 
         var musicianship := AP_GetSkill( mobile, MUSICIANSHIP ),
 	    area_size := CInt( musicianship / 15 ) + 1,
-	    excludes := array{ mobile.serial },
+	    targs := SPELL_GetValidTargets( mobile, area_size, 1, {mobile}, mobile.party ),
             poisonLevel := CInt( musicianship + AP_GetSkill( mobile, POISONING ) / 100 ),
 	    duration := CInt( 3 + musicianship * 0.4 );
      
@@ -52,7 +52,6 @@ program SpellScript_Sirens( params )
 
 	SPELL_PlaySpellSFX( info.spell_id, mobile );
 
-	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
 	foreach vtarg in targs
 		SleepMS(5);
 

@@ -60,10 +60,9 @@ endprogram
 function SendMeteorSwamDamage( mobile, circle, center )
 
         // Get all targets in area excluding party and self. Damaged is divided by number of valid targets.
-	var area_size := ( CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1 ) * 2;
-        var excludes := array{ mobile.serial };
-        
-	var targs := SPELL_GetValidTargets( center, area_size, 1, excludes );
+	var area_size := ( CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1 ) * 2,
+	    targs := SPELL_GetValidTargets( center, area_size, 1, {mobile}, mobile.party );
+     
 	foreach vtarg in targs
 		SleepMS(5);
 
