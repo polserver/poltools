@@ -111,30 +111,29 @@ function SPELL_TargetCoordinates( mobile, prompt:="Select a target." )
 	return targ;
 endfunction
 
-function SPELL_GetValidTargets( targ, area_size:=1, excludes:=array{}, includes:=array{} )
+function SPELL_GetValidTargets( targ, area_size:=1, harmful:=0, excludes_array:={}, party_ref:=0 )
 
 	var targs := ListMobilesNearLocation( targ.x, targ.y, targ.z, area_size, targ.realm );
 	for i:=1 to targs.Size()
-		if( targs[i].serial in excludes || targs[i].serial in includes )
-			targs.Erase(i);
+                if( excludes_array.Size() > 0 && targs[i].serial in excludes_array )
+                	targs.Erase(i);
+                endif
+                
+		if( harmful )
+			if( party_ref )
+                        	if( party_ref == targs[i].party )
+		        		targs.Erase(i);
+                                endif
+			endif
+                else
+			if( targs[i].criminal || targs[i].murderer )
+		        	targs.Erase(i);
+			endif
 		endif
                 SleepMS(5);
 	endfor
 
 	return targs;
-endfunction
-
-function SPELL_GetFriendlies( targ, area_size:=1 )
-
-	var friendlies := ListMobilesNearLocation( targ.x, targ.y, targ.z, area_size, targ.realm );
-	for i:=1 to friendlies.Size()
-		if( friendlies[i].criminal || friendlies[1].murderer )
-		        friendlies.Erase(i);
-		endif
-                SleepMS(5);
-	endfor
-
-	return friendlies;
 endfunction
 
 function SPELL_MobileCheck( mobile, targ )

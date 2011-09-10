@@ -21,10 +21,9 @@ program SpellScript_Earthquake( params )
 	
 	// Get all targets in area excluding self. Damaged is divided by number of valid targets.
  
-	var area_size := CInt( AP_GetSkill( mobile, MAGERY ) / 15 ) + 1;
-	var excludes := array{ mobile.serial };
-
-	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
+	var area_size := CInt( AP_GetSkill( mobile, MAGERY ) / 15 ) + 1,
+	    targs := SPELL_GetValidTargets( mobile, area_size, 1, {mobile}, mobile.party );
+     
 	foreach vtarg in targs
 		SleepMS(5);
 

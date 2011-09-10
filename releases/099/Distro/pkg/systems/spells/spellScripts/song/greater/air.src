@@ -41,9 +41,8 @@ program SpellScript_Air( params )
         
         var musicianship := AP_GetSkill( mobile, MUSICIANSHIP ),
 	    area_size := CInt( musicianship / 15 ) + 1,
-	    excludes := array{ mobile.serial };
+	    targs := SPELL_GetValidTargets( mobile, area_size, 1, {mobile}, mobile.party );
 
-	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
 	foreach vtarg in targs
 		SleepMS(5);
 

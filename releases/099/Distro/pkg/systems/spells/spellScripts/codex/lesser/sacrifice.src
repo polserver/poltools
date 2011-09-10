@@ -28,10 +28,8 @@ program SpellScript_Sacrifice( params )
 		return 0;
 	endif
 
-	var area_size := CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1;
-	var excludes := array{ mobile.serial };
-
-	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
+	var area_size := CInt( AP_GetSkill( mobile, MAGERY ) / 25 ) + 1,
+	    targs := SPELL_GetValidTargets( mobile, area_size, 1, {mobile}, mobile.party );
  
         var amount := CInt( AP_GetStat( targ, STRENGTH ) / targs.len );
         if( GetObjProperty( mobile, MAGE ))

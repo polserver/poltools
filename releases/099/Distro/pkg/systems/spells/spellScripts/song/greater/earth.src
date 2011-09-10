@@ -41,11 +41,10 @@ program SpellScript_Earth( params )
 
         var musicianship := AP_GetSkill( mobile, MUSICIANSHIP ),
 	    area_size := CInt( musicianship / 15 ) + 1,
-	    excludes := array{ mobile.serial };
+	    targs := SPELL_GetValidTargets( mobile, area_size, 1, {mobile}, mobile.party );
 
 	SPELL_PlaySpellSFX( info.spell_id, mobile );
 
-	var targs := SPELL_GetValidTargets( mobile, area_size, 1, excludes );
 	foreach vtarg in targs
 		SleepMS(5);
 
