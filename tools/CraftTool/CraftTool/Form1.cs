@@ -40,7 +40,15 @@ namespace CraftTool
 
 		private void button1_Click(object sender, EventArgs e)
 		{
+			List<string> pkg_paths = new List<string>();
+			TB_loadoutput.Clear();
+			TB_loadoutput.AppendText("Checking for packages..."+Environment.NewLine);
+			string[] pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(Settings.Global.rootdir, "pkg.cfg");
 
+			foreach (string value in pkg_cfgs)
+			{
+				TB_loadoutput.AppendText(value + Environment.NewLine);
+			}
 		}
 	}
 }
