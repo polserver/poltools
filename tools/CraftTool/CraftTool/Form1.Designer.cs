@@ -38,7 +38,7 @@
 			this.TabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.TB_loadoutput = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.BTN_load_info = new System.Windows.Forms.Button();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.TB_itemdescinfo = new System.Windows.Forms.TextBox();
@@ -51,12 +51,15 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.treeView1 = new System.Windows.Forms.TreeView();
+			this.label2 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -138,7 +141,7 @@
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
 			this.tabPage1.Controls.Add(this.TB_loadoutput);
-			this.tabPage1.Controls.Add(this.button1);
+			this.tabPage1.Controls.Add(this.BTN_load_info);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -157,15 +160,15 @@
 			this.TB_loadoutput.Size = new System.Drawing.Size(987, 508);
 			this.TB_loadoutput.TabIndex = 2;
 			// 
-			// button1
+			// BTN_load_info
 			// 
-			this.button1.Location = new System.Drawing.Point(9, 521);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(111, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "Load Information";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.BTN_load_info.Location = new System.Drawing.Point(9, 521);
+			this.BTN_load_info.Name = "BTN_load_info";
+			this.BTN_load_info.Size = new System.Drawing.Size(111, 23);
+			this.BTN_load_info.TabIndex = 0;
+			this.BTN_load_info.Text = "Load Information";
+			this.BTN_load_info.UseVisualStyleBackColor = true;
+			this.BTN_load_info.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// tabPage2
 			// 
@@ -224,6 +227,8 @@
 			// tabPage3
 			// 
 			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage3.Controls.Add(this.label2);
+			this.tabPage3.Controls.Add(this.treeView1);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Size = new System.Drawing.Size(1004, 551);
@@ -285,6 +290,24 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Tile Picture";
 			// 
+			// treeView1
+			// 
+			this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.treeView1.Location = new System.Drawing.Point(8, 25);
+			this.treeView1.Name = "treeView1";
+			this.treeView1.Size = new System.Drawing.Size(322, 523);
+			this.treeView1.TabIndex = 0;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(8, 9);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(49, 13);
+			this.label2.TabIndex = 1;
+			this.label2.Text = "Materials";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,6 +330,8 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -325,7 +350,7 @@
 		private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.TextBox TB_loadoutput;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button BTN_load_info;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.TabPage tabPage4;
@@ -338,6 +363,8 @@
 		private System.Windows.Forms.TextBox TB_itemdescinfo;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.TreeView treeView1;
+		private System.Windows.Forms.Label label2;
 	}
 }
 
