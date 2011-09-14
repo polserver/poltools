@@ -53,7 +53,7 @@ namespace CraftTool
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
 				ConfigFile itemdesc = package.LoadPackagedConfig("itemdesc.cfg");
 				if (itemdesc != null)
-					TB_loadoutput.AppendText("Loaded " + itemdesc.filename+Environment.NewLine);
+					TB_loadoutput.AppendText("  Loaded " + itemdesc.filename+Environment.NewLine);
 			}
 		}
 	}
