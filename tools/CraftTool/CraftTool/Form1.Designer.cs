@@ -38,7 +38,6 @@
 			this.TabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.TB_loadoutput = new System.Windows.Forms.TextBox();
-			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.button1 = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
@@ -115,7 +114,6 @@
 			// tabPage1
 			// 
 			this.tabPage1.Controls.Add(this.TB_loadoutput);
-			this.tabPage1.Controls.Add(this.progressBar1);
 			this.tabPage1.Controls.Add(this.button1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
@@ -131,15 +129,9 @@
 			this.TB_loadoutput.Location = new System.Drawing.Point(9, 7);
 			this.TB_loadoutput.Multiline = true;
 			this.TB_loadoutput.Name = "TB_loadoutput";
+			this.TB_loadoutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.TB_loadoutput.Size = new System.Drawing.Size(987, 508);
 			this.TB_loadoutput.TabIndex = 2;
-			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(126, 521);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(870, 23);
-			this.progressBar1.TabIndex = 1;
 			// 
 			// button1
 			// 
@@ -185,7 +177,6 @@
 		private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.TextBox TB_loadoutput;
-		private System.Windows.Forms.ProgressBar progressBar1;
 		private System.Windows.Forms.Button button1;
 	}
 }

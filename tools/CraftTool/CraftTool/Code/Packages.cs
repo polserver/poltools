@@ -82,7 +82,8 @@ namespace POLTools.Package
 			foreach (string filename in pkg_cfgs)
 			{
 				POLPackage pkg = new POLPackage(filename);
-				pkg_list.Add(pkg);
+				if ( pkg.enabled )
+					pkg_list.Add(pkg);
 			}
 
 			return pkg_list;
