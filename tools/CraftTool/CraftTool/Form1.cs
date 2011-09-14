@@ -18,7 +18,8 @@ namespace CraftTool
 
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			
+			Forms.SettingsForm.SettingsForm settings_form = new Forms.SettingsForm.SettingsForm();
+			settings_form.ShowDialog(this);
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
