@@ -18,11 +18,12 @@ namespace CraftTool.Forms.SettingsForm
 
 		private void BTN_apply_Click(object sender, EventArgs e)
 		{
-
+			Settings.Global.rootdir = TB_pol_path.Text;
 		}
 
 		private void BTN_ok_Click(object sender, EventArgs e)
 		{
+			BTN_apply_Click(sender, e);
 			this.Close();
 		}
 

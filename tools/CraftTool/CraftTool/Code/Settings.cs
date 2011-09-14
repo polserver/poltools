@@ -58,6 +58,7 @@ namespace CraftTool
 		public string rootdir
 		{
 			get { return _root_dir; }
+			set { _root_dir = value; }
 		}
 
 		public bool LoadSettings()
