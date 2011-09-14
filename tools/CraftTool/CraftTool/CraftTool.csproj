@@ -69,7 +69,10 @@
     <Compile Include="Code\FileLister.cs" />
     <Compile Include="Code\FilePicker.cs" />
     <Compile Include="Code\ObjTypesTxt.cs" />
-    <Compile Include="Controls\GroupBox2\groupBox2.cs" />
+    <Compile Include="Code\Settings.cs" />
+    <Compile Include="Controls\GroupBox2\groupBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ExceptionBox\ExceptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,8 +120,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Code\.svn\dir-props" />
-    <None Include="Code\.svn\entries" />
     <None Include="ExceptionBox\.svn\dir-props" />
     <None Include="ExceptionBox\.svn\entries" />
     <None Include="Properties\Settings.settings">
@@ -130,6 +131,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\craftToolSettings.cfg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -154,12 +156,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Code\.svn\prop-base\" />
-    <Folder Include="Code\.svn\props\" />
-    <Folder Include="Code\.svn\text-base\" />
-    <Folder Include="Code\.svn\tmp\prop-base\" />
-    <Folder Include="Code\.svn\tmp\props\" />
-    <Folder Include="Code\.svn\tmp\text-base\" />
     <Folder Include="ExceptionBox\.svn\prop-base\" />
     <Folder Include="ExceptionBox\.svn\props\" />
     <Folder Include="ExceptionBox\.svn\text-base\" />
