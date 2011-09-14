@@ -34,7 +34,7 @@ namespace ConfigUtil
 	{
 		protected List<ConfigElem> _cfgelems;
 		string _filename;
-		
+				
 		public ConfigFile() : this("")
 		{
 		}
@@ -47,6 +47,11 @@ namespace ConfigUtil
 		{
 		}
 
+		public string filename
+		{
+			get { return _filename; }
+		}
+		
 		public List<ConfigElem> GetConfigElemRefs()
 		{
 			return _cfgelems;
@@ -158,10 +163,168 @@ namespace ConfigUtil
 
 			return true;
 		}
-
+		
 		public override string ToString()
 		{
 			return "Config File: " + this._filename;
+		}
+	}
+
+	public class FlatConfigFile
+	{
+		protected List<CfgPair> _cfgpairs;
+		string _filename;
+		char[] _separator;
+				
+		public FlatConfigFile() : this("")
+		{
+		}
+		public FlatConfigFile(string filename)
+		{
+			_filename = filename;
+			_cfgpairs = new List<CfgPair>();
+			_separator = new char[] { ' ', '\t'};
+		}
+		~FlatConfigFile()
+		{
+		}
+
+		public override string ToString()
+		{
+			return "Flat Config File: " + this._filename;
+		}
+
+		public char[] separators
+		{
+			get { return _separator; }
+			set { _separator = value; }
+		}
+		public void SetSeparator(char[] separator)
+		{
+			_separator = separator;
+		}
+
+		public bool ReadConfigFile()
+		{
+			try
+			{
+				StreamReader sr = new StreamReader(_filename);
+				return ReadConfigFile(sr);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		public bool ReadConfigFile(string contents)
+		{
+			try
+			{
+				byte[] bytearr = Encoding.ASCII.GetBytes(contents);
+				MemoryStream stream = new MemoryStream(bytearr);
+				StreamReader sr = new StreamReader(stream);
+				return ReadConfigFile(sr);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		public bool ReadConfigFile(StreamReader sr)
+		{
+			string curline = String.Empty;
+			int line_num = 1;
+			bool in_elem = false;
+			while ((curline = sr.ReadLine()) != null)
+			{
+				//Remove any leading or trailing white space.
+				curline = curline.Trim(new char[] { ' ', '\t' });
+
+				if (curline.Length == 0) // Blank line
+					continue;
+				if (curline.StartsWith("#")) // Skip comment lines.
+					continue;
+				else if (curline.StartsWith("//")) // Skip comment lines
+					continue;
+				else if (in_elem) // This reads data outside of config elems.
+					continue;
+				else if (!in_elem)
+				{
+					CfgPair pair = CfgPair.ParseCfgLine(curline);
+					_cfgpairs.Add(pair);
+				}
+				else if (curline[0] == '{')
+				{
+					in_elem = true;
+				}
+				else if (curline[0] == '}')
+				{
+					in_elem = false;
+				}
+				line_num++;
+			}
+
+			return true;
+		}
+
+		public object GetConfigObject(string key)
+		{
+			key = key.ToLower();
+			CfgPair pair = _cfgpairs.Find(item => item.first.ToLower() == key);
+			return pair.second;
+		}
+
+		public string GetConfigString(string key)
+		{
+			object value = GetConfigObject(key);
+			return value.ToString();
+		}
+
+		public long GetConfigInt(string key)
+		{
+			object value = GetConfigObject(key);
+			return Convert.ToInt64(value, System.Globalization.NumberFormatInfo.InvariantInfo);
+		}
+
+		public double GetConfigDouble(string key)
+		{
+			object value = GetConfigObject(key);
+			return Convert.ToDouble(value, System.Globalization.NumberFormatInfo.InvariantInfo);
+		}
+
+		public List<object> GetConfigObjectList(string key)
+		{
+			key = key.ToLower();
+			List<object> objects = new List<object>();
+
+			foreach (CfgPair pair in _cfgpairs)
+			{
+				if (pair.first.ToLower() == key)
+				{
+					objects.Add(pair.second);
+				}
+			}
+			return objects;
+		}
+
+		public List<string> GetConfigStringList(string key)
+		{
+			return GetConfigObjectList(key).ConvertAll<string>(delegate(object x) { return x.ToString(); });
+		}
+
+		public List<string> ListConfigElemProperties()
+		{
+			List<string> properties = new List<String>();
+			foreach (CfgPair pair in _cfgpairs)
+			{
+				if (!properties.Exists(delegate(string n) { return n == pair.first.ToLower(); }))
+				{
+					properties.Add(pair.first.ToLower());
+				}
+			}
+			return properties;
 		}
 	}
 
