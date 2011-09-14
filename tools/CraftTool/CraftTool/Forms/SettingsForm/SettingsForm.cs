@@ -11,6 +11,11 @@ namespace CraftTool.Forms.SettingsForm
 			InitializeComponent();
 		}
 
+		private void SettingsForm_Load(object sender, EventArgs e)
+		{
+			TB_pol_path.Text = Settings.Global.settingselem.GetConfigString("POLPath");
+		}
+
 		private void BTN_apply_Click(object sender, EventArgs e)
 		{
 
