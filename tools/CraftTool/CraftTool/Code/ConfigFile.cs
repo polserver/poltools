@@ -49,6 +49,14 @@ namespace ConfigUtil
 
 		public string filename
 		{
+			get
+			{
+				return new FileInfo(_filename).Name;
+			}
+		}
+
+		public string fullpath
+		{
 			get { return _filename; }
 		}
 		
@@ -160,6 +168,8 @@ namespace ConfigUtil
 
 				line_num++;
 			}
+
+			sr.Close();
 
 			return true;
 		}

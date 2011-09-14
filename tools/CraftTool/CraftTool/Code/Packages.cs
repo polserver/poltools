@@ -74,6 +74,17 @@ namespace POLTools.Package
 				_core_required = pkgcfg.GetConfigString("CoreRequired");
 		}
 
+		public ConfigFile LoadPackagedConfig(string filename)
+		{
+			ConfigFile config_file = null;
+			if (File.Exists(this.path + @"\itemdesc.cfg"))
+				config_file = new ConfigFile(this.path + @"\itemdesc.cfg");
+			else if (File.Exists(this.path + @"\config\itemdesc.cfg"))
+				config_file = new ConfigFile(this.path + @"\config\itemdesc.cfg");
+
+			return config_file;
+		}
+
 		public static List<POLPackage> GetEnabledPackages(string rootdir)
 		{
 			List<POLPackage> pkg_list = new List<POLPackage>();

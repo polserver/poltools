@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using ConfigUtil;
 
 namespace CraftTool
 {
@@ -37,6 +38,7 @@ namespace CraftTool
 		private void button1_Click(object sender, EventArgs e)
 		{
 			List<string> pkg_paths = new List<string>();
+			List<POLTools.Package.POLPackage> packages;
 			TB_loadoutput.Clear();
 			if (!Directory.Exists(Settings.Global.rootdir))
 			{
@@ -44,11 +46,14 @@ namespace CraftTool
 				return;
 			}
 			TB_loadoutput.AppendText("Checking for packages... ");
-			List<POLTools.Package.POLPackage> packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
+			packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
 			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
 			foreach (POLTools.Package.POLPackage package in packages)
 			{
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
+				ConfigFile itemdesc = package.LoadPackagedConfig("itemdesc.cfg");
+				if (itemdesc != null)
+					TB_loadoutput.AppendText("Loaded " + itemdesc.filename+Environment.NewLine);
 			}
 		}
 	}
