@@ -12,7 +12,7 @@ namespace POLTools.Package
 		protected string _name;
 		protected string _version;
 		protected string _core_required;
-		
+				
 		public POLPackage(string directory)
 		{
 			if (Directory.Exists(directory))
