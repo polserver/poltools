@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace CraftTool.SettingsForm
+namespace CraftTool.Forms.SettingsForm
 {
 	public partial class SettingsForm : Form
 	{

@@ -32,13 +32,13 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.TabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
-			this.tabControl1.SuspendLayout();
+			this.TabControl1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -72,9 +72,16 @@
 			// settingsToolStripMenuItem
 			// 
 			this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-			this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.settingsToolStripMenuItem.Text = "&Settings";
 			this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.exitToolStripMenuItem.Text = "&Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -87,19 +94,19 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.aboutToolStripMenuItem.Text = "&About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
-			// tabControl1
+			// TabControl1
 			// 
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 24);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1012, 577);
-			this.tabControl1.TabIndex = 2;
+			this.TabControl1.Controls.Add(this.tabPage1);
+			this.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TabControl1.Location = new System.Drawing.Point(0, 24);
+			this.TabControl1.Name = "TabControl1";
+			this.TabControl1.SelectedIndex = 0;
+			this.TabControl1.Size = new System.Drawing.Size(1012, 577);
+			this.TabControl1.TabIndex = 2;
 			// 
 			// tabPage1
 			// 
@@ -111,19 +118,12 @@
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.exitToolStripMenuItem.Text = "&Exit";
-			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1012, 623);
-			this.Controls.Add(this.tabControl1);
+			this.Controls.Add(this.TabControl1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
@@ -131,7 +131,7 @@
 			this.Text = "Craft Tool";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.tabControl1.ResumeLayout(false);
+			this.TabControl1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -141,7 +141,7 @@
 
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabControl TabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Forms
+namespace CraftTool.Forms.AboutForm
 {
     /// <summary>
     /// Summary description for AboutForm.
