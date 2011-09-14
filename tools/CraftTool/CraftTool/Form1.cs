@@ -9,6 +9,8 @@ namespace CraftTool
 {
 	public partial class Form1 : Form
 	{
+		private bool _data_loaded = false;
+
 		public Form1()
 		{
 			InitializeComponent();
@@ -65,6 +67,33 @@ namespace CraftTool
 					}
 				}
 			}
+			_data_loaded = true;
+		}
+
+		private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (!_data_loaded && TabControl1.SelectedTab != tabPage1)
+			{
+				foreach (Control cntrl in TabControl1.SelectedTab.Controls)
+				{
+					cntrl.Enabled = false;
+				}
+			}
+			else
+			{
+				foreach (Control cntrl in TabControl1.SelectedTab.Controls)
+				{
+					cntrl.Enabled = true;
+				}
+
+				if (TabControl1.SelectedTab == tabPage2)
+					PopulateItemDesc();
+			}
+		}
+
+		private void PopulateItemDesc()
+		{
+
 		}
 	}
 }

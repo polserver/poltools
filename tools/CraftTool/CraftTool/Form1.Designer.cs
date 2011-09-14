@@ -39,9 +39,22 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.TB_loadoutput = new System.Windows.Forms.TextBox();
 			this.button1 = new System.Windows.Forms.Button();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.tabPage7 = new System.Windows.Forms.TabPage();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -104,15 +117,23 @@
 			// TabControl1
 			// 
 			this.TabControl1.Controls.Add(this.tabPage1);
+			this.TabControl1.Controls.Add(this.tabPage2);
+			this.TabControl1.Controls.Add(this.tabPage3);
+			this.TabControl1.Controls.Add(this.tabPage4);
+			this.TabControl1.Controls.Add(this.tabPage5);
+			this.TabControl1.Controls.Add(this.tabPage6);
+			this.TabControl1.Controls.Add(this.tabPage7);
 			this.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TabControl1.Location = new System.Drawing.Point(0, 24);
 			this.TabControl1.Name = "TabControl1";
 			this.TabControl1.SelectedIndex = 0;
 			this.TabControl1.Size = new System.Drawing.Size(1012, 577);
 			this.TabControl1.TabIndex = 2;
+			this.TabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
 			this.tabPage1.Controls.Add(this.TB_loadoutput);
 			this.tabPage1.Controls.Add(this.button1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -121,10 +142,10 @@
 			this.tabPage1.Size = new System.Drawing.Size(1004, 551);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Load Information";
-			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
 			// TB_loadoutput
 			// 
+			this.TB_loadoutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_loadoutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TB_loadoutput.Location = new System.Drawing.Point(9, 7);
 			this.TB_loadoutput.Multiline = true;
@@ -143,10 +164,107 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
+			// tabPage2
+			// 
+			this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage2.Controls.Add(this.groupBox2);
+			this.tabPage2.Controls.Add(this.groupBox1);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "Itemdesc";
+			// 
+			// tabPage3
+			// 
+			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "Materials";
+			// 
+			// tabPage4
+			// 
+			this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage4.Location = new System.Drawing.Point(4, 22);
+			this.tabPage4.Name = "tabPage4";
+			this.tabPage4.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage4.TabIndex = 3;
+			this.tabPage4.Text = "ToolOnMaterial";
+			// 
+			// tabPage5
+			// 
+			this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage5.Location = new System.Drawing.Point(4, 22);
+			this.tabPage5.Name = "tabPage5";
+			this.tabPage5.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage5.TabIndex = 4;
+			this.tabPage5.Text = "CraftMenus";
+			// 
+			// tabPage6
+			// 
+			this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage6.Location = new System.Drawing.Point(4, 22);
+			this.tabPage6.Name = "tabPage6";
+			this.tabPage6.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage6.TabIndex = 5;
+			this.tabPage6.Text = "CraftItems";
+			// 
+			// tabPage7
+			// 
+			this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage7.Location = new System.Drawing.Point(4, 22);
+			this.tabPage7.Name = "tabPage7";
+			this.tabPage7.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage7.TabIndex = 6;
+			this.tabPage7.Text = "Craft Tree";
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.listBox1);
+			this.groupBox1.Location = new System.Drawing.Point(9, 7);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(243, 538);
+			this.groupBox1.TabIndex = 0;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Itemdesc Entries";
+			// 
+			// listBox1
+			// 
+			this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.listBox1.FormattingEnabled = true;
+			this.listBox1.Location = new System.Drawing.Point(7, 20);
+			this.listBox1.Name = "listBox1";
+			this.listBox1.Size = new System.Drawing.Size(230, 511);
+			this.listBox1.TabIndex = 0;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.textBox1);
+			this.groupBox2.Location = new System.Drawing.Point(259, 7);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(737, 538);
+			this.groupBox2.TabIndex = 1;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "ItemDesc Info";
+			// 
+			// textBox1
+			// 
+			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.textBox1.Location = new System.Drawing.Point(7, 19);
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(724, 512);
+			this.textBox1.TabIndex = 0;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
 			this.ClientSize = new System.Drawing.Size(1012, 623);
 			this.Controls.Add(this.TabControl1);
 			this.Controls.Add(this.statusStrip1);
@@ -160,6 +278,10 @@
 			this.TabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
+			this.tabPage2.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -178,6 +300,16 @@
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.TextBox TB_loadoutput;
 		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.TabPage tabPage4;
+		private System.Windows.Forms.TabPage tabPage5;
+		private System.Windows.Forms.TabPage tabPage6;
+		private System.Windows.Forms.TabPage tabPage7;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.ListBox listBox1;
+		private System.Windows.Forms.TextBox textBox1;
 	}
 }
 
