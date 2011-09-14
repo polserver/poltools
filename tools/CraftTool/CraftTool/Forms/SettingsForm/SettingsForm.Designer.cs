@@ -1,4 +1,4 @@
-﻿namespace CraftTool.SettingsForm
+﻿namespace CraftTool.Forms.SettingsForm
 {
 	partial class SettingsForm
 	{

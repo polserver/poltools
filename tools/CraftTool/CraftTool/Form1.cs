@@ -18,7 +18,7 @@ namespace CraftTool
 
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -28,8 +28,9 @@ namespace CraftTool
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Forms.AboutForm about_form = new Forms.AboutForm();
-			about_form.ShowDialog(this);
+			Forms.AboutForm about_form;
+			//CraftTool.Forms.AboutForm about_form = new CraftTool.Forms.AboutForm();
+			//about_form.ShowDialog(this);
 		}
 	}
 }
