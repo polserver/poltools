@@ -314,7 +314,7 @@ namespace ConfigUtil
 			return GetConfigObjectList(key).ConvertAll<string>(delegate(object x) { return x.ToString(); });
 		}
 
-		public List<string> ListConfigElemProperties()
+		public List<string> ListConfigFileProperties()
 		{
 			List<string> properties = new List<String>();
 			foreach (CfgPair pair in _cfgpairs)
@@ -325,6 +325,17 @@ namespace ConfigUtil
 				}
 			}
 			return properties;
+		}
+
+		public bool PropertyExists(string key)
+		{
+			foreach (CfgPair pair in _cfgpairs)
+			{
+				if (pair.first.ToLower() == key)
+					return true;
+			}
+
+			return false;
 		}
 	}
 
@@ -426,6 +437,17 @@ namespace ConfigUtil
 				}
 			}
 			return properties;
+		}
+
+		public bool PropertyExists(string key)
+		{
+			foreach (CfgPair pair in _cfgpairs)
+			{
+				if ( pair.first.ToLower() == key )
+					return true;
+			}
+
+			return false;
 		}
 
 		public override string ToString()

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using ConfigUtil;
 
 namespace POLTools.Package
@@ -9,8 +10,8 @@ namespace POLTools.Package
 		protected DirectoryInfo _dirinfo;
 		protected bool _enabled;
 		protected string _name;
-		protected double _version;
-		protected double _core_required;
+		protected string _version;
+		protected string _core_required;
 		
 		public POLPackage(string directory)
 		{
@@ -27,7 +28,7 @@ namespace POLTools.Package
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				throw new Exception(ex.Message+" File="+path+"/pkg.cfg");
 			}
 		}
 
@@ -51,11 +52,11 @@ namespace POLTools.Package
 		{
 			get { return _name; }
 		}
-		public double version
+		public string version
 		{
 			get { return _version; }
 		}
-		public double corerequired
+		public string corerequired
 		{
 			get { return _core_required; }
 		}
@@ -67,9 +68,24 @@ namespace POLTools.Package
 
 			_enabled = (pkgcfg.GetConfigInt("Enabled") > 0);
 			_name = pkgcfg.GetConfigString("Name");
-			_version = pkgcfg.GetConfigDouble("Version");
-			_core_required = pkgcfg.GetConfigDouble("CoreRequired");
+			if (pkgcfg.PropertyExists("Version"))
+				_version = pkgcfg.GetConfigString("Version");
+			if ( pkgcfg.PropertyExists("CoreRequired") )
+				_core_required = pkgcfg.GetConfigString("CoreRequired");
 		}
 
+		public static List<POLPackage> GetEnabledPackages(string rootdir)
+		{
+			List<POLPackage> pkg_list = new List<POLPackage>();
+			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(rootdir, "pkg.cfg", SearchOption.AllDirectories);
+
+			foreach (string filename in pkg_cfgs)
+			{
+				POLPackage pkg = new POLPackage(filename);
+				pkg_list.Add(pkg);
+			}
+
+			return pkg_list;
+		}
 	}
 }
