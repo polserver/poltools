@@ -157,6 +157,11 @@ namespace ConfigUtil
 
 			return true;
 		}
+
+		public override string ToString()
+		{
+			return "Config File: " + this._filename;
+		}
 	}
 
 	public class ConfigElem
@@ -257,7 +262,12 @@ namespace ConfigUtil
 				}
 			}
 			return properties;
-		}		
+		}
+
+		public override string ToString()
+		{
+			return "Config Elem: " + this.name;
+		}
 	}
 
 	public struct CfgPair
@@ -284,6 +294,11 @@ namespace ConfigUtil
 			{
 				return _second;
 			}
+		}
+
+		public override string ToString()
+		{
+			return "Config Pair Key[" + first + "] Value[" + second + "]";
 		}
 
 		public static CfgPair ParseCfgLine(string line)

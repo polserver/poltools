@@ -16,6 +16,8 @@ namespace CraftTool
 		private ConfigFile _settings_config = null;
 		private ConfigElem _settings_elem = null;
 
+		private string _root_dir = Program.GetPath(false);
+
 		private Settings()
 		{
 		}
@@ -53,6 +55,11 @@ namespace CraftTool
 			get { return _settings_elem; }
 		}
 
+		public string rootdir
+		{
+			get { return _root_dir; }
+		}
+
 		public bool LoadSettings()
 		{
 			_settings_config = new ConfigFile(_filepath);
@@ -62,6 +69,8 @@ namespace CraftTool
 				_settings_config.ReadConfigFile(global::CraftTool.Properties.Resources.craftToolSettings);
 			
 			_settings_elem = _settings_config.GetConfigElem("Settings");
+
+			_root_dir = _settings_elem.GetConfigString("POLPath");
 
 			return true;
 		}

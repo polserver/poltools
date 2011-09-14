@@ -37,7 +37,7 @@
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.TB_loadoutput = new System.Windows.Forms.TextBox();
 			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.button1 = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
@@ -114,7 +114,7 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.textBox1);
+			this.tabPage1.Controls.Add(this.TB_loadoutput);
 			this.tabPage1.Controls.Add(this.progressBar1);
 			this.tabPage1.Controls.Add(this.button1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -125,14 +125,14 @@
 			this.tabPage1.Text = "Load Information";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// textBox1
+			// TB_loadoutput
 			// 
-			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox1.Location = new System.Drawing.Point(9, 7);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(987, 508);
-			this.textBox1.TabIndex = 2;
+			this.TB_loadoutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_loadoutput.Location = new System.Drawing.Point(9, 7);
+			this.TB_loadoutput.Multiline = true;
+			this.TB_loadoutput.Name = "TB_loadoutput";
+			this.TB_loadoutput.Size = new System.Drawing.Size(987, 508);
+			this.TB_loadoutput.TabIndex = 2;
 			// 
 			// progressBar1
 			// 
@@ -143,7 +143,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(8, 522);
+			this.button1.Location = new System.Drawing.Point(9, 521);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(111, 23);
 			this.button1.TabIndex = 0;
@@ -184,7 +184,7 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox TB_loadoutput;
 		private System.Windows.Forms.ProgressBar progressBar1;
 		private System.Windows.Forms.Button button1;
 	}
