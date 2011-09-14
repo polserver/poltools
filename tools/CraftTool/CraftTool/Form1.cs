@@ -14,6 +14,12 @@ namespace CraftTool
 		public Form1()
 		{
 			InitializeComponent();
+
+			foreach (TabPage tab in TabControl1.TabPages)
+			{
+				if (tab != tabPage1)
+					tab.Enabled = false;
+			}
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -41,6 +47,7 @@ namespace CraftTool
 		private void button1_Click(object sender, EventArgs e)
 		{
 			TB_loadoutput.Clear();
+			BTN_load_info.Enabled = false;
 			List<string> pkg_paths = new List<string>();
 			List<POLTools.Package.POLPackage> packages;
 			if (!Directory.Exists(Settings.Global.rootdir))
@@ -72,22 +79,26 @@ namespace CraftTool
 
 		private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (!_data_loaded && TabControl1.SelectedTab != tabPage1)
+			TabPage selected_tab = TabControl1.SelectedTab;
+			if (!_data_loaded && selected_tab != tabPage1)
 			{
-				foreach (Control cntrl in TabControl1.SelectedTab.Controls)
+				TabControl1.SelectedTab.Enabled = false;
+				foreach (Control cntrl in selected_tab.Controls)
 				{
 					cntrl.Enabled = false;
 				}
 			}
 			else
 			{
-				foreach (Control cntrl in TabControl1.SelectedTab.Controls)
+				foreach (Control cntrl in selected_tab.Controls)
 				{
 					cntrl.Enabled = true;
 				}
 
-				if (TabControl1.SelectedTab == tabPage2)
+				if (selected_tab == tabPage2 && !selected_tab.Enabled)
 					PopulateItemDesc();
+
+				selected_tab.Enabled = true;
 			}
 		}
 
