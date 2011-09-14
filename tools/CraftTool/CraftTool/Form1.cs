@@ -32,5 +32,10 @@ namespace CraftTool
 			Forms.AboutForm.AboutForm about_form = new CraftTool.Forms.AboutForm.AboutForm();
 			about_form.ShowDialog(this);
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
