@@ -43,10 +43,13 @@ namespace CraftTool
 				TB_loadoutput.AppendText("Invalid root directory. Please check settings."+Environment.NewLine+Settings.Global.rootdir);
 				return;
 			}
-
 			TB_loadoutput.AppendText("Checking for packages... ");
 			List<POLTools.Package.POLPackage> packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
 			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
+			foreach (POLTools.Package.POLPackage package in packages)
+			{
+				TB_loadoutput.AppendText(package.name+Environment.NewLine);
+			}
 		}
 	}
 }
