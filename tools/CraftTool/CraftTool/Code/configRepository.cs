@@ -72,5 +72,10 @@ namespace POLTools.ConfigRepository
 			else
 				return false;
 		}
+
+		public bool ContainsPath(string path)
+		{
+			return _config_cache.ContainsKey(path);
+		}
 	}
 }
