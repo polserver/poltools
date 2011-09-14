@@ -7,9 +7,37 @@ namespace POLTools.ConfigRepository
 {
 	class ConfigRepository
 	{
-		Dictionary<string, ConfigFile> _config_cache;
+		private static volatile ConfigRepository _global;
+		private static object _syncroot = new Object();
+
+		Dictionary<string, ConfigFile> _config_cache = null;
 		
 		public ConfigRepository()
+		{
+		}
+		~ConfigRepository()
+		{
+		}
+
+		public static ConfigRepository global
+		{
+			get
+			{
+				if (_global == null)
+				{
+					lock (_syncroot)
+					{
+						if (_global == null)
+						{
+							_global = new ConfigRepository();
+							_global.Initialize();
+						}
+					}
+				}
+				return _global;
+			}
+		}
+		private void Initialize()
 		{
 			_config_cache = new Dictionary<string, ConfigFile>();
 		}
@@ -23,7 +51,7 @@ namespace POLTools.ConfigRepository
 			{
 				config_file = new ConfigFile(path);
 				config_file.ReadConfigFile();
-				_config_cache.Add(path, config_file);
+				AddConfigFile(config_file);
 			}
 
 			return config_file;
@@ -32,6 +60,17 @@ namespace POLTools.ConfigRepository
 		public bool UnloadConfigFile(string path)
 		{
 			return _config_cache.Remove(path);
-		}			
+		}
+
+		public bool AddConfigFile(ConfigFile config_file)
+		{
+			if (!_config_cache.ContainsKey(config_file.fullpath))
+			{
+				_config_cache.Add(config_file.fullpath, config_file);
+				return true;
+			}
+			else
+				return false;
+		}
 	}
 }
