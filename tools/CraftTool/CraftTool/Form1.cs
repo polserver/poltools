@@ -93,7 +93,24 @@ namespace CraftTool
 
 		private void PopulateItemDesc()
 		{
+			List<ConfigElem> config_elems = ConfigRepository.global.GetElemsForConfigFile("itemdesc.cfg");
+			foreach (ConfigElem config_elem in config_elems)
+			{
+				listBox1.Items.Add(config_elem.name);
+			}
+		}
 
+		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ConfigElem config_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", listBox1.SelectedItem.ToString());
+			TB_itemdescinfo.Clear();
+			foreach (string propname in config_elem.ListConfigElemProperties())
+			{
+				foreach (string value in config_elem.GetConfigStringList(propname))
+				{
+					TB_itemdescinfo.AppendText(propname +"	"+value+Environment.NewLine);
+				}
+			}
 		}
 	}
 }
