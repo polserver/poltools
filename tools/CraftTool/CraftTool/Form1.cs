@@ -44,10 +44,13 @@ namespace CraftTool
 				return;
 			}
 
-			TB_loadoutput.AppendText("Checking for packages..."+Environment.NewLine);
+			TB_loadoutput.AppendText("Checking for packages... ");
 			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(Settings.Global.rootdir, "pkg.cfg", SearchOption.AllDirectories);
 
-			TB_loadoutput.AppendText("pkg.cfg files found = "+pkg_cfgs.Count);
-		}	
+			TB_loadoutput.AppendText("pkg.cfg files found = " + pkg_cfgs.Count + Environment.NewLine);
+			POLTools.Package.POLPackage pkg = new POLTools.Package.POLPackage(pkg_cfgs[0]);
+
+			TB_loadoutput.AppendText(pkg.enabled.ToString());
+		}
 	}
 }
