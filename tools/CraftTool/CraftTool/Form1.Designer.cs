@@ -40,21 +40,21 @@
 			this.TB_loadoutput = new System.Windows.Forms.TextBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.TB_itemdescinfo = new System.Windows.Forms.TextBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.listBox1 = new System.Windows.Forms.ListBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
-			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -176,6 +176,46 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Itemdesc";
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.TB_itemdescinfo);
+			this.groupBox2.Location = new System.Drawing.Point(259, 7);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(737, 538);
+			this.groupBox2.TabIndex = 1;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "ItemDesc Info";
+			// 
+			// TB_itemdescinfo
+			// 
+			this.TB_itemdescinfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_itemdescinfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_itemdescinfo.Location = new System.Drawing.Point(7, 19);
+			this.TB_itemdescinfo.Multiline = true;
+			this.TB_itemdescinfo.Name = "TB_itemdescinfo";
+			this.TB_itemdescinfo.Size = new System.Drawing.Size(724, 512);
+			this.TB_itemdescinfo.TabIndex = 0;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.listBox1);
+			this.groupBox1.Location = new System.Drawing.Point(9, 7);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(243, 538);
+			this.groupBox1.TabIndex = 0;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Itemdesc Entries";
+			// 
+			// listBox1
+			// 
+			this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.listBox1.FormattingEnabled = true;
+			this.listBox1.Location = new System.Drawing.Point(7, 20);
+			this.listBox1.Name = "listBox1";
+			this.listBox1.Size = new System.Drawing.Size(230, 511);
+			this.listBox1.TabIndex = 0;
+			this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+			// 
 			// tabPage3
 			// 
 			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
@@ -221,45 +261,6 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.listBox1);
-			this.groupBox1.Location = new System.Drawing.Point(9, 7);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(243, 538);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Itemdesc Entries";
-			// 
-			// listBox1
-			// 
-			this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(7, 20);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(230, 511);
-			this.listBox1.TabIndex = 0;
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.textBox1);
-			this.groupBox2.Location = new System.Drawing.Point(259, 7);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(737, 538);
-			this.groupBox2.TabIndex = 1;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "ItemDesc Info";
-			// 
-			// textBox1
-			// 
-			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox1.Location = new System.Drawing.Point(7, 19);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(724, 512);
-			this.textBox1.TabIndex = 0;
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -279,9 +280,9 @@
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -309,7 +310,7 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.ListBox listBox1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox TB_itemdescinfo;
 	}
 }
 

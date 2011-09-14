@@ -80,14 +80,35 @@ namespace POLTools.ConfigRepository
 
 		public List<ConfigElem> GetElemsForConfigFile(string filename)
 		{
+			filename = filename.ToLower();
 			List<ConfigElem> elems = new List<ConfigElem>();
 			foreach ( ConfigFile config_file in _config_cache.Values )
 			{
-				if (config_file.filename == filename)
+				if (config_file.filename.ToLower() == filename)
 					elems.AddRange(config_file.GetConfigElemRefs());
 			}
 
 			return elems;
+		}
+
+		public ConfigElem GetElemFromConfigFiles(string filename, string elem_name)
+		{
+			List<ConfigElem> elems = GetElemsForConfigFile(filename);
+			foreach (ConfigFile config_file in _config_cache.Values)
+			{
+				try
+				{
+					ConfigElem elem = config_file.GetConfigElem(elem_name);
+					if (elem != null)
+						return elem;
+				}
+				catch
+				{
+					continue;
+				}
+			}
+
+			return null;
 		}
 	}
 }

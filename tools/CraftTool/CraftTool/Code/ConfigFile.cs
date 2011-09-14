@@ -331,7 +331,7 @@ namespace ConfigUtil
 			{
 				if (!properties.Exists(delegate(string n) { return n == pair.first.ToLower(); }))
 				{
-					properties.Add(pair.first.ToLower());
+					properties.Add(pair.first);
 				}
 			}
 			return properties;
@@ -443,7 +443,7 @@ namespace ConfigUtil
 			{
 				if ( !properties.Exists(delegate(string n) { return n == pair.first.ToLower(); }) )
 				{
-					properties.Add(pair.first.ToLower());
+					properties.Add(pair.first);
 				}
 			}
 			return properties;
