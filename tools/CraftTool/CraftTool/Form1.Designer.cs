@@ -37,9 +37,9 @@
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.button1 = new System.Windows.Forms.Button();
-			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.progressBar1 = new System.Windows.Forms.ProgressBar();
+			this.button1 = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -125,6 +125,22 @@
 			this.tabPage1.Text = "Load Information";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
+			// textBox1
+			// 
+			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.textBox1.Location = new System.Drawing.Point(9, 7);
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(987, 508);
+			this.textBox1.TabIndex = 2;
+			// 
+			// progressBar1
+			// 
+			this.progressBar1.Location = new System.Drawing.Point(126, 521);
+			this.progressBar1.Name = "progressBar1";
+			this.progressBar1.Size = new System.Drawing.Size(870, 23);
+			this.progressBar1.TabIndex = 1;
+			// 
 			// button1
 			// 
 			this.button1.Location = new System.Drawing.Point(8, 522);
@@ -134,22 +150,6 @@
 			this.button1.Text = "Load Information";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(126, 521);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(870, 23);
-			this.progressBar1.TabIndex = 1;
-			// 
-			// textBox1
-			// 
-			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox1.Location = new System.Drawing.Point(9, 7);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(987, 508);
-			this.textBox1.TabIndex = 2;
 			// 
 			// Form1
 			// 
@@ -162,6 +162,7 @@
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
 			this.Text = "Craft Tool";
+			this.Load += new System.EventHandler(this.Form1_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.TabControl1.ResumeLayout(false);

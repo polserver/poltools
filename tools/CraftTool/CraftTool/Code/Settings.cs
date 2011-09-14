@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.IO;
 using ConfigUtil;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace CraftTool
 {
@@ -11,6 +13,8 @@ namespace CraftTool
 		private static object _syncroot = new Object();
 		
 		private string _filepath = Program.GetPath(false) + @"\craftToolSettings.cfg";
+		private ConfigFile _settings_config = null;
+		private ConfigElem _settings_elem = null;
 
 		private Settings()
 		{
@@ -39,9 +43,26 @@ namespace CraftTool
 			}
 		}
 
+		public ConfigFile configfile
+		{
+			get { return _settings_config; }
+		}
+
+		public ConfigElem settingselem
+		{
+			get { return _settings_elem; }
+		}
+
 		public bool LoadSettings()
 		{
-			ConfigFile settings_config = new ConfigFile(_filepath);
+			_settings_config = new ConfigFile(_filepath);
+			if (File.Exists(_filepath))
+				_settings_config.ReadConfigFile();
+			else
+				_settings_config.ReadConfigFile(global::CraftTool.Properties.Resources.craftToolSettings);
+			
+			_settings_elem = _settings_config.GetConfigElem("Settings");
+
 			return true;
 		}
 		public bool WriteSettingsFile()

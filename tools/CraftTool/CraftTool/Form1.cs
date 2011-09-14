@@ -16,6 +16,11 @@ namespace CraftTool
 			InitializeComponent();
 		}
 
+		private void Form1_Load(object sender, EventArgs e)
+		{
+			Settings.Global.LoadSettings();
+		}
+
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Forms.SettingsForm.SettingsForm settings_form = new Forms.SettingsForm.SettingsForm();
