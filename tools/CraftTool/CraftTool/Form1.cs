@@ -47,10 +47,7 @@ namespace CraftTool
 			TB_loadoutput.AppendText("Checking for packages..."+Environment.NewLine);
 			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(Settings.Global.rootdir, "pkg.cfg", SearchOption.AllDirectories);
 
-			foreach (string value in pkg_cfgs)
-			{
-				TB_loadoutput.AppendText(value + Environment.NewLine);
-			}
-		}		
+			TB_loadoutput.AppendText("pkg.cfg files found = "+pkg_cfgs.Count);
+		}	
 	}
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 
 /*
+ *  Example:
  *	ConfigUtil.ConfigFile configfile = new ConfigUtil.ConfigFile();
  *	configfile.ReadConfigFile(filestream);
  *
@@ -33,7 +34,7 @@ namespace ConfigUtil
 	{
 		protected List<ConfigElem> _cfgelems;
 		string _filename;
-
+		
 		public ConfigFile() : this("")
 		{
 		}
