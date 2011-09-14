@@ -45,12 +45,8 @@ namespace CraftTool
 			}
 
 			TB_loadoutput.AppendText("Checking for packages... ");
-			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(Settings.Global.rootdir, "pkg.cfg", SearchOption.AllDirectories);
-
-			TB_loadoutput.AppendText("pkg.cfg files found = " + pkg_cfgs.Count + Environment.NewLine);
-			POLTools.Package.POLPackage pkg = new POLTools.Package.POLPackage(pkg_cfgs[0]);
-
-			TB_loadoutput.AppendText(pkg.enabled.ToString());
+			List<POLTools.Package.POLPackage> packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
+			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
 		}
 	}
 }
