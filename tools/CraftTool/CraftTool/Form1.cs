@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using ConfigUtil;
+using POLTools.ConfigRepository;
 
 namespace CraftTool
 {
@@ -37,9 +38,9 @@ namespace CraftTool
 
 		private void button1_Click(object sender, EventArgs e)
 		{
+			TB_loadoutput.Clear();
 			List<string> pkg_paths = new List<string>();
 			List<POLTools.Package.POLPackage> packages;
-			TB_loadoutput.Clear();
 			if (!Directory.Exists(Settings.Global.rootdir))
 			{
 				TB_loadoutput.AppendText("Invalid root directory. Please check settings."+Environment.NewLine+Settings.Global.rootdir);
@@ -51,9 +52,12 @@ namespace CraftTool
 			foreach (POLTools.Package.POLPackage package in packages)
 			{
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
-				ConfigFile itemdesc = package.LoadPackagedConfig("itemdesc.cfg");
-				if (itemdesc != null)
-					TB_loadoutput.AppendText("  Loaded " + itemdesc.filename+Environment.NewLine);
+				string itemdesc_path = package.GetPackagedConfigPath("itemdesc.cfg");
+				if (itemdesc_path != null)
+				{
+					ConfigFile itemdesc = ConfigRepository.global.LoadConfigFile(itemdesc_path);
+					TB_loadoutput.AppendText("  Loaded "+ itemdesc.filename + Environment.NewLine);
+				}
 			}
 		}
 	}
