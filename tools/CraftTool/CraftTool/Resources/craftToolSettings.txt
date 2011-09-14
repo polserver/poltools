@@ -1,4 +1,4 @@
 Elem Settings
 {
-	POLPath	C:\
+	POLPath	E:\UOL\Mytharria\Shard
 }

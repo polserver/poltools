@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace CraftTool
 {
@@ -42,13 +38,19 @@ namespace CraftTool
 		{
 			List<string> pkg_paths = new List<string>();
 			TB_loadoutput.Clear();
+			if (!Directory.Exists(Settings.Global.rootdir))
+			{
+				TB_loadoutput.AppendText("Invalid root directory. Please check settings."+Environment.NewLine+Settings.Global.rootdir);
+				return;
+			}
+
 			TB_loadoutput.AppendText("Checking for packages..."+Environment.NewLine);
-			string[] pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(Settings.Global.rootdir, "pkg.cfg");
+			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(Settings.Global.rootdir, "pkg.cfg", SearchOption.AllDirectories);
 
 			foreach (string value in pkg_cfgs)
 			{
 				TB_loadoutput.AppendText(value + Environment.NewLine);
 			}
-		}
+		}		
 	}
 }
