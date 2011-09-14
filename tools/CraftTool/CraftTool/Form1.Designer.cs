@@ -49,12 +49,15 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -178,6 +181,8 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.label1);
+			this.groupBox2.Controls.Add(this.pictureBox1);
 			this.groupBox2.Controls.Add(this.TB_itemdescinfo);
 			this.groupBox2.Location = new System.Drawing.Point(259, 7);
 			this.groupBox2.Name = "groupBox2";
@@ -193,7 +198,7 @@
 			this.TB_itemdescinfo.Location = new System.Drawing.Point(7, 19);
 			this.TB_itemdescinfo.Multiline = true;
 			this.TB_itemdescinfo.Name = "TB_itemdescinfo";
-			this.TB_itemdescinfo.Size = new System.Drawing.Size(724, 512);
+			this.TB_itemdescinfo.Size = new System.Drawing.Size(559, 512);
 			this.TB_itemdescinfo.TabIndex = 0;
 			// 
 			// groupBox1
@@ -261,6 +266,25 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.BackColor = System.Drawing.Color.Black;
+			this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pictureBox1.Location = new System.Drawing.Point(572, 37);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(159, 151);
+			this.pictureBox1.TabIndex = 1;
+			this.pictureBox1.TabStop = false;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(619, 21);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(60, 13);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Tile Picture";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +307,7 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -311,6 +336,8 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.TextBox TB_itemdescinfo;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }
 
