@@ -77,5 +77,17 @@ namespace POLTools.ConfigRepository
 		{
 			return _config_cache.ContainsKey(path);
 		}
+
+		public List<ConfigElem> GetElemsForConfigFile(string filename)
+		{
+			List<ConfigElem> elems = new List<ConfigElem>();
+			foreach ( ConfigFile config_file in _config_cache.Values )
+			{
+				if (config_file.filename == filename)
+					elems.AddRange(config_file.GetConfigElemRefs());
+			}
+
+			return elems;
+		}
 	}
 }
