@@ -28,9 +28,8 @@ namespace CraftTool
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Forms.AboutForm about_form;
-			//CraftTool.Forms.AboutForm about_form = new CraftTool.Forms.AboutForm();
-			//about_form.ShowDialog(this);
+			Forms.AboutForm.AboutForm about_form = new CraftTool.Forms.AboutForm.AboutForm();
+			about_form.ShowDialog(this);
 		}
 	}
 }
