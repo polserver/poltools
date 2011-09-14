@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.TB_pol_path = new System.Windows.Forms.TextBox();
 			this.BTN_pol_path_browse = new System.Windows.Forms.Button();
 			this.BTN_apply = new System.Windows.Forms.Button();
 			this.BTN_ok = new System.Windows.Forms.Button();
@@ -45,13 +45,13 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "POL Path";
 			// 
-			// textBox1
+			// TB_pol_path
 			// 
-			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox1.Location = new System.Drawing.Point(73, 12);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(594, 20);
-			this.textBox1.TabIndex = 1;
+			this.TB_pol_path.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_pol_path.Location = new System.Drawing.Point(73, 12);
+			this.TB_pol_path.Name = "TB_pol_path";
+			this.TB_pol_path.Size = new System.Drawing.Size(594, 20);
+			this.TB_pol_path.TabIndex = 1;
 			// 
 			// BTN_pol_path_browse
 			// 
@@ -61,6 +61,7 @@
 			this.BTN_pol_path_browse.TabIndex = 2;
 			this.BTN_pol_path_browse.Text = "...";
 			this.BTN_pol_path_browse.UseVisualStyleBackColor = true;
+			this.BTN_pol_path_browse.Click += new System.EventHandler(this.BTN_pol_path_browse_Click);
 			// 
 			// BTN_apply
 			// 
@@ -104,10 +105,11 @@
 			this.Controls.Add(this.BTN_ok);
 			this.Controls.Add(this.BTN_apply);
 			this.Controls.Add(this.BTN_pol_path_browse);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.TB_pol_path);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "SettingsForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Settings";
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -117,7 +119,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox TB_pol_path;
 		private System.Windows.Forms.Button BTN_pol_path_browse;
 		private System.Windows.Forms.Button BTN_apply;
 		private System.Windows.Forms.Button BTN_ok;

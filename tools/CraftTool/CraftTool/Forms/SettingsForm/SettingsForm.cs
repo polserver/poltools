@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace CraftTool.Forms.SettingsForm
 {
@@ -29,6 +24,13 @@ namespace CraftTool.Forms.SettingsForm
 		private void BTN_cancel_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void BTN_pol_path_browse_Click(object sender, EventArgs e)
+		{
+			string folder = FilePicker.FilePicker.SelectFolder();
+			if (Directory.Exists(folder))
+				this.TB_pol_path.Text = folder;
 		}
 	}
 }
