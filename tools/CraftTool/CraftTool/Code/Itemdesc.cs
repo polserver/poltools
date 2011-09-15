@@ -50,6 +50,11 @@ namespace POLTools.Itemdesc
 			return new List<ConfigElem>(Global._itemdesc.Values);
 		}
 
+		public List<string> GetAllObjTypes()
+		{
+			return new List<string>(Global._itemdesc.Keys);
+		}
+
 		public List<string> GetAllObjTypeNames()
 		{
 			return new List<string>(Global._objtypes.Keys);

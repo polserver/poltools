@@ -285,10 +285,28 @@ namespace CraftTool
 				return;
 
 			materials_tree_view.Nodes.Add(":" + picker.text + ":materials.cfg");
+
+			POLPackage pkg = PackageCache.GetPackage(picker.text);
+			string filepath = pkg.path+@"\config\materials.cfg";
+			ConfigFile config_file = new ConfigFile(filepath);
+			ConfigRepository.global.AddConfigFile(config_file);
 		}
 
 		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = materials_tree_view.SelectedNode;
+			if (selected == null)
+			{
+				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			selected = selected.FirstNode;
+
+			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a material", ItemdescCache.Global.GetAllObjTypes());
+			picker.ShowDialog(this);
+			if (picker.DialogResult != DialogResult.OK)
+				return;
+
 
 		}
 	}
