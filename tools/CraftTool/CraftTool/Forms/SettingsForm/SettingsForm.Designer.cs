@@ -28,12 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.TB_pol_path = new System.Windows.Forms.TextBox();
 			this.BTN_pol_path_browse = new System.Windows.Forms.Button();
 			this.BTN_apply = new System.Windows.Forms.Button();
 			this.BTN_ok = new System.Windows.Forms.Button();
 			this.BTN_cancel = new System.Windows.Forms.Button();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// label1
@@ -52,6 +54,8 @@
 			this.TB_pol_path.Name = "TB_pol_path";
 			this.TB_pol_path.Size = new System.Drawing.Size(594, 20);
 			this.TB_pol_path.TabIndex = 1;
+			this.toolTip1.SetToolTip(this.TB_pol_path, "If blank or invalid - Program will assume root directory is where this tool is lo" +
+				   "cated at.");
 			// 
 			// BTN_pol_path_browse
 			// 
@@ -125,5 +129,6 @@
 		private System.Windows.Forms.Button BTN_apply;
 		private System.Windows.Forms.Button BTN_ok;
 		private System.Windows.Forms.Button BTN_cancel;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }

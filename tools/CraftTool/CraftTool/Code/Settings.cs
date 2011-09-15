@@ -57,7 +57,13 @@ namespace CraftTool
 
 		public string rootdir
 		{
-			get { return Global._root_dir; }
+			get 
+			{
+				if (!Directory.Exists(Global._root_dir))
+					return Program.GetPath(false);
+				else
+					return Global._root_dir; 
+			}
 			set { Global._root_dir = value; }
 		}
 
