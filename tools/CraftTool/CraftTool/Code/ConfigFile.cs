@@ -135,6 +135,7 @@ namespace ConfigUtil
 					// Data not in an  { } element. Should be the element's name.
 					CfgPair pair = CfgPair.ParseCfgLine(curline);
 					curelem = new ConfigElem(pair.first, pair.second.ToString());
+					curelem.configfile = this;
 					_cfgelems.Add(curelem);
 				}
 				else if (curline[0] == '{')
@@ -355,6 +356,7 @@ namespace ConfigUtil
 		protected List<CfgPair> _cfgpairs;
 		protected string _type;
 		protected string _name;
+		protected ConfigFile _configfile = null;
 
 		public ConfigElem(string type, string name)
 		{
@@ -365,6 +367,18 @@ namespace ConfigUtil
 		}
 		~ConfigElem()
 		{
+		}
+
+		public ConfigFile configfile
+		{
+			get
+			{
+				return _configfile;
+			}
+			set
+			{
+				_configfile = value;
+			}
 		}
 
 		public string type

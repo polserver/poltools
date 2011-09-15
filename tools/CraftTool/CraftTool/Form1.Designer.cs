@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +61,7 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
+			this.label4 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -202,6 +203,7 @@
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 					  | System.Windows.Forms.AnchorStyles.Left)
 					  | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.itemdesc_picture);
 			this.groupBox2.Controls.Add(this.TB_itemdescinfo);
@@ -242,10 +244,11 @@
 					  | System.Windows.Forms.AnchorStyles.Right)));
 			this.TB_itemdescinfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_itemdescinfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_itemdescinfo.Location = new System.Drawing.Point(6, 19);
+			this.TB_itemdescinfo.Location = new System.Drawing.Point(6, 48);
 			this.TB_itemdescinfo.Multiline = true;
 			this.TB_itemdescinfo.Name = "TB_itemdescinfo";
-			this.TB_itemdescinfo.Size = new System.Drawing.Size(525, 512);
+			this.TB_itemdescinfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.TB_itemdescinfo.Size = new System.Drawing.Size(525, 483);
 			this.TB_itemdescinfo.TabIndex = 0;
 			// 
 			// groupBox1
@@ -276,14 +279,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle3;
 			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
 			this.itemdesc_datagrid.MaximumSize = new System.Drawing.Size(270, 512);
@@ -301,7 +304,6 @@
 			this.itemdesc_datagrid.Size = new System.Drawing.Size(270, 512);
 			this.itemdesc_datagrid.TabIndex = 5;
 			this.itemdesc_datagrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.itemdesc_datagrid_RowEnter);
-			this.itemdesc_datagrid.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.itemdesc_datagrid_RowLeave);
 			// 
 			// Column1
 			// 
@@ -345,7 +347,7 @@
 			this.groupBox3.Controls.Add(this.materials_textbox);
 			this.groupBox3.Location = new System.Drawing.Point(336, 9);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(660, 532);
+			this.groupBox3.Size = new System.Drawing.Size(660, 539);
 			this.groupBox3.TabIndex = 2;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Materials Info";
@@ -376,7 +378,7 @@
 			this.materials_textbox.Location = new System.Drawing.Point(6, 16);
 			this.materials_textbox.Multiline = true;
 			this.materials_textbox.Name = "materials_textbox";
-			this.materials_textbox.Size = new System.Drawing.Size(483, 510);
+			this.materials_textbox.Size = new System.Drawing.Size(483, 517);
 			this.materials_textbox.TabIndex = 0;
 			// 
 			// label2
@@ -392,10 +394,12 @@
 			// 
 			this.materials_tree_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.materials_tree_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_tree_view.HotTracking = true;
 			this.materials_tree_view.Location = new System.Drawing.Point(8, 25);
 			this.materials_tree_view.Name = "materials_tree_view";
-			this.materials_tree_view.Size = new System.Drawing.Size(322, 523);
+			this.materials_tree_view.Size = new System.Drawing.Size(322, 516);
 			this.materials_tree_view.TabIndex = 0;
+			this.materials_tree_view.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.materials_tree_view_AfterSelect);
 			// 
 			// tabPage4
 			// 
@@ -432,6 +436,15 @@
 			this.tabPage7.Size = new System.Drawing.Size(1004, 551);
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(7, 29);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(35, 13);
+			this.label4.TabIndex = 3;
+			this.label4.Text = "label4";
 			// 
 			// Form1
 			// 
@@ -501,6 +514,7 @@
 		private System.Windows.Forms.DataGridViewImageColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+		private System.Windows.Forms.Label label4;
 	}
 }
 
