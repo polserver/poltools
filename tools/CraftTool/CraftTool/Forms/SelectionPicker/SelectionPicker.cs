@@ -20,6 +20,7 @@ namespace CraftTool.Forms.SelectionPicker
 
 			label1.Text = prompt;
 			comboBox1.Items.AddRange(options.ToArray());
+			comboBox1.Sorted = true;
 		}
 
 		public string text
@@ -40,7 +41,7 @@ namespace CraftTool.Forms.SelectionPicker
 
 		private void BTN_ok_Click(object sender, EventArgs e)
 		{
-			string selected = this.comboBox1.SelectedItem.ToString();
+			string selected = this.comboBox1.Text;
 
 			_input_string = selected;
 			_result = DialogResult.OK;
@@ -51,12 +52,18 @@ namespace CraftTool.Forms.SelectionPicker
 
 		private void BTN_cancel_Click(object sender, EventArgs e)
 		{
-			string selected = this.comboBox1.SelectedItem.ToString();
+			string selected = this.comboBox1.Text;
+			_input_string = selected;
 			_result = DialogResult.Cancel;
 
 			this.DialogResult = _result;
 
 			this.Close();
+		}
+
+		private void SelectionPicker_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
