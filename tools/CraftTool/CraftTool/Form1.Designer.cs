@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -90,6 +90,7 @@
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.removeElementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -322,14 +323,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle2;
 			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
 			this.itemdesc_datagrid.MaximumSize = new System.Drawing.Size(270, 512);
@@ -611,7 +612,8 @@
 			// 
 			this.materials_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createNewConfigToolStripMenuItem,
-            this.addNewElementToolStripMenuItem});
+            this.addNewElementToolStripMenuItem,
+            this.removeElementToolStripMenuItem});
 			this.materials_context_strip.Name = "materials_context_strip";
 			this.materials_context_strip.Size = new System.Drawing.Size(175, 70);
 			// 
@@ -619,14 +621,14 @@
 			// 
 			this.createNewConfigToolStripMenuItem.Name = "createNewConfigToolStripMenuItem";
 			this.createNewConfigToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-			this.createNewConfigToolStripMenuItem.Text = "Create New Config";
+			this.createNewConfigToolStripMenuItem.Text = "&Create New Config";
 			this.createNewConfigToolStripMenuItem.Click += new System.EventHandler(this.createNewConfigToolStripMenuItem_Click);
 			// 
 			// addNewElementToolStripMenuItem
 			// 
 			this.addNewElementToolStripMenuItem.Name = "addNewElementToolStripMenuItem";
 			this.addNewElementToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-			this.addNewElementToolStripMenuItem.Text = "Add New Element";
+			this.addNewElementToolStripMenuItem.Text = "&Add New Element";
 			this.addNewElementToolStripMenuItem.Click += new System.EventHandler(this.addNewElementToolStripMenuItem_Click);
 			// 
 			// groupBox5
@@ -750,6 +752,13 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
+			// removeElementToolStripMenuItem
+			// 
+			this.removeElementToolStripMenuItem.Name = "removeElementToolStripMenuItem";
+			this.removeElementToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+			this.removeElementToolStripMenuItem.Text = "&Remove Element";
+			this.removeElementToolStripMenuItem.Click += new System.EventHandler(this.removeElementToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -851,6 +860,7 @@
 		private System.Windows.Forms.ContextMenuStrip materials_context_strip;
 		private System.Windows.Forms.ToolStripMenuItem createNewConfigToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem addNewElementToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem removeElementToolStripMenuItem;
 	}
 }
 

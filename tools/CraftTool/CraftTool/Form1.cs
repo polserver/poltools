@@ -199,7 +199,12 @@ namespace CraftTool
 			if (itemdesc_elem.PropertyExists("Name"))
 				nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
 
-			return parent_node.Nodes.Add(nodename);
+			TreeNode added = parent_node.Nodes.Add(objtype, nodename);
+			return added;
+		}
+
+		private void RemoveMaterialsTreeNode(TreeNode child)
+		{
 		}
 		
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
@@ -209,11 +214,8 @@ namespace CraftTool
 				return;
 
 			materials_textbox.Clear();
-			string name = selected.Text;
-			string[] split = name.Split(new char[] { ' ', '\t' });
-			name = split[0];
-			
-			ConfigElem materials_elem = ConfigRepository.global.GetElemFromConfigFiles("materials.cfg", split[0]);
+						
+			ConfigElem materials_elem = ConfigRepository.global.GetElemFromConfigFiles("materials.cfg", selected.Name);
 			label5.Text = materials_elem.configfile.fullpath;
 			foreach (string propname in materials_elem.ListConfigElemProperties())
 			{
@@ -285,9 +287,25 @@ namespace CraftTool
 				config_path = package.path + @"\config\materials.cfg";
 
 			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
-			materials_cfg.AddConfigElement(null);
+			ConfigElem elem = new ConfigElem("Elem", picker.text);
+			materials_cfg.AddConfigElement(elem);
 
 			AddMaterialsObjType(selected, picker.text);
+		}
+
+		private void removeElementToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			TreeNode selected = materials_tree_view.SelectedNode;
+			if (selected == null)
+			{
+				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			TreeNodeCollection children = selected.Nodes;
+			foreach (TreeNode child in children)
+			{
+				RemoveMaterialsTreeNode(child);
+			}
 		}
 		#endregion
 
@@ -336,5 +354,6 @@ namespace CraftTool
 			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
 		#endregion
+
 	}
 }
