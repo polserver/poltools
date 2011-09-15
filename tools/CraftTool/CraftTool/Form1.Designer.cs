@@ -63,6 +63,13 @@
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.label5 = new System.Windows.Forms.Label();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.toolonmaterial_picture = new System.Windows.Forms.PictureBox();
+			this.TB_toolonmaterial = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.toolonmaterial_treeview = new System.Windows.Forms.TreeView();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -74,6 +81,9 @@
 			this.tabPage3.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).BeginInit();
+			this.tabPage4.SuspendLayout();
+			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_picture)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -379,6 +389,7 @@
 			this.materials_picture.Location = new System.Drawing.Point(495, 37);
 			this.materials_picture.Name = "materials_picture";
 			this.materials_picture.Size = new System.Drawing.Size(159, 151);
+			this.materials_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.materials_picture.TabIndex = 1;
 			this.materials_picture.TabStop = false;
 			// 
@@ -389,6 +400,7 @@
 			this.materials_textbox.Location = new System.Drawing.Point(6, 37);
 			this.materials_textbox.Multiline = true;
 			this.materials_textbox.Name = "materials_textbox";
+			this.materials_textbox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.materials_textbox.Size = new System.Drawing.Size(483, 496);
 			this.materials_textbox.TabIndex = 0;
 			// 
@@ -415,6 +427,9 @@
 			// tabPage4
 			// 
 			this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage4.Controls.Add(this.groupBox4);
+			this.tabPage4.Controls.Add(this.label8);
+			this.tabPage4.Controls.Add(this.toolonmaterial_treeview);
 			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Size = new System.Drawing.Size(1004, 551);
@@ -457,6 +472,79 @@
 			this.label5.TabIndex = 3;
 			this.label5.Text = "label5";
 			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.label6);
+			this.groupBox4.Controls.Add(this.label7);
+			this.groupBox4.Controls.Add(this.toolonmaterial_picture);
+			this.groupBox4.Controls.Add(this.TB_toolonmaterial);
+			this.groupBox4.Location = new System.Drawing.Point(336, 6);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(660, 539);
+			this.groupBox4.TabIndex = 5;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Materials Info";
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(7, 18);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(35, 13);
+			this.label6.TabIndex = 3;
+			this.label6.Text = "label6";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(545, 16);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(64, 13);
+			this.label7.TabIndex = 2;
+			this.label7.Text = "Tool Picture";
+			// 
+			// toolonmaterial_picture
+			// 
+			this.toolonmaterial_picture.BackColor = System.Drawing.Color.Black;
+			this.toolonmaterial_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolonmaterial_picture.Location = new System.Drawing.Point(495, 37);
+			this.toolonmaterial_picture.Name = "toolonmaterial_picture";
+			this.toolonmaterial_picture.Size = new System.Drawing.Size(159, 151);
+			this.toolonmaterial_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.toolonmaterial_picture.TabIndex = 1;
+			this.toolonmaterial_picture.TabStop = false;
+			// 
+			// TB_toolonmaterial
+			// 
+			this.TB_toolonmaterial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_toolonmaterial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_toolonmaterial.Location = new System.Drawing.Point(6, 37);
+			this.TB_toolonmaterial.Multiline = true;
+			this.TB_toolonmaterial.Name = "TB_toolonmaterial";
+			this.TB_toolonmaterial.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.TB_toolonmaterial.Size = new System.Drawing.Size(483, 496);
+			this.TB_toolonmaterial.TabIndex = 0;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(8, 6);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(66, 13);
+			this.label8.TabIndex = 4;
+			this.label8.Text = "Elem Names";
+			// 
+			// toolonmaterial_treeview
+			// 
+			this.toolonmaterial_treeview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.toolonmaterial_treeview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolonmaterial_treeview.HotTracking = true;
+			this.toolonmaterial_treeview.Location = new System.Drawing.Point(8, 22);
+			this.toolonmaterial_treeview.Name = "toolonmaterial_treeview";
+			this.toolonmaterial_treeview.Size = new System.Drawing.Size(322, 516);
+			this.toolonmaterial_treeview.TabIndex = 3;
+			this.toolonmaterial_treeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.toolonmaterial_treeview_AfterSelect);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,6 +574,11 @@
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).EndInit();
+			this.tabPage4.ResumeLayout(false);
+			this.tabPage4.PerformLayout();
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_picture)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -527,6 +620,13 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.PictureBox toolonmaterial_picture;
+		private System.Windows.Forms.TextBox TB_toolonmaterial;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.TreeView toolonmaterial_treeview;
 	}
 }
 
