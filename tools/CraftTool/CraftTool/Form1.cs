@@ -158,7 +158,7 @@ namespace CraftTool
 				if (materials_cfg_path == null)
 					continue;
 
-				TreeNode pkg_node = materials_tree_view.Nodes.Add(package.name);
+				TreeNode pkg_node = materials_tree_view.Nodes.Add(":"+package.name+":materials.cfg");
 				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
 				{
