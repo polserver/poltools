@@ -101,6 +101,8 @@ namespace CraftTool
 						PopulateItemDesc();
 					if (selected_tab == tabPage3)
 						PopulateMaterials();
+					if (selected_tab == tabPage4)
+						PopulateToolOnMaterial();
 				}
 
 				selected_tab.Enabled = true;
@@ -190,6 +192,52 @@ namespace CraftTool
 					materials_textbox.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
-		}	
+
+			materials_picture.Image = global::CraftTool.Properties.Resources.unused;
+		}
+
+		public void PopulateToolOnMaterial()
+		{
+			foreach (POLTools.Package.POLPackage package in _packages)
+			{
+				string tom_cfg_path = package.GetPackagedConfigPath("toolOnMaterial.cfg");
+				if (tom_cfg_path == null)
+					continue;
+
+				TreeNode pkg_node = toolonmaterial_treeview.Nodes.Add(":" + package.name + ":toolOnMaterial.cfg");
+				ConfigFile tom_config = ConfigRepository.global.LoadConfigFile(tom_cfg_path);
+				foreach (ConfigElem cfg_elem in tom_config.GetConfigElemRefs())
+				{
+					//ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", cfg_elem.name);
+					string nodename = cfg_elem.name;
+					//if (itemdesc_elem.PropertyExists("Name"))
+					//	nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+
+					pkg_node.Nodes.Add(nodename);
+				}
+			}
+		}
+
+		private void toolonmaterial_treeview_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			TreeNode selected = toolonmaterial_treeview.SelectedNode;
+			if (selected.Parent == null)
+				return;
+
+			TB_toolonmaterial.Clear();
+			string name = selected.Text;
+			
+			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", name);
+			label6.Text = tom_elem.configfile.fullpath;
+			foreach (string propname in tom_elem.ListConfigElemProperties())
+			{
+				foreach (string value in tom_elem.GetConfigStringList(propname))
+				{
+					this.TB_toolonmaterial.AppendText(propname + "	" + value + Environment.NewLine);
+				}
+			}
+
+			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
+		}
 	}
 }
