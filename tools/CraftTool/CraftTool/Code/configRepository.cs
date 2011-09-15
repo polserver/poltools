@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using ConfigUtil;
-using POLTools.Package;
 using System.Text;
-using System.Windows.Forms;
+using ConfigUtil;
+using System.IO;
 
 namespace POLTools.ConfigRepository
 {
@@ -42,7 +40,12 @@ namespace POLTools.ConfigRepository
 		}
 		private void Initialize()
 		{
-			_config_cache = new Dictionary<string, ConfigFile>();
+			_config_cache = new Dictionary<string, ConfigFile>(StringComparer.InvariantCultureIgnoreCase);
+		}
+
+		public bool IsPathCached(string path)
+		{
+			return global._config_cache.ContainsKey(path);
 		}
 
 		public ConfigFile LoadConfigFile(string path)
@@ -119,24 +122,11 @@ namespace POLTools.ConfigRepository
 			return null;
 		}
 
-		public string WriteConfigFile(ConfigFile cfg_file)
+		public bool WriteConfigFile(ConfigFile cfg_file)
 		{
-			StringBuilder newfile = new StringBuilder();
+			File.WriteAllText(cfg_file.fullpath, cfg_file.ToString());
 
-			foreach ( ConfigElem elem in cfg_file.GetConfigElemRefs() )
-			{
-				newfile.AppendLine(elem.name);
-				newfile.AppendLine("{");
-				foreach (string name in elem.ListConfigElemProperties())
-				{
-					foreach (string value in elem.GetConfigStringList(name))
-					{
-						newfile.AppendLine("\t" + name + "\t" + value);
-					}
-				}
-				newfile.AppendLine("}");
-			}
-			return newfile.ToString();
+			return true;
 		}
 	}
 }

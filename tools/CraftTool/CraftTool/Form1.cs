@@ -194,10 +194,13 @@ namespace CraftTool
 
 		private TreeNode AddMaterialsObjType(TreeNode parent_node, string objtype)
 		{
-			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
 			string nodename = objtype;
-			if (itemdesc_elem.PropertyExists("Name"))
-				nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
+			if (itemdesc_elem != null)
+			{
+				if (itemdesc_elem.PropertyExists("Name"))
+					nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+			}
 
 			TreeNode added = parent_node.Nodes.Add(objtype, nodename);
 			return added;
@@ -335,7 +338,8 @@ namespace CraftTool
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
-
+			ConfigFile config_file = ConfigRepository.global.LoadConfigFile(@"E:\UOL\Mytharria\Shard\pkg\items\ores\config\materials.cfg");
+			ConfigRepository.global.WriteConfigFile(config_file);
 		}
 	
 		#endregion
