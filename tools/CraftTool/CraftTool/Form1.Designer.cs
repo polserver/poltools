@@ -49,10 +49,14 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.itemdesc_picture = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.treeView1 = new System.Windows.Forms.TreeView();
+			this.materials_tree_view = new System.Windows.Forms.TreeView();
 			this.label2 = new System.Windows.Forms.Label();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.materials_picture = new System.Windows.Forms.PictureBox();
+			this.materials_textbox = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -60,7 +64,9 @@
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).BeginInit();
+			this.groupBox3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -185,7 +191,7 @@
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Controls.Add(this.pictureBox1);
+			this.groupBox2.Controls.Add(this.itemdesc_picture);
 			this.groupBox2.Controls.Add(this.TB_itemdescinfo);
 			this.groupBox2.Location = new System.Drawing.Point(259, 7);
 			this.groupBox2.Name = "groupBox2";
@@ -227,8 +233,9 @@
 			// tabPage3
 			// 
 			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage3.Controls.Add(this.groupBox3);
 			this.tabPage3.Controls.Add(this.label2);
-			this.tabPage3.Controls.Add(this.treeView1);
+			this.tabPage3.Controls.Add(this.materials_tree_view);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Size = new System.Drawing.Size(1004, 551);
@@ -271,15 +278,15 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// pictureBox1
+			// itemdesc_picture
 			// 
-			this.pictureBox1.BackColor = System.Drawing.Color.Black;
-			this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBox1.Location = new System.Drawing.Point(572, 37);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(159, 151);
-			this.pictureBox1.TabIndex = 1;
-			this.pictureBox1.TabStop = false;
+			this.itemdesc_picture.BackColor = System.Drawing.Color.Black;
+			this.itemdesc_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.itemdesc_picture.Location = new System.Drawing.Point(572, 37);
+			this.itemdesc_picture.Name = "itemdesc_picture";
+			this.itemdesc_picture.Size = new System.Drawing.Size(159, 151);
+			this.itemdesc_picture.TabIndex = 1;
+			this.itemdesc_picture.TabStop = false;
 			// 
 			// label1
 			// 
@@ -290,14 +297,14 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Tile Picture";
 			// 
-			// treeView1
+			// materials_tree_view
 			// 
-			this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.treeView1.Location = new System.Drawing.Point(8, 25);
-			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(322, 523);
-			this.treeView1.TabIndex = 0;
+			this.materials_tree_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.materials_tree_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_tree_view.Location = new System.Drawing.Point(8, 25);
+			this.materials_tree_view.Name = "materials_tree_view";
+			this.materials_tree_view.Size = new System.Drawing.Size(322, 523);
+			this.materials_tree_view.TabIndex = 0;
 			// 
 			// label2
 			// 
@@ -307,6 +314,47 @@
 			this.label2.Size = new System.Drawing.Size(49, 13);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Materials";
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.label3);
+			this.groupBox3.Controls.Add(this.materials_picture);
+			this.groupBox3.Controls.Add(this.materials_textbox);
+			this.groupBox3.Location = new System.Drawing.Point(336, 9);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(660, 532);
+			this.groupBox3.TabIndex = 2;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Materials Info";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(545, 16);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(60, 13);
+			this.label3.TabIndex = 2;
+			this.label3.Text = "Tile Picture";
+			// 
+			// materials_picture
+			// 
+			this.materials_picture.BackColor = System.Drawing.Color.Black;
+			this.materials_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_picture.Location = new System.Drawing.Point(495, 37);
+			this.materials_picture.Name = "materials_picture";
+			this.materials_picture.Size = new System.Drawing.Size(159, 151);
+			this.materials_picture.TabIndex = 1;
+			this.materials_picture.TabStop = false;
+			// 
+			// materials_textbox
+			// 
+			this.materials_textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.materials_textbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_textbox.Location = new System.Drawing.Point(6, 16);
+			this.materials_textbox.Multiline = true;
+			this.materials_textbox.Name = "materials_textbox";
+			this.materials_textbox.Size = new System.Drawing.Size(483, 510);
+			this.materials_textbox.TabIndex = 0;
 			// 
 			// Form1
 			// 
@@ -332,7 +380,10 @@
 			this.groupBox1.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).EndInit();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -362,9 +413,13 @@
 		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.TextBox TB_itemdescinfo;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.TreeView treeView1;
+		private System.Windows.Forms.PictureBox itemdesc_picture;
+		private System.Windows.Forms.TreeView materials_tree_view;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.PictureBox materials_picture;
+		private System.Windows.Forms.TextBox materials_textbox;
 	}
 }
 

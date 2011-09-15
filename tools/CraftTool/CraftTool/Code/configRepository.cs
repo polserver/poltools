@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ConfigUtil;
+using POLTools.Package;
 
 namespace POLTools.ConfigRepository
 {
@@ -45,13 +46,13 @@ namespace POLTools.ConfigRepository
 		public ConfigFile LoadConfigFile(string path)
 		{
 			ConfigFile config_file = null;
-			if (_config_cache.ContainsKey(path))
-				config_file = _config_cache[path];
+			if (global._config_cache.ContainsKey(path))
+				config_file = global._config_cache[path];
 			else
 			{
 				config_file = new ConfigFile(path);
 				config_file.ReadConfigFile();
-				AddConfigFile(config_file);
+				global.AddConfigFile(config_file);
 			}
 
 			return config_file;
@@ -59,14 +60,14 @@ namespace POLTools.ConfigRepository
 
 		public bool UnloadConfigFile(string path)
 		{
-			return _config_cache.Remove(path);
+			return global._config_cache.Remove(path);
 		}
 
 		public bool AddConfigFile(ConfigFile config_file)
 		{
-			if (!_config_cache.ContainsKey(config_file.fullpath))
+			if (!global._config_cache.ContainsKey(config_file.fullpath))
 			{
-				_config_cache.Add(config_file.fullpath, config_file);
+				global._config_cache.Add(config_file.fullpath, config_file);
 				return true;
 			}
 			else
@@ -75,14 +76,14 @@ namespace POLTools.ConfigRepository
 
 		public bool ContainsPath(string path)
 		{
-			return _config_cache.ContainsKey(path);
+			return global._config_cache.ContainsKey(path);
 		}
 
 		public List<ConfigElem> GetElemsForConfigFile(string filename)
 		{
 			filename = filename.ToLower();
 			List<ConfigElem> elems = new List<ConfigElem>();
-			foreach ( ConfigFile config_file in _config_cache.Values )
+			foreach ( ConfigFile config_file in global._config_cache.Values )
 			{
 				if (config_file.filename.ToLower() == filename)
 					elems.AddRange(config_file.GetConfigElemRefs());
@@ -94,7 +95,7 @@ namespace POLTools.ConfigRepository
 		public ConfigElem GetElemFromConfigFiles(string filename, string elem_name)
 		{
 			List<ConfigElem> elems = GetElemsForConfigFile(filename);
-			foreach (ConfigFile config_file in _config_cache.Values)
+			foreach (ConfigFile config_file in global._config_cache.Values)
 			{
 				try
 				{

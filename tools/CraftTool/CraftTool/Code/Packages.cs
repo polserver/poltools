@@ -110,4 +110,36 @@ namespace POLTools.Package
 			return pkg_list;
 		}
 	}
+
+	public class PackageCache
+	{
+		private static object _syncroot = new Object();
+		private static volatile PackageCache _global;
+		private Dictionary<string, POLPackage> _packages;
+
+		private PackageCache()
+		{
+		}
+		~PackageCache()
+		{
+		}
+
+		public static PackageCache Global
+		{
+			get
+			{
+				if (_global == null)
+				{
+					lock (_syncroot)
+					{
+						if (_global == null)
+						{
+							_global = new PackageCache();
+						}
+					}
+				}
+				return _global;
+			}
+		}
+	}
 }

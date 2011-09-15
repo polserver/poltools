@@ -10,6 +10,7 @@ namespace CraftTool
 	public partial class Form1 : Form
 	{
 		private bool _data_loaded = false;
+		private List<POLTools.Package.POLPackage> _packages;
 
 		public Form1()
 		{
@@ -48,19 +49,17 @@ namespace CraftTool
 		{
 			TB_loadoutput.Clear();
 			BTN_load_info.Enabled = false;
-			List<string> pkg_paths = new List<string>();
-			List<POLTools.Package.POLPackage> packages;
 			if (!Directory.Exists(Settings.Global.rootdir))
 			{
 				TB_loadoutput.AppendText("Invalid root directory. Please check settings."+Environment.NewLine+Settings.Global.rootdir);
 				return;
 			}
 			TB_loadoutput.AppendText("Checking for packages... ");
-			packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
-			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
+			_packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
+			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + _packages.Count + Environment.NewLine);
 
 			string[] file_names = { "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg" };
-			foreach (POLTools.Package.POLPackage package in packages)
+			foreach (POLTools.Package.POLPackage package in _packages)
 			{
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
 
@@ -95,8 +94,13 @@ namespace CraftTool
 					cntrl.Enabled = true;
 				}
 
-				if (selected_tab == tabPage2 && !selected_tab.Enabled)
-					PopulateItemDesc();
+				if (!selected_tab.Enabled)
+				{
+					if (selected_tab == tabPage2)
+						PopulateItemDesc();
+					if (selected_tab == tabPage3)
+						PopulateMaterials();
+				}
 
 				selected_tab.Enabled = true;
 			}
@@ -122,6 +126,26 @@ namespace CraftTool
 					TB_itemdescinfo.AppendText(propname +"	"+value+Environment.NewLine);
 				}
 			}
+		}
+
+		public void PopulateMaterials()
+		{
+			foreach (POLTools.Package.POLPackage package in _packages)
+			{
+				string materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
+				if (materials_cfg_path == null)
+					continue;
+
+				TreeNode pkg_node = materials_tree_view.Nodes.Add(package.name);
+				ConfigFile materials_cofng = package.LoadPackagedConfig("materials.cfg");
+			}
+			/*
+			List<ConfigElem> config_elems = ConfigRepository.global.GetElemsForConfigFile("materials.cfg");
+			foreach (ConfigElem config_elem in config_elems)
+			{
+				materials_tree_view.Nodes.Add(config_elem.name);
+			}
+			 * */
 		}
 	}
 }
