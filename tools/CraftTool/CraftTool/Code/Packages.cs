@@ -94,21 +94,6 @@ namespace POLTools.Package
 			
 			return config_file;
 		}
-
-		public static List<POLPackage> GetEnabledPackages(string rootdir)
-		{
-			List<POLPackage> pkg_list = new List<POLPackage>();
-			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(rootdir, "pkg.cfg", SearchOption.AllDirectories);
-
-			foreach (string filename in pkg_cfgs)
-			{
-				POLPackage pkg = new POLPackage(filename);
-				if ( pkg.enabled )
-					pkg_list.Add(pkg);
-			}
-
-			return pkg_list;
-		}
 	}
 
 	public class PackageCache
@@ -135,11 +120,47 @@ namespace POLTools.Package
 						if (_global == null)
 						{
 							_global = new PackageCache();
+							_global.Initialize();
 						}
 					}
 				}
 				return _global;
 			}
+		}
+		private void Initialize()
+		{
+			_packages = new Dictionary<string, POLPackage>();
+		}
+
+		public static POLPackage GetPackage(string name)
+		{
+			if (Global._packages.ContainsKey(name))
+				return Global._packages[name];
+			else
+				return null;
+		}
+
+		public static void AddPackage(POLPackage package)
+		{
+			Global._packages.Add(package.name, package);
+		}
+
+		public static List<POLPackage> GetEnabledPackages(string rootdir)
+		{
+			List<POLPackage> pkg_list = new List<POLPackage>();
+			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(rootdir, "pkg.cfg", SearchOption.AllDirectories);
+
+			foreach (string filename in pkg_cfgs)
+			{
+				POLPackage pkg = new POLPackage(filename);
+				if (pkg.enabled)
+				{
+					pkg_list.Add(pkg);
+					AddPackage(pkg);
+				}
+			}
+
+			return pkg_list;
 		}
 	}
 }
