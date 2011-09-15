@@ -1,4 +1,4 @@
-﻿namespace ATCId.InputForm
+﻿namespace CraftTool.Forms.InputForm
 {
 	partial class InputForm
 	{

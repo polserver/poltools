@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-namespace ATCId.InputForm
+namespace CraftTool.Forms.InputForm
 {
 	public partial class InputForm : Form
 	{

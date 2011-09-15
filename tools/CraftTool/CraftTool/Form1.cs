@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
-using ConfigUtil;
 using System.Drawing;
-using POLTools;
+using System.IO;
+using System.Windows.Forms;
+using ConfigUtil;
 using POLTools.ConfigRepository;
-using POLTools.Package;
 using POLTools.Itemdesc;
+using POLTools.Package;
+using CraftTool.Forms;
 
 namespace CraftTool
 {
@@ -279,7 +279,12 @@ namespace CraftTool
 
 		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a package", PackageCache.Global.packagenames);
+			picker.ShowDialog(this);
+			if (picker.DialogResult != DialogResult.OK)
+				return;
 
+			materials_tree_view.Nodes.Add(":" + picker.text + ":materials.cfg");
 		}
 
 		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)

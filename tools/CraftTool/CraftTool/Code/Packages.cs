@@ -128,17 +128,19 @@ namespace POLTools.Package
 			}
 		}
 
+		public List<String> packagenames
+		{
+			get { return new List<String>(Global._packages.Keys); }
+		}
+
 		public List<POLPackage> packagelist
 		{
-			get
-			{
-				return new List<POLPackage>(_packages.Values);
-			}
+			get { return new List<POLPackage>(Global._packages.Values); }
 		}
 
 		private void Initialize()
 		{
-			_packages = new Dictionary<string, POLPackage>();
+			Global._packages = new Dictionary<string, POLPackage>();
 		}
 
 		public static POLPackage GetPackage(string name)
