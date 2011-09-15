@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using ConfigUtil;
 using POLTools.ConfigRepository;
+using System.Drawing;
 
 namespace CraftTool
 {
@@ -124,25 +125,31 @@ namespace CraftTool
 			itemdesc_datagrid.ScrollBars = ScrollBars.None;
 			itemdesc_datagrid.Refresh();
 			itemdesc_datagrid.ScrollBars = ScrollBars.Vertical;
+			itemdesc_datagrid.ClearSelection();
 			itemdesc_datagrid.Refresh();
 		}
-		/*
-		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+
+
+		private void itemdesc_datagrid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			//string selected_name = listBox1.SelectedItem.ToString();
-			string[] split = selected_name.Split(new char[] { ' ', '\t' });
-			MessageBox.Show(split[0]);
-			ConfigElem config_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", split[0]);
-			TB_itemdescinfo.Clear();
-			foreach (string propname in config_elem.ListConfigElemProperties())
+			DataGridViewRow row = itemdesc_datagrid.Rows[e.RowIndex];
+			ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", row.Cells[1].Value.ToString());
+			foreach (string propname in itemdesc_elem.ListConfigElemProperties())
 			{
-				foreach (string value in config_elem.GetConfigStringList(propname))
+				foreach (string value in itemdesc_elem.GetConfigStringList(propname))
 				{
-					TB_itemdescinfo.AppendText(propname +"	"+value+Environment.NewLine);
+					TB_itemdescinfo.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
+
+			itemdesc_picture.Image = (Bitmap)row.Cells[0].Value;
 		}
-		*/
+
+		private void itemdesc_datagrid_RowLeave(object sender, DataGridViewCellEventArgs e)
+		{
+			TB_itemdescinfo.Clear();
+		}	
+
 		public void PopulateMaterials()
 		{
 			foreach (POLTools.Package.POLPackage package in _packages)
@@ -163,6 +170,6 @@ namespace CraftTool
 					pkg_node.Nodes.Add(nodename);
 				}
 			}
-		}		
+		}	
 	}
 }

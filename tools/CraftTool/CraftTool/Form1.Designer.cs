@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -231,7 +231,7 @@
 			this.itemdesc_picture.MinimumSize = new System.Drawing.Size(159, 151);
 			this.itemdesc_picture.Name = "itemdesc_picture";
 			this.itemdesc_picture.Size = new System.Drawing.Size(159, 151);
-			this.itemdesc_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this.itemdesc_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.itemdesc_picture.TabIndex = 1;
 			this.itemdesc_picture.TabStop = false;
 			// 
@@ -276,14 +276,14 @@
             this.Column1,
             this.Column2,
             this.Column3});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle2;
 			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
 			this.itemdesc_datagrid.MaximumSize = new System.Drawing.Size(270, 512);
@@ -300,6 +300,8 @@
 			this.itemdesc_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.itemdesc_datagrid.Size = new System.Drawing.Size(270, 512);
 			this.itemdesc_datagrid.TabIndex = 5;
+			this.itemdesc_datagrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.itemdesc_datagrid_RowEnter);
+			this.itemdesc_datagrid.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.itemdesc_datagrid_RowLeave);
 			// 
 			// Column1
 			// 
