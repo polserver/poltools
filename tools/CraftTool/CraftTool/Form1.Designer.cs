@@ -86,6 +86,7 @@
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
+			this.BTN_materials_update = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -398,6 +399,7 @@
 			// 
 			// groupBox7
 			// 
+			this.groupBox7.Controls.Add(this.BTN_materials_update);
 			this.groupBox7.Controls.Add(this.combobox_materials_changeto);
 			this.groupBox7.Controls.Add(this.label12);
 			this.groupBox7.Controls.Add(this.TB_materials_createdscript);
@@ -710,6 +712,15 @@
 			this.TB_materials_color.TabIndex = 6;
 			this.toolTip1.SetToolTip(this.TB_materials_color, "If set, will override the materials itemdesc.cfg color entry.");
 			// 
+			// BTN_materials_update
+			// 
+			this.BTN_materials_update.Location = new System.Drawing.Point(134, 188);
+			this.BTN_materials_update.Name = "BTN_materials_update";
+			this.BTN_materials_update.Size = new System.Drawing.Size(75, 23);
+			this.BTN_materials_update.TabIndex = 15;
+			this.BTN_materials_update.Text = "Update";
+			this.BTN_materials_update.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -806,6 +817,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.Button BTN_materials_update;
 	}
 }
 
