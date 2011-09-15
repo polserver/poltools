@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,32 +42,36 @@
 			this.BTN_load_info = new System.Windows.Forms.Button();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.itemdesc_picture = new System.Windows.Forms.PictureBox();
 			this.TB_itemdescinfo = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.tabPage6 = new System.Windows.Forms.TabPage();
-			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this.itemdesc_picture = new System.Windows.Forms.PictureBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.materials_tree_view = new System.Windows.Forms.TreeView();
-			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.materials_picture = new System.Windows.Forms.PictureBox();
 			this.materials_textbox = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.materials_tree_view = new System.Windows.Forms.TreeView();
+			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.tabPage7 = new System.Windows.Forms.TabPage();
+			this.itemdesc_datagrid = new System.Windows.Forms.DataGridView();
+			this.Column1 = new System.Windows.Forms.DataGridViewImageColumn();
+			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).BeginInit();
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -193,42 +198,51 @@
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.itemdesc_picture);
 			this.groupBox2.Controls.Add(this.TB_itemdescinfo);
-			this.groupBox2.Location = new System.Drawing.Point(259, 7);
+			this.groupBox2.Location = new System.Drawing.Point(297, 6);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(737, 538);
+			this.groupBox2.Size = new System.Drawing.Size(699, 539);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "ItemDesc Info";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(586, 21);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(60, 13);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Tile Picture";
+			// 
+			// itemdesc_picture
+			// 
+			this.itemdesc_picture.BackColor = System.Drawing.Color.Black;
+			this.itemdesc_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.itemdesc_picture.Location = new System.Drawing.Point(534, 48);
+			this.itemdesc_picture.Name = "itemdesc_picture";
+			this.itemdesc_picture.Size = new System.Drawing.Size(159, 151);
+			this.itemdesc_picture.TabIndex = 1;
+			this.itemdesc_picture.TabStop = false;
 			// 
 			// TB_itemdescinfo
 			// 
 			this.TB_itemdescinfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_itemdescinfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_itemdescinfo.Location = new System.Drawing.Point(7, 19);
+			this.TB_itemdescinfo.Location = new System.Drawing.Point(6, 19);
 			this.TB_itemdescinfo.Multiline = true;
 			this.TB_itemdescinfo.Name = "TB_itemdescinfo";
-			this.TB_itemdescinfo.Size = new System.Drawing.Size(559, 512);
+			this.TB_itemdescinfo.Size = new System.Drawing.Size(525, 512);
 			this.TB_itemdescinfo.TabIndex = 0;
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.listBox1);
-			this.groupBox1.Location = new System.Drawing.Point(9, 7);
+			this.groupBox1.Controls.Add(this.itemdesc_datagrid);
+			this.groupBox1.Location = new System.Drawing.Point(9, 6);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(243, 538);
+			this.groupBox1.Size = new System.Drawing.Size(282, 539);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Itemdesc Entries";
-			// 
-			// listBox1
-			// 
-			this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(7, 20);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(230, 511);
-			this.listBox1.TabIndex = 0;
-			this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
 			// 
 			// tabPage3
 			// 
@@ -241,79 +255,6 @@
 			this.tabPage3.Size = new System.Drawing.Size(1004, 551);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Materials";
-			// 
-			// tabPage4
-			// 
-			this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage4.Location = new System.Drawing.Point(4, 22);
-			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage4.TabIndex = 3;
-			this.tabPage4.Text = "ToolOnMaterial";
-			// 
-			// tabPage5
-			// 
-			this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "CraftMenus";
-			// 
-			// tabPage6
-			// 
-			this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage6.Location = new System.Drawing.Point(4, 22);
-			this.tabPage6.Name = "tabPage6";
-			this.tabPage6.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage6.TabIndex = 5;
-			this.tabPage6.Text = "CraftItems";
-			// 
-			// tabPage7
-			// 
-			this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage7.Location = new System.Drawing.Point(4, 22);
-			this.tabPage7.Name = "tabPage7";
-			this.tabPage7.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage7.TabIndex = 6;
-			this.tabPage7.Text = "Craft Tree";
-			// 
-			// itemdesc_picture
-			// 
-			this.itemdesc_picture.BackColor = System.Drawing.Color.Black;
-			this.itemdesc_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.itemdesc_picture.Location = new System.Drawing.Point(572, 37);
-			this.itemdesc_picture.Name = "itemdesc_picture";
-			this.itemdesc_picture.Size = new System.Drawing.Size(159, 151);
-			this.itemdesc_picture.TabIndex = 1;
-			this.itemdesc_picture.TabStop = false;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(619, 21);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(60, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Tile Picture";
-			// 
-			// materials_tree_view
-			// 
-			this.materials_tree_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.materials_tree_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.materials_tree_view.Location = new System.Drawing.Point(8, 25);
-			this.materials_tree_view.Name = "materials_tree_view";
-			this.materials_tree_view.Size = new System.Drawing.Size(322, 523);
-			this.materials_tree_view.TabIndex = 0;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(8, 9);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(49, 13);
-			this.label2.TabIndex = 1;
-			this.label2.Text = "Materials";
 			// 
 			// groupBox3
 			// 
@@ -356,6 +297,118 @@
 			this.materials_textbox.Size = new System.Drawing.Size(483, 510);
 			this.materials_textbox.TabIndex = 0;
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(8, 9);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(49, 13);
+			this.label2.TabIndex = 1;
+			this.label2.Text = "Materials";
+			// 
+			// materials_tree_view
+			// 
+			this.materials_tree_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.materials_tree_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_tree_view.Location = new System.Drawing.Point(8, 25);
+			this.materials_tree_view.Name = "materials_tree_view";
+			this.materials_tree_view.Size = new System.Drawing.Size(322, 523);
+			this.materials_tree_view.TabIndex = 0;
+			// 
+			// tabPage4
+			// 
+			this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage4.Location = new System.Drawing.Point(4, 22);
+			this.tabPage4.Name = "tabPage4";
+			this.tabPage4.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage4.TabIndex = 3;
+			this.tabPage4.Text = "ToolOnMaterial";
+			// 
+			// tabPage5
+			// 
+			this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage5.Location = new System.Drawing.Point(4, 22);
+			this.tabPage5.Name = "tabPage5";
+			this.tabPage5.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage5.TabIndex = 4;
+			this.tabPage5.Text = "CraftMenus";
+			// 
+			// tabPage6
+			// 
+			this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage6.Location = new System.Drawing.Point(4, 22);
+			this.tabPage6.Name = "tabPage6";
+			this.tabPage6.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage6.TabIndex = 5;
+			this.tabPage6.Text = "CraftItems";
+			// 
+			// tabPage7
+			// 
+			this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage7.Location = new System.Drawing.Point(4, 22);
+			this.tabPage7.Name = "tabPage7";
+			this.tabPage7.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage7.TabIndex = 6;
+			this.tabPage7.Text = "Craft Tree";
+			// 
+			// itemdesc_datagrid
+			// 
+			this.itemdesc_datagrid.AllowUserToAddRows = false;
+			this.itemdesc_datagrid.AllowUserToDeleteRows = false;
+			this.itemdesc_datagrid.AllowUserToOrderColumns = true;
+			this.itemdesc_datagrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.itemdesc_datagrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.itemdesc_datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.itemdesc_datagrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
+			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
+			this.itemdesc_datagrid.Name = "itemdesc_datagrid";
+			this.itemdesc_datagrid.ReadOnly = true;
+			this.itemdesc_datagrid.RowHeadersVisible = false;
+			this.itemdesc_datagrid.RowHeadersWidth = 25;
+			this.itemdesc_datagrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			this.itemdesc_datagrid.RowTemplate.Height = 20;
+			this.itemdesc_datagrid.RowTemplate.ReadOnly = true;
+			this.itemdesc_datagrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.itemdesc_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.itemdesc_datagrid.Size = new System.Drawing.Size(270, 512);
+			this.itemdesc_datagrid.TabIndex = 5;
+			// 
+			// Column1
+			// 
+			this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column1.HeaderText = "Picture";
+			this.Column1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+			this.Column1.MinimumWidth = 55;
+			this.Column1.Name = "Column1";
+			this.Column1.ReadOnly = true;
+			this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.Column1.Width = 55;
+			// 
+			// Column2
+			// 
+			this.Column2.HeaderText = "ObjType";
+			this.Column2.Name = "Column2";
+			this.Column2.ReadOnly = true;
+			// 
+			// Column3
+			// 
+			this.Column3.HeaderText = "Item Name";
+			this.Column3.Name = "Column3";
+			this.Column3.ReadOnly = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,13 +430,14 @@
 			this.tabPage2.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).EndInit();
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -410,7 +464,6 @@
 		private System.Windows.Forms.TabPage tabPage7;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.TextBox TB_itemdescinfo;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.PictureBox itemdesc_picture;
@@ -420,6 +473,10 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.PictureBox materials_picture;
 		private System.Windows.Forms.TextBox materials_textbox;
+		private System.Windows.Forms.DataGridView itemdesc_datagrid;
+		private System.Windows.Forms.DataGridViewImageColumn Column1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 	}
 }
 
