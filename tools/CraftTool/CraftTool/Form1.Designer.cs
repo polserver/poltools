@@ -381,7 +381,6 @@
 			this.itemdesc_datagrid.RowTemplate.Height = 20;
 			this.itemdesc_datagrid.RowTemplate.ReadOnly = true;
 			this.itemdesc_datagrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.itemdesc_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.itemdesc_datagrid.Size = new System.Drawing.Size(270, 512);
 			this.itemdesc_datagrid.TabIndex = 5;
