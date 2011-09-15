@@ -256,8 +256,13 @@ namespace CraftTool
 			picker.ShowDialog(this);
 			if (picker.DialogResult != DialogResult.OK)
 				return;
+			else if (PackageCache.GetPackage(picker.text) == null)
+			{
+				MessageBox.Show("Invalid package name '" + picker.text + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
-			materials_tree_view.Nodes.Add(":" + picker.text + ":materials.cfg");
+			materials_tree_view.Nodes.Add(picker.text, ":" + picker.text + ":materials.cfg");
 
 			POLPackage pkg = PackageCache.GetPackage(picker.text);
 			string filepath = pkg.path+@"\config\materials.cfg";
@@ -346,6 +351,7 @@ namespace CraftTool
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
+			/*
 			// First figure out if any existing configs need to be deleted.
 			foreach (POLPackage package in PackageCache.Global.packagelist)
 			{
@@ -366,6 +372,17 @@ namespace CraftTool
 				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
 				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 				ConfigRepository.WriteConfigFile(config_file);
+			}*/
+
+			foreach (TreeNode node in materials_tree_view.Nodes)
+			{
+				if (node.Parent != null)
+					continue;
+				POLPackage package = PackageCache.GetPackage(node.Name);
+				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
+				if (materials_cfg_path == null) // File doesnt already exist.
+					materials_cfg_path = package.path + @"\config\materials.cfg";
+				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 			}
 
 			MessageBox.Show("Done", "Materials.cfg", MessageBoxButtons.OK, MessageBoxIcon.Information);
