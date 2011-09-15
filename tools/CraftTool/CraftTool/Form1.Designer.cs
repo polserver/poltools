@@ -56,6 +56,7 @@
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.BTN_materials_update = new System.Windows.Forms.Button();
 			this.combobox_materials_changeto = new System.Windows.Forms.ComboBox();
 			this.label12 = new System.Windows.Forms.Label();
 			this.TB_materials_createdscript = new System.Windows.Forms.TextBox();
@@ -83,10 +84,12 @@
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.materials_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.createNewConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.addNewElementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
-			this.BTN_materials_update = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -102,6 +105,7 @@
 			this.tabPage4.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_picture)).BeginInit();
+			this.materials_context_strip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -419,6 +423,15 @@
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Fields";
 			// 
+			// BTN_materials_update
+			// 
+			this.BTN_materials_update.Location = new System.Drawing.Point(134, 188);
+			this.BTN_materials_update.Name = "BTN_materials_update";
+			this.BTN_materials_update.Size = new System.Drawing.Size(75, 23);
+			this.BTN_materials_update.TabIndex = 15;
+			this.BTN_materials_update.Text = "Update";
+			this.BTN_materials_update.UseVisualStyleBackColor = true;
+			// 
 			// combobox_materials_changeto
 			// 
 			this.combobox_materials_changeto.AutoCompleteCustomSource.AddRange(new string[] {
@@ -551,6 +564,7 @@
 			// 
 			this.materials_tree_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.materials_tree_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_tree_view.ContextMenuStrip = this.materials_context_strip;
 			this.materials_tree_view.HotTracking = true;
 			this.materials_tree_view.Location = new System.Drawing.Point(8, 22);
 			this.materials_tree_view.Name = "materials_tree_view";
@@ -679,6 +693,28 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
+			// materials_context_strip
+			// 
+			this.materials_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createNewConfigToolStripMenuItem,
+            this.addNewElementToolStripMenuItem});
+			this.materials_context_strip.Name = "materials_context_strip";
+			this.materials_context_strip.Size = new System.Drawing.Size(175, 70);
+			// 
+			// createNewConfigToolStripMenuItem
+			// 
+			this.createNewConfigToolStripMenuItem.Name = "createNewConfigToolStripMenuItem";
+			this.createNewConfigToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+			this.createNewConfigToolStripMenuItem.Text = "Create New Config";
+			this.createNewConfigToolStripMenuItem.Click += new System.EventHandler(this.createNewConfigToolStripMenuItem_Click);
+			// 
+			// addNewElementToolStripMenuItem
+			// 
+			this.addNewElementToolStripMenuItem.Name = "addNewElementToolStripMenuItem";
+			this.addNewElementToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+			this.addNewElementToolStripMenuItem.Text = "Add New Element";
+			this.addNewElementToolStripMenuItem.Click += new System.EventHandler(this.addNewElementToolStripMenuItem_Click);
+			// 
 			// TB_materials_quality
 			// 
 			this.TB_materials_quality.AllowSpace = false;
@@ -711,15 +747,6 @@
 			this.TB_materials_color.Size = new System.Drawing.Size(174, 20);
 			this.TB_materials_color.TabIndex = 6;
 			this.toolTip1.SetToolTip(this.TB_materials_color, "If set, will override the materials itemdesc.cfg color entry.");
-			// 
-			// BTN_materials_update
-			// 
-			this.BTN_materials_update.Location = new System.Drawing.Point(134, 188);
-			this.BTN_materials_update.Name = "BTN_materials_update";
-			this.BTN_materials_update.Size = new System.Drawing.Size(75, 23);
-			this.BTN_materials_update.TabIndex = 15;
-			this.BTN_materials_update.Text = "Update";
-			this.BTN_materials_update.UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
@@ -755,6 +782,7 @@
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_picture)).EndInit();
+			this.materials_context_strip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -818,6 +846,9 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Button BTN_materials_update;
+		private System.Windows.Forms.ContextMenuStrip materials_context_strip;
+		private System.Windows.Forms.ToolStripMenuItem createNewConfigToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem addNewElementToolStripMenuItem;
 	}
 }
 
