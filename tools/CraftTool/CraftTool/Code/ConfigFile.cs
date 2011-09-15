@@ -339,6 +339,7 @@ namespace ConfigUtil
 
 		public bool PropertyExists(string key)
 		{
+			key = key.ToLower();
 			foreach (CfgPair pair in _cfgpairs)
 			{
 				if (pair.first.ToLower() == key)
@@ -451,6 +452,7 @@ namespace ConfigUtil
 
 		public bool PropertyExists(string key)
 		{
+			key = key.ToLower();
 			foreach (CfgPair pair in _cfgpairs)
 			{
 				if ( pair.first.ToLower() == key )

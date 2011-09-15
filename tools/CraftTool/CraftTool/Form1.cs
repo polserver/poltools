@@ -111,13 +111,20 @@ namespace CraftTool
 			List<ConfigElem> config_elems = ConfigRepository.global.GetElemsForConfigFile("itemdesc.cfg");
 			foreach (ConfigElem config_elem in config_elems)
 			{
-				listBox1.Items.Add(config_elem.name);
+				string elem_name = config_elem.name;
+				if (config_elem.PropertyExists("name"))
+					elem_name += "     [" + config_elem.GetConfigString("name") + "]";
+
+				listBox1.Items.Add(elem_name);
 			}
 		}
 
 		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			ConfigElem config_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", listBox1.SelectedItem.ToString());
+			string selected_name = listBox1.SelectedItem.ToString();
+			string[] split = selected_name.Split(new char[] { ' ', '\t' });
+			MessageBox.Show(split[0]);
+			ConfigElem config_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", split[0]);
 			TB_itemdescinfo.Clear();
 			foreach (string propname in config_elem.ListConfigElemProperties())
 			{
@@ -137,15 +144,17 @@ namespace CraftTool
 					continue;
 
 				TreeNode pkg_node = materials_tree_view.Nodes.Add(package.name);
-				ConfigFile materials_cofng = package.LoadPackagedConfig("materials.cfg");
+				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
+				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
+				{
+					ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", cfg_elem.name);
+					string nodename = cfg_elem.name;
+					if (itemdesc_elem.PropertyExists("Name"))
+						nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+
+					pkg_node.Nodes.Add(nodename);
+				}
 			}
-			/*
-			List<ConfigElem> config_elems = ConfigRepository.global.GetElemsForConfigFile("materials.cfg");
-			foreach (ConfigElem config_elem in config_elems)
-			{
-				materials_tree_view.Nodes.Add(config_elem.name);
-			}
-			 * */
-		}
+		}		
 	}
 }
