@@ -132,6 +132,8 @@ namespace CraftTool
 
 		private void itemdesc_datagrid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
+			TB_itemdescinfo.Clear();
+
 			DataGridViewRow row = itemdesc_datagrid.Rows[e.RowIndex];
 			ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", row.Cells[1].Value.ToString());
 			foreach (string propname in itemdesc_elem.ListConfigElemProperties())
@@ -142,13 +144,9 @@ namespace CraftTool
 				}
 			}
 
+			label4.Text = itemdesc_elem.configfile.fullpath;
 			itemdesc_picture.Image = (Bitmap)row.Cells[0].Value;
 		}
-
-		private void itemdesc_datagrid_RowLeave(object sender, DataGridViewCellEventArgs e)
-		{
-			TB_itemdescinfo.Clear();
-		}	
 
 		public void PopulateMaterials()
 		{
@@ -170,6 +168,11 @@ namespace CraftTool
 					pkg_node.Nodes.Add(nodename);
 				}
 			}
+		}
+
+		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+
 		}	
 	}
 }
