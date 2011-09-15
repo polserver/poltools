@@ -55,7 +55,7 @@ namespace CraftTool
 				return;
 			}
 			TB_loadoutput.AppendText("Checking for packages... ");
-			_packages = POLTools.Package.POLPackage.GetEnabledPackages(Settings.Global.rootdir);
+			_packages = POLTools.Package.PackageCache.GetEnabledPackages(Settings.Global.rootdir);
 			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + _packages.Count + Environment.NewLine);
 
 			string[] file_names = { "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg" };
