@@ -46,6 +46,10 @@
 			this.itemdesc_picture = new System.Windows.Forms.PictureBox();
 			this.TB_itemdescinfo = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.itemdesc_datagrid = new System.Windows.Forms.DataGridView();
+			this.Column1 = new System.Windows.Forms.DataGridViewImageColumn();
+			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.label3 = new System.Windows.Forms.Label();
@@ -57,10 +61,6 @@
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this.itemdesc_datagrid = new System.Windows.Forms.DataGridView();
-			this.Column1 = new System.Windows.Forms.DataGridViewImageColumn();
-			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -68,10 +68,10 @@
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).BeginInit();
 			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).BeginInit();
 			this.tabPage3.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -244,6 +244,64 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Itemdesc Entries";
 			// 
+			// itemdesc_datagrid
+			// 
+			this.itemdesc_datagrid.AllowUserToAddRows = false;
+			this.itemdesc_datagrid.AllowUserToDeleteRows = false;
+			this.itemdesc_datagrid.AllowUserToOrderColumns = true;
+			this.itemdesc_datagrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.itemdesc_datagrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this.itemdesc_datagrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.itemdesc_datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.itemdesc_datagrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
+			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
+			this.itemdesc_datagrid.Name = "itemdesc_datagrid";
+			this.itemdesc_datagrid.ReadOnly = true;
+			this.itemdesc_datagrid.RowHeadersVisible = false;
+			this.itemdesc_datagrid.RowHeadersWidth = 25;
+			this.itemdesc_datagrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			this.itemdesc_datagrid.RowTemplate.Height = 20;
+			this.itemdesc_datagrid.RowTemplate.ReadOnly = true;
+			this.itemdesc_datagrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.itemdesc_datagrid.Size = new System.Drawing.Size(270, 512);
+			this.itemdesc_datagrid.TabIndex = 5;
+			// 
+			// Column1
+			// 
+			this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column1.HeaderText = "Picture";
+			this.Column1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+			this.Column1.MinimumWidth = 55;
+			this.Column1.Name = "Column1";
+			this.Column1.ReadOnly = true;
+			this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.Column1.Width = 55;
+			// 
+			// Column2
+			// 
+			this.Column2.HeaderText = "ObjType";
+			this.Column2.Name = "Column2";
+			this.Column2.ReadOnly = true;
+			// 
+			// Column3
+			// 
+			this.Column3.HeaderText = "Item Name";
+			this.Column3.Name = "Column3";
+			this.Column3.ReadOnly = true;
+			// 
 			// tabPage3
 			// 
 			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
@@ -351,63 +409,6 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// itemdesc_datagrid
-			// 
-			this.itemdesc_datagrid.AllowUserToAddRows = false;
-			this.itemdesc_datagrid.AllowUserToDeleteRows = false;
-			this.itemdesc_datagrid.AllowUserToOrderColumns = true;
-			this.itemdesc_datagrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.itemdesc_datagrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.itemdesc_datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.itemdesc_datagrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
-			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
-			this.itemdesc_datagrid.Name = "itemdesc_datagrid";
-			this.itemdesc_datagrid.ReadOnly = true;
-			this.itemdesc_datagrid.RowHeadersVisible = false;
-			this.itemdesc_datagrid.RowHeadersWidth = 25;
-			this.itemdesc_datagrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-			this.itemdesc_datagrid.RowTemplate.Height = 20;
-			this.itemdesc_datagrid.RowTemplate.ReadOnly = true;
-			this.itemdesc_datagrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.itemdesc_datagrid.Size = new System.Drawing.Size(270, 512);
-			this.itemdesc_datagrid.TabIndex = 5;
-			// 
-			// Column1
-			// 
-			this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.Column1.HeaderText = "Picture";
-			this.Column1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-			this.Column1.MinimumWidth = 55;
-			this.Column1.Name = "Column1";
-			this.Column1.ReadOnly = true;
-			this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.Column1.Width = 55;
-			// 
-			// Column2
-			// 
-			this.Column2.HeaderText = "ObjType";
-			this.Column2.Name = "Column2";
-			this.Column2.ReadOnly = true;
-			// 
-			// Column3
-			// 
-			this.Column3.HeaderText = "Item Name";
-			this.Column3.Name = "Column3";
-			this.Column3.ReadOnly = true;
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -431,12 +432,12 @@
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).EndInit();
 			this.groupBox1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).EndInit();
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
