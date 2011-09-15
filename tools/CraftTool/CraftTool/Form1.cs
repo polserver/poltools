@@ -203,10 +203,6 @@ namespace CraftTool
 			return added;
 		}
 
-		private void RemoveMaterialsTreeNode(TreeNode child)
-		{
-		}
-		
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
@@ -244,6 +240,12 @@ namespace CraftTool
 				int pos = itemdesc_names.IndexOf(materials_elem.GetConfigString("ChangeTo"));
 				combobox_materials_changeto.SelectedIndex = pos+1; // Account for 'None'
 			}
+		}
+
+		private void materials_context_strip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			TreeNode selected = materials_tree_view.SelectedNode;
+
 		}
 
 		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
@@ -293,6 +295,12 @@ namespace CraftTool
 			AddMaterialsObjType(selected, picker.text);
 		}
 
+		private void RemoveMaterialNode(TreeNode node, ConfigFile material_cfg)
+		{
+			material_cfg.RemoveConfigElement(node.Name);
+			materials_tree_view.Nodes.Remove(node);
+		}
+
 		private void removeElementToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
@@ -301,11 +309,29 @@ namespace CraftTool
 				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			TreeNodeCollection children = selected.Nodes;
-			foreach (TreeNode child in children)
+			TreeNode parent = selected;
+			while (parent.Parent != null)
 			{
-				RemoveMaterialsTreeNode(child);
+				parent = parent.Parent;
 			}
+
+			string package_name = POLPackage.ParsePackageName(parent.Text);
+			POLPackage package = PackageCache.GetPackage(package_name);
+			ConfigFile materials_cfg;
+			string config_path = package.GetPackagedConfigPath("materials.cfg");
+			if (config_path == null) // Its a pseudo config & elem at this point then. (Not on disk)
+				config_path = package.path + @"\config\materials.cfg";
+			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
+
+			if (parent == selected)
+			{
+				foreach (TreeNode child in selected.Nodes)
+				{
+					RemoveMaterialNode(selected, materials_cfg);
+				}
+			}
+			RemoveMaterialNode(selected, materials_cfg);
+			ConfigRepository.global.UnloadConfigFile(config_path);
 		}
 		#endregion
 
@@ -354,6 +380,5 @@ namespace CraftTool
 			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
 		#endregion
-
 	}
 }
