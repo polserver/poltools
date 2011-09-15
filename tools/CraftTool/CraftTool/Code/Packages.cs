@@ -140,7 +140,7 @@ namespace POLTools.Package
 
 		private void Initialize()
 		{
-			Global._packages = new Dictionary<string, POLPackage>();
+			Global._packages = new Dictionary<string, POLPackage>(StringComparer.OrdinalIgnoreCase);
 		}
 
 		public static POLPackage GetPackage(string name)
