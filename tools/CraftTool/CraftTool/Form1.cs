@@ -280,8 +280,16 @@ namespace CraftTool
 			
 			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a material", ItemdescCache.Global.GetAllObjTypes());
 			picker.ShowDialog(this);
-			if (picker.DialogResult != DialogResult.OK)
+			if (picker.result != DialogResult.OK)
 				return;
+			else
+			{
+				if (ItemdescCache.Global.GetElemForObjType(picker.text) == null)
+				{
+					MessageBox.Show("Invalid object type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+			}
 
 			string package_name = POLPackage.ParsePackageName(selected.Text);
 			POLPackage package = PackageCache.GetPackage(package_name);
