@@ -47,31 +47,31 @@ namespace CraftTool
 
 		public ConfigFile configfile
 		{
-			get { return _settings_config; }
+			get { return Global._settings_config; }
 		}
 
 		public ConfigElem settingselem
 		{
-			get { return _settings_elem; }
+			get { return Global._settings_elem; }
 		}
 
 		public string rootdir
 		{
-			get { return _root_dir; }
-			set { _root_dir = value; }
+			get { return Global._root_dir; }
+			set { Global._root_dir = value; }
 		}
 
 		public bool LoadSettings()
 		{
-			_settings_config = new ConfigFile(_filepath);
-			if (File.Exists(_filepath))
-				_settings_config.ReadConfigFile();
+			_settings_config = new ConfigFile(Global._filepath);
+			if (File.Exists(Global._filepath))
+				Global._settings_config.ReadConfigFile();
 			else
-				_settings_config.ReadConfigFile(global::CraftTool.Properties.Resources.craftToolSettings);
+				Global._settings_config.ReadConfigFile(global::CraftTool.Properties.Resources.craftToolSettings);
 			
-			_settings_elem = _settings_config.GetConfigElem("Settings");
+			Global._settings_elem = Global._settings_config.GetConfigElem("Settings");
 
-			_root_dir = _settings_elem.GetConfigString("POLPath");
+			Global._root_dir = Global._settings_elem.GetConfigString("POLPath");
 
 			return true;
 		}
