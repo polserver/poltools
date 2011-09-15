@@ -223,7 +223,14 @@ namespace ConfigUtil
 		{
 			if (File.Exists(this.fullpath))
 			{
-				File.Delete(this.fullpath);
+				try
+				{
+					File.Delete(this.fullpath);
+				}
+				catch
+				{
+					return false;
+				}
 				return true;
 			}
 			return false;

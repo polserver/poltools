@@ -183,7 +183,7 @@ namespace CraftTool
 				if (materials_cfg_path == null)
 					continue;
 
-				TreeNode pkg_node = materials_tree_view.Nodes.Add(":"+package.name+":materials.cfg");
+				TreeNode pkg_node = materials_tree_view.Nodes.Add(package.name, ":"+package.name+":materials.cfg");
 				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
 				{
@@ -338,7 +338,29 @@ namespace CraftTool
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
-			
+			// First figure out if any existing configs need to be deleted.
+			foreach (POLPackage package in PackageCache.Global.packagelist)
+			{
+				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
+				if (materials_cfg_path == null)
+					continue;
+				bool loaded = ConfigRepository.global.IsPathCached(materials_cfg_path);
+				if (!loaded) // Delete
+					File.Delete(materials_cfg_path);
+			}
+
+			// Write the tree information to the config files.
+			foreach (TreeNode node in materials_tree_view.Nodes)
+			{
+				if (node.Parent != null)
+					continue;
+				POLPackage package = PackageCache.GetPackage(node.Name);
+				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
+				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
+				ConfigRepository.WriteConfigFile(config_file);
+			}
+
+			MessageBox.Show("Done", "Materials.cfg", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	
 		#endregion
