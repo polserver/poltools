@@ -338,8 +338,7 @@ namespace CraftTool
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
-			ConfigFile config_file = ConfigRepository.global.LoadConfigFile(@"E:\UOL\Mytharria\Shard\pkg\items\ores\config\materials.cfg");
-			ConfigRepository.global.WriteConfigFile(config_file);
+			
 		}
 	
 		#endregion
