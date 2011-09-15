@@ -41,13 +41,18 @@ namespace POLTools.Itemdesc
 		}
 		private void Initialize()
 		{
-			_objtypes = new Dictionary<string, string>();
-			_itemdesc = new Dictionary<string, ConfigElem>();
+			_objtypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+			_itemdesc = new Dictionary<string, ConfigElem>(StringComparer.OrdinalIgnoreCase);
 		}
 
 		public List<ConfigElem> GetAllObjTypeElems()
 		{
-			return new List<ConfigElem>(_itemdesc.Values);
+			return new List<ConfigElem>(Global._itemdesc.Values);
+		}
+
+		public List<string> GetAllObjTypeNames()
+		{
+			return new List<string>(Global._objtypes.Keys);
 		}
 
 		public string GetObjTypeByName(string name)
@@ -66,8 +71,8 @@ namespace POLTools.Itemdesc
 
 		public bool LoadItemdescFiles()
 		{
-			_objtypes.Clear();
-			_itemdesc.Clear();
+			Global._objtypes.Clear();
+			Global._itemdesc.Clear();
 
 			foreach (POLPackage package in PackageCache.Global.packagelist)
 			{

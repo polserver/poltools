@@ -125,8 +125,17 @@ namespace CraftTool
 			{
 				string item_name = string.Empty;
 				if (config_elem.PropertyExists("name"))
-					item_name = config_elem.GetConfigString("name");
-
+				{
+					int count = 0;
+					List<string> name_entries = config_elem.GetConfigStringList("name");
+					foreach (string name in name_entries)
+					{
+						if (count > 0)
+							item_name += ", ";
+						item_name += name;
+						count++;
+					}
+				}
 				Object[] row = new Object[3];
 				row[0] = global::CraftTool.Properties.Resources.unused;
 				row[1] = config_elem.name;
@@ -202,8 +211,26 @@ namespace CraftTool
 					materials_textbox.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
-
 			materials_picture.Image = global::CraftTool.Properties.Resources.unused;
+			if (materials_elem.PropertyExists("Category"))
+				TB_materials_category.Text = materials_elem.GetConfigString("Category");
+			if (materials_elem.PropertyExists("Color"))
+				TB_materials_color.Text = materials_elem.GetConfigString("Color");
+			if (materials_elem.PropertyExists("Difficulty"))
+				TB_materials_difficulty.Text = materials_elem.GetConfigString("Difficulty");
+			if (materials_elem.PropertyExists("Quality"))
+				TB_materials_quality.Text = materials_elem.GetConfigString("Quality");
+			if (materials_elem.PropertyExists("CreatedScript"))
+				TB_materials_createdscript.Text = materials_elem.GetConfigString("CreatedScript");
+
+			List<string> itemdesc_names = ItemdescCache.Global.GetAllObjTypeNames();
+			combobox_materials_changeto.Items.AddRange(itemdesc_names.ToArray());
+			if (materials_elem.PropertyExists("ChangeTo"))
+			{
+				string changeto = materials_elem.GetConfigString("ChangeTo").ToLower();
+				int pos = itemdesc_names.IndexOf(materials_elem.GetConfigString("ChangeTo"));
+				combobox_materials_changeto.SelectedIndex = pos+1; // Account for 'None'
+			}
 		}
 
 		public void PopulateToolOnMaterial()
