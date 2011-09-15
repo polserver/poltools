@@ -76,9 +76,16 @@ namespace ConfigUtil
 			return names;
 		}
 
-		public ConfigElem GetConfigElem(string elem_name)
+		public bool ElemNameExists(string elem_name)
 		{
 			if (!_cfgelems.Exists(delegate(ConfigElem n) { return n.name == elem_name; }))
+				return false;
+			return true;
+		}
+
+		public ConfigElem GetConfigElem(string elem_name)
+		{
+			if (!ElemNameExists(elem_name))
 				throw new Exception("Could not find config element '" + elem_name + "'");
 
 			return _cfgelems.Find(item => item.name == elem_name);
@@ -178,6 +185,19 @@ namespace ConfigUtil
 		{
 			elem.configfile = this;
 			_cfgelems.Add(elem);
+		}
+
+		public bool RemoveConfigElement(string elem_name)
+		{
+			if ( !this.ElemNameExists(elem_name) )
+				return false;
+			ConfigElem elem = this.GetConfigElem(elem_name);
+			return RemoveConfigElement(elem);
+		}
+
+		public bool RemoveConfigElement(ConfigElem elem)
+		{
+			return _cfgelems.Remove(elem);
 		}
 		
 		public override string ToString()
