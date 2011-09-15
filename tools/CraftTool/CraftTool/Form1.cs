@@ -276,5 +276,15 @@ namespace CraftTool
 
 			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
+
+		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
