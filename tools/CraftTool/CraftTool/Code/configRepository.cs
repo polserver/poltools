@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ConfigUtil;
 using POLTools.Package;
+using System.Text;
 using System.Windows.Forms;
 
 namespace POLTools.ConfigRepository
@@ -116,6 +117,26 @@ namespace POLTools.ConfigRepository
 			}
 
 			return null;
+		}
+
+		public string WriteConfigFile(ConfigFile cfg_file)
+		{
+			StringBuilder newfile = new StringBuilder();
+
+			foreach ( ConfigElem elem in cfg_file.GetConfigElemRefs() )
+			{
+				newfile.AppendLine(elem.name);
+				newfile.AppendLine("{");
+				foreach (string name in elem.ListConfigElemProperties())
+				{
+					foreach (string value in elem.GetConfigStringList(name))
+					{
+						newfile.AppendLine("\t" + name + "\t" + value);
+					}
+				}
+				newfile.AppendLine("}");
+			}
+			return newfile.ToString();
 		}
 	}
 }

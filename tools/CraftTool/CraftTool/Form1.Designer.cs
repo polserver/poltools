@@ -74,6 +74,7 @@
 			this.materials_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.createNewConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.addNewElementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.removeElementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -87,7 +88,7 @@
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.removeElementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.BTN_materials_write = new System.Windows.Forms.Button();
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
@@ -104,6 +105,7 @@
 			this.groupBox7.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).BeginInit();
 			this.materials_context_strip.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_picture)).BeginInit();
@@ -418,16 +420,16 @@
 			this.groupBox7.Controls.Add(this.label8);
 			this.groupBox7.Controls.Add(this.label2);
 			this.groupBox7.Controls.Add(this.TB_materials_category);
-			this.groupBox7.Location = new System.Drawing.Point(6, 195);
+			this.groupBox7.Location = new System.Drawing.Point(183, 229);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(648, 344);
+			this.groupBox7.Size = new System.Drawing.Size(294, 245);
 			this.groupBox7.TabIndex = 4;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Fields";
 			// 
 			// BTN_materials_update
 			// 
-			this.BTN_materials_update.Location = new System.Drawing.Point(134, 188);
+			this.BTN_materials_update.Location = new System.Drawing.Point(110, 188);
 			this.BTN_materials_update.Name = "BTN_materials_update";
 			this.BTN_materials_update.Size = new System.Drawing.Size(75, 23);
 			this.BTN_materials_update.TabIndex = 15;
@@ -442,7 +444,7 @@
 			this.combobox_materials_changeto.FormattingEnabled = true;
 			this.combobox_materials_changeto.Items.AddRange(new object[] {
             "None"});
-			this.combobox_materials_changeto.Location = new System.Drawing.Point(84, 121);
+			this.combobox_materials_changeto.Location = new System.Drawing.Point(99, 121);
 			this.combobox_materials_changeto.Name = "combobox_materials_changeto";
 			this.combobox_materials_changeto.Size = new System.Drawing.Size(174, 21);
 			this.combobox_materials_changeto.TabIndex = 14;
@@ -451,7 +453,7 @@
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(7, 150);
+			this.label12.Location = new System.Drawing.Point(22, 150);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(74, 13);
 			this.label12.TabIndex = 13;
@@ -461,7 +463,7 @@
 			// 
 			this.TB_materials_createdscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_materials_createdscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_createdscript.Location = new System.Drawing.Point(84, 148);
+			this.TB_materials_createdscript.Location = new System.Drawing.Point(99, 148);
 			this.TB_materials_createdscript.Name = "TB_materials_createdscript";
 			this.TB_materials_createdscript.Size = new System.Drawing.Size(174, 20);
 			this.TB_materials_createdscript.TabIndex = 12;
@@ -470,7 +472,7 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(7, 124);
+			this.label11.Location = new System.Drawing.Point(22, 124);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(60, 13);
 			this.label11.TabIndex = 11;
@@ -479,7 +481,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(7, 98);
+			this.label10.Location = new System.Drawing.Point(22, 98);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(63, 13);
 			this.label10.TabIndex = 8;
@@ -488,7 +490,7 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(7, 72);
+			this.label9.Location = new System.Drawing.Point(22, 72);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(71, 13);
 			this.label9.TabIndex = 5;
@@ -497,7 +499,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(7, 46);
+			this.label8.Location = new System.Drawing.Point(22, 46);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(31, 13);
 			this.label8.TabIndex = 3;
@@ -506,7 +508,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(7, 20);
+			this.label2.Location = new System.Drawing.Point(22, 20);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(49, 13);
 			this.label2.TabIndex = 1;
@@ -516,7 +518,7 @@
 			// 
 			this.TB_materials_category.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_materials_category.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_category.Location = new System.Drawing.Point(84, 18);
+			this.TB_materials_category.Location = new System.Drawing.Point(99, 18);
 			this.TB_materials_category.Name = "TB_materials_category";
 			this.TB_materials_category.Size = new System.Drawing.Size(174, 20);
 			this.TB_materials_category.TabIndex = 0;
@@ -571,7 +573,7 @@
 			this.materials_tree_view.HotTracking = true;
 			this.materials_tree_view.Location = new System.Drawing.Point(8, 22);
 			this.materials_tree_view.Name = "materials_tree_view";
-			this.materials_tree_view.Size = new System.Drawing.Size(316, 520);
+			this.materials_tree_view.Size = new System.Drawing.Size(316, 491);
 			this.materials_tree_view.TabIndex = 0;
 			this.materials_tree_view.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.materials_tree_view_AfterSelect);
 			// 
@@ -582,7 +584,7 @@
             this.addNewElementToolStripMenuItem,
             this.removeElementToolStripMenuItem});
 			this.materials_context_strip.Name = "materials_context_strip";
-			this.materials_context_strip.Size = new System.Drawing.Size(175, 92);
+			this.materials_context_strip.Size = new System.Drawing.Size(175, 70);
 			this.materials_context_strip.Opening += new System.ComponentModel.CancelEventHandler(this.materials_context_strip_Opening);
 			// 
 			// createNewConfigToolStripMenuItem
@@ -599,8 +601,16 @@
 			this.addNewElementToolStripMenuItem.Text = "&Add New Element";
 			this.addNewElementToolStripMenuItem.Click += new System.EventHandler(this.addNewElementToolStripMenuItem_Click);
 			// 
+			// removeElementToolStripMenuItem
+			// 
+			this.removeElementToolStripMenuItem.Name = "removeElementToolStripMenuItem";
+			this.removeElementToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+			this.removeElementToolStripMenuItem.Text = "&Remove Element";
+			this.removeElementToolStripMenuItem.Click += new System.EventHandler(this.removeElementToolStripMenuItem_Click);
+			// 
 			// groupBox5
 			// 
+			this.groupBox5.Controls.Add(this.BTN_materials_write);
 			this.groupBox5.Location = new System.Drawing.Point(4, 3);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(326, 545);
@@ -720,19 +730,22 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// removeElementToolStripMenuItem
+			// BTN_materials_write
 			// 
-			this.removeElementToolStripMenuItem.Name = "removeElementToolStripMenuItem";
-			this.removeElementToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-			this.removeElementToolStripMenuItem.Text = "&Remove Element";
-			this.removeElementToolStripMenuItem.Click += new System.EventHandler(this.removeElementToolStripMenuItem_Click);
+			this.BTN_materials_write.Location = new System.Drawing.Point(126, 516);
+			this.BTN_materials_write.Name = "BTN_materials_write";
+			this.BTN_materials_write.Size = new System.Drawing.Size(75, 23);
+			this.BTN_materials_write.TabIndex = 0;
+			this.BTN_materials_write.Text = "Write Files";
+			this.BTN_materials_write.UseVisualStyleBackColor = true;
+			this.BTN_materials_write.Click += new System.EventHandler(this.BTN_materials_write_Click);
 			// 
 			// TB_materials_quality
 			// 
 			this.TB_materials_quality.AllowSpace = false;
 			this.TB_materials_quality.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_materials_quality.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_quality.Location = new System.Drawing.Point(84, 96);
+			this.TB_materials_quality.Location = new System.Drawing.Point(99, 96);
 			this.TB_materials_quality.Name = "TB_materials_quality";
 			this.TB_materials_quality.Size = new System.Drawing.Size(174, 20);
 			this.TB_materials_quality.TabIndex = 9;
@@ -743,7 +756,7 @@
 			this.TB_materials_difficulty.AllowSpace = false;
 			this.TB_materials_difficulty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_materials_difficulty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_difficulty.Location = new System.Drawing.Point(84, 70);
+			this.TB_materials_difficulty.Location = new System.Drawing.Point(99, 70);
 			this.TB_materials_difficulty.Name = "TB_materials_difficulty";
 			this.TB_materials_difficulty.Size = new System.Drawing.Size(174, 20);
 			this.TB_materials_difficulty.TabIndex = 7;
@@ -754,7 +767,7 @@
 			this.TB_materials_color.AllowSpace = false;
 			this.TB_materials_color.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_materials_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_color.Location = new System.Drawing.Point(84, 43);
+			this.TB_materials_color.Location = new System.Drawing.Point(99, 43);
 			this.TB_materials_color.Name = "TB_materials_color";
 			this.TB_materials_color.Size = new System.Drawing.Size(174, 20);
 			this.TB_materials_color.TabIndex = 6;
@@ -791,6 +804,7 @@
 			this.groupBox7.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.materials_picture)).EndInit();
 			this.materials_context_strip.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
 			this.tabPage4.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
@@ -862,6 +876,7 @@
 		private System.Windows.Forms.ToolStripMenuItem createNewConfigToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem addNewElementToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem removeElementToolStripMenuItem;
+		private System.Windows.Forms.Button BTN_materials_write;
 	}
 }
 

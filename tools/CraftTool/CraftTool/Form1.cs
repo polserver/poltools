@@ -245,7 +245,6 @@ namespace CraftTool
 		private void materials_context_strip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
-
 		}
 
 		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
@@ -333,6 +332,12 @@ namespace CraftTool
 			RemoveMaterialNode(selected, materials_cfg);
 			ConfigRepository.global.UnloadConfigFile(config_path);
 		}
+
+		private void BTN_materials_write_Click(object sender, EventArgs e)
+		{
+
+		}
+	
 		#endregion
 
 		#region Tool On Material Tab Stuff
@@ -380,5 +385,6 @@ namespace CraftTool
 			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
 		#endregion
+
 	}
 }
