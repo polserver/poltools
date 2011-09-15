@@ -7,6 +7,7 @@ using System.Drawing;
 using POLTools;
 using POLTools.ConfigRepository;
 using POLTools.Package;
+using POLTools.Itemdesc;
 
 namespace CraftTool
 {
@@ -79,6 +80,9 @@ namespace CraftTool
 					}
 				}
 			}
+
+			POLTools.Itemdesc.ItemdescCache.Global.LoadItemdescFiles();
+
 			_data_loaded = true;
 		}
 		
@@ -116,7 +120,7 @@ namespace CraftTool
 
 		private void PopulateItemDesc()
 		{
-			List<ConfigElem> config_elems = ConfigRepository.global.GetElemsForConfigFile("itemdesc.cfg");
+			List<ConfigElem> config_elems = ItemdescCache.Global.GetAllObjTypeElems();
 			foreach (ConfigElem config_elem in config_elems)
 			{
 				string item_name = string.Empty;
@@ -142,7 +146,8 @@ namespace CraftTool
 			TB_itemdescinfo.Clear();
 
 			DataGridViewRow row = itemdesc_datagrid.Rows[e.RowIndex];
-			ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", row.Cells[1].Value.ToString());
+			//ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", row.Cells[1].Value.ToString());
+			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(row.Cells[1].Value.ToString());
 			foreach (string propname in itemdesc_elem.ListConfigElemProperties())
 			{
 				foreach (string value in itemdesc_elem.GetConfigStringList(propname))
