@@ -116,11 +116,10 @@ namespace CraftTool
 					item_name = config_elem.GetConfigString("name");
 
 				Object[] row = new Object[3];
-				row[0] = new System.Drawing.Bitmap(1, 1);
+				row[0] = global::CraftTool.Properties.Resources.unused;
 				row[1] = config_elem.name;
 				row[2] = item_name;
 				itemdesc_datagrid.Rows.Add(row);
-				itemdesc_datagrid.ClearSelection();
 			}
 		}
 		/*

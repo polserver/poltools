@@ -63,13 +63,20 @@ namespace CraftTool.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Elem Settings
         ///{
-        ///	POLPath	C:\
+        ///	POLPath	E:\UOL\Mytharria\Shard
         ///}
         ///.
         /// </summary>
         public static string craftToolSettings {
             get {
                 return ResourceManager.GetString("craftToolSettings", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap unused {
+            get {
+                object obj = ResourceManager.GetObject("unused", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
