@@ -14,7 +14,8 @@ namespace CraftTool
 	public partial class Form1 : Form
 	{
 		private bool _data_loaded = false;
-		
+
+		#region Standard Form Stuff
 		public Form1()
 		{
 			InitializeComponent();
@@ -47,6 +48,40 @@ namespace CraftTool
 			Forms.AboutForm.AboutForm about_form = new CraftTool.Forms.AboutForm.AboutForm();
 			about_form.ShowDialog(this);
 		}
+
+		private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			TabPage selected_tab = TabControl1.SelectedTab;
+			if (!_data_loaded && selected_tab != tabPage1)
+			{
+				TabControl1.SelectedTab.Enabled = false;
+				foreach (Control cntrl in selected_tab.Controls)
+				{
+					cntrl.Enabled = false;
+				}
+			}
+			else
+			{
+				foreach (Control cntrl in selected_tab.Controls)
+				{
+					cntrl.Enabled = true;
+				}
+
+				if (!selected_tab.Enabled)
+				{
+					if (selected_tab == tabPage2)
+						PopulateItemDesc();
+					if (selected_tab == tabPage3)
+						PopulateMaterials();
+					if (selected_tab == tabPage4)
+						PopulateToolOnMaterial();
+				}
+
+				selected_tab.Enabled = true;
+			}
+		}
+
+		#endregion
 
 		private void button1_Click(object sender, EventArgs e)
 		{
@@ -86,38 +121,7 @@ namespace CraftTool
 			_data_loaded = true;
 		}
 		
-		private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			TabPage selected_tab = TabControl1.SelectedTab;
-			if (!_data_loaded && selected_tab != tabPage1)
-			{
-				TabControl1.SelectedTab.Enabled = false;
-				foreach (Control cntrl in selected_tab.Controls)
-				{
-					cntrl.Enabled = false;
-				}
-			}
-			else
-			{
-				foreach (Control cntrl in selected_tab.Controls)
-				{
-					cntrl.Enabled = true;
-				}
-
-				if (!selected_tab.Enabled)
-				{
-					if (selected_tab == tabPage2)
-						PopulateItemDesc();
-					if (selected_tab == tabPage3)
-						PopulateMaterials();
-					if (selected_tab == tabPage4)
-						PopulateToolOnMaterial();
-				}
-
-				selected_tab.Enabled = true;
-			}
-		}
-
+		#region Itemdesc Tab Stuff
 		private void PopulateItemDesc()
 		{
 			List<ConfigElem> config_elems = ItemdescCache.Global.GetAllObjTypeElems();
@@ -168,7 +172,9 @@ namespace CraftTool
 			label4.Text = itemdesc_elem.configfile.fullpath;
 			itemdesc_picture.Image = (Bitmap)row.Cells[0].Value;
 		}
+		#endregion
 
+		#region Materials Tab Stuff
 		public void PopulateMaterials()
 		{
 			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
@@ -181,16 +187,21 @@ namespace CraftTool
 				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
 				{
-					ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", cfg_elem.name);
-					string nodename = cfg_elem.name;
-					if (itemdesc_elem.PropertyExists("Name"))
-						nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
-
-					pkg_node.Nodes.Add(nodename);
+					AddMaterialsObjType(pkg_node, cfg_elem.name);
 				}
 			}
 		}
 
+		private TreeNode AddMaterialsObjType(TreeNode parent_node, string objtype)
+		{
+			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
+			string nodename = objtype;
+			if (itemdesc_elem.PropertyExists("Name"))
+				nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+
+			return parent_node.Nodes.Add(nodename);
+		}
+		
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
@@ -233,6 +244,44 @@ namespace CraftTool
 			}
 		}
 
+		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a package", PackageCache.Global.packagenames);
+			picker.ShowDialog(this);
+			if (picker.DialogResult != DialogResult.OK)
+				return;
+
+			materials_tree_view.Nodes.Add(":" + picker.text + ":materials.cfg");
+
+			POLPackage pkg = PackageCache.GetPackage(picker.text);
+			string filepath = pkg.path+@"\config\materials.cfg";
+			ConfigFile config_file = new ConfigFile(filepath);
+			ConfigRepository.global.AddConfigFile(config_file);
+		}
+
+		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			TreeNode selected = materials_tree_view.SelectedNode;
+			if (selected == null)
+			{
+				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			while (selected.Parent != null)
+			{
+				selected = selected.Parent;
+			} 
+			
+			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a material", ItemdescCache.Global.GetAllObjTypes());
+			picker.ShowDialog(this);
+			if (picker.DialogResult != DialogResult.OK)
+				return;
+			
+			AddMaterialsObjType(selected, picker.text);
+		}
+		#endregion
+
+		#region Tool On Material Tab Stuff
 		public void PopulateToolOnMaterial()
 		{
 			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
@@ -263,7 +312,7 @@ namespace CraftTool
 
 			TB_toolonmaterial.Clear();
 			string name = selected.Text;
-			
+
 			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", name);
 			label6.Text = tom_elem.configfile.fullpath;
 			foreach (string propname in tom_elem.ListConfigElemProperties())
@@ -276,38 +325,6 @@ namespace CraftTool
 
 			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
-
-		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a package", PackageCache.Global.packagenames);
-			picker.ShowDialog(this);
-			if (picker.DialogResult != DialogResult.OK)
-				return;
-
-			materials_tree_view.Nodes.Add(":" + picker.text + ":materials.cfg");
-
-			POLPackage pkg = PackageCache.GetPackage(picker.text);
-			string filepath = pkg.path+@"\config\materials.cfg";
-			ConfigFile config_file = new ConfigFile(filepath);
-			ConfigRepository.global.AddConfigFile(config_file);
-		}
-
-		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			TreeNode selected = materials_tree_view.SelectedNode;
-			if (selected == null)
-			{
-				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			selected = selected.FirstNode;
-
-			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a material", ItemdescCache.Global.GetAllObjTypes());
-			picker.ShowDialog(this);
-			if (picker.DialogResult != DialogResult.OK)
-				return;
-
-
-		}
+		#endregion
 	}
 }
