@@ -122,7 +122,7 @@ namespace POLTools.ConfigRepository
 			return null;
 		}
 
-		public bool WriteConfigFile(ConfigFile cfg_file)
+		public static bool WriteConfigFile(ConfigFile cfg_file)
 		{
 			File.WriteAllText(cfg_file.fullpath, cfg_file.ToString());
 
