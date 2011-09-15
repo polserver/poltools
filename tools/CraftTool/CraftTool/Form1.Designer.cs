@@ -162,6 +162,9 @@
 			// 
 			// TB_loadoutput
 			// 
+			this.TB_loadoutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+					  | System.Windows.Forms.AnchorStyles.Left)
+					  | System.Windows.Forms.AnchorStyles.Right)));
 			this.TB_loadoutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_loadoutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TB_loadoutput.Location = new System.Drawing.Point(9, 7);
@@ -173,6 +176,7 @@
 			// 
 			// BTN_load_info
 			// 
+			this.BTN_load_info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.BTN_load_info.Location = new System.Drawing.Point(9, 521);
 			this.BTN_load_info.Name = "BTN_load_info";
 			this.BTN_load_info.Size = new System.Drawing.Size(111, 23);
@@ -195,6 +199,9 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+					  | System.Windows.Forms.AnchorStyles.Left)
+					  | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.itemdesc_picture);
 			this.groupBox2.Controls.Add(this.TB_itemdescinfo);
@@ -218,14 +225,21 @@
 			// 
 			this.itemdesc_picture.BackColor = System.Drawing.Color.Black;
 			this.itemdesc_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.itemdesc_picture.InitialImage = global::CraftTool.Properties.Resources.unused;
 			this.itemdesc_picture.Location = new System.Drawing.Point(534, 48);
+			this.itemdesc_picture.MaximumSize = new System.Drawing.Size(159, 151);
+			this.itemdesc_picture.MinimumSize = new System.Drawing.Size(159, 151);
 			this.itemdesc_picture.Name = "itemdesc_picture";
 			this.itemdesc_picture.Size = new System.Drawing.Size(159, 151);
+			this.itemdesc_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this.itemdesc_picture.TabIndex = 1;
 			this.itemdesc_picture.TabStop = false;
 			// 
 			// TB_itemdescinfo
 			// 
+			this.TB_itemdescinfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+					  | System.Windows.Forms.AnchorStyles.Left)
+					  | System.Windows.Forms.AnchorStyles.Right)));
 			this.TB_itemdescinfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.TB_itemdescinfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TB_itemdescinfo.Location = new System.Drawing.Point(6, 19);
@@ -236,6 +250,9 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+					  | System.Windows.Forms.AnchorStyles.Left)
+					  | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.itemdesc_datagrid);
 			this.groupBox1.Location = new System.Drawing.Point(9, 6);
 			this.groupBox1.Name = "groupBox1";
@@ -249,8 +266,10 @@
 			this.itemdesc_datagrid.AllowUserToAddRows = false;
 			this.itemdesc_datagrid.AllowUserToDeleteRows = false;
 			this.itemdesc_datagrid.AllowUserToOrderColumns = true;
+			this.itemdesc_datagrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+					  | System.Windows.Forms.AnchorStyles.Left)
+					  | System.Windows.Forms.AnchorStyles.Right)));
 			this.itemdesc_datagrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.itemdesc_datagrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.itemdesc_datagrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.itemdesc_datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.itemdesc_datagrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -267,6 +286,9 @@
 			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
 			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
+			this.itemdesc_datagrid.MaximumSize = new System.Drawing.Size(270, 512);
+			this.itemdesc_datagrid.MinimumSize = new System.Drawing.Size(270, 512);
+			this.itemdesc_datagrid.MultiSelect = false;
 			this.itemdesc_datagrid.Name = "itemdesc_datagrid";
 			this.itemdesc_datagrid.ReadOnly = true;
 			this.itemdesc_datagrid.RowHeadersVisible = false;

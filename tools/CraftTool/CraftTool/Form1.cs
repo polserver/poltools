@@ -121,6 +121,10 @@ namespace CraftTool
 				row[2] = item_name;
 				itemdesc_datagrid.Rows.Add(row);
 			}
+			itemdesc_datagrid.ScrollBars = ScrollBars.None;
+			itemdesc_datagrid.Refresh();
+			itemdesc_datagrid.ScrollBars = ScrollBars.Vertical;
+			itemdesc_datagrid.Refresh();
 		}
 		/*
 		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
