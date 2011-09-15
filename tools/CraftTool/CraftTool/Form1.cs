@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using ConfigUtil;
-using POLTools.ConfigRepository;
 using System.Drawing;
+using POLTools;
+using POLTools.ConfigRepository;
+using POLTools.Package;
 
 namespace CraftTool
 {
 	public partial class Form1 : Form
 	{
 		private bool _data_loaded = false;
-		private List<POLTools.Package.POLPackage> _packages;
-
+		
 		public Form1()
 		{
 			InitializeComponent();
@@ -55,12 +56,15 @@ namespace CraftTool
 				TB_loadoutput.AppendText("Invalid root directory. Please check settings."+Environment.NewLine+Settings.Global.rootdir);
 				return;
 			}
+			
 			TB_loadoutput.AppendText("Checking for packages... ");
-			_packages = POLTools.Package.PackageCache.GetEnabledPackages(Settings.Global.rootdir);
-			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + _packages.Count + Environment.NewLine);
+			PackageCache.LoadPackages(Settings.Global.rootdir);
+
+			List<POLTools.Package.POLPackage> packages = PackageCache.Global.packagelist;
+			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
 
 			string[] file_names = { "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg" };
-			foreach (POLTools.Package.POLPackage package in _packages)
+			foreach (POLTools.Package.POLPackage package in packages)
 			{
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
 
@@ -70,13 +74,14 @@ namespace CraftTool
 					if (config_path != null)
 					{
 						ConfigFile config_file = ConfigRepository.global.LoadConfigFile(config_path);
+						
 						TB_loadoutput.AppendText("  Loaded " + config_file.filename + Environment.NewLine);
 					}
 				}
 			}
 			_data_loaded = true;
 		}
-
+		
 		private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			TabPage selected_tab = TabControl1.SelectedTab;
@@ -152,7 +157,7 @@ namespace CraftTool
 
 		public void PopulateMaterials()
 		{
-			foreach (POLTools.Package.POLPackage package in _packages)
+			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
 			{
 				string materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
 				if (materials_cfg_path == null)
@@ -198,7 +203,7 @@ namespace CraftTool
 
 		public void PopulateToolOnMaterial()
 		{
-			foreach (POLTools.Package.POLPackage package in _packages)
+			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
 			{
 				string tom_cfg_path = package.GetPackagedConfigPath("toolOnMaterial.cfg");
 				if (tom_cfg_path == null)

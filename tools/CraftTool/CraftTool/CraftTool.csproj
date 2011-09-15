@@ -69,10 +69,14 @@
     <Compile Include="Code\configRepository.cs" />
     <Compile Include="Code\FileLister.cs" />
     <Compile Include="Code\FilePicker.cs" />
+    <Compile Include="Code\Itemdesc.cs" />
     <Compile Include="Code\ObjTypesTxt.cs" />
     <Compile Include="Code\Packages.cs" />
     <Compile Include="Code\Settings.cs" />
     <Compile Include="Controls\GroupBox2\groupBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NumericTextBox\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExceptionBox\ExceptionForm.cs">
