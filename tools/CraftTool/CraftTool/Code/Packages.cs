@@ -127,6 +127,15 @@ namespace POLTools.Package
 				return _global;
 			}
 		}
+
+		public List<POLPackage> packagelist
+		{
+			get
+			{
+				return new List<POLPackage>(_packages.Values);
+			}
+		}
+
 		private void Initialize()
 		{
 			_packages = new Dictionary<string, POLPackage>();
@@ -140,14 +149,14 @@ namespace POLTools.Package
 				return null;
 		}
 
-		public static void AddPackage(POLPackage package)
+		public static bool LoadPackages(string rootdir)
 		{
-			Global._packages.Add(package.name, package);
+			Global._packages.Clear();
+			return GetEnabledPackages(rootdir);
 		}
-
-		public static List<POLPackage> GetEnabledPackages(string rootdir)
+			
+		private static bool GetEnabledPackages(string rootdir)
 		{
-			List<POLPackage> pkg_list = new List<POLPackage>();
 			List<string> pkg_cfgs = FileLister.FileSystemUtil.GetAllFileNames(rootdir, "pkg.cfg", SearchOption.AllDirectories);
 
 			foreach (string filename in pkg_cfgs)
@@ -155,12 +164,15 @@ namespace POLTools.Package
 				POLPackage pkg = new POLPackage(filename);
 				if (pkg.enabled)
 				{
-					pkg_list.Add(pkg);
 					AddPackage(pkg);
 				}
 			}
 
-			return pkg_list;
+			return true;
+		}
+		private static void AddPackage(POLPackage package)
+		{
+			Global._packages.Add(package.name, package);
 		}
 	}
 }
