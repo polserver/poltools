@@ -202,7 +202,21 @@ namespace ConfigUtil
 		
 		public override string ToString()
 		{
-			return "Config File: " + this._filename;
+			StringBuilder contents = new StringBuilder();
+			
+			foreach (ConfigElem elem in this.GetConfigElemRefs())
+			{
+				contents.AppendLine(elem.ToString());
+				contents.AppendLine("{");
+				foreach (CfgPair pair in elem.pairs)
+				{
+					contents.AppendLine(pair.ToString());
+				}
+				contents.AppendLine("}");
+				contents.AppendLine("");
+			}
+
+			return contents.ToString();
 		}
 	}
 
@@ -421,6 +435,11 @@ namespace ConfigUtil
 			}
 		}
 
+		public List<CfgPair> pairs
+		{
+			get { return _cfgpairs; }
+		}
+
 		public void AddConfigLine(string key, string value)
 		{
 			CfgPair pair = new CfgPair(key, value);
@@ -503,7 +522,7 @@ namespace ConfigUtil
 
 		public override string ToString()
 		{
-			return "Config Elem: " + this.name;
+			return this._type + " " + this._name;
 		}
 	}
 
@@ -535,7 +554,7 @@ namespace ConfigUtil
 
 		public override string ToString()
 		{
-			return "Config Pair Key[" + first + "] Value[" + second + "]";
+			return "\t" + first + "\t" + second;
 		}
 
 		public static CfgPair ParseCfgLine(string line)
