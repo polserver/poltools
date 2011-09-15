@@ -456,7 +456,7 @@ namespace ConfigUtil
 			List<string> properties = new List<String>();
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if ( !properties.Exists(delegate(string n) { return n == pair.first.ToLower(); }) )
+				if ( !properties.Exists(delegate(string n) { return n.ToLower() == pair.first.ToLower(); }) )
 				{
 					properties.Add(pair.first);
 				}
