@@ -111,17 +111,22 @@ namespace CraftTool
 			List<ConfigElem> config_elems = ConfigRepository.global.GetElemsForConfigFile("itemdesc.cfg");
 			foreach (ConfigElem config_elem in config_elems)
 			{
-				string elem_name = config_elem.name;
+				string item_name = string.Empty;
 				if (config_elem.PropertyExists("name"))
-					elem_name += "     [" + config_elem.GetConfigString("name") + "]";
+					item_name = config_elem.GetConfigString("name");
 
-				listBox1.Items.Add(elem_name);
+				Object[] row = new Object[3];
+				row[0] = new System.Drawing.Bitmap(1, 1);
+				row[1] = config_elem.name;
+				row[2] = item_name;
+				itemdesc_datagrid.Rows.Add(row);
+				itemdesc_datagrid.ClearSelection();
 			}
 		}
-
+		/*
 		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			string selected_name = listBox1.SelectedItem.ToString();
+			//string selected_name = listBox1.SelectedItem.ToString();
 			string[] split = selected_name.Split(new char[] { ' ', '\t' });
 			MessageBox.Show(split[0]);
 			ConfigElem config_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", split[0]);
@@ -134,7 +139,7 @@ namespace CraftTool
 				}
 			}
 		}
-
+		*/
 		public void PopulateMaterials()
 		{
 			foreach (POLTools.Package.POLPackage package in _packages)
