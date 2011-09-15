@@ -218,6 +218,16 @@ namespace ConfigUtil
 
 			return contents.ToString();
 		}
+
+		public bool DeleteFromDisk()
+		{
+			if (File.Exists(this.fullpath))
+			{
+				File.Delete(this.fullpath);
+				return true;
+			}
+			return false;
+		}
 	}
 
 	public class FlatConfigFile
