@@ -22,6 +22,22 @@ namespace CraftTool.Forms.SelectionPicker
 			comboBox1.Items.AddRange(options.ToArray());
 		}
 
+		public string text
+		{
+			get
+			{
+				return _input_string;
+			}
+		}
+
+		public DialogResult result
+		{
+			get
+			{
+				return _result;
+			}
+		}
+
 		private void BTN_ok_Click(object sender, EventArgs e)
 		{
 			string selected = this.comboBox1.SelectedItem.ToString();
