@@ -172,7 +172,24 @@ namespace CraftTool
 
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
+			TreeNode selected = materials_tree_view.SelectedNode;
+			if (selected.Parent == null)
+				return;
 
+			materials_textbox.Clear();
+			string name = selected.Text;
+			string[] split = name.Split(new char[] { ' ', '\t' });
+			name = split[0];
+			
+			ConfigElem materials_elem = ConfigRepository.global.GetElemFromConfigFiles("materials.cfg", split[0]);
+			label5.Text = materials_elem.configfile.fullpath;
+			foreach (string propname in materials_elem.ListConfigElemProperties())
+			{
+				foreach (string value in materials_elem.GetConfigStringList(propname))
+				{
+					materials_textbox.AppendText(propname + "	" + value + Environment.NewLine);
+				}
+			}
 		}	
 	}
 }

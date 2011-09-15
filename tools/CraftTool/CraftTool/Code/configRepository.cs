@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ConfigUtil;
 using POLTools.Package;
+using System.Windows.Forms;
 
 namespace POLTools.ConfigRepository
 {
@@ -86,7 +87,9 @@ namespace POLTools.ConfigRepository
 			foreach ( ConfigFile config_file in global._config_cache.Values )
 			{
 				if (config_file.filename.ToLower() == filename)
+				{
 					elems.AddRange(config_file.GetConfigElemRefs());
+				}
 			}
 
 			return elems;
@@ -94,18 +97,21 @@ namespace POLTools.ConfigRepository
 
 		public ConfigElem GetElemFromConfigFiles(string filename, string elem_name)
 		{
-			List<ConfigElem> elems = GetElemsForConfigFile(filename);
+			filename = filename.ToLower();
 			foreach (ConfigFile config_file in global._config_cache.Values)
 			{
-				try
+				if (config_file.filename.ToLower() == filename)
 				{
-					ConfigElem elem = config_file.GetConfigElem(elem_name);
-					if (elem != null)
-						return elem;
-				}
-				catch
-				{
-					continue;
+					try
+					{
+						ConfigElem elem = config_file.GetConfigElem(elem_name);
+						if (elem != null)
+							return elem;
+					}
+					catch
+					{
+						continue;
+					}
 				}
 			}
 
