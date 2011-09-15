@@ -276,7 +276,17 @@ namespace CraftTool
 			picker.ShowDialog(this);
 			if (picker.DialogResult != DialogResult.OK)
 				return;
-			
+
+			string package_name = POLPackage.ParsePackageName(selected.Text);
+			POLPackage package = PackageCache.GetPackage(package_name);
+			ConfigFile materials_cfg;
+			string config_path = package.GetPackagedConfigPath("materials.cfg");
+			if ( config_path == null ) // Its a pseudo config & elem at this point then. (Not on disk)
+				config_path = package.path + @"\config\materials.cfg";
+
+			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
+			materials_cfg.AddConfigElement(null);
+
 			AddMaterialsObjType(selected, picker.text);
 		}
 		#endregion

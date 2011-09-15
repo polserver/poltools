@@ -135,8 +135,7 @@ namespace ConfigUtil
 					// Data not in an  { } element. Should be the element's name.
 					CfgPair pair = CfgPair.ParseCfgLine(curline);
 					curelem = new ConfigElem(pair.first, pair.second.ToString());
-					curelem.configfile = this;
-					_cfgelems.Add(curelem);
+					AddConfigElement(curelem);
 				}
 				else if (curline[0] == '{')
 				{
@@ -173,6 +172,12 @@ namespace ConfigUtil
 			sr.Close();
 
 			return true;
+		}
+
+		public void AddConfigElement(ConfigElem elem)
+		{
+			elem.configfile = this;
+			_cfgelems.Add(elem);
 		}
 		
 		public override string ToString()

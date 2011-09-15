@@ -94,6 +94,18 @@ namespace POLTools.Package
 			
 			return config_file;
 		}
+
+		public static string ParsePackageName(string polpath)
+		{
+			int pos_a = polpath.IndexOf(":");
+			int pos_b = polpath.IndexOf(":", pos_a+1);
+
+			if ( pos_a == -1 || pos_b == -1 )
+				return polpath;
+
+			// ":core:something - Should return 'core'
+			return polpath.Substring(pos_a+1, pos_b-1);
+		}
 	}
 
 	public class PackageCache
