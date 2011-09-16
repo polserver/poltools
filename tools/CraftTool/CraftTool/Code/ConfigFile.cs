@@ -235,6 +235,13 @@ namespace ConfigUtil
 			}
 			return false;
 		}
+
+		public bool WriteConfigFile()
+		{
+			File.WriteAllText(this.fullpath, this.ToString());
+
+			return true;
+		}
 	}
 
 	public class FlatConfigFile

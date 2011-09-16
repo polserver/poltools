@@ -1,4 +1,5 @@
 Elem Settings
 {
 	POLPath	E:\UOL\Mytharria\Shard
+	UOLPath	E:\UOL\UOGold
 }
