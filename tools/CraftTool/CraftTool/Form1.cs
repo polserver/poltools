@@ -459,7 +459,7 @@ namespace CraftTool
 			}
 
 			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", selected.Name);
-			label5.Text = tom_elem.configfile.fullpath;
+			label17.Text = tom_elem.configfile.fullpath;
 			foreach (string propname in tom_elem.ListConfigElemProperties())
 			{
 				foreach (string value in tom_elem.GetConfigStringList(propname))
@@ -470,10 +470,11 @@ namespace CraftTool
 
 			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
 			toolonmaterial_material_picture.Image = global::CraftTool.Properties.Resources.unused;
-			if (tom_elem.PropertyExists("ShowMenu"))
-				TB_tom_showmenu.Text = tom_elem.GetConfigString("ShowMenu");
 			if (tom_elem.PropertyExists("MenuScript"))
 				TB_tom_menuscript.Text = tom_elem.GetConfigString("MenuScript");
+
+			combobox_tom_showmenus.Items.AddRange(ConfigRepository.global.GetElemsForConfigFile("CraftMenus.cfg").ToArray());
+
 		}
 
 		#endregion
