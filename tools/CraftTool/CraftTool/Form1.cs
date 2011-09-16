@@ -226,7 +226,7 @@ namespace CraftTool
 					((TextBox)control).Clear();
 			}
 						
-			ConfigElem materials_elem = ConfigRepository.global.GetElemFromConfigFiles("materials.cfg", selected.Name);
+			ConfigElem materials_elem = ConfigRepository.global.FindElemInConfigFiles("materials.cfg", selected.Name);
 			label5.Text = materials_elem.configfile.fullpath;
 			foreach (string propname in materials_elem.ListConfigElemProperties())
 			{
@@ -452,13 +452,14 @@ namespace CraftTool
 				return;
 
 			TB_toolonmaterial.Clear();
+			combobox_tom_showmenus.Items.Clear();
 			foreach (Control control in groupBox6.Controls)
 			{
 				if (control is TextBox)
 					((TextBox)control).Clear();
 			}
 
-			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", selected.Name);
+			ConfigElem tom_elem = ConfigRepository.global.FindElemInConfigFiles("toolonmaterial.cfg", selected.Name);
 			label17.Text = tom_elem.configfile.fullpath;
 			foreach (string propname in tom_elem.ListConfigElemProperties())
 			{
@@ -473,8 +474,13 @@ namespace CraftTool
 			if (tom_elem.PropertyExists("MenuScript"))
 				TB_tom_menuscript.Text = tom_elem.GetConfigString("MenuScript");
 
-			combobox_tom_showmenus.Items.AddRange(ConfigRepository.global.GetElemsForConfigFile("CraftMenus.cfg").ToArray());
-
+			if (tom_elem.PropertyExists("ShowMenu"))
+			{
+				string value = tom_elem.GetConfigString("ShowMenu");
+				int pos = combobox_tom_showmenus.Items.Add(value);
+				combobox_tom_showmenus.SelectedIndex = pos;
+			}
+			combobox_tom_showmenus.Items.AddRange(ConfigRepository.global.GetElemsFromConfigFiles("CraftMenus.cfg").ToArray());
 		}
 
 		#endregion

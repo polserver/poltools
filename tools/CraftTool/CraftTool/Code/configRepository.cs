@@ -84,7 +84,7 @@ namespace POLTools.ConfigRepository
 			return global._config_cache.ContainsKey(path);
 		}
 
-		public List<ConfigElem> GetElemsForConfigFile(string filename)
+		public List<ConfigElem> GetElemsFromConfigFiles(string filename)
 		{
 			filename = filename.ToLower();
 			List<ConfigElem> elems = new List<ConfigElem>();
@@ -98,8 +98,9 @@ namespace POLTools.ConfigRepository
 
 			return elems;
 		}
+		
 
-		public ConfigElem GetElemFromConfigFiles(string filename, string elem_name)
+		public ConfigElem FindElemInConfigFiles(string filename, string elem_name)
 		{
 			filename = filename.ToLower();
 			foreach (ConfigFile config_file in global._config_cache.Values)
