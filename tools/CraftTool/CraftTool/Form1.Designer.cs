@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -64,10 +64,7 @@
 			this.label12 = new System.Windows.Forms.Label();
 			this.TB_materials_createdscript = new System.Windows.Forms.TextBox();
 			this.label11 = new System.Windows.Forms.Label();
-			this.TB_materials_quality = new NumericTextBox();
 			this.label10 = new System.Windows.Forms.Label();
-			this.TB_materials_difficulty = new NumericTextBox();
-			this.TB_materials_color = new NumericTextBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -88,8 +85,8 @@
 			this.label19 = new System.Windows.Forms.Label();
 			this.toolonmaterial_material_picture = new System.Windows.Forms.PictureBox();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.combobox_tom_showmenus = new System.Windows.Forms.ComboBox();
 			this.BTN_tom_update = new System.Windows.Forms.Button();
-			this.TB_tom_menuscript = new NumericTextBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
@@ -103,7 +100,10 @@
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.combobox_tom_showmenus = new System.Windows.Forms.ComboBox();
+			this.TB_materials_quality = new NumericTextBox();
+			this.TB_materials_difficulty = new NumericTextBox();
+			this.TB_materials_color = new NumericTextBox();
+			this.TB_tom_menuscript = new NumericTextBox();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
@@ -352,14 +352,14 @@
             this.Column2,
             this.Column3});
 			this.itemdesc_datagrid.ContextMenuStrip = this.itemdesc_menu_strip;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
 			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
 			this.itemdesc_datagrid.MaximumSize = new System.Drawing.Size(270, 512);
@@ -461,16 +461,16 @@
 			this.groupBox7.Controls.Add(this.label8);
 			this.groupBox7.Controls.Add(this.label2);
 			this.groupBox7.Controls.Add(this.TB_materials_category);
-			this.groupBox7.Location = new System.Drawing.Point(183, 229);
+			this.groupBox7.Location = new System.Drawing.Point(145, 229);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(294, 245);
+			this.groupBox7.Size = new System.Drawing.Size(371, 245);
 			this.groupBox7.TabIndex = 4;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Fields";
 			// 
 			// BTN_materials_update
 			// 
-			this.BTN_materials_update.Location = new System.Drawing.Point(110, 188);
+			this.BTN_materials_update.Location = new System.Drawing.Point(148, 188);
 			this.BTN_materials_update.Name = "BTN_materials_update";
 			this.BTN_materials_update.Size = new System.Drawing.Size(75, 23);
 			this.BTN_materials_update.TabIndex = 15;
@@ -489,7 +489,7 @@
             "None"});
 			this.combobox_materials_changeto.Location = new System.Drawing.Point(99, 121);
 			this.combobox_materials_changeto.Name = "combobox_materials_changeto";
-			this.combobox_materials_changeto.Size = new System.Drawing.Size(174, 21);
+			this.combobox_materials_changeto.Size = new System.Drawing.Size(266, 21);
 			this.combobox_materials_changeto.Sorted = true;
 			this.combobox_materials_changeto.TabIndex = 14;
 			this.toolTip1.SetToolTip(this.combobox_materials_changeto, resources.GetString("combobox_materials_changeto.ToolTip"));
@@ -509,7 +509,7 @@
 			this.TB_materials_createdscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TB_materials_createdscript.Location = new System.Drawing.Point(99, 148);
 			this.TB_materials_createdscript.Name = "TB_materials_createdscript";
-			this.TB_materials_createdscript.Size = new System.Drawing.Size(174, 20);
+			this.TB_materials_createdscript.Size = new System.Drawing.Size(266, 20);
 			this.TB_materials_createdscript.TabIndex = 12;
 			this.toolTip1.SetToolTip(this.TB_materials_createdscript, "Optional path of a script to run when the item has been created.");
 			// 
@@ -522,17 +522,6 @@
 			this.label11.TabIndex = 11;
 			this.label11.Text = "Change To";
 			// 
-			// TB_materials_quality
-			// 
-			this.TB_materials_quality.AllowSpace = false;
-			this.TB_materials_quality.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.TB_materials_quality.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_quality.Location = new System.Drawing.Point(99, 96);
-			this.TB_materials_quality.Name = "TB_materials_quality";
-			this.TB_materials_quality.Size = new System.Drawing.Size(174, 20);
-			this.TB_materials_quality.TabIndex = 9;
-			this.toolTip1.SetToolTip(this.TB_materials_quality, "Adjusts the quality  (1.0 *= quality mod)");
-			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
@@ -541,28 +530,6 @@
 			this.label10.Size = new System.Drawing.Size(63, 13);
 			this.label10.TabIndex = 8;
 			this.label10.Text = "Quality Mod";
-			// 
-			// TB_materials_difficulty
-			// 
-			this.TB_materials_difficulty.AllowSpace = false;
-			this.TB_materials_difficulty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.TB_materials_difficulty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_difficulty.Location = new System.Drawing.Point(99, 70);
-			this.TB_materials_difficulty.Name = "TB_materials_difficulty";
-			this.TB_materials_difficulty.Size = new System.Drawing.Size(174, 20);
-			this.TB_materials_difficulty.TabIndex = 7;
-			this.toolTip1.SetToolTip(this.TB_materials_difficulty, "Adjusts the difficulty from craftItems.cfg (difficulty *= difficulty mod)");
-			// 
-			// TB_materials_color
-			// 
-			this.TB_materials_color.AllowSpace = false;
-			this.TB_materials_color.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.TB_materials_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_materials_color.Location = new System.Drawing.Point(99, 43);
-			this.TB_materials_color.Name = "TB_materials_color";
-			this.TB_materials_color.Size = new System.Drawing.Size(174, 20);
-			this.TB_materials_color.TabIndex = 6;
-			this.toolTip1.SetToolTip(this.TB_materials_color, "If set, will override the materials itemdesc.cfg color entry.");
 			// 
 			// label9
 			// 
@@ -597,7 +564,7 @@
 			this.TB_materials_category.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TB_materials_category.Location = new System.Drawing.Point(99, 18);
 			this.TB_materials_category.Name = "TB_materials_category";
-			this.TB_materials_category.Size = new System.Drawing.Size(174, 20);
+			this.TB_materials_category.Size = new System.Drawing.Size(266, 20);
 			this.TB_materials_category.TabIndex = 0;
 			this.toolTip1.SetToolTip(this.TB_materials_category, "Category will affect the elem read in ToolOnMaterial");
 			// 
@@ -759,33 +726,32 @@
 			this.groupBox6.Controls.Add(this.TB_tom_menuscript);
 			this.groupBox6.Controls.Add(this.label15);
 			this.groupBox6.Controls.Add(this.label16);
-			this.groupBox6.Location = new System.Drawing.Point(90, 215);
+			this.groupBox6.Location = new System.Drawing.Point(10, 215);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(294, 121);
+			this.groupBox6.Size = new System.Drawing.Size(479, 104);
 			this.groupBox6.TabIndex = 4;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Fields";
 			// 
+			// combobox_tom_showmenus
+			// 
+			this.combobox_tom_showmenus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.combobox_tom_showmenus.FormattingEnabled = true;
+			this.combobox_tom_showmenus.Location = new System.Drawing.Point(99, 17);
+			this.combobox_tom_showmenus.Name = "combobox_tom_showmenus";
+			this.combobox_tom_showmenus.Size = new System.Drawing.Size(374, 21);
+			this.combobox_tom_showmenus.Sorted = true;
+			this.combobox_tom_showmenus.TabIndex = 16;
+			// 
 			// BTN_tom_update
 			// 
-			this.BTN_tom_update.Location = new System.Drawing.Point(110, 69);
+			this.BTN_tom_update.Location = new System.Drawing.Point(99, 75);
 			this.BTN_tom_update.Name = "BTN_tom_update";
 			this.BTN_tom_update.Size = new System.Drawing.Size(75, 23);
 			this.BTN_tom_update.TabIndex = 15;
 			this.BTN_tom_update.Text = "Update";
 			this.toolTip1.SetToolTip(this.BTN_tom_update, "Will update to memory, you must click write files to commit to disk.");
 			this.BTN_tom_update.UseVisualStyleBackColor = true;
-			// 
-			// TB_tom_menuscript
-			// 
-			this.TB_tom_menuscript.AllowSpace = false;
-			this.TB_tom_menuscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.TB_tom_menuscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_tom_menuscript.Location = new System.Drawing.Point(99, 43);
-			this.TB_tom_menuscript.Name = "TB_tom_menuscript";
-			this.TB_tom_menuscript.Size = new System.Drawing.Size(174, 20);
-			this.TB_tom_menuscript.TabIndex = 6;
-			this.toolTip1.SetToolTip(this.TB_tom_menuscript, "Run a script for the menu choices instead of the craft system\'s built in slider.");
 			// 
 			// label15
 			// 
@@ -904,15 +870,49 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// combobox_tom_showmenus
+			// TB_materials_quality
 			// 
-			this.combobox_tom_showmenus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.combobox_tom_showmenus.FormattingEnabled = true;
-			this.combobox_tom_showmenus.Location = new System.Drawing.Point(99, 17);
-			this.combobox_tom_showmenus.Name = "combobox_tom_showmenus";
-			this.combobox_tom_showmenus.Size = new System.Drawing.Size(174, 21);
-			this.combobox_tom_showmenus.Sorted = true;
-			this.combobox_tom_showmenus.TabIndex = 16;
+			this.TB_materials_quality.AllowSpace = false;
+			this.TB_materials_quality.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_materials_quality.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_materials_quality.Location = new System.Drawing.Point(99, 96);
+			this.TB_materials_quality.Name = "TB_materials_quality";
+			this.TB_materials_quality.Size = new System.Drawing.Size(266, 20);
+			this.TB_materials_quality.TabIndex = 9;
+			this.toolTip1.SetToolTip(this.TB_materials_quality, "Adjusts the quality  (1.0 *= quality mod)");
+			// 
+			// TB_materials_difficulty
+			// 
+			this.TB_materials_difficulty.AllowSpace = false;
+			this.TB_materials_difficulty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_materials_difficulty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_materials_difficulty.Location = new System.Drawing.Point(99, 70);
+			this.TB_materials_difficulty.Name = "TB_materials_difficulty";
+			this.TB_materials_difficulty.Size = new System.Drawing.Size(266, 20);
+			this.TB_materials_difficulty.TabIndex = 7;
+			this.toolTip1.SetToolTip(this.TB_materials_difficulty, "Adjusts the difficulty from craftItems.cfg (difficulty *= difficulty mod)");
+			// 
+			// TB_materials_color
+			// 
+			this.TB_materials_color.AllowSpace = false;
+			this.TB_materials_color.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_materials_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_materials_color.Location = new System.Drawing.Point(99, 43);
+			this.TB_materials_color.Name = "TB_materials_color";
+			this.TB_materials_color.Size = new System.Drawing.Size(266, 20);
+			this.TB_materials_color.TabIndex = 6;
+			this.toolTip1.SetToolTip(this.TB_materials_color, "If set, will override the materials itemdesc.cfg color entry.");
+			// 
+			// TB_tom_menuscript
+			// 
+			this.TB_tom_menuscript.AllowSpace = false;
+			this.TB_tom_menuscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_tom_menuscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_tom_menuscript.Location = new System.Drawing.Point(99, 43);
+			this.TB_tom_menuscript.Name = "TB_tom_menuscript";
+			this.TB_tom_menuscript.Size = new System.Drawing.Size(374, 20);
+			this.TB_tom_menuscript.TabIndex = 6;
+			this.toolTip1.SetToolTip(this.TB_tom_menuscript, "Run a script for the menu choices instead of the craft system\'s built in slider.");
 			// 
 			// Form1
 			// 
