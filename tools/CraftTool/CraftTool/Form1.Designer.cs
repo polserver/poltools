@@ -53,6 +53,8 @@
 			this.Column1 = new System.Windows.Forms.DataGridViewImageColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.itemdesc_menu_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.copyObjTypeToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -78,31 +80,31 @@
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.BTN_materials_write = new System.Windows.Forms.Button();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.tabPage6 = new System.Windows.Forms.TabPage();
-			this.tabPage7 = new System.Windows.Forms.TabPage();
-			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label19 = new System.Windows.Forms.Label();
+			this.toolonmaterial_material_picture = new System.Windows.Forms.PictureBox();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.BTN_tom_update = new System.Windows.Forms.Button();
 			this.label15 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
-			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.TB_tom_showmenu = new System.Windows.Forms.TextBox();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.toolonmaterial_tool_picture = new System.Windows.Forms.PictureBox();
 			this.TB_toolonmaterial = new System.Windows.Forms.TextBox();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
-			this.button2 = new System.Windows.Forms.Button();
 			this.toolonmaterial_treeview = new System.Windows.Forms.TreeView();
-			this.label19 = new System.Windows.Forms.Label();
-			this.toolonmaterial_material_picture = new System.Windows.Forms.PictureBox();
-			this.itemdesc_menu_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.copyObjTypeToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.BTN_tom_writefiles = new System.Windows.Forms.Button();
+			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.tabPage6 = new System.Windows.Forms.TabPage();
+			this.tabPage7 = new System.Windows.Forms.TabPage();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
-			this.numericTextBox3 = new NumericTextBox();
+			this.TB_tom_menuscript = new NumericTextBox();
+			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -111,6 +113,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).BeginInit();
+			this.itemdesc_menu_strip.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox7.SuspendLayout();
@@ -119,18 +122,20 @@
 			this.groupBox5.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_material_picture)).BeginInit();
 			this.groupBox6.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_tool_picture)).BeginInit();
 			this.groupBox8.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_material_picture)).BeginInit();
-			this.itemdesc_menu_strip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 601);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(1012, 22);
+			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -270,9 +275,9 @@
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(7, 29);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(35, 13);
+			this.label4.Size = new System.Drawing.Size(29, 13);
 			this.label4.TabIndex = 3;
-			this.label4.Text = "label4";
+			this.label4.Text = "Path";
 			// 
 			// label1
 			// 
@@ -394,6 +399,20 @@
 			this.Column3.MinimumWidth = 151;
 			this.Column3.Name = "Column3";
 			this.Column3.ReadOnly = true;
+			// 
+			// itemdesc_menu_strip
+			// 
+			this.itemdesc_menu_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyObjTypeToClipboardToolStripMenuItem});
+			this.itemdesc_menu_strip.Name = "itemdesc_menu_strip";
+			this.itemdesc_menu_strip.Size = new System.Drawing.Size(220, 26);
+			// 
+			// copyObjTypeToClipboardToolStripMenuItem
+			// 
+			this.copyObjTypeToClipboardToolStripMenuItem.Name = "copyObjTypeToClipboardToolStripMenuItem";
+			this.copyObjTypeToClipboardToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+			this.copyObjTypeToClipboardToolStripMenuItem.Text = "Copy ObjType to Clipboard";
+			this.copyObjTypeToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyObjTypeToClipboardToolStripMenuItem_Click);
 			// 
 			// tabPage3
 			// 
@@ -547,9 +566,9 @@
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(7, 18);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(35, 13);
+			this.label5.Size = new System.Drawing.Size(29, 13);
 			this.label5.TabIndex = 3;
-			this.label5.Text = "label5";
+			this.label5.Text = "Path";
 			// 
 			// label3
 			// 
@@ -657,33 +676,6 @@
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "ToolOnMaterial";
 			// 
-			// tabPage5
-			// 
-			this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "CraftMenus";
-			// 
-			// tabPage6
-			// 
-			this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage6.Location = new System.Drawing.Point(4, 22);
-			this.tabPage6.Name = "tabPage6";
-			this.tabPage6.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage6.TabIndex = 5;
-			this.tabPage6.Text = "CraftItems";
-			// 
-			// tabPage7
-			// 
-			this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage7.Location = new System.Drawing.Point(4, 22);
-			this.tabPage7.Name = "tabPage7";
-			this.tabPage7.Size = new System.Drawing.Size(1004, 551);
-			this.tabPage7.TabIndex = 6;
-			this.tabPage7.Text = "Craft Tree";
-			// 
 			// groupBox4
 			// 
 			this.groupBox4.Controls.Add(this.label19);
@@ -700,13 +692,33 @@
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "T.O.M. Info";
 			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(532, 196);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(80, 13);
+			this.label19.TabIndex = 6;
+			this.label19.Text = "Material Picture";
+			// 
+			// toolonmaterial_material_picture
+			// 
+			this.toolonmaterial_material_picture.BackColor = System.Drawing.Color.Black;
+			this.toolonmaterial_material_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolonmaterial_material_picture.Location = new System.Drawing.Point(495, 215);
+			this.toolonmaterial_material_picture.Name = "toolonmaterial_material_picture";
+			this.toolonmaterial_material_picture.Size = new System.Drawing.Size(159, 151);
+			this.toolonmaterial_material_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.toolonmaterial_material_picture.TabIndex = 5;
+			this.toolonmaterial_material_picture.TabStop = false;
+			// 
 			// groupBox6
 			// 
-			this.groupBox6.Controls.Add(this.button1);
-			this.groupBox6.Controls.Add(this.numericTextBox3);
+			this.groupBox6.Controls.Add(this.BTN_tom_update);
+			this.groupBox6.Controls.Add(this.TB_tom_menuscript);
 			this.groupBox6.Controls.Add(this.label15);
 			this.groupBox6.Controls.Add(this.label16);
-			this.groupBox6.Controls.Add(this.textBox2);
+			this.groupBox6.Controls.Add(this.TB_tom_showmenu);
 			this.groupBox6.Location = new System.Drawing.Point(90, 215);
 			this.groupBox6.Name = "groupBox6";
 			this.groupBox6.Size = new System.Drawing.Size(294, 121);
@@ -714,15 +726,15 @@
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Fields";
 			// 
-			// button1
+			// BTN_tom_update
 			// 
-			this.button1.Location = new System.Drawing.Point(110, 69);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 15;
-			this.button1.Text = "Update";
-			this.toolTip1.SetToolTip(this.button1, "Will update to memory, you must click write files to commit to disk.");
-			this.button1.UseVisualStyleBackColor = true;
+			this.BTN_tom_update.Location = new System.Drawing.Point(110, 69);
+			this.BTN_tom_update.Name = "BTN_tom_update";
+			this.BTN_tom_update.Size = new System.Drawing.Size(75, 23);
+			this.BTN_tom_update.TabIndex = 15;
+			this.BTN_tom_update.Text = "Update";
+			this.toolTip1.SetToolTip(this.BTN_tom_update, "Will update to memory, you must click write files to commit to disk.");
+			this.BTN_tom_update.UseVisualStyleBackColor = true;
 			// 
 			// label15
 			// 
@@ -742,24 +754,24 @@
 			this.label16.TabIndex = 1;
 			this.label16.Text = "ShowMenu";
 			// 
-			// textBox2
+			// TB_tom_showmenu
 			// 
-			this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox2.Location = new System.Drawing.Point(99, 18);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(174, 20);
-			this.textBox2.TabIndex = 0;
-			this.toolTip1.SetToolTip(this.textBox2, "Category will affect the elem read in ToolOnMaterial");
+			this.TB_tom_showmenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_tom_showmenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_tom_showmenu.Location = new System.Drawing.Point(99, 18);
+			this.TB_tom_showmenu.Name = "TB_tom_showmenu";
+			this.TB_tom_showmenu.Size = new System.Drawing.Size(174, 20);
+			this.TB_tom_showmenu.TabIndex = 0;
+			this.toolTip1.SetToolTip(this.TB_tom_showmenu, "Points to an elem name in a CraftMenus.cfg file.");
 			// 
 			// label17
 			// 
 			this.label17.AutoSize = true;
 			this.label17.Location = new System.Drawing.Point(7, 18);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(41, 13);
+			this.label17.Size = new System.Drawing.Size(29, 13);
 			this.label17.TabIndex = 3;
-			this.label17.Text = "label17";
+			this.label17.Text = "Path";
 			// 
 			// label18
 			// 
@@ -796,22 +808,13 @@
 			// groupBox8
 			// 
 			this.groupBox8.Controls.Add(this.toolonmaterial_treeview);
-			this.groupBox8.Controls.Add(this.button2);
+			this.groupBox8.Controls.Add(this.BTN_tom_writefiles);
 			this.groupBox8.Location = new System.Drawing.Point(6, 3);
 			this.groupBox8.Name = "groupBox8";
 			this.groupBox8.Size = new System.Drawing.Size(326, 545);
 			this.groupBox8.TabIndex = 5;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Tool On Material";
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(126, 516);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 0;
-			this.button2.Text = "Write Files";
-			this.button2.UseVisualStyleBackColor = true;
 			// 
 			// toolonmaterial_treeview
 			// 
@@ -822,40 +825,43 @@
 			this.toolonmaterial_treeview.Name = "toolonmaterial_treeview";
 			this.toolonmaterial_treeview.Size = new System.Drawing.Size(314, 491);
 			this.toolonmaterial_treeview.TabIndex = 1;
+			this.toolonmaterial_treeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.toolonmaterial_treeview_AfterSelect);
 			// 
-			// label19
+			// BTN_tom_writefiles
 			// 
-			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(532, 196);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(80, 13);
-			this.label19.TabIndex = 6;
-			this.label19.Text = "Material Picture";
+			this.BTN_tom_writefiles.Location = new System.Drawing.Point(126, 516);
+			this.BTN_tom_writefiles.Name = "BTN_tom_writefiles";
+			this.BTN_tom_writefiles.Size = new System.Drawing.Size(75, 23);
+			this.BTN_tom_writefiles.TabIndex = 0;
+			this.BTN_tom_writefiles.Text = "Write Files";
+			this.BTN_tom_writefiles.UseVisualStyleBackColor = true;
 			// 
-			// toolonmaterial_material_picture
+			// tabPage5
 			// 
-			this.toolonmaterial_material_picture.BackColor = System.Drawing.Color.Black;
-			this.toolonmaterial_material_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.toolonmaterial_material_picture.Location = new System.Drawing.Point(495, 215);
-			this.toolonmaterial_material_picture.Name = "toolonmaterial_material_picture";
-			this.toolonmaterial_material_picture.Size = new System.Drawing.Size(159, 151);
-			this.toolonmaterial_material_picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.toolonmaterial_material_picture.TabIndex = 5;
-			this.toolonmaterial_material_picture.TabStop = false;
+			this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage5.Location = new System.Drawing.Point(4, 22);
+			this.tabPage5.Name = "tabPage5";
+			this.tabPage5.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage5.TabIndex = 4;
+			this.tabPage5.Text = "CraftMenus";
 			// 
-			// itemdesc_menu_strip
+			// tabPage6
 			// 
-			this.itemdesc_menu_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyObjTypeToClipboardToolStripMenuItem});
-			this.itemdesc_menu_strip.Name = "itemdesc_menu_strip";
-			this.itemdesc_menu_strip.Size = new System.Drawing.Size(220, 48);
+			this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage6.Location = new System.Drawing.Point(4, 22);
+			this.tabPage6.Name = "tabPage6";
+			this.tabPage6.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage6.TabIndex = 5;
+			this.tabPage6.Text = "CraftItems";
 			// 
-			// copyObjTypeToClipboardToolStripMenuItem
+			// tabPage7
 			// 
-			this.copyObjTypeToClipboardToolStripMenuItem.Name = "copyObjTypeToClipboardToolStripMenuItem";
-			this.copyObjTypeToClipboardToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-			this.copyObjTypeToClipboardToolStripMenuItem.Text = "Copy ObjType to Clipboard";
-			this.copyObjTypeToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyObjTypeToClipboardToolStripMenuItem_Click);
+			this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage7.Location = new System.Drawing.Point(4, 22);
+			this.tabPage7.Name = "tabPage7";
+			this.tabPage7.Size = new System.Drawing.Size(1004, 551);
+			this.tabPage7.TabIndex = 6;
+			this.tabPage7.Text = "Craft Tree";
 			// 
 			// TB_materials_quality
 			// 
@@ -890,16 +896,22 @@
 			this.TB_materials_color.TabIndex = 6;
 			this.toolTip1.SetToolTip(this.TB_materials_color, "If set, will override the materials itemdesc.cfg color entry.");
 			// 
-			// numericTextBox3
+			// TB_tom_menuscript
 			// 
-			this.numericTextBox3.AllowSpace = false;
-			this.numericTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox3.Location = new System.Drawing.Point(99, 43);
-			this.numericTextBox3.Name = "numericTextBox3";
-			this.numericTextBox3.Size = new System.Drawing.Size(174, 20);
-			this.numericTextBox3.TabIndex = 6;
-			this.toolTip1.SetToolTip(this.numericTextBox3, "If set, will override the materials itemdesc.cfg color entry.");
+			this.TB_tom_menuscript.AllowSpace = false;
+			this.TB_tom_menuscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_tom_menuscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_tom_menuscript.Location = new System.Drawing.Point(99, 43);
+			this.TB_tom_menuscript.Name = "TB_tom_menuscript";
+			this.TB_tom_menuscript.Size = new System.Drawing.Size(174, 20);
+			this.TB_tom_menuscript.TabIndex = 6;
+			this.toolTip1.SetToolTip(this.TB_tom_menuscript, "Run a script for the menu choices instead of the craft system\'s built in slider.");
+			// 
+			// toolStripStatusLabel1
+			// 
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(16, 17);
+			this.toolStripStatusLabel1.Text = "...";
 			// 
 			// Form1
 			// 
@@ -910,10 +922,13 @@
 			this.Controls.Add(this.TabControl1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
 			this.Text = "Craft Tool";
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.TabControl1.ResumeLayout(false);
@@ -925,6 +940,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.itemdesc_picture)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.itemdesc_datagrid)).EndInit();
+			this.itemdesc_menu_strip.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
@@ -936,12 +952,11 @@
 			this.tabPage4.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_material_picture)).EndInit();
 			this.groupBox6.ResumeLayout(false);
 			this.groupBox6.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_tool_picture)).EndInit();
 			this.groupBox8.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.toolonmaterial_material_picture)).EndInit();
-			this.itemdesc_menu_strip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1005,22 +1020,23 @@
 		private System.Windows.Forms.Button BTN_materials_write;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.GroupBox groupBox6;
-		private System.Windows.Forms.Button button1;
-		private NumericTextBox numericTextBox3;
+		private System.Windows.Forms.Button BTN_tom_update;
+		private NumericTextBox TB_tom_menuscript;
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.TextBox TB_tom_showmenu;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.PictureBox toolonmaterial_tool_picture;
 		private System.Windows.Forms.TextBox TB_toolonmaterial;
 		private System.Windows.Forms.GroupBox groupBox8;
 		private System.Windows.Forms.TreeView toolonmaterial_treeview;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button BTN_tom_writefiles;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.PictureBox toolonmaterial_material_picture;
 		private System.Windows.Forms.ContextMenuStrip itemdesc_menu_strip;
 		private System.Windows.Forms.ToolStripMenuItem copyObjTypeToClipboardToolStripMenuItem;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 	}
 }
 
