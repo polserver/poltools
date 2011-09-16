@@ -133,6 +133,58 @@ namespace POLTools.ConfigRepository
 			return null;
 		}
 
+		public List<string> GetConfigPropertyValuesFromLoadedConfigFiles(string filename, string property_name, bool single)
+		{
+			filename = filename.ToLower();
+			List<string> values = new List<string>();
+			foreach (ConfigFile config_file in global._config_cache.Values)
+			{
+				if (config_file.filename.ToLower() == filename)
+				{
+					foreach (ConfigElem elem in config_file.GetConfigElemRefs())
+					{
+						if (!elem.PropertyExists(property_name))
+							continue;
+						else if (single)
+						{
+							values.Add(elem.GetConfigString(property_name));
+						}
+						else
+						{
+							foreach (string value in elem.GetConfigStringList(property_name))
+							{
+								values.Add(value);
+							}
+						}
+					}
+				}
+			}
+
+			return values;
+		}
+
+		public int LoadConfigFileFromPackages(string filename)
+		{
+			int count = 0;
+
+			foreach (POLTools.Package.POLPackage package in POLTools.Package.PackageCache.Global.packagelist)
+			{
+				string filepath = package.GetPackagedConfigPath(filename);
+				if (this.ContainsPath(filepath))
+					count++;
+				else if (filepath == null)
+					continue;
+				else
+				{
+					ConfigFile configfile = package.LoadPackagedConfig(filename);
+					AddConfigFile(configfile);
+					count++;
+				}
+			}
+
+			return count;
+		}
+
 		public static bool WriteConfigFile(ConfigFile cfg_file)
 		{
 			File.WriteAllText(cfg_file.fullpath, cfg_file.ToString());
