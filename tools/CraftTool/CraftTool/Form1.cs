@@ -351,7 +351,6 @@ namespace CraftTool
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
-			/*
 			// First figure out if any existing configs need to be deleted.
 			foreach (POLPackage package in PackageCache.Global.packagelist)
 			{
@@ -370,24 +369,17 @@ namespace CraftTool
 					continue;
 				POLPackage package = PackageCache.GetPackage(node.Name);
 				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
-				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
-				ConfigRepository.WriteConfigFile(config_file);
-			}*/
-
-			foreach (TreeNode node in materials_tree_view.Nodes)
-			{
-				if (node.Parent != null)
-					continue;
-				POLPackage package = PackageCache.GetPackage(node.Name);
-				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
 				if (materials_cfg_path == null) // File doesnt already exist.
 					materials_cfg_path = package.path + @"\config\materials.cfg";
+				if (!Directory.Exists(package.path + @"\config\"))
+					Directory.CreateDirectory(package.path + @"\config\");
 				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
+				ConfigRepository.WriteConfigFile(config_file);
 			}
-
+			
 			MessageBox.Show("Done", "Materials.cfg", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-	
+
 		#endregion
 
 		#region Tool On Material Tab Stuff
