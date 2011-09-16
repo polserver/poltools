@@ -460,7 +460,7 @@ namespace CraftTool
 				}
 			}
 
-			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
+			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
 		#endregion
 	}

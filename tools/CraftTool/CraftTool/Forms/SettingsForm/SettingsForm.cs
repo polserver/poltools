@@ -20,6 +20,7 @@ namespace CraftTool.Forms.SettingsForm
 		private void BTN_apply_Click(object sender, EventArgs e)
 		{
 			Settings.Global.rootdir = TB_pol_path.Text;
+			Settings.Global.UpdateSetting("POLPath", TB_pol_path.Text);
 			Settings.Global.UpdateSetting("POLPath", TB_uol_path.Text);
 		}
 
