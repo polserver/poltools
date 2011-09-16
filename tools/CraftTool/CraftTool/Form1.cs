@@ -81,6 +81,48 @@ namespace CraftTool
 			}
 		}
 
+		private void RemoveConfigTreeNode(TreeView treeview, string cfgname)
+		{
+			TreeNode selected = treeview.SelectedNode;
+			if (selected == null)
+			{
+				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			TreeNode parent = selected;
+			while (parent.Parent != null)
+			{
+				parent = parent.Parent;
+			}
+
+			POLPackage package = PackageCache.GetPackage(parent.Name);
+			ConfigFile config_file;
+			string config_path = package.GetPackagedConfigPath(cfgname);
+			if (config_path == null) // Its a pseudo config & elem at this point then. (Not on disk)
+				config_path = package.path + @"\config\"+cfgname;
+			config_file = ConfigRepository.global.LoadConfigFile(config_path);
+
+			if (parent == selected)
+			{
+				foreach (TreeNode child in selected.Nodes)
+				{
+					if (child == null)
+						continue;
+					config_file.RemoveConfigElement(child.Name);
+				}
+			}
+			else
+			{
+				config_file.RemoveConfigElement(selected.Name);
+			}
+
+			TreeView tvparent = selected.TreeView;
+
+			toolonmaterial_treeview.Nodes.Remove(selected);
+
+			if (parent == selected || tvparent.VisibleCount < 1)
+				ConfigRepository.global.UnloadConfigFile(config_path);
+		}
 		#endregion
 
 		private void button1_Click(object sender, EventArgs e)
@@ -265,18 +307,18 @@ namespace CraftTool
 		private void BTN_materials_update_Click(object sender, EventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
-			TreeNode parent = selected;
+			TreeNode nodeparent = selected;
 			if (selected == null)
 			{
 				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			while (parent.Parent != null)
+			while (nodeparent.Parent != null)
 			{
-				parent = parent.Parent;
+				nodeparent = nodeparent.Parent;
 			}
 			
-			POLPackage package = PackageCache.GetPackage(parent.Name);
+			POLPackage package = PackageCache.GetPackage(nodeparent.Name);
 			ConfigFile materials_cfg;
 			string config_path = package.GetPackagedConfigPath("materials.cfg");
 			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
@@ -360,43 +402,10 @@ namespace CraftTool
 
 			AddMaterialsObjType(selected, picker.text);
 		}
-
-		private void RemoveMaterialNode(TreeNode node, ConfigFile material_cfg)
-		{
-			material_cfg.RemoveConfigElement(node.Name);
-			materials_tree_view.Nodes.Remove(node);
-		}
-
+		
 		private void removeElementToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TreeNode selected = materials_tree_view.SelectedNode;
-			if (selected == null)
-			{
-				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			TreeNode parent = selected;
-			while (parent.Parent != null)
-			{
-				parent = parent.Parent;
-			}
-
-			POLPackage package = PackageCache.GetPackage(Parent.Name);
-			ConfigFile materials_cfg;
-			string config_path = package.GetPackagedConfigPath("materials.cfg");
-			if (config_path == null) // Its a pseudo config & elem at this point then. (Not on disk)
-				config_path = package.path + @"\config\materials.cfg";
-			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
-
-			if (parent == selected)
-			{
-				foreach (TreeNode child in selected.Nodes)
-				{
-					RemoveMaterialNode(selected, materials_cfg);
-				}
-			}
-			RemoveMaterialNode(selected, materials_cfg);
-			ConfigRepository.global.UnloadConfigFile(config_path);
+			RemoveConfigTreeNode(materials_tree_view, "materials.cfg");
 		}
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
@@ -441,11 +450,12 @@ namespace CraftTool
 				if (tom_cfg_path == null)
 					continue;
 
-				TreeNode pkg_node = toolonmaterial_treeview.Nodes.Add(":" + package.name + ":toolOnMaterial.cfg");
+				string nodename = ":" + package.name + ":toolOnMaterial.cfg";
+				TreeNode pkg_node = toolonmaterial_treeview.Nodes.Add(package.name, nodename);
 				ConfigFile tom_config = ConfigRepository.global.LoadConfigFile(tom_cfg_path);
 				foreach (ConfigElem cfg_elem in tom_config.GetConfigElemRefs())
 				{
-					string nodename = cfg_elem.name;
+					nodename = cfg_elem.name;
 					
 					pkg_node.Nodes.Add(nodename, nodename);
 				}
@@ -574,10 +584,10 @@ namespace CraftTool
 
 			selected.Nodes.Add(elem_name, elem_name);
 		}
-		
+
 		private void toolStripMenuItem3_Click(object sender, EventArgs e)
 		{
-
+			RemoveConfigTreeNode(toolonmaterial_treeview, "toolOnMaterial.cfg");
 		}
 		
 		private void BTN_tom_writefiles_Click(object sender, EventArgs e)
