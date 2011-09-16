@@ -438,16 +438,13 @@ namespace CraftTool
 				ConfigFile tom_config = ConfigRepository.global.LoadConfigFile(tom_cfg_path);
 				foreach (ConfigElem cfg_elem in tom_config.GetConfigElemRefs())
 				{
-					//ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", cfg_elem.name);
 					string nodename = cfg_elem.name;
-					//if (itemdesc_elem.PropertyExists("Name"))
-					//	nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
-
-					pkg_node.Nodes.Add(nodename);
+					
+					pkg_node.Nodes.Add(nodename, nodename);
 				}
 			}
 		}
-
+		
 		private void toolonmaterial_treeview_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = toolonmaterial_treeview.SelectedNode;
@@ -455,20 +452,30 @@ namespace CraftTool
 				return;
 
 			TB_toolonmaterial.Clear();
-			string name = selected.Text;
+			foreach (Control control in groupBox6.Controls)
+			{
+				if (control is TextBox)
+					((TextBox)control).Clear();
+			}
 
-			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", name);
-			label17.Text = tom_elem.configfile.fullpath;
+			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", selected.Name);
+			label5.Text = tom_elem.configfile.fullpath;
 			foreach (string propname in tom_elem.ListConfigElemProperties())
 			{
 				foreach (string value in tom_elem.GetConfigStringList(propname))
 				{
-					this.TB_toolonmaterial.AppendText(propname + "	" + value + Environment.NewLine);
+					TB_toolonmaterial.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
 
 			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
+			toolonmaterial_material_picture.Image = global::CraftTool.Properties.Resources.unused;
+			if (tom_elem.PropertyExists("ShowMenu"))
+				TB_tom_showmenu.Text = tom_elem.GetConfigString("ShowMenu");
+			if (tom_elem.PropertyExists("MenuScript"))
+				TB_tom_menuscript.Text = tom_elem.GetConfigString("MenuScript");
 		}
+
 		#endregion
 
 	}
