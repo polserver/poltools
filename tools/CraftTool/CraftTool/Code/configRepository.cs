@@ -86,11 +86,10 @@ namespace POLTools.ConfigRepository
 
 		public List<ConfigElem> GetElemsFromConfigFiles(string filename)
 		{
-			filename = filename.ToLower();
 			List<ConfigElem> elems = new List<ConfigElem>();
 			foreach ( ConfigFile config_file in global._config_cache.Values )
 			{
-				if (config_file.filename.ToLower() == filename)
+				if (config_file.filename.Equals(filename, StringComparison.CurrentCultureIgnoreCase))
 				{
 					elems.AddRange(config_file.GetConfigElemRefs());
 				}
@@ -101,11 +100,10 @@ namespace POLTools.ConfigRepository
 
 		public List<String> GetElemNamesFromConfigFiles(string filename)
 		{
-			filename = filename.ToLower();
 			List<String> elem_names = new List<String>();
 			foreach (ConfigFile config_file in global._config_cache.Values)
 			{
-				if (config_file.filename.ToLower() == filename)
+				if (config_file.filename.Equals(filename, StringComparison.CurrentCultureIgnoreCase) )
 				{
 					foreach (ConfigElem elem in config_file.GetConfigElemRefs())
 						elem_names.Add(elem.name);
@@ -118,10 +116,9 @@ namespace POLTools.ConfigRepository
 
 		public ConfigElem FindElemInConfigFiles(string filename, string elem_name)
 		{
-			filename = filename.ToLower();
 			foreach (ConfigFile config_file in global._config_cache.Values)
 			{
-				if (config_file.filename.ToLower() == filename)
+				if (config_file.filename.Equals(filename, StringComparison.CurrentCultureIgnoreCase))
 				{
 					if (config_file.ElemNameExists(elem_name))
 					{
@@ -133,13 +130,12 @@ namespace POLTools.ConfigRepository
 			return null;
 		}
 
-		public List<string> GetConfigPropertyValuesFromLoadedConfigFiles(string filename, string property_name, bool single)
+		public List<string> GetConfigPropertyValuesFromLoadedConfigFiles(string filename, string property_name, bool single, bool allowduplicates)
 		{
-			filename = filename.ToLower();
 			List<string> values = new List<string>();
 			foreach (ConfigFile config_file in global._config_cache.Values)
 			{
-				if (config_file.filename.ToLower() == filename)
+				if (config_file.filename.Equals(filename, StringComparison.CurrentCultureIgnoreCase))
 				{
 					foreach (ConfigElem elem in config_file.GetConfigElemRefs())
 					{
@@ -147,12 +143,19 @@ namespace POLTools.ConfigRepository
 							continue;
 						else if (single)
 						{
-							values.Add(elem.GetConfigString(property_name));
+							string value = elem.GetConfigString(property_name);
+							if (!allowduplicates)
+								if (values.Exists(delegate(string n) { return n.Equals(value, StringComparison.CurrentCultureIgnoreCase); }))
+									continue;
+							values.Add(value);
 						}
 						else
 						{
 							foreach (string value in elem.GetConfigStringList(property_name))
 							{
+								if (!allowduplicates)
+									if (values.Exists(delegate(string n) { return n.Equals(value, StringComparison.CurrentCultureIgnoreCase); }))
+										break;
 								values.Add(value);
 							}
 						}

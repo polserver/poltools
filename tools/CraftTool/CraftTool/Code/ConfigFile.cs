@@ -345,8 +345,7 @@ namespace ConfigUtil
 
 		public object GetConfigObject(string key)
 		{
-			key = key.ToLower();
-			CfgPair pair = _cfgpairs.Find(item => item.first.ToLower() == key);
+			CfgPair pair = _cfgpairs.Find(item => item.first.Equals(key, StringComparison.CurrentCultureIgnoreCase));
 			return pair.second;
 		}
 
@@ -370,12 +369,11 @@ namespace ConfigUtil
 
 		public List<object> GetConfigObjectList(string key)
 		{
-			key = key.ToLower();
 			List<object> objects = new List<object>();
 
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if (pair.first.ToLower() == key)
+				if (pair.first.Equals(key, StringComparison.CurrentCultureIgnoreCase))
 				{
 					objects.Add(pair.second);
 				}
@@ -393,7 +391,7 @@ namespace ConfigUtil
 			List<string> properties = new List<String>();
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if (!properties.Exists(delegate(string n) { return n == pair.first.ToLower(); }))
+				if (!properties.Exists(delegate(string n) { return n.Equals(pair.first, StringComparison.CurrentCultureIgnoreCase); }))
 				{
 					properties.Add(pair.first);
 				}
@@ -403,10 +401,9 @@ namespace ConfigUtil
 
 		public bool PropertyExists(string key)
 		{
-			key = key.ToLower();
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if (pair.first.ToLower() == key)
+				if (pair.first.Equals(key, StringComparison.CurrentCultureIgnoreCase))
 					return true;
 			}
 
@@ -477,8 +474,7 @@ namespace ConfigUtil
 
 		public object GetConfigObject(string key)
 		{
-			key = key.ToLower();
-			CfgPair pair = _cfgpairs.Find(item => item.first.ToLower() == key);
+			CfgPair pair = _cfgpairs.Find(item => item.first.Equals(key, StringComparison.CurrentCultureIgnoreCase));
 			return pair.second;
 		}
 
@@ -502,12 +498,11 @@ namespace ConfigUtil
 
 		public List<object> GetConfigObjectList(string key)
 		{
-			key = key.ToLower();
 			List<object> objects = new List<object>();
 			
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if (pair.first.ToLower() == key)
+				if (pair.first.Equals(key, StringComparison.CurrentCultureIgnoreCase))
 				{
 					objects.Add(pair.second);
 				}
@@ -525,7 +520,7 @@ namespace ConfigUtil
 			List<string> properties = new List<String>();
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if ( !properties.Exists(delegate(string n) { return n.ToLower() == pair.first.ToLower(); }) )
+				if ( !properties.Exists(delegate(string n) { return n.Equals(pair.first, StringComparison.CurrentCultureIgnoreCase); }) )
 				{
 					properties.Add(pair.first);
 				}
@@ -535,10 +530,9 @@ namespace ConfigUtil
 
 		public bool PropertyExists(string key)
 		{
-			key = key.ToLower();
 			foreach (CfgPair pair in _cfgpairs)
 			{
-				if ( pair.first.ToLower() == key )
+				if ( pair.first.Equals(key, StringComparison.CurrentCultureIgnoreCase) )
 					return true;
 			}
 
