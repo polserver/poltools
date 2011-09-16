@@ -527,7 +527,7 @@ namespace CraftTool
 
 		private void toolStripMenuItem2_Click(object sender, EventArgs e)
 		{
-			TreeNode selected = CheckForSelectedNode(materials_tree_view);
+			TreeNode selected = CheckForSelectedNode(toolonmaterial_treeview);
 			if (selected == null)
 				return;
 			TreeNode nodeparent = GetParentTreeNode(selected);
@@ -544,22 +544,14 @@ namespace CraftTool
 					return;
 				}
 			}
-			List<string> categories = new List<string>();
-			foreach (ConfigElem material_elem in ConfigRepository.global.GetElemsFromConfigFiles("materials.cfg"))
-			{
-				if (!material_elem.PropertyExists("Category"))
-					continue;
-				string category = material_elem.GetConfigString("Category");
-				if (!categories.Exists(delegate(string n) { return n.ToLower() == category.ToLower(); }))
-					categories.Add(category);
-			}
+			List<string> categories = ConfigRepository.global.GetConfigPropertyValuesFromLoadedConfigFiles("materials.cfg", "Category", true, false);
 			Forms.SelectionPicker.SelectionPicker catpicker = new Forms.SelectionPicker.SelectionPicker("Select a category", categories);
 			catpicker.ShowDialog(this);
 			if (catpicker.result != DialogResult.OK)
 				return;
 			else
 			{
-				if (!categories.Exists(delegate(string n) { return n.ToLower() == catpicker.text.ToLower(); }))
+				if (!categories.Exists(delegate(string n) { return n.Equals(catpicker.text, StringComparison.CurrentCultureIgnoreCase); }))
 				{
 					MessageBox.Show("Invalid category name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;

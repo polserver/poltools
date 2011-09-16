@@ -62,7 +62,7 @@ namespace POLTools.Itemdesc
 
 		public string GetObjTypeByName(string name)
 		{
-			if (Global._objtypes.ContainsKey(name.ToLower()))
+			if (Global._objtypes.ContainsKey(name))
 				return Global._objtypes[name];
 			return null;
 		}
