@@ -490,8 +490,31 @@ namespace CraftTool
 			}
 			combobox_tom_showmenus.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("CraftMenus.cfg").ToArray());
 		}
+		
+		private void toolStripMenuItem1_Click(object sender, EventArgs e)
+		{
 
+		}
+
+		private void toolStripMenuItem2_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void toolStripMenuItem3_Click(object sender, EventArgs e)
+		{
+
+		}
+		
+		private void BTN_tom_writefiles_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BTN_tom_update_Click(object sender, EventArgs e)
+		{
+
+		}
 		#endregion
-
 	}
 }
