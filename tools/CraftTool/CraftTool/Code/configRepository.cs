@@ -123,15 +123,9 @@ namespace POLTools.ConfigRepository
 			{
 				if (config_file.filename.ToLower() == filename)
 				{
-					try
+					if (config_file.ElemNameExists(elem_name))
 					{
-						ConfigElem elem = config_file.GetConfigElem(elem_name);
-						if (elem != null)
-							return elem;
-					}
-					catch
-					{
-						continue;
+						return config_file.GetConfigElem(elem_name);
 					}
 				}
 			}

@@ -355,7 +355,7 @@ namespace CraftTool
 				config_path = package.path + @"\config\materials.cfg";
 
 			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
-			ConfigElem elem = new ConfigElem("Elem", picker.text);
+			ConfigElem elem = new ConfigElem("Material", picker.text);
 			materials_cfg.AddConfigElement(elem);
 
 			AddMaterialsObjType(selected, picker.text);
@@ -467,7 +467,8 @@ namespace CraftTool
 			if (selected.Parent == null)
 				return;
 
-			ConfigElem tom_elem = ConfigRepository.global.FindElemInConfigFiles("toolonmaterial.cfg", selected.Name);
+			ConfigElem tom_elem = ConfigRepository.global.FindElemInConfigFiles("toolOnMaterial.cfg", selected.Name);
+						
 			label17.Text = tom_elem.configfile.fullpath;
 			foreach (string propname in tom_elem.ListConfigElemProperties())
 			{
@@ -478,7 +479,6 @@ namespace CraftTool
 			}
 
 			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
-			toolonmaterial_material_picture.Image = global::CraftTool.Properties.Resources.unused;
 			if (tom_elem.PropertyExists("MenuScript"))
 				TB_tom_menuscript.Text = tom_elem.GetConfigString("MenuScript");
 
@@ -493,14 +493,88 @@ namespace CraftTool
 		
 		private void toolStripMenuItem1_Click(object sender, EventArgs e)
 		{
+			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a package", PackageCache.Global.packagenames);
+			picker.ShowDialog(this);
+			if (picker.DialogResult != DialogResult.OK)
+				return;
+			else if (PackageCache.GetPackage(picker.text) == null)
+			{
+				MessageBox.Show("Invalid package name '" + picker.text + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
+			toolonmaterial_treeview.Nodes.Add(picker.text, ":" + picker.text + ":toolOnMaterial.cfg");
+
+			POLPackage pkg = PackageCache.GetPackage(picker.text);
+			string filepath = pkg.path + @"\config\toolOnMaterial.cfg";
+			ConfigFile config_file = new ConfigFile(filepath);
+			ConfigRepository.global.AddConfigFile(config_file);
 		}
 
 		private void toolStripMenuItem2_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = toolonmaterial_treeview.SelectedNode;
+			if (selected == null)
+			{
+				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			while (selected.Parent != null)
+			{
+				selected = selected.Parent;
+			}
 
+			Forms.SelectionPicker.SelectionPicker toolpicker = new Forms.SelectionPicker.SelectionPicker("Select a tool", ItemdescCache.Global.GetAllObjTypes());
+			toolpicker.ShowDialog(this);
+			if (toolpicker.result != DialogResult.OK)
+				return;
+			else
+			{
+				if (ItemdescCache.Global.GetElemForObjType(toolpicker.text) == null)
+				{
+					MessageBox.Show("Invalid object type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+			}
+
+			List<string> categories = new List<string>();
+			foreach (ConfigElem material_elem in ConfigRepository.global.GetElemsFromConfigFiles("materials.cfg"))
+			{
+				if (!material_elem.PropertyExists("Category"))
+					continue;
+				string category = material_elem.GetConfigString("Category");
+				if (!categories.Exists(delegate(string n) { return n.ToLower() == category.ToLower(); }))
+					categories.Add(category);
+			}
+			Forms.SelectionPicker.SelectionPicker catpicker = new Forms.SelectionPicker.SelectionPicker("Select a category", categories);
+			catpicker.ShowDialog(this);
+			if (catpicker.result != DialogResult.OK)
+				return;
+			else
+			{
+				if (!categories.Exists(delegate(string n) { return n.ToLower() == catpicker.text.ToLower(); }))
+				{
+					MessageBox.Show("Invalid category name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+			}
+			
+			string package_name = POLPackage.ParsePackageName(selected.Text);
+			POLPackage package = PackageCache.GetPackage(package_name);
+			ConfigFile config_file;
+			string config_path = package.GetPackagedConfigPath("toolOnMaterial.cfg");
+			if (config_path == null) // Its a pseudo config & elem at this point then. (Not on disk)
+				config_path = package.path + @"\config\toolOnMaterial.cfg";
+
+			string elem_name = "Tool=" + toolpicker.text + "&Material=" + catpicker.text;
+
+			config_file = ConfigRepository.global.LoadConfigFile(config_path);
+			ConfigElem elem = new ConfigElem("MenuPointer", elem_name);
+			config_file.AddConfigElement(elem);
+
+			selected.Nodes.Add(elem_name, elem_name);
 		}
-
+		
 		private void toolStripMenuItem3_Click(object sender, EventArgs e)
 		{
 
