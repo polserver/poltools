@@ -72,6 +72,11 @@ namespace CraftTool
 				return null;
 		}
 
+		public void UpdateSetting(string key, string value)
+		{
+			Global._settings[key] = value;
+		}
+
 		public bool LoadSettings()
 		{
 			_settings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
