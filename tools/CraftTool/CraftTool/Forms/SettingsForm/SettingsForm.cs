@@ -14,14 +14,14 @@ namespace CraftTool.Forms.SettingsForm
 		private void SettingsForm_Load(object sender, EventArgs e)
 		{
 			TB_pol_path.Text = Settings.Global.rootdir;
-			TB_uol_path.Text = Settings.Global.GetSetting("POLPath");
+			TB_uol_path.Text = Settings.Global.GetSetting("UOLPath");
 		}
 
 		private void BTN_apply_Click(object sender, EventArgs e)
 		{
 			Settings.Global.rootdir = TB_pol_path.Text;
 			Settings.Global.UpdateSetting("POLPath", TB_pol_path.Text);
-			Settings.Global.UpdateSetting("POLPath", TB_uol_path.Text);
+			Settings.Global.UpdateSetting("UOLPath", TB_uol_path.Text);
 		}
 
 		private void BTN_ok_Click(object sender, EventArgs e)

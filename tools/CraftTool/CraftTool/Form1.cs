@@ -172,6 +172,13 @@ namespace CraftTool
 			label4.Text = itemdesc_elem.configfile.fullpath;
 			itemdesc_picture.Image = (Bitmap)row.Cells[0].Value;
 		}
+
+		private void copyObjTypeToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DataGridViewRow row = itemdesc_datagrid.CurrentRow;
+			DataGridViewCell cell = row.Cells[1];
+			Clipboard.SetText(cell.Value.ToString());
+		}
 		#endregion
 
 		#region Materials Tab Stuff
@@ -451,7 +458,7 @@ namespace CraftTool
 			string name = selected.Text;
 
 			ConfigElem tom_elem = ConfigRepository.global.GetElemFromConfigFiles("toolonmaterial.cfg", name);
-			label6.Text = tom_elem.configfile.fullpath;
+			label17.Text = tom_elem.configfile.fullpath;
 			foreach (string propname in tom_elem.ListConfigElemProperties())
 			{
 				foreach (string value in tom_elem.GetConfigStringList(propname))
@@ -463,5 +470,6 @@ namespace CraftTool
 			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
 		#endregion
+
 	}
 }
