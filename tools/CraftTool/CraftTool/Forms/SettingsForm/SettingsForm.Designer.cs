@@ -36,8 +36,8 @@
 			this.BTN_ok = new System.Windows.Forms.Button();
 			this.BTN_cancel = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.label2 = new System.Windows.Forms.Label();
 			this.TB_uol_path = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
 			this.BTN_uol_path_browse = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
@@ -101,15 +101,6 @@
 			this.BTN_cancel.UseVisualStyleBackColor = true;
 			this.BTN_cancel.Click += new System.EventHandler(this.BTN_cancel_Click);
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 50);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(48, 13);
-			this.label2.TabIndex = 6;
-			this.label2.Text = "UO Path";
-			// 
 			// TB_uol_path
 			// 
 			this.TB_uol_path.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -120,6 +111,15 @@
 			this.toolTip1.SetToolTip(this.TB_uol_path, "If blank or invalid - Program will assume root directory is where this tool is lo" +
 				   "cated at.");
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 50);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(48, 13);
+			this.label2.TabIndex = 6;
+			this.label2.Text = "UO Path";
+			// 
 			// BTN_uol_path_browse
 			// 
 			this.BTN_uol_path_browse.Location = new System.Drawing.Point(673, 45);
@@ -128,6 +128,7 @@
 			this.BTN_uol_path_browse.TabIndex = 8;
 			this.BTN_uol_path_browse.Text = "...";
 			this.BTN_uol_path_browse.UseVisualStyleBackColor = true;
+			this.BTN_uol_path_browse.Click += new System.EventHandler(this.BTN_uol_path_browse_Click);
 			// 
 			// SettingsForm
 			// 
