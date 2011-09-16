@@ -212,6 +212,7 @@ namespace CraftTool
 			if (selected.Parent == null)
 				return;
 
+			materials_textbox.Clear();
 			foreach (Control control in groupBox7.Controls)
 			{
 				if (control is TextBox)
