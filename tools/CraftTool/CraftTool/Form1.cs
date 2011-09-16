@@ -212,7 +212,11 @@ namespace CraftTool
 			if (selected.Parent == null)
 				return;
 
-			materials_textbox.Clear();
+			foreach (Control control in groupBox7.Controls)
+			{
+				if (control is TextBox)
+					((TextBox)control).Clear();
+			}
 						
 			ConfigElem materials_elem = ConfigRepository.global.GetElemFromConfigFiles("materials.cfg", selected.Name);
 			label5.Text = materials_elem.configfile.fullpath;
@@ -245,9 +249,41 @@ namespace CraftTool
 			}
 		}
 
-		private void materials_context_strip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		private void BTN_materials_update_Click(object sender, EventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
+			TreeNode parent = selected;
+			if (selected == null)
+			{
+				MessageBox.Show("You need to select a tree node.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			while (parent.Parent != null)
+			{
+				parent = parent.Parent;
+			}
+			
+			POLPackage package = PackageCache.GetPackage(parent.Name);
+			ConfigFile materials_cfg;
+			string config_path = package.GetPackagedConfigPath("materials.cfg");
+			materials_cfg = ConfigRepository.global.LoadConfigFile(config_path);
+			ConfigElem original = materials_cfg.GetConfigElem(selected.Name);
+
+			ConfigElem newelem = new ConfigElem(original.type, original.name);
+			newelem.AddConfigLine("Category", TB_materials_category.Text);
+			newelem.AddConfigLine("Color", TB_materials_color.Text);
+			newelem.AddConfigLine("Difficulty", TB_materials_difficulty.Text);
+			newelem.AddConfigLine("Quality", TB_materials_quality.Text);
+			newelem.AddConfigLine("ChangeTo", combobox_materials_changeto.Text);
+			newelem.AddConfigLine("CreatedScript", TB_materials_createdscript.Text);
+			
+			materials_cfg.RemoveConfigElement(selected.Name);
+			materials_cfg.AddConfigElement(newelem);
+		}
+
+		private void materials_context_strip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			return;
 		}
 
 		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
@@ -330,8 +366,7 @@ namespace CraftTool
 				parent = parent.Parent;
 			}
 
-			string package_name = POLPackage.ParsePackageName(parent.Text);
-			POLPackage package = PackageCache.GetPackage(package_name);
+			POLPackage package = PackageCache.GetPackage(Parent.Name);
 			ConfigFile materials_cfg;
 			string config_path = package.GetPackagedConfigPath("materials.cfg");
 			if (config_path == null) // Its a pseudo config & elem at this point then. (Not on disk)
@@ -427,6 +462,5 @@ namespace CraftTool
 			toolonmaterial_picture.Image = global::CraftTool.Properties.Resources.unused;
 		}
 		#endregion
-
 	}
 }

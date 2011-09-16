@@ -462,6 +462,7 @@ namespace ConfigUtil
 			CfgPair pair = new CfgPair(key, value);
 			_cfgpairs.Add(pair);
 		}
+
 		public void AddConfigLine(CfgPair pair)
 		{
 			_cfgpairs.Add(pair);
