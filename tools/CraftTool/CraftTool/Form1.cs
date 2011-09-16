@@ -181,6 +181,37 @@ namespace CraftTool
 			return selected;
 		}
 
+		private void WriteTreeViewConfigFiles(TreeView treeview, string filename)
+		{
+			// First figure out if any existing configs need to be deleted.
+			foreach (POLPackage package in PackageCache.Global.packagelist)
+			{
+				string cfg_path = package.GetPackagedConfigPath(filename);
+				if (cfg_path == null)
+					continue;
+				bool loaded = ConfigRepository.global.IsPathCached(cfg_path);
+				if (!loaded) // Delete
+					File.Delete(cfg_path);
+			}
+
+			// Write the tree information to the config files.
+			foreach (TreeNode node in treeview.Nodes)
+			{
+				if (node.Parent != null)
+					continue;
+				POLPackage package = PackageCache.GetPackage(node.Name);
+				string cfg_path = package.GetPackagedConfigPath(filename);
+				if (cfg_path == null) // File doesnt already exist.
+					cfg_path = package.path + @"\config\"+filename;
+				if (!Directory.Exists(package.path + @"\config\"))
+					Directory.CreateDirectory(package.path + @"\config\");
+				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(cfg_path);
+				ConfigRepository.WriteConfigFile(config_file);
+			}
+
+			MessageBox.Show("Done", filename, MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
 		#endregion
 
 		private void button1_Click(object sender, EventArgs e)
@@ -429,33 +460,7 @@ namespace CraftTool
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
-			// First figure out if any existing configs need to be deleted.
-			foreach (POLPackage package in PackageCache.Global.packagelist)
-			{
-				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
-				if (materials_cfg_path == null)
-					continue;
-				bool loaded = ConfigRepository.global.IsPathCached(materials_cfg_path);
-				if (!loaded) // Delete
-					File.Delete(materials_cfg_path);
-			}
-
-			// Write the tree information to the config files.
-			foreach (TreeNode node in materials_tree_view.Nodes)
-			{
-				if (node.Parent != null)
-					continue;
-				POLPackage package = PackageCache.GetPackage(node.Name);
-				var materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
-				if (materials_cfg_path == null) // File doesnt already exist.
-					materials_cfg_path = package.path + @"\config\materials.cfg";
-				if (!Directory.Exists(package.path + @"\config\"))
-					Directory.CreateDirectory(package.path + @"\config\");
-				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
-				ConfigRepository.WriteConfigFile(config_file);
-			}
-			
-			MessageBox.Show("Done", "Materials.cfg", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			WriteTreeViewConfigFiles(materials_tree_view, "materials.cfg");
 		}
 
 		#endregion
@@ -569,12 +574,30 @@ namespace CraftTool
 		
 		private void BTN_tom_writefiles_Click(object sender, EventArgs e)
 		{
-
+			WriteTreeViewConfigFiles(toolonmaterial_treeview, "toolOnMaterial.cfg");
 		}
 
 		private void BTN_tom_update_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = CheckForSelectedNode(toolonmaterial_treeview);
+			if (selected == null)
+				return;
+			TreeNode nodeparent = GetParentTreeNode(selected);
 
+			POLPackage package = PackageCache.GetPackage(nodeparent.Name);
+			ConfigFile config_file;
+			string config_path = package.GetPackagedConfigPath("toolOnMaterial.cfg");
+			config_file = ConfigRepository.global.LoadConfigFile(config_path);
+			ConfigElem original = config_file.GetConfigElem(selected.Name);
+
+			ConfigElem newelem = new ConfigElem(original.type, original.name);
+			newelem.AddConfigLine("ShowMenu", combobox_tom_showmenus.Text);
+			newelem.AddConfigLine("MenuScript", TB_tom_menuscript.Text);
+			
+			config_file.RemoveConfigElement(selected.Name);
+			config_file.AddConfigElement(newelem);
+
+			toolonmaterial_treeview_AfterSelect(sender, null);
 		}
 		#endregion
 	}
