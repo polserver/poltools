@@ -216,18 +216,22 @@ namespace CraftTool
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
-			if (selected.Parent == null)
-				return;
-
+			
 			materials_textbox.Clear();
+			combobox_materials_changeto.Items.Clear();
+			combobox_materials_changeto.Text = "";
 			foreach (Control control in groupBox7.Controls)
 			{
 				if (control is TextBox)
 					((TextBox)control).Clear();
 			}
+
+			if (selected.Parent == null)
+				return;
 						
 			ConfigElem materials_elem = ConfigRepository.global.FindElemInConfigFiles("materials.cfg", selected.Name);
 			label5.Text = materials_elem.configfile.fullpath;
+			combobox_materials_changeto.Items.Clear();
 			foreach (string propname in materials_elem.ListConfigElemProperties())
 			{
 				foreach (string value in materials_elem.GetConfigStringList(propname))
@@ -252,8 +256,9 @@ namespace CraftTool
 			if (materials_elem.PropertyExists("ChangeTo"))
 			{
 				string changeto = materials_elem.GetConfigString("ChangeTo").ToLower();
-				int pos = itemdesc_names.IndexOf(materials_elem.GetConfigString("ChangeTo"));
-				combobox_materials_changeto.SelectedIndex = pos+1; // Account for 'None'
+				//int pos = itemdesc_names.IndexOf(materials_elem.GetConfigString("ChangeTo"));
+				int pos = combobox_materials_changeto.FindString(changeto);
+				combobox_materials_changeto.SelectedIndex = pos; // Account for 'None'
 			}
 		}
 
@@ -287,6 +292,8 @@ namespace CraftTool
 			
 			materials_cfg.RemoveConfigElement(selected.Name);
 			materials_cfg.AddConfigElement(newelem);
+
+			materials_tree_view_AfterSelect(sender, null);
 		}
 
 		private void materials_context_strip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -448,16 +455,17 @@ namespace CraftTool
 		private void toolonmaterial_treeview_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = toolonmaterial_treeview.SelectedNode;
-			if (selected.Parent == null)
-				return;
-
+			
 			TB_toolonmaterial.Clear();
 			combobox_tom_showmenus.Items.Clear();
+			combobox_tom_showmenus.Text = "";
 			foreach (Control control in groupBox6.Controls)
 			{
 				if (control is TextBox)
 					((TextBox)control).Clear();
 			}
+			if (selected.Parent == null)
+				return;
 
 			ConfigElem tom_elem = ConfigRepository.global.FindElemInConfigFiles("toolonmaterial.cfg", selected.Name);
 			label17.Text = tom_elem.configfile.fullpath;
@@ -480,7 +488,7 @@ namespace CraftTool
 				int pos = combobox_tom_showmenus.Items.Add(value);
 				combobox_tom_showmenus.SelectedIndex = pos;
 			}
-			combobox_tom_showmenus.Items.AddRange(ConfigRepository.global.GetElemsFromConfigFiles("CraftMenus.cfg").ToArray());
+			combobox_tom_showmenus.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("CraftMenus.cfg").ToArray());
 		}
 
 		#endregion
