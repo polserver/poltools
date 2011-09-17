@@ -133,6 +133,12 @@
     <Compile Include="ExceptionForm.Designer.cs">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadProfile.Designer.cs">
+      <DependentUpon>LoadProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManagePlugins.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,6 +186,9 @@
     <EmbeddedResource Include="ExceptionForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadProfile.resx">
+      <DependentUpon>LoadProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManagePlugins.resx">
       <DependentUpon>ManagePlugins.cs</DependentUpon>
@@ -236,7 +245,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="UOFiddler.ico" />
-    <None Include="Options.xml">
+    <None Include="Options_default.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Animationlist.xml">
