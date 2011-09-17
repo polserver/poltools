@@ -516,7 +516,7 @@ namespace CraftTool
 
 			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
 			if (tom_elem.PropertyExists("MenuScript"))
-				TB_tom_menuscript.Text = tom_elem.GetConfigString("MenuScript");
+				tom_textbox_menuscript.Text = tom_elem.GetConfigString("MenuScript");
 
 			if (tom_elem.PropertyExists("ShowMenu"))
 			{
@@ -594,7 +594,7 @@ namespace CraftTool
 
 			ConfigElem newelem = new ConfigElem(original.type, original.name);
 			newelem.AddConfigLine("ShowMenu", combobox_tom_showmenus.Text);
-			newelem.AddConfigLine("MenuScript", TB_tom_menuscript.Text);
+			newelem.AddConfigLine("MenuScript", tom_textbox_menuscript.Text);
 			
 			config_file.RemoveConfigElement(selected.Name);
 			config_file.AddConfigElement(newelem);

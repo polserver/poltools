@@ -113,7 +113,7 @@
 			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.label31 = new System.Windows.Forms.Label();
 			this.groupBox13 = new System.Windows.Forms.GroupBox();
-			this.dataGridView2 = new System.Windows.Forms.DataGridView();
+			this.craftitems_datagrid_sounds = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.label30 = new System.Windows.Forms.Label();
 			this.label29 = new System.Windows.Forms.Label();
@@ -128,9 +128,9 @@
 			this.label19 = new System.Windows.Forms.Label();
 			this.label14 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
-			this.comboBox2 = new System.Windows.Forms.ComboBox();
+			this.craftitems_combobox_attributes = new System.Windows.Forms.ComboBox();
 			this.label7 = new System.Windows.Forms.Label();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.craftitems_combobox_clickedcategory = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.CB_craftitems_makemaximum = new System.Windows.Forms.CheckBox();
 			this.CB_craftitems_exceptional = new System.Windows.Forms.CheckBox();
@@ -147,22 +147,22 @@
 			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.Column6 = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.tom_textbox_menuscript = new System.Windows.Forms.TextBox();
+			this.craftitems_textbox_skillcheckscript = new System.Windows.Forms.TextBox();
+			this.craftitems_precreatescript = new System.Windows.Forms.TextBox();
+			this.craftitems_textbox_createscript = new System.Windows.Forms.TextBox();
+			this.craftitems_textbox_postcreatescript = new System.Windows.Forms.TextBox();
+			this.craftitems_textbox_findmaterialsscript = new System.Windows.Forms.TextBox();
+			this.craftitems_textbox_consumescript = new System.Windows.Forms.TextBox();
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
-			this.TB_tom_menuscript = new NumericTextBox();
-			this.numericTextBox12 = new NumericTextBox();
-			this.numericTextBox11 = new NumericTextBox();
-			this.numericTextBox10 = new NumericTextBox();
-			this.numericTextBox9 = new NumericTextBox();
-			this.numericTextBox8 = new NumericTextBox();
-			this.numericTextBox7 = new NumericTextBox();
-			this.numericTextBox6 = new NumericTextBox();
-			this.numericTextBox5 = new NumericTextBox();
-			this.numericTextBox4 = new NumericTextBox();
-			this.numericTextBox3 = new NumericTextBox();
-			this.numericTextBox2 = new NumericTextBox();
-			this.numericTextBox1 = new NumericTextBox();
+			this.craftitems_textbox_clickedamount = new NumericTextBox();
+			this.craftitems_textbox_animation = new NumericTextBox();
+			this.craftitems_textbox_loopwait = new NumericTextBox();
+			this.craftitems_textbox_craftloops = new NumericTextBox();
+			this.craftitems_textbox_makeamount = new NumericTextBox();
+			this.craftitems_textbox_difficulty = new NumericTextBox();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
@@ -195,7 +195,7 @@
 			this.groupBox15.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).BeginInit();
 			this.groupBox13.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_sounds)).BeginInit();
 			this.groupBox12.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picturebox_craft_items)).BeginInit();
 			this.groupBox11.SuspendLayout();
@@ -772,9 +772,9 @@
 			// 
 			// groupBox6
 			// 
+			this.groupBox6.Controls.Add(this.tom_textbox_menuscript);
 			this.groupBox6.Controls.Add(this.combobox_tom_showmenus);
 			this.groupBox6.Controls.Add(this.BTN_tom_update);
-			this.groupBox6.Controls.Add(this.TB_tom_menuscript);
 			this.groupBox6.Controls.Add(this.label15);
 			this.groupBox6.Controls.Add(this.label16);
 			this.groupBox6.Location = new System.Drawing.Point(91, 215);
@@ -990,13 +990,13 @@
 			this.panel_craftitems.Controls.Add(this.groupBox14);
 			this.panel_craftitems.Controls.Add(this.groupBox13);
 			this.panel_craftitems.Controls.Add(this.groupBox12);
-			this.panel_craftitems.Controls.Add(this.numericTextBox2);
+			this.panel_craftitems.Controls.Add(this.craftitems_textbox_makeamount);
 			this.panel_craftitems.Controls.Add(this.label14);
-			this.panel_craftitems.Controls.Add(this.numericTextBox1);
+			this.panel_craftitems.Controls.Add(this.craftitems_textbox_difficulty);
 			this.panel_craftitems.Controls.Add(this.label13);
-			this.panel_craftitems.Controls.Add(this.comboBox2);
+			this.panel_craftitems.Controls.Add(this.craftitems_combobox_attributes);
 			this.panel_craftitems.Controls.Add(this.label7);
-			this.panel_craftitems.Controls.Add(this.comboBox1);
+			this.panel_craftitems.Controls.Add(this.craftitems_combobox_clickedcategory);
 			this.panel_craftitems.Controls.Add(this.label6);
 			this.panel_craftitems.Controls.Add(this.CB_craftitems_makemaximum);
 			this.panel_craftitems.Controls.Add(this.CB_craftitems_exceptional);
@@ -1011,9 +1011,9 @@
 			// 
 			this.groupBox14.Controls.Add(this.groupBox16);
 			this.groupBox14.Controls.Add(this.groupBox15);
-			this.groupBox14.Controls.Add(this.numericTextBox12);
+			this.groupBox14.Controls.Add(this.craftitems_textbox_clickedamount);
 			this.groupBox14.Controls.Add(this.label31);
-			this.groupBox14.Location = new System.Drawing.Point(6, 260);
+			this.groupBox14.Location = new System.Drawing.Point(7, 251);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Size = new System.Drawing.Size(477, 287);
 			this.groupBox14.TabIndex = 25;
@@ -1105,34 +1105,34 @@
 			// 
 			// groupBox13
 			// 
-			this.groupBox13.Controls.Add(this.dataGridView2);
+			this.groupBox13.Controls.Add(this.craftitems_datagrid_sounds);
 			this.groupBox13.Controls.Add(this.label30);
-			this.groupBox13.Controls.Add(this.numericTextBox11);
+			this.groupBox13.Controls.Add(this.craftitems_textbox_animation);
 			this.groupBox13.Controls.Add(this.label29);
-			this.groupBox13.Controls.Add(this.numericTextBox10);
+			this.groupBox13.Controls.Add(this.craftitems_textbox_loopwait);
 			this.groupBox13.Controls.Add(this.label28);
-			this.groupBox13.Controls.Add(this.numericTextBox9);
+			this.groupBox13.Controls.Add(this.craftitems_textbox_craftloops);
 			this.groupBox13.Controls.Add(this.label27);
-			this.groupBox13.Location = new System.Drawing.Point(6, 115);
+			this.groupBox13.Location = new System.Drawing.Point(7, 106);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Size = new System.Drawing.Size(331, 139);
 			this.groupBox13.TabIndex = 24;
 			this.groupBox13.TabStop = false;
 			this.groupBox13.Text = "Sound && Loop Settings";
 			// 
-			// dataGridView2
+			// craftitems_datagrid_sounds
 			// 
-			this.dataGridView2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.craftitems_datagrid_sounds.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.craftitems_datagrid_sounds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2});
-			this.dataGridView2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.dataGridView2.Location = new System.Drawing.Point(59, 19);
-			this.dataGridView2.Name = "dataGridView2";
-			this.dataGridView2.RowHeadersVisible = false;
-			this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridView2.Size = new System.Drawing.Size(109, 114);
-			this.dataGridView2.TabIndex = 36;
-			this.toolTip1.SetToolTip(this.dataGridView2, "All sounds listed here are played in each craft loop.");
+			this.craftitems_datagrid_sounds.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.craftitems_datagrid_sounds.Location = new System.Drawing.Point(59, 19);
+			this.craftitems_datagrid_sounds.Name = "craftitems_datagrid_sounds";
+			this.craftitems_datagrid_sounds.RowHeadersVisible = false;
+			this.craftitems_datagrid_sounds.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.craftitems_datagrid_sounds.Size = new System.Drawing.Size(109, 114);
+			this.craftitems_datagrid_sounds.TabIndex = 36;
+			this.toolTip1.SetToolTip(this.craftitems_datagrid_sounds, "All sounds listed here are played in each craft loop.");
 			// 
 			// dataGridViewTextBoxColumn2
 			// 
@@ -1181,19 +1181,19 @@
 			// 
 			// groupBox12
 			// 
-			this.groupBox12.Controls.Add(this.numericTextBox8);
+			this.groupBox12.Controls.Add(this.craftitems_textbox_consumescript);
+			this.groupBox12.Controls.Add(this.craftitems_textbox_findmaterialsscript);
+			this.groupBox12.Controls.Add(this.craftitems_textbox_postcreatescript);
+			this.groupBox12.Controls.Add(this.craftitems_textbox_createscript);
+			this.groupBox12.Controls.Add(this.craftitems_precreatescript);
+			this.groupBox12.Controls.Add(this.craftitems_textbox_skillcheckscript);
 			this.groupBox12.Controls.Add(this.label26);
-			this.groupBox12.Controls.Add(this.numericTextBox7);
 			this.groupBox12.Controls.Add(this.label25);
-			this.groupBox12.Controls.Add(this.numericTextBox6);
 			this.groupBox12.Controls.Add(this.label24);
-			this.groupBox12.Controls.Add(this.numericTextBox5);
 			this.groupBox12.Controls.Add(this.label23);
-			this.groupBox12.Controls.Add(this.numericTextBox4);
 			this.groupBox12.Controls.Add(this.label20);
-			this.groupBox12.Controls.Add(this.numericTextBox3);
 			this.groupBox12.Controls.Add(this.label19);
-			this.groupBox12.Location = new System.Drawing.Point(6, 547);
+			this.groupBox12.Location = new System.Drawing.Point(7, 538);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(477, 175);
 			this.groupBox12.TabIndex = 23;
@@ -1257,7 +1257,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(11, 91);
+			this.label14.Location = new System.Drawing.Point(12, 82);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(73, 13);
 			this.label14.TabIndex = 21;
@@ -1266,56 +1266,56 @@
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(290, 65);
+			this.label13.Location = new System.Drawing.Point(291, 56);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(47, 13);
 			this.label13.TabIndex = 19;
 			this.label13.Text = "Difficulty";
 			// 
-			// comboBox2
+			// craftitems_combobox_attributes
 			// 
-			this.comboBox2.AutoCompleteCustomSource.AddRange(new string[] {
+			this.craftitems_combobox_attributes.AutoCompleteCustomSource.AddRange(new string[] {
             " "});
-			this.comboBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.comboBox2.FormattingEnabled = true;
-			this.comboBox2.Items.AddRange(new object[] {
+			this.craftitems_combobox_attributes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_combobox_attributes.FormattingEnabled = true;
+			this.craftitems_combobox_attributes.Items.AddRange(new object[] {
             "None"});
-			this.comboBox2.Location = new System.Drawing.Point(101, 62);
-			this.comboBox2.Name = "comboBox2";
-			this.comboBox2.Size = new System.Drawing.Size(183, 21);
-			this.comboBox2.Sorted = true;
-			this.comboBox2.TabIndex = 18;
-			this.toolTip1.SetToolTip(this.comboBox2, "Attribute name for the skill check.");
+			this.craftitems_combobox_attributes.Location = new System.Drawing.Point(102, 53);
+			this.craftitems_combobox_attributes.Name = "craftitems_combobox_attributes";
+			this.craftitems_combobox_attributes.Size = new System.Drawing.Size(183, 21);
+			this.craftitems_combobox_attributes.Sorted = true;
+			this.craftitems_combobox_attributes.TabIndex = 18;
+			this.toolTip1.SetToolTip(this.craftitems_combobox_attributes, "Attribute name for the skill check.");
 			// 
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(8, 65);
+			this.label7.Location = new System.Drawing.Point(9, 56);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(46, 13);
 			this.label7.TabIndex = 17;
 			this.label7.Text = "Attribute";
 			// 
-			// comboBox1
+			// craftitems_combobox_clickedcategory
 			// 
-			this.comboBox1.AutoCompleteCustomSource.AddRange(new string[] {
+			this.craftitems_combobox_clickedcategory.AutoCompleteCustomSource.AddRange(new string[] {
             " "});
-			this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Items.AddRange(new object[] {
+			this.craftitems_combobox_clickedcategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_combobox_clickedcategory.FormattingEnabled = true;
+			this.craftitems_combobox_clickedcategory.Items.AddRange(new object[] {
             "None"});
-			this.comboBox1.Location = new System.Drawing.Point(101, 35);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(183, 21);
-			this.comboBox1.Sorted = true;
-			this.comboBox1.TabIndex = 16;
-			this.toolTip1.SetToolTip(this.comboBox1, "Determines the material category [clicked] belongs to.\r\nThis assists systems like" +
+			this.craftitems_combobox_clickedcategory.Location = new System.Drawing.Point(102, 26);
+			this.craftitems_combobox_clickedcategory.Name = "craftitems_combobox_clickedcategory";
+			this.craftitems_combobox_clickedcategory.Size = new System.Drawing.Size(183, 21);
+			this.craftitems_combobox_clickedcategory.Sorted = true;
+			this.craftitems_combobox_clickedcategory.TabIndex = 16;
+			this.toolTip1.SetToolTip(this.craftitems_combobox_clickedcategory, "Determines the material category [clicked] belongs to.\r\nThis assists systems like" +
 				   " recycling so that they know what material to give based on the color.");
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(8, 38);
+			this.label6.Location = new System.Drawing.Point(9, 29);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(87, 13);
 			this.label6.TabIndex = 15;
@@ -1324,7 +1324,7 @@
 			// CB_craftitems_makemaximum
 			// 
 			this.CB_craftitems_makemaximum.AutoSize = true;
-			this.CB_craftitems_makemaximum.Location = new System.Drawing.Point(184, 12);
+			this.CB_craftitems_makemaximum.Location = new System.Drawing.Point(185, 3);
 			this.CB_craftitems_makemaximum.Name = "CB_craftitems_makemaximum";
 			this.CB_craftitems_makemaximum.Size = new System.Drawing.Size(100, 17);
 			this.CB_craftitems_makemaximum.TabIndex = 2;
@@ -1335,7 +1335,7 @@
 			// CB_craftitems_exceptional
 			// 
 			this.CB_craftitems_exceptional.AutoSize = true;
-			this.CB_craftitems_exceptional.Location = new System.Drawing.Point(97, 12);
+			this.CB_craftitems_exceptional.Location = new System.Drawing.Point(98, 3);
 			this.CB_craftitems_exceptional.Name = "CB_craftitems_exceptional";
 			this.CB_craftitems_exceptional.Size = new System.Drawing.Size(81, 17);
 			this.CB_craftitems_exceptional.TabIndex = 1;
@@ -1346,7 +1346,7 @@
 			// CB_craftitems_norecycle
 			// 
 			this.CB_craftitems_norecycle.AutoSize = true;
-			this.CB_craftitems_norecycle.Location = new System.Drawing.Point(9, 12);
+			this.CB_craftitems_norecycle.Location = new System.Drawing.Point(10, 3);
 			this.CB_craftitems_norecycle.Name = "CB_craftitems_norecycle";
 			this.CB_craftitems_norecycle.Size = new System.Drawing.Size(82, 17);
 			this.CB_craftitems_norecycle.TabIndex = 0;
@@ -1462,6 +1462,76 @@
 			this.Column7.Name = "Column7";
 			this.Column7.Width = 71;
 			// 
+			// tom_textbox_menuscript
+			// 
+			this.tom_textbox_menuscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.tom_textbox_menuscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tom_textbox_menuscript.Location = new System.Drawing.Point(99, 44);
+			this.tom_textbox_menuscript.Name = "tom_textbox_menuscript";
+			this.tom_textbox_menuscript.Size = new System.Drawing.Size(366, 20);
+			this.tom_textbox_menuscript.TabIndex = 17;
+			this.toolTip1.SetToolTip(this.tom_textbox_menuscript, "Category will affect the elem read in ToolOnMaterial");
+			// 
+			// craftitems_textbox_skillcheckscript
+			// 
+			this.craftitems_textbox_skillcheckscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_skillcheckscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_skillcheckscript.Location = new System.Drawing.Point(84, 14);
+			this.craftitems_textbox_skillcheckscript.Name = "craftitems_textbox_skillcheckscript";
+			this.craftitems_textbox_skillcheckscript.Size = new System.Drawing.Size(266, 20);
+			this.craftitems_textbox_skillcheckscript.TabIndex = 22;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_skillcheckscript, "Category will affect the elem read in ToolOnMaterial");
+			// 
+			// craftitems_precreatescript
+			// 
+			this.craftitems_precreatescript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_precreatescript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_precreatescript.Location = new System.Drawing.Point(84, 40);
+			this.craftitems_precreatescript.Name = "craftitems_precreatescript";
+			this.craftitems_precreatescript.Size = new System.Drawing.Size(266, 20);
+			this.craftitems_precreatescript.TabIndex = 23;
+			this.toolTip1.SetToolTip(this.craftitems_precreatescript, "Category will affect the elem read in ToolOnMaterial");
+			// 
+			// craftitems_textbox_createscript
+			// 
+			this.craftitems_textbox_createscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_createscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_createscript.Location = new System.Drawing.Point(84, 66);
+			this.craftitems_textbox_createscript.Name = "craftitems_textbox_createscript";
+			this.craftitems_textbox_createscript.Size = new System.Drawing.Size(266, 20);
+			this.craftitems_textbox_createscript.TabIndex = 24;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_createscript, "Category will affect the elem read in ToolOnMaterial");
+			// 
+			// craftitems_textbox_postcreatescript
+			// 
+			this.craftitems_textbox_postcreatescript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_postcreatescript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_postcreatescript.Location = new System.Drawing.Point(84, 92);
+			this.craftitems_textbox_postcreatescript.Name = "craftitems_textbox_postcreatescript";
+			this.craftitems_textbox_postcreatescript.Size = new System.Drawing.Size(266, 20);
+			this.craftitems_textbox_postcreatescript.TabIndex = 25;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_postcreatescript, "Category will affect the elem read in ToolOnMaterial");
+			// 
+			// craftitems_textbox_findmaterialsscript
+			// 
+			this.craftitems_textbox_findmaterialsscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_findmaterialsscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_findmaterialsscript.Location = new System.Drawing.Point(84, 118);
+			this.craftitems_textbox_findmaterialsscript.Name = "craftitems_textbox_findmaterialsscript";
+			this.craftitems_textbox_findmaterialsscript.Size = new System.Drawing.Size(266, 20);
+			this.craftitems_textbox_findmaterialsscript.TabIndex = 26;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_findmaterialsscript, "Category will affect the elem read in ToolOnMaterial");
+			// 
+			// craftitems_textbox_consumescript
+			// 
+			this.craftitems_textbox_consumescript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_consumescript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_consumescript.Location = new System.Drawing.Point(84, 144);
+			this.craftitems_textbox_consumescript.Name = "craftitems_textbox_consumescript";
+			this.craftitems_textbox_consumescript.Size = new System.Drawing.Size(266, 20);
+			this.craftitems_textbox_consumescript.TabIndex = 27;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_consumescript, "Category will affect the elem read in ToolOnMaterial");
+			// 
 			// TB_materials_quality
 			// 
 			this.TB_materials_quality.AllowSpace = false;
@@ -1495,148 +1565,71 @@
 			this.TB_materials_color.TabIndex = 6;
 			this.toolTip1.SetToolTip(this.TB_materials_color, "If set, will override the materials itemdesc.cfg color entry.");
 			// 
-			// TB_tom_menuscript
+			// craftitems_textbox_clickedamount
 			// 
-			this.TB_tom_menuscript.AllowSpace = false;
-			this.TB_tom_menuscript.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.TB_tom_menuscript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TB_tom_menuscript.Location = new System.Drawing.Point(91, 43);
-			this.TB_tom_menuscript.Name = "TB_tom_menuscript";
-			this.TB_tom_menuscript.Size = new System.Drawing.Size(374, 20);
-			this.TB_tom_menuscript.TabIndex = 6;
-			this.toolTip1.SetToolTip(this.TB_tom_menuscript, "Run a script for the menu choices instead of the craft system\'s built in slider.");
+			this.craftitems_textbox_clickedamount.AllowSpace = false;
+			this.craftitems_textbox_clickedamount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_clickedamount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_clickedamount.Location = new System.Drawing.Point(93, 14);
+			this.craftitems_textbox_clickedamount.Name = "craftitems_textbox_clickedamount";
+			this.craftitems_textbox_clickedamount.Size = new System.Drawing.Size(77, 20);
+			this.craftitems_textbox_clickedamount.TabIndex = 32;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_clickedamount, "Adjusts the quality  (1.0 *= quality mod)");
 			// 
-			// numericTextBox12
+			// craftitems_textbox_animation
 			// 
-			this.numericTextBox12.AllowSpace = false;
-			this.numericTextBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox12.Location = new System.Drawing.Point(93, 14);
-			this.numericTextBox12.Name = "numericTextBox12";
-			this.numericTextBox12.Size = new System.Drawing.Size(77, 20);
-			this.numericTextBox12.TabIndex = 32;
-			this.toolTip1.SetToolTip(this.numericTextBox12, "Adjusts the quality  (1.0 *= quality mod)");
+			this.craftitems_textbox_animation.AllowSpace = false;
+			this.craftitems_textbox_animation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_animation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_animation.Location = new System.Drawing.Point(240, 72);
+			this.craftitems_textbox_animation.Name = "craftitems_textbox_animation";
+			this.craftitems_textbox_animation.Size = new System.Drawing.Size(77, 20);
+			this.craftitems_textbox_animation.TabIndex = 34;
 			// 
-			// numericTextBox11
+			// craftitems_textbox_loopwait
 			// 
-			this.numericTextBox11.AllowSpace = false;
-			this.numericTextBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox11.Location = new System.Drawing.Point(240, 72);
-			this.numericTextBox11.Name = "numericTextBox11";
-			this.numericTextBox11.Size = new System.Drawing.Size(77, 20);
-			this.numericTextBox11.TabIndex = 34;
+			this.craftitems_textbox_loopwait.AllowSpace = false;
+			this.craftitems_textbox_loopwait.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_loopwait.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_loopwait.Location = new System.Drawing.Point(240, 46);
+			this.craftitems_textbox_loopwait.Name = "craftitems_textbox_loopwait";
+			this.craftitems_textbox_loopwait.Size = new System.Drawing.Size(77, 20);
+			this.craftitems_textbox_loopwait.TabIndex = 32;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_loopwait, "Number of seconds to wait between each craft loop.\r\nDefault is 1.");
 			// 
-			// numericTextBox10
+			// craftitems_textbox_craftloops
 			// 
-			this.numericTextBox10.AllowSpace = false;
-			this.numericTextBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox10.Location = new System.Drawing.Point(240, 46);
-			this.numericTextBox10.Name = "numericTextBox10";
-			this.numericTextBox10.Size = new System.Drawing.Size(77, 20);
-			this.numericTextBox10.TabIndex = 32;
-			this.toolTip1.SetToolTip(this.numericTextBox10, "Number of seconds to wait between each craft loop.\r\nDefault is 1.");
-			// 
-			// numericTextBox9
-			// 
-			this.numericTextBox9.AllowSpace = false;
-			this.numericTextBox9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox9.Location = new System.Drawing.Point(240, 20);
-			this.numericTextBox9.Name = "numericTextBox9";
-			this.numericTextBox9.Size = new System.Drawing.Size(77, 20);
-			this.numericTextBox9.TabIndex = 30;
-			this.toolTip1.SetToolTip(this.numericTextBox9, "Number of times the craft system will loop to perform craft sounds and animation." +
+			this.craftitems_textbox_craftloops.AllowSpace = false;
+			this.craftitems_textbox_craftloops.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_craftloops.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_craftloops.Location = new System.Drawing.Point(240, 20);
+			this.craftitems_textbox_craftloops.Name = "craftitems_textbox_craftloops";
+			this.craftitems_textbox_craftloops.Size = new System.Drawing.Size(77, 20);
+			this.craftitems_textbox_craftloops.TabIndex = 30;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_craftloops, "Number of times the craft system will loop to perform craft sounds and animation." +
 				   "");
 			// 
-			// numericTextBox8
+			// craftitems_textbox_makeamount
 			// 
-			this.numericTextBox8.AllowSpace = false;
-			this.numericTextBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox8.Location = new System.Drawing.Point(84, 144);
-			this.numericTextBox8.Name = "numericTextBox8";
-			this.numericTextBox8.Size = new System.Drawing.Size(266, 20);
-			this.numericTextBox8.TabIndex = 21;
-			this.toolTip1.SetToolTip(this.numericTextBox8, "Adjusts the quality  (1.0 *= quality mod)");
+			this.craftitems_textbox_makeamount.AllowSpace = false;
+			this.craftitems_textbox_makeamount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_makeamount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_makeamount.Location = new System.Drawing.Point(91, 80);
+			this.craftitems_textbox_makeamount.Name = "craftitems_textbox_makeamount";
+			this.craftitems_textbox_makeamount.Size = new System.Drawing.Size(77, 20);
+			this.craftitems_textbox_makeamount.TabIndex = 22;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_makeamount, "Amount of the item object type to create. [Default =1]");
 			// 
-			// numericTextBox7
+			// craftitems_textbox_difficulty
 			// 
-			this.numericTextBox7.AllowSpace = false;
-			this.numericTextBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox7.Location = new System.Drawing.Point(84, 118);
-			this.numericTextBox7.Name = "numericTextBox7";
-			this.numericTextBox7.Size = new System.Drawing.Size(266, 20);
-			this.numericTextBox7.TabIndex = 19;
-			this.toolTip1.SetToolTip(this.numericTextBox7, "Adjusts the quality  (1.0 *= quality mod)");
-			// 
-			// numericTextBox6
-			// 
-			this.numericTextBox6.AllowSpace = false;
-			this.numericTextBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox6.Location = new System.Drawing.Point(84, 92);
-			this.numericTextBox6.Name = "numericTextBox6";
-			this.numericTextBox6.Size = new System.Drawing.Size(266, 20);
-			this.numericTextBox6.TabIndex = 17;
-			this.toolTip1.SetToolTip(this.numericTextBox6, "Adjusts the quality  (1.0 *= quality mod)");
-			// 
-			// numericTextBox5
-			// 
-			this.numericTextBox5.AllowSpace = false;
-			this.numericTextBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox5.Location = new System.Drawing.Point(84, 66);
-			this.numericTextBox5.Name = "numericTextBox5";
-			this.numericTextBox5.Size = new System.Drawing.Size(266, 20);
-			this.numericTextBox5.TabIndex = 15;
-			this.toolTip1.SetToolTip(this.numericTextBox5, "Adjusts the quality  (1.0 *= quality mod)");
-			// 
-			// numericTextBox4
-			// 
-			this.numericTextBox4.AllowSpace = false;
-			this.numericTextBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox4.Location = new System.Drawing.Point(84, 40);
-			this.numericTextBox4.Name = "numericTextBox4";
-			this.numericTextBox4.Size = new System.Drawing.Size(266, 20);
-			this.numericTextBox4.TabIndex = 13;
-			this.toolTip1.SetToolTip(this.numericTextBox4, "Adjusts the quality  (1.0 *= quality mod)");
-			// 
-			// numericTextBox3
-			// 
-			this.numericTextBox3.AllowSpace = false;
-			this.numericTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox3.Location = new System.Drawing.Point(84, 14);
-			this.numericTextBox3.Name = "numericTextBox3";
-			this.numericTextBox3.Size = new System.Drawing.Size(266, 20);
-			this.numericTextBox3.TabIndex = 11;
-			this.toolTip1.SetToolTip(this.numericTextBox3, "Adjusts the quality  (1.0 *= quality mod)");
-			// 
-			// numericTextBox2
-			// 
-			this.numericTextBox2.AllowSpace = false;
-			this.numericTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox2.Location = new System.Drawing.Point(90, 89);
-			this.numericTextBox2.Name = "numericTextBox2";
-			this.numericTextBox2.Size = new System.Drawing.Size(77, 20);
-			this.numericTextBox2.TabIndex = 22;
-			this.toolTip1.SetToolTip(this.numericTextBox2, "Amount of the item object type to create. [Default =1]");
-			// 
-			// numericTextBox1
-			// 
-			this.numericTextBox1.AllowSpace = false;
-			this.numericTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.numericTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox1.Location = new System.Drawing.Point(343, 62);
-			this.numericTextBox1.Name = "numericTextBox1";
-			this.numericTextBox1.Size = new System.Drawing.Size(77, 20);
-			this.numericTextBox1.TabIndex = 20;
-			this.toolTip1.SetToolTip(this.numericTextBox1, "Difficulty for the item\'s skill check.");
+			this.craftitems_textbox_difficulty.AllowSpace = false;
+			this.craftitems_textbox_difficulty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.craftitems_textbox_difficulty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.craftitems_textbox_difficulty.Location = new System.Drawing.Point(344, 53);
+			this.craftitems_textbox_difficulty.Name = "craftitems_textbox_difficulty";
+			this.craftitems_textbox_difficulty.Size = new System.Drawing.Size(77, 20);
+			this.craftitems_textbox_difficulty.TabIndex = 20;
+			this.toolTip1.SetToolTip(this.craftitems_textbox_difficulty, "Difficulty for the item\'s skill check.");
 			// 
 			// Form1
 			// 
@@ -1696,7 +1689,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).EndInit();
 			this.groupBox13.ResumeLayout(false);
 			this.groupBox13.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_sounds)).EndInit();
 			this.groupBox12.ResumeLayout(false);
 			this.groupBox12.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picturebox_craft_items)).EndInit();
@@ -1765,7 +1758,6 @@
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.GroupBox groupBox6;
 		private System.Windows.Forms.Button BTN_tom_update;
-		private NumericTextBox TB_tom_menuscript;
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Label label17;
@@ -1798,37 +1790,31 @@
 		private System.Windows.Forms.CheckBox CB_craftitems_exceptional;
 		private System.Windows.Forms.CheckBox CB_craftitems_norecycle;
 		private System.Windows.Forms.CheckBox CB_craftitems_makemaximum;
-		private System.Windows.Forms.ComboBox comboBox2;
+		private System.Windows.Forms.ComboBox craftitems_combobox_attributes;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.ComboBox craftitems_combobox_clickedcategory;
 		private System.Windows.Forms.Label label6;
-		private NumericTextBox numericTextBox1;
+		private NumericTextBox craftitems_textbox_difficulty;
 		private System.Windows.Forms.Label label13;
-		private NumericTextBox numericTextBox2;
+		private NumericTextBox craftitems_textbox_makeamount;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.GroupBox groupBox12;
-		private NumericTextBox numericTextBox7;
 		private System.Windows.Forms.Label label25;
-		private NumericTextBox numericTextBox6;
 		private System.Windows.Forms.Label label24;
-		private NumericTextBox numericTextBox5;
 		private System.Windows.Forms.Label label23;
-		private NumericTextBox numericTextBox4;
 		private System.Windows.Forms.Label label20;
-		private NumericTextBox numericTextBox3;
 		private System.Windows.Forms.Label label19;
-		private NumericTextBox numericTextBox8;
 		private System.Windows.Forms.Label label26;
 		private System.Windows.Forms.GroupBox groupBox13;
-		private NumericTextBox numericTextBox11;
+		private NumericTextBox craftitems_textbox_animation;
 		private System.Windows.Forms.Label label29;
-		private NumericTextBox numericTextBox10;
+		private NumericTextBox craftitems_textbox_loopwait;
 		private System.Windows.Forms.Label label28;
-		private NumericTextBox numericTextBox9;
+		private NumericTextBox craftitems_textbox_craftloops;
 		private System.Windows.Forms.Label label27;
 		private System.Windows.Forms.Label label30;
 		private System.Windows.Forms.GroupBox groupBox14;
-		private NumericTextBox numericTextBox12;
+		private NumericTextBox craftitems_textbox_clickedamount;
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.GroupBox groupBox16;
 		private System.Windows.Forms.GroupBox groupBox15;
@@ -1836,10 +1822,17 @@
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewComboBoxColumn Column4;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-		private System.Windows.Forms.DataGridView dataGridView2;
+		private System.Windows.Forms.DataGridView craftitems_datagrid_sounds;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 		private System.Windows.Forms.DataGridViewComboBoxColumn Column6;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+		private System.Windows.Forms.TextBox tom_textbox_menuscript;
+		private System.Windows.Forms.TextBox craftitems_textbox_consumescript;
+		private System.Windows.Forms.TextBox craftitems_textbox_findmaterialsscript;
+		private System.Windows.Forms.TextBox craftitems_textbox_postcreatescript;
+		private System.Windows.Forms.TextBox craftitems_textbox_createscript;
+		private System.Windows.Forms.TextBox craftitems_precreatescript;
+		private System.Windows.Forms.TextBox craftitems_textbox_skillcheckscript;
 	}
 }
 
