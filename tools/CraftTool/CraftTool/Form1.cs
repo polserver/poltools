@@ -75,10 +75,26 @@ namespace CraftTool
 						PopulateMaterials();
 					if (selected_tab == tabPage4)
 						PopulateToolOnMaterial();
+					if (selected_tab == tabPage6)
+						PopulateCraftItems();
 				}
 
 				selected_tab.Enabled = true;
 			}
+		}
+
+		private TreeNode AddObjTypeToTreeView(TreeNode parent_node, string objtype)
+		{
+			string nodename = objtype;
+			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
+			if (itemdesc_elem != null)
+			{
+				if (itemdesc_elem.PropertyExists("Name"))
+					nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+			}
+
+			TreeNode added = parent_node.Nodes.Add(objtype, nodename);
+			return added;
 		}
 
 		private void RemoveConfigTreeNode(TreeView treeview, string cfgname)
@@ -325,25 +341,11 @@ namespace CraftTool
 				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
 				{
-					AddMaterialsObjType(pkg_node, cfg_elem.name);
+					AddObjTypeToTreeView(pkg_node, cfg_elem.name);
 				}
 			}
 		}
-
-		private TreeNode AddMaterialsObjType(TreeNode parent_node, string objtype)
-		{
-			string nodename = objtype;
-			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
-			if (itemdesc_elem != null)
-			{
-				if (itemdesc_elem.PropertyExists("Name"))
-					nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
-			}
-
-			TreeNode added = parent_node.Nodes.Add(objtype, nodename);
-			return added;
-		}
-
+		
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
@@ -598,6 +600,25 @@ namespace CraftTool
 			config_file.AddConfigElement(newelem);
 
 			toolonmaterial_treeview_AfterSelect(sender, null);
+		}
+		#endregion
+
+		#region Craft Items Tab Stuff
+		public void PopulateCraftItems()
+		{
+			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
+			{
+				string materials_cfg_path = package.GetPackagedConfigPath("craftItems.cfg");
+				if (materials_cfg_path == null)
+					continue;
+
+				TreeNode pkg_node = treeview_craftitems.Nodes.Add(package.name, ":" + package.name + ":craftItems.cfg");
+				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
+				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
+				{
+					AddObjTypeToTreeView(pkg_node, cfg_elem.name);
+				}
+			}
 		}
 		#endregion
 	}
