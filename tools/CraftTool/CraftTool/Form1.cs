@@ -246,7 +246,7 @@ namespace CraftTool
 			List<POLTools.Package.POLPackage> packages = PackageCache.Global.packagelist;
 			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
 
-			string[] file_names = { "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg" };
+			string[] file_names = { "attributes.cfg", "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg" };
 			foreach (POLTools.Package.POLPackage package in packages)
 			{
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
@@ -649,6 +649,7 @@ namespace CraftTool
 			
 		}
 		#endregion
+
 
 	}
 }
