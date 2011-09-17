@@ -387,5 +387,38 @@ namespace FiddlerControls
             int index = (int)treeViewLand.SelectedNode.Tag;
             FiddlerControls.TileDatas.Select(index, true);
         }
+
+        private void OnClickImport(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose csv file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "csv files (*.csv)|*.csv";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Options.ChangedUltimaClass["RadarCol"] = true;
+                Ultima.RadarCol.ImportFromCSV(dialog.FileName);
+                if (tabControl2.SelectedTab == tabControl2.TabPages[0])
+                {
+                    if (treeViewItem.SelectedNode != null)
+                        AfterSelectTreeViewitem(this, new TreeViewEventArgs(treeViewItem.SelectedNode));
+                }
+                else
+                {
+                    if (treeViewLand.SelectedNode != null)
+                        AfterSelectTreeViewLand(this, new TreeViewEventArgs(treeViewLand.SelectedNode));
+                }
+            }
+            dialog.Dispose();
+        }
+
+        private void OnClickExport(object sender, EventArgs e)
+        {
+            string path = FiddlerControls.Options.OutputPath;
+            string FileName = Path.Combine(path, "RadarColor.csv");
+            Ultima.RadarCol.ExportToCSV(FileName);
+            MessageBox.Show(String.Format("RadarColor saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
     }
 }
