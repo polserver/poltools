@@ -141,10 +141,12 @@
 			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.groupBox15 = new System.Windows.Forms.GroupBox();
 			this.groupBox16 = new System.Windows.Forms.GroupBox();
-			this.craftitems_flowlayout_materials = new System.Windows.Forms.FlowLayoutPanel();
-			this.craftitems_flowlayout_materials_clicked = new System.Windows.Forms.FlowLayoutPanel();
-			this.BTN_craftitems_addmaterial = new System.Windows.Forms.Button();
-			this.BTN_craftitems_addclickedmaterial = new System.Windows.Forms.Button();
+			this.craftitems_datagrid_materials = new System.Windows.Forms.DataGridView();
+			this.Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
@@ -196,8 +198,8 @@
 			this.groupBox11.SuspendLayout();
 			this.groupBox15.SuspendLayout();
 			this.groupBox16.SuspendLayout();
-			this.craftitems_flowlayout_materials.SuspendLayout();
-			this.craftitems_flowlayout_materials_clicked.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -1012,7 +1014,7 @@
 			this.groupBox14.Controls.Add(this.groupBox15);
 			this.groupBox14.Controls.Add(this.numericTextBox12);
 			this.groupBox14.Controls.Add(this.label31);
-			this.groupBox14.Location = new System.Drawing.Point(0, 251);
+			this.groupBox14.Location = new System.Drawing.Point(1, 251);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Size = new System.Drawing.Size(477, 287);
 			this.groupBox14.TabIndex = 25;
@@ -1038,7 +1040,7 @@
 			this.groupBox13.Controls.Add(this.label28);
 			this.groupBox13.Controls.Add(this.numericTextBox9);
 			this.groupBox13.Controls.Add(this.label27);
-			this.groupBox13.Location = new System.Drawing.Point(0, 116);
+			this.groupBox13.Location = new System.Drawing.Point(1, 116);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Size = new System.Drawing.Size(476, 129);
 			this.groupBox13.TabIndex = 24;
@@ -1115,7 +1117,7 @@
 			this.groupBox12.Controls.Add(this.label20);
 			this.groupBox12.Controls.Add(this.numericTextBox3);
 			this.groupBox12.Controls.Add(this.label19);
-			this.groupBox12.Location = new System.Drawing.Point(0, 538);
+			this.groupBox12.Location = new System.Drawing.Point(1, 538);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(477, 175);
 			this.groupBox12.TabIndex = 23;
@@ -1179,7 +1181,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(2, 87);
+			this.label14.Location = new System.Drawing.Point(3, 87);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(73, 13);
 			this.label14.TabIndex = 21;
@@ -1188,7 +1190,7 @@
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(284, 56);
+			this.label13.Location = new System.Drawing.Point(285, 56);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(47, 13);
 			this.label13.TabIndex = 19;
@@ -1202,7 +1204,7 @@
 			this.comboBox2.FormattingEnabled = true;
 			this.comboBox2.Items.AddRange(new object[] {
             "None"});
-			this.comboBox2.Location = new System.Drawing.Point(95, 53);
+			this.comboBox2.Location = new System.Drawing.Point(96, 53);
 			this.comboBox2.Name = "comboBox2";
 			this.comboBox2.Size = new System.Drawing.Size(183, 21);
 			this.comboBox2.Sorted = true;
@@ -1212,7 +1214,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(2, 56);
+			this.label7.Location = new System.Drawing.Point(3, 56);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(46, 13);
 			this.label7.TabIndex = 17;
@@ -1226,7 +1228,7 @@
 			this.comboBox1.FormattingEnabled = true;
 			this.comboBox1.Items.AddRange(new object[] {
             "None"});
-			this.comboBox1.Location = new System.Drawing.Point(95, 26);
+			this.comboBox1.Location = new System.Drawing.Point(96, 26);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(183, 21);
 			this.comboBox1.Sorted = true;
@@ -1236,7 +1238,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(2, 29);
+			this.label6.Location = new System.Drawing.Point(3, 29);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(87, 13);
 			this.label6.TabIndex = 15;
@@ -1245,7 +1247,7 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(178, 3);
+			this.checkBox3.Location = new System.Drawing.Point(179, 3);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(100, 17);
 			this.checkBox3.TabIndex = 2;
@@ -1255,7 +1257,7 @@
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(91, 3);
+			this.checkBox2.Location = new System.Drawing.Point(92, 3);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(81, 17);
 			this.checkBox2.TabIndex = 1;
@@ -1265,7 +1267,7 @@
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(3, 3);
+			this.checkBox1.Location = new System.Drawing.Point(4, 3);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(82, 17);
 			this.checkBox1.TabIndex = 0;
@@ -1362,63 +1364,97 @@
 			// 
 			// groupBox15
 			// 
-			this.groupBox15.Controls.Add(this.craftitems_flowlayout_materials);
-			this.groupBox15.Location = new System.Drawing.Point(6, 40);
+			this.groupBox15.Controls.Add(this.craftitems_datagrid_materials);
+			this.groupBox15.Location = new System.Drawing.Point(5, 40);
 			this.groupBox15.Name = "groupBox15";
-			this.groupBox15.Size = new System.Drawing.Size(462, 125);
+			this.groupBox15.Size = new System.Drawing.Size(220, 241);
 			this.groupBox15.TabIndex = 33;
 			this.groupBox15.TabStop = false;
 			this.groupBox15.Text = "Auto Select Materials";
 			// 
 			// groupBox16
 			// 
-			this.groupBox16.Controls.Add(this.craftitems_flowlayout_materials_clicked);
-			this.groupBox16.Location = new System.Drawing.Point(5, 171);
+			this.groupBox16.Controls.Add(this.dataGridView1);
+			this.groupBox16.Location = new System.Drawing.Point(251, 40);
 			this.groupBox16.Name = "groupBox16";
-			this.groupBox16.Size = new System.Drawing.Size(462, 110);
+			this.groupBox16.Size = new System.Drawing.Size(220, 241);
 			this.groupBox16.TabIndex = 34;
 			this.groupBox16.TabStop = false;
 			this.groupBox16.Text = "Manual Select Materials";
 			// 
-			// craftitems_flowlayout_materials
+			// craftitems_datagrid_materials
 			// 
-			this.craftitems_flowlayout_materials.Controls.Add(this.BTN_craftitems_addmaterial);
-			this.craftitems_flowlayout_materials.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.craftitems_flowlayout_materials.Location = new System.Drawing.Point(3, 16);
-			this.craftitems_flowlayout_materials.Name = "craftitems_flowlayout_materials";
-			this.craftitems_flowlayout_materials.Size = new System.Drawing.Size(456, 106);
-			this.craftitems_flowlayout_materials.TabIndex = 0;
+			this.craftitems_datagrid_materials.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.craftitems_datagrid_materials.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.craftitems_datagrid_materials.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column4,
+            this.Column5});
+			this.craftitems_datagrid_materials.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.craftitems_datagrid_materials.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.craftitems_datagrid_materials.Location = new System.Drawing.Point(3, 16);
+			this.craftitems_datagrid_materials.Name = "craftitems_datagrid_materials";
+			this.craftitems_datagrid_materials.RowHeadersVisible = false;
+			this.craftitems_datagrid_materials.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.craftitems_datagrid_materials.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.craftitems_datagrid_materials.Size = new System.Drawing.Size(214, 222);
+			this.craftitems_datagrid_materials.TabIndex = 0;
 			// 
-			// craftitems_flowlayout_materials_clicked
+			// Column4
 			// 
-			this.craftitems_flowlayout_materials_clicked.Controls.Add(this.BTN_craftitems_addclickedmaterial);
-			this.craftitems_flowlayout_materials_clicked.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.craftitems_flowlayout_materials_clicked.Location = new System.Drawing.Point(3, 16);
-			this.craftitems_flowlayout_materials_clicked.Name = "craftitems_flowlayout_materials_clicked";
-			this.craftitems_flowlayout_materials_clicked.Size = new System.Drawing.Size(456, 91);
-			this.craftitems_flowlayout_materials_clicked.TabIndex = 0;
+			this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column4.FillWeight = 140F;
+			this.Column4.HeaderText = "Object Name/Type";
+			this.Column4.MinimumWidth = 140;
+			this.Column4.Name = "Column4";
+			this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Column4.Width = 140;
 			// 
-			// BTN_craftitems_addmaterial
+			// Column5
 			// 
-			this.BTN_craftitems_addmaterial.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.BTN_craftitems_addmaterial.Location = new System.Drawing.Point(3, 3);
-			this.BTN_craftitems_addmaterial.Name = "BTN_craftitems_addmaterial";
-			this.BTN_craftitems_addmaterial.Size = new System.Drawing.Size(34, 22);
-			this.BTN_craftitems_addmaterial.TabIndex = 1;
-			this.BTN_craftitems_addmaterial.Text = "Add";
-			this.BTN_craftitems_addmaterial.UseVisualStyleBackColor = true;
-			this.BTN_craftitems_addmaterial.Click += new System.EventHandler(this.BTN_craftitems_addmaterial_Click);
+			this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column5.FillWeight = 71F;
+			this.Column5.HeaderText = "Amount";
+			this.Column5.MinimumWidth = 71;
+			this.Column5.Name = "Column5";
+			this.Column5.Width = 71;
 			// 
-			// BTN_craftitems_addclickedmaterial
+			// dataGridView1
 			// 
-			this.BTN_craftitems_addclickedmaterial.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.BTN_craftitems_addclickedmaterial.Location = new System.Drawing.Point(3, 3);
-			this.BTN_craftitems_addclickedmaterial.Name = "BTN_craftitems_addclickedmaterial";
-			this.BTN_craftitems_addclickedmaterial.Size = new System.Drawing.Size(34, 22);
-			this.BTN_craftitems_addclickedmaterial.TabIndex = 1;
-			this.BTN_craftitems_addclickedmaterial.Text = "Add";
-			this.BTN_craftitems_addclickedmaterial.UseVisualStyleBackColor = true;
-			this.BTN_craftitems_addclickedmaterial.Click += new System.EventHandler(this.BTN_craftitems_addclickedmaterial_Click);
+			this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewComboBoxColumn1,
+            this.dataGridViewTextBoxColumn1});
+			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.dataGridView1.Location = new System.Drawing.Point(3, 16);
+			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.RowHeadersVisible = false;
+			this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridView1.Size = new System.Drawing.Size(214, 222);
+			this.dataGridView1.TabIndex = 1;
+			// 
+			// dataGridViewComboBoxColumn1
+			// 
+			this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.dataGridViewComboBoxColumn1.FillWeight = 140F;
+			this.dataGridViewComboBoxColumn1.HeaderText = "Object Name/Type";
+			this.dataGridViewComboBoxColumn1.MinimumWidth = 140;
+			this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+			this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.dataGridViewComboBoxColumn1.Width = 140;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.dataGridViewTextBoxColumn1.FillWeight = 71F;
+			this.dataGridViewTextBoxColumn1.HeaderText = "Amount";
+			this.dataGridViewTextBoxColumn1.MinimumWidth = 71;
+			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			this.dataGridViewTextBoxColumn1.Width = 71;
 			// 
 			// TB_materials_quality
 			// 
@@ -1590,7 +1626,7 @@
 			this.numericTextBox2.AllowSpace = false;
 			this.numericTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.numericTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox2.Location = new System.Drawing.Point(81, 85);
+			this.numericTextBox2.Location = new System.Drawing.Point(82, 85);
 			this.numericTextBox2.Name = "numericTextBox2";
 			this.numericTextBox2.Size = new System.Drawing.Size(77, 20);
 			this.numericTextBox2.TabIndex = 22;
@@ -1601,7 +1637,7 @@
 			this.numericTextBox1.AllowSpace = false;
 			this.numericTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.numericTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox1.Location = new System.Drawing.Point(337, 53);
+			this.numericTextBox1.Location = new System.Drawing.Point(338, 53);
 			this.numericTextBox1.Name = "numericTextBox1";
 			this.numericTextBox1.Size = new System.Drawing.Size(77, 20);
 			this.numericTextBox1.TabIndex = 20;
@@ -1669,8 +1705,8 @@
 			this.groupBox11.ResumeLayout(false);
 			this.groupBox15.ResumeLayout(false);
 			this.groupBox16.ResumeLayout(false);
-			this.craftitems_flowlayout_materials.ResumeLayout(false);
-			this.craftitems_flowlayout_materials_clicked.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1805,10 +1841,12 @@
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.GroupBox groupBox16;
 		private System.Windows.Forms.GroupBox groupBox15;
-		private System.Windows.Forms.FlowLayoutPanel craftitems_flowlayout_materials_clicked;
-		private System.Windows.Forms.FlowLayoutPanel craftitems_flowlayout_materials;
-		private System.Windows.Forms.Button BTN_craftitems_addclickedmaterial;
-		private System.Windows.Forms.Button BTN_craftitems_addmaterial;
+		private System.Windows.Forms.DataGridView craftitems_datagrid_materials;
+		private System.Windows.Forms.DataGridView dataGridView1;
+		private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+		private System.Windows.Forms.DataGridViewComboBoxColumn Column4;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
 	}
 }
 
