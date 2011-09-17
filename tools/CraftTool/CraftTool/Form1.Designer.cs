@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -105,8 +105,16 @@
 			this.groupBox10 = new System.Windows.Forms.GroupBox();
 			this.panel_craftitems = new System.Windows.Forms.Panel();
 			this.groupBox14 = new System.Windows.Forms.GroupBox();
+			this.groupBox16 = new System.Windows.Forms.GroupBox();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.groupBox15 = new System.Windows.Forms.GroupBox();
+			this.craftitems_datagrid_materials = new System.Windows.Forms.DataGridView();
+			this.Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.label31 = new System.Windows.Forms.Label();
 			this.groupBox13 = new System.Windows.Forms.GroupBox();
+			this.dataGridView2 = new System.Windows.Forms.DataGridView();
+			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.label30 = new System.Windows.Forms.Label();
 			this.label29 = new System.Windows.Forms.Label();
 			this.label28 = new System.Windows.Forms.Label();
@@ -124,9 +132,9 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.checkBox3 = new System.Windows.Forms.CheckBox();
-			this.checkBox2 = new System.Windows.Forms.CheckBox();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.CB_craftitems_makemaximum = new System.Windows.Forms.CheckBox();
+			this.CB_craftitems_exceptional = new System.Windows.Forms.CheckBox();
+			this.CB_craftitems_norecycle = new System.Windows.Forms.CheckBox();
 			this.label21 = new System.Windows.Forms.Label();
 			this.label22 = new System.Windows.Forms.Label();
 			this.picturebox_craft_items = new System.Windows.Forms.PictureBox();
@@ -137,16 +145,8 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.groupBox15 = new System.Windows.Forms.GroupBox();
-			this.groupBox16 = new System.Windows.Forms.GroupBox();
-			this.craftitems_datagrid_materials = new System.Windows.Forms.DataGridView();
-			this.Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridView2 = new System.Windows.Forms.DataGridView();
-			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column6 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
@@ -190,15 +190,15 @@
 			this.groupBox10.SuspendLayout();
 			this.panel_craftitems.SuspendLayout();
 			this.groupBox14.SuspendLayout();
+			this.groupBox16.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.groupBox15.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).BeginInit();
 			this.groupBox13.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
 			this.groupBox12.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picturebox_craft_items)).BeginInit();
 			this.groupBox11.SuspendLayout();
-			this.groupBox15.SuspendLayout();
-			this.groupBox16.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -425,14 +425,14 @@
             this.Column2,
             this.Column3});
 			this.itemdesc_datagrid.ContextMenuStrip = this.itemdesc_context_strip;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.itemdesc_datagrid.DefaultCellStyle = dataGridViewCellStyle1;
 			this.itemdesc_datagrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.itemdesc_datagrid.Location = new System.Drawing.Point(6, 19);
 			this.itemdesc_datagrid.MaximumSize = new System.Drawing.Size(270, 512);
@@ -998,9 +998,9 @@
 			this.panel_craftitems.Controls.Add(this.label7);
 			this.panel_craftitems.Controls.Add(this.comboBox1);
 			this.panel_craftitems.Controls.Add(this.label6);
-			this.panel_craftitems.Controls.Add(this.checkBox3);
-			this.panel_craftitems.Controls.Add(this.checkBox2);
-			this.panel_craftitems.Controls.Add(this.checkBox1);
+			this.panel_craftitems.Controls.Add(this.CB_craftitems_makemaximum);
+			this.panel_craftitems.Controls.Add(this.CB_craftitems_exceptional);
+			this.panel_craftitems.Controls.Add(this.CB_craftitems_norecycle);
 			this.panel_craftitems.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel_craftitems.Location = new System.Drawing.Point(3, 16);
 			this.panel_craftitems.Name = "panel_craftitems";
@@ -1013,12 +1013,86 @@
 			this.groupBox14.Controls.Add(this.groupBox15);
 			this.groupBox14.Controls.Add(this.numericTextBox12);
 			this.groupBox14.Controls.Add(this.label31);
-			this.groupBox14.Location = new System.Drawing.Point(1, 266);
+			this.groupBox14.Location = new System.Drawing.Point(6, 260);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Size = new System.Drawing.Size(477, 287);
 			this.groupBox14.TabIndex = 25;
 			this.groupBox14.TabStop = false;
 			this.groupBox14.Text = "Material Settings";
+			// 
+			// groupBox16
+			// 
+			this.groupBox16.Controls.Add(this.dataGridView1);
+			this.groupBox16.Location = new System.Drawing.Point(251, 40);
+			this.groupBox16.Name = "groupBox16";
+			this.groupBox16.Size = new System.Drawing.Size(220, 241);
+			this.groupBox16.TabIndex = 34;
+			this.groupBox16.TabStop = false;
+			this.groupBox16.Text = "Manual Select Materials";
+			// 
+			// dataGridView1
+			// 
+			this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column6,
+            this.Column7});
+			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.dataGridView1.Location = new System.Drawing.Point(3, 16);
+			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.RowHeadersVisible = false;
+			this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridView1.Size = new System.Drawing.Size(214, 222);
+			this.dataGridView1.TabIndex = 1;
+			// 
+			// groupBox15
+			// 
+			this.groupBox15.Controls.Add(this.craftitems_datagrid_materials);
+			this.groupBox15.Location = new System.Drawing.Point(5, 40);
+			this.groupBox15.Name = "groupBox15";
+			this.groupBox15.Size = new System.Drawing.Size(220, 241);
+			this.groupBox15.TabIndex = 33;
+			this.groupBox15.TabStop = false;
+			this.groupBox15.Text = "Auto Select Materials";
+			// 
+			// craftitems_datagrid_materials
+			// 
+			this.craftitems_datagrid_materials.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.craftitems_datagrid_materials.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.craftitems_datagrid_materials.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column4,
+            this.Column5});
+			this.craftitems_datagrid_materials.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.craftitems_datagrid_materials.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.craftitems_datagrid_materials.Location = new System.Drawing.Point(3, 16);
+			this.craftitems_datagrid_materials.Name = "craftitems_datagrid_materials";
+			this.craftitems_datagrid_materials.RowHeadersVisible = false;
+			this.craftitems_datagrid_materials.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.craftitems_datagrid_materials.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.craftitems_datagrid_materials.Size = new System.Drawing.Size(214, 222);
+			this.craftitems_datagrid_materials.TabIndex = 0;
+			// 
+			// Column4
+			// 
+			this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column4.FillWeight = 140F;
+			this.Column4.HeaderText = "Object Name/Type";
+			this.Column4.MinimumWidth = 140;
+			this.Column4.Name = "Column4";
+			this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Column4.Width = 140;
+			// 
+			// Column5
+			// 
+			this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column5.FillWeight = 71F;
+			this.Column5.HeaderText = "Amount";
+			this.Column5.MinimumWidth = 71;
+			this.Column5.Name = "Column5";
+			this.Column5.Width = 71;
 			// 
 			// label31
 			// 
@@ -1039,12 +1113,35 @@
 			this.groupBox13.Controls.Add(this.label28);
 			this.groupBox13.Controls.Add(this.numericTextBox9);
 			this.groupBox13.Controls.Add(this.label27);
-			this.groupBox13.Location = new System.Drawing.Point(1, 121);
+			this.groupBox13.Location = new System.Drawing.Point(6, 115);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Size = new System.Drawing.Size(331, 139);
 			this.groupBox13.TabIndex = 24;
 			this.groupBox13.TabStop = false;
 			this.groupBox13.Text = "Sound && Loop Settings";
+			// 
+			// dataGridView2
+			// 
+			this.dataGridView2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2});
+			this.dataGridView2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.dataGridView2.Location = new System.Drawing.Point(59, 19);
+			this.dataGridView2.Name = "dataGridView2";
+			this.dataGridView2.RowHeadersVisible = false;
+			this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.dataGridView2.Size = new System.Drawing.Size(109, 114);
+			this.dataGridView2.TabIndex = 36;
+			this.toolTip1.SetToolTip(this.dataGridView2, "All sounds listed here are played in each craft loop.");
+			// 
+			// dataGridViewTextBoxColumn2
+			// 
+			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.dataGridViewTextBoxColumn2.FillWeight = 106F;
+			this.dataGridViewTextBoxColumn2.HeaderText = "Sound Id";
+			this.dataGridViewTextBoxColumn2.MinimumWidth = 106;
+			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+			this.dataGridViewTextBoxColumn2.Width = 106;
 			// 
 			// label30
 			// 
@@ -1096,7 +1193,7 @@
 			this.groupBox12.Controls.Add(this.label20);
 			this.groupBox12.Controls.Add(this.numericTextBox3);
 			this.groupBox12.Controls.Add(this.label19);
-			this.groupBox12.Location = new System.Drawing.Point(1, 553);
+			this.groupBox12.Location = new System.Drawing.Point(6, 547);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(477, 175);
 			this.groupBox12.TabIndex = 23;
@@ -1160,7 +1257,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(6, 97);
+			this.label14.Location = new System.Drawing.Point(11, 91);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(73, 13);
 			this.label14.TabIndex = 21;
@@ -1169,7 +1266,7 @@
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(285, 71);
+			this.label13.Location = new System.Drawing.Point(290, 65);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(47, 13);
 			this.label13.TabIndex = 19;
@@ -1183,7 +1280,7 @@
 			this.comboBox2.FormattingEnabled = true;
 			this.comboBox2.Items.AddRange(new object[] {
             "None"});
-			this.comboBox2.Location = new System.Drawing.Point(96, 68);
+			this.comboBox2.Location = new System.Drawing.Point(101, 62);
 			this.comboBox2.Name = "comboBox2";
 			this.comboBox2.Size = new System.Drawing.Size(183, 21);
 			this.comboBox2.Sorted = true;
@@ -1193,7 +1290,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(3, 71);
+			this.label7.Location = new System.Drawing.Point(8, 65);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(46, 13);
 			this.label7.TabIndex = 17;
@@ -1207,7 +1304,7 @@
 			this.comboBox1.FormattingEnabled = true;
 			this.comboBox1.Items.AddRange(new object[] {
             "None"});
-			this.comboBox1.Location = new System.Drawing.Point(96, 41);
+			this.comboBox1.Location = new System.Drawing.Point(101, 35);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(183, 21);
 			this.comboBox1.Sorted = true;
@@ -1218,44 +1315,44 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(3, 44);
+			this.label6.Location = new System.Drawing.Point(8, 38);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(87, 13);
 			this.label6.TabIndex = 15;
 			this.label6.Text = "Clicked Category";
 			// 
-			// checkBox3
+			// CB_craftitems_makemaximum
 			// 
-			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(179, 18);
-			this.checkBox3.Name = "checkBox3";
-			this.checkBox3.Size = new System.Drawing.Size(100, 17);
-			this.checkBox3.TabIndex = 2;
-			this.checkBox3.Text = "Make Maximum";
-			this.toolTip1.SetToolTip(this.checkBox3, resources.GetString("checkBox3.ToolTip"));
-			this.checkBox3.UseVisualStyleBackColor = true;
+			this.CB_craftitems_makemaximum.AutoSize = true;
+			this.CB_craftitems_makemaximum.Location = new System.Drawing.Point(184, 12);
+			this.CB_craftitems_makemaximum.Name = "CB_craftitems_makemaximum";
+			this.CB_craftitems_makemaximum.Size = new System.Drawing.Size(100, 17);
+			this.CB_craftitems_makemaximum.TabIndex = 2;
+			this.CB_craftitems_makemaximum.Text = "Make Maximum";
+			this.toolTip1.SetToolTip(this.CB_craftitems_makemaximum, resources.GetString("CB_craftitems_makemaximum.ToolTip"));
+			this.CB_craftitems_makemaximum.UseVisualStyleBackColor = true;
 			// 
-			// checkBox2
+			// CB_craftitems_exceptional
 			// 
-			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(92, 18);
-			this.checkBox2.Name = "checkBox2";
-			this.checkBox2.Size = new System.Drawing.Size(81, 17);
-			this.checkBox2.TabIndex = 1;
-			this.checkBox2.Text = "Exceptional";
-			this.toolTip1.SetToolTip(this.checkBox2, "Determines if the item can be crafted as exceptional (Named, and quality boost)");
-			this.checkBox2.UseVisualStyleBackColor = true;
+			this.CB_craftitems_exceptional.AutoSize = true;
+			this.CB_craftitems_exceptional.Location = new System.Drawing.Point(97, 12);
+			this.CB_craftitems_exceptional.Name = "CB_craftitems_exceptional";
+			this.CB_craftitems_exceptional.Size = new System.Drawing.Size(81, 17);
+			this.CB_craftitems_exceptional.TabIndex = 1;
+			this.CB_craftitems_exceptional.Text = "Exceptional";
+			this.toolTip1.SetToolTip(this.CB_craftitems_exceptional, "Determines if the item can be crafted as exceptional (Named, and quality boost)");
+			this.CB_craftitems_exceptional.UseVisualStyleBackColor = true;
 			// 
-			// checkBox1
+			// CB_craftitems_norecycle
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(4, 18);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(82, 17);
-			this.checkBox1.TabIndex = 0;
-			this.checkBox1.Text = "No Recycle";
-			this.toolTip1.SetToolTip(this.checkBox1, "If enabled, the item can not be recycled.");
-			this.checkBox1.UseVisualStyleBackColor = true;
+			this.CB_craftitems_norecycle.AutoSize = true;
+			this.CB_craftitems_norecycle.Location = new System.Drawing.Point(9, 12);
+			this.CB_craftitems_norecycle.Name = "CB_craftitems_norecycle";
+			this.CB_craftitems_norecycle.Size = new System.Drawing.Size(82, 17);
+			this.CB_craftitems_norecycle.TabIndex = 0;
+			this.CB_craftitems_norecycle.Text = "No Recycle";
+			this.toolTip1.SetToolTip(this.CB_craftitems_norecycle, "If enabled, the item can not be recycled.");
+			this.CB_craftitems_norecycle.UseVisualStyleBackColor = true;
 			// 
 			// label21
 			// 
@@ -1345,122 +1442,25 @@
 			this.craftitems_context_strip.Name = "craftitems_context_strip";
 			this.craftitems_context_strip.Size = new System.Drawing.Size(61, 4);
 			// 
-			// groupBox15
+			// Column6
 			// 
-			this.groupBox15.Controls.Add(this.craftitems_datagrid_materials);
-			this.groupBox15.Location = new System.Drawing.Point(5, 40);
-			this.groupBox15.Name = "groupBox15";
-			this.groupBox15.Size = new System.Drawing.Size(220, 241);
-			this.groupBox15.TabIndex = 33;
-			this.groupBox15.TabStop = false;
-			this.groupBox15.Text = "Auto Select Materials";
+			this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column6.FillWeight = 140F;
+			this.Column6.HeaderText = "Object Name/Type";
+			this.Column6.MinimumWidth = 140;
+			this.Column6.Name = "Column6";
+			this.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Column6.Width = 140;
 			// 
-			// groupBox16
+			// Column7
 			// 
-			this.groupBox16.Controls.Add(this.dataGridView1);
-			this.groupBox16.Location = new System.Drawing.Point(251, 40);
-			this.groupBox16.Name = "groupBox16";
-			this.groupBox16.Size = new System.Drawing.Size(220, 241);
-			this.groupBox16.TabIndex = 34;
-			this.groupBox16.TabStop = false;
-			this.groupBox16.Text = "Manual Select Materials";
-			// 
-			// craftitems_datagrid_materials
-			// 
-			this.craftitems_datagrid_materials.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.craftitems_datagrid_materials.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.craftitems_datagrid_materials.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column4,
-            this.Column5});
-			this.craftitems_datagrid_materials.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.craftitems_datagrid_materials.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.craftitems_datagrid_materials.Location = new System.Drawing.Point(3, 16);
-			this.craftitems_datagrid_materials.Name = "craftitems_datagrid_materials";
-			this.craftitems_datagrid_materials.RowHeadersVisible = false;
-			this.craftitems_datagrid_materials.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-			this.craftitems_datagrid_materials.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.craftitems_datagrid_materials.Size = new System.Drawing.Size(214, 222);
-			this.craftitems_datagrid_materials.TabIndex = 0;
-			// 
-			// Column4
-			// 
-			this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.Column4.FillWeight = 140F;
-			this.Column4.HeaderText = "Object Name/Type";
-			this.Column4.MinimumWidth = 140;
-			this.Column4.Name = "Column4";
-			this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Column4.Width = 140;
-			// 
-			// Column5
-			// 
-			this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.Column5.FillWeight = 71F;
-			this.Column5.HeaderText = "Amount";
-			this.Column5.MinimumWidth = 71;
-			this.Column5.Name = "Column5";
-			this.Column5.Width = 71;
-			// 
-			// dataGridView1
-			// 
-			this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewComboBoxColumn1,
-            this.dataGridViewTextBoxColumn1});
-			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.dataGridView1.Location = new System.Drawing.Point(3, 16);
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.RowHeadersVisible = false;
-			this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(214, 222);
-			this.dataGridView1.TabIndex = 1;
-			// 
-			// dataGridViewComboBoxColumn1
-			// 
-			this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.dataGridViewComboBoxColumn1.FillWeight = 140F;
-			this.dataGridViewComboBoxColumn1.HeaderText = "Object Name/Type";
-			this.dataGridViewComboBoxColumn1.MinimumWidth = 140;
-			this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-			this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.dataGridViewComboBoxColumn1.Width = 140;
-			// 
-			// dataGridViewTextBoxColumn1
-			// 
-			this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.dataGridViewTextBoxColumn1.FillWeight = 71F;
-			this.dataGridViewTextBoxColumn1.HeaderText = "Amount";
-			this.dataGridViewTextBoxColumn1.MinimumWidth = 71;
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.Width = 71;
-			// 
-			// dataGridView2
-			// 
-			this.dataGridView2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn2});
-			this.dataGridView2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.dataGridView2.Location = new System.Drawing.Point(59, 19);
-			this.dataGridView2.Name = "dataGridView2";
-			this.dataGridView2.RowHeadersVisible = false;
-			this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridView2.Size = new System.Drawing.Size(109, 114);
-			this.dataGridView2.TabIndex = 36;
-			this.toolTip1.SetToolTip(this.dataGridView2, "All sounds listed here are played in each craft loop.");
-			// 
-			// dataGridViewTextBoxColumn2
-			// 
-			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.dataGridViewTextBoxColumn2.FillWeight = 106F;
-			this.dataGridViewTextBoxColumn2.HeaderText = "Sound Id";
-			this.dataGridViewTextBoxColumn2.MinimumWidth = 106;
-			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-			this.dataGridViewTextBoxColumn2.Width = 106;
+			this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.Column7.FillWeight = 71F;
+			this.Column7.HeaderText = "Amount";
+			this.Column7.MinimumWidth = 71;
+			this.Column7.Name = "Column7";
+			this.Column7.Width = 71;
 			// 
 			// TB_materials_quality
 			// 
@@ -1621,7 +1621,7 @@
 			this.numericTextBox2.AllowSpace = false;
 			this.numericTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.numericTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox2.Location = new System.Drawing.Point(85, 95);
+			this.numericTextBox2.Location = new System.Drawing.Point(90, 89);
 			this.numericTextBox2.Name = "numericTextBox2";
 			this.numericTextBox2.Size = new System.Drawing.Size(77, 20);
 			this.numericTextBox2.TabIndex = 22;
@@ -1632,7 +1632,7 @@
 			this.numericTextBox1.AllowSpace = false;
 			this.numericTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.numericTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox1.Location = new System.Drawing.Point(338, 68);
+			this.numericTextBox1.Location = new System.Drawing.Point(343, 62);
 			this.numericTextBox1.Name = "numericTextBox1";
 			this.numericTextBox1.Size = new System.Drawing.Size(77, 20);
 			this.numericTextBox1.TabIndex = 20;
@@ -1690,17 +1690,17 @@
 			this.panel_craftitems.PerformLayout();
 			this.groupBox14.ResumeLayout(false);
 			this.groupBox14.PerformLayout();
+			this.groupBox16.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			this.groupBox15.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).EndInit();
 			this.groupBox13.ResumeLayout(false);
 			this.groupBox13.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
 			this.groupBox12.ResumeLayout(false);
 			this.groupBox12.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picturebox_craft_items)).EndInit();
 			this.groupBox11.ResumeLayout(false);
-			this.groupBox15.ResumeLayout(false);
-			this.groupBox16.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.craftitems_datagrid_materials)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1795,9 +1795,9 @@
 		private System.Windows.Forms.Button BTN_write_craftitems;
 		private System.Windows.Forms.ContextMenuStrip craftitems_context_strip;
 		private System.Windows.Forms.Panel panel_craftitems;
-		private System.Windows.Forms.CheckBox checkBox2;
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.CheckBox checkBox3;
+		private System.Windows.Forms.CheckBox CB_craftitems_exceptional;
+		private System.Windows.Forms.CheckBox CB_craftitems_norecycle;
+		private System.Windows.Forms.CheckBox CB_craftitems_makemaximum;
 		private System.Windows.Forms.ComboBox comboBox2;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.ComboBox comboBox1;
@@ -1834,12 +1834,12 @@
 		private System.Windows.Forms.GroupBox groupBox15;
 		private System.Windows.Forms.DataGridView craftitems_datagrid_materials;
 		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 		private System.Windows.Forms.DataGridViewComboBoxColumn Column4;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
 		private System.Windows.Forms.DataGridView dataGridView2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+		private System.Windows.Forms.DataGridViewComboBoxColumn Column6;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
 	}
 }
 
