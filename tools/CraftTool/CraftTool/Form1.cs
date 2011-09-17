@@ -648,8 +648,31 @@ namespace CraftTool
 			picturebox_craft_items.Image = global::CraftTool.Properties.Resources.unused;
 			
 		}
+		
+		private void BTN_craftitems_add_sound_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BTN_craftitems_addmaterial_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BTN_craftitems_addclickedmaterial_Click(object sender, EventArgs e)
+		{
+
+		}
+		
+		private void BTN_update_craftitem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BTN_write_craftitems_Click(object sender, EventArgs e)
+		{
+
+		}
 		#endregion
-
-
 	}
 }
