@@ -105,11 +105,9 @@
 			this.groupBox10 = new System.Windows.Forms.GroupBox();
 			this.panel_craftitems = new System.Windows.Forms.Panel();
 			this.groupBox14 = new System.Windows.Forms.GroupBox();
-			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-			this.button1 = new System.Windows.Forms.Button();
 			this.label31 = new System.Windows.Forms.Label();
 			this.groupBox13 = new System.Windows.Forms.GroupBox();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.craftitems_flowlayout_sounds = new System.Windows.Forms.FlowLayoutPanel();
 			this.BTN_craftitems_add_sound = new System.Windows.Forms.Button();
 			this.label30 = new System.Windows.Forms.Label();
 			this.label29 = new System.Windows.Forms.Label();
@@ -141,6 +139,12 @@
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.groupBox15 = new System.Windows.Forms.GroupBox();
+			this.groupBox16 = new System.Windows.Forms.GroupBox();
+			this.craftitems_flowlayout_materials = new System.Windows.Forms.FlowLayoutPanel();
+			this.craftitems_flowlayout_materials_clicked = new System.Windows.Forms.FlowLayoutPanel();
+			this.BTN_craftitems_addmaterial = new System.Windows.Forms.Button();
+			this.BTN_craftitems_addclickedmaterial = new System.Windows.Forms.Button();
 			this.TB_materials_quality = new NumericTextBox();
 			this.TB_materials_difficulty = new NumericTextBox();
 			this.TB_materials_color = new NumericTextBox();
@@ -185,12 +189,15 @@
 			this.groupBox10.SuspendLayout();
 			this.panel_craftitems.SuspendLayout();
 			this.groupBox14.SuspendLayout();
-			this.flowLayoutPanel2.SuspendLayout();
 			this.groupBox13.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.craftitems_flowlayout_sounds.SuspendLayout();
 			this.groupBox12.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picturebox_craft_items)).BeginInit();
 			this.groupBox11.SuspendLayout();
+			this.groupBox15.SuspendLayout();
+			this.groupBox16.SuspendLayout();
+			this.craftitems_flowlayout_materials.SuspendLayout();
+			this.craftitems_flowlayout_materials_clicked.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -963,6 +970,7 @@
 			this.BTN_update_craftitem.Text = "Update";
 			this.toolTip1.SetToolTip(this.BTN_update_craftitem, "Will update to memory, you must click write files to commit to disk.");
 			this.BTN_update_craftitem.UseVisualStyleBackColor = true;
+			this.BTN_update_craftitem.Click += new System.EventHandler(this.BTN_update_craftitem_Click);
 			// 
 			// groupBox10
 			// 
@@ -977,7 +985,7 @@
 			// panel_craftitems
 			// 
 			this.panel_craftitems.AutoScroll = true;
-			this.panel_craftitems.AutoScrollMinSize = new System.Drawing.Size(0, 650);
+			this.panel_craftitems.AutoScrollMinSize = new System.Drawing.Size(0, 720);
 			this.panel_craftitems.Controls.Add(this.groupBox14);
 			this.panel_craftitems.Controls.Add(this.groupBox13);
 			this.panel_craftitems.Controls.Add(this.groupBox12);
@@ -1000,33 +1008,16 @@
 			// 
 			// groupBox14
 			// 
-			this.groupBox14.Controls.Add(this.flowLayoutPanel2);
+			this.groupBox14.Controls.Add(this.groupBox16);
+			this.groupBox14.Controls.Add(this.groupBox15);
 			this.groupBox14.Controls.Add(this.numericTextBox12);
 			this.groupBox14.Controls.Add(this.label31);
-			this.groupBox14.Location = new System.Drawing.Point(7, 251);
+			this.groupBox14.Location = new System.Drawing.Point(0, 251);
 			this.groupBox14.Name = "groupBox14";
-			this.groupBox14.Size = new System.Drawing.Size(474, 207);
+			this.groupBox14.Size = new System.Drawing.Size(477, 287);
 			this.groupBox14.TabIndex = 25;
 			this.groupBox14.TabStop = false;
 			this.groupBox14.Text = "Material Settings";
-			// 
-			// flowLayoutPanel2
-			// 
-			this.flowLayoutPanel2.Controls.Add(this.button1);
-			this.flowLayoutPanel2.Location = new System.Drawing.Point(6, 46);
-			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(462, 107);
-			this.flowLayoutPanel2.TabIndex = 33;
-			// 
-			// button1
-			// 
-			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.button1.Location = new System.Drawing.Point(3, 3);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(34, 22);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "Add";
-			this.button1.UseVisualStyleBackColor = true;
 			// 
 			// label31
 			// 
@@ -1039,7 +1030,7 @@
 			// 
 			// groupBox13
 			// 
-			this.groupBox13.Controls.Add(this.flowLayoutPanel1);
+			this.groupBox13.Controls.Add(this.craftitems_flowlayout_sounds);
 			this.groupBox13.Controls.Add(this.label30);
 			this.groupBox13.Controls.Add(this.numericTextBox11);
 			this.groupBox13.Controls.Add(this.label29);
@@ -1047,21 +1038,21 @@
 			this.groupBox13.Controls.Add(this.label28);
 			this.groupBox13.Controls.Add(this.numericTextBox9);
 			this.groupBox13.Controls.Add(this.label27);
-			this.groupBox13.Location = new System.Drawing.Point(4, 116);
+			this.groupBox13.Location = new System.Drawing.Point(0, 116);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Size = new System.Drawing.Size(476, 129);
 			this.groupBox13.TabIndex = 24;
 			this.groupBox13.TabStop = false;
 			this.groupBox13.Text = "Sound && Loop Settings";
 			// 
-			// flowLayoutPanel1
+			// craftitems_flowlayout_sounds
 			// 
-			this.flowLayoutPanel1.Controls.Add(this.BTN_craftitems_add_sound);
-			this.flowLayoutPanel1.Controls.Add(this.craftitem_sound_1);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 55);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(464, 68);
-			this.flowLayoutPanel1.TabIndex = 36;
+			this.craftitems_flowlayout_sounds.Controls.Add(this.BTN_craftitems_add_sound);
+			this.craftitems_flowlayout_sounds.Controls.Add(this.craftitem_sound_1);
+			this.craftitems_flowlayout_sounds.Location = new System.Drawing.Point(6, 55);
+			this.craftitems_flowlayout_sounds.Name = "craftitems_flowlayout_sounds";
+			this.craftitems_flowlayout_sounds.Size = new System.Drawing.Size(464, 68);
+			this.craftitems_flowlayout_sounds.TabIndex = 36;
 			// 
 			// BTN_craftitems_add_sound
 			// 
@@ -1072,6 +1063,7 @@
 			this.BTN_craftitems_add_sound.TabIndex = 0;
 			this.BTN_craftitems_add_sound.Text = "Add";
 			this.BTN_craftitems_add_sound.UseVisualStyleBackColor = true;
+			this.BTN_craftitems_add_sound.Click += new System.EventHandler(this.BTN_craftitems_add_sound_Click);
 			// 
 			// label30
 			// 
@@ -1123,7 +1115,7 @@
 			this.groupBox12.Controls.Add(this.label20);
 			this.groupBox12.Controls.Add(this.numericTextBox3);
 			this.groupBox12.Controls.Add(this.label19);
-			this.groupBox12.Location = new System.Drawing.Point(4, 464);
+			this.groupBox12.Location = new System.Drawing.Point(0, 538);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(477, 175);
 			this.groupBox12.TabIndex = 23;
@@ -1187,7 +1179,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(4, 92);
+			this.label14.Location = new System.Drawing.Point(2, 87);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(73, 13);
 			this.label14.TabIndex = 21;
@@ -1196,7 +1188,7 @@
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(286, 56);
+			this.label13.Location = new System.Drawing.Point(284, 56);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(47, 13);
 			this.label13.TabIndex = 19;
@@ -1210,7 +1202,7 @@
 			this.comboBox2.FormattingEnabled = true;
 			this.comboBox2.Items.AddRange(new object[] {
             "None"});
-			this.comboBox2.Location = new System.Drawing.Point(97, 53);
+			this.comboBox2.Location = new System.Drawing.Point(95, 53);
 			this.comboBox2.Name = "comboBox2";
 			this.comboBox2.Size = new System.Drawing.Size(183, 21);
 			this.comboBox2.Sorted = true;
@@ -1220,7 +1212,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(4, 56);
+			this.label7.Location = new System.Drawing.Point(2, 56);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(46, 13);
 			this.label7.TabIndex = 17;
@@ -1234,7 +1226,7 @@
 			this.comboBox1.FormattingEnabled = true;
 			this.comboBox1.Items.AddRange(new object[] {
             "None"});
-			this.comboBox1.Location = new System.Drawing.Point(97, 26);
+			this.comboBox1.Location = new System.Drawing.Point(95, 26);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(183, 21);
 			this.comboBox1.Sorted = true;
@@ -1244,7 +1236,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(4, 29);
+			this.label6.Location = new System.Drawing.Point(2, 29);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(87, 13);
 			this.label6.TabIndex = 15;
@@ -1253,7 +1245,7 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(180, 3);
+			this.checkBox3.Location = new System.Drawing.Point(178, 3);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(100, 17);
 			this.checkBox3.TabIndex = 2;
@@ -1263,7 +1255,7 @@
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(93, 3);
+			this.checkBox2.Location = new System.Drawing.Point(91, 3);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(81, 17);
 			this.checkBox2.TabIndex = 1;
@@ -1273,7 +1265,7 @@
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(5, 3);
+			this.checkBox1.Location = new System.Drawing.Point(3, 3);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(82, 17);
 			this.checkBox1.TabIndex = 0;
@@ -1352,6 +1344,7 @@
 			this.BTN_write_craftitems.TabIndex = 0;
 			this.BTN_write_craftitems.Text = "Write Files";
 			this.BTN_write_craftitems.UseVisualStyleBackColor = true;
+			this.BTN_write_craftitems.Click += new System.EventHandler(this.BTN_write_craftitems_Click);
 			// 
 			// tabPage7
 			// 
@@ -1366,6 +1359,66 @@
 			// 
 			this.craftitems_context_strip.Name = "craftitems_context_strip";
 			this.craftitems_context_strip.Size = new System.Drawing.Size(61, 4);
+			// 
+			// groupBox15
+			// 
+			this.groupBox15.Controls.Add(this.craftitems_flowlayout_materials);
+			this.groupBox15.Location = new System.Drawing.Point(6, 40);
+			this.groupBox15.Name = "groupBox15";
+			this.groupBox15.Size = new System.Drawing.Size(462, 125);
+			this.groupBox15.TabIndex = 33;
+			this.groupBox15.TabStop = false;
+			this.groupBox15.Text = "Auto Select Materials";
+			// 
+			// groupBox16
+			// 
+			this.groupBox16.Controls.Add(this.craftitems_flowlayout_materials_clicked);
+			this.groupBox16.Location = new System.Drawing.Point(5, 171);
+			this.groupBox16.Name = "groupBox16";
+			this.groupBox16.Size = new System.Drawing.Size(462, 110);
+			this.groupBox16.TabIndex = 34;
+			this.groupBox16.TabStop = false;
+			this.groupBox16.Text = "Manual Select Materials";
+			// 
+			// craftitems_flowlayout_materials
+			// 
+			this.craftitems_flowlayout_materials.Controls.Add(this.BTN_craftitems_addmaterial);
+			this.craftitems_flowlayout_materials.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.craftitems_flowlayout_materials.Location = new System.Drawing.Point(3, 16);
+			this.craftitems_flowlayout_materials.Name = "craftitems_flowlayout_materials";
+			this.craftitems_flowlayout_materials.Size = new System.Drawing.Size(456, 106);
+			this.craftitems_flowlayout_materials.TabIndex = 0;
+			// 
+			// craftitems_flowlayout_materials_clicked
+			// 
+			this.craftitems_flowlayout_materials_clicked.Controls.Add(this.BTN_craftitems_addclickedmaterial);
+			this.craftitems_flowlayout_materials_clicked.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.craftitems_flowlayout_materials_clicked.Location = new System.Drawing.Point(3, 16);
+			this.craftitems_flowlayout_materials_clicked.Name = "craftitems_flowlayout_materials_clicked";
+			this.craftitems_flowlayout_materials_clicked.Size = new System.Drawing.Size(456, 91);
+			this.craftitems_flowlayout_materials_clicked.TabIndex = 0;
+			// 
+			// BTN_craftitems_addmaterial
+			// 
+			this.BTN_craftitems_addmaterial.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.BTN_craftitems_addmaterial.Location = new System.Drawing.Point(3, 3);
+			this.BTN_craftitems_addmaterial.Name = "BTN_craftitems_addmaterial";
+			this.BTN_craftitems_addmaterial.Size = new System.Drawing.Size(34, 22);
+			this.BTN_craftitems_addmaterial.TabIndex = 1;
+			this.BTN_craftitems_addmaterial.Text = "Add";
+			this.BTN_craftitems_addmaterial.UseVisualStyleBackColor = true;
+			this.BTN_craftitems_addmaterial.Click += new System.EventHandler(this.BTN_craftitems_addmaterial_Click);
+			// 
+			// BTN_craftitems_addclickedmaterial
+			// 
+			this.BTN_craftitems_addclickedmaterial.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.BTN_craftitems_addclickedmaterial.Location = new System.Drawing.Point(3, 3);
+			this.BTN_craftitems_addclickedmaterial.Name = "BTN_craftitems_addclickedmaterial";
+			this.BTN_craftitems_addclickedmaterial.Size = new System.Drawing.Size(34, 22);
+			this.BTN_craftitems_addclickedmaterial.TabIndex = 1;
+			this.BTN_craftitems_addclickedmaterial.Text = "Add";
+			this.BTN_craftitems_addclickedmaterial.UseVisualStyleBackColor = true;
+			this.BTN_craftitems_addclickedmaterial.Click += new System.EventHandler(this.BTN_craftitems_addclickedmaterial_Click);
 			// 
 			// TB_materials_quality
 			// 
@@ -1537,7 +1590,7 @@
 			this.numericTextBox2.AllowSpace = false;
 			this.numericTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.numericTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox2.Location = new System.Drawing.Point(83, 90);
+			this.numericTextBox2.Location = new System.Drawing.Point(81, 85);
 			this.numericTextBox2.Name = "numericTextBox2";
 			this.numericTextBox2.Size = new System.Drawing.Size(77, 20);
 			this.numericTextBox2.TabIndex = 22;
@@ -1548,7 +1601,7 @@
 			this.numericTextBox1.AllowSpace = false;
 			this.numericTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
 			this.numericTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericTextBox1.Location = new System.Drawing.Point(339, 53);
+			this.numericTextBox1.Location = new System.Drawing.Point(337, 53);
 			this.numericTextBox1.Name = "numericTextBox1";
 			this.numericTextBox1.Size = new System.Drawing.Size(77, 20);
 			this.numericTextBox1.TabIndex = 20;
@@ -1606,15 +1659,18 @@
 			this.panel_craftitems.PerformLayout();
 			this.groupBox14.ResumeLayout(false);
 			this.groupBox14.PerformLayout();
-			this.flowLayoutPanel2.ResumeLayout(false);
 			this.groupBox13.ResumeLayout(false);
 			this.groupBox13.PerformLayout();
-			this.flowLayoutPanel1.ResumeLayout(false);
-			this.flowLayoutPanel1.PerformLayout();
+			this.craftitems_flowlayout_sounds.ResumeLayout(false);
+			this.craftitems_flowlayout_sounds.PerformLayout();
 			this.groupBox12.ResumeLayout(false);
 			this.groupBox12.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picturebox_craft_items)).EndInit();
 			this.groupBox11.ResumeLayout(false);
+			this.groupBox15.ResumeLayout(false);
+			this.groupBox16.ResumeLayout(false);
+			this.craftitems_flowlayout_materials.ResumeLayout(false);
+			this.craftitems_flowlayout_materials_clicked.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1741,14 +1797,18 @@
 		private NumericTextBox numericTextBox9;
 		private System.Windows.Forms.Label label27;
 		private System.Windows.Forms.Label label30;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.FlowLayoutPanel craftitems_flowlayout_sounds;
 		private System.Windows.Forms.Button BTN_craftitems_add_sound;
 		private NumericTextBox craftitem_sound_1;
 		private System.Windows.Forms.GroupBox groupBox14;
 		private NumericTextBox numericTextBox12;
 		private System.Windows.Forms.Label label31;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.GroupBox groupBox16;
+		private System.Windows.Forms.GroupBox groupBox15;
+		private System.Windows.Forms.FlowLayoutPanel craftitems_flowlayout_materials_clicked;
+		private System.Windows.Forms.FlowLayoutPanel craftitems_flowlayout_materials;
+		private System.Windows.Forms.Button BTN_craftitems_addclickedmaterial;
+		private System.Windows.Forms.Button BTN_craftitems_addmaterial;
 	}
 }
 
