@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Ultima
@@ -66,6 +67,76 @@ namespace Ultima
                     }
                 }
             }
+        }
+
+        public static void ExportToCSV(string FileName)
+        {
+            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            {
+                Tex.WriteLine("ID;Color");
+
+                for (int i = 0; i < m_Colors.Length; ++i)
+                {
+                    Tex.WriteLine(String.Format("0x{0:X4};{1}", i, m_Colors[i]));
+                }
+            }
+        }
+
+        public static void ImportFromCSV(string FileName)
+        {
+            if (!File.Exists(FileName))
+                return;
+            using (StreamReader sr = new StreamReader(FileName))
+            {
+                string line;
+                int count = 0;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                        continue;
+                    if (line.StartsWith("ID;"))
+                        continue;
+                    ++count;
+                }
+                m_Colors = new short[count];
+            }
+            using (StreamReader sr = new StreamReader(FileName))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                        continue;
+                    if (line.StartsWith("ID;"))
+                        continue;
+                    try
+                    {
+                        string[] split = line.Split(';');
+                        if (split.Length < 2)
+                            continue;
+
+                        int id = ConvertStringToInt(split[0]);
+                        int color = ConvertStringToInt(split[1]);
+                        m_Colors[id] = (short)color;
+                        
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        private static int ConvertStringToInt(string text)
+        {
+            int result;
+            if (text.Contains("0x"))
+            {
+                string convert = text.Replace("0x", "");
+                int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out result);
+            }
+            else
+                int.TryParse(text, System.Globalization.NumberStyles.Integer, null, out result);
+
+            return result;
         }
     }
 }
