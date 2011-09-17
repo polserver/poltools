@@ -620,6 +620,35 @@ namespace CraftTool
 				}
 			}
 		}
+		
+		private void treeview_craftitems_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			TreeNode selected = treeview_craftitems.SelectedNode;
+
+			TB_craftitems.Clear();
+			foreach (Control control in groupBox10.Controls)
+			{
+				if (control is TextBox)
+					((TextBox)control).Clear();
+			}
+			if (selected.Parent == null)
+				return;
+
+			ConfigElem tom_elem = ConfigRepository.global.FindElemInConfigFiles("craftItems.cfg", selected.Name);
+						
+			label21.Text = tom_elem.configfile.fullpath;
+			foreach (string propname in tom_elem.ListConfigElemProperties())
+			{
+				foreach (string value in tom_elem.GetConfigStringList(propname))
+				{
+					TB_craftitems.AppendText(propname + "	" + value + Environment.NewLine);
+				}
+			}
+
+			picturebox_craft_items.Image = global::CraftTool.Properties.Resources.unused;
+			
+		}
 		#endregion
+
 	}
 }
