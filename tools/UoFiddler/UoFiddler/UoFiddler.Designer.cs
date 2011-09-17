@@ -551,7 +551,7 @@ namespace UoFiddler
             this.controlMultimap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlMultimap.Location = new System.Drawing.Point(3, 3);
             this.controlMultimap.Name = "controlMultimap";
-            this.controlMultimap.Size = new System.Drawing.Size(613, 318);
+            this.controlMultimap.Size = new System.Drawing.Size(186, 68);
             this.controlMultimap.TabIndex = 0;
             // 
             // Dress

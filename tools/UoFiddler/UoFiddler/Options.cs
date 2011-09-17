@@ -69,15 +69,14 @@ namespace UoFiddler
         public static void Startup()
         {
             // Move xml files to appdata
-            FiddlerControls.Options.AppDataPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"UoFiddler");
+            
             if (!Directory.Exists(FiddlerControls.Options.AppDataPath))
                 Directory.CreateDirectory(FiddlerControls.Options.AppDataPath);
             string pluginpath = Path.Combine(FiddlerControls.Options.AppDataPath, "plugins");
             if (!Directory.Exists(pluginpath))
                 Directory.CreateDirectory(pluginpath);
             DirectoryInfo di = new DirectoryInfo(Application.StartupPath);
-            MoveFile(di.GetFiles(@"Options.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
+            MoveFile(di.GetFiles(@"Options_default.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
             MoveFile(di.GetFiles(@"Animationlist.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
             MoveFile(di.GetFiles(@"Multilist.xml", SearchOption.TopDirectoryOnly), FiddlerControls.Options.AppDataPath);
             di = new DirectoryInfo(Path.Combine(Application.StartupPath,"plugins"));
@@ -97,7 +96,7 @@ namespace UoFiddler
 
         public static void Save()
         {
-            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, "Options.xml");
+            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, FiddlerControls.Options.ProfileName);
 
             XmlDocument dom = new XmlDocument();
             XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -241,19 +240,27 @@ namespace UoFiddler
             elem.SetAttribute("Height", FormSize.Height.ToString());
             elem.SetAttribute("Width", FormSize.Width.ToString());
             sr.AppendChild(elem);
+
             dom.Save(FileName);
         }
 
+
         private static void Load()
         {
-            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, "Options.xml");
+            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, "Options_default.xml");
             if (!File.Exists(FileName))
                 return;
+            LoadProfile profileform = new LoadProfile();
+            profileform.TopMost = true;
+            profileform.ShowDialog();
+            //loadProfile(FileName);
+        }
 
+        public static void LoadProfile(string filename)
+        {
             XmlDocument dom = new XmlDocument();
-            dom.Load(FileName);
+            dom.Load(filename);
             XmlElement xOptions = dom["Options"];
-
             XmlElement elem = (XmlElement)xOptions.SelectSingleNode("OutputPath");
             if (elem != null)
             {
