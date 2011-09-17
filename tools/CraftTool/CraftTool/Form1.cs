@@ -634,16 +634,25 @@ namespace CraftTool
 			if (selected.Parent == null)
 				return;
 
-			ConfigElem tom_elem = ConfigRepository.global.FindElemInConfigFiles("craftItems.cfg", selected.Name);
+			ConfigElem cfg_elem = ConfigRepository.global.FindElemInConfigFiles("craftItems.cfg", selected.Name);
 						
-			label21.Text = tom_elem.configfile.fullpath;
-			foreach (string propname in tom_elem.ListConfigElemProperties())
+			label21.Text = cfg_elem.configfile.fullpath;
+			foreach (string propname in cfg_elem.ListConfigElemProperties())
 			{
-				foreach (string value in tom_elem.GetConfigStringList(propname))
+				foreach (string value in cfg_elem.GetConfigStringList(propname))
 				{
 					TB_craftitems.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
+
+			if ( cfg_elem.PropertyExists("NoRecycle") )
+				CB_craftitems_norecycle.Checked = (cfg_elem.GetConfigInt("NoRecycle") > 0);
+			if (cfg_elem.PropertyExists("Exceptional"))
+				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("Exceptional") > 0);
+
+
+			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
+			Column6.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 
 			picturebox_craft_items.Image = global::CraftTool.Properties.Resources.unused;
 			
