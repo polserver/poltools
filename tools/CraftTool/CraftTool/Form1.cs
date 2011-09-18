@@ -279,6 +279,13 @@ namespace CraftTool
 				}
 			}
 		}
+
+		private void craftitems_datagrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		{
+			ComboBox c = e.Control as ComboBox;
+			if (c != null)
+				c.DropDownStyle = ComboBoxStyle.DropDown;
+		}
 		
 		#endregion
 
@@ -503,28 +510,14 @@ namespace CraftTool
 		#region Tool On Material Tab Stuff
 		public void PopulateToolOnMaterial()
 		{
-			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
-			{
-				string tom_cfg_path = package.GetPackagedConfigPath("toolOnMaterial.cfg");
-				if (tom_cfg_path == null)
-					continue;
-
-				string nodename = ":" + package.name + ":toolOnMaterial.cfg";
-				TreeNode pkg_node = toolonmaterial_treeview.Nodes.Add(package.name, nodename);
-				ConfigFile tom_config = ConfigRepository.global.LoadConfigFile(tom_cfg_path);
-				foreach (ConfigElem cfg_elem in tom_config.GetConfigElemRefs())
-				{
-					nodename = cfg_elem.name;
-					
-					pkg_node.Nodes.Add(nodename, nodename);
-				}
-			}
+			PopulateTreeViewWithConfigElems(toolonmaterial_treeview, "toolOnMaterial.cfg", false);
 		}
 		
 		private void toolonmaterial_treeview_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = toolonmaterial_treeview.SelectedNode;
-			ResetTabControls(groupBox6);
+			ResetTabControls(groupBox4);
+
 			if (selected.Parent == null)
 				return;
 
@@ -631,19 +624,7 @@ namespace CraftTool
 		#region Craft Items Tab Stuff
 		public void PopulateCraftItems()
 		{
-			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
-			{
-				string materials_cfg_path = package.GetPackagedConfigPath("craftItems.cfg");
-				if (materials_cfg_path == null)
-					continue;
-
-				TreeNode pkg_node = craftitems_treeview.Nodes.Add(package.name, ":" + package.name + ":craftItems.cfg");
-				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
-				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
-				{
-					AddObjTypeToTreeView(pkg_node, cfg_elem.name);
-				}
-			}
+			PopulateTreeViewWithConfigElems(craftitems_treeview, "craftItems.cfg", true);
 		}
 		
 		private void treeview_craftitems_AfterSelect(object sender, TreeViewEventArgs e)
@@ -778,12 +759,5 @@ namespace CraftTool
 
 		}
 		#endregion
-
-		private void craftitems_datagrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-		{
-			ComboBox c = e.Control as ComboBox;
-			if (c != null)
-				c.DropDownStyle = ComboBoxStyle.DropDown;
-		}
 	}
 }
