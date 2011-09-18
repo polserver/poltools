@@ -334,7 +334,7 @@ namespace CraftTool
 
 		private void itemdesc_datagrid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			TB_itemdescinfo.Clear();
+			itemdesc_elemcontents.Clear();
 
 			DataGridViewRow row = itemdesc_datagrid.Rows[e.RowIndex];
 			//ConfigElem itemdesc_elem = ConfigRepository.global.GetElemFromConfigFiles("itemdesc.cfg", row.Cells[1].Value.ToString());
@@ -343,12 +343,12 @@ namespace CraftTool
 			{
 				foreach (string value in itemdesc_elem.GetConfigStringList(propname))
 				{
-					TB_itemdescinfo.AppendText(propname + "	" + value + Environment.NewLine);
+					itemdesc_elemcontents.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
 
 			label4.Text = itemdesc_elem.configfile.fullpath;
-			itemdesc_picture.Image = (Bitmap)row.Cells[0].Value;
+			itemdesc_picturebox_tilepic.Image = (Bitmap)row.Cells[0].Value;
 		}
 
 		private void copyObjTypeToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -388,34 +388,34 @@ namespace CraftTool
 						
 			ConfigElem materials_elem = ConfigRepository.global.FindElemInConfigFiles("materials.cfg", selected.Name);
 			label5.Text = materials_elem.configfile.fullpath;
-			combobox_materials_changeto.Items.Clear();
+			materials_combobox_changeto.Items.Clear();
 			foreach (string propname in materials_elem.ListConfigElemProperties())
 			{
 				foreach (string value in materials_elem.GetConfigStringList(propname))
 				{
-					materials_textbox.AppendText(propname + "	" + value + Environment.NewLine);
+					materials_elemcontents.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
-			materials_picture.Image = global::CraftTool.Properties.Resources.unused;
+			materials_picturebox_material.Image = global::CraftTool.Properties.Resources.unused;
 			if (materials_elem.PropertyExists("Category"))
-				TB_materials_category.Text = materials_elem.GetConfigString("Category");
+				materials_textbox_category.Text = materials_elem.GetConfigString("Category");
 			if (materials_elem.PropertyExists("Color"))
-				TB_materials_color.Text = materials_elem.GetConfigString("Color");
+				materials_textbox_color.Text = materials_elem.GetConfigString("Color");
 			if (materials_elem.PropertyExists("Difficulty"))
-				TB_materials_difficulty.Text = materials_elem.GetConfigString("Difficulty");
+				materials_textbox_difficulty.Text = materials_elem.GetConfigString("Difficulty");
 			if (materials_elem.PropertyExists("Quality"))
-				TB_materials_quality.Text = materials_elem.GetConfigString("Quality");
+				materials_textbox_quality.Text = materials_elem.GetConfigString("Quality");
 			if (materials_elem.PropertyExists("CreatedScript"))
-				TB_materials_createdscript.Text = materials_elem.GetConfigString("CreatedScript");
+				materials_textbox_createdscript.Text = materials_elem.GetConfigString("CreatedScript");
 
 			List<string> itemdesc_names = ItemdescCache.Global.GetAllObjTypeNames();
-			combobox_materials_changeto.Items.AddRange(itemdesc_names.ToArray());
+			materials_combobox_changeto.Items.AddRange(itemdesc_names.ToArray());
 			if (materials_elem.PropertyExists("ChangeTo"))
 			{
 				string changeto = materials_elem.GetConfigString("ChangeTo").ToLower();
 				//int pos = itemdesc_names.IndexOf(materials_elem.GetConfigString("ChangeTo"));
-				int pos = combobox_materials_changeto.FindString(changeto);
-				combobox_materials_changeto.SelectedIndex = pos; // Account for 'None'
+				int pos = materials_combobox_changeto.FindString(changeto);
+				materials_combobox_changeto.SelectedIndex = pos; // Account for 'None'
 			}
 		}
 
@@ -433,12 +433,12 @@ namespace CraftTool
 			ConfigElem original = materials_cfg.GetConfigElem(selected.Name);
 
 			ConfigElem newelem = new ConfigElem(original.type, original.name);
-			newelem.AddConfigLine("Category", TB_materials_category.Text);
-			newelem.AddConfigLine("Color", TB_materials_color.Text);
-			newelem.AddConfigLine("Difficulty", TB_materials_difficulty.Text);
-			newelem.AddConfigLine("Quality", TB_materials_quality.Text);
-			newelem.AddConfigLine("ChangeTo", combobox_materials_changeto.Text);
-			newelem.AddConfigLine("CreatedScript", TB_materials_createdscript.Text);
+			newelem.AddConfigLine("Category", materials_textbox_category.Text);
+			newelem.AddConfigLine("Color", materials_textbox_color.Text);
+			newelem.AddConfigLine("Difficulty", materials_textbox_difficulty.Text);
+			newelem.AddConfigLine("Quality", materials_textbox_quality.Text);
+			newelem.AddConfigLine("ChangeTo", materials_combobox_changeto.Text);
+			newelem.AddConfigLine("CreatedScript", materials_textbox_createdscript.Text);
 			
 			materials_cfg.RemoveConfigElement(selected.Name);
 			materials_cfg.AddConfigElement(newelem);
@@ -530,7 +530,7 @@ namespace CraftTool
 				}
 			}
 
-			toolonmaterial_tool_picture.Image = global::CraftTool.Properties.Resources.unused;
+			toolonmaterial_picturebox_tool.Image = global::CraftTool.Properties.Resources.unused;
 			if (tom_elem.PropertyExists("MenuScript"))
 				tom_textbox_menuscript.Text = tom_elem.GetConfigString("MenuScript");
 
@@ -651,7 +651,7 @@ namespace CraftTool
 			{
 				foreach (string value in cfg_elem.GetConfigStringList(propname))
 				{
-					TB_craftitems.AppendText(propname + "	" + value + Environment.NewLine);
+					craftitems_textbox_eleminfo.AppendText(propname + "	" + value + Environment.NewLine);
 				}
 			}
 
@@ -665,7 +665,7 @@ namespace CraftTool
 			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 			Column6.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 
-			picturebox_craft_items.Image = global::CraftTool.Properties.Resources.unused;			
+			craftitems_picturebox_itempic.Image = global::CraftTool.Properties.Resources.unused;			
 		}
 		
 		private void BTN_craftitems_add_sound_Click(object sender, EventArgs e)
