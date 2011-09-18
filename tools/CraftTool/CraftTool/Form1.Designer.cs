@@ -175,6 +175,9 @@
 			this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
 			this.craftmenus_Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.craftmenus_Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.craftmenus_Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.craftmenus_Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.craftmenus_Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.materials_textbox_quality = new NumericTextBox();
 			this.materials_textbox_difficulty = new NumericTextBox();
 			this.materials_textbox_color = new NumericTextBox();
@@ -184,9 +187,6 @@
 			this.craftitems_textbox_craftloops = new NumericTextBox();
 			this.craftitems_textbox_makeamount = new NumericTextBox();
 			this.craftitems_textbox_difficulty = new NumericTextBox();
-			this.craftmenus_Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.craftmenus_Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.craftmenus_Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
@@ -1044,8 +1044,6 @@
 			this.craftmenus_datagrid_itementries.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.craftmenus_datagrid_itementries.Size = new System.Drawing.Size(630, 148);
 			this.craftmenus_datagrid_itementries.TabIndex = 1;
-			this.toolTip1.SetToolTip(this.craftmenus_datagrid_itementries, "Extra materials to consume beyond the clicked material. These materials will be a" +
-				   "utomatically found by the crafting system.");
 			// 
 			// groupBox20
 			// 
@@ -1074,8 +1072,6 @@
 			this.craftmenus_datagrid_submenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.craftmenus_datagrid_submenus.Size = new System.Drawing.Size(630, 166);
 			this.craftmenus_datagrid_submenus.TabIndex = 1;
-			this.toolTip1.SetToolTip(this.craftmenus_datagrid_submenus, "Extra materials to consume beyond the clicked material. These materials will be a" +
-				   "utomatically found by the crafting system.");
 			// 
 			// label34
 			// 
@@ -1802,6 +1798,33 @@
 			    ".cfg settings.";
 			this.craftmenus_Column5.Width = 200;
 			// 
+			// craftmenus_Column1
+			// 
+			this.craftmenus_Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.craftmenus_Column1.FillWeight = 376F;
+			this.craftmenus_Column1.HeaderText = "Submenu Elem";
+			this.craftmenus_Column1.MinimumWidth = 376;
+			this.craftmenus_Column1.Name = "craftmenus_Column1";
+			this.craftmenus_Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.craftmenus_Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.craftmenus_Column1.Width = 376;
+			// 
+			// craftmenus_Column2
+			// 
+			this.craftmenus_Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.craftmenus_Column2.HeaderText = "Picture Id";
+			this.craftmenus_Column2.MinimumWidth = 100;
+			this.craftmenus_Column2.Name = "craftmenus_Column2";
+			this.craftmenus_Column2.ToolTipText = "Tile graphic number.";
+			// 
+			// craftmenus_Column3
+			// 
+			this.craftmenus_Column3.FillWeight = 150F;
+			this.craftmenus_Column3.HeaderText = "Menu Name";
+			this.craftmenus_Column3.MinimumWidth = 150;
+			this.craftmenus_Column3.Name = "craftmenus_Column3";
+			this.craftmenus_Column3.Width = 150;
+			// 
 			// materials_textbox_quality
 			// 
 			this.materials_textbox_quality.AllowSpace = false;
@@ -1900,33 +1923,6 @@
 			this.craftitems_textbox_difficulty.Size = new System.Drawing.Size(77, 20);
 			this.craftitems_textbox_difficulty.TabIndex = 76;
 			this.toolTip1.SetToolTip(this.craftitems_textbox_difficulty, "Difficulty for the item\'s skill check.");
-			// 
-			// craftmenus_Column1
-			// 
-			this.craftmenus_Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.craftmenus_Column1.FillWeight = 376F;
-			this.craftmenus_Column1.HeaderText = "Submenu Elem";
-			this.craftmenus_Column1.MinimumWidth = 376;
-			this.craftmenus_Column1.Name = "craftmenus_Column1";
-			this.craftmenus_Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.craftmenus_Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.craftmenus_Column1.Width = 376;
-			// 
-			// craftmenus_Column2
-			// 
-			this.craftmenus_Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.craftmenus_Column2.HeaderText = "Picture Id";
-			this.craftmenus_Column2.MinimumWidth = 100;
-			this.craftmenus_Column2.Name = "craftmenus_Column2";
-			this.craftmenus_Column2.ToolTipText = "Tile graphic number.";
-			// 
-			// craftmenus_Column3
-			// 
-			this.craftmenus_Column3.FillWeight = 150F;
-			this.craftmenus_Column3.HeaderText = "Menu Name";
-			this.craftmenus_Column3.MinimumWidth = 150;
-			this.craftmenus_Column3.Name = "craftmenus_Column3";
-			this.craftmenus_Column3.Width = 150;
 			// 
 			// Form1
 			// 
