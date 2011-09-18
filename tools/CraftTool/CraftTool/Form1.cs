@@ -754,27 +754,31 @@ namespace CraftTool
 
 			ConfigElem newelem = new ConfigElem(original.type, original.name);
 			
+			int row_count = 0;
 			foreach (DataGridViewRow row in craftmenus_datagrid_submenus.Rows)
 			{
+				row_count++;
 				string value = string.Empty;
-				int num_cells = 0;
+				int empty = row.Cells.Count;
 				foreach ( DataGridViewCell cell in row.Cells )
 				{
 					if (cell.Value == null)
 						continue; // Handle empty cells
 					value += cell.Value.ToString() + "\t";
-					num_cells++;
+					empty--;
 				}
 				value = value.Trim();
-				if (num_cells < row.Cells.Count && value != string.Empty)
+				if (value.Length > 0)
 				{
-					MessageBox.Show("Not all submenu cells were filled in on row " + row.Index, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
+					if (empty > 0)
+					{
+						MessageBox.Show("Not all submenu cells were filled out on row "+row_count+".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
+					newelem.AddConfigLine("SubMenu", value);
 				}
-
-				newelem.AddConfigLine("Submenu", value.Trim());
 			}
-			
+
 			foreach (DataGridViewRow row in craftmenus_datagrid_itementries.Rows)
 			{
 				string value = string.Empty;
@@ -785,8 +789,8 @@ namespace CraftTool
 					value += cell.Value.ToString() + "\t";
 				}
 				value = value.Trim();
-				if ( value.Length > 0 )
-					newelem.AddConfigLine("Entry", value.Trim());
+				if (value.Length > 0)
+					newelem.AddConfigLine("Entry", value);
 			}
 
 			config_file.RemoveConfigElement(selected.Name);
