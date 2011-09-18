@@ -703,9 +703,28 @@ namespace CraftTool
 			if (cfg_elem.PropertyExists("ConsumeScript"))
 				craftitems_textbox_consumescript.Text = cfg_elem.GetConfigString("ConsumeScript");
 
+			if (cfg_elem.PropertyExists("Sound"))
+			{
+				foreach (string sound in cfg_elem.GetConfigStringList("Sound"))
+				{
+					craftitems_datagrid_sounds.Rows.Add(sound);
+				}
+			}
+
 			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 			Column6.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 
+			if (cfg_elem.PropertyExists("Material"))
+			{
+				foreach (string material in cfg_elem.GetConfigStringList("Material"))
+				{
+					string[] split = material.Split(new char[] { ' ', '\t' });
+					if (split[0].Equals("[clicked]", StringComparison.CurrentCultureIgnoreCase))
+						continue;
+					craftitems_datagrid_materials.Rows.Add(split);
+				}				
+			}
+			
 			craftitems_picturebox_itempic.Image = global::CraftTool.Properties.Resources.unused;			
 		}
 		
@@ -734,5 +753,36 @@ namespace CraftTool
 
 		}
 		#endregion
+
+		private void craftitems_datagrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		{
+			ComboBox c = e.Control as ComboBox;
+			if (c != null)
+				c.DropDownStyle = ComboBoxStyle.DropDown;
+		}
+
+		private void craftitems_datagrid_materials_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+		{
+			if (e.ColumnIndex == Column4.Index)
+			{
+				object efv = e.FormattedValue;
+				if (!Column4.Items.Contains(efv))
+				{
+					Column4.Items.Add(efv);
+				}
+			}
+		}
+
+		private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+		{
+			if (e.ColumnIndex == Column6.Index)
+			{
+				object efv = e.FormattedValue;
+				if (!Column6.Items.Contains(efv))
+				{
+					Column6.Items.Add(efv);
+				}
+			}
+		}
 	}
 }
