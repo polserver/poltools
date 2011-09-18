@@ -757,15 +757,22 @@ namespace CraftTool
 			foreach (DataGridViewRow row in craftmenus_datagrid_submenus.Rows)
 			{
 				string value = string.Empty;
+				int num_cells = 0;
 				foreach ( DataGridViewCell cell in row.Cells )
 				{
 					if (cell.Value == null)
 						continue; // Handle empty cells
 					value += cell.Value.ToString() + "\t";
+					num_cells++;
 				}
 				value = value.Trim();
-				if (value.Length > 0)
-					newelem.AddConfigLine("Submenu", value.Trim());
+				if (num_cells < row.Cells.Count && value != string.Empty)
+				{
+					MessageBox.Show("Not all submenu cells were filled in on row " + row.Index, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				newelem.AddConfigLine("Submenu", value.Trim());
 			}
 			
 			foreach (DataGridViewRow row in craftmenus_datagrid_itementries.Rows)
