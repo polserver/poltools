@@ -40,10 +40,10 @@
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TabControl1 = new System.Windows.Forms.TabControl();
-			this.craftmenus_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.TB_loadoutput = new System.Windows.Forms.TextBox();
 			this.BTN_load_info = new System.Windows.Forms.Button();
@@ -77,7 +77,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.materials_picturebox_material = new System.Windows.Forms.PictureBox();
 			this.materials_elemcontents = new System.Windows.Forms.TextBox();
-			this.materials_tree_view = new System.Windows.Forms.TreeView();
+			this.materials_treeview = new System.Windows.Forms.TreeView();
 			this.materials_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.createNewConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.addNewElementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +105,7 @@
 			this.BTN_tom_writefiles = new System.Windows.Forms.Button();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.groupBox17 = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.BTN_craftmenus_update = new System.Windows.Forms.Button();
 			this.groupBox18 = new System.Windows.Forms.GroupBox();
 			this.groupBox21 = new System.Windows.Forms.GroupBox();
 			this.craftmenus_datagrid_itementries = new System.Windows.Forms.DataGridView();
@@ -120,6 +120,10 @@
 			this.craftmenus_textbox_eleminfo = new System.Windows.Forms.TextBox();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.craftmenus_treeview = new System.Windows.Forms.TreeView();
+			this.craftmenus_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
 			this.BTN_craftmenus_write = new System.Windows.Forms.Button();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
 			this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -174,10 +178,6 @@
 			this.BTN_write_craftitems = new System.Windows.Forms.Button();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
 			this.materials_textbox_quality = new NumericTextBox();
 			this.materials_textbox_difficulty = new NumericTextBox();
 			this.materials_textbox_color = new NumericTextBox();
@@ -190,7 +190,7 @@
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
-			this.craftmenus_context_strip.SuspendLayout();
+			this.craftitems_context_strip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -218,6 +218,7 @@
 			this.groupBox20.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.craftmenus_datagrid_submenus)).BeginInit();
 			this.groupBox19.SuspendLayout();
+			this.craftmenus_context_strip.SuspendLayout();
 			this.tabPage6.SuspendLayout();
 			this.groupBox9.SuspendLayout();
 			this.groupBox10.SuspendLayout();
@@ -232,7 +233,6 @@
 			this.groupBox12.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.craftitems_picturebox_itempic)).BeginInit();
 			this.groupBox11.SuspendLayout();
-			this.craftitems_context_strip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -319,35 +319,35 @@
 			this.TabControl1.TabIndex = 2;
 			this.TabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
 			// 
-			// craftmenus_context_strip
+			// craftitems_context_strip
 			// 
-			this.craftmenus_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem6});
-			this.craftmenus_context_strip.Name = "materials_context_strip";
-			this.craftmenus_context_strip.Size = new System.Drawing.Size(175, 70);
+			this.craftitems_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem7,
+            this.toolStripMenuItem8,
+            this.toolStripMenuItem9});
+			this.craftitems_context_strip.Name = "materials_context_strip";
+			this.craftitems_context_strip.Size = new System.Drawing.Size(175, 92);
 			// 
-			// toolStripMenuItem4
+			// toolStripMenuItem7
 			// 
-			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem4.Text = "&Create New Config";
-			this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem7.Text = "&Create New Config";
+			this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
 			// 
-			// toolStripMenuItem5
+			// toolStripMenuItem8
 			// 
-			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem5.Text = "&Add New Element";
-			this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+			this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+			this.toolStripMenuItem8.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem8.Text = "&Add New Element";
+			this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
 			// 
-			// toolStripMenuItem6
+			// toolStripMenuItem9
 			// 
-			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem6.Text = "&Remove Element";
-			this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
+			this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+			this.toolStripMenuItem9.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem9.Text = "&Remove Element";
+			this.toolStripMenuItem9.Click += new System.EventHandler(this.toolStripMenuItem9_Click);
 			// 
 			// tabPage1
 			// 
@@ -562,7 +562,7 @@
 			// 
 			this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
 			this.tabPage3.Controls.Add(this.groupBox3);
-			this.tabPage3.Controls.Add(this.materials_tree_view);
+			this.tabPage3.Controls.Add(this.materials_treeview);
 			this.tabPage3.Controls.Add(this.groupBox5);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
@@ -747,17 +747,17 @@
 			this.materials_elemcontents.Size = new System.Drawing.Size(483, 151);
 			this.materials_elemcontents.TabIndex = 0;
 			// 
-			// materials_tree_view
+			// materials_treeview
 			// 
-			this.materials_tree_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.materials_tree_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.materials_tree_view.ContextMenuStrip = this.materials_context_strip;
-			this.materials_tree_view.HotTracking = true;
-			this.materials_tree_view.Location = new System.Drawing.Point(12, 22);
-			this.materials_tree_view.Name = "materials_tree_view";
-			this.materials_tree_view.Size = new System.Drawing.Size(314, 491);
-			this.materials_tree_view.TabIndex = 0;
-			this.materials_tree_view.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.materials_tree_view_AfterSelect);
+			this.materials_treeview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.materials_treeview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.materials_treeview.ContextMenuStrip = this.materials_context_strip;
+			this.materials_treeview.HotTracking = true;
+			this.materials_treeview.Location = new System.Drawing.Point(12, 22);
+			this.materials_treeview.Name = "materials_treeview";
+			this.materials_treeview.Size = new System.Drawing.Size(314, 491);
+			this.materials_treeview.TabIndex = 0;
+			this.materials_treeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.materials_tree_view_AfterSelect);
 			// 
 			// materials_context_strip
 			// 
@@ -1016,7 +1016,7 @@
 			// 
 			// groupBox17
 			// 
-			this.groupBox17.Controls.Add(this.button1);
+			this.groupBox17.Controls.Add(this.BTN_craftmenus_update);
 			this.groupBox17.Controls.Add(this.groupBox18);
 			this.groupBox17.Controls.Add(this.label34);
 			this.groupBox17.Controls.Add(this.craftmenus_textbox_eleminfo);
@@ -1027,15 +1027,16 @@
 			this.groupBox17.TabStop = false;
 			this.groupBox17.Text = "Craft Menu Elem Info";
 			// 
-			// button1
+			// BTN_craftmenus_update
 			// 
-			this.button1.Location = new System.Drawing.Point(579, 127);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 16;
-			this.button1.Text = "Update";
-			this.toolTip1.SetToolTip(this.button1, "Will update to memory, you must click write files to commit to disk.");
-			this.button1.UseVisualStyleBackColor = true;
+			this.BTN_craftmenus_update.Location = new System.Drawing.Point(579, 127);
+			this.BTN_craftmenus_update.Name = "BTN_craftmenus_update";
+			this.BTN_craftmenus_update.Size = new System.Drawing.Size(75, 23);
+			this.BTN_craftmenus_update.TabIndex = 16;
+			this.BTN_craftmenus_update.Text = "Update";
+			this.toolTip1.SetToolTip(this.BTN_craftmenus_update, "Will update to memory, you must click write files to commit to disk.");
+			this.BTN_craftmenus_update.UseVisualStyleBackColor = true;
+			this.BTN_craftmenus_update.Click += new System.EventHandler(this.BTN_craftmenus_update_Click);
 			// 
 			// groupBox18
 			// 
@@ -1197,6 +1198,36 @@
 			this.craftmenus_treeview.TabIndex = 1;
 			this.craftmenus_treeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.craftmenus_treeview_AfterSelect);
 			// 
+			// craftmenus_context_strip
+			// 
+			this.craftmenus_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6});
+			this.craftmenus_context_strip.Name = "materials_context_strip";
+			this.craftmenus_context_strip.Size = new System.Drawing.Size(175, 70);
+			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem4.Text = "&Create New Config";
+			this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+			// 
+			// toolStripMenuItem5
+			// 
+			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem5.Text = "&Add New Element";
+			this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+			// 
+			// toolStripMenuItem6
+			// 
+			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem6.Text = "&Remove Element";
+			this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
+			// 
 			// BTN_craftmenus_write
 			// 
 			this.BTN_craftmenus_write.Location = new System.Drawing.Point(126, 516);
@@ -1205,6 +1236,7 @@
 			this.BTN_craftmenus_write.TabIndex = 0;
 			this.BTN_craftmenus_write.Text = "Write Files";
 			this.BTN_craftmenus_write.UseVisualStyleBackColor = true;
+			this.BTN_craftmenus_write.Click += new System.EventHandler(this.BTN_craftmenus_write_Click);
 			// 
 			// tabPage6
 			// 
@@ -1798,36 +1830,6 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// craftitems_context_strip
-			// 
-			this.craftitems_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem7,
-            this.toolStripMenuItem8,
-            this.toolStripMenuItem9});
-			this.craftitems_context_strip.Name = "materials_context_strip";
-			this.craftitems_context_strip.Size = new System.Drawing.Size(175, 70);
-			// 
-			// toolStripMenuItem7
-			// 
-			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-			this.toolStripMenuItem7.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem7.Text = "&Create New Config";
-			this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
-			// 
-			// toolStripMenuItem8
-			// 
-			this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-			this.toolStripMenuItem8.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem8.Text = "&Add New Element";
-			this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
-			// 
-			// toolStripMenuItem9
-			// 
-			this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-			this.toolStripMenuItem9.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem9.Text = "&Remove Element";
-			this.toolStripMenuItem9.Click += new System.EventHandler(this.toolStripMenuItem9_Click);
-			// 
 			// materials_textbox_quality
 			// 
 			this.materials_textbox_quality.AllowSpace = false;
@@ -1946,7 +1948,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.TabControl1.ResumeLayout(false);
-			this.craftmenus_context_strip.ResumeLayout(false);
+			this.craftitems_context_strip.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
@@ -1981,6 +1983,7 @@
 			this.groupBox20.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.craftmenus_datagrid_submenus)).EndInit();
 			this.groupBox19.ResumeLayout(false);
+			this.craftmenus_context_strip.ResumeLayout(false);
 			this.tabPage6.ResumeLayout(false);
 			this.groupBox9.ResumeLayout(false);
 			this.groupBox9.PerformLayout();
@@ -2000,7 +2003,6 @@
 			this.groupBox12.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.craftitems_picturebox_itempic)).EndInit();
 			this.groupBox11.ResumeLayout(false);
-			this.craftitems_context_strip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2030,7 +2032,7 @@
 		private System.Windows.Forms.TextBox itemdesc_elemcontents;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.PictureBox itemdesc_picturebox_tilepic;
-		private System.Windows.Forms.TreeView materials_tree_view;
+		private System.Windows.Forms.TreeView materials_treeview;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.PictureBox materials_picturebox_material;
@@ -2146,7 +2148,7 @@
 		private System.Windows.Forms.GroupBox groupBox19;
 		private System.Windows.Forms.TreeView craftmenus_treeview;
 		private System.Windows.Forms.Button BTN_craftmenus_write;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button BTN_craftmenus_update;
 		private System.Windows.Forms.GroupBox groupBox21;
 		private System.Windows.Forms.GroupBox groupBox20;
 		private System.Windows.Forms.DataGridView craftmenus_datagrid_itementries;

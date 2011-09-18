@@ -115,21 +115,7 @@ namespace CraftTool
 				selected_tab.Enabled = true;
 			}
 		}
-
-		private TreeNode AddObjTypeToTreeView(TreeNode parent_node, string objtype)
-		{
-			string nodename = objtype;
-			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
-			if (itemdesc_elem != null)
-			{
-				if (itemdesc_elem.PropertyExists("Name"))
-					nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
-			}
-
-			TreeNode added = parent_node.Nodes.Add(objtype, nodename);
-			return added;
-		}
-
+			
 		private void RemoveConfigTreeNode(TreeView treeview, string cfgname)
 		{
 			TreeNode selected = treeview.SelectedNode;
@@ -193,7 +179,7 @@ namespace CraftTool
 			ConfigRepository.global.AddConfigFile(config_file);
 		}
 
-		private void AddConfigElemForTreeNode(TreeNode selected, string cfgname, string elemprefix, string elemname)
+		private void AddConfigElemForTreeNode(TreeNode selected, string cfgname, string elemprefix, string elemname, bool objtype)
 		{
 			string package_name = POLPackage.ParsePackageName(selected.Text);
 			POLPackage package = PackageCache.GetPackage(package_name);
@@ -206,7 +192,24 @@ namespace CraftTool
 			ConfigElem elem = new ConfigElem(elemprefix, elemname);
 			config_file.AddConfigElement(elem);
 
-			selected.Nodes.Add(elemname, elemname);
+			if (objtype)
+				AddObjTypeToTreeView(selected, elemname);
+			else
+				selected.Nodes.Add(elemname, elemname);
+		}
+
+		private TreeNode AddObjTypeToTreeView(TreeNode parent_node, string objtype)
+		{
+			string nodename = objtype;
+			ConfigElem itemdesc_elem = ItemdescCache.Global.GetElemForObjType(objtype);
+			if (itemdesc_elem != null)
+			{
+				if (itemdesc_elem.PropertyExists("Name"))
+					nodename += "   [" + itemdesc_elem.GetConfigString("Name") + "]";
+			}
+
+			TreeNode added = parent_node.Nodes.Add(objtype, nodename);
+			return added;
 		}
 
 		private TreeNode GetParentTreeNode(TreeNode thenode)
@@ -392,12 +395,12 @@ namespace CraftTool
 		#region Materials Tab Stuff
 		public void PopulateMaterials()
 		{
-			PopulateTreeViewWithConfigElems(materials_tree_view, "materials.cfg", true);
+			PopulateTreeViewWithConfigElems(materials_treeview, "materials.cfg", true);
 		}
 		
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			TreeNode selected = materials_tree_view.SelectedNode;
+			TreeNode selected = materials_treeview.SelectedNode;
 
 			ResetTabControls(groupBox3);
 
@@ -439,7 +442,7 @@ namespace CraftTool
 
 		private void BTN_materials_update_Click(object sender, EventArgs e)
 		{
-			TreeNode selected = CheckForSelectedNode(materials_tree_view);
+			TreeNode selected = CheckForSelectedNode(materials_treeview);
 			if (selected == null)
 				return;
 			TreeNode nodeparent = GetParentTreeNode(selected);
@@ -471,12 +474,12 @@ namespace CraftTool
 
 		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CreateConfigFileForTreeView(materials_tree_view, "materials.cfg");
+			CreateConfigFileForTreeView(materials_treeview, "materials.cfg");
 		}
 
 		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TreeNode selected = CheckForSelectedNode(materials_tree_view);
+			TreeNode selected = CheckForSelectedNode(materials_treeview);
 			if (selected == null)
 				return;
 			TreeNode nodeparent = GetParentTreeNode(selected);
@@ -494,17 +497,17 @@ namespace CraftTool
 				}
 			}
 
-			AddConfigElemForTreeNode(nodeparent, "materials.cfg", "Material", picker.text);
+			AddConfigElemForTreeNode(nodeparent, "materials.cfg", "Material", picker.text, true);
 		}
 		
 		private void removeElementToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			RemoveConfigTreeNode(materials_tree_view, "materials.cfg");
+			RemoveConfigTreeNode(materials_treeview, "materials.cfg");
 		}
 
 		private void BTN_materials_write_Click(object sender, EventArgs e)
 		{
-			WriteTreeViewConfigFiles(materials_tree_view, "materials.cfg");
+			WriteTreeViewConfigFiles(materials_treeview, "materials.cfg");
 		}
 
 		#endregion
@@ -586,7 +589,7 @@ namespace CraftTool
 			}
 			string elem_name = "Tool=" + toolpicker.text + "&Material=" + catpicker.text;
 
-			AddConfigElemForTreeNode(nodeparent, "toolOnMaterial.cfg", "MenuPointer", elem_name);
+			AddConfigElemForTreeNode(nodeparent, "toolOnMaterial.cfg", "MenuPointer", elem_name, false);
 		}
 
 		private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -689,12 +692,32 @@ namespace CraftTool
 
 		private void toolStripMenuItem5_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = CheckForSelectedNode(craftmenus_treeview);
+			if (selected == null)
+				return;
+			TreeNode nodeparent = GetParentTreeNode(selected);
 
+			Forms.InputForm.InputForm input = new Forms.InputForm.InputForm("Config elem name:");
+			input.ShowDialog(this);
+			if (input.result != DialogResult.OK)
+				return;
+
+			AddConfigElemForTreeNode(nodeparent, "craftMenus.cfg", "MenuElem", input.text, false);
 		}
 
 		private void toolStripMenuItem6_Click(object sender, EventArgs e)
 		{
 			RemoveConfigTreeNode(craftmenus_treeview, "craftMenus.cfg");
+		}
+
+		private void BTN_craftmenus_update_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BTN_craftmenus_write_Click(object sender, EventArgs e)
+		{
+
 		}
 
 		#endregion
@@ -821,7 +844,25 @@ namespace CraftTool
 
 		private void toolStripMenuItem8_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = CheckForSelectedNode(craftitems_treeview);
+			if (selected == null)
+				return;
+			TreeNode nodeparent = GetParentTreeNode(selected);
 
+			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select an item", ItemdescCache.Global.GetAllObjTypes());
+			picker.ShowDialog(this);
+			if (picker.result != DialogResult.OK)
+				return;
+			else
+			{
+				if (ItemdescCache.Global.GetElemForObjType(picker.text) == null)
+				{
+					MessageBox.Show("Invalid object type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+			}
+
+			AddConfigElemForTreeNode(nodeparent, "craftItems.cfg", "Item", picker.text, true);
 		}
 
 		private void toolStripMenuItem9_Click(object sender, EventArgs e)
@@ -840,6 +881,5 @@ namespace CraftTool
 		}
 
 		#endregion
-
 	}
 }
