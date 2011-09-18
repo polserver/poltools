@@ -672,7 +672,9 @@ namespace CraftTool
 				foreach (string line in config_elem.GetConfigStringList("SubMenu"))
 				{
 					string[] split = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-					if (!craftmenus_Column1.Items.Contains(split[0]))
+					if (split.Length < 1)
+						continue;
+					else if (!craftmenus_Column1.Items.Contains(split[0]))
 						craftmenus_Column1.Items.Add(split[0]);
 					
 					craftmenus_datagrid_submenus.Rows.Add(split);
@@ -684,7 +686,9 @@ namespace CraftTool
 				foreach (string line in config_elem.GetConfigStringList("Entry"))
 				{
 					string[] split = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-					if (!craftmenus_Column4.Items.Contains(split[0]))
+					if (split.Length < 1)
+						continue;
+					else if (!craftmenus_Column4.Items.Contains(split[0]))
 						craftmenus_Column4.Items.Add(split[0]);
 					
 					craftmenus_datagrid_itementries.Rows.Add(split);
@@ -741,7 +745,9 @@ namespace CraftTool
 						continue; // Handle empty cells
 					value += cell.Value.ToString() + "\t";
 				}
-				newelem.AddConfigLine("SubMenu", value.Trim());
+				value = value.Trim();
+				if (value.Length > 0)
+					newelem.AddConfigLine("Submenu", value.Trim());
 			}
 			
 			foreach (DataGridViewRow row in craftmenus_datagrid_itementries.Rows)
@@ -753,13 +759,15 @@ namespace CraftTool
 						continue; // Handle empty cells
 					value += cell.Value.ToString() + "\t";
 				}
-				newelem.AddConfigLine("Entry", value.Trim());
+				value = value.Trim();
+				if ( value.Length > 0 )
+					newelem.AddConfigLine("Entry", value.Trim());
 			}
 
 			config_file.RemoveConfigElement(selected.Name);
 			config_file.AddConfigElement(newelem);
 			
-			//craftmenus_treeview_AfterSelect(sender, null);
+			craftmenus_treeview_AfterSelect(sender, null);
 		}
 
 		private void BTN_craftmenus_write_Click(object sender, EventArgs e)
