@@ -175,11 +175,11 @@
 			this.groupBox21 = new System.Windows.Forms.GroupBox();
 			this.craftmenus_datagrid_submenus = new System.Windows.Forms.DataGridView();
 			this.craftmenus_datagrid_itementries = new System.Windows.Forms.DataGridView();
-			this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
@@ -1815,36 +1815,16 @@
 			this.toolTip1.SetToolTip(this.craftmenus_datagrid_itementries, "Extra materials to consume beyond the clicked material. These materials will be a" +
 				   "utomatically found by the crafting system.");
 			// 
-			// dataGridViewComboBoxColumn2
-			// 
-			this.dataGridViewComboBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.dataGridViewComboBoxColumn2.FillWeight = 140F;
-			this.dataGridViewComboBoxColumn2.HeaderText = "Object Name/Type";
-			this.dataGridViewComboBoxColumn2.MinimumWidth = 140;
-			this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
-			this.dataGridViewComboBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewComboBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.dataGridViewComboBoxColumn2.Width = 140;
-			// 
-			// dataGridViewTextBoxColumn3
-			// 
-			this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.dataGridViewTextBoxColumn3.FillWeight = 71F;
-			this.dataGridViewTextBoxColumn3.HeaderText = "Amount";
-			this.dataGridViewTextBoxColumn3.MinimumWidth = 71;
-			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-			this.dataGridViewTextBoxColumn3.Width = 71;
-			// 
 			// dataGridViewComboBoxColumn1
 			// 
 			this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.dataGridViewComboBoxColumn1.FillWeight = 364F;
+			this.dataGridViewComboBoxColumn1.FillWeight = 376F;
 			this.dataGridViewComboBoxColumn1.HeaderText = "Submenu Elem";
-			this.dataGridViewComboBoxColumn1.MinimumWidth = 364;
+			this.dataGridViewComboBoxColumn1.MinimumWidth = 376;
 			this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
 			this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.dataGridViewComboBoxColumn1.Width = 364;
+			this.dataGridViewComboBoxColumn1.Width = 376;
 			// 
 			// dataGridViewTextBoxColumn1
 			// 
@@ -1861,6 +1841,29 @@
 			this.Column8.MinimumWidth = 150;
 			this.Column8.Name = "Column8";
 			this.Column8.Width = 150;
+			// 
+			// dataGridViewComboBoxColumn2
+			// 
+			this.dataGridViewComboBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.dataGridViewComboBoxColumn2.FillWeight = 180F;
+			this.dataGridViewComboBoxColumn2.HeaderText = "Object Name/Type";
+			this.dataGridViewComboBoxColumn2.MinimumWidth = 180;
+			this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
+			this.dataGridViewComboBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewComboBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.dataGridViewComboBoxColumn2.ToolTipText = "Can be an item name or object type number.";
+			this.dataGridViewComboBoxColumn2.Width = 180;
+			// 
+			// dataGridViewTextBoxColumn3
+			// 
+			this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.dataGridViewTextBoxColumn3.FillWeight = 200F;
+			this.dataGridViewTextBoxColumn3.HeaderText = "Display Name";
+			this.dataGridViewTextBoxColumn3.MinimumWidth = 200;
+			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+			this.dataGridViewTextBoxColumn3.ToolTipText = "Optional - If blank, will automatically determine the value based on its itemdesc" +
+			    ".cfg settings.";
+			this.dataGridViewTextBoxColumn3.Width = 200;
 			// 
 			// Form1
 			// 
@@ -2084,12 +2087,12 @@
 		private System.Windows.Forms.GroupBox groupBox21;
 		private System.Windows.Forms.GroupBox groupBox20;
 		private System.Windows.Forms.DataGridView craftmenus_datagrid_itementries;
-		private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn2;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
 		private System.Windows.Forms.DataGridView craftmenus_datagrid_submenus;
 		private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+		private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
 	}
 }
 
