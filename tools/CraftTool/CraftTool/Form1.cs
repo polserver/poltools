@@ -801,7 +801,7 @@ namespace CraftTool
 
 		private void BTN_craftmenus_write_Click(object sender, EventArgs e)
 		{
-
+			WriteTreeViewConfigFiles(craftmenus_treeview, "craftMenus.cfg");
 		}
 
 		#endregion
@@ -961,7 +961,7 @@ namespace CraftTool
 
 		private void BTN_write_craftitems_Click(object sender, EventArgs e)
 		{
-
+			WriteTreeViewConfigFiles(craftitems_treeview, "craftItems.cfg");
 		}
 
 		#endregion
