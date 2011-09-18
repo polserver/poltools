@@ -173,7 +173,7 @@ namespace CraftTool
 				ConfigRepository.global.UnloadConfigFile(config_path);
 		}
 
-		private void CreateConfigFileForPackage(string cfgname)
+		private void CreateConfigFileForTreeView(TreeView treeview, string cfgname)
 		{
 			Forms.SelectionPicker.SelectionPicker picker = new Forms.SelectionPicker.SelectionPicker("Select a package", PackageCache.Global.packagenames);
 			picker.ShowDialog(this);
@@ -185,7 +185,7 @@ namespace CraftTool
 				return;
 			}
 
-			materials_tree_view.Nodes.Add(picker.text, ":" + picker.text + ":"+cfgname);
+			treeview.Nodes.Add(picker.text, ":" + picker.text + ":"+cfgname);
 
 			POLPackage pkg = PackageCache.GetPackage(picker.text);
 			string filepath = pkg.path + @"\config\"+cfgname;
@@ -471,7 +471,7 @@ namespace CraftTool
 
 		private void createNewConfigToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CreateConfigFileForPackage("materials.cfg");
+			CreateConfigFileForTreeView(materials_tree_view, "materials.cfg");
 		}
 
 		private void addNewElementToolStripMenuItem_Click(object sender, EventArgs e)
@@ -549,7 +549,7 @@ namespace CraftTool
 		
 		private void toolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			CreateConfigFileForPackage("toolOnMaterial.cfg");
+			CreateConfigFileForTreeView(toolonmaterial_treeview, "toolOnMaterial.cfg");
 		}
 
 		private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -684,7 +684,7 @@ namespace CraftTool
 
 		private void toolStripMenuItem4_Click(object sender, EventArgs e)
 		{
-
+			CreateConfigFileForTreeView(craftmenus_treeview, "craftMenus.cfg");
 		}
 
 		private void toolStripMenuItem5_Click(object sender, EventArgs e)
@@ -694,7 +694,7 @@ namespace CraftTool
 
 		private void toolStripMenuItem6_Click(object sender, EventArgs e)
 		{
-
+			RemoveConfigTreeNode(craftmenus_treeview, "craftMenus.cfg");
 		}
 
 		#endregion
@@ -813,20 +813,20 @@ namespace CraftTool
 			
 			craftitems_picturebox_itempic.Image = global::CraftTool.Properties.Resources.unused;			
 		}
-		
-		private void BTN_craftitems_add_sound_Click(object sender, EventArgs e)
+
+		private void toolStripMenuItem7_Click(object sender, EventArgs e)
+		{
+			CreateConfigFileForTreeView(craftitems_treeview, "craftItems.cfg");
+		}
+
+		private void toolStripMenuItem8_Click(object sender, EventArgs e)
 		{
 
 		}
 
-		private void BTN_craftitems_addmaterial_Click(object sender, EventArgs e)
+		private void toolStripMenuItem9_Click(object sender, EventArgs e)
 		{
-
-		}
-
-		private void BTN_craftitems_addclickedmaterial_Click(object sender, EventArgs e)
-		{
-
+			RemoveConfigTreeNode(craftitems_treeview, "craftItems.cfg");
 		}
 		
 		private void BTN_update_craftitem_Click(object sender, EventArgs e)
@@ -838,6 +838,8 @@ namespace CraftTool
 		{
 
 		}
+
 		#endregion
+
 	}
 }
