@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -7,7 +8,6 @@ using ConfigUtil;
 using POLTools.ConfigRepository;
 using POLTools.Itemdesc;
 using POLTools.Package;
-using CraftTool.Forms;
 
 namespace CraftTool
 {
@@ -30,6 +30,37 @@ namespace CraftTool
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			Settings.Global.LoadSettings();
+		}
+
+		
+		private List<Control> GetAllChildControls(Control control)
+		{
+			List<Control> controls = new List<Control>();
+			foreach (Control child in control.Controls)
+			{
+				controls.Add(child);
+				List<Control> sub_list = GetAllChildControls(child);
+				controls.AddRange(sub_list);
+			}
+			return controls;
+		}
+
+		private void ResetTabControls(Control container)
+		{
+			List<Control> controls = GetAllChildControls(container);
+			foreach (Control control in controls)
+			{
+				if (control is TextBox)
+					((TextBox)control).Clear();
+				else if (control is NumericTextBox)
+					((NumericTextBox)control).Clear();
+				else if (control is CheckBox)
+					((CheckBox)control).Checked = false;
+				else if (control is DataGridView)
+					((DataGridView)control).Rows.Clear();
+				else if (control is ListView)
+					((ListView)control).Items.Clear();
+			}
 		}
 
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -349,15 +380,8 @@ namespace CraftTool
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
-			
-			materials_textbox.Clear();
-			combobox_materials_changeto.Items.Clear();
-			combobox_materials_changeto.Text = "";
-			foreach (Control control in groupBox7.Controls)
-			{
-				if (control is TextBox)
-					((TextBox)control).Clear();
-			}
+
+			ResetTabControls(groupBox7);
 
 			if (selected.Parent == null)
 				return;
@@ -491,15 +515,7 @@ namespace CraftTool
 		private void toolonmaterial_treeview_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = toolonmaterial_treeview.SelectedNode;
-			
-			TB_toolonmaterial.Clear();
-			combobox_tom_showmenus.Items.Clear();
-			combobox_tom_showmenus.Text = "";
-			foreach (Control control in groupBox6.Controls)
-			{
-				if (control is TextBox)
-					((TextBox)control).Clear();
-			}
+			ResetTabControls(groupBox6);
 			if (selected.Parent == null)
 				return;
 
@@ -624,13 +640,7 @@ namespace CraftTool
 		private void treeview_craftitems_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = treeview_craftitems.SelectedNode;
-
-			TB_craftitems.Clear();
-			foreach (Control control in groupBox10.Controls)
-			{
-				if (control is TextBox)
-					((TextBox)control).Clear();
-			}
+			ResetTabControls(groupBox9);		
 			if (selected.Parent == null)
 				return;
 
@@ -649,13 +659,13 @@ namespace CraftTool
 				CB_craftitems_norecycle.Checked = (cfg_elem.GetConfigInt("NoRecycle") > 0);
 			if (cfg_elem.PropertyExists("Exceptional"))
 				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("Exceptional") > 0);
-
-
+			if (cfg_elem.PropertyExists("MakeMaximum"))
+				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("MakeMaximum") > 0);
+			
 			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 			Column6.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 
-			picturebox_craft_items.Image = global::CraftTool.Properties.Resources.unused;
-			
+			picturebox_craft_items.Image = global::CraftTool.Properties.Resources.unused;			
 		}
 		
 		private void BTN_craftitems_add_sound_Click(object sender, EventArgs e)
