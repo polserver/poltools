@@ -629,6 +629,50 @@ namespace CraftTool
 			PopulateTreeViewWithConfigElems(craftmenus_treeview, "craftMenus.cfg", true);
 		}
 
+
+		private void craftmenus_treeview_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			TreeNode selected = craftmenus_treeview.SelectedNode;
+			ResetTabControls(groupBox17);
+
+			if (selected.Parent == null)
+				return;
+
+			ConfigElem config_elem = ConfigRepository.global.FindElemInConfigFiles("craftMenus.cfg", selected.Name);
+
+			label34.Text = config_elem.configfile.fullpath;
+			foreach (string propname in config_elem.ListConfigElemProperties())
+			{
+				foreach (string value in config_elem.GetConfigStringList(propname))
+				{
+					craftmenus_textbox_eleminfo.AppendText(propname + "	" + value + Environment.NewLine);
+				}
+			}
+
+			craftmenus_Column1.Items.Clear();
+			craftmenus_Column1.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("craftMenus.cfg").ToArray());
+			craftmenus_Column4.Items.Clear();
+			craftmenus_Column4.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("craftItems.cfg").ToArray());
+
+
+		}
+
+
+		private void toolStripMenuItem4_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void toolStripMenuItem5_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void toolStripMenuItem6_Click(object sender, EventArgs e)
+		{
+
+		}
+
 		#endregion
 
 		#region Craft Items Tab Stuff
@@ -711,7 +755,9 @@ namespace CraftTool
 				}
 			}
 
+			Column4.Items.Clear();
 			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
+			Column6.Items.Clear();
 			Column6.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 
 			if (cfg_elem.PropertyExists("Material"))
