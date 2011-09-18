@@ -661,7 +661,48 @@ namespace CraftTool
 				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("Exceptional") > 0);
 			if (cfg_elem.PropertyExists("MakeMaximum"))
 				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("MakeMaximum") > 0);
-			
+
+			List<string> categories = ConfigRepository.global.GetConfigPropertyValuesFromLoadedConfigFiles("materials.cfg", "Category", true, false);
+			craftitems_combobox_clickedcategory.Items.AddRange(categories.ToArray());
+			if (cfg_elem.PropertyExists("ClickedCategory"))
+			{
+				string category = cfg_elem.GetConfigString("ClickedCategory");
+				int pos = craftitems_combobox_clickedcategory.FindString(category);
+				craftitems_combobox_clickedcategory.SelectedIndex = pos;
+			}
+
+			List<string> attributes = ConfigRepository.global.GetElemNamesFromConfigFiles("attributes.cfg");
+			craftitems_combobox_attributes.Items.AddRange(attributes.ToArray());
+			if (cfg_elem.PropertyExists("Attribute"))
+			{
+				string attribute = cfg_elem.GetConfigString("Attribute");
+				int pos = craftitems_combobox_attributes.FindString(attribute);
+				craftitems_combobox_attributes.SelectedIndex = pos;
+			}
+
+			if (cfg_elem.PropertyExists("Difficulty"))
+				craftitems_textbox_difficulty.Text = cfg_elem.GetConfigString("Difficulty");
+			if (cfg_elem.PropertyExists("MakeAmount"))
+				craftitems_textbox_makeamount.Text = cfg_elem.GetConfigString("MakeAmount");
+			if (cfg_elem.PropertyExists("CraftLoops"))
+				craftitems_textbox_craftloops.Text = cfg_elem.GetConfigString("CraftLoops");
+			if (cfg_elem.PropertyExists("LoopWait"))
+				craftitems_textbox_loopwait.Text = cfg_elem.GetConfigString("LoopWait");
+			if (cfg_elem.PropertyExists("Animation"))
+				craftitems_textbox_loopwait.Text = cfg_elem.GetConfigString("Animation");
+			if (cfg_elem.PropertyExists("SkillCheckScript"))
+				craftitems_textbox_skillcheckscript.Text = cfg_elem.GetConfigString("SkillCheckScript");
+			if (cfg_elem.PropertyExists("PreCreateScript"))
+				craftitems_textbox_precreatescript.Text = cfg_elem.GetConfigString("PreCreateScript");
+			if (cfg_elem.PropertyExists("CreateScript"))
+				craftitems_textbox_createscript.Text = cfg_elem.GetConfigString("CreateScript");
+			if (cfg_elem.PropertyExists("PostCreateScript"))
+				craftitems_textbox_postcreatescript.Text = cfg_elem.GetConfigString("PostCreateScript");
+			if (cfg_elem.PropertyExists("FindMaterialScript"))
+				craftitems_textbox_findmaterialscript.Text = cfg_elem.GetConfigString("FindMaterialScript");
+			if (cfg_elem.PropertyExists("ConsumeScript"))
+				craftitems_textbox_consumescript.Text = cfg_elem.GetConfigString("ConsumeScript");
+
 			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 			Column6.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 
