@@ -653,8 +653,32 @@ namespace CraftTool
 			craftmenus_Column1.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("craftMenus.cfg").ToArray());
 			craftmenus_Column4.Items.Clear();
 			craftmenus_Column4.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("craftItems.cfg").ToArray());
+			craftmenus_Column4.Items.Add("--------");
+			craftmenus_Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
+			
+			if (config_elem.PropertyExists("SubMenu"))
+			{
+				foreach (string line in config_elem.GetConfigStringList("SubMenu"))
+				{
+					string[] split = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+					if (!craftmenus_Column1.Items.Contains(split[0]))
+						craftmenus_Column1.Items.Add(split[0]);
+					
+					craftmenus_datagrid_submenus.Rows.Add(split);
+				}
+			}
 
-
+			if (config_elem.PropertyExists("Entry"))
+			{
+				foreach (string line in config_elem.GetConfigStringList("Entry"))
+				{
+					string[] split = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+					if (!craftmenus_Column4.Items.Contains(split[0]))
+						craftmenus_Column4.Items.Add(split[0]);
+					
+					craftmenus_datagrid_itementries.Rows.Add(split);
+				}
+			}
 		}
 
 
@@ -764,7 +788,7 @@ namespace CraftTool
 			{
 				foreach (string material in cfg_elem.GetConfigStringList("Material"))
 				{
-					string[] split = material.Split(new char[] { ' ', '\t' });
+					string[] split = material.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 					if (split[0].Equals("[clicked]", StringComparison.CurrentCultureIgnoreCase))
 					{
 						craftitems_textbox_clickedamount.Text = split[1];
@@ -780,7 +804,7 @@ namespace CraftTool
 			{
 				foreach (string material in cfg_elem.GetConfigStringList("ClickMaterial"))
 				{
-					string[] split = material.Split(new char[] { ' ', '\t' });
+					string[] split = material.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 					if (!Column6.Items.Contains(split[0]))
 						Column6.Items.Add(split[0]);
 					craftitems_datagrid_clickedmaterials.Rows.Add(split);
