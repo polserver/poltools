@@ -106,6 +106,8 @@ namespace CraftTool
 						PopulateMaterials();
 					if (selected_tab == tabPage4)
 						PopulateToolOnMaterial();
+					if (selected_tab == tabPage5)
+						PopulateCraftMenus();
 					if (selected_tab == tabPage6)
 						PopulateCraftItems();
 				}
@@ -619,6 +621,14 @@ namespace CraftTool
 
 			toolonmaterial_treeview_AfterSelect(sender, null);
 		}
+		#endregion
+
+		#region Craft Menus Tab Stuff
+		public void PopulateCraftMenus()
+		{
+			PopulateTreeViewWithConfigElems(craftmenus_treeview, "craftMenus.cfg", true);
+		}
+
 		#endregion
 
 		#region Craft Items Tab Stuff
