@@ -40,6 +40,10 @@
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.TabControl1 = new System.Windows.Forms.TabControl();
+			this.craftmenus_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.TB_loadoutput = new System.Windows.Forms.TextBox();
 			this.BTN_load_info = new System.Windows.Forms.Button();
@@ -105,8 +109,13 @@
 			this.groupBox18 = new System.Windows.Forms.GroupBox();
 			this.groupBox21 = new System.Windows.Forms.GroupBox();
 			this.craftmenus_datagrid_itementries = new System.Windows.Forms.DataGridView();
+			this.craftmenus_Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.craftmenus_Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.groupBox20 = new System.Windows.Forms.GroupBox();
 			this.craftmenus_datagrid_submenus = new System.Windows.Forms.DataGridView();
+			this.craftmenus_Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.craftmenus_Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.craftmenus_Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.label34 = new System.Windows.Forms.Label();
 			this.craftmenus_textbox_eleminfo = new System.Windows.Forms.TextBox();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
@@ -165,19 +174,10 @@
 			this.BTN_write_craftitems = new System.Windows.Forms.Button();
 			this.tabPage7 = new System.Windows.Forms.TabPage();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.craftmenus_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
 			this.craftitems_context_strip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
-			this.craftmenus_Column4 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.craftmenus_Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.craftmenus_Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.craftmenus_Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.craftmenus_Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.materials_textbox_quality = new NumericTextBox();
 			this.materials_textbox_difficulty = new NumericTextBox();
 			this.materials_textbox_color = new NumericTextBox();
@@ -190,6 +190,7 @@
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.TabControl1.SuspendLayout();
+			this.craftmenus_context_strip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -231,7 +232,6 @@
 			this.groupBox12.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.craftitems_picturebox_itempic)).BeginInit();
 			this.groupBox11.SuspendLayout();
-			this.craftmenus_context_strip.SuspendLayout();
 			this.craftitems_context_strip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -303,7 +303,7 @@
 			// 
 			// TabControl1
 			// 
-			this.TabControl1.ContextMenuStrip = this.craftmenus_context_strip;
+			this.TabControl1.ContextMenuStrip = this.craftitems_context_strip;
 			this.TabControl1.Controls.Add(this.tabPage1);
 			this.TabControl1.Controls.Add(this.tabPage2);
 			this.TabControl1.Controls.Add(this.tabPage3);
@@ -318,6 +318,36 @@
 			this.TabControl1.Size = new System.Drawing.Size(1012, 577);
 			this.TabControl1.TabIndex = 2;
 			this.TabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
+			// 
+			// craftmenus_context_strip
+			// 
+			this.craftmenus_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6});
+			this.craftmenus_context_strip.Name = "materials_context_strip";
+			this.craftmenus_context_strip.Size = new System.Drawing.Size(175, 70);
+			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem4.Text = "&Create New Config";
+			this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+			// 
+			// toolStripMenuItem5
+			// 
+			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem5.Text = "&Add New Element";
+			this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+			// 
+			// toolStripMenuItem6
+			// 
+			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(174, 22);
+			this.toolStripMenuItem6.Text = "&Remove Element";
+			this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
 			// 
 			// tabPage1
 			// 
@@ -1045,6 +1075,29 @@
 			this.craftmenus_datagrid_itementries.Size = new System.Drawing.Size(630, 148);
 			this.craftmenus_datagrid_itementries.TabIndex = 1;
 			// 
+			// craftmenus_Column4
+			// 
+			this.craftmenus_Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.craftmenus_Column4.FillWeight = 180F;
+			this.craftmenus_Column4.HeaderText = "Object Name/Type";
+			this.craftmenus_Column4.MinimumWidth = 180;
+			this.craftmenus_Column4.Name = "craftmenus_Column4";
+			this.craftmenus_Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.craftmenus_Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.craftmenus_Column4.ToolTipText = "Can be an item name or object type number.";
+			this.craftmenus_Column4.Width = 180;
+			// 
+			// craftmenus_Column5
+			// 
+			this.craftmenus_Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.craftmenus_Column5.FillWeight = 200F;
+			this.craftmenus_Column5.HeaderText = "Display Name";
+			this.craftmenus_Column5.MinimumWidth = 200;
+			this.craftmenus_Column5.Name = "craftmenus_Column5";
+			this.craftmenus_Column5.ToolTipText = "Optional - If blank, will automatically determine the value based on its itemdesc" +
+			    ".cfg settings.";
+			this.craftmenus_Column5.Width = 200;
+			// 
 			// groupBox20
 			// 
 			this.groupBox20.Controls.Add(this.craftmenus_datagrid_submenus);
@@ -1072,6 +1125,33 @@
 			this.craftmenus_datagrid_submenus.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.craftmenus_datagrid_submenus.Size = new System.Drawing.Size(630, 166);
 			this.craftmenus_datagrid_submenus.TabIndex = 1;
+			// 
+			// craftmenus_Column1
+			// 
+			this.craftmenus_Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.craftmenus_Column1.FillWeight = 376F;
+			this.craftmenus_Column1.HeaderText = "Submenu Elem";
+			this.craftmenus_Column1.MinimumWidth = 376;
+			this.craftmenus_Column1.Name = "craftmenus_Column1";
+			this.craftmenus_Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.craftmenus_Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.craftmenus_Column1.Width = 376;
+			// 
+			// craftmenus_Column2
+			// 
+			this.craftmenus_Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+			this.craftmenus_Column2.HeaderText = "Picture Id";
+			this.craftmenus_Column2.MinimumWidth = 100;
+			this.craftmenus_Column2.Name = "craftmenus_Column2";
+			this.craftmenus_Column2.ToolTipText = "Tile graphic number.";
+			// 
+			// craftmenus_Column3
+			// 
+			this.craftmenus_Column3.FillWeight = 150F;
+			this.craftmenus_Column3.HeaderText = "Menu Name";
+			this.craftmenus_Column3.MinimumWidth = 150;
+			this.craftmenus_Column3.Name = "craftmenus_Column3";
+			this.craftmenus_Column3.Width = 150;
 			// 
 			// label34
 			// 
@@ -1718,36 +1798,6 @@
 			this.tabPage7.TabIndex = 6;
 			this.tabPage7.Text = "Craft Tree";
 			// 
-			// craftmenus_context_strip
-			// 
-			this.craftmenus_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem6});
-			this.craftmenus_context_strip.Name = "materials_context_strip";
-			this.craftmenus_context_strip.Size = new System.Drawing.Size(175, 70);
-			// 
-			// toolStripMenuItem4
-			// 
-			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem4.Text = "&Create New Config";
-			this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
-			// 
-			// toolStripMenuItem5
-			// 
-			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem5.Text = "&Add New Element";
-			this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-			// 
-			// toolStripMenuItem6
-			// 
-			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(174, 22);
-			this.toolStripMenuItem6.Text = "&Remove Element";
-			this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
-			// 
 			// craftitems_context_strip
 			// 
 			this.craftitems_context_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1762,68 +1812,21 @@
 			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
 			this.toolStripMenuItem7.Size = new System.Drawing.Size(174, 22);
 			this.toolStripMenuItem7.Text = "&Create New Config";
+			this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
 			// 
 			// toolStripMenuItem8
 			// 
 			this.toolStripMenuItem8.Name = "toolStripMenuItem8";
 			this.toolStripMenuItem8.Size = new System.Drawing.Size(174, 22);
 			this.toolStripMenuItem8.Text = "&Add New Element";
+			this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
 			// 
 			// toolStripMenuItem9
 			// 
 			this.toolStripMenuItem9.Name = "toolStripMenuItem9";
 			this.toolStripMenuItem9.Size = new System.Drawing.Size(174, 22);
 			this.toolStripMenuItem9.Text = "&Remove Element";
-			// 
-			// craftmenus_Column4
-			// 
-			this.craftmenus_Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.craftmenus_Column4.FillWeight = 180F;
-			this.craftmenus_Column4.HeaderText = "Object Name/Type";
-			this.craftmenus_Column4.MinimumWidth = 180;
-			this.craftmenus_Column4.Name = "craftmenus_Column4";
-			this.craftmenus_Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.craftmenus_Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.craftmenus_Column4.ToolTipText = "Can be an item name or object type number.";
-			this.craftmenus_Column4.Width = 180;
-			// 
-			// craftmenus_Column5
-			// 
-			this.craftmenus_Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.craftmenus_Column5.FillWeight = 200F;
-			this.craftmenus_Column5.HeaderText = "Display Name";
-			this.craftmenus_Column5.MinimumWidth = 200;
-			this.craftmenus_Column5.Name = "craftmenus_Column5";
-			this.craftmenus_Column5.ToolTipText = "Optional - If blank, will automatically determine the value based on its itemdesc" +
-			    ".cfg settings.";
-			this.craftmenus_Column5.Width = 200;
-			// 
-			// craftmenus_Column1
-			// 
-			this.craftmenus_Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.craftmenus_Column1.FillWeight = 376F;
-			this.craftmenus_Column1.HeaderText = "Submenu Elem";
-			this.craftmenus_Column1.MinimumWidth = 376;
-			this.craftmenus_Column1.Name = "craftmenus_Column1";
-			this.craftmenus_Column1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.craftmenus_Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.craftmenus_Column1.Width = 376;
-			// 
-			// craftmenus_Column2
-			// 
-			this.craftmenus_Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-			this.craftmenus_Column2.HeaderText = "Picture Id";
-			this.craftmenus_Column2.MinimumWidth = 100;
-			this.craftmenus_Column2.Name = "craftmenus_Column2";
-			this.craftmenus_Column2.ToolTipText = "Tile graphic number.";
-			// 
-			// craftmenus_Column3
-			// 
-			this.craftmenus_Column3.FillWeight = 150F;
-			this.craftmenus_Column3.HeaderText = "Menu Name";
-			this.craftmenus_Column3.MinimumWidth = 150;
-			this.craftmenus_Column3.Name = "craftmenus_Column3";
-			this.craftmenus_Column3.Width = 150;
+			this.toolStripMenuItem9.Click += new System.EventHandler(this.toolStripMenuItem9_Click);
 			// 
 			// materials_textbox_quality
 			// 
@@ -1943,6 +1946,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.TabControl1.ResumeLayout(false);
+			this.craftmenus_context_strip.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
@@ -1996,7 +2000,6 @@
 			this.groupBox12.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.craftitems_picturebox_itempic)).EndInit();
 			this.groupBox11.ResumeLayout(false);
-			this.craftmenus_context_strip.ResumeLayout(false);
 			this.craftitems_context_strip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
