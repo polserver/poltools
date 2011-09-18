@@ -259,6 +259,27 @@ namespace CraftTool
 			MessageBox.Show("Done", filename, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		public void PopulateTreeViewWithConfigElems(TreeView treeview, string filename, bool itemdesc)
+		{
+			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
+			{
+				string cfg_path = package.GetPackagedConfigPath(filename);
+				if (cfg_path == null)
+					continue;
+
+				string nodename = ":" + package.name + ":"+filename;
+				TreeNode pkg_node = treeview.Nodes.Add(package.name, nodename);
+				ConfigFile config_file = ConfigRepository.global.LoadConfigFile(cfg_path);
+				foreach (ConfigElem cfg_elem in config_file.GetConfigElemRefs())
+				{
+					if (itemdesc)
+						AddObjTypeToTreeView(pkg_node, cfg_elem.name);
+					else
+						pkg_node.Nodes.Add(cfg_elem.name, cfg_elem.name);
+				}
+			}
+		}
+		
 		#endregion
 
 		private void button1_Click(object sender, EventArgs e)
@@ -362,26 +383,14 @@ namespace CraftTool
 		#region Materials Tab Stuff
 		public void PopulateMaterials()
 		{
-			foreach (POLTools.Package.POLPackage package in PackageCache.Global.packagelist)
-			{
-				string materials_cfg_path = package.GetPackagedConfigPath("materials.cfg");
-				if (materials_cfg_path == null)
-					continue;
-
-				TreeNode pkg_node = materials_tree_view.Nodes.Add(package.name, ":"+package.name+":materials.cfg");
-				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
-				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
-				{
-					AddObjTypeToTreeView(pkg_node, cfg_elem.name);
-				}
-			}
+			PopulateTreeViewWithConfigElems(materials_tree_view, "materials.cfg", true);
 		}
 		
 		private void materials_tree_view_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			TreeNode selected = materials_tree_view.SelectedNode;
 
-			ResetTabControls(groupBox7);
+			ResetTabControls(groupBox3);
 
 			if (selected.Parent == null)
 				return;
