@@ -59,7 +59,15 @@ namespace CraftTool
 				else if (control is DataGridView)
 					((DataGridView)control).Rows.Clear();
 				else if (control is ListView)
+				{
 					((ListView)control).Items.Clear();
+					((ListView)control).ResetText();
+				}
+				else if (control is ComboBox)
+				{
+					((ComboBox)control).Items.Clear();
+					((ComboBox)control).ResetText();
+				}
 			}
 		}
 
