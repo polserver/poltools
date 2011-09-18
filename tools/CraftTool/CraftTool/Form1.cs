@@ -720,9 +720,25 @@ namespace CraftTool
 				{
 					string[] split = material.Split(new char[] { ' ', '\t' });
 					if (split[0].Equals("[clicked]", StringComparison.CurrentCultureIgnoreCase))
+					{
+						craftitems_textbox_clickedamount.Text = split[1];
 						continue;
+					}
+					else if (!Column4.Items.Contains(split[0]))
+						Column4.Items.Add(split[0]);
 					craftitems_datagrid_materials.Rows.Add(split);
 				}				
+			}
+
+			if (cfg_elem.PropertyExists("ClickMaterial"))
+			{
+				foreach (string material in cfg_elem.GetConfigStringList("ClickMaterial"))
+				{
+					string[] split = material.Split(new char[] { ' ', '\t' });
+					if (!Column4.Items.Contains(split[0]))
+						Column4.Items.Add(split[0]);
+					craftitems_datagrid_materials.Rows.Add(split);
+				}
 			}
 			
 			craftitems_picturebox_itempic.Image = global::CraftTool.Properties.Resources.unused;			
@@ -759,30 +775,6 @@ namespace CraftTool
 			ComboBox c = e.Control as ComboBox;
 			if (c != null)
 				c.DropDownStyle = ComboBoxStyle.DropDown;
-		}
-
-		private void craftitems_datagrid_materials_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-		{
-			if (e.ColumnIndex == Column4.Index)
-			{
-				object efv = e.FormattedValue;
-				if (!Column4.Items.Contains(efv))
-				{
-					Column4.Items.Add(efv);
-				}
-			}
-		}
-
-		private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-		{
-			if (e.ColumnIndex == Column6.Index)
-			{
-				object efv = e.FormattedValue;
-				if (!Column6.Items.Contains(efv))
-				{
-					Column6.Items.Add(efv);
-				}
-			}
 		}
 	}
 }
