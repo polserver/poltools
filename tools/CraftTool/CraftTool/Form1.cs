@@ -720,7 +720,46 @@ namespace CraftTool
 
 		private void BTN_craftmenus_update_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = CheckForSelectedNode(craftmenus_treeview);
+			if (selected == null)
+				return;
+			TreeNode nodeparent = GetParentTreeNode(selected);
 
+			POLPackage package = PackageCache.GetPackage(nodeparent.Name);
+			string config_path = package.GetPackagedConfigPath("craftMenus.cfg");
+			ConfigFile config_file = ConfigRepository.global.LoadConfigFile(config_path);
+			ConfigElem original = config_file.GetConfigElem(selected.Name);
+
+			ConfigElem newelem = new ConfigElem(original.type, original.name);
+			
+			foreach (DataGridViewRow row in craftmenus_datagrid_submenus.Rows)
+			{
+				string value = string.Empty;
+				foreach ( DataGridViewCell cell in row.Cells )
+				{
+					if (cell.Value == null)
+						continue; // Handle empty cells
+					value += cell.Value.ToString() + "\t";
+				}
+				newelem.AddConfigLine("SubMenu", value.Trim());
+			}
+			
+			foreach (DataGridViewRow row in craftmenus_datagrid_itementries.Rows)
+			{
+				string value = string.Empty;
+				foreach (DataGridViewCell cell in row.Cells)
+				{
+					if (cell.Value == null)
+						continue; // Handle empty cells
+					value += cell.Value.ToString() + "\t";
+				}
+				newelem.AddConfigLine("Entry", value.Trim());
+			}
+
+			config_file.RemoveConfigElement(selected.Name);
+			config_file.AddConfigElement(newelem);
+			
+			//craftmenus_treeview_AfterSelect(sender, null);
 		}
 
 		private void BTN_craftmenus_write_Click(object sender, EventArgs e)
