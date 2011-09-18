@@ -462,12 +462,23 @@ namespace CraftTool
 			ConfigElem original = materials_cfg.GetConfigElem(selected.Name);
 
 			ConfigElem newelem = new ConfigElem(original.type, original.name);
-			newelem.AddConfigLine("Category", materials_textbox_category.Text);
-			newelem.AddConfigLine("Color", materials_textbox_color.Text);
-			newelem.AddConfigLine("Difficulty", materials_textbox_difficulty.Text);
-			newelem.AddConfigLine("Quality", materials_textbox_quality.Text);
-			newelem.AddConfigLine("ChangeTo", materials_combobox_changeto.Text);
-			newelem.AddConfigLine("CreatedScript", materials_textbox_createdscript.Text);
+			if (materials_textbox_category.Text.Length > 0)
+				newelem.AddConfigLine("Category", materials_textbox_category.Text);
+			else
+			{
+				MessageBox.Show("No category for material was entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			if ( materials_textbox_color.Text.Length > 0 )
+				newelem.AddConfigLine("Color", materials_textbox_color.Text);
+			if ( materials_textbox_difficulty.Text.Length > 0 )
+				newelem.AddConfigLine("Difficulty", materials_textbox_difficulty.Text);
+			if ( materials_textbox_quality.Text.Length > 0 )
+				newelem.AddConfigLine("Quality", materials_textbox_quality.Text);
+			if ( materials_combobox_changeto.Text.Length > 0 )
+				newelem.AddConfigLine("ChangeTo", materials_combobox_changeto.Text);
+			if ( materials_textbox_createdscript.Text.Length > 0 )
+				newelem.AddConfigLine("CreatedScript", materials_textbox_createdscript.Text);
 			
 			materials_cfg.RemoveConfigElement(selected.Name);
 			materials_cfg.AddConfigElement(newelem);
@@ -624,8 +635,15 @@ namespace CraftTool
 			ConfigElem original = config_file.GetConfigElem(selected.Name);
 
 			ConfigElem newelem = new ConfigElem(original.type, original.name);
-			newelem.AddConfigLine("ShowMenu", combobox_tom_showmenus.Text);
-			newelem.AddConfigLine("MenuScript", tom_textbox_menuscript.Text);
+			if (combobox_tom_showmenus.Text.Length > 0)
+				newelem.AddConfigLine("ShowMenu", combobox_tom_showmenus.Text);
+			else
+			{
+				MessageBox.Show("A menu elem name needs to be entered.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			if ( tom_textbox_menuscript.Text.Length > 0 )
+				newelem.AddConfigLine("MenuScript", tom_textbox_menuscript.Text);
 			
 			config_file.RemoveConfigElement(selected.Name);
 			config_file.AddConfigElement(newelem);
