@@ -628,7 +628,7 @@ namespace CraftTool
 				if (materials_cfg_path == null)
 					continue;
 
-				TreeNode pkg_node = treeview_craftitems.Nodes.Add(package.name, ":" + package.name + ":craftItems.cfg");
+				TreeNode pkg_node = craftitems_treeview.Nodes.Add(package.name, ":" + package.name + ":craftItems.cfg");
 				ConfigFile materials_config = ConfigRepository.global.LoadConfigFile(materials_cfg_path);
 				foreach (ConfigElem cfg_elem in materials_config.GetConfigElemRefs())
 				{
@@ -639,7 +639,7 @@ namespace CraftTool
 		
 		private void treeview_craftitems_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			TreeNode selected = treeview_craftitems.SelectedNode;
+			TreeNode selected = craftitems_treeview.SelectedNode;
 			ResetTabControls(groupBox9);		
 			if (selected.Parent == null)
 				return;
@@ -735,9 +735,9 @@ namespace CraftTool
 				foreach (string material in cfg_elem.GetConfigStringList("ClickMaterial"))
 				{
 					string[] split = material.Split(new char[] { ' ', '\t' });
-					if (!Column4.Items.Contains(split[0]))
-						Column4.Items.Add(split[0]);
-					craftitems_datagrid_materials.Rows.Add(split);
+					if (!Column6.Items.Contains(split[0]))
+						Column6.Items.Add(split[0]);
+					craftitems_datagrid_clickedmaterials.Rows.Add(split);
 				}
 			}
 			
