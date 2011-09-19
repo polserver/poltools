@@ -1001,10 +1001,47 @@ namespace CraftTool
 			newelem.AddConfigLine("MakeAmount", craftitems_textbox_makeamount.Text);
 
 			newelem.AddConfigLine("Material", "[clicked]\t" + craftitems_textbox_clickedamount.Text);
+
+			foreach (DataGridViewRow row in craftitems_datagrid_materials.Rows)
+			{
+				string value = string.Empty;
+				foreach (DataGridViewCell cell in row.Cells)
+				{
+					if (cell.Value == null)
+						continue; // Handle empty cells
+					value += cell.Value.ToString() + "\t";
+				}
+				value = value.Trim();
+				if (value.Length > 0)
+					newelem.AddConfigLine("Material", value);
+			}
+			foreach (DataGridViewRow row in craftitems_datagrid_clickedmaterials.Rows)
+			{
+				string value = string.Empty;
+				foreach (DataGridViewCell cell in row.Cells)
+				{
+					if (cell.Value == null)
+						continue; // Handle empty cells
+					value += cell.Value.ToString() + "\t";
+				}
+				value = value.Trim();
+				if (value.Length > 0)
+					newelem.AddConfigLine("ClickMaterial", value);
+			}
+
+			if (craftitems_textbox_skillcheckscript.Text.Length > 0)
+				newelem.AddConfigLine("SkillCheckScript", craftitems_textbox_skillcheckscript.Text);
+			if (craftitems_textbox_precreatescript.Text.Length > 0)
+				newelem.AddConfigLine("PreCreateScript", craftitems_textbox_precreatescript.Text);
+			if (craftitems_textbox_createscript.Text.Length > 0)
+				newelem.AddConfigLine("CreateScript", craftitems_textbox_createscript.Text);
+			if (craftitems_textbox_postcreatescript.Text.Length > 0)
+				newelem.AddConfigLine("PostCreateScript", craftitems_textbox_postcreatescript.Text);
+			if (craftitems_textbox_findmaterialscript.Text.Length > 0)
+				newelem.AddConfigLine("ConsumeScript", craftitems_textbox_findmaterialscript.Text);
+			if (craftitems_textbox_consumescript.Text.Length > 0)
+				newelem.AddConfigLine("ConsumeScript", craftitems_textbox_consumescript.Text);
 			
-
-
-
 			config_file.RemoveConfigElement(selected.Name);
 			config_file.AddConfigElement(newelem);
 
