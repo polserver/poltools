@@ -299,7 +299,12 @@ namespace CraftTool
 			if (c != null)
 				c.DropDownStyle = ComboBoxStyle.DropDown;
 		}
-		
+
+		private void toolStripMenuItem10_Click(object sender, EventArgs e)
+		{
+
+		}
+
 		#endregion
 
 		private void button1_Click(object sender, EventArgs e)
@@ -318,7 +323,7 @@ namespace CraftTool
 			List<POLTools.Package.POLPackage> packages = PackageCache.Global.packagelist;
 			TB_loadoutput.AppendText("Enabled pkg.cfg files found = " + packages.Count + Environment.NewLine);
 
-			string[] file_names = { "attributes.cfg", "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg" };
+			string[] file_names = { "attributes.cfg", "itemdesc.cfg", "materials.cfg", "toolonmaterial.cfg", "craftmenus.cfg", "craftitems.cfg", "tools.cfg"};
 			foreach (POLTools.Package.POLPackage package in packages)
 			{
 				TB_loadoutput.AppendText(package.name+Environment.NewLine);
@@ -886,10 +891,15 @@ namespace CraftTool
 				}
 			}
 
+			craftitems_column_tools.Items.AddRange(ConfigRepository.global.GetElemNamesFromConfigFiles("tools.cfg").ToArray());
 			if (cfg_elem.PropertyExists("Tool"))
 			{
 				foreach (string toolgroup in cfg_elem.GetConfigStringList("Tool"))
 				{
+					if (!craftitems_column_tools.Items.Contains(toolgroup))
+					{
+						craftitems_column_tools.Items.Add(toolgroup);
+					}
 					craftitems_datagrid_tools.Rows.Add(toolgroup);
 				}
 			}
@@ -1087,6 +1097,6 @@ namespace CraftTool
 			WriteTreeViewConfigFiles(craftitems_treeview, "craftItems.cfg");
 		}
 
-		#endregion
+		#endregion		
 	}
 }
