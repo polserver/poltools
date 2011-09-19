@@ -302,7 +302,16 @@ namespace CraftTool
 
 		private void toolStripMenuItem10_Click(object sender, EventArgs e)
 		{
-
+			Control cntrl = contextmenu_generic_datagrid.SourceControl;
+			DataGridView datagrid = (DataGridView)cntrl;
+			
+			DataGridViewSelectedRowCollection collection =datagrid.SelectedRows;
+			foreach (DataGridViewRow row in collection)
+			{
+				if (row.IsNewRow)
+					continue;
+				datagrid.Rows.Remove(row);
+			}
 		}
 
 		#endregion
