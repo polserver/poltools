@@ -831,11 +831,11 @@ namespace CraftTool
 			}
 
 			if ( cfg_elem.PropertyExists("NoRecycle") )
-				CB_craftitems_norecycle.Checked = (cfg_elem.GetConfigInt("NoRecycle") > 0);
+				craftitems_checkbox_norecycle.Checked = (cfg_elem.GetConfigInt("NoRecycle") > 0);
 			if (cfg_elem.PropertyExists("Exceptional"))
-				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("Exceptional") > 0);
+				craftitems_checkbox_exceptional.Checked = (cfg_elem.GetConfigInt("Exceptional") > 0);
 			if (cfg_elem.PropertyExists("MakeMaximum"))
-				CB_craftitems_exceptional.Checked = (cfg_elem.GetConfigInt("MakeMaximum") > 0);
+				craftitems_checkbox_exceptional.Checked = (cfg_elem.GetConfigInt("MakeMaximum") > 0);
 
 			List<string> categories = ConfigRepository.global.GetConfigPropertyValuesFromLoadedConfigFiles("materials.cfg", "Category", true, false);
 			craftitems_combobox_clickedcategory.Items.AddRange(categories.ToArray());
@@ -956,7 +956,59 @@ namespace CraftTool
 		
 		private void BTN_update_craftitem_Click(object sender, EventArgs e)
 		{
+			TreeNode selected = CheckForSelectedNode(craftmenus_treeview);
+			if (selected == null)
+				return;
+			TreeNode nodeparent = GetParentTreeNode(selected);
 
+			POLPackage package = PackageCache.GetPackage(nodeparent.Name);
+			string config_path = package.GetPackagedConfigPath("craftItems.cfg");
+			ConfigFile config_file = ConfigRepository.global.LoadConfigFile(config_path);
+			ConfigElem original = config_file.GetConfigElem(selected.Name);
+
+			ConfigElem newelem = new ConfigElem(original.type, original.name);
+
+			if (craftitems_checkbox_norecycle.Checked)
+				newelem.AddConfigLine("NoRecycle", "1");
+			newelem.AddConfigLine("ClickedCategory", craftitems_combobox_clickedcategory.Text);
+
+			newelem.AddConfigLine("Attribute", craftitems_combobox_attributes.Text);
+			newelem.AddConfigLine("Difficulty", craftitems_textbox_difficulty.Text);
+
+			newelem.AddConfigLine("CraftLoops", craftitems_textbox_craftloops.Text);
+			newelem.AddConfigLine("LoopWait", craftitems_textbox_loopwait.Text);				
+			foreach (DataGridViewRow row in craftitems_datagrid_sounds.Rows)
+			{
+				string value = string.Empty;
+				foreach (DataGridViewCell cell in row.Cells)
+				{
+					if (cell.Value == null)
+						continue; // Handle empty cells
+					value += cell.Value.ToString() + "\t";
+				}
+				value = value.Trim();
+				if (value.Length > 0)
+					newelem.AddConfigLine("Sound", value);
+			}
+
+			newelem.AddConfigLine("Animation", craftitems_textbox_animation.Text);
+
+			if (craftitems_checkbox_exceptional.Checked)
+				newelem.AddConfigLine("Exceptional", "1"); 
+			if (craftitems_checkbox_makemaximum.Checked)
+				newelem.AddConfigLine("MakeMaximum", "1");
+
+			newelem.AddConfigLine("MakeAmount", craftitems_textbox_makeamount.Text);
+
+			newelem.AddConfigLine("Material", "[clicked]\t" + craftitems_textbox_clickedamount.Text);
+			
+
+
+
+			config_file.RemoveConfigElement(selected.Name);
+			config_file.AddConfigElement(newelem);
+
+			craftmenus_treeview_AfterSelect(sender, null);
 		}
 
 		private void BTN_write_craftitems_Click(object sender, EventArgs e)
