@@ -987,8 +987,10 @@ namespace CraftTool
 			newelem.AddConfigLine("Attribute", craftitems_combobox_attributes.Text);
 			newelem.AddConfigLine("Difficulty", craftitems_textbox_difficulty.Text);
 
-			newelem.AddConfigLine("CraftLoops", craftitems_textbox_craftloops.Text);
-			newelem.AddConfigLine("LoopWait", craftitems_textbox_loopwait.Text);				
+			if ( craftitems_textbox_craftloops.Text.Length > 0 )
+				newelem.AddConfigLine("CraftLoops", craftitems_textbox_craftloops.Text);
+			if ( craftitems_textbox_loopwait.Text.Length > 0 )
+				newelem.AddConfigLine("LoopWait", craftitems_textbox_loopwait.Text);				
 			foreach (DataGridViewRow row in craftitems_datagrid_sounds.Rows)
 			{
 				string value = string.Empty;
@@ -1065,7 +1067,7 @@ namespace CraftTool
 			if (craftitems_textbox_postcreatescript.Text.Length > 0)
 				newelem.AddConfigLine("PostCreateScript", craftitems_textbox_postcreatescript.Text);
 			if (craftitems_textbox_findmaterialscript.Text.Length > 0)
-				newelem.AddConfigLine("ConsumeScript", craftitems_textbox_findmaterialscript.Text);
+				newelem.AddConfigLine("FindMaterialScript", craftitems_textbox_findmaterialscript.Text);
 			if (craftitems_textbox_consumescript.Text.Length > 0)
 				newelem.AddConfigLine("ConsumeScript", craftitems_textbox_consumescript.Text);
 			
