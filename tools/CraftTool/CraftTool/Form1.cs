@@ -835,7 +835,7 @@ namespace CraftTool
 			if (cfg_elem.PropertyExists("Exceptional"))
 				craftitems_checkbox_exceptional.Checked = (cfg_elem.GetConfigInt("Exceptional") > 0);
 			if (cfg_elem.PropertyExists("MakeMaximum"))
-				craftitems_checkbox_exceptional.Checked = (cfg_elem.GetConfigInt("MakeMaximum") > 0);
+				craftitems_checkbox_makemaximum.Checked = (cfg_elem.GetConfigInt("MakeMaximum") > 0);
 
 			List<string> categories = ConfigRepository.global.GetConfigPropertyValuesFromLoadedConfigFiles("materials.cfg", "Category", true, false);
 			craftitems_combobox_clickedcategory.Items.AddRange(categories.ToArray());
@@ -864,7 +864,7 @@ namespace CraftTool
 			if (cfg_elem.PropertyExists("LoopWait"))
 				craftitems_textbox_loopwait.Text = cfg_elem.GetConfigString("LoopWait");
 			if (cfg_elem.PropertyExists("Animation"))
-				craftitems_textbox_loopwait.Text = cfg_elem.GetConfigString("Animation");
+				craftitems_textbox_animation.Text = cfg_elem.GetConfigString("Animation");
 			if (cfg_elem.PropertyExists("SkillCheckScript"))
 				craftitems_textbox_skillcheckscript.Text = cfg_elem.GetConfigString("SkillCheckScript");
 			if (cfg_elem.PropertyExists("PreCreateScript"))
@@ -906,12 +906,16 @@ namespace CraftTool
 					string[] split = material.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 					if (split[0].Equals("[clicked]", StringComparison.CurrentCultureIgnoreCase))
 					{
-						craftitems_textbox_clickedamount.Text = split[1];
-						continue;
+						if ( split.Length > 1 )
+							craftitems_textbox_clickedamount.Text = split[1];
+						else
+							craftitems_textbox_clickedamount.Text = "0";
 					}
 					else if (!Column4.Items.Contains(split[0]))
+					{
 						Column4.Items.Add(split[0]);
-					craftitems_datagrid_materials.Rows.Add(split);
+						craftitems_datagrid_materials.Rows.Add(split);
+					}
 				}				
 			}
 
@@ -964,7 +968,7 @@ namespace CraftTool
 		
 		private void BTN_update_craftitem_Click(object sender, EventArgs e)
 		{
-			TreeNode selected = CheckForSelectedNode(craftmenus_treeview);
+			TreeNode selected = CheckForSelectedNode(craftitems_treeview);
 			if (selected == null)
 				return;
 			TreeNode nodeparent = GetParentTreeNode(selected);
@@ -1020,7 +1024,8 @@ namespace CraftTool
 			if (craftitems_checkbox_makemaximum.Checked)
 				newelem.AddConfigLine("MakeMaximum", "1");
 
-			newelem.AddConfigLine("MakeAmount", craftitems_textbox_makeamount.Text);
+			if ( craftitems_textbox_makeamount.Text.Length > 0 )
+				newelem.AddConfigLine("MakeAmount", craftitems_textbox_makeamount.Text);
 
 			newelem.AddConfigLine("Material", "[clicked]\t" + craftitems_textbox_clickedamount.Text);
 
@@ -1067,7 +1072,7 @@ namespace CraftTool
 			config_file.RemoveConfigElement(selected.Name);
 			config_file.AddConfigElement(newelem);
 
-			craftmenus_treeview_AfterSelect(sender, null);
+			treeview_craftitems_AfterSelect(sender, null);
 		}
 
 		private void BTN_write_craftitems_Click(object sender, EventArgs e)
