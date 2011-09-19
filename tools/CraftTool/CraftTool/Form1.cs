@@ -886,6 +886,14 @@ namespace CraftTool
 				}
 			}
 
+			if (cfg_elem.PropertyExists("Tool"))
+			{
+				foreach (string toolgroup in cfg_elem.GetConfigStringList("Tool"))
+				{
+					craftitems_datagrid_tools.Rows.Add(toolgroup);
+				}
+			}
+
 			Column4.Items.Clear();
 			Column4.Items.AddRange(ItemdescCache.Global.GetAllObjTypeNames().ToArray());
 			Column6.Items.Clear();
@@ -989,6 +997,20 @@ namespace CraftTool
 				value = value.Trim();
 				if (value.Length > 0)
 					newelem.AddConfigLine("Sound", value);
+			}
+
+			foreach (DataGridViewRow row in craftitems_datagrid_tools.Rows)
+			{
+				string value = string.Empty;
+				foreach (DataGridViewCell cell in row.Cells)
+				{
+					if (cell.Value == null)
+						continue; // Handle empty cells
+					value += cell.Value.ToString() + "\t";
+				}
+				value = value.Trim();
+				if (value.Length > 0)
+					newelem.AddConfigLine("Tool", value);
 			}
 
 			newelem.AddConfigLine("Animation", craftitems_textbox_animation.Text);
