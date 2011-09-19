@@ -910,12 +910,14 @@ namespace CraftTool
 							craftitems_textbox_clickedamount.Text = split[1];
 						else
 							craftitems_textbox_clickedamount.Text = "0";
+						continue;
 					}
 					else if (!Column4.Items.Contains(split[0]))
 					{
 						Column4.Items.Add(split[0]);
 						craftitems_datagrid_materials.Rows.Add(split);
 					}
+					craftitems_datagrid_materials.Rows.Add(split);
 				}				
 			}
 
@@ -925,7 +927,10 @@ namespace CraftTool
 				{
 					string[] split = material.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 					if (!Column6.Items.Contains(split[0]))
+					{
 						Column6.Items.Add(split[0]);
+						craftitems_datagrid_clickedmaterials.Rows.Add(split);
+					}
 					craftitems_datagrid_clickedmaterials.Rows.Add(split);
 				}
 			}
