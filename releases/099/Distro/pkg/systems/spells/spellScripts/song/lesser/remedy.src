@@ -51,6 +51,8 @@ program SpellScript_Remedy( params )
 
                 if( !SPELL_MobileCheck( mobile, vtarg ))
 			continue;
+                elseif( vtarg.IsA( POLCLASS_NPC ))
+			continue;
                 elseif( !CheckLineOfSight( mobile, vtarg ))
 			continue;
                 endif
