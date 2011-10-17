@@ -56,7 +56,9 @@ program SpellScript_Life( params )
 	foreach vtarg in targs
 		SleepMS(5);
 
-                if( vtarg.dead || vtarg.hidden || vtarg.concealed )
+                if( !SPELL_MobileCheck( mobile, vtarg ))
+			continue;
+                elseif( vtarg.IsA( POLCLASS_NPC ))
 			continue;
                 elseif( !CheckLineOfSight( mobile, vtarg ))
 			continue;
