@@ -1049,6 +1049,8 @@ namespace CraftTool
 				newelem.AddConfigLine("Exceptional", "1"); 
 			if (craftitems_checkbox_makemaximum.Checked)
 				newelem.AddConfigLine("MakeMaximum", "1");
+			if (craftitems_checkbox_usechangeto.Checked)
+				newelem.AddConfigLine("UseChangeTo", "1");
 
 			if ( craftitems_textbox_makeamount.Text.Length > 0 )
 				newelem.AddConfigLine("MakeAmount", craftitems_textbox_makeamount.Text);
@@ -1107,5 +1109,13 @@ namespace CraftTool
 		}
 
 		#endregion		
+
+		#region Craft Tree Tab
+		private void BTN_crafttree_refresh_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		#endregion
 	}
 }
