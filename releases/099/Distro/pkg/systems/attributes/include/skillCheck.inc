@@ -86,19 +86,18 @@ function CalcSuccessPercent( mobile, attrib_name, difficulty, effective_skill )
 
 	var sc_settings := AP_GetSettingsCfgElem( "Skills" ),
             min_chance := CInt( sc_settings.MinChance ),
-            max_chance := CInt( sc_settings.MaxChance ),
-	    percent := CInt( 50.0 + (( effective_skill - difficulty ) * 1.5 )); // For every 5 points difference there will be a +-10 for percent
+            max_chance := CInt( sc_settings.MaxChance );
 
 	if( difficulty == -1 )
 		var neg1chance := CInt( sc_settings.MaxNeg1Chance ),
-                    classe_skill := GetClasseIdForSkillName( attrib_name );
-                
-                if( GetObjProperty( mobile, classe_skill ))
-			neg1chance += CInt( ClasseBonus( mobile, classe_skill ) * neg1chance / 10 );
-                endif
+                    classe_skill := GetClasseIdForSkillName( attrib_name ),
+                    neg1chance /= ClasseBonus( mobile, classe_skill );
 
 		percent := CInt( neg1chance * effective_skill / 150 );
-	endif
+        else
+                // For every 5 points difference there will be a +-10 for percent
+	        percent := CInt( 50.0 + (( effective_skill - difficulty ) * 1.5 ));
+        endif
 
 	if( percent < min_chance )
 		percent := min_chance;
