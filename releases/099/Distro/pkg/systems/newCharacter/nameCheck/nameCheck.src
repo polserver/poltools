@@ -28,6 +28,8 @@ program CheckMobileName( who )
 	endwhile
 
         FixName( who );
+        
+        Broadcast( who.name+" has been created successfully.", 3, 40 );
 
 	return 1;
 endprogram
