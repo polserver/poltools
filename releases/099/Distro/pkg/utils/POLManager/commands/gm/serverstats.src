@@ -18,7 +18,7 @@ program command_serverstats( mobile )
 
         SendSysMessage( mobile, "Please wait a moment." );
 
-        return OpenBrowser( mobile, "http://"+SHARD_IP+":"+SHARD_WWWPORT+"/pkg/myPOL/index.ecl" );
+        return OpenBrowser( mobile, "http://"+SHARD_IP+":"+SHARD_WWWPORT+"/pkg/POLManager/index.ecl" );
 
         return 1;
 endprogram
