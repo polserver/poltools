@@ -180,9 +180,9 @@ endfunction
 function ApplyEnchant( item )
 
         var chances := CInt( RandomDiceRoll( "1d100" ) * magicLevel );
-	if( chances < 300 )
+	if( chances < 500 )
 		ApplyProtection( item );
-	elseif( chances < 500 )
+	elseif( chances < 600 )
 		ApplyElementalProtection( item );
 	else
 		ApplyImmunity( item );
@@ -246,7 +246,7 @@ endfunction
 
 function ApplyMiscSkillMod( item )
 
-	if( RandomDiceRoll( "1d1000" ) <= 5 )
+	if( RandomDiceRoll( "1d1000" ) <= magicLevel )
 		ApplyStatMod( item );
 		return 1;
 	endif
@@ -476,22 +476,20 @@ function SetOnHitscript( item )
 endfunction
 
 function GetChanceLevel()
-
-        magicLevel += 2;
         
         var chances := CInt( RandomDiceRoll( "1d100" ) * magicLevel );
  
 	case( magicLevel )
-		5:	if( chances < 280 )
-				chances += RandomDiceRoll( "1d70+110" );
+		5:	if( chances < 100 )
+				chances += RandomDiceRoll( "1d100" );
 			endif
 			break;
-		6:	if( chances < 280 )
-				chances += RandomDiceRoll( "1d70+140" );
+		6:	if( chances < 200 )
+				chances += RandomDiceRoll( "1d200" );
 			endif
 			break;
-		7:	if( chances < 280 )
-				chances += RandomDiceRoll( "1d70+170" );
+		7:	if( chances < 300 )
+				chances += RandomDiceRoll( "1d300" );
 			endif
 			break;
                 default:
@@ -499,15 +497,15 @@ function GetChanceLevel()
 	endcase
 
         var level;
-	if( chances < 140 )
+	if( chances < 100 )
        		level := 1;
-   	elseif( chances < 280 )
+   	elseif( chances < 200 )
        		level := 2;
-   	elseif( chances < 420 )
+   	elseif( chances < 400 )
        		level := 3;
-   	elseif( chances < 560 )
+   	elseif( chances < 600 )
        		level := 4;
-   	elseif( chances < 630 )
+   	elseif( chances < 675 )
        		level := 5;
 	else
 		level := 6;

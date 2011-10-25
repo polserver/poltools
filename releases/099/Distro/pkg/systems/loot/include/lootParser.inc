@@ -35,7 +35,6 @@ include ":areas:managment";
 
 var magicLevel := 0;
 var loot_index := 0;
-var magicChance := 100;
 
 function Loot_Generate( container, npc_cfg, useLoot_Index := 0 )
 
@@ -54,23 +53,20 @@ function Loot_Generate( container, npc_cfg, useLoot_Index := 0 )
  
         if( !useLoot_Index )
                 loot_index := CInt( npc_cfg.LootIndex );
-                magicLevel := CInt( npc_cfg.MagicLevel );
-                magicChance := CInt( npc_cfg.MagicChance );
+                magicLevel := RandomDiceRoll( "1d4" );
         else
                 loot_index := CInt( npc_cfg );
-                magicLevel := CInt( npc_cfg );
+                loot_index := CInt( npc_cfg );
         endif
 
         if( !loot_index )
                 return 0;
         elseif( A_IsIn( container, AREAS_DANGEROUS ))
-                magicLevel += 2;
+                magicLevel += 1;
         endif
         
-        if( !magicLevel )
-		magicLevel := 1;
-        elseif( magicLevel > 7 )
-                magicLevel := 7;
+        if( GetObjProperty( "NPCBoss" ))
+                magicLevel += 2;
         endif
 
 	var index_elem := index_cfg[loot_index];
@@ -291,13 +287,13 @@ endfunction
 
 function Apply_Effect( item, magic, magicLevel )
 
-        var chances := CInt( RandomDiceRoll( "1d75+25" ) * ( CInt( magicLevel / 2 ) + 1 ));
+        var chances := CInt( RandomDiceRoll( "1d100" ) * magicLevel );
 
         case( magic )
            	WEAPONS:
-                	if( chances < 75 )
+                	if( chances < 200 )
 				ApplyHPMod( item );
-			elseif( chances < 350 )
+			elseif( chances < 500 )
 				ApplyDmgMod( item );
 			else
 				SetHitscript( item );
@@ -305,19 +301,19 @@ function Apply_Effect( item, magic, magicLevel )
 			break;
    
            	ARMORS:
-	                if( chances < 75 )
+	                if( chances < 300 )
 				ApplyHPMod( item );
-			elseif( chances < 150 )
-				ApplyArSkillMod( item );
-			elseif( chances < 350 )
+			elseif( chances < 500 )
 				ApplyARMod( item );
+			elseif( chances < 600 )
+				ApplyArSkillMod( item );
 			else
 				SetOnHitscript( item );
 			endif
 			break;
    
 	 	SHIELDS:
-	 		if( chances < 225 )
+	 		if( chances < 200 )
 				ApplyHPMod( item );
                         else
 				ApplyARMod( item );
@@ -325,30 +321,30 @@ function Apply_Effect( item, magic, magicLevel )
 			break;
    
 		CLOTHINGS:
-			if( chances < 250 )
-				ApplyMiscSkillMod( item );
-			else
+			if( chances < 400 )
 				ApplyMiscArMod( item );
+			else
+				ApplyMiscSkillMod( item );
 			endif
 
 			AddRandomColor( item );
 			break;
    
 		JEWELRY:
-	                if( chances < 300 )
-				ApplyMiscSkillMod( item );
-			elseif( chances < 450 )
+	                if( chances < 400 )
 				ApplyMiscArMod( item );
+			elseif( chances < 600 )
+				ApplyMiscSkillMod( item );
 			else
                                 ApplyEnchant( item );
 			endif
 			break;
    
 		PROFESSIONAL:
-                        if( chances < 250 )
-				ApplyMiscSkillMod( item );
-                        else
+                        if( chances < 300 )
 				ApplyHPMod( item );
+                        else
+				ApplyMiscSkillMod( item );
                         endif
 			break;
 	        default:
