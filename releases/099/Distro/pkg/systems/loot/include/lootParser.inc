@@ -65,7 +65,7 @@ function Loot_Generate( container, npc_cfg, useLoot_Index := 0 )
                 magicLevel += 1;
         endif
         
-        if( GetObjProperty( "NPCBoss" ))
+        if( GetObjProperty( container, "NPCBoss" ))
                 magicLevel += 2;
         endif
 
