@@ -16,6 +16,13 @@ program UseTicket( mobile, ticket )
                 SetupTicket( ticket );
         endif
 
+	var cur_lottery := Loto_GetLottery();
+	if( CInt( cur_lottery - GetObjProperty( ticket, "Lottery" )) >= 2 )
+                SendSysMessage( mobile, "The lottery for this ticker has expired." );
+                DestroyItem( ticket );
+                return 0;
+	endif
+
         var gump := GFCreateGump();
 
         //Main Background
@@ -34,7 +41,7 @@ program UseTicket( mobile, ticket )
                 return 0;
         endif
         
-        GFTextMid( gump, 120, 120, 250, 2100, "Ticket Lottery #"+Loto_GetLottery() );
+        GFTextMid( gump, 120, 120, 250, 2100, "Ticket Lottery #"+cur_lottery );
         GFTextMid( gump, 130, 160, 250, 2100, ticket_num );
 
 	GFSendGump( mobile, gump );
