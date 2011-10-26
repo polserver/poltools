@@ -28,8 +28,7 @@ endfunction
 
 function TP_CanAdvance( mobile, attrib_name )
 
-	if( CDbl( AP_GetTrueSkill( mobile, attrib_name )) > CDbl( 50 ))
-		// Skill is higher than 30%
+	if( CDbl( AP_GetTrueSkill( mobile, attrib_name )) > CDbl( 75 ))
 		return ADV_DISABLE;
 	else
 		return ADV_SKILL;
