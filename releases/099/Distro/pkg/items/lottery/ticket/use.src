@@ -53,15 +53,10 @@ function SetupTicket( ticket )
 
         var cur_lottery := Loto_GetLottery();
         var new_ticket := Loto_NewTicket();
-
         var tickets := Loto_GetTickets( cur_lottery );
-        while( new_ticket in tickets )
-                //Find a new combination if already in scope...
-                new_ticket := Loto_NewTicket();
-                SleepMS(5);
-        endwhile
 
         tickets.Append( new_ticket );
+        
         Loto_SetTickets( cur_lottery, tickets );
         Loto_AddLotteryPrize( Loto_GetLottery(), 5000 );
 
