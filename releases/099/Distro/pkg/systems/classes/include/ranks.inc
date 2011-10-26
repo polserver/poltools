@@ -27,7 +27,7 @@ function SetClasseRank()
                         var character := account.GetCharacter(i);
                         if( character.cmdlevel )
                                 continue;
-                        elseif(
+                        endif
                                 
                         var classe := Get_Mobile_Classe_Name( character );
                         if( !classe )
