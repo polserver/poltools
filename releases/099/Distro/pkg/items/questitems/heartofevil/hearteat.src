@@ -12,12 +12,9 @@ use util;
 
 include "include/uo_extend";
 include "include/client";
-include ":datafile:datafile";
 include ":timeutils:time";
 include ":security:itemReport";
 include "include/itemUtil";
-
-var g_datafile := DFOpenDataFile( ":questItems:heartofevil", DF_CREATE );
 
 var sparkle_list := array( 0x1153, 0x373A, 0x374A, 0x375A, 0x376A, 0x3779 );
 var lightning_sounds := array( 41, 42, 519 );
@@ -29,27 +26,21 @@ program EatHeart( who, heart )
        	if( !useItem_check( who, heart, ITEM_INCONTAINER ))
 		return 0;
 	endif
- 
-        if( len( ListItemsNearLocation( who.x, who.y, who.z, 6, who.realm )) > 1 );
-                SendSysMessage( who, "You are magically forbidden to eat this heart here!" );
-                return 0;
-        endif
-        
-        if( GetObjProperty( who, "AutoRes" ))
-                SendSysMessage( who, "You are magically forbidden to eat this heart again!" );
-                return 0;
-        endif
-        
-        var data_elem := DFFindElement( g_datafile, who.name, DF_CREATE );
-        var last_usage := data_elem.GetProp( "LastUsage" );
+
+        var last_usage := GetObjProperty( who, "HeartEvilLastUse" );
         if( last_usage && ( ReadGameClock() - last_usage ) < 2*SECONDS_IN_WEEK )
                 SendSysMessage( who, "You must wait before eating an evil heart again" );
                 return 0;
         else
-                var saved := data_elem.SetProp( "LastUsage", ReadGameClock() );
-                if( saved.errortext )
-                         Syslog( "Error setting AutoRes for "+who.name+" --> "+saved.errortext );
-                endif
+                SetObjProperty( who, "HeartEvilLastUse", ReadGameClock() );
+        endif
+
+        if( GetObjProperty( who, "AutoRes" ))
+                SendSysMessage( who, "You are magically forbidden to eat this heart again!" );
+                return 0;
+        elseif( len( ListItemsNearLocation( who.x, who.y, who.z, 6, who.realm )) > 1 );
+                SendSysMessage( who, "You are magically forbidden to eat this heart here!" );
+                return 0;
         endif
         
         ITEM_ReportText( who, "Eats a heartofevil", ITEM_REPORT_SYSLOG );
