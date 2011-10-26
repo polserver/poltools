@@ -13,7 +13,7 @@ var ranks_datafile := DFOpenDataFile( ":classes:rank", DF_CREATE );
 
 function SetClasseRank()
  
-        DeleteAllRanks();
+        DFPurgeFile( ranks_datafile );
         
         var classes := struct{};
 
@@ -22,26 +22,28 @@ function SetClasseRank()
 
                 var i;
                 for( i:=1; i<=5; i+=1 )
-                        var character := account.GetCharacter(i);
-                        if( !character.cmdlevel )
-                                
-                                var classe := Get_Mobile_Classe_Name( character );
-                                if( !classe )
-                                        classe := PP;
-                                endif
-                                
-                                if( GetObjProperty( character, classe ) < 4 )
-                                        continue;
-                                endif
-
-                                if( !classes.Exists( classe ))
-		                        classes[classe] := dictionary;
-	                        endif
-                         
-                                var total_skills := GetTotalClasseSkills( character, classe );
-                                classes[classe].Insert( total_skills, character.serial );
-                        endif
                         SleepMS(5);
+                        
+                        var character := account.GetCharacter(i);
+                        if( character.cmdlevel )
+                                continue;
+                        elseif(
+                                
+                        var classe := Get_Mobile_Classe_Name( character );
+                        if( !classe )
+                                classe := PP;
+                        endif
+                                
+                        if( GetObjProperty( character, classe ) < 1 )
+                                continue;
+                        endif
+
+                        if( !classes.Exists( classe ))
+		                classes[classe] := dictionary;
+	                endif
+                         
+                        var total_skills := GetTotalClasseSkills( character, classe );
+                        classes[classe].Insert( total_skills, character.serial );
                 endfor
                 SleepMS(5);
         endforeach
@@ -75,17 +77,6 @@ function SetClasseRank()
                 SleepMS(5);
         endforeach
 
-        return 1;
-endfunction
-
-function DeleteAllRanks()
-
-        var elem_keys := DFGetElemNames( ranks_datafile );
-        foreach elem in elem_keys
-		ranks_datafile.EraseProp( Hex( elem ));
-                SleepMS(5);
-        endforeach
-        
         return 1;
 endfunction
 
