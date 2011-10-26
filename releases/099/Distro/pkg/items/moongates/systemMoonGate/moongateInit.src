@@ -144,7 +144,7 @@ function CleanupOldMoongates()
 			DestroyItem( item );
 		endif
   
-		data_file.DeleteElement( elem_name );
+		data_file.DeleteElement( Hex( elem_name ));
                 SleepMS(10);
 	endforeach
 
