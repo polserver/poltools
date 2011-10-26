@@ -30,7 +30,8 @@ Program HTMLPage()
 
 	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	TableDataHeader("Object Counts");
-	TableData("Mobile Count", core_ref.mobilecount);
+	TableData("NPC Count", core_ref.mobilecount);
+	TableData("Char Count", CountTotalCharacters() );
 	TableData("Top Level Item Count", core_ref.itemcount);
 	TableData("Online Player Count", EnumerateOnlineCharacters().Size());
 	TableData("Storage Area Count", StorageAreas().count);
@@ -98,4 +99,22 @@ function TableDataHeader(data)
 	WriteHTML("<TR><TH COLSPAN='2' ALIGN='LEFT'>"+data+"</TH></TR>");
 
 	return 1;
+endfunction
+
+function CountTotalCharacters()
+
+        var count_char := 0;
+	foreach acct_name in ( ListAccounts() )
+		var account := FindAccount( acct_name );
+		for i:=1 to 6
+			var character := account.GetCharacter(i);
+			if( character )
+				count_char += 1;
+			endif
+			SleepMS(2);
+		endfor
+		SleepMS(2);
+	endforeach
+ 
+        return count_char;
 endfunction
