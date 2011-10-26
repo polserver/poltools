@@ -12,7 +12,6 @@ include ":attributes:attributes_ex";
 include ":security:attributesReport";
 include ":classes:classes";
 include ":skilllocks:common";
-include ":powerscrolls:mycaps";
 
 function CheckStatsForSkill( mobile, skill_name )
 
