@@ -481,15 +481,15 @@ function GetChanceLevel()
  
 	case( magicLevel )
 		5:	if( chances < 100 )
-				chances += RandomDiceRoll( "1d100" );
+				chances += RandomDiceRoll( "1d400" );
 			endif
 			break;
 		6:	if( chances < 200 )
-				chances += RandomDiceRoll( "1d200" );
+				chances += RandomDiceRoll( "1d300" );
 			endif
 			break;
 		7:	if( chances < 300 )
-				chances += RandomDiceRoll( "1d300" );
+				chances += RandomDiceRoll( "1d200" );
 			endif
 			break;
                 default:
