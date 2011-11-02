@@ -22,7 +22,7 @@ program skill_ItemIdentification( mobile )
                 SendSysMessage( mobile, "That is not an item you can select." );
 		return 0;
         elseif( !item.IsA( POLCLASS_ITEM ))
-                if( item.IsA( POLCLASS_CONTAINER ) && AP_GetSkill( ITEM_IDENTIFICATION ) < 120 )
+                if( item.IsA( POLCLASS_CONTAINER ) && AP_GetSkill( mobile, ITEM_IDENTIFICATION ) < 120 )
                         SendSysMessage( mobile, "You can't do that yet." );
 		        return 0;
                 endif
