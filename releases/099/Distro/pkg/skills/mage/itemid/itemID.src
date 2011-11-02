@@ -18,8 +18,16 @@ program skill_ItemIdentification( mobile )
         if( !item )
                 SendSysMessage( mobile, "Cancelled." );
                 return 0;
+        elseif( item.IsA( POLCLASS_CORPSE ))
+                SendSysMessage( mobile, "That is not an item you can select." );
+		return 0;
         elseif( !item.IsA( POLCLASS_ITEM ))
-                SendSysMessage( mobile, "That is not an item." );
+                if( item.IsA( POLCLASS_CONTAINER ) && AP_GetSkill( ITEM_IDENTIFICATION ) < 120 )
+                        SendSysMessage( mobile, "You can't do that yet." );
+		        return 0;
+                endif
+                
+                SendSysMessage( mobile, "That is not an item you can select." );
 		return 0;
 	endif
 
@@ -28,7 +36,15 @@ program skill_ItemIdentification( mobile )
                         SkillCheck( mobile, ITEM_IDENTIFICATION, -1 );
                 endif
                 
-                IDItem( mobile, item );
+                if( item.IsA( POLCLASS_CONTAINER ))
+                        //Assume the skill is > 120
+                        foreach item in EnumerateItemsInContainer( item );
+                                IDItem( mobile, item );
+                                SleepMS(5);
+                        endforeach
+                else
+                        IDItem( mobile, item );
+                endif
         else
                 SendSysMessage( mobile, "I'm not sure..." );
 		return 0;
