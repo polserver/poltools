@@ -26,13 +26,13 @@ program use_SoP( mobile, scroll )
                 luck := 50;
         endif
 
-	if( luck < 2 )
+	if( luck < 1 )
 		raise := 20;
-	elseif( luck < 7 )
+	elseif( luck < 5 )
 		raise := 15;
-	elseif( luck < 13 )
+	elseif( luck < 10 )
 		raise := 10;
-        elseif( luck < 20 )
+        elseif( luck < 40 )
 		raise := 5;
         else
                 SendSysMessage( mobile, "The scroll has no power." );
