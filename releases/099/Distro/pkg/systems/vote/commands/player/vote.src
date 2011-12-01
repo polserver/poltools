@@ -77,7 +77,7 @@ function SetVoteInfo( mobile )
             this_month_string := CStr( "total_"+TIME_GetCurrentMonth()+"_votes" ),
             cfg_file := ReadConfigFile( ":vote:settings" );
 
-        var delay_vote : CInt( cfg_file["Settings"].Delay );
+        var delay_vote := CInt( cfg_file["Settings"].Delay );
 	if( !delay_vote )
 		delay_vote := 30;
 	endif
