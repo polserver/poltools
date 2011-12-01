@@ -18,25 +18,20 @@ var g_datafile := DFOpenDataFile( ":vote:vote", DF_CREATE );
 
 program command_vote( mobile )
 
-        var next_vote := 0;
         foreach acct_name in ( ListAccounts() )
                 var data_elem := DFFindElement( g_datafile, acct_name );
                 if( data_elem.GetProp( "LastVoteIP" ) == mobile.ip )
-                       var acct_nextVote := data_elem.GetProp( "NextVotesCore" );
-                       if( acct_nextVote > next_vote )
-                              next_vote := acct_nextVote;
+                       var nextVote := data_elem.GetProp( "NextVotesCore" );
+                       if( nextVote > ReadGameClock() )
+				SendSysMessage( mobile, "You already voted today!" );
+				return 0;
                        endif
                 endif
+
 		SleepMS(5);
 	endforeach
- 
-	if( next_vote > ReadGameClock() )
-		SendSysMessage( mobile, "You already voted today!" );
-		return 0;
-	endif
         
         SetVoteInfo( mobile );
-
         SendVotePrompt( mobile );
 
         OpenBrowser( mobile, SHARD_MAINVOTE );
@@ -80,8 +75,12 @@ function SetVoteInfo( mobile )
 
         var data_elem := DFFindElement( g_datafile, mobile.acctname, DF_CREATE ),
             this_month_string := CStr( "total_"+TIME_GetCurrentMonth()+"_votes" ),
-            cfg_file := ReadConfigFile( ":vote:settings" ),
-            settings := cfg_file["Delay"];
+            cfg_file := ReadConfigFile( ":vote:settings" );
+
+        var delay_vote : CInt( cfg_file["Settings"].Delay );
+	if( !delay_vote )
+		delay_vote := 30;
+	endif
 
         var total_votes := data_elem.GetProp( "TotalVotes" );
         if( !total_votes )
@@ -101,7 +100,7 @@ function SetVoteInfo( mobile )
         var time := StrFormatTime( "%m-%d-%Y %I:%M:%S %p", CInt( POLCore().systime ));
         data_elem.SetProp( "LastVoteTime", time );
         data_elem.SetProp( "LastVoteIP", mobile.ip );
-        data_elem.SetProp( "NextVotesCore", ReadGameClock() + ( SEC_HOUR * settings.Delay ));
+        data_elem.SetProp( "NextVotesCore", ReadGameClock() + ( SEC_HOUR * delay_vote ));
         data_elem.SetProp( "TotalVotes", total_votes + 1 );
         data_elem.SetProp( this_month_string, votes + 1 );
         
@@ -113,7 +112,7 @@ endfunction
 function BonusCheck( who )
 
         var effect := RandomInt(100);
-        if( effect < 25 )
+        if( effect < 30 )
                CreateItemInBackpack( who, 0xeed, RandomDiceRoll( "3d10000+1000" ));
                return 1;
         endif
