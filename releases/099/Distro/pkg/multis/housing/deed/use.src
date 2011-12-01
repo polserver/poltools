@@ -12,6 +12,7 @@ use os;
 include "include/itemUtil";
 include "include/security";
 include ":areas:managment";
+include ":classes:classes";
 include ":datafile:datafile";
 include ":keys:key";
 include ":multicommands:multicommands";
@@ -30,15 +31,9 @@ program UseHouseDeed( mobile, deed )
                 return 0;
         endif
 
-        var data_elem := DFFindElement( stats_datafile, mobile.acctname ),
-            online_Time := CInt( data_elem.GetProp( "OnlineTime" )),
-            delay_young := CInt( SEC_DAY * 2 );
-
-        if( online_Time < delay_young && !mobile.cmdlevel )
-                var delay_left := CInt( delay_young - online_Time ),
-                    delay_string := TIME_GetTimeDesc( delay_left );
-                    
-                SendSysMessage( mobile, "Your character is too young to own a house yet. You must wait "+delay_string+"." );
+        var classe_name := Get_Mobile_Classe_Name( mobile );
+        if( !classe_name )
+                SendSysMessage( mobile, "Your character is too young to place a house." );
                 return 0;
         endif
         
