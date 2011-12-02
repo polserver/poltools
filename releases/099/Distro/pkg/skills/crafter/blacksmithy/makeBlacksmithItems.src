@@ -25,7 +25,7 @@ program use_MapmakersPen( who, tool )
 	endif
 
 	var anvil_near;
-	foreach item in ( ListItemsNearLocation( who.x, who.y, who.z, 1 ))
+	foreach item in ( ListItemsNearLocation( who.x, who.y, who.z, 1, who.realm ))
 		if( item.IsAnvil() )
 			anvil_near := item;
 			break;
