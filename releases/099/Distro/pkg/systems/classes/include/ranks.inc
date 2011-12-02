@@ -33,10 +33,6 @@ function SetClasseRank()
                         if( !classe )
                                 classe := PP;
                         endif
-                                
-                        if( GetObjProperty( character, classe ) < 1 )
-                                continue;
-                        endif
 
                         if( !classes.Exists( classe ))
 		                classes[classe] := dictionary;
