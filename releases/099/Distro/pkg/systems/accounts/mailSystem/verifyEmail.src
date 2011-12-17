@@ -15,7 +15,6 @@ include ":gumps:gumps_ex";
 include "include/packets";
 include "include/yesNo";
 
-var email_datafile := DFOpenDataFile( ":accounts:emails", DF_CREATE );
 var msg := "";
 
 program Manager_MailSystem( mobile )
