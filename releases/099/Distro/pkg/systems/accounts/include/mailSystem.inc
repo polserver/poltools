@@ -4,6 +4,10 @@
         2010-01-03
 */
 
+include ":datafile:datafile";
+
+var email_datafile := DFOpenDataFile( ":accounts:emails", DF_CREATE );
+
 function CheckEmail( mobile )
 
          var data_elem := DFFindElement( email_datafile, mobile.acctname );
