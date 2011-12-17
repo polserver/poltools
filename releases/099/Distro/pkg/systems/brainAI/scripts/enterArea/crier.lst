@@ -1,0 +1,509 @@
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\crier.src, Line 17
+program BrainNerve( params )
+include ":brainAI:npcError";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var event	:= params[3];
+7: decl local #2
+8: local #0
+9: 3L
+10: [] 1
+11: :=
+12: #
+var gsettings	:= params[4];
+13: decl local #3
+14: local #0
+15: 4L
+16: [] 1
+17: :=
+18: #
+var scripts	:= params[5];
+19: decl local #4
+20: local #0
+21: 5L
+22: [] 1
+23: :=
+24: #
+params := 0; // Not needed anymore.
+25: 0L
+26: local0 := 
+while( npc )
+27: local #1
+28: if false goto 53
+if( event )
+29: local #2
+30: if false goto 46
+case( event.type )
+31: local #2
+32: get member 'type'
+33: casejmp
+	16: @34
+	default: @43
+EnteredArea( npc, event, gsettings, scripts );
+34: local #1
+35: local #2
+36: local #3
+37: local #4
+38: makelocal
+39: jmp userfunc @57
+40: #
+break;
+41: goto42
+42: goto44
+break;
+43: goto44
+event := 0;
+44: 0L
+45: local2 := 
+SleepMS(5);
+46: 5L
+47: Func(3,0): Sleepms
+48: #
+event := Wait_For_Event(1);
+49: 1L
+50: Func(3,7): Wait_For_Event
+51: local2 := 
+52: goto27
+return 1;
+53: 1L
+54: progend
+55: leave block(5)
+56: progend
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\crier.src, Line 46
+function EnteredArea( npc, byref event, byref settings, byref scripts )
+57: pop param byref 'scripts'
+58: pop param byref 'settings'
+59: pop param byref 'event'
+60: pop param 'npc'
+var source := event.source;
+61: decl local #4
+62: local #2
+63: get member 'source'
+64: :=
+65: #
+if( NPC_ShouldWatch( npc, source, settings, scripts ))
+66: local #3
+67: local #4
+68: local #1
+69: local #0
+70: makelocal
+71: jmp userfunc @149
+72: if false goto 89
+if( NPC_AddToWatchList( npc, source ))
+73: local #3
+74: local #4
+75: makelocal
+76: jmp userfunc @91
+77: if false goto 89
+AI_WakeUp( npc );
+78: local #3
+79: makelocal
+80: jmp userfunc @333
+81: #
+SpoutTheNews( npc, source );
+82: local #3
+83: local #4
+84: makelocal
+85: jmp userfunc @187
+86: #
+return 1;
+87: 1L
+88: return
+return 1;
+89: 1L
+90: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 38
+function NPC_AddToWatchList( npc, mobile )
+91: pop param 'mobile'
+92: pop param 'npc'
+if( mobile.IsA( POLCLASS_MOBILE ))
+93: local #0
+94: 3L
+95: Call Method id isa (#0, 1 params)
+96: if false goto 100
+mobile := mobile.serial;
+97: local #0
+98: get member id 'serial' (6)
+99: local0 := 
+var watch_dict := NPC_LoadWatchList( npc );
+100: decl local #2
+101: local #1
+102: makelocal
+103: jmp userfunc @125
+104: :=
+105: #
+if( !watch_dict.Exists( mobile ))
+106: local #2
+107: local #0
+108: Call Method id exists (#55, 1 params)
+109: if true goto 123
+watch_dict.Insert( mobile, POLCore().systime );
+110: local #2
+111: local #0
+112: Func(2,6): POLCore
+113: get member 'systime'
+114: Call Method id insert (#50, 2 params)
+115: #
+NPC_SaveWatchList( npc, watch_dict );
+116: local #1
+117: local #2
+118: makelocal
+119: jmp userfunc @142
+120: #
+return 1;
+121: 1L
+122: return
+return 0;
+123: 0L
+124: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 23
+function NPC_LoadWatchList( npc )
+125: pop param 'npc'
+var watch_dict := GetObjProperty( npc, "#WatchList" );
+126: decl local #1
+127: local #0
+128: "#WatchList"
+129: Func(2,3): GetObjProperty
+130: :=
+131: #
+if( Lower( TypeOf( watch_dict )) != "dictionary" )
+132: local #1
+133: Func(0,1): TypeOf
+134: Func(0,0): Lower
+135: "dictionary"
+136: <>
+137: if false goto 140
+watch_dict := dictionary;
+138: dictionary
+139: local1 := 
+return watch_dict;
+140: local #1
+141: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 33
+function NPC_SaveWatchList( npc, dict_list )
+142: pop param 'dict_list'
+143: pop param 'npc'
+return SetObjProperty( npc, "#WatchList", dict_list );
+144: local #1
+145: "#WatchList"
+146: local #0
+147: Func(2,2): SetObjProperty
+148: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 81
+function NPC_ShouldWatch( npc, mobile, byref settings, byref scripts )
+149: pop param byref 'scripts'
+150: pop param byref 'settings'
+151: pop param 'mobile'
+152: pop param 'npc'
+if( !scripts["ShouldWatch"] )
+153: local #0
+154: "ShouldWatch"
+155: [] 1
+156: if true goto 159
+return 1;
+157: 1L
+158: return
+var result := Run_Script_To_Completion( scripts["ShouldWatch"].script, {npc, mo
+159: decl local #4
+160: local #0
+161: "ShouldWatch"
+162: [] 1
+163: get member id 'script' (61)
+164: array
+165: local #3
+166: init{}
+167: local #2
+168: init{}
+169: local #1
+170: init{}
+171: Func(3,6): Run_Script_To_Completion
+172: :=
+173: #
+if( result.errortext )
+174: local #4
+175: get member 'errortext'
+176: if false goto 185
+NPC_ErrorSysLog( npc, "Error::NPC_ShouldWatch() - "+result.errortext );
+177: local #3
+178: "Error::NPC_ShouldWatch() - "
+179: local #4
+180: get member 'errortext'
+181: +
+182: makelocal
+183: jmp userfunc @358
+184: #
+return result;
+185: local #4
+186: return
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\crier.src, Line 61
+function SpoutTheNews( npc, source )
+187: pop param 'source'
+188: pop param 'npc'
+var next_spam := CInt( GetObjProperty( npc, "#DelaySpam" ));
+189: decl local #2
+190: local #1
+191: "#DelaySpam"
+192: Func(2,3): GetObjProperty
+193: Func(0,2): CInt
+194: :=
+195: #
+if( next_spam > ReadGameClock() )
+196: local #2
+197: Func(2,7): ReadGameClock
+198: >
+199: if false goto 203
+return 0;
+200: 0L
+201: return
+202: goto210
+SetObjProperty( npc, "#DelaySpam", ReadGameClock() + 30 );
+203: local #1
+204: "#DelaySpam"
+205: Func(2,7): ReadGameClock
+206: 30L
+207: +
+208: Func(2,2): SetObjProperty
+209: #
+var news := GetObjProperty( npc, "News" );
+210: decl local #3
+211: local #1
+212: "News"
+213: Func(2,3): GetObjProperty
+214: :=
+215: #
+if( !news )
+216: local #3
+217: if true goto 228
+AI_Speak( npc, "No news is good news!" );
+218: local #1
+219: "No news is good news!"
+220: "default"
+221: 0L
+222: 0L
+223: makelocal
+224: jmp userfunc @289
+225: #
+return 0;
+226: 0L
+227: return
+var i;
+228: decl local #4
+229: #
+for( i:=1; i<=Len( news ); i+=1 )
+230: local #4
+231: 1L
+232: :=
+233: #
+234: local #4
+235: local #3
+236: Func(0,3): Len
+237: <=
+238: if false goto 268
+TurnObjectToward( npc, source.x, source.y );
+239: local #1
+240: local #0
+241: get member id 'x' (0)
+242: local #0
+243: get member id 'y' (1)
+244: makelocal
+245: jmp userfunc @270
+246: #
+SleepMS(5);
+247: 5L
+248: Func(3,0): Sleepms
+249: #
+AI_Speak( npc, news[i] );
+250: local #1
+251: local #3
+252: local #4
+253: [] 1
+254: "default"
+255: 0L
+256: 0L
+257: makelocal
+258: jmp userfunc @289
+259: #
+Sleep(2);
+260: 2L
+261: Func(3,8): Sleep
+262: #
+263: local #4
+264: 1L
+265: +=
+266: #
+267: goto234
+return 1;
+268: 1L
+269: return
+c:/ZH099/scripts/include/facings.inc, Line 10
+function TurnObjectToward( object, x_pos, y_pos )
+270: pop param 'y_pos'
+271: pop param 'x_pos'
+272: pop param 'object'
+var orig := object.facing;
+273: decl local #3
+274: local #2
+275: get member id 'facing' (9)
+276: :=
+277: #
+object.facing := GetFacing( object.x, object.y, x_pos, y_pos );
+278: local #2
+279: local #2
+280: get member id 'x' (0)
+281: local #2
+282: get member id 'y' (1)
+283: local #1
+284: local #0
+285: Func(2,0): GetFacing
+286: set member id 'facing' (9) #
+return orig;
+287: local #3
+288: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+289: pop param 'no_wake'
+290: pop param 'do_event'
+291: pop param 'text_type'
+292: pop param 'text'
+293: pop param 'npc'
+var ev		:= struct;
+294: decl local #5
+295: struct
+296: :=
+297: #
+ev.+type	:= NPCEVENT_SPEAK;
+298: local #5
+299: "type"
+300: .+
+301: 10485765L
+302: := #
+ev.+text	:= text;
+303: local #5
+304: "text"
+305: .+
+306: local #3
+307: := #
+ev.+texttype	:= text_type;
+308: local #5
+309: "texttype"
+310: .+
+311: local #2
+312: := #
+ev.+doevent	:= do_event;
+313: local #5
+314: "doevent"
+315: .+
+316: local #1
+317: := #
+ev.+WakeUp	:= no_wake;
+318: local #5
+319: "WakeUp"
+320: .+
+321: local #0
+322: := #
+ev.+process	:= GetProcess( GetPid() );
+323: local #5
+324: "process"
+325: .+
+326: Func(3,4): GetPid
+327: Func(3,2): GetProcess
+328: := #
+return SendEvent( npc, ev );
+329: local #4
+330: local #5
+331: Func(2,4): SendEvent
+332: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 190
+function AI_WakeUp( npc )
+333: pop param 'npc'
+var ev		:= struct;
+334: decl local #1
+335: struct
+336: :=
+337: #
+ev.+type	:= NPCEVENT_WAKEUP;
+338: local #1
+339: "type"
+340: .+
+341: 10485779L
+342: := #
+ev.+WakeUp	:= WAKEUP;
+343: local #1
+344: "WakeUp"
+345: .+
+346: 1L
+347: := #
+ev.+process	:= GetProcess( GetPid() );
+348: local #1
+349: "process"
+350: .+
+351: Func(3,4): GetPid
+352: Func(3,2): GetProcess
+353: := #
+return SendEvent( npc, ev );
+354: local #0
+355: local #1
+356: Func(2,4): SendEvent
+357: return
+c:/ZH099/pkg/systems/brainAI/include/npcError.inc, Line 9
+function NPC_ErrorSysLog( npc, errmsg )
+358: pop param 'errmsg'
+359: pop param 'npc'
+PrintTextAbove( npc, errmsg, 3, 33 );
+360: local #1
+361: local #0
+362: 3L
+363: 33L
+364: 0L
+365: Func(2,1): PrintTextAbove
+366: #
+SysLog( "------------" );
+367: "------------"
+368: Func(3,1): SysLog
+369: #
+SysLog( "NPC Template: "+npc.npctemplate );
+370: "NPC Template: "
+371: local #1
+372: get member id 'npctemplate' (62)
+373: +
+374: Func(3,1): SysLog
+375: #
+SysLog( "NPC Name    : "+npc.name );
+376: "NPC Name    : "
+377: local #1
+378: get member id 'name' (3)
+379: +
+380: Func(3,1): SysLog
+381: #
+SysLog( errmsg );
+382: local #0
+383: Func(3,1): SysLog
+384: #
+SysLog( "------------" );
+385: "------------"
+386: Func(3,1): SysLog
+387: #
+npc.Disable( "invul" );
+388: local #1
+389: "invul"
+390: Call Method id disable (#9, 1 params)
+391: #
+SetObjProperty( npc, "GuardKill", 1 );
+392: local #1
+393: "GuardKill"
+394: 1L
+395: Func(2,2): SetObjProperty
+396: #
+npc.Kill();
+397: local #1
+398: Call Method id kill (#75, 0 params)
+399: #
+return 1;
+400: 1L
+401: return

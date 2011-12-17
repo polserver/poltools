@@ -1,0 +1,683 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @75
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 35
+var container_type	:= "BankBox";
+11: decl global #2
+12: "BankBox"
+13: :=
+14: #
+var STORAGE_DEBUG	:= 1;
+15: decl global #3
+16: 1L
+17: :=
+18: #
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\playerMerchant.src, Line 16
+program BrainNerve( params )
+const CPM_HOLDING	:= "Merchant-Holding";
+19: get arg 'params'
+var npc		:= params[1];
+20: decl local #1
+21: local #0
+22: 1L
+23: [] 1
+24: :=
+25: #
+var event	:= params[3];
+26: decl local #2
+27: local #0
+28: 3L
+29: [] 1
+30: :=
+31: #
+params := 0; // Not needed anymore.
+32: 0L
+33: local0 := 
+var forsale := CPM_GetMerchantContainer( npc, CPM_FORSALE, CP_CREATE );
+34: decl local #3
+35: local #1
+36: "Merchant-ForSale"
+37: 1L
+38: makelocal
+39: jmp userfunc @119
+40: :=
+41: #
+while( npc )
+42: local #1
+43: if false goto 71
+if( event )
+44: local #2
+45: if false goto 64
+case( event.type )
+46: local #2
+47: get member 'type'
+48: casejmp
+	1024: @49
+	default: @61
+ItemGivenEvent( npc, event, forsale );
+49: local #1
+50: local #2
+51: local #3
+52: makelocal
+53: jmp userfunc @151
+54: #
+ReleaseItem( event.item );
+55: local #2
+56: get member 'item'
+57: Func(2,24): ReleaseItem
+58: #
+break;
+59: goto60
+60: goto62
+break;
+61: goto62
+event := 0;
+62: 0L
+63: local2 := 
+SleepMS(5);
+64: 5L
+65: Func(3,3): Sleepms
+66: #
+event := Wait_For_Event(1);
+67: 1L
+68: Func(3,7): Wait_For_Event
+69: local2 := 
+70: goto42
+return 1;
+71: 1L
+72: progend
+73: leave block(4)
+74: progend
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+75: pop param byref 'cfg_file'
+76: pop param 'elem_name'
+if( !cfg_file )
+77: local #0
+78: if true goto 82
+cfg_file := Classes_GetSettingsCfgFile();
+79: makelocal
+80: jmp userfunc @103
+81: local0 := 
+var elem := cfg_file[elem_name];
+82: decl local #2
+83: local #0
+84: local #1
+85: [] 1
+86: :=
+87: #
+if( elem.errortext )
+88: local #2
+89: get member 'errortext'
+90: if false goto 101
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+91: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+92: local #1
+93: +
+94: "] ->"
+95: +
+96: local #2
+97: get member 'errortext'
+98: +
+99: Func(3,0): SysLog
+100: #
+return elem;
+101: local #2
+102: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+103: decl local #0
+104: ":classes:settings"
+105: Func(4,0): ReadConfigFile
+106: :=
+107: #
+if( cfg.errortext )
+108: local #0
+109: get member 'errortext'
+110: if false goto 117
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+111: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+112: local #0
+113: get member 'errortext'
+114: +
+115: Func(3,0): SysLog
+116: #
+return cfg;
+117: local #0
+118: return
+c:/ZH099/pkg/systems/merchants/include/storage.inc, Line 33
+function CPM_GetMerchantContainer( npc, type, create:=CP_NOCREATE )
+119: pop param 'create'
+120: pop param 'type'
+121: pop param 'npc'
+var shared_container := GetObjProperty( npc, "Shared-"+type );
+122: decl local #3
+123: local #2
+124: "Shared-"
+125: local #1
+126: +
+127: Func(2,9): GetObjProperty
+128: :=
+129: #
+if( shared_container && type != CPM_SHOPPINGCART )
+130: local #3
+131: local #1
+132: "Merchant-ShoppingCart"
+133: <>
+134: &&
+135: if false goto 143
+return CP_GetStorageAreaContainer( shared_container, type, create );
+136: local #3
+137: local #1
+138: local #0
+139: makelocal
+140: jmp userfunc @375
+141: return
+142: goto149
+return CP_GetStorageContainerForMobile( npc, type, create );
+143: local #2
+144: local #1
+145: local #0
+146: makelocal
+147: jmp userfunc @431
+148: return
+149: 0L
+150: return
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\playerMerchant.src, Line 48
+function ItemGivenEvent( npc, byref event, forsale )
+151: pop param 'forsale'
+152: pop param byref 'event'
+153: pop param 'npc'
+var item := event.item;
+154: decl local #3
+155: local #1
+156: get member 'item'
+157: :=
+158: #
+var source := event.source;
+159: decl local #4
+160: local #1
+161: get member 'source'
+162: :=
+163: #
+if( source.hidden || source.IsA( POLCLASS_NPC ))
+164: local #4
+165: get member id 'hidden' (32)
+166: local #4
+167: 4L
+168: Call Method id isa (#0, 1 params)
+169: ||
+170: if false goto 174
+return 0;
+171: 0L
+172: return
+173: goto219
+elseif( !CanCommand( npc, source ))
+174: local #2
+175: local #4
+176: makelocal
+177: jmp userfunc @354
+178: if true goto 197
+AI_Speak( npc, "I don't know what this is for, but thanks!" );
+179: local #2
+180: "I don't know what this is for, but thanks!"
+181: "default"
+182: 0L
+183: 0L
+184: makelocal
+185: jmp userfunc @310
+186: #
+MoveItemToContainer( item, source.backpack );
+187: local #3
+188: local #4
+189: get member id 'backpack' (41)
+190: -1L
+191: -1L
+192: Func(2,12): MoveItemToContainer
+193: #
+return 0;
+194: 0L
+195: return
+196: goto219
+elseif( item.objtype == 0xeed )
+197: local #3
+198: get member id 'objtype' (4)
+199: 3821L
+200: ==
+201: if false goto 219
+AI_Speak( npc, "Are you trying to cheat?!" );
+202: local #2
+203: "Are you trying to cheat?!"
+204: "default"
+205: 0L
+206: 0L
+207: makelocal
+208: jmp userfunc @310
+209: #
+MoveItemToContainer( item, source.backpack );
+210: local #3
+211: local #4
+212: get member id 'backpack' (41)
+213: -1L
+214: -1L
+215: Func(2,12): MoveItemToContainer
+216: #
+return 0;
+217: 0L
+218: return
+var cost := CInt( SendTextEntryGump( source, "How much shall I charge for that?
+219: decl local #5
+220: local #4
+221: "How much shall I charge for that?"
+222: 1L
+223: 2L
+224: 1000000L
+225: ""
+226: Func(2,25): SendTextEntryGump
+227: Func(0,0): CInt
+228: :=
+229: #
+if( !cost )
+230: local #5
+231: if true goto 249
+AI_Speak( npc, "Well, just keep it." );
+232: local #2
+233: "Well, just keep it."
+234: "default"
+235: 0L
+236: 0L
+237: makelocal
+238: jmp userfunc @310
+239: #
+MoveItemToContainer( item, source.backpack );
+240: local #3
+241: local #4
+242: get member id 'backpack' (41)
+243: -1L
+244: -1L
+245: Func(2,12): MoveItemToContainer
+246: #
+return 0;
+247: 0L
+248: return
+if( item.amount > 1 )
+249: local #3
+250: get member id 'amount' (13)
+251: 1L
+252: >
+253: if false goto 281
+var price := CInt( cost );
+254: decl local #0
+255: local #5
+256: Func(0,0): CInt
+257: :=
+258: #
+item.sellprice := price;
+259: local #3
+260: local #6
+261: set member id 'sellprice' (23) #
+AI_Speak( npc, "I will sell each "+item.desc+" for "+cost+" gold coins." );
+262: local #2
+263: "I will sell each "
+264: local #3
+265: get member id 'desc' (19)
+266: +
+267: " for "
+268: +
+269: local #5
+270: +
+271: " gold coins."
+272: +
+273: "default"
+274: 0L
+275: 0L
+276: makelocal
+277: jmp userfunc @310
+278: #
+279: leave block(1)
+280: goto302
+item.sellprice := CInt( cost );
+281: local #3
+282: local #5
+283: Func(0,0): CInt
+284: set member id 'sellprice' (23) #
+AI_Speak( npc, "I will sell "+item.desc+" for "+cost+" gold coins." );
+285: local #2
+286: "I will sell "
+287: local #3
+288: get member id 'desc' (19)
+289: +
+290: " for "
+291: +
+292: local #5
+293: +
+294: " gold coins."
+295: +
+296: "default"
+297: 0L
+298: 0L
+299: makelocal
+300: jmp userfunc @310
+301: #
+MoveItemToContainer( item, forsale );
+302: local #3
+303: local #0
+304: -1L
+305: -1L
+306: Func(2,12): MoveItemToContainer
+307: #
+return 1;
+308: 1L
+309: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+310: pop param 'no_wake'
+311: pop param 'do_event'
+312: pop param 'text_type'
+313: pop param 'text'
+314: pop param 'npc'
+var ev		:= struct;
+315: decl local #5
+316: struct
+317: :=
+318: #
+ev.+type	:= NPCEVENT_SPEAK;
+319: local #5
+320: "type"
+321: .+
+322: 10485765L
+323: := #
+ev.+text	:= text;
+324: local #5
+325: "text"
+326: .+
+327: local #3
+328: := #
+ev.+texttype	:= text_type;
+329: local #5
+330: "texttype"
+331: .+
+332: local #2
+333: := #
+ev.+doevent	:= do_event;
+334: local #5
+335: "doevent"
+336: .+
+337: local #1
+338: := #
+ev.+WakeUp	:= no_wake;
+339: local #5
+340: "WakeUp"
+341: .+
+342: local #0
+343: := #
+ev.+process	:= GetProcess( GetPid() );
+344: local #5
+345: "process"
+346: .+
+347: Func(3,2): GetPid
+348: Func(3,1): GetProcess
+349: := #
+return SendEvent( npc, ev );
+350: local #4
+351: local #5
+352: Func(2,16): SendEvent
+353: return
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\playerMerchant.src, Line 87
+function CanCommand( npc, source )
+354: pop param 'source'
+355: pop param 'npc'
+if( source.cmdlevel >= 3 )
+356: local #0
+357: get member id 'cmdlevel' (46)
+358: 3L
+359: >=
+360: if false goto 364
+return 1;
+361: 1L
+362: return
+363: goto373
+elseif( GetObjProperty( npc, "Owner" ) == source.serial )
+364: local #1
+365: "Owner"
+366: Func(2,9): GetObjProperty
+367: local #0
+368: get member id 'serial' (6)
+369: ==
+370: if false goto 373
+return 1;
+371: 1L
+372: return
+return 0;
+373: 0L
+374: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 61
+function CP_GetStorageAreaContainer( container_id, storage_area_name:=0, create
+375: pop param 'create'
+376: pop param 'storage_area_name'
+377: pop param 'container_id'
+if(( !storage_area_name ) || ( storage_area_name == error ))
+378: local #1
+379: !
+380: local #1
+381: error
+382: ==
+383: ||
+384: if false goto 387
+storage_area_name := CP_DEFAULT_AREA;
+385: "World Bank"
+386: local1 := 
+var container_name := CP_DEFAULT_PREFIX + container_id;
+387: decl local #3
+388: "[Root Container] "
+389: local #2
+390: +
+391: :=
+392: #
+var storage_area := FindStorageArea( storage_area_name );
+393: decl local #4
+394: local #1
+395: Func(12,0): FindStorageArea
+396: :=
+397: #
+if( !storage_area )
+398: local #4
+399: if true goto 410
+if( !create )
+400: local #0
+401: if true goto 405
+return storage_area; // Will be an error
+402: local #4
+403: return
+404: goto410
+return CP_CreateStorageAreaContainer( container_id, storage_area_name );
+405: local #2
+406: local #1
+407: makelocal
+408: jmp userfunc @459
+409: return
+var root_container := FindRootItemInStorageArea( storage_area, container_name )
+410: decl local #5
+411: local #4
+412: local #3
+413: Func(12,1): FindRootItemInStorageArea
+414: :=
+415: #
+if( !root_container && create )
+416: local #5
+417: !
+418: local #0
+419: &&
+420: if false goto 427
+return CP_CreateStorageAreaContainer( container_id, storage_area_name );
+421: local #2
+422: local #1
+423: makelocal
+424: jmp userfunc @459
+425: return
+426: goto429
+return root_container;
+427: local #5
+428: return
+429: 0L
+430: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 49
+function CP_GetStorageContainerForMobile( mobile, storage_area_name:=0, create:
+431: pop param 'create'
+432: pop param 'storage_area_name'
+433: pop param 'mobile'
+if(( !storage_area_name ) || ( storage_area_name == error ))
+434: local #1
+435: !
+436: local #1
+437: error
+438: ==
+439: ||
+440: if false goto 443
+storage_area_name := CP_DEFAULT_AREA;
+441: "World Bank"
+442: local1 := 
+var container_id := CP_GetMobileContainerID( mobile );
+443: decl local #3
+444: local #2
+445: makelocal
+446: jmp userfunc @505
+447: :=
+448: #
+var root_container := CP_GetStorageAreaContainer( container_id, storage_area_na
+449: decl local #4
+450: local #3
+451: local #1
+452: local #0
+453: makelocal
+454: jmp userfunc @375
+455: :=
+456: #
+return root_container;
+457: local #4
+458: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 86
+function CP_CreateStorageAreaContainer( container_id, storage_area_name:=0 )
+459: pop param 'storage_area_name'
+460: pop param 'container_id'
+if(( !storage_area_name ) || ( storage_area_name == error ))
+461: local #0
+462: !
+463: local #0
+464: error
+465: ==
+466: ||
+467: if false goto 470
+storage_area_name := CP_DEFAULT_AREA;
+468: "World Bank"
+469: local0 := 
+var storage_area := FindStorageArea( storage_area_name );
+470: decl local #2
+471: local #0
+472: Func(12,0): FindStorageArea
+473: :=
+474: #
+if( !storage_area )
+475: local #2
+476: if true goto 480
+storage_area := CreateStorageArea( storage_area_name );
+477: local #0
+478: Func(12,2): CreateStorageArea
+479: local2 := 
+var container_name := CP_DEFAULT_PREFIX + container_id;
+480: decl local #3
+481: "[Root Container] "
+482: local #1
+483: +
+484: :=
+485: #
+var root_container := CreateRootItemInStorageArea( storage_area, container_name
+486: decl local #4
+487: local #2
+488: local #3
+489: global #2
+490: Func(12,3): CreateRootItemInStorageArea
+491: :=
+492: #
+if( root_container.errortext )
+493: local #4
+494: get member 'errortext'
+495: if false goto 503
+CP_StorageDebugMsg( "Error::CP_CreateStorageAreaContainer() - "+root_container.
+496: "Error::CP_CreateStorageAreaContainer() - "
+497: local #4
+498: get member 'errortext'
+499: +
+500: makelocal
+501: jmp userfunc @525
+502: #
+return root_container;
+503: local #4
+504: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 40
+function CP_GetMobileContainerID( mobile )
+505: pop param 'mobile'
+if( mobile.IsA( POLCLASS_CORPSE ))
+506: local #0
+507: 7L
+508: Call Method id isa (#0, 1 params)
+509: if false goto 517
+return "Owner="+Hex( mobile.ownerserial );
+510: "Owner="
+511: local #0
+512: get member id 'ownerserial' (124)
+513: Func(0,5): Hex
+514: +
+515: return
+516: goto523
+return "Owner="+Hex( mobile.serial );
+517: "Owner="
+518: local #0
+519: get member id 'serial' (6)
+520: Func(0,5): Hex
+521: +
+522: return
+523: 0L
+524: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 145
+function CP_StorageDebugMsg( report_text )
+525: pop param 'report_text'
+if( STORAGE_DEBUG )
+526: global #3
+527: if false goto 546
+var script_name := GetProcess( GetPid() ).name;
+528: decl local #0
+529: Func(3,2): GetPid
+530: Func(3,1): GetProcess
+531: get member id 'name' (3)
+532: :=
+533: #
+LogToFile( "::log/storage.log", "["+script_name+"]: "+report_text, LOG_DATETIME
+534: "::log/storage.log"
+535: "["
+536: local #1
+537: +
+538: "]: "
+539: +
+540: local #0
+541: +
+542: 1L
+543: Func(9,0): LogToFile
+544: #
+545: leave block(1)
+return 1;
+546: 1L
+547: return

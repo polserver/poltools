@@ -1,0 +1,311 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @51
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\combat\invulnerable.src, Line 22
+program BrainNerve( params )
+enum DOOR_SOUNDS
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+params := 0; // Not needed anymore.
+24: 0L
+25: local0 := 
+while( npc )
+26: local #1
+27: if false goto 49
+if( event )
+28: local #2
+29: if false goto 45
+case( event.type )
+30: local #2
+31: get member 'type'
+32: casejmp
+	2: @33
+	8: @40
+	default: @42
+Engaged( npc, event );
+33: local #1
+34: local #2
+35: makelocal
+36: jmp userfunc @95
+37: #
+break;
+38: goto39
+39: goto43
+break;
+40: goto41
+41: goto43
+break;
+42: goto43
+event := 0;
+43: 0L
+44: local2 := 
+event := Wait_For_Event(100000);
+45: 100000L
+46: Func(3,6): Wait_For_Event
+47: local2 := 
+48: goto26
+49: leave block(3)
+50: progend
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+51: pop param byref 'cfg_file'
+52: pop param 'elem_name'
+if( !cfg_file )
+53: local #0
+54: if true goto 58
+cfg_file := Classes_GetSettingsCfgFile();
+55: makelocal
+56: jmp userfunc @79
+57: local0 := 
+var elem := cfg_file[elem_name];
+58: decl local #2
+59: local #0
+60: local #1
+61: [] 1
+62: :=
+63: #
+if( elem.errortext )
+64: local #2
+65: get member 'errortext'
+66: if false goto 77
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+67: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+68: local #1
+69: +
+70: "] ->"
+71: +
+72: local #2
+73: get member 'errortext'
+74: +
+75: Func(3,0): SysLog
+76: #
+return elem;
+77: local #2
+78: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+79: decl local #0
+80: ":classes:settings"
+81: Func(4,0): ReadConfigFile
+82: :=
+83: #
+if( cfg.errortext )
+84: local #0
+85: get member 'errortext'
+86: if false goto 93
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+87: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+88: local #0
+89: get member 'errortext'
+90: +
+91: Func(3,0): SysLog
+92: #
+return cfg;
+93: local #0
+94: return
+C:\ZH099\pkg\systems\brainAI\scripts\combat\invulnerable.src, Line 49
+function Engaged( npc, byref event )
+95: pop param byref 'event'
+96: pop param 'npc'
+var source := event.source;
+97: decl local #2
+98: local #0
+99: get member 'source'
+100: :=
+101: #
+if( source.dead )
+102: local #2
+103: get member id 'dead' (39)
+104: if false goto 108
+return 0;
+105: 0L
+106: return
+107: goto177
+elseif( source.hidden || source.concealed )
+108: local #2
+109: get member id 'hidden' (32)
+110: local #2
+111: get member id 'concealed' (33)
+112: ||
+113: if false goto 117
+return 0;
+114: 0L
+115: return
+116: goto177
+TurnObjectToward( npc, source.x, source.y );
+117: local #1
+118: local #2
+119: get member id 'x' (0)
+120: local #2
+121: get member id 'y' (1)
+122: makelocal
+123: jmp userfunc @179
+124: #
+AI_Speak( npc, source.name+", I'll punish you, foolish!" );
+125: local #1
+126: local #2
+127: get member id 'name' (3)
+128: ", I'll punish you, foolish!"
+129: +
+130: "default"
+131: 0L
+132: 0L
+133: makelocal
+134: jmp userfunc @198
+135: #
+Sleep(2);
+136: 2L
+137: Func(3,7): Sleep
+138: #
+PerformAction( npc, ANIM_CAST_AREA );
+139: local #1
+140: 17L
+141: 5L
+142: 1L
+143: 0L
+144: 0L
+145: 1L
+146: Func(2,18): PerformAction
+147: #
+PlaySoundEffect( source, SFX_LIGHTNING );
+148: local #2
+149: 42L
+150: Func(2,19): PlaySoundEffect
+151: #
+var x;
+152: decl local #0
+153: #
+for( x:=1; x<7; x+=1 )
+154: local #3
+155: 1L
+156: :=
+157: #
+158: local #3
+159: 7L
+160: <
+161: if false goto 173
+PlayLightningBoltEffect( source );
+162: local #2
+163: Func(2,20): PlayLightningBoltEffect
+164: #
+SleepMS(3);
+165: 3L
+166: Func(3,3): Sleepms
+167: #
+168: local #3
+169: 1L
+170: +=
+171: #
+172: goto158
+source.Kill();
+173: local #2
+174: Call Method id kill (#75, 0 params)
+175: #
+176: leave block(1)
+return 1;
+177: 1L
+178: return
+c:/ZH099/scripts/include/facings.inc, Line 10
+function TurnObjectToward( object, x_pos, y_pos )
+179: pop param 'y_pos'
+180: pop param 'x_pos'
+181: pop param 'object'
+var orig := object.facing;
+182: decl local #3
+183: local #2
+184: get member id 'facing' (9)
+185: :=
+186: #
+object.facing := GetFacing( object.x, object.y, x_pos, y_pos );
+187: local #2
+188: local #2
+189: get member id 'x' (0)
+190: local #2
+191: get member id 'y' (1)
+192: local #1
+193: local #0
+194: Func(2,17): GetFacing
+195: set member id 'facing' (9) #
+return orig;
+196: local #3
+197: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+198: pop param 'no_wake'
+199: pop param 'do_event'
+200: pop param 'text_type'
+201: pop param 'text'
+202: pop param 'npc'
+var ev		:= struct;
+203: decl local #5
+204: struct
+205: :=
+206: #
+ev.+type	:= NPCEVENT_SPEAK;
+207: local #5
+208: "type"
+209: .+
+210: 10485765L
+211: := #
+ev.+text	:= text;
+212: local #5
+213: "text"
+214: .+
+215: local #3
+216: := #
+ev.+texttype	:= text_type;
+217: local #5
+218: "texttype"
+219: .+
+220: local #2
+221: := #
+ev.+doevent	:= do_event;
+222: local #5
+223: "doevent"
+224: .+
+225: local #1
+226: := #
+ev.+WakeUp	:= no_wake;
+227: local #5
+228: "WakeUp"
+229: .+
+230: local #0
+231: := #
+ev.+process	:= GetProcess( GetPid() );
+232: local #5
+233: "process"
+234: .+
+235: Func(3,2): GetPid
+236: Func(3,1): GetProcess
+237: := #
+return SendEvent( npc, ev );
+238: local #4
+239: local #5
+240: Func(2,6): SendEvent
+241: return

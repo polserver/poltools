@@ -1,0 +1,88 @@
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\wander.src, Line 15
+program BrainNerve( params )
+use cfgfile;
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var nerve_name	:= params[2];
+7: decl local #2
+8: local #0
+9: 2L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore.
+13: 0L
+14: local0 := 
+if( !npc.frozen && !npc.paralyzed && !GetObjProperty( npc, "Stay" ))
+15: local #1
+16: get member id 'frozen' (34)
+17: !
+18: local #1
+19: get member id 'paralyzed' (35)
+20: !
+21: &&
+22: local #1
+23: "Stay"
+24: Func(2,2): GetObjProperty
+25: !
+26: &&
+27: if false goto 34
+AI_Wander( npc );;
+28: local #1
+29: 0L
+30: 0L
+31: makelocal
+32: jmp userfunc @38
+33: #
+return 1;
+34: 1L
+35: progend
+36: leave block(3)
+37: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 200
+function AI_Wander( npc, loop:=0, no_wake:=NOWAKE )
+38: pop param 'no_wake'
+39: pop param 'loop'
+40: pop param 'npc'
+var ev		:= struct;
+41: decl local #3
+42: struct
+43: :=
+44: #
+ev.+type	:= NPCEVENT_WANDER;
+45: local #3
+46: "type"
+47: .+
+48: 10485782L
+49: := #
+ev.+WakeUp	:= no_wake;
+50: local #3
+51: "WakeUp"
+52: .+
+53: local #0
+54: := #
+ev.+loop	:= CInt( loop );
+55: local #3
+56: "loop"
+57: .+
+58: local #1
+59: Func(0,2): CInt
+60: := #
+ev.+process	:= GetProcess( GetPid() );
+61: local #3
+62: "process"
+63: .+
+64: Func(3,4): GetPid
+65: Func(3,1): GetProcess
+66: := #
+return SendEvent( npc, ev );
+67: local #2
+68: local #3
+69: Func(2,3): SendEvent
+70: return

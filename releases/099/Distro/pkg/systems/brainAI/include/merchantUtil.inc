@@ -86,7 +86,12 @@ function TrainSkill( npc, byref source, byref item )
                 AI_Speak( npc, "Let me show you how it's done!" );
                 Sleep(1);
 
-		AP_SetTrueSkill( source, train_skill, source_skill+train_value );
+                var new_skill := CInt( source_skill + train_value );
+                if( new_skill > 33 )
+                	new_skill := 33;
+                endif
+                
+		AP_SetTrueSkill( source, train_skill, new_skill );
 
                 EraseObjProperty( source, "#VendorTrain" );
 		MoveItemToContainer( item, source.backpack );

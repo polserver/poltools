@@ -1,0 +1,182 @@
+C:\ZH099\pkg\systems\brainAI\scripts\lookAround\keepAwake.src, Line 24
+program BrainNerve( params )
+include ":brainAI:npcError";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var nerve_name	:= params[2];
+7: decl local #2
+8: local #0
+9: 2L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore.
+13: 0L
+14: local0 := 
+while ( npc )
+15: local #1
+16: if false goto 48
+if( !npc.opponent && !npc.master )
+17: local #1
+18: get member id 'opponent' (120)
+19: !
+20: local #1
+21: get member id 'master' (63)
+22: !
+23: &&
+24: if false goto 39
+if( NPC_LoadWatchList(npc).Size() < 1 )
+25: local #1
+26: makelocal
+27: jmp userfunc @126
+28: Call Method id size (#48, 0 params)
+29: 1L
+30: <
+31: if false goto 38
+return AI_EndNerve( npc, nerve_name );
+32: local #1
+33: local #2
+34: 0L
+35: makelocal
+36: jmp userfunc @94
+37: progend
+38: goto39
+AI_ClearThoughts( npc, CLR_NERVE );
+39: local #1
+40: 2L
+41: makelocal
+42: jmp userfunc @52
+43: #
+Sleep(1);
+44: 1L
+45: Func(3,7): Sleep
+46: #
+47: goto15
+return 1;
+48: 1L
+49: progend
+50: leave block(3)
+51: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 45
+function AI_ClearThoughts( npc, flags )
+52: pop param 'flags'
+53: pop param 'npc'
+var brain	:= flags & CLR_BRAIN;
+54: decl local #2
+55: local #0
+56: 1L
+57: &
+58: :=
+59: #
+var nerve	:= flags & CLR_NERVE;
+60: decl local #3
+61: local #0
+62: 2L
+63: &
+64: :=
+65: #
+var both	:= flags & CLR_BOTH;
+66: decl local #4
+67: local #0
+68: 3L
+69: &
+70: :=
+71: #
+if( both || brain )
+72: local #4
+73: local #2
+74: ||
+75: if false goto 82
+brain := NPC.process;
+76: local #1
+77: get member id 'process' (64)
+78: local2 := 
+brain.clear_event_queue();
+79: local #2
+80: Call Method id clear_event_queue (#78, 0 params)
+81: #
+if( both || nerve )
+82: local #4
+83: local #3
+84: ||
+85: if false goto 92
+nerve := GetProcess( GetPid() );
+86: Func(3,4): GetPid
+87: Func(3,1): GetProcess
+88: local3 := 
+nerve.clear_event_queue();
+89: local #3
+90: Call Method id clear_event_queue (#78, 0 params)
+91: #
+return 1;
+92: 1L
+93: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 64
+function AI_EndNerve( npc, nerve_name, no_wake:=NOWAKE )
+94: pop param 'no_wake'
+95: pop param 'nerve_name'
+96: pop param 'npc'
+var ev		:= struct;
+97: decl local #3
+98: struct
+99: :=
+100: #
+ev.+type	:= NPCEVENT_ENDNERVE;
+101: local #3
+102: "type"
+103: .+
+104: 10485775L
+105: := #
+ev.+name	:= nerve_name;
+106: local #3
+107: "name"
+108: .+
+109: local #1
+110: := #
+ev.+WakeUp	:= no_wake;
+111: local #3
+112: "WakeUp"
+113: .+
+114: local #0
+115: := #
+ev.+process	:= GetProcess( GetPid() );
+116: local #3
+117: "process"
+118: .+
+119: Func(3,4): GetPid
+120: Func(3,1): GetProcess
+121: := #
+return SendEvent( npc, ev );
+122: local #2
+123: local #3
+124: Func(2,3): SendEvent
+125: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 23
+function NPC_LoadWatchList( npc )
+126: pop param 'npc'
+var watch_dict := GetObjProperty( npc, "#WatchList" );
+127: decl local #1
+128: local #0
+129: "#WatchList"
+130: Func(2,2): GetObjProperty
+131: :=
+132: #
+if( Lower( TypeOf( watch_dict )) != "dictionary" )
+133: local #1
+134: Func(0,1): TypeOf
+135: Func(0,0): Lower
+136: "dictionary"
+137: <>
+138: if false goto 141
+watch_dict := dictionary;
+139: dictionary
+140: local1 := 
+return watch_dict;
+141: local #1
+142: return

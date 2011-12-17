@@ -1,0 +1,3087 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @169
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/systems/loot/include/identify_ex.inc, Line 7
+var immunities := { "AirProtection",
+11: decl global #2
+12: array
+13: "AirProtection"
+14: init{}
+15: "EarthProtection"
+16: init{}
+17: "FireProtection"
+18: init{}
+19: "WaterProtection"
+20: init{}
+21: "NecroProtection"
+22: init{}
+23: "PermPoisonProtection"
+24: init{}
+25: "PermMagicProtection"
+26: init{}
+27: "PhysicalProtection"
+28: init{}
+29: "PermSpellReflection"
+30: init{}
+31: "HealingIncrease"
+32: init{}
+33: :=
+34: #
+var wardings := { "PoisonProtection",
+35: decl global #3
+36: array
+37: "PoisonProtection"
+38: init{}
+39: "MagicProtection"
+40: init{}
+41: "SpellReflection"
+42: init{}
+43: "FreeAction"
+44: init{}
+45: :=
+46: #
+var regenerations := { "HitsRegen",
+47: decl global #4
+48: array
+49: "HitsRegen"
+50: init{}
+51: "StamRegen"
+52: init{}
+53: "ManaRegen"
+54: init{}
+55: :=
+56: #
+C:\ZH099\pkg\systems\brainAI\brain.src, Line 35
+var npc := Self();
+57: decl global #5
+58: Func(4,14): Self
+59: :=
+60: #
+var idle_ticks := 0;
+61: decl global #6
+62: 0L
+63: :=
+64: #
+var sleep_mode := 0;
+65: decl global #7
+66: 0L
+67: :=
+68: #
+var master := 0;
+69: decl global #8
+70: 0L
+71: :=
+72: #
+var g_settings := dictionary; //"setting name"->value
+73: decl global #9
+74: dictionary
+75: :=
+76: #
+var g_scripts := dictionary; // "script type"->value{.flags, .script}
+77: decl global #10
+78: dictionary
+79: :=
+80: #
+C:\ZH099\pkg\systems\brainAI\brain.src, Line 48
+program BrainAI()
+master := NPC_SetupTamed();
+81: makelocal
+82: jmp userfunc @686
+83: global8 := 
+InitializeSettings();
+84: makelocal
+85: jmp userfunc @393
+86: #
+InitializeEvents();
+87: makelocal
+88: jmp userfunc @282
+89: #
+StartupScripts();
+90: makelocal
+91: jmp userfunc @1582
+92: #
+npc.speech_color := 55;
+93: global #5
+94: 55L
+95: set member id 'speech_color' (66) #
+var speed := CInt( npc.run_speed * 0.90 );
+96: decl local #0
+97: global #5
+98: get member id 'run_speed' (69)
+99: 0.9LF
+100: *
+101: Func(0,0): CInt
+102: :=
+103: #
+npc.run_speed := speed;
+104: global #5
+105: local #0
+106: set member id 'run_speed' (69) #
+Sleep(1);
+107: 1L
+108: Func(3,9): Sleep
+109: #
+EnterSleepMode();
+110: makelocal
+111: jmp userfunc @213
+112: #
+while( npc )
+113: global #5
+114: if false goto 165
+var ev;
+115: decl local #0
+116: #
+if( !sleep_mode )
+117: global #7
+118: if true goto 129
+RunCycleScript();
+119: makelocal
+120: jmp userfunc @1404
+121: #
+ev := Wait_For_Event( CInt( g_settings["CycleWait"] ));
+122: global #9
+123: "CycleWait"
+124: [] 1
+125: Func(0,0): CInt
+126: Func(3,10): Wait_For_Event
+127: local1 := 
+128: goto135
+ev := Wait_For_Event( CInt( g_settings["SleepWait"] ));
+129: global #9
+130: "SleepWait"
+131: [] 1
+132: Func(0,0): CInt
+133: Func(3,10): Wait_For_Event
+134: local1 := 
+if( ev )
+135: local #1
+136: if false goto 148
+if( ev.WakeUp )
+137: local #1
+138: get member 'WakeUp'
+139: if false goto 143
+LeaveSleepMode();
+140: makelocal
+141: jmp userfunc @407
+142: #
+ProcessEvent( ev );
+143: local #1
+144: makelocal
+145: jmp userfunc @711
+146: #
+147: goto160
+if( !sleep_mode )
+148: global #7
+149: if true goto 160
+idle_ticks += 1;
+150: global #6
+151: 1L
+152: +=
+153: #
+if( ShouldSleep() )
+154: makelocal
+155: jmp userfunc @1437
+156: if false goto 160
+EnterSleepMode();
+157: makelocal
+158: jmp userfunc @213
+159: #
+SleepMS(10);
+160: 10L
+161: Func(3,5): Sleepms
+162: #
+163: leave block(1)
+164: goto113
+return 1;
+165: 1L
+166: progend
+167: leave block(1)
+168: progend
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+169: pop param byref 'cfg_file'
+170: pop param 'elem_name'
+if( !cfg_file )
+171: local #0
+172: if true goto 176
+cfg_file := Classes_GetSettingsCfgFile();
+173: makelocal
+174: jmp userfunc @197
+175: local0 := 
+var elem := cfg_file[elem_name];
+176: decl local #2
+177: local #0
+178: local #1
+179: [] 1
+180: :=
+181: #
+if( elem.errortext )
+182: local #2
+183: get member 'errortext'
+184: if false goto 195
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+185: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+186: local #1
+187: +
+188: "] ->"
+189: +
+190: local #2
+191: get member 'errortext'
+192: +
+193: Func(3,3): SysLog
+194: #
+return elem;
+195: local #2
+196: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+197: decl local #0
+198: ":classes:settings"
+199: Func(5,0): ReadConfigFile
+200: :=
+201: #
+if( cfg.errortext )
+202: local #0
+203: get member 'errortext'
+204: if false goto 211
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+205: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+206: local #0
+207: get member 'errortext'
+208: +
+209: Func(3,3): SysLog
+210: #
+return cfg;
+211: local #0
+212: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/sleep.inc, Line 9
+function EnterSleepMode()
+if( !sleep_mode )
+213: global #7
+214: if true goto 250
+if( g_scripts.Exists[ "Sleep" ] )
+215: global #10
+216: get member 'Exists'
+217: "Sleep"
+218: [] 1
+219: if false goto 248
+var process := GetNerveProcess( npc, "Sleep" );
+220: decl local #0
+221: global #5
+222: "Sleep"
+223: makelocal
+224: jmp userfunc @252
+225: :=
+226: #
+if( !process )
+227: local #0
+228: if true goto 247
+StartNerve( npc, "Sleep", g_scripts["Sleep"].script, array{g_settings, g_script
+229: global #5
+230: "Sleep"
+231: global #10
+232: "Sleep"
+233: [] 1
+234: get member id 'script' (61)
+235: array
+236: global #9
+237: init{}
+238: global #10
+239: init{}
+240: global #10
+241: "Sleep"
+242: [] 1
+243: get member 'flags'
+244: makelocal
+245: jmp userfunc @1471
+246: #
+247: leave block(1)
+sleep_mode := 1;
+248: 1L
+249: global7 := 
+return 1;
+250: 1L
+251: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 49
+function GetNerveProcess( mobile, nerve_name )
+252: pop param 'nerve_name'
+253: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+254: decl local #2
+255: local #1
+256: makelocal
+257: jmp userfunc @450
+258: :=
+259: #
+if( nerve_dict.Exists( nerve_name ))
+260: local #2
+261: local #0
+262: Call Method id exists (#55, 1 params)
+263: if false goto 272
+return GetProcess( CInt( nerve_dict[nerve_name].pid ));
+264: local #2
+265: local #0
+266: [] 1
+267: get member id 'pid' (103)
+268: Func(0,0): CInt
+269: Func(3,2): GetProcess
+270: return
+271: goto280
+return error{"errortext" := "Error::GetNerveProcess() - Invalid nerve name  ["+
+272: error
+273: "Error::GetNerveProcess() - Invalid nerve name  ["
+274: local #0
+275: +
+276: "]"
+277: +
+278: addmember-assign(errortext)
+279: return
+280: 0L
+281: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/setup.inc, Line 21
+function InitializeEvents()
+if( master )
+282: global #8
+283: if false goto 293
+EnableEvents( SYSEVENT_SPEECH, 12 );
+284: 1L
+285: 12L
+286: Func(2,34): EnableEvents
+287: #
+EnableEvents( SYSEVENT_DOUBLECLICKED, 1 );
+288: 2048L
+289: 1L
+290: Func(2,34): EnableEvents
+291: #
+292: goto325
+if( g_scripts.Exists( "Listen" ))
+293: global #10
+294: "Listen"
+295: Call Method id exists (#55, 1 params)
+296: if false goto 317
+if( g_settings.Exists( "HearSpeech" ))
+297: global #9
+298: "HearSpeech"
+299: Call Method id exists (#55, 1 params)
+300: if false goto 307
+EnableEvents( SYSEVENT_SPEECH, g_settings["ListenRange"] );
+301: 1L
+302: global #9
+303: "ListenRange"
+304: [] 1
+305: Func(2,34): EnableEvents
+306: #
+if( g_settings.Exists( "HearGhosts" ))
+307: global #9
+308: "HearGhosts"
+309: Call Method id exists (#55, 1 params)
+310: if false goto 317
+EnableEvents( SYSEVENT_GHOST_SPEECH, g_settings["ListenRange"] );
+311: 4096L
+312: global #9
+313: "ListenRange"
+314: [] 1
+315: Func(2,34): EnableEvents
+316: #
+if( g_scripts.Exists( "DblClick" ))
+317: global #10
+318: "DblClick"
+319: Call Method id exists (#55, 1 params)
+320: if false goto 325
+EnableEvents( SYSEVENT_DOUBLECLICKED, 20 );
+321: 2048L
+322: 20L
+323: Func(2,34): EnableEvents
+324: #
+if( g_scripts.Exists( "Combat" ))
+325: global #10
+326: "Combat"
+327: Call Method id exists (#55, 1 params)
+328: if false goto 333
+EnableEvents( SYSEVENT_ENGAGED+SYSEVENT_DAMAGED );
+329: 10L
+330: -1L
+331: Func(2,34): EnableEvents
+332: #
+if( g_scripts.Exists( "Disengaged" ))
+333: global #10
+334: "Disengaged"
+335: Call Method id exists (#55, 1 params)
+336: if false goto 341
+EnableEvents( SYSEVENT_DISENGAGED );
+337: 4L
+338: -1L
+339: Func(2,34): EnableEvents
+340: #
+if( g_scripts.Exists( "EnterArea" ))
+341: global #10
+342: "EnterArea"
+343: Call Method id exists (#55, 1 params)
+344: if false goto 351
+EnableEvents( SYSEVENT_ENTEREDAREA, g_settings["AreaSize"] );
+345: 16L
+346: global #9
+347: "AreaSize"
+348: [] 1
+349: Func(2,34): EnableEvents
+350: #
+if( g_scripts.Exists( "GoneCriminal" ))
+351: global #10
+352: "GoneCriminal"
+353: Call Method id exists (#55, 1 params)
+354: if false goto 361
+EnableEvents( SYSEVENT_GONE_CRIMINAL, g_settings["AreaSize"] );
+355: 8192L
+356: global #9
+357: "AreaSize"
+358: [] 1
+359: Func(2,34): EnableEvents
+360: #
+if( g_scripts.Exists( "ItemGiven" ))
+361: global #10
+362: "ItemGiven"
+363: Call Method id exists (#55, 1 params)
+364: if false goto 369
+EnableEvents( SYSEVENT_ITEM_GIVEN );
+365: 1024L
+366: -1L
+367: Func(2,34): EnableEvents
+368: #
+if( g_scripts.Exists( "LeftArea" ))
+369: global #10
+370: "LeftArea"
+371: Call Method id exists (#55, 1 params)
+372: if false goto 379
+EnableEvents( SYSEVENT_LEFTAREA, g_settings["AreaSize"] );
+373: 32L
+374: global #9
+375: "AreaSize"
+376: [] 1
+377: Func(2,34): EnableEvents
+378: #
+if( g_scripts.Exists( "Merchant" ))
+379: global #10
+380: "Merchant"
+381: Call Method id exists (#55, 1 params)
+382: if false goto 391
+EnableEvents( SYSEVENT_MERCHANT_BOUGHT );
+383: 256L
+384: -1L
+385: Func(2,34): EnableEvents
+386: #
+EnableEvents( SYSEVENT_MERCHANT_SOLD );
+387: 512L
+388: -1L
+389: Func(2,34): EnableEvents
+390: #
+return 1;
+391: 1L
+392: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/setup.inc, Line 12
+function InitializeSettings()
+g_settings := NPC_LoadTemplateSettings( npc );
+393: global #5
+394: makelocal
+395: jmp userfunc @616
+396: global9 := 
+g_settings := NPC_GetDefaultSettings( g_settings );
+397: global #9
+398: makelocal
+399: jmp userfunc @467
+400: global9 := 
+g_scripts := NPC_LoadScriptSettings( npc );
+401: global #5
+402: makelocal
+403: jmp userfunc @515
+404: global10 := 
+return 1;
+405: 1L
+406: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/sleep.inc, Line 25
+function LeaveSleepMode()
+idle_ticks := 0;
+407: 0L
+408: global6 := 
+sleep_mode := 0;
+409: 0L
+410: global7 := 
+StopNerve( npc, "Sleep" );
+411: global #5
+412: "Sleep"
+413: makelocal
+414: jmp userfunc @1665
+415: #
+if( g_scripts.Exists( "LookAround" ))
+416: global #10
+417: "LookAround"
+418: Call Method id exists (#55, 1 params)
+419: if false goto 448
+var process := GetNerveProcess( npc, "LookAround" );
+420: decl local #0
+421: global #5
+422: "LookAround"
+423: makelocal
+424: jmp userfunc @252
+425: :=
+426: #
+if( !process )
+427: local #0
+428: if true goto 447
+StartNerve( npc, "LookAround", g_scripts["LookAround"].script, array{g_settings
+429: global #5
+430: "LookAround"
+431: global #10
+432: "LookAround"
+433: [] 1
+434: get member id 'script' (61)
+435: array
+436: global #9
+437: init{}
+438: global #10
+439: init{}
+440: global #10
+441: "LookAround"
+442: [] 1
+443: get member 'flags'
+444: makelocal
+445: jmp userfunc @1471
+446: #
+447: leave block(1)
+return 1;
+448: 1L
+449: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 34
+function LoadNerves( mobile )
+450: pop param 'mobile'
+var nerve_dict := GetObjProperty( mobile, "#NerveInfo" );
+451: decl local #1
+452: local #0
+453: "#NerveInfo"
+454: Func(2,3): GetObjProperty
+455: :=
+456: #
+if ( Lower( TypeOf( nerve_dict )) != "dictionary" )
+457: local #1
+458: Func(0,6): TypeOf
+459: Func(0,1): Lower
+460: "dictionary"
+461: <>
+462: if false goto 465
+nerve_dict := dictionary;
+463: dictionary
+464: local1 := 
+return nerve_dict;
+465: local #1
+466: return
+c:/ZH099/pkg/systems/brainAI/include/npcSettings.inc, Line 12
+function NPC_GetDefaultSettings( settings:=0 )
+467: pop param 'settings'
+if( Lower( TypeOf( settings )) != "dictionary" )
+468: local #0
+469: Func(0,6): TypeOf
+470: Func(0,1): Lower
+471: "dictionary"
+472: <>
+473: if false goto 476
+settings := dictionary;
+474: dictionary
+475: local0 := 
+if( CInt( settings.Exists( "CycleWait" )) <= 0 )
+476: local #0
+477: "CycleWait"
+478: Call Method id exists (#55, 1 params)
+479: Func(0,0): CInt
+480: 0L
+481: <=
+482: if false goto 487
+settings["CycleWait"] := 1;
+483: local #0
+484: "CycleWait"
+485: 1L
+486: [] := (1) #
+if( !settings.Exists( "NoSleep" ))
+487: local #0
+488: "NoSleep"
+489: Call Method id exists (#55, 1 params)
+490: if true goto 513
+if( CInt( settings.Exists( "SleepWait" )) <= 0 )
+491: local #0
+492: "SleepWait"
+493: Call Method id exists (#55, 1 params)
+494: Func(0,0): CInt
+495: 0L
+496: <=
+497: if false goto 502
+settings["SleepWait"] := 180;
+498: local #0
+499: "SleepWait"
+500: 180L
+501: [] := (1) #
+if( CInt( settings.Exists( "IdleTicks" )) <= 0 )
+502: local #0
+503: "IdleTicks"
+504: Call Method id exists (#55, 1 params)
+505: Func(0,0): CInt
+506: 0L
+507: <=
+508: if false goto 513
+settings["IdleTicks"] := 120;
+509: local #0
+510: "IdleTicks"
+511: 120L
+512: [] := (1) #
+return settings;
+513: local #0
+514: return
+c:/ZH099/pkg/systems/brainAI/include/npcScripts.inc, Line 39
+function NPC_LoadScriptSettings( source )
+515: pop param 'source'
+var npc_elem := NPC_GetNPCConfig( source );
+516: decl local #1
+517: local #0
+518: makelocal
+519: jmp userfunc @2022
+520: :=
+521: #
+var script_elem := Lower( GetConfigString( npc_elem, "AIScripts" ));
+522: decl local #2
+523: local #1
+524: "AIScripts"
+525: Func(5,6): GetConfigString
+526: Func(0,1): Lower
+527: :=
+528: #
+var scripts_cfg := AI_GetScriptsCfgElem( script_elem );
+529: decl local #3
+530: local #2
+531: 0L
+532: makelocal
+533: jmp userfunc @1710
+534: :=
+535: #
+if( scripts_cfg.errortext )
+536: local #3
+537: get member 'errortext'
+538: if false goto 550
+SysLog( "Error getting AIScripts for <"+source.npctemplate+"> -->"+scripts_cfg.
+539: "Error getting AIScripts for <"
+540: local #0
+541: get member id 'npctemplate' (62)
+542: +
+543: "> -->"
+544: +
+545: local #3
+546: get member 'errortext'
+547: +
+548: Func(3,3): SysLog
+549: #
+var script_list := GetConfigStringDictionary( scripts_cfg, "AIScript" );
+550: decl local #4
+551: local #3
+552: "AIScript"
+553: Func(5,3): GetConfigStringDictionary
+554: :=
+555: #
+var script_settings := dictionary;
+556: decl local #5
+557: dictionary
+558: :=
+559: #
+foreach script_type in ( script_list.Keys() )
+560: local #4
+561: Call Method id keys (#56, 0 params)
+562: initforeach @587
+var temp := struct;
+563: decl local #0
+564: struct
+565: :=
+566: #
+temp.+script := script_list[script_type];
+567: local #9
+568: "script"
+569: .+
+570: local #4
+571: local #6
+572: [] 1
+573: := #
+temp.+flags := 0x0;
+574: local #9
+575: "flags"
+576: .+
+577: 0L
+578: := #
+script_settings[script_type] := temp;
+579: local #5
+580: local #6
+581: local #9
+582: [] := (1) #
+SleepMS(10);
+583: 10L
+584: Func(3,5): Sleepms
+585: #
+586: leave block(1)
+587: stepforeach @563
+588: leave block(3)
+if( source.IsA( POLCLASS_NPC ))
+589: local #0
+590: 4L
+591: Call Method id isa (#0, 1 params)
+592: if false goto 614
+var cstm_scripts := GetObjProperty( source, "AIScripts" );
+593: decl local #0
+594: local #0
+595: "AIScripts"
+596: Func(2,3): GetObjProperty
+597: :=
+598: #
+foreach key in ( cstm_scripts.Keys() )
+599: local #6
+600: Call Method id keys (#56, 0 params)
+601: initforeach @611
+script_settings[key] := cstm_scripts[key];
+602: local #5
+603: local #7
+604: local #6
+605: local #7
+606: [] 1
+607: [] := (1) #
+SleepMS(10);
+608: 10L
+609: Func(3,5): Sleepms
+610: #
+611: stepforeach @602
+612: leave block(3)
+613: leave block(1)
+return script_settings;
+614: local #5
+615: return
+c:/ZH099/pkg/systems/brainAI/include/npcSettings.inc, Line 34
+function NPC_LoadTemplateSettings( source )
+616: pop param 'source'
+var npc_elem := NPC_GetNPCConfig( source );
+617: decl local #1
+618: local #0
+619: makelocal
+620: jmp userfunc @2022
+621: :=
+622: #
+var setting_list := GetConfigStringDictionary( npc_elem, "AISetting" );
+623: decl local #2
+624: local #1
+625: "AISetting"
+626: Func(5,3): GetConfigStringDictionary
+627: :=
+628: #
+var load_settings := dictionary;
+629: decl local #3
+630: dictionary
+631: :=
+632: #
+foreach setting_name in ( setting_list.Keys() )
+633: local #2
+634: Call Method id keys (#56, 0 params)
+635: initforeach @646
+load_settings[setting_name] := UnPack( setting_list[setting_name] );
+636: local #3
+637: local #4
+638: local #2
+639: local #4
+640: [] 1
+641: Func(0,11): Unpack
+642: [] := (1) #
+SleepMS(10);
+643: 10L
+644: Func(3,5): Sleepms
+645: #
+646: stepforeach @636
+647: leave block(3)
+if( source.IsA( POLCLASS_NPC ))
+648: local #0
+649: 4L
+650: Call Method id isa (#0, 1 params)
+651: if false goto 684
+var cstm_settings := GetObjProperty( source, "AISettings" );
+652: decl local #0
+653: local #0
+654: "AISettings"
+655: Func(2,3): GetObjProperty
+656: :=
+657: #
+foreach key in ( cstm_settings.Keys() )
+658: local #4
+659: Call Method id keys (#56, 0 params)
+660: initforeach @681
+if( cstm_settings[key] == error )
+661: local #4
+662: local #5
+663: [] 1
+664: error
+665: ==
+666: if false goto 672
+load_settings.Erase( key );
+667: local #3
+668: local #5
+669: Call Method id erase (#49, 1 params)
+670: #
+671: goto678
+load_settings[key] := cstm_settings[key];
+672: local #3
+673: local #5
+674: local #4
+675: local #5
+676: [] 1
+677: [] := (1) #
+SleepMS(10);
+678: 10L
+679: Func(3,5): Sleepms
+680: #
+681: stepforeach @661
+682: leave block(3)
+683: leave block(1)
+return load_settings;
+684: local #3
+685: return
+c:/ZH099/pkg/systems/brainAI/include/tamedUtil.inc, Line 17
+function NPC_SetupTamed()
+var master_serial := GetObjProperty( npc, "Master" );
+686: decl local #0
+687: global #5
+688: "Master"
+689: Func(2,3): GetObjProperty
+690: :=
+691: #
+if( !master_serial )
+692: local #0
+693: if true goto 696
+return 0;
+694: 0L
+695: return
+var owner := SystemFindObjectBySerial( master_serial, SYSFIND_SEARCH_OFFLINE_MO
+696: decl local #1
+697: local #0
+698: 1L
+699: Func(2,24): SystemFindObjectBySerial
+700: :=
+701: #
+npc.SetMaster( owner );
+702: global #5
+703: local #1
+704: Call Method id setmaster (#18, 1 params)
+705: #
+SendStatus( owner );
+706: local #1
+707: Func(2,42): SendStatus
+708: #
+return owner;
+709: local #1
+710: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/eventProcessor.inc, Line 13
+function ProcessEvent( byref event )
+711: pop param byref 'event'
+var old_priority := Set_Priority(25);
+712: decl local #1
+713: 25L
+714: Func(3,1): Set_Priority
+715: :=
+716: #
+case( event.type )
+717: local #0
+718: get member 'type'
+719: casejmp
+	10485781: @720
+	10485763: @732
+	10485782: @738
+	16: @748
+	32: @800
+	8192: @852
+	4: @893
+	2: @934
+	8: @934
+	1: @975
+	4096: @975
+	2048: @1048
+	512: @1137
+	256: @1137
+	1024: @1178
+	10485775: @1219
+	10485776: @1227
+	10485765: @1241
+	10485766: @1251
+	10485772: @1267
+	10485764: @1287
+	10485767: @1293
+	10485778: @1299
+	10485779: @1304
+	10485780: @1309
+	default: @1327
+SetAnchor( event.x, event.y, event.distance, event.percent );
+720: local #0
+721: get member id 'x' (0)
+722: local #0
+723: get member id 'y' (1)
+724: local #0
+725: get member 'distance'
+726: local #0
+727: get member 'percent'
+728: Func(4,0): SetAnchor
+729: #
+break;
+730: goto731
+731: goto1352
+MovementXY( event );
+732: local #0
+733: makelocal
+734: jmp userfunc @1885
+735: #
+break;
+736: goto737
+737: goto1352
+if( GetObjProperty( npc, "#Follow" ))
+738: global #5
+739: "#Follow"
+740: Func(2,3): GetObjProperty
+741: if false goto 744
+return 0;
+742: 0L
+743: return
+Wander();
+744: Func(4,1): Wander
+745: #
+break;
+746: goto747
+747: goto1352
+if( event.source.IsA( POLCLASS_NPC ) && !event.source.master )
+748: local #0
+749: get member 'source'
+750: 4L
+751: Call Method id isa (#0, 1 params)
+752: local #0
+753: get member 'source'
+754: get member id 'master' (63)
+755: !
+756: &&
+757: if false goto 759
+break;
+758: goto799
+if( g_scripts.Exists( "EnterArea" ))
+759: global #10
+760: "EnterArea"
+761: Call Method id exists (#55, 1 params)
+762: if false goto 798
+var process := GetNerveProcess( npc, "EnterArea" );
+763: decl local #0
+764: global #5
+765: "EnterArea"
+766: makelocal
+767: jmp userfunc @252
+768: :=
+769: #
+if( !process )
+770: local #2
+771: if true goto 793
+StartNerve( npc, "EnterArea", g_scripts["EnterArea"].script, array{event, g_set
+772: global #5
+773: "EnterArea"
+774: global #10
+775: "EnterArea"
+776: [] 1
+777: get member id 'script' (61)
+778: array
+779: local #0
+780: init{}
+781: global #9
+782: init{}
+783: global #10
+784: init{}
+785: global #10
+786: "EnterArea"
+787: [] 1
+788: get member 'flags'
+789: makelocal
+790: jmp userfunc @1471
+791: #
+792: goto797
+process.SendEvent( event );
+793: local #2
+794: local #0
+795: Call Method id sendevent (#74, 1 params)
+796: #
+797: leave block(1)
+break;
+798: goto799
+799: goto1352
+if( event.source.IsA( POLCLASS_NPC ) && !event.source.master )
+800: local #0
+801: get member 'source'
+802: 4L
+803: Call Method id isa (#0, 1 params)
+804: local #0
+805: get member 'source'
+806: get member id 'master' (63)
+807: !
+808: &&
+809: if false goto 811
+break;
+810: goto851
+if( g_scripts.Exists( "LeftArea" ))
+811: global #10
+812: "LeftArea"
+813: Call Method id exists (#55, 1 params)
+814: if false goto 850
+var process := GetNerveProcess( npc, "LeftArea" );
+815: decl local #0
+816: global #5
+817: "LeftArea"
+818: makelocal
+819: jmp userfunc @252
+820: :=
+821: #
+if( !process )
+822: local #2
+823: if true goto 845
+StartNerve( npc, "LeftArea", g_scripts["LeftArea"].script, array{event, g_setti
+824: global #5
+825: "LeftArea"
+826: global #10
+827: "LeftArea"
+828: [] 1
+829: get member id 'script' (61)
+830: array
+831: local #0
+832: init{}
+833: global #9
+834: init{}
+835: global #10
+836: init{}
+837: global #10
+838: "LeftArea"
+839: [] 1
+840: get member 'flags'
+841: makelocal
+842: jmp userfunc @1471
+843: #
+844: goto849
+process.SendEvent( event );
+845: local #2
+846: local #0
+847: Call Method id sendevent (#74, 1 params)
+848: #
+849: leave block(1)
+break;
+850: goto851
+851: goto1352
+if( g_scripts.Exists( "GoneCriminal" ))
+852: global #10
+853: "GoneCriminal"
+854: Call Method id exists (#55, 1 params)
+855: if false goto 891
+var process := GetNerveProcess( npc, "GoneCriminal" );
+856: decl local #0
+857: global #5
+858: "GoneCriminal"
+859: makelocal
+860: jmp userfunc @252
+861: :=
+862: #
+if( !process )
+863: local #2
+864: if true goto 886
+StartNerve( npc, "GoneCriminal", g_scripts["GoneCriminal"].script, array{event,
+865: global #5
+866: "GoneCriminal"
+867: global #10
+868: "GoneCriminal"
+869: [] 1
+870: get member id 'script' (61)
+871: array
+872: local #0
+873: init{}
+874: global #9
+875: init{}
+876: global #10
+877: init{}
+878: global #10
+879: "GoneCriminal"
+880: [] 1
+881: get member 'flags'
+882: makelocal
+883: jmp userfunc @1471
+884: #
+885: goto890
+process.SendEvent( event );
+886: local #2
+887: local #0
+888: Call Method id sendevent (#74, 1 params)
+889: #
+890: leave block(1)
+break;
+891: goto892
+892: goto1352
+if( g_scripts.Exists( "Disengaged" ))
+893: global #10
+894: "Disengaged"
+895: Call Method id exists (#55, 1 params)
+896: if false goto 932
+var process := GetNerveProcess( npc, "Disengaged" );
+897: decl local #0
+898: global #5
+899: "Disengaged"
+900: makelocal
+901: jmp userfunc @252
+902: :=
+903: #
+if( !process )
+904: local #2
+905: if true goto 927
+StartNerve( npc, "Disengaged", g_scripts["Disengaged"].script, array{event, g_s
+906: global #5
+907: "Disengaged"
+908: global #10
+909: "Disengaged"
+910: [] 1
+911: get member id 'script' (61)
+912: array
+913: local #0
+914: init{}
+915: global #9
+916: init{}
+917: global #10
+918: init{}
+919: global #10
+920: "Disengaged"
+921: [] 1
+922: get member 'flags'
+923: makelocal
+924: jmp userfunc @1471
+925: #
+926: goto931
+process.SendEvent( event );
+927: local #2
+928: local #0
+929: Call Method id sendevent (#74, 1 params)
+930: #
+931: leave block(1)
+break;
+932: goto933
+933: goto1352
+if( g_scripts.Exists( "Combat" ))
+934: global #10
+935: "Combat"
+936: Call Method id exists (#55, 1 params)
+937: if false goto 973
+var process := GetNerveProcess( npc, "Combat" );
+938: decl local #0
+939: global #5
+940: "Combat"
+941: makelocal
+942: jmp userfunc @252
+943: :=
+944: #
+if( !process )
+945: local #2
+946: if true goto 968
+StartNerve( npc, "Combat", g_scripts["Combat"].script, array{event, g_settings,
+947: global #5
+948: "Combat"
+949: global #10
+950: "Combat"
+951: [] 1
+952: get member id 'script' (61)
+953: array
+954: local #0
+955: init{}
+956: global #9
+957: init{}
+958: global #10
+959: init{}
+960: global #10
+961: "Combat"
+962: [] 1
+963: get member 'flags'
+964: makelocal
+965: jmp userfunc @1471
+966: #
+967: goto972
+process.SendEvent( event );
+968: local #2
+969: local #0
+970: Call Method id sendevent (#74, 1 params)
+971: #
+972: leave block(1)
+break;
+973: goto974
+974: goto1352
+if( master )
+975: global #8
+976: if false goto 1007
+var process := GetNerveProcess( npc, "Listen" );
+977: decl local #0
+978: global #5
+979: "Listen"
+980: makelocal
+981: jmp userfunc @252
+982: :=
+983: #
+if( !process )
+984: local #2
+985: if true goto 1001
+StartNerve( npc, "Listen", ":brainAI:scripts/listen/tamed", array{event, g_sett
+986: global #5
+987: "Listen"
+988: ":brainAI:scripts/listen/tamed"
+989: array
+990: local #0
+991: init{}
+992: global #9
+993: init{}
+994: global #10
+995: init{}
+996: 0L
+997: makelocal
+998: jmp userfunc @1471
+999: #
+1000: goto1005
+process.SendEvent( event );
+1001: local #2
+1002: local #0
+1003: Call Method id sendevent (#74, 1 params)
+1004: #
+1005: leave block(1)
+1006: goto1046
+elseif( g_scripts.Exists( "Listen" ))
+1007: global #10
+1008: "Listen"
+1009: Call Method id exists (#55, 1 params)
+1010: if false goto 1046
+var process := GetNerveProcess( npc, "Listen" );
+1011: decl local #0
+1012: global #5
+1013: "Listen"
+1014: makelocal
+1015: jmp userfunc @252
+1016: :=
+1017: #
+if( !process )
+1018: local #2
+1019: if true goto 1041
+StartNerve( npc, "Listen", g_scripts["Listen"].script, array{event, g_settings,
+1020: global #5
+1021: "Listen"
+1022: global #10
+1023: "Listen"
+1024: [] 1
+1025: get member id 'script' (61)
+1026: array
+1027: local #0
+1028: init{}
+1029: global #9
+1030: init{}
+1031: global #10
+1032: init{}
+1033: global #10
+1034: "Listen"
+1035: [] 1
+1036: get member 'flags'
+1037: makelocal
+1038: jmp userfunc @1471
+1039: #
+1040: goto1045
+process.SendEvent( event );
+1041: local #2
+1042: local #0
+1043: Call Method id sendevent (#74, 1 params)
+1044: #
+1045: leave block(1)
+break;
+1046: goto1047
+1047: goto1352
+if( master )
+1048: global #8
+1049: if false goto 1087
+if( Distance( event.source, npc ) <= 1 )
+1050: local #0
+1051: get member 'source'
+1052: global #5
+1053: Func(2,2): Distance
+1054: 1L
+1055: <=
+1056: if false goto 1086
+var process := GetNerveProcess( npc, "DblClick" );
+1057: decl local #0
+1058: global #5
+1059: "DblClick"
+1060: makelocal
+1061: jmp userfunc @252
+1062: :=
+1063: #
+if( !process )
+1064: local #2
+1065: if true goto 1081
+StartNerve( npc, "DblClick", ":brainAI:scripts/doubleClick/tamed", array{event,
+1066: global #5
+1067: "DblClick"
+1068: ":brainAI:scripts/doubleClick/tamed"
+1069: array
+1070: local #0
+1071: init{}
+1072: global #9
+1073: init{}
+1074: global #10
+1075: init{}
+1076: 0L
+1077: makelocal
+1078: jmp userfunc @1471
+1079: #
+1080: goto1085
+process.SendEvent( event );
+1081: local #2
+1082: local #0
+1083: Call Method id sendevent (#74, 1 params)
+1084: #
+1085: leave block(1)
+1086: goto1135
+elseif( g_scripts.Exists( "DblClick" ))
+1087: global #10
+1088: "DblClick"
+1089: Call Method id exists (#55, 1 params)
+1090: if false goto 1135
+if( Distance( event.source, npc ) <= g_settings["DblClickRange"] )
+1091: local #0
+1092: get member 'source'
+1093: global #5
+1094: Func(2,2): Distance
+1095: global #9
+1096: "DblClickRange"
+1097: [] 1
+1098: <=
+1099: if false goto 1135
+var process := GetNerveProcess( npc, "DblClick" );
+1100: decl local #0
+1101: global #5
+1102: "DblClick"
+1103: makelocal
+1104: jmp userfunc @252
+1105: :=
+1106: #
+if( !process )
+1107: local #2
+1108: if true goto 1130
+StartNerve( npc, "DblClick", g_scripts["DblClick"].script, array{event, g_setti
+1109: global #5
+1110: "DblClick"
+1111: global #10
+1112: "DblClick"
+1113: [] 1
+1114: get member id 'script' (61)
+1115: array
+1116: local #0
+1117: init{}
+1118: global #9
+1119: init{}
+1120: global #10
+1121: init{}
+1122: global #10
+1123: "DblClick"
+1124: [] 1
+1125: get member 'flags'
+1126: makelocal
+1127: jmp userfunc @1471
+1128: #
+1129: goto1134
+process.SendEvent( event );
+1130: local #2
+1131: local #0
+1132: Call Method id sendevent (#74, 1 params)
+1133: #
+1134: leave block(1)
+break;
+1135: goto1136
+1136: goto1352
+if( g_scripts.Exists( "Merchant" ))
+1137: global #10
+1138: "Merchant"
+1139: Call Method id exists (#55, 1 params)
+1140: if false goto 1176
+var process := GetNerveProcess( npc, "Merchant" );
+1141: decl local #0
+1142: global #5
+1143: "Merchant"
+1144: makelocal
+1145: jmp userfunc @252
+1146: :=
+1147: #
+if( !process )
+1148: local #2
+1149: if true goto 1171
+StartNerve( npc, "Merchant", g_scripts["Merchant"].script, array{event, g_setti
+1150: global #5
+1151: "Merchant"
+1152: global #10
+1153: "Merchant"
+1154: [] 1
+1155: get member id 'script' (61)
+1156: array
+1157: local #0
+1158: init{}
+1159: global #9
+1160: init{}
+1161: global #10
+1162: init{}
+1163: global #10
+1164: "Merchant"
+1165: [] 1
+1166: get member 'flags'
+1167: makelocal
+1168: jmp userfunc @1471
+1169: #
+1170: goto1175
+process.SendEvent( event );
+1171: local #2
+1172: local #0
+1173: Call Method id sendevent (#74, 1 params)
+1174: #
+1175: leave block(1)
+break;
+1176: goto1177
+1177: goto1352
+if( g_scripts.Exists( "ItemGiven" ))
+1178: global #10
+1179: "ItemGiven"
+1180: Call Method id exists (#55, 1 params)
+1181: if false goto 1217
+var process := GetNerveProcess( npc, "ItemGiven" );
+1182: decl local #0
+1183: global #5
+1184: "ItemGiven"
+1185: makelocal
+1186: jmp userfunc @252
+1187: :=
+1188: #
+if( !process )
+1189: local #2
+1190: if true goto 1212
+StartNerve( npc, "ItemGiven", g_scripts["ItemGiven"].script, array{event, g_set
+1191: global #5
+1192: "ItemGiven"
+1193: global #10
+1194: "ItemGiven"
+1195: [] 1
+1196: get member id 'script' (61)
+1197: array
+1198: local #0
+1199: init{}
+1200: global #9
+1201: init{}
+1202: global #10
+1203: init{}
+1204: global #10
+1205: "ItemGiven"
+1206: [] 1
+1207: get member 'flags'
+1208: makelocal
+1209: jmp userfunc @1471
+1210: #
+1211: goto1216
+process.SendEvent( event );
+1212: local #2
+1213: local #0
+1214: Call Method id sendevent (#74, 1 params)
+1215: #
+1216: leave block(1)
+break;
+1217: goto1218
+1218: goto1352
+StopNerve( npc, event.name );
+1219: global #5
+1220: local #0
+1221: get member id 'name' (3)
+1222: makelocal
+1223: jmp userfunc @1665
+1224: #
+break;
+1225: goto1226
+1226: goto1352
+StartNerve( npc, event.name, event.script, event.data, event.flags );
+1227: global #5
+1228: local #0
+1229: get member id 'name' (3)
+1230: local #0
+1231: get member id 'script' (61)
+1232: local #0
+1233: get member 'data'
+1234: local #0
+1235: get member 'flags'
+1236: makelocal
+1237: jmp userfunc @1471
+1238: #
+break;
+1239: goto1240
+1240: goto1352
+Say( event.text, event.texttype, event.doevent );
+1241: local #0
+1242: get member 'text'
+1243: local #0
+1244: get member 'texttype'
+1245: local #0
+1246: get member 'doevent'
+1247: Func(4,2): Say
+1248: #
+break;
+1249: goto1250
+1250: goto1352
+case( event.direction )
+1251: local #0
+1252: get member 'direction'
+1253: casejmp
+	1: @1254
+	2: @1260
+	default: @1265
+TurnToward( event.source );
+1254: local #0
+1255: get member 'source'
+1256: 0L
+1257: Func(4,3): TurnToward
+1258: #
+1259: goto1265
+TurnAwayFrom( event.source );
+1260: local #0
+1261: get member 'source'
+1262: 0L
+1263: Func(4,4): TurnAwayFrom
+1264: #
+break;
+1265: goto1266
+1266: goto1352
+case( event.direction )
+1267: local #0
+1268: get member 'direction'
+1269: casejmp
+	1: @1270
+	2: @1278
+	default: @1285
+TurnTowardLocation( event.x, event.y );
+1270: local #0
+1271: get member id 'x' (0)
+1272: local #0
+1273: get member id 'y' (1)
+1274: 0L
+1275: Func(4,5): TurnTowardLocation
+1276: #
+1277: goto1285
+TurnAwayFromLocation( event.x, event.y );
+1278: local #0
+1279: get member id 'x' (0)
+1280: local #0
+1281: get member id 'y' (1)
+1282: 0L
+1283: Func(4,6): TurnAwayFromLocation
+1284: #
+break;
+1285: goto1286
+1286: goto1352
+SetOpponent( event.source );
+1287: local #0
+1288: get member 'source'
+1289: Func(4,7): SetOpponent
+1290: #
+break;
+1291: goto1292
+1292: goto1352
+SetWarmode( event.value );
+1293: local #0
+1294: get member 'value'
+1295: Func(4,8): SetWarMode
+1296: #
+break;
+1297: goto1298
+1298: goto1352
+EnterSleepMode();
+1299: makelocal
+1300: jmp userfunc @213
+1301: #
+break;
+1302: goto1303
+1303: goto1352
+LeaveSleepMode();
+1304: makelocal
+1305: jmp userfunc @407
+1306: #
+break;
+1307: goto1308
+1308: goto1352
+var process := GetNerveProcess( npc, event.NerveName );
+1309: decl local #0
+1310: global #5
+1311: local #0
+1312: get member 'NerveName'
+1313: makelocal
+1314: jmp userfunc @252
+1315: :=
+1316: #
+if( process )
+1317: local #2
+1318: if false goto 1323
+process.SendEvent( event );
+1319: local #2
+1320: local #0
+1321: Call Method id sendevent (#74, 1 params)
+1322: #
+break;
+1323: leave block(1)
+1324: goto1326
+1325: leave block(1)
+1326: goto1352
+if( g_scripts.Exists( "Virtual" ))
+1327: global #10
+1328: "Virtual"
+1329: Call Method id exists (#55, 1 params)
+1330: if false goto 1351
+StartNerve( npc, "Virtual", g_scripts["Virtual"].script, array{event, g_setting
+1331: global #5
+1332: "Virtual"
+1333: global #10
+1334: "Virtual"
+1335: [] 1
+1336: get member id 'script' (61)
+1337: array
+1338: local #0
+1339: init{}
+1340: global #9
+1341: init{}
+1342: global #10
+1343: init{}
+1344: global #10
+1345: "Virtual"
+1346: [] 1
+1347: get member 'flags'
+1348: makelocal
+1349: jmp userfunc @1471
+1350: #
+break;
+1351: goto1352
+if( event.process )
+1352: local #0
+1353: get member id 'process' (64)
+1354: if false goto 1399
+var nerve_name := GetNerveNameByPid( npc, event.process );
+1355: decl local #0
+1356: global #5
+1357: local #0
+1358: get member id 'process' (64)
+1359: makelocal
+1360: jmp userfunc @1809
+1361: :=
+1362: #
+if( nerve_name )
+1363: local #2
+1364: if false goto 1398
+var flags := GetNerveFlags( npc, nerve_name );
+1365: decl local #0
+1366: global #5
+1367: local #2
+1368: makelocal
+1369: jmp userfunc @1781
+1370: :=
+1371: #
+if( flags & NF_INFORM_ON_COMPLETION )
+1372: local #3
+1373: 2L
+1374: &
+1375: if false goto 1397
+var process := GetProcess( CInt( event.process ));
+1376: decl local #0
+1377: local #0
+1378: get member id 'process' (64)
+1379: Func(0,0): CInt
+1380: Func(3,2): GetProcess
+1381: :=
+1382: #
+var response := struct{"type":=NPCEVENT_DONE, "finished":=event.type};
+1383: decl local #1
+1384: struct
+1385: 10485777L
+1386: addmember-assign(type)
+1387: local #0
+1388: get member 'type'
+1389: addmember-assign(finished)
+1390: :=
+1391: #
+process.SendEvent( response );
+1392: local #4
+1393: local #5
+1394: Call Method id sendevent (#74, 1 params)
+1395: #
+1396: leave block(2)
+1397: leave block(1)
+1398: leave block(1)
+Set_Priority( old_priority );
+1399: local #1
+1400: Func(3,1): Set_Priority
+1401: #
+return 1;
+1402: 1L
+1403: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/cycleScript.inc, Line 9
+function RunCycleScript()
+if( g_scripts["Cycle"] )
+1404: global #10
+1405: "Cycle"
+1406: [] 1
+1407: if false goto 1435
+var script := Run_Script_To_Completion( g_scripts["Cycle"].script, array{npc, g
+1408: decl local #0
+1409: global #10
+1410: "Cycle"
+1411: [] 1
+1412: get member id 'script' (61)
+1413: array
+1414: global #5
+1415: init{}
+1416: global #9
+1417: init{}
+1418: global #10
+1419: init{}
+1420: Func(3,0): Run_Script_To_Completion
+1421: :=
+1422: #
+if( script.errortext )
+1423: local #0
+1424: get member 'errortext'
+1425: if false goto 1434
+NPC_ErrorSysLog( npc, "Error::RunCycleScript() - "+script.errortext );
+1426: global #5
+1427: "Error::RunCycleScript() - "
+1428: local #0
+1429: get member 'errortext'
+1430: +
+1431: makelocal
+1432: jmp userfunc @1978
+1433: #
+1434: leave block(1)
+return 1;
+1435: 1L
+1436: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/sleep.inc, Line 42
+function ShouldSleep()
+if( sleep_mode )
+1437: global #7
+1438: if false goto 1442
+return 0;
+1439: 0L
+1440: return
+1441: goto1469
+elseif( Events_Waiting() )
+1442: Func(3,8): Events_Waiting
+1443: if false goto 1447
+return 0;
+1444: 0L
+1445: return
+1446: goto1469
+elseif( g_settings["NoSleep"] )
+1447: global #9
+1448: "NoSleep"
+1449: [] 1
+1450: if false goto 1454
+return 0;
+1451: 0L
+1452: return
+1453: goto1469
+elseif( idle_ticks < g_settings["IdleTicks"] )
+1454: global #6
+1455: global #9
+1456: "IdleTicks"
+1457: [] 1
+1458: <
+1459: if false goto 1463
+return 0;
+1460: 0L
+1461: return
+1462: goto1469
+elseif( GetObjProperty( npc, "MustSleep" ))
+1463: global #5
+1464: "MustSleep"
+1465: Func(2,3): GetObjProperty
+1466: if false goto 1469
+return 1;
+1467: 1L
+1468: return
+return 1;
+1469: 1L
+1470: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 81
+function StartNerve( mobile, nerve_name, nerve_script, data:=array, flags:=NF_N
+1471: pop param 'flags'
+1472: pop param 'data'
+1473: pop param 'nerve_script'
+1474: pop param 'nerve_name'
+1475: pop param 'mobile'
+if( GetNerveProcess( mobile, nerve_name ))
+1476: local #4
+1477: local #3
+1478: makelocal
+1479: jmp userfunc @252
+1480: if false goto 1483
+return 0;
+1481: 0L
+1482: return
+if( Lower( TypeOf( data )) != "array")
+1483: local #1
+1484: Func(0,6): TypeOf
+1485: Func(0,1): Lower
+1486: "array"
+1487: <>
+1488: if false goto 1493
+data := array{data};
+1489: array
+1490: local #1
+1491: init{}
+1492: local1 := 
+data.Insert( 1, mobile );
+1493: local #1
+1494: 1L
+1495: local #4
+1496: Call Method id insert (#50, 2 params)
+1497: #
+data.Insert( 2, nerve_name );
+1498: local #1
+1499: 2L
+1500: local #3
+1501: Call Method id insert (#50, 2 params)
+1502: #
+var process := Start_Script( nerve_script, data );
+1503: decl local #5
+1504: local #2
+1505: local #1
+1506: Func(3,6): Start_Script
+1507: :=
+1508: #
+if( process.errortext )
+1509: local #5
+1510: get member 'errortext'
+1511: if false goto 1538
+var errmsg := "Error::StartNerve() - ["+nerve_name+"] ["+nerve_script+"] failed
+1512: decl local #0
+1513: "Error::StartNerve() - ["
+1514: local #3
+1515: +
+1516: "] ["
+1517: +
+1518: local #2
+1519: +
+1520: "] failed to start! ->"
+1521: +
+1522: local #5
+1523: get member 'errortext'
+1524: +
+1525: :=
+1526: #
+NPC_ErrorSysLog( mobile, errmsg );
+1527: local #4
+1528: local #6
+1529: makelocal
+1530: jmp userfunc @1978
+1531: #
+return error{"errortext":=errmsg};
+1532: error
+1533: local #6
+1534: addmember-assign(errortext)
+1535: return
+1536: leave block(1)
+1537: goto1580
+var nerve_dict := LoadNerves( mobile );
+1538: decl local #0
+1539: local #4
+1540: makelocal
+1541: jmp userfunc @450
+1542: :=
+1543: #
+if( nerve_dict.Exists( nerve_name ))
+1544: local #6
+1545: local #3
+1546: Call Method id exists (#55, 1 params)
+1547: if false goto 1553
+StopNerve( mobile, nerve_name );
+1548: local #4
+1549: local #3
+1550: makelocal
+1551: jmp userfunc @1665
+1552: #
+var nerve_info := struct;
+1553: decl local #1
+1554: struct
+1555: :=
+1556: #
+nerve_info.+pid := process.pid;
+1557: local #7
+1558: "pid"
+1559: .+
+1560: local #5
+1561: get member id 'pid' (103)
+1562: := #
+nerve_info.+flags := flags;
+1563: local #7
+1564: "flags"
+1565: .+
+1566: local #0
+1567: := #
+nerve_dict[nerve_name] := nerve_info;
+1568: local #6
+1569: local #3
+1570: local #7
+1571: [] := (1) #
+SaveNerves( mobile, nerve_dict );
+1572: local #4
+1573: local #6
+1574: makelocal
+1575: jmp userfunc @2141
+1576: #
+return process;
+1577: local #5
+1578: return
+1579: leave block(2)
+1580: 0L
+1581: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/setup.inc, Line 66
+function StartupScripts()
+if( GetObjProperty( npc, "CreateTime" ))
+1582: global #5
+1583: "CreateTime"
+1584: Func(2,3): GetObjProperty
+1585: if false goto 1622
+if( g_scripts.Exists( "Restart" ))
+1586: global #10
+1587: "Restart"
+1588: Call Method id exists (#55, 1 params)
+1589: if false goto 1618
+var restart_script := Run_Script_To_Completion( g_scripts["Restart"].script, {n
+1590: decl local #0
+1591: global #10
+1592: "Restart"
+1593: [] 1
+1594: get member id 'script' (61)
+1595: array
+1596: global #5
+1597: init{}
+1598: global #9
+1599: init{}
+1600: global #10
+1601: init{}
+1602: Func(3,0): Run_Script_To_Completion
+1603: :=
+1604: #
+if( restart_script.errortext )
+1605: local #0
+1606: get member 'errortext'
+1607: if false goto 1617
+FatalError( "Error::StartupScripts() - Restart script failed: "+restart_script.
+1608: "Error::StartupScripts() - Restart script failed: "
+1609: local #0
+1610: get member 'errortext'
+1611: +
+1612: makelocal
+1613: jmp userfunc @1754
+1614: #
+return 0;
+1615: 0L
+1616: return
+1617: leave block(1)
+EnterSleepMode();
+1618: makelocal
+1619: jmp userfunc @213
+1620: #
+1621: goto1663
+SetObjProperty( npc, "CreateTime", POLCore().systime );
+1622: global #5
+1623: "CreateTime"
+1624: Func(2,27): POLCore
+1625: get member 'systime'
+1626: Func(2,1): SetObjProperty
+1627: #
+if( g_scripts.Exists( "Init" ))
+1628: global #10
+1629: "Init"
+1630: Call Method id exists (#55, 1 params)
+1631: if false goto 1660
+var init_script := Run_Script_To_Completion( g_scripts["Init"].script, {npc, g_
+1632: decl local #0
+1633: global #10
+1634: "Init"
+1635: [] 1
+1636: get member id 'script' (61)
+1637: array
+1638: global #5
+1639: init{}
+1640: global #9
+1641: init{}
+1642: global #10
+1643: init{}
+1644: Func(3,0): Run_Script_To_Completion
+1645: :=
+1646: #
+if( init_script.errortext )
+1647: local #0
+1648: get member 'errortext'
+1649: if false goto 1659
+FatalError( "Error::StartupScripts() - Init script failed:"+init_script.errorte
+1650: "Error::StartupScripts() - Init script failed:"
+1651: local #0
+1652: get member 'errortext'
+1653: +
+1654: makelocal
+1655: jmp userfunc @1754
+1656: #
+return 0;
+1657: 0L
+1658: return
+1659: leave block(1)
+InitializeEnterArea();
+1660: makelocal
+1661: jmp userfunc @1831
+1662: #
+return 1;
+1663: 1L
+1664: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 119
+function StopNerve( mobile, nerve_name )
+1665: pop param 'nerve_name'
+1666: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+1667: decl local #2
+1668: local #1
+1669: makelocal
+1670: jmp userfunc @450
+1671: :=
+1672: #
+if( nerve_dict.Exists( nerve_name ))
+1673: local #2
+1674: local #0
+1675: Call Method id exists (#55, 1 params)
+1676: if false goto 1700
+var process := GetNerveProcess( mobile, nerve_name );
+1677: decl local #0
+1678: local #1
+1679: local #0
+1680: makelocal
+1681: jmp userfunc @252
+1682: :=
+1683: #
+if( process )
+1684: local #3
+1685: if false goto 1689
+process.Kill();
+1686: local #3
+1687: Call Method id kill (#75, 0 params)
+1688: #
+nerve_dict.Erase( nerve_name );
+1689: local #2
+1690: local #0
+1691: Call Method id erase (#49, 1 params)
+1692: #
+return SaveNerves( mobile, nerve_dict );
+1693: local #1
+1694: local #2
+1695: makelocal
+1696: jmp userfunc @2141
+1697: return
+1698: leave block(1)
+1699: goto1708
+return error{"errortext" := "Error::StopNerve() - Invalid nerve name  ["+nerve_
+1700: error
+1701: "Error::StopNerve() - Invalid nerve name  ["
+1702: local #0
+1703: +
+1704: "]"
+1705: +
+1706: addmember-assign(errortext)
+1707: return
+1708: 0L
+1709: return
+c:/ZH099/pkg/systems/brainAI/include/npcScripts.inc, Line 25
+function AI_GetScriptsCfgElem( elem_name, byref cfg_file:=0 )
+1710: pop param byref 'cfg_file'
+1711: pop param 'elem_name'
+if( !cfg_file )
+1712: local #0
+1713: if true goto 1717
+cfg_file := AI_GetScriptsCfgFile();
+1714: makelocal
+1715: jmp userfunc @1738
+1716: local0 := 
+var elem := cfg_file[elem_name];
+1717: decl local #2
+1718: local #0
+1719: local #1
+1720: [] 1
+1721: :=
+1722: #
+if( elem.errortext )
+1723: local #2
+1724: get member 'errortext'
+1725: if false goto 1736
+SysLog( "Error::AI_GetScriptsCfgElem() - Unable to find elem ["+elem_name+"] --
+1726: "Error::AI_GetScriptsCfgElem() - Unable to find elem ["
+1727: local #1
+1728: +
+1729: "] -->"
+1730: +
+1731: local #2
+1732: get member 'errortext'
+1733: +
+1734: Func(3,3): SysLog
+1735: #
+return elem;
+1736: local #2
+1737: return
+c:/ZH099/pkg/systems/brainAI/include/npcScripts.inc, Line 17
+function AI_GetScriptsCfgFile()
+var cfg := ReadConfigFile( ":brainAI:AIScripts" );
+1738: decl local #0
+1739: ":brainAI:AIScripts"
+1740: Func(5,0): ReadConfigFile
+1741: :=
+1742: #
+if( cfg.errortext )
+1743: local #0
+1744: get member 'errortext'
+1745: if false goto 1752
+SysLog( "Error::AI_GetScriptsCfgFile() - Unable to open [:brainAI:AIScripts] ->
+1746: "Error::AI_GetScriptsCfgFile() - Unable to open [:brainAI:AIScripts] ->"
+1747: local #0
+1748: get member 'errortext'
+1749: +
+1750: Func(3,3): SysLog
+1751: #
+return cfg;
+1752: local #0
+1753: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/error.inc, Line 7
+function FatalError( errmsg )
+1754: pop param 'errmsg'
+PrintTextAbove( npc, errmsg, 3, 33 );
+1755: global #5
+1756: local #0
+1757: 3L
+1758: 33L
+1759: 0L
+1760: Func(2,0): PrintTextAbove
+1761: #
+NPC_ErrorSysLog( npc, errmsg );
+1762: global #5
+1763: local #0
+1764: makelocal
+1765: jmp userfunc @1978
+1766: #
+npc.Disable( "invul" );
+1767: global #5
+1768: "invul"
+1769: Call Method id disable (#9, 1 params)
+1770: #
+SetObjProperty( npc, "GuardKill", 1 );
+1771: global #5
+1772: "GuardKill"
+1773: 1L
+1774: Func(2,1): SetObjProperty
+1775: #
+npc.Kill();
+1776: global #5
+1777: Call Method id kill (#75, 0 params)
+1778: #
+return 1;
+1779: 1L
+1780: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 71
+function GetNerveFlags( mobile, nerve_name )
+1781: pop param 'nerve_name'
+1782: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+1783: decl local #2
+1784: local #1
+1785: makelocal
+1786: jmp userfunc @450
+1787: :=
+1788: #
+if( nerve_dict.Exists( nerve_name ))
+1789: local #2
+1790: local #0
+1791: Call Method id exists (#55, 1 params)
+1792: if false goto 1799
+return nerve_dict[nerve_name].flags;
+1793: local #2
+1794: local #0
+1795: [] 1
+1796: get member 'flags'
+1797: return
+1798: goto1807
+return error{"errortext" := "Error::GetNerveFlags() - Invalid nerve name  ["+ne
+1799: error
+1800: "Error::GetNerveFlags() - Invalid nerve name  ["
+1801: local #0
+1802: +
+1803: "]"
+1804: +
+1805: addmember-assign(errortext)
+1806: return
+1807: 0L
+1808: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 59
+function GetNerveNameByPid( mobile, pid )
+1809: pop param 'pid'
+1810: pop param 'mobile'
+foreach nerve in ( LoadNerves( mobile ) )
+1811: local #1
+1812: makelocal
+1813: jmp userfunc @450
+1814: initforeach @1825
+if( nerve.pid == pid )
+1815: local #2
+1816: get member id 'pid' (103)
+1817: local #0
+1818: ==
+1819: if false goto 1822
+return _nerve_iter;
+1820: local #4
+1821: return
+SleepMS(2);
+1822: 2L
+1823: Func(3,5): Sleepms
+1824: #
+1825: stepforeach @1815
+1826: leave block(3)
+return error{"errortext":="Error::GetNerveNameByPid() - No nerve with that PID 
+1827: error
+1828: "Error::GetNerveNameByPid() - No nerve with that PID exists."
+1829: addmember-assign(errortext)
+1830: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/setup.inc, Line 96
+function InitializeEnterArea()
+if( g_scripts.Exists( "EnterArea" ))
+1831: global #10
+1832: "EnterArea"
+1833: Call Method id exists (#55, 1 params)
+1834: if false goto 1883
+var event := struct;
+1835: decl local #0
+1836: struct
+1837: :=
+1838: #
+event.+type := SYSEVENT_ENTEREDAREA;
+1839: local #0
+1840: "type"
+1841: .+
+1842: 16L
+1843: := #
+event.+source;
+1844: local #0
+1845: "source"
+1846: .+
+1847: #
+foreach mobile in ( ListMobilesNearLocationEX( npc.x, npc.y, npc.z, CInt( g_set
+1848: global #5
+1849: get member id 'x' (0)
+1850: global #5
+1851: get member id 'y' (1)
+1852: global #5
+1853: get member id 'z' (2)
+1854: global #9
+1855: "AreaSize"
+1856: [] 1
+1857: Func(0,0): CInt
+1858: 15L
+1859: "britannia"
+1860: Func(2,35): ListMobilesNearLocationEx
+1861: initforeach @1880
+if( mobile.serial == npc.serial )
+1862: local #1
+1863: get member id 'serial' (6)
+1864: global #5
+1865: get member id 'serial' (6)
+1866: ==
+1867: if false goto 1870
+continue;
+1868: goto1880
+1869: goto1877
+event.source := mobile;
+1870: local #0
+1871: local #1
+1872: set member 'source' #
+SendEvent( npc, event );
+1873: global #5
+1874: local #0
+1875: Func(2,4): SendEvent
+1876: #
+SleepMS(10);
+1877: 10L
+1878: Func(3,5): Sleepms
+1879: #
+1880: stepforeach @1862
+1881: leave block(3)
+1882: leave block(1)
+return 1;
+1883: 1L
+1884: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/movement.inc, Line 22
+function MovementXY( ev )
+1885: pop param 'ev'
+var old_pri := Set_Priority(50);
+1886: decl local #1
+1887: 50L
+1888: Func(3,1): Set_Priority
+1889: :=
+1890: #
+var path := CheckPath( ev ),
+1891: decl local #2
+1892: local #0
+1893: makelocal
+1894: jmp userfunc @2148
+1895: :=
+1896: #
+1897: decl local #3
+1898: local #2
+1899: 1L
+1900: [] 1
+1901: :=
+1902: #
+1903: decl local #4
+1904: local #2
+1905: 2L
+1906: [] 1
+1907: :=
+1908: #
+case( ev.speed )
+1909: local #0
+1910: get member 'speed'
+1911: casejmp
+	1: @1912
+	2: @1943
+	default: @1973
+case( ev.direction )
+1912: local #0
+1913: get member 'direction'
+1914: casejmp
+	2: @1915
+	1: @1923
+	default: @1941
+WalkAwayFromLocation( ev.x, ev.y );
+1915: local #0
+1916: get member id 'x' (0)
+1917: local #0
+1918: get member id 'y' (1)
+1919: Func(4,10): WalkAwayFromLocation
+1920: #
+break;
+1921: goto1922
+1922: goto1941
+path := CheckPath( ev );
+1923: local #0
+1924: makelocal
+1925: jmp userfunc @2148
+1926: local2 := 
+if( path )
+1927: local #2
+1928: if false goto 1934
+WalkTowardLocation( x, y );
+1929: local #3
+1930: local #4
+1931: Func(4,11): WalkTowardLocation
+1932: #
+1933: goto1940
+WalkTowardLocation( ev.x, ev.y );
+1934: local #0
+1935: get member id 'x' (0)
+1936: local #0
+1937: get member id 'y' (1)
+1938: Func(4,11): WalkTowardLocation
+1939: #
+break;
+1940: goto1941
+break;
+1941: goto1942
+1942: goto1973
+case( ev.direction )
+1943: local #0
+1944: get member 'direction'
+1945: casejmp
+	2: @1946
+	1: @1954
+	default: @1972
+RunAwayFromLocation( ev.x, ev.y );
+1946: local #0
+1947: get member id 'x' (0)
+1948: local #0
+1949: get member id 'y' (1)
+1950: Func(4,12): RunAwayFromLocation
+1951: #
+break;
+1952: goto1953
+1953: goto1972
+path := CheckPath( ev );
+1954: local #0
+1955: makelocal
+1956: jmp userfunc @2148
+1957: local2 := 
+if( path )
+1958: local #2
+1959: if false goto 1965
+RunTowardLocation( x, y );
+1960: local #3
+1961: local #4
+1962: Func(4,13): RunTowardLocation
+1963: #
+1964: goto1971
+RunTowardLocation( ev.x, ev.y );
+1965: local #0
+1966: get member id 'x' (0)
+1967: local #0
+1968: get member id 'y' (1)
+1969: Func(4,13): RunTowardLocation
+1970: #
+break;
+1971: goto1972
+break;
+1972: goto1973
+Set_Priority(old_pri);
+1973: local #1
+1974: Func(3,1): Set_Priority
+1975: #
+return 1;
+1976: 1L
+1977: return
+c:/ZH099/pkg/systems/brainAI/include/npcError.inc, Line 9
+function NPC_ErrorSysLog( npc, errmsg )
+1978: pop param 'errmsg'
+1979: pop param 'npc'
+PrintTextAbove( npc, errmsg, 3, 33 );
+1980: local #1
+1981: local #0
+1982: 3L
+1983: 33L
+1984: 0L
+1985: Func(2,0): PrintTextAbove
+1986: #
+SysLog( "------------" );
+1987: "------------"
+1988: Func(3,3): SysLog
+1989: #
+SysLog( "NPC Template: "+npc.npctemplate );
+1990: "NPC Template: "
+1991: local #1
+1992: get member id 'npctemplate' (62)
+1993: +
+1994: Func(3,3): SysLog
+1995: #
+SysLog( "NPC Name    : "+npc.name );
+1996: "NPC Name    : "
+1997: local #1
+1998: get member id 'name' (3)
+1999: +
+2000: Func(3,3): SysLog
+2001: #
+SysLog( errmsg );
+2002: local #0
+2003: Func(3,3): SysLog
+2004: #
+SysLog( "------------" );
+2005: "------------"
+2006: Func(3,3): SysLog
+2007: #
+npc.Disable( "invul" );
+2008: local #1
+2009: "invul"
+2010: Call Method id disable (#9, 1 params)
+2011: #
+SetObjProperty( npc, "GuardKill", 1 );
+2012: local #1
+2013: "GuardKill"
+2014: 1L
+2015: Func(2,1): SetObjProperty
+2016: #
+npc.Kill();
+2017: local #1
+2018: Call Method id kill (#75, 0 params)
+2019: #
+return 1;
+2020: 1L
+2021: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 35
+function NPC_GetNPCConfig( template )
+2022: pop param 'template'
+if( !template.package )
+2023: local #0
+2024: get member 'package'
+2025: if true goto 2030
+template := NPC_ParseTemplateName( template );
+2026: local #0
+2027: makelocal
+2028: jmp userfunc @2079
+2029: local0 := 
+var npc_cfg := ReadConfigFile( ":"+template.package+":npcdesc" );
+2030: decl local #1
+2031: ":"
+2032: local #0
+2033: get member 'package'
+2034: +
+2035: ":npcdesc"
+2036: +
+2037: Func(5,0): ReadConfigFile
+2038: :=
+2039: #
+if( npc_cfg.errortext )
+2040: local #1
+2041: get member 'errortext'
+2042: if false goto 2055
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not open :"+templa
+2043: error
+2044: "Error::NPC_GetNPCConfig() - Could not open :"
+2045: local #0
+2046: get member 'package'
+2047: +
+2048: ":npcdesc ->"
+2049: +
+2050: local #1
+2051: get member 'errortext'
+2052: +
+2053: addmember-assign(errortext)
+2054: return
+var cfg_elem := npc_cfg[template.template];
+2055: decl local #2
+2056: local #1
+2057: local #0
+2058: get member 'template'
+2059: [] 1
+2060: :=
+2061: #
+if( cfg_elem.errortext )
+2062: local #2
+2063: get member 'errortext'
+2064: if false goto 2077
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not find elem ["+t
+2065: error
+2066: "Error::NPC_GetNPCConfig() - Could not find elem ["
+2067: local #0
+2068: get member 'template'
+2069: +
+2070: "] ->"
+2071: +
+2072: local #2
+2073: get member 'errortext'
+2074: +
+2075: addmember-assign(errortext)
+2076: return
+return cfg_elem;
+2077: local #2
+2078: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 11
+function NPC_ParseTemplateName( template_name )
+2079: pop param 'template_name'
+if( template_name.IsA( POLCLASS_NPC ))
+2080: local #0
+2081: 4L
+2082: Call Method id isa (#0, 1 params)
+2083: if false goto 2087
+template_name := template_name.npctemplate;
+2084: local #0
+2085: get member id 'npctemplate' (62)
+2086: local0 := 
+var colon_a := Find( template_name, ":", 1 );
+2087: decl local #1
+2088: local #0
+2089: ":"
+2090: 1L
+2091: Func(0,8): Find
+2092: :=
+2093: #
+var colon_b := Find( template_name, ":", 2 );
+2094: decl local #2
+2095: local #0
+2096: ":"
+2097: 2L
+2098: Func(0,8): Find
+2099: :=
+2100: #
+var parsed := struct{"package", "template"};
+2101: decl local #3
+2102: struct
+2103: addmember(package)
+2104: addmember(template)
+2105: :=
+2106: #
+if( !colon_a || !colon_b )
+2107: local #1
+2108: !
+2109: local #2
+2110: !
+2111: ||
+2112: if false goto 2120
+parsed.package := "";
+2113: local #3
+2114: ""
+2115: set member 'package' #
+parsed.template := template_name;
+2116: local #3
+2117: local #0
+2118: set member 'template' #
+2119: goto2139
+parsed.package := template_name[colon_a+1, colon_b-2];
+2120: local #3
+2121: local #0
+2122: local #1
+2123: 1L
+2124: +
+2125: local #2
+2126: 2L
+2127: -
+2128: [,]
+2129: set member 'package' #
+parsed.template := template_name[colon_b+1, Len( template_name )];
+2130: local #3
+2131: local #0
+2132: local #2
+2133: 1L
+2134: +
+2135: local #0
+2136: Func(0,3): Len
+2137: [,]
+2138: set member 'template' #
+return parsed;
+2139: local #3
+2140: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 44
+function SaveNerves( mobile, nerve_dict )
+2141: pop param 'nerve_dict'
+2142: pop param 'mobile'
+return SetObjProperty( mobile, "#NerveInfo", nerve_dict );
+2143: local #1
+2144: "#NerveInfo"
+2145: local #0
+2146: Func(2,1): SetObjProperty
+2147: return
+c:/ZH099/pkg/systems/brainAI/include/braincore/movement.inc, Line 69
+function CheckPath( byref ev )
+2148: pop param byref 'ev'
+var pathfind_range := CInt( g_settings["AreaSize"] );
+2149: decl local #1
+2150: global #9
+2151: "AreaSize"
+2152: [] 1
+2153: Func(0,0): CInt
+2154: :=
+2155: #
+if( pathfind_range < 5 )
+2156: local #1
+2157: 5L
+2158: <
+2159: if false goto 2162
+pathfind_range := 5;
+2160: 5L
+2161: local1 := 
+var flags := FP_IGNORE_MOBILES;
+2162: decl local #2
+2163: 1L
+2164: :=
+2165: #
+if( g_settings["OpenDoors"] )
+2166: global #9
+2167: "OpenDoors"
+2168: [] 1
+2169: if false goto 2174
+flags += FP_IGNORE_DOORS;
+2170: local #2
+2171: 2L
+2172: +=
+2173: #
+return GetNewPath( npc, ev.x, ev.y, ev.z, pathfind_range, flags );
+2174: global #5
+2175: local #0
+2176: get member id 'x' (0)
+2177: local #0
+2178: get member id 'y' (1)
+2179: local #0
+2180: get member id 'z' (2)
+2181: local #1
+2182: local #2
+2183: makelocal
+2184: jmp userfunc @2186
+2185: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 160
+function GetNewPath( npc, x, y, z, pathfind_range, flags )
+2186: pop param 'flags'
+2187: pop param 'pathfind_range'
+2188: pop param 'z'
+2189: pop param 'y'
+2190: pop param 'x'
+2191: pop param 'npc'
+var search_field := ListItemsNearLocation( npc.x, npc.y, npc.z, 2, npc.realm );
+2192: decl local #6
+2193: local #5
+2194: get member id 'x' (0)
+2195: local #5
+2196: get member id 'y' (1)
+2197: local #5
+2198: get member id 'z' (2)
+2199: 2L
+2200: local #5
+2201: get member id 'realm' (112)
+2202: Func(2,30): ListItemsNearLocation
+2203: :=
+2204: #
+foreach item in search_field
+2205: local #6
+2206: initforeach @2289
+SleepMS(5);
+2207: 5L
+2208: Func(3,5): Sleepms
+2209: #
+if( item.movable ) //Automatic Anti-Blocking with items.
+2210: local #7
+2211: get member id 'movable' (20)
+2212: if false goto 2252
+var npc_backpack := NPC_SetupBackPack( npc );
+2213: decl local #0
+2214: local #5
+2215: makelocal
+2216: jmp userfunc @2381
+2217: :=
+2218: #
+var move_item := MoveItemToContainer( item, npc_backpack );
+2219: decl local #1
+2220: local #7
+2221: local #10
+2222: -1L
+2223: -1L
+2224: Func(2,29): MoveItemToContainer
+2225: :=
+2226: #
+if( move_item.errortext )
+2227: local #11
+2228: get member 'errortext'
+2229: if false goto 2242
+PrintTextAbove( npc, "Error looting items -->"+move_item.errortext );
+2230: local #5
+2231: "Error looting items -->"
+2232: local #11
+2233: get member 'errortext'
+2234: +
+2235: 3L
+2236: 1000L
+2237: 0L
+2238: Func(2,0): PrintTextAbove
+2239: #
+continue;
+2240: leave block(2)
+2241: goto2289
+AI_Speak( npc, "*Yoink*", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE );
+2242: local #5
+2243: "*Yoink*"
+2244: "yell"
+2245: 1L
+2246: 0L
+2247: makelocal
+2248: jmp userfunc @2419
+2249: #
+2250: leave block(2)
+2251: goto2289
+elseif( AP_GetSkill( npc, MAGERY )&& GetObjProperty( item, "SummonedField" )) /
+2252: local #5
+2253: "Magery"
+2254: makelocal
+2255: jmp userfunc @2463
+2256: local #7
+2257: "SummonedField"
+2258: Func(2,3): GetObjProperty
+2259: &&
+2260: if false goto 2289
+var script := Start_Script( ":magery:spellStarter", array{ npc, 34, 0, item } )
+2261: decl local #0
+2262: ":magery:spellStarter"
+2263: array
+2264: local #5
+2265: init{}
+2266: 34L
+2267: init{}
+2268: 0L
+2269: init{}
+2270: local #7
+2271: init{}
+2272: Func(3,6): Start_Script
+2273: :=
+2274: #
+if( script.errortext )
+2275: local #10
+2276: get member 'errortext'
+2277: if false goto 2286
+PrintTextAbove( npc, script.errortext );
+2278: local #5
+2279: local #10
+2280: get member 'errortext'
+2281: 3L
+2282: 1000L
+2283: 0L
+2284: Func(2,0): PrintTextAbove
+2285: #
+break;
+2286: leave block(1)
+2287: goto2290
+2288: leave block(1)
+2289: stepforeach @2207
+2290: leave block(3)
+var path := FindPath( npc.x, npc.y, npc.z, x, y, z, npc.realm, flags, pathfind_
+2291: decl local #7
+2292: local #5
+2293: get member id 'x' (0)
+2294: local #5
+2295: get member id 'y' (1)
+2296: local #5
+2297: get member id 'z' (2)
+2298: local #4
+2299: local #3
+2300: local #2
+2301: local #5
+2302: get member id 'realm' (112)
+2303: local #0
+2304: local #1
+2305: Func(2,31): FindPath
+2306: :=
+2307: #
+if( !path )
+2308: local #7
+2309: if true goto 2312
+return 0;
+2310: 0L
+2311: return
+var move_x := CInt( path[1].x ),
+2312: decl local #8
+2313: local #7
+2314: 1L
+2315: [] 1
+2316: get member id 'x' (0)
+2317: Func(0,0): CInt
+2318: :=
+2319: #
+2320: decl local #9
+2321: local #7
+2322: 1L
+2323: [] 1
+2324: get member id 'y' (1)
+2325: Func(0,0): CInt
+2326: :=
+2327: #
+2328: decl local #10
+2329: local #7
+2330: 1L
+2331: [] 1
+2332: get member id 'z' (2)
+2333: Func(0,0): CInt
+2334: :=
+2335: #
+var search_doors := ListItemsAtLocation( move_x, mobe_y, mobe_z, npc.realm );
+2336: decl local #11
+2337: local #8
+2338: local #9
+2339: local #10
+2340: local #5
+2341: get member id 'realm' (112)
+2342: Func(2,32): ListItemsAtLocation
+2343: :=
+2344: #
+if( search_doors.Size() )
+2345: local #11
+2346: Call Method id size (#48, 0 params)
+2347: if false goto 2375
+foreach item in search_doors
+2348: local #11
+2349: initforeach @2373
+if( item.IsDoor() )
+2350: local #12
+2351: Call Method isdoor (0 params)
+2352: if false goto 2369
+if( item.locked )
+2353: local #12
+2354: get member id 'locked' (70)
+2355: if false goto 2359
+return 0;
+2356: 0L
+2357: return
+2358: goto2363
+elseif( item.IsOpen() )
+2359: local #12
+2360: Call Method isopen (0 params)
+2361: if false goto 2363
+break;
+2362: goto2374
+UseItem( item, npc );
+2363: local #12
+2364: local #5
+2365: Func(2,33): UseItem
+2366: #
+break;
+2367: goto2374
+2368: goto2370
+continue;
+2369: goto2373
+SleepMS(5);
+2370: 5L
+2371: Func(3,5): Sleepms
+2372: #
+2373: stepforeach @2350
+2374: leave block(3)
+return array{move_x, mobe_y};
+2375: array
+2376: local #8
+2377: init{}
+2378: local #9
+2379: init{}
+2380: return
+c:/ZH099/pkg/systems/brainAI/include/npcInit.inc, Line 39
+function NPC_SetupBackPack( mobile )
+2381: pop param 'mobile'
+if( !mobile.backpack )
+2382: local #0
+2383: get member id 'backpack' (41)
+2384: if true goto 2416
+var backpack := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, "BackPack",
+2385: decl local #0
+2386: local #0
+2387: get member id 'x' (0)
+2388: local #0
+2389: get member id 'y' (1)
+2390: local #0
+2391: get member id 'z' (2)
+2392: "BackPack"
+2393: 1L
+2394: local #0
+2395: get member id 'realm' (112)
+2396: Func(2,20): CreateItemAtLocation
+2397: :=
+2398: #
+var result := EquipItem( mobile, backpack );
+2399: decl local #1
+2400: local #0
+2401: local #1
+2402: Func(2,21): EquipItem
+2403: :=
+2404: #
+if( !result )
+2405: local #2
+2406: if true goto 2413
+DestroyItem( backpack );
+2407: local #1
+2408: Func(2,22): DestroyItem
+2409: #
+return result;
+2410: local #2
+2411: return
+2412: goto2415
+return backpack;
+2413: local #1
+2414: return
+2415: leave block(2)
+return mobile.backpack;
+2416: local #0
+2417: get member id 'backpack' (41)
+2418: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+2419: pop param 'no_wake'
+2420: pop param 'do_event'
+2421: pop param 'text_type'
+2422: pop param 'text'
+2423: pop param 'npc'
+var ev		:= struct;
+2424: decl local #5
+2425: struct
+2426: :=
+2427: #
+ev.+type	:= NPCEVENT_SPEAK;
+2428: local #5
+2429: "type"
+2430: .+
+2431: 10485765L
+2432: := #
+ev.+text	:= text;
+2433: local #5
+2434: "text"
+2435: .+
+2436: local #3
+2437: := #
+ev.+texttype	:= text_type;
+2438: local #5
+2439: "texttype"
+2440: .+
+2441: local #2
+2442: := #
+ev.+doevent	:= do_event;
+2443: local #5
+2444: "doevent"
+2445: .+
+2446: local #1
+2447: := #
+ev.+WakeUp	:= no_wake;
+2448: local #5
+2449: "WakeUp"
+2450: .+
+2451: local #0
+2452: := #
+ev.+process	:= GetProcess( GetPid() );
+2453: local #5
+2454: "process"
+2455: .+
+2456: Func(3,4): GetPid
+2457: Func(3,2): GetProcess
+2458: := #
+return SendEvent( npc, ev );
+2459: local #4
+2460: local #5
+2461: Func(2,4): SendEvent
+2462: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+2463: pop param 'skill_name'
+2464: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+2465: local #1
+2466: local #0
+2467: makelocal
+2468: jmp userfunc @2484
+2469: local #1
+2470: local #0
+2471: makelocal
+2472: jmp userfunc @2475
+2473: +
+2474: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+2475: pop param 'skill_name'
+2476: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+2477: local #1
+2478: local #0
+2479: Func(8,1): GetAttributeTemporaryMod
+2480: Func(0,2): CDbl
+2481: 10LF
+2482: /
+2483: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+2484: pop param 'skill_name'
+2485: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+2486: local #1
+2487: local #0
+2488: Func(8,0): GetAttributeBaseValue
+2489: Func(0,2): CDbl
+2490: 10LF
+2491: /
+2492: return

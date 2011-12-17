@@ -1,0 +1,3685 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @125
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 35
+var container_type	:= "BankBox";
+11: decl global #2
+12: "BankBox"
+13: :=
+14: #
+var STORAGE_DEBUG	:= 1;
+15: decl global #3
+16: 1L
+17: :=
+18: #
+C:\ZH099\pkg\systems\brainAI\scripts\listen\merchant.src, Line 24
+program BrainNerve( params )
+const CPM_HOLDING	:= "Merchant-Holding";
+19: get arg 'params'
+var npc		:= params[1];
+20: decl local #1
+21: local #0
+22: 1L
+23: [] 1
+24: :=
+25: #
+var event	:= params[3];
+26: decl local #2
+27: local #0
+28: 3L
+29: [] 1
+30: :=
+31: #
+params := 0; // Not needed anymore.
+32: 0L
+33: local0 := 
+var text := Lower( event.text ),
+34: decl local #3
+35: local #2
+36: get member 'text'
+37: Func(0,3): Lower
+38: :=
+39: #
+40: decl local #4
+41: local #2
+42: get member 'source'
+43: :=
+44: #
+if( source.hidden )
+45: local #4
+46: get member id 'hidden' (32)
+47: if false goto 51
+return 0;
+48: 0L
+49: progend
+50: goto70
+elseif( source.dead )
+51: local #4
+52: get member id 'dead' (39)
+53: if false goto 57
+return 0;
+54: 0L
+55: progend
+56: goto70
+elseif( source.IsA( POLCLASS_NPC ))
+57: local #4
+58: 4L
+59: Call Method id isa (#0, 1 params)
+60: if false goto 64
+return 0;
+61: 0L
+62: progend
+63: goto70
+elseif( !CheckLineOfSight( npc, source ))
+64: local #1
+65: local #4
+66: Func(2,26): CheckLineOfSight
+67: if true goto 70
+return 0;
+68: 0L
+69: progend
+AI_Turn( npc, source, NETURN_TOWARD );
+70: local #1
+71: local #4
+72: 1L
+73: 0L
+74: makelocal
+75: jmp userfunc @87
+76: #
+ProcessSpeech( npc, source, text );
+77: local #1
+78: local #4
+79: local #3
+80: makelocal
+81: jmp userfunc @169
+82: #
+return 1;
+83: 1L
+84: progend
+85: leave block(5)
+86: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+87: pop param 'no_wake'
+88: pop param 'direction'
+89: pop param 'object'
+90: pop param 'npc'
+var ev		:= struct;
+91: decl local #4
+92: struct
+93: :=
+94: #
+ev.+type	:= NPCEVENT_TURN;
+95: local #4
+96: "type"
+97: .+
+98: 10485766L
+99: := #
+ev.+source	:= object;
+100: local #4
+101: "source"
+102: .+
+103: local #2
+104: := #
+ev.+direction	:= direction;
+105: local #4
+106: "direction"
+107: .+
+108: local #1
+109: := #
+ev.+WakeUp	:= no_wake;
+110: local #4
+111: "WakeUp"
+112: .+
+113: local #0
+114: := #
+ev.+process	:= GetProcess( GetPid() );
+115: local #4
+116: "process"
+117: .+
+118: Func(3,2): GetPid
+119: Func(3,1): GetProcess
+120: := #
+return SendEvent( npc, ev );
+121: local #3
+122: local #4
+123: Func(2,18): SendEvent
+124: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+125: pop param byref 'cfg_file'
+126: pop param 'elem_name'
+if( !cfg_file )
+127: local #0
+128: if true goto 132
+cfg_file := Classes_GetSettingsCfgFile();
+129: makelocal
+130: jmp userfunc @153
+131: local0 := 
+var elem := cfg_file[elem_name];
+132: decl local #2
+133: local #0
+134: local #1
+135: [] 1
+136: :=
+137: #
+if( elem.errortext )
+138: local #2
+139: get member 'errortext'
+140: if false goto 151
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+141: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+142: local #1
+143: +
+144: "] ->"
+145: +
+146: local #2
+147: get member 'errortext'
+148: +
+149: Func(3,3): SysLog
+150: #
+return elem;
+151: local #2
+152: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+153: decl local #0
+154: ":classes:settings"
+155: Func(5,0): ReadConfigFile
+156: :=
+157: #
+if( cfg.errortext )
+158: local #0
+159: get member 'errortext'
+160: if false goto 167
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+161: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+162: local #0
+163: get member 'errortext'
+164: +
+165: Func(3,3): SysLog
+166: #
+return cfg;
+167: local #0
+168: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\merchant.src, Line 54
+function ProcessSpeech( npc, source, text )
+169: pop param 'text'
+170: pop param 'source'
+171: pop param 'npc'
+var merchant_type := CPM_GetMerchantType( npc ),
+172: decl local #3
+173: local #2
+174: makelocal
+175: jmp userfunc @1192
+176: :=
+177: #
+178: decl local #4
+179: local #2
+180: "Merchant-ForSale"
+181: 1L
+182: makelocal
+183: jmp userfunc @1160
+184: :=
+185: #
+186: decl local #5
+187: local #2
+188: local #3
+189: local #4
+190: makelocal
+191: jmp userfunc @1127
+192: :=
+193: #
+if( text["help"] )
+194: local #0
+195: "help"
+196: [] 1
+197: if false goto 218
+AI_Speak( npc, "I will obey to the following orders:" );
+198: local #2
+199: "I will obey to the following orders:"
+200: "default"
+201: 0L
+202: 0L
+203: makelocal
+204: jmp userfunc @1055
+205: #
+Sleep(3);
+206: 3L
+207: Func(3,4): Sleep
+208: #
+AI_Speak( npc, "buy - sell all - sell bag - sell - vendor train - merchant trai
+209: local #2
+210: "buy - sell all - sell bag - sell - vendor train - merchant train"
+211: "default"
+212: 0L
+213: 0L
+214: makelocal
+215: jmp userfunc @1055
+216: #
+217: goto274
+elseif( text["buy"] )
+218: local #0
+219: "buy"
+220: [] 1
+221: if false goto 230
+BuyStuff( npc, source, forsale, shopping_cart );
+222: local #2
+223: local #1
+224: local #4
+225: local #5
+226: makelocal
+227: jmp userfunc @1099
+228: #
+229: goto274
+elseif( text["sell all"] )
+230: local #0
+231: "sell all"
+232: [] 1
+233: if false goto 240
+SellAll( npc, source );
+234: local #2
+235: local #1
+236: makelocal
+237: jmp userfunc @276
+238: #
+239: goto274
+elseif( text["sell bag"] )
+240: local #0
+241: "sell bag"
+242: [] 1
+243: if false goto 250
+SellBag( npc, source );
+244: local #2
+245: local #1
+246: makelocal
+247: jmp userfunc @545
+248: #
+249: goto274
+elseif( text["sell"] )
+250: local #0
+251: "sell"
+252: [] 1
+253: if false goto 260
+SellItem( npc, source );
+254: local #2
+255: local #1
+256: makelocal
+257: jmp userfunc @714
+258: #
+259: goto274
+elseif( text["vendor train"] || text["merchant train"] )
+260: local #0
+261: "vendor train"
+262: [] 1
+263: local #0
+264: "merchant train"
+265: [] 1
+266: ||
+267: if false goto 274
+MerchantTrain( npc, source, text );
+268: local #2
+269: local #1
+270: local #0
+271: makelocal
+272: jmp userfunc @1339
+273: #
+return 1;
+274: 1L
+275: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\merchant.src, Line 145
+function SellAll( npc, mobile )
+276: pop param 'mobile'
+277: pop param 'npc'
+AI_Speak( npc, "What would you like me to buy all of?" );
+278: local #1
+279: "What would you like me to buy all of?"
+280: "default"
+281: 0L
+282: 0L
+283: makelocal
+284: jmp userfunc @1055
+285: #
+var targ := Target( mobile );
+286: decl local #2
+287: local #0
+288: 1L
+289: Func(2,28): Target
+290: :=
+291: #
+if( !targ )
+292: local #2
+293: if true goto 303
+SendSysMessage( mobile, "Cancelled." );
+294: local #0
+295: "Cancelled."
+296: 3L
+297: 1000L
+298: Func(2,1): SendSysMessage
+299: #
+return 0;
+300: 0L
+301: return
+302: goto326
+elseif( targ == mobile.backpack )
+303: local #2
+304: local #0
+305: get member id 'backpack' (41)
+306: ==
+307: if false goto 317
+SendSysMessage( mobile, "You should consider therapy!" );
+308: local #0
+309: "You should consider therapy!"
+310: 3L
+311: 1000L
+312: Func(2,1): SendSysMessage
+313: #
+return 0;
+314: 0L
+315: return
+316: goto326
+elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+317: local #0
+318: local #2
+319: 2L
+320: 0L
+321: makelocal
+322: jmp userfunc @891
+323: if true goto 326
+return 0;
+324: 0L
+325: return
+var merchant_type := CPM_GetMerchantType( npc ),
+326: decl local #3
+327: local #1
+328: makelocal
+329: jmp userfunc @1192
+330: :=
+331: #
+332: decl local #4
+333: local #1
+334: local #2
+335: makelocal
+336: jmp userfunc @1202
+337: :=
+338: #
+if( !item_price || GetObjProperty( targ, "UnIDedMagicalItem" ) || targ.IsA( POL
+339: local #4
+340: !
+341: local #2
+342: "UnIDedMagicalItem"
+343: Func(2,9): GetObjProperty
+344: ||
+345: local #2
+346: 6L
+347: Call Method id isa (#0, 1 params)
+348: ||
+349: if false goto 361
+AI_Speak( npc, "It is not something that I am interested in buying." );
+350: local #1
+351: "It is not something that I am interested in buying."
+352: "default"
+353: 0L
+354: 0L
+355: makelocal
+356: jmp userfunc @1055
+357: #
+return 0;
+358: 0L
+359: return
+360: goto390
+elseif( targ.IsA( POLCLASS_CONTAINER ))
+361: local #2
+362: 6L
+363: Call Method id isa (#0, 1 params)
+364: if false goto 390
+var cont_items := EnumerateItemsInContainer( targ );
+365: decl local #0
+366: local #2
+367: 0L
+368: Func(2,5): EnumerateItemsInContainer
+369: :=
+370: #
+if( Len( cont_items ))
+371: local #5
+372: Func(0,2): Len
+373: if false goto 389
+AI_Speak( npc, "Nah, remove the stuff from "+targ.desc+"." );
+374: local #1
+375: "Nah, remove the stuff from "
+376: local #2
+377: get member id 'desc' (19)
+378: +
+379: "."
+380: +
+381: "default"
+382: 0L
+383: 0L
+384: makelocal
+385: jmp userfunc @1055
+386: #
+return 0;
+387: 0L
+388: return
+389: leave block(1)
+var item_amount := 0;
+390: decl local #5
+391: 0L
+392: :=
+393: #
+foreach object in EnumerateItemsInContainer( mobile.backpack )
+394: local #0
+395: get member id 'backpack' (41)
+396: 0L
+397: Func(2,5): EnumerateItemsInContainer
+398: initforeach @496
+SleepMS(5);
+399: 5L
+400: Func(3,0): Sleepms
+401: #
+if( object.objtype != targ.objtype )
+402: local #6
+403: get member id 'objtype' (4)
+404: local #2
+405: get member id 'objtype' (4)
+406: <>
+407: if false goto 410
+continue;
+408: goto496
+409: goto456
+elseif( object.color != targ.color )
+410: local #6
+411: get member id 'color' (7)
+412: local #2
+413: get member id 'color' (7)
+414: <>
+415: if false goto 418
+continue;
+416: goto496
+417: goto456
+elseif( object.container.serial != targ.container.serial )
+418: local #6
+419: get member id 'container' (15)
+420: get member id 'serial' (6)
+421: local #2
+422: get member id 'container' (15)
+423: get member id 'serial' (6)
+424: <>
+425: if false goto 428
+continue;
+426: goto496
+427: goto456
+elseif( object.newbie )
+428: local #6
+429: get member id 'newbie' (25)
+430: if false goto 433
+continue;
+431: goto496
+432: goto456
+elseif( GetObjProperty( object, "UnIDedMagicalItem" ))
+433: local #6
+434: "UnIDedMagicalItem"
+435: Func(2,9): GetObjProperty
+436: if false goto 439
+continue;
+437: goto496
+438: goto456
+elseif( item_price != GetBuyPrice( npc, object ))
+439: local #4
+440: local #1
+441: local #6
+442: makelocal
+443: jmp userfunc @1202
+444: <>
+445: if false goto 448
+continue;
+446: goto496
+447: goto456
+elseif( !useItem_check( mobile, object, ITEM_INCONTAINER ))
+448: local #0
+449: local #6
+450: 2L
+451: 0L
+452: makelocal
+453: jmp userfunc @891
+454: if true goto 456
+continue;
+455: goto496
+if( object.IsA( POLCLASS_CONTAINER ))
+456: local #6
+457: 6L
+458: Call Method id isa (#0, 1 params)
+459: if false goto 472
+var cont_items := EnumerateItemsInContainer( object );
+460: decl local #0
+461: local #6
+462: 0L
+463: Func(2,5): EnumerateItemsInContainer
+464: :=
+465: #
+if( Len( cont_items ))
+466: local #9
+467: Func(0,2): Len
+468: if false goto 471
+continue;
+469: leave block(1)
+470: goto496
+471: leave block(1)
+item_amount += object.amount;
+472: local #5
+473: local #6
+474: get member id 'amount' (13)
+475: +=
+476: #
+var destroy := DestroyItem( object );
+477: decl local #0
+478: local #6
+479: Func(2,22): DestroyItem
+480: :=
+481: #
+if( destroy.errortext )
+482: local #9
+483: get member 'errortext'
+484: if false goto 495
+NotifyStaffOnline( mobile, "Error couldn't destroy item when selling -->"+destr
+485: local #0
+486: "Error couldn't destroy item when selling -->"
+487: local #9
+488: get member 'errortext'
+489: +
+490: makelocal
+491: jmp userfunc @1503
+492: #
+return 0;
+493: 0L
+494: return
+495: leave block(1)
+496: stepforeach @399
+497: leave block(3)
+var sale := 0;
+498: decl local #6
+499: 0L
+500: :=
+501: #
+if( item_amount )
+502: local #5
+503: if false goto 509
+sale := CInt( item_price * item_amount );
+504: local #4
+505: local #5
+506: *
+507: Func(0,0): CInt
+508: local6 := 
+while( sale > 60000 )
+509: local #6
+510: 60000L
+511: >
+512: if false goto 526
+CreateItemInBackpack( mobile, 0xeed, 60000 );
+513: local #0
+514: 3821L
+515: 60000L
+516: Func(2,29): CreateItemInBackpack
+517: #
+sale -= 60000;
+518: local #6
+519: 60000L
+520: -=
+521: #
+SleepMS(5);
+522: 5L
+523: Func(3,0): Sleepms
+524: #
+525: goto509
+CreateItemInBackpack( mobile, 0xeed, sale );
+526: local #0
+527: 3821L
+528: local #6
+529: Func(2,29): CreateItemInBackpack
+530: #
+AI_Speak( npc, "The total of your sale is "+sale+"." );
+531: local #1
+532: "The total of your sale is "
+533: local #6
+534: +
+535: "."
+536: +
+537: "default"
+538: 0L
+539: 0L
+540: makelocal
+541: jmp userfunc @1055
+542: #
+return 1;
+543: 1L
+544: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\merchant.src, Line 231
+function SellBag( npc, mobile )
+545: pop param 'mobile'
+546: pop param 'npc'
+AI_Speak( npc, "What bag of stuff would you like to sell me?" );
+547: local #1
+548: "What bag of stuff would you like to sell me?"
+549: "default"
+550: 0L
+551: 0L
+552: makelocal
+553: jmp userfunc @1055
+554: #
+var targ := Target( mobile );
+555: decl local #2
+556: local #0
+557: 1L
+558: Func(2,28): Target
+559: :=
+560: #
+if( !targ )
+561: local #2
+562: if true goto 572
+SendSysMessage( mobile, "Cancelled." );
+563: local #0
+564: "Cancelled."
+565: 3L
+566: 1000L
+567: Func(2,1): SendSysMessage
+568: #
+return 0;
+569: 0L
+570: return
+571: goto595
+elseif( targ == mobile.backpack )
+572: local #2
+573: local #0
+574: get member id 'backpack' (41)
+575: ==
+576: if false goto 586
+SendSysMessage( mobile, "You should consider therapy!" );
+577: local #0
+578: "You should consider therapy!"
+579: 3L
+580: 1000L
+581: Func(2,1): SendSysMessage
+582: #
+return 0;
+583: 0L
+584: return
+585: goto595
+elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+586: local #0
+587: local #2
+588: 2L
+589: 0L
+590: makelocal
+591: jmp userfunc @891
+592: if true goto 595
+return 0;
+593: 0L
+594: return
+var merchant_type := CPM_GetMerchantType( npc ),
+595: decl local #3
+596: local #1
+597: makelocal
+598: jmp userfunc @1192
+599: :=
+600: #
+601: decl local #4
+602: 0L
+603: :=
+604: #
+foreach item in ListRootItemsInContainer( targ )
+605: local #2
+606: makelocal
+607: jmp userfunc @1314
+608: initforeach @655
+if( !useItem_check( mobile, item, ITEM_INCONTAINER ))
+609: local #0
+610: local #5
+611: 2L
+612: 0L
+613: makelocal
+614: jmp userfunc @891
+615: if true goto 618
+return 0;
+616: 0L
+617: return
+var item_price := GetBuyPrice( npc, item );
+618: decl local #0
+619: local #1
+620: local #5
+621: makelocal
+622: jmp userfunc @1202
+623: :=
+624: #
+if( !item_price || item.newbie || GetObjProperty( item, "UnIDedMagicalItem" ))
+625: local #8
+626: !
+627: local #5
+628: get member id 'newbie' (25)
+629: ||
+630: local #5
+631: "UnIDedMagicalItem"
+632: Func(2,9): GetObjProperty
+633: ||
+634: if false goto 637
+continue;
+635: leave block(1)
+636: goto655
+if( item.amount )
+637: local #5
+638: get member id 'amount' (13)
+639: if false goto 648
+sale += CInt( item_price * item.amount );
+640: local #4
+641: local #8
+642: local #5
+643: get member id 'amount' (13)
+644: *
+645: Func(0,0): CInt
+646: +=
+647: #
+DestroyItem( item );
+648: local #5
+649: Func(2,22): DestroyItem
+650: #
+SleepMS(5);
+651: 5L
+652: Func(3,0): Sleepms
+653: #
+654: leave block(1)
+655: stepforeach @609
+656: leave block(3)
+if( !ListRootItemsInContainer( targ ).Size() )
+657: local #2
+658: makelocal
+659: jmp userfunc @1314
+660: Call Method id size (#48, 0 params)
+661: if true goto 678
+var item_price := GetBuyPrice( npc, targ );
+662: decl local #0
+663: local #1
+664: local #2
+665: makelocal
+666: jmp userfunc @1202
+667: :=
+668: #
+sale += CInt( item_price );
+669: local #4
+670: local #5
+671: Func(0,0): CInt
+672: +=
+673: #
+DestroyItem( targ );
+674: local #2
+675: Func(2,22): DestroyItem
+676: #
+677: leave block(1)
+while( sale > 60000 )
+678: local #4
+679: 60000L
+680: >
+681: if false goto 695
+CreateItemInBackpack( mobile, 0xeed, 60000 );
+682: local #0
+683: 3821L
+684: 60000L
+685: Func(2,29): CreateItemInBackpack
+686: #
+sale -= 60000;
+687: local #4
+688: 60000L
+689: -=
+690: #
+SleepMS(5);
+691: 5L
+692: Func(3,0): Sleepms
+693: #
+694: goto678
+CreateItemInBackpack( mobile, 0xeed, sale );
+695: local #0
+696: 3821L
+697: local #4
+698: Func(2,29): CreateItemInBackpack
+699: #
+AI_Speak( npc, "The total of your sale is "+sale+"." );
+700: local #1
+701: "The total of your sale is "
+702: local #4
+703: +
+704: "."
+705: +
+706: "default"
+707: 0L
+708: 0L
+709: makelocal
+710: jmp userfunc @1055
+711: #
+return 1;
+712: 1L
+713: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\merchant.src, Line 89
+function SellItem( npc, mobile )
+714: pop param 'mobile'
+715: pop param 'npc'
+AI_Speak( npc, "Can I help thee?" );
+716: local #1
+717: "Can I help thee?"
+718: "default"
+719: 0L
+720: 0L
+721: makelocal
+722: jmp userfunc @1055
+723: #
+var targ := Target( mobile );
+724: decl local #2
+725: local #0
+726: 1L
+727: Func(2,28): Target
+728: :=
+729: #
+if( !targ )
+730: local #2
+731: if true goto 741
+SendSysMessage( mobile, "Cancelled." );
+732: local #0
+733: "Cancelled."
+734: 3L
+735: 1000L
+736: Func(2,1): SendSysMessage
+737: #
+return 0;
+738: 0L
+739: return
+740: goto764
+elseif( targ == mobile.backpack )
+741: local #2
+742: local #0
+743: get member id 'backpack' (41)
+744: ==
+745: if false goto 755
+SendSysMessage( mobile, "You should consider therapy!" );
+746: local #0
+747: "You should consider therapy!"
+748: 3L
+749: 1000L
+750: Func(2,1): SendSysMessage
+751: #
+return 0;
+752: 0L
+753: return
+754: goto764
+elseif( !useItem_check( mobile, targ, ITEM_INCONTAINER ))
+755: local #0
+756: local #2
+757: 2L
+758: 0L
+759: makelocal
+760: jmp userfunc @891
+761: if true goto 764
+return 0;
+762: 0L
+763: return
+var merchant_type := CPM_GetMerchantType( npc ),
+764: decl local #3
+765: local #1
+766: makelocal
+767: jmp userfunc @1192
+768: :=
+769: #
+770: decl local #4
+771: local #1
+772: local #2
+773: makelocal
+774: jmp userfunc @1202
+775: :=
+776: #
+if( !item_price || GetObjProperty( targ, "UnIDedMagicalItem" ))
+777: local #4
+778: !
+779: local #2
+780: "UnIDedMagicalItem"
+781: Func(2,9): GetObjProperty
+782: ||
+783: if false goto 795
+AI_Speak( npc, "It is not something that I am interested in buying." );
+784: local #1
+785: "It is not something that I am interested in buying."
+786: "default"
+787: 0L
+788: 0L
+789: makelocal
+790: jmp userfunc @1055
+791: #
+return 0;
+792: 0L
+793: return
+794: goto824
+elseif( targ.IsA( POLCLASS_CONTAINER ))
+795: local #2
+796: 6L
+797: Call Method id isa (#0, 1 params)
+798: if false goto 824
+var cont_items := EnumerateItemsInContainer( targ );
+799: decl local #0
+800: local #2
+801: 0L
+802: Func(2,5): EnumerateItemsInContainer
+803: :=
+804: #
+if( Len( cont_items ))
+805: local #5
+806: Func(0,2): Len
+807: if false goto 823
+AI_Speak( npc, "Nah, remove the stuff from "+targ.desc+"." );
+808: local #1
+809: "Nah, remove the stuff from "
+810: local #2
+811: get member id 'desc' (19)
+812: +
+813: "."
+814: +
+815: "default"
+816: 0L
+817: 0L
+818: makelocal
+819: jmp userfunc @1055
+820: #
+return 0;
+821: 0L
+822: return
+823: leave block(1)
+var sale := 0;
+824: decl local #5
+825: 0L
+826: :=
+827: #
+if( targ.amount )
+828: local #2
+829: get member id 'amount' (13)
+830: if false goto 837
+sale := CInt( item_price * targ.amount );
+831: local #4
+832: local #2
+833: get member id 'amount' (13)
+834: *
+835: Func(0,0): CInt
+836: local5 := 
+var destroy := DestroyItem( targ );
+837: decl local #6
+838: local #2
+839: Func(2,22): DestroyItem
+840: :=
+841: #
+if( destroy.errortext )
+842: local #6
+843: get member 'errortext'
+844: if false goto 855
+NotifyStaffOnline( mobile, "Error couldn't destroy item when selling -->"+destr
+845: local #0
+846: "Error couldn't destroy item when selling -->"
+847: local #6
+848: get member 'errortext'
+849: +
+850: makelocal
+851: jmp userfunc @1503
+852: #
+return 0;
+853: 0L
+854: return
+while( sale > 60000 )
+855: local #5
+856: 60000L
+857: >
+858: if false goto 872
+CreateItemInBackpack( mobile, 0xeed, 60000 );
+859: local #0
+860: 3821L
+861: 60000L
+862: Func(2,29): CreateItemInBackpack
+863: #
+sale -= 60000;
+864: local #5
+865: 60000L
+866: -=
+867: #
+SleepMS(5);
+868: 5L
+869: Func(3,0): Sleepms
+870: #
+871: goto855
+CreateItemInBackpack( mobile, 0xeed, sale );
+872: local #0
+873: 3821L
+874: local #5
+875: Func(2,29): CreateItemInBackpack
+876: #
+AI_Speak( npc, "The total of your sale is "+sale+"." );
+877: local #1
+878: "The total of your sale is "
+879: local #5
+880: +
+881: "."
+882: +
+883: "default"
+884: 0L
+885: 0L
+886: makelocal
+887: jmp userfunc @1055
+888: #
+return 1;
+889: 1L
+890: return
+c:/ZH099/scripts/include/itemUtil.inc, Line 25
+function useItem_check( mobile, item, option := DEFAULT_ITEM, temp_dist := 0 )
+891: pop param 'temp_dist'
+892: pop param 'option'
+893: pop param 'item'
+894: pop param 'mobile'
+if( !ReserveItem( item ))
+895: local #2
+896: Func(2,0): ReserveItem
+897: if true goto 907
+SendSysMessage( mobile, "You cannot use that item." );
+898: local #3
+899: "You cannot use that item."
+900: 3L
+901: 1000L
+902: Func(2,1): SendSysMessage
+903: #
+return 0;
+904: 0L
+905: return
+906: goto919
+elseif( !Accessible( mobile, item ))
+907: local #3
+908: local #2
+909: Func(2,2): Accessible
+910: if true goto 919
+SendSysMessage( mobile, "You do not have access to that item." );
+911: local #3
+912: "You do not have access to that item."
+913: 3L
+914: 1000L
+915: Func(2,1): SendSysMessage
+916: #
+return 0;
+917: 0L
+918: return
+if( option & ITEM_WILD )
+919: local #1
+920: 8L
+921: &
+922: if false goto 977
+if( !item.movable )
+923: local #2
+924: get member id 'movable' (20)
+925: if true goto 935
+SendSysMessage( mobile, "That item is not movable." );
+926: local #3
+927: "That item is not movable."
+928: 3L
+929: 1000L
+930: Func(2,1): SendSysMessage
+931: #
+return 0;
+932: 0L
+933: return
+934: goto976
+elseif( !CheckLosAt( mobile, item.x, item.y, item.z ))
+935: local #3
+936: local #2
+937: get member id 'x' (0)
+938: local #2
+939: get member id 'y' (1)
+940: local #2
+941: get member id 'z' (2)
+942: Func(2,3): CheckLosAt
+943: if true goto 953
+SendSysMessage( mobile, "You cannot see that item." );
+944: local #3
+945: "You cannot see that item."
+946: 3L
+947: 1000L
+948: Func(2,1): SendSysMessage
+949: #
+return 0;
+950: 0L
+951: return
+952: goto976
+elseif( temp_dist )
+953: local #0
+954: if false goto 976
+if( !CoordinateDistance( mobile.x, mobile.y, item.x, item.y ) > temp_dist )
+955: local #3
+956: get member id 'x' (0)
+957: local #3
+958: get member id 'y' (1)
+959: local #2
+960: get member id 'x' (0)
+961: local #2
+962: get member id 'y' (1)
+963: Func(2,4): CoordinateDistance
+964: !
+965: local #0
+966: >
+967: if false goto 976
+SendSysMessage( mobile, "You are too far from the item." );
+968: local #3
+969: "You are too far from the item."
+970: 3L
+971: 1000L
+972: Func(2,1): SendSysMessage
+973: #
+return 0;
+974: 0L
+975: return
+976: goto1034
+elseif( option & ITEM_INCONTAINER )
+977: local #1
+978: 2L
+979: &
+980: if false goto 1009
+if( !item.movable )
+981: local #2
+982: get member id 'movable' (20)
+983: if true goto 993
+SendSysMessage( mobile, "That item is not movable." );
+984: local #3
+985: "That item is not movable."
+986: 3L
+987: 1000L
+988: Func(2,1): SendSysMessage
+989: #
+return 0;
+990: 0L
+991: return
+992: goto1008
+elseif( !( item in EnumerateItemsInContainer( mobile.backpack )))
+993: local #2
+994: local #3
+995: get member id 'backpack' (41)
+996: 0L
+997: Func(2,5): EnumerateItemsInContainer
+998: in
+999: if true goto 1008
+SendSysMessage( mobile, "That item is not in your backpack." );
+1000: local #3
+1001: "That item is not in your backpack."
+1002: 3L
+1003: 1000L
+1004: Func(2,1): SendSysMessage
+1005: #
+return 0;
+1006: 0L
+1007: return
+1008: goto1034
+elseif( option & ITEM_EQUIPPED )
+1009: local #1
+1010: 4L
+1011: &
+1012: if false goto 1034
+if( item in ListEquippedItems( mobile ))
+1013: local #2
+1014: local #3
+1015: Func(2,6): ListEquippedItems
+1016: in
+1017: if false goto 1021
+return 1;
+1018: 1L
+1019: return
+1020: goto1034
+SendSysMessage( mobile, "You must equip "+item.desc+" before using it." );
+1021: local #3
+1022: "You must equip "
+1023: local #2
+1024: get member id 'desc' (19)
+1025: +
+1026: " before using it."
+1027: +
+1028: 3L
+1029: 1000L
+1030: Func(2,1): SendSysMessage
+1031: #
+return 0;
+1032: 0L
+1033: return
+if(( item.IsA( POLCLASS_CONTAINER ) || item.IsA( POLCLASS_DOOR )) && item.locke
+1034: local #2
+1035: 6L
+1036: Call Method id isa (#0, 1 params)
+1037: local #2
+1038: 8L
+1039: Call Method id isa (#0, 1 params)
+1040: ||
+1041: local #2
+1042: get member id 'locked' (70)
+1043: &&
+1044: if false goto 1053
+SendSysMessage( mobile, "That item is locked!" );
+1045: local #3
+1046: "That item is locked!"
+1047: 3L
+1048: 1000L
+1049: Func(2,1): SendSysMessage
+1050: #
+return 0;
+1051: 0L
+1052: return
+return 1;
+1053: 1L
+1054: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+1055: pop param 'no_wake'
+1056: pop param 'do_event'
+1057: pop param 'text_type'
+1058: pop param 'text'
+1059: pop param 'npc'
+var ev		:= struct;
+1060: decl local #5
+1061: struct
+1062: :=
+1063: #
+ev.+type	:= NPCEVENT_SPEAK;
+1064: local #5
+1065: "type"
+1066: .+
+1067: 10485765L
+1068: := #
+ev.+text	:= text;
+1069: local #5
+1070: "text"
+1071: .+
+1072: local #3
+1073: := #
+ev.+texttype	:= text_type;
+1074: local #5
+1075: "texttype"
+1076: .+
+1077: local #2
+1078: := #
+ev.+doevent	:= do_event;
+1079: local #5
+1080: "doevent"
+1081: .+
+1082: local #1
+1083: := #
+ev.+WakeUp	:= no_wake;
+1084: local #5
+1085: "WakeUp"
+1086: .+
+1087: local #0
+1088: := #
+ev.+process	:= GetProcess( GetPid() );
+1089: local #5
+1090: "process"
+1091: .+
+1092: Func(3,2): GetPid
+1093: Func(3,1): GetProcess
+1094: := #
+return SendEvent( npc, ev );
+1095: local #4
+1096: local #5
+1097: Func(2,18): SendEvent
+1098: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\merchant.src, Line 79
+function BuyStuff( npc, mobile, forsale, shopping_cart )
+1099: pop param 'shopping_cart'
+1100: pop param 'forsale'
+1101: pop param 'mobile'
+1102: pop param 'npc'
+var result := SendBuyWindow( mobile, forsale, npc, shopping_cart, VENDOR_SEND_A
+1103: decl local #4
+1104: local #2
+1105: local #1
+1106: local #3
+1107: local #0
+1108: 1L
+1109: Func(2,27): SendBuyWindow
+1110: :=
+1111: #
+if( result.errortext )
+1112: local #4
+1113: get member 'errortext'
+1114: if false goto 1125
+PrintTextAbove( npc, "SendBuyWindow() error - "+result.errortext );
+1115: local #3
+1116: "SendBuyWindow() error - "
+1117: local #4
+1118: get member 'errortext'
+1119: +
+1120: 3L
+1121: 1000L
+1122: 0L
+1123: Func(2,17): PrintTextAbove
+1124: #
+return 1;
+1125: 1L
+1126: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 318
+function Check_Restock( npc, merchant_type, forsale )
+1127: pop param 'forsale'
+1128: pop param 'merchant_type'
+1129: pop param 'npc'
+var next_restock := CInt( GetObjProperty( npc, "NextRestock" ));
+1130: decl local #3
+1131: local #2
+1132: "NextRestock"
+1133: Func(2,9): GetObjProperty
+1134: Func(0,0): CInt
+1135: :=
+1136: #
+if( next_restock <= ReadGameClock() )
+1137: local #3
+1138: Func(2,25): ReadGameClock
+1139: <=
+1140: if false goto 1154
+RestockInventory( npc, merchant_type, forsale );
+1141: local #2
+1142: local #1
+1143: local #0
+1144: makelocal
+1145: jmp userfunc @1772
+1146: #
+SetObjProperty( npc, "NextRestock", ReadGameClock() + MERCHANT_RESTOCK );
+1147: local #2
+1148: "NextRestock"
+1149: Func(2,25): ReadGameClock
+1150: 2700L
+1151: +
+1152: Func(2,12): SetObjProperty
+1153: #
+return CPM_GetMerchantContainer( npc, CPM_SHOPPINGCART, CP_CREATE );
+1154: local #2
+1155: "Merchant-ShoppingCart"
+1156: 1L
+1157: makelocal
+1158: jmp userfunc @1160
+1159: return
+c:/ZH099/pkg/systems/merchants/include/storage.inc, Line 33
+function CPM_GetMerchantContainer( npc, type, create:=CP_NOCREATE )
+1160: pop param 'create'
+1161: pop param 'type'
+1162: pop param 'npc'
+var shared_container := GetObjProperty( npc, "Shared-"+type );
+1163: decl local #3
+1164: local #2
+1165: "Shared-"
+1166: local #1
+1167: +
+1168: Func(2,9): GetObjProperty
+1169: :=
+1170: #
+if( shared_container && type != CPM_SHOPPINGCART )
+1171: local #3
+1172: local #1
+1173: "Merchant-ShoppingCart"
+1174: <>
+1175: &&
+1176: if false goto 1184
+return CP_GetStorageAreaContainer( shared_container, type, create );
+1177: local #3
+1178: local #1
+1179: local #0
+1180: makelocal
+1181: jmp userfunc @1866
+1182: return
+1183: goto1190
+return CP_GetStorageContainerForMobile( npc, type, create );
+1184: local #2
+1185: local #1
+1186: local #0
+1187: makelocal
+1188: jmp userfunc @1922
+1189: return
+1190: 0L
+1191: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 150
+function CPM_GetMerchantType( npc )
+1192: pop param 'npc'
+var npc_cfg := NPC_GetNPCConfig( npc );
+1193: decl local #1
+1194: local #0
+1195: makelocal
+1196: jmp userfunc @1588
+1197: :=
+1198: #
+return npc_cfg.MerchantType;
+1199: local #1
+1200: get member 'MerchantType'
+1201: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 283
+function GetBuyPrice( npc, item )
+1202: pop param 'item'
+1203: pop param 'npc'
+var itemdesc := ReadConfigFile( ":*:itemdesc" );
+1204: decl local #2
+1205: ":*:itemdesc"
+1206: Func(5,0): ReadConfigFile
+1207: :=
+1208: #
+var elem := FindConfigElem( itemdesc, CInt( item.objtype ));
+1209: decl local #3
+1210: local #2
+1211: local #0
+1212: get member id 'objtype' (4)
+1213: Func(0,0): CInt
+1214: Func(5,5): FindConfigElem
+1215: :=
+1216: #
+if( elem.errortext )
+1217: local #3
+1218: get member 'errortext'
+1219: if false goto 1238
+AI_Speak( npc, "Error reading itemdesc entry for <"+item.objtype+"> -->"+elem.e
+1220: local #1
+1221: "Error reading itemdesc entry for <"
+1222: local #0
+1223: get member id 'objtype' (4)
+1224: +
+1225: "> -->"
+1226: +
+1227: local #3
+1228: get member 'errortext'
+1229: +
+1230: "default"
+1231: 0L
+1232: 0L
+1233: makelocal
+1234: jmp userfunc @1055
+1235: #
+return 0;
+1236: 0L
+1237: return
+var item_price := GetConfigInt( elem, "VendorSellsFor" );
+1238: decl local #4
+1239: local #3
+1240: "VendorSellsFor"
+1241: Func(5,6): GetConfigInt
+1242: :=
+1243: #
+if( !item_price )
+1244: local #4
+1245: if true goto 1259
+SysLog( "No item price for objtype "+item.objtype+" -->"+ elem.name );
+1246: "No item price for objtype "
+1247: local #0
+1248: get member id 'objtype' (4)
+1249: +
+1250: " -->"
+1251: +
+1252: local #3
+1253: get member id 'name' (3)
+1254: +
+1255: Func(3,3): SysLog
+1256: #
+return 0;
+1257: 0L
+1258: return
+var quality := CDbl( item.quality );
+1259: decl local #5
+1260: local #0
+1261: get member id 'quality' (87)
+1262: Func(0,7): CDbl
+1263: :=
+1264: #
+if( quality )
+1265: local #5
+1266: if false goto 1272
+item_price := CInt( item_price * quality );
+1267: local #4
+1268: local #5
+1269: *
+1270: Func(0,0): CInt
+1271: local4 := 
+var item_value := CInt( item_price * 75 / 100 );
+1272: decl local #6
+1273: local #4
+1274: 75L
+1275: *
+1276: 100L
+1277: /
+1278: Func(0,0): CInt
+1279: :=
+1280: #
+if( !item.IsA( POLCLASS_EQUIPMENT ))
+1281: local #0
+1282: 14L
+1283: Call Method id isa (#0, 1 params)
+1284: if true goto 1287
+return item_value;
+1285: local #6
+1286: return
+var item_diff := CInt( item_price - item_value );
+1287: decl local #7
+1288: local #4
+1289: local #6
+1290: -
+1291: Func(0,0): CInt
+1292: :=
+1293: #
+var crafter_level := GetObjProperty( item, "ByCrafter" );
+1294: decl local #8
+1295: local #0
+1296: "ByCrafter"
+1297: Func(2,9): GetObjProperty
+1298: :=
+1299: #
+if( crafter_level )
+1300: local #8
+1301: if false goto 1309
+item_diff *= CDbl( crafter_level * 0.15 );
+1302: local #7
+1303: local #8
+1304: 0.15LF
+1305: *
+1306: Func(0,7): CDbl
+1307: *=
+1308: #
+return CInt( item_value + item_diff );
+1309: local #6
+1310: local #7
+1311: +
+1312: Func(0,0): CInt
+1313: return
+c:/ZH099/pkg/items/containers/include/containers.inc, Line 57
+function ListRootItemsInContainer( container )
+1314: pop param 'container'
+var item_list := array{};
+1315: decl local #1
+1316: array
+1317: :=
+1318: #
+foreach item in ( EnumerateItemsInContainer( container ))
+1319: local #0
+1320: 0L
+1321: Func(2,5): EnumerateItemsInContainer
+1322: initforeach @1335
+if( item.container == container )
+1323: local #2
+1324: get member id 'container' (15)
+1325: local #0
+1326: ==
+1327: if false goto 1332
+item_list.Append( item );
+1328: local #1
+1329: local #2
+1330: Call Method id append (#52, 1 params)
+1331: #
+SleepMS(2);
+1332: 2L
+1333: Func(3,0): Sleepms
+1334: #
+1335: stepforeach @1323
+1336: leave block(3)
+return item_list;
+1337: local #1
+1338: return
+c:/ZH099/pkg/systems/brainAI/include/merchantUtil.inc, Line 18
+function MerchantTrain( npc, source, text )
+1339: pop param 'text'
+1340: pop param 'source'
+1341: pop param 'npc'
+text := SplitWords( text );
+1342: local #0
+1343: " "
+1344: Func(0,6): SplitWords
+1345: local0 := 
+var skill := text[3],
+1346: decl local #3
+1347: local #0
+1348: 3L
+1349: [] 1
+1350: :=
+1351: #
+1352: decl local #4
+1353: local #2
+1354: local #3
+1355: makelocal
+1356: jmp userfunc @1811
+1357: :=
+1358: #
+1359: decl local #5
+1360: local #1
+1361: local #3
+1362: makelocal
+1363: jmp userfunc @1811
+1364: :=
+1365: #
+if( !skill )
+1366: local #3
+1367: if true goto 1448
+var trainable := array{};
+1368: decl local #0
+1369: array
+1370: :=
+1371: #
+foreach attrib_name in AP_ListAttributesByType( "skill" )
+1372: "skill"
+1373: makelocal
+1374: jmp userfunc @1841
+1375: initforeach @1402
+var npc_skill := AP_GetSkill( npc, attrib_name );
+1376: decl local #0
+1377: local #2
+1378: local #7
+1379: makelocal
+1380: jmp userfunc @1811
+1381: :=
+1382: #
+if( npc_skill >= 30 && AP_GetSkill( source, attrib_name ) < 30 )
+1383: local #10
+1384: 30L
+1385: >=
+1386: local #1
+1387: local #7
+1388: makelocal
+1389: jmp userfunc @1811
+1390: 30L
+1391: <
+1392: &&
+1393: if false goto 1398
+trainable.Append( attrib_name );
+1394: local #6
+1395: local #7
+1396: Call Method id append (#52, 1 params)
+1397: #
+SleepMS(5);
+1398: 5L
+1399: Func(3,0): Sleepms
+1400: #
+1401: leave block(1)
+1402: stepforeach @1376
+1403: leave block(3)
+if( trainable.Size() > 0 )
+1404: local #6
+1405: Call Method id size (#48, 0 params)
+1406: 0L
+1407: >
+1408: if false goto 1436
+AI_Speak( npc, "I can train thee in the following skills:" );
+1409: local #2
+1410: "I can train thee in the following skills:"
+1411: "default"
+1412: 0L
+1413: 0L
+1414: makelocal
+1415: jmp userfunc @1055
+1416: #
+Sleep(1);
+1417: 1L
+1418: Func(3,4): Sleep
+1419: #
+foreach attrib_name in trainable
+1420: local #6
+1421: initforeach @1433
+AI_Speak( npc, attrib_name );
+1422: local #2
+1423: local #7
+1424: "default"
+1425: 0L
+1426: 0L
+1427: makelocal
+1428: jmp userfunc @1055
+1429: #
+SleepMS(5);
+1430: 5L
+1431: Func(3,0): Sleepms
+1432: #
+1433: stepforeach @1422
+1434: leave block(3)
+1435: goto1446
+AI_Speak( npc, "I can not train thee." );
+1436: local #2
+1437: "I can not train thee."
+1438: "default"
+1439: 0L
+1440: 0L
+1441: makelocal
+1442: jmp userfunc @1055
+1443: #
+return 0;
+1444: 0L
+1445: return
+1446: leave block(1)
+1447: goto1501
+if( npc_skill >= 30 && source_skill < 30 )
+1448: local #4
+1449: 30L
+1450: >=
+1451: local #5
+1452: 30L
+1453: <
+1454: &&
+1455: if false goto 1487
+var price := CInt(( 33 - AP_GetTrueSkill( source, skill )) * 10 );
+1456: decl local #0
+1457: 33L
+1458: local #1
+1459: local #3
+1460: makelocal
+1461: jmp userfunc @1832
+1462: -
+1463: 10L
+1464: *
+1465: Func(0,0): CInt
+1466: :=
+1467: #
+AI_Speak( npc, "I will train thee 33.0 for "+price+" golds." );
+1468: local #2
+1469: "I will train thee 33.0 for "
+1470: local #6
+1471: +
+1472: " golds."
+1473: +
+1474: "default"
+1475: 0L
+1476: 0L
+1477: makelocal
+1478: jmp userfunc @1055
+1479: #
+SetObjProperty( source, "#VendorTrain", skill );
+1480: local #1
+1481: "#VendorTrain"
+1482: local #3
+1483: Func(2,12): SetObjProperty
+1484: #
+1485: leave block(1)
+1486: goto1501
+AI_Speak( npc, "I cannot teach you "+skill+"." );
+1487: local #2
+1488: "I cannot teach you "
+1489: local #3
+1490: +
+1491: "."
+1492: +
+1493: "default"
+1494: 0L
+1495: 0L
+1496: makelocal
+1497: jmp userfunc @1055
+1498: #
+return 0;
+1499: 0L
+1500: return
+return 1;
+1501: 1L
+1502: return
+c:/ZH099/scripts/include/security.inc, Line 40
+function NotifyStaffOnline( object, text )
+1503: pop param 'text'
+1504: pop param 'object'
+var name := object.name;
+1505: decl local #2
+1506: local #1
+1507: get member id 'name' (3)
+1508: :=
+1509: #
+if( !name )
+1510: local #2
+1511: if true goto 1519
+name := object.desc;
+1512: local #1
+1513: get member id 'desc' (19)
+1514: local2 := 
+if( !name )
+1515: local #2
+1516: if true goto 1519
+name := object;
+1517: local #1
+1518: local2 := 
+foreach character in EnumerateOnlineCharacters()
+1519: Func(2,13): EnumerateOnlineCharacters
+1520: initforeach @1555
+if( GetObjProperty( character, "Notify" ))
+1521: local #3
+1522: "Notify"
+1523: Func(2,9): GetObjProperty
+1524: if false goto 1552
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+1525: local #1
+1526: get member id 'cmdlevel' (46)
+1527: local #3
+1528: get member id 'cmdlevel' (46)
+1529: <=
+1530: local #3
+1531: get member id 'cmdlevel' (46)
+1532: 4L
+1533: >=
+1534: ||
+1535: if false goto 1552
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+1536: local #3
+1537: "You receive a notification:"
+1538: 3L
+1539: 55L
+1540: Func(2,1): SendSysMessage
+1541: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+1542: local #3
+1543: local #2
+1544: " >>> "
+1545: +
+1546: local #0
+1547: +
+1548: 3L
+1549: 55L
+1550: Func(2,1): SendSysMessage
+1551: #
+SleepMS(5);
+1552: 5L
+1553: Func(3,0): Sleepms
+1554: #
+1555: stepforeach @1521
+1556: leave block(3)
+if( object.serial )
+1557: local #1
+1558: get member id 'serial' (6)
+1559: if false goto 1576
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+1560: local #2
+1561: "["
+1562: +
+1563: local #1
+1564: get member id 'serial' (6)
+1565: +
+1566: "] >>> "
+1567: +
+1568: local #0
+1569: +
+1570: 2L
+1571: 0L
+1572: makelocal
+1573: jmp userfunc @1707
+1574: #
+1575: goto1586
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+1576: local #2
+1577: " >>> "
+1578: +
+1579: local #0
+1580: +
+1581: 2L
+1582: 0L
+1583: makelocal
+1584: jmp userfunc @1707
+1585: #
+return 1;
+1586: 1L
+1587: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 35
+function NPC_GetNPCConfig( template )
+1588: pop param 'template'
+if( !template.package )
+1589: local #0
+1590: get member 'package'
+1591: if true goto 1596
+template := NPC_ParseTemplateName( template );
+1592: local #0
+1593: makelocal
+1594: jmp userfunc @1645
+1595: local0 := 
+var npc_cfg := ReadConfigFile( ":"+template.package+":npcdesc" );
+1596: decl local #1
+1597: ":"
+1598: local #0
+1599: get member 'package'
+1600: +
+1601: ":npcdesc"
+1602: +
+1603: Func(5,0): ReadConfigFile
+1604: :=
+1605: #
+if( npc_cfg.errortext )
+1606: local #1
+1607: get member 'errortext'
+1608: if false goto 1621
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not open :"+templa
+1609: error
+1610: "Error::NPC_GetNPCConfig() - Could not open :"
+1611: local #0
+1612: get member 'package'
+1613: +
+1614: ":npcdesc ->"
+1615: +
+1616: local #1
+1617: get member 'errortext'
+1618: +
+1619: addmember-assign(errortext)
+1620: return
+var cfg_elem := npc_cfg[template.template];
+1621: decl local #2
+1622: local #1
+1623: local #0
+1624: get member 'template'
+1625: [] 1
+1626: :=
+1627: #
+if( cfg_elem.errortext )
+1628: local #2
+1629: get member 'errortext'
+1630: if false goto 1643
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not find elem ["+t
+1631: error
+1632: "Error::NPC_GetNPCConfig() - Could not find elem ["
+1633: local #0
+1634: get member 'template'
+1635: +
+1636: "] ->"
+1637: +
+1638: local #2
+1639: get member 'errortext'
+1640: +
+1641: addmember-assign(errortext)
+1642: return
+return cfg_elem;
+1643: local #2
+1644: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 11
+function NPC_ParseTemplateName( template_name )
+1645: pop param 'template_name'
+if( template_name.IsA( POLCLASS_NPC ))
+1646: local #0
+1647: 4L
+1648: Call Method id isa (#0, 1 params)
+1649: if false goto 1653
+template_name := template_name.npctemplate;
+1650: local #0
+1651: get member id 'npctemplate' (62)
+1652: local0 := 
+var colon_a := Find( template_name, ":", 1 );
+1653: decl local #1
+1654: local #0
+1655: ":"
+1656: 1L
+1657: Func(0,10): Find
+1658: :=
+1659: #
+var colon_b := Find( template_name, ":", 2 );
+1660: decl local #2
+1661: local #0
+1662: ":"
+1663: 2L
+1664: Func(0,10): Find
+1665: :=
+1666: #
+var parsed := struct{"package", "template"};
+1667: decl local #3
+1668: struct
+1669: addmember(package)
+1670: addmember(template)
+1671: :=
+1672: #
+if( !colon_a || !colon_b )
+1673: local #1
+1674: !
+1675: local #2
+1676: !
+1677: ||
+1678: if false goto 1686
+parsed.package := "";
+1679: local #3
+1680: ""
+1681: set member 'package' #
+parsed.template := template_name;
+1682: local #3
+1683: local #0
+1684: set member 'template' #
+1685: goto1705
+parsed.package := template_name[colon_a+1, colon_b-2];
+1686: local #3
+1687: local #0
+1688: local #1
+1689: 1L
+1690: +
+1691: local #2
+1692: 2L
+1693: -
+1694: [,]
+1695: set member 'package' #
+parsed.template := template_name[colon_b+1, Len( template_name )];
+1696: local #3
+1697: local #0
+1698: local #2
+1699: 1L
+1700: +
+1701: local #0
+1702: Func(0,2): Len
+1703: [,]
+1704: set member 'template' #
+return parsed;
+1705: local #3
+1706: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+1707: pop param 'text_color'
+1708: pop param 'flags'
+1709: pop param 'report_text'
+if( !flags )
+1710: local #1
+1711: if true goto 1715
+return 0;
+1712: 0L
+1713: return
+1714: goto1770
+elseif( flags & REPORT_CONSOLE )
+1715: local #1
+1716: 1L
+1717: &
+1718: if false goto 1725
+Print( ""+report_text );
+1719: ""
+1720: local #2
+1721: +
+1722: Func(1,0): Print
+1723: #
+1724: goto1770
+elseif( flags & REPORT_SYSLOG )
+1725: local #1
+1726: 2L
+1727: &
+1728: if false goto 1759
+var script_name := CStr( GetProcess( GetPid() ).name ),
+1729: decl local #0
+1730: Func(3,2): GetPid
+1731: Func(3,1): GetProcess
+1732: get member id 'name' (3)
+1733: Func(0,1): CStr
+1734: :=
+1735: #
+1736: decl local #1
+1737: local #3
+1738: makelocal
+1739: jmp userfunc @1950
+1740: :=
+1741: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+1742: "::log/"
+1743: local #4
+1744: +
+1745: ".log"
+1746: +
+1747: "["
+1748: local #3
+1749: +
+1750: "]: "
+1751: +
+1752: local #2
+1753: +
+1754: 1L
+1755: Func(6,0): LogToFile
+1756: #
+1757: leave block(2)
+1758: goto1770
+elseif( flags & REPORT_BROADCAST )
+1759: local #1
+1760: 4L
+1761: &
+1762: if false goto 1770
+Broadcast( ""+report_text, 3, text_color );
+1763: ""
+1764: local #2
+1765: +
+1766: 3L
+1767: local #0
+1768: Func(2,8): Broadcast
+1769: #
+return 1;
+1770: 1L
+1771: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 157
+function RestockInventory( npc, merchanttype, byref inventory )
+1772: pop param byref 'inventory'
+1773: pop param 'merchanttype'
+1774: pop param 'npc'
+var buysell_cfg := ReadConfigFile( ":merchants:buySell" );
+1775: decl local #3
+1776: ":merchants:buySell"
+1777: Func(5,0): ReadConfigFile
+1778: :=
+1779: #
+foreach item in ( ListRootItemsInContainer( inventory ))
+1780: local #0
+1781: makelocal
+1782: jmp userfunc @1314
+1783: initforeach @1790
+DestroyItem( item );
+1784: local #4
+1785: Func(2,22): DestroyItem
+1786: #
+SleepMS(2);
+1787: 2L
+1788: Func(3,0): Sleepms
+1789: #
+1790: stepforeach @1784
+1791: leave block(3)
+foreach productgroup in ( ProductGroups( buysell_cfg, merchanttype ))
+1792: local #3
+1793: local #1
+1794: makelocal
+1795: jmp userfunc @1997
+1796: initforeach @1807
+Restock( npc, buysell_cfg, inventory, productgroup );
+1797: local #2
+1798: local #3
+1799: local #0
+1800: local #4
+1801: makelocal
+1802: jmp userfunc @2013
+1803: #
+SleepMS(2);
+1804: 2L
+1805: Func(3,0): Sleepms
+1806: #
+1807: stepforeach @1797
+1808: leave block(3)
+return 1;
+1809: 1L
+1810: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+1811: pop param 'skill_name'
+1812: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+1813: local #1
+1814: local #0
+1815: makelocal
+1816: jmp userfunc @1832
+1817: local #1
+1818: local #0
+1819: makelocal
+1820: jmp userfunc @1823
+1821: +
+1822: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+1823: pop param 'skill_name'
+1824: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+1825: local #1
+1826: local #0
+1827: Func(9,1): GetAttributeTemporaryMod
+1828: Func(0,7): CDbl
+1829: 10LF
+1830: /
+1831: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+1832: pop param 'skill_name'
+1833: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+1834: local #1
+1835: local #0
+1836: Func(9,0): GetAttributeBaseValue
+1837: Func(0,7): CDbl
+1838: 10LF
+1839: /
+1840: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 69
+function AP_ListAttributesByType( type:="" )
+1841: pop param 'type'
+if( !type )
+1842: local #0
+1843: if true goto 1853
+var cfg_file := ReadConfigFile( ":attributes:attributes" );
+1844: decl local #0
+1845: ":attributes:attributes"
+1846: Func(5,0): ReadConfigFile
+1847: :=
+1848: #
+return GetConfigStringKeys( cfg_file );
+1849: local #1
+1850: Func(5,4): GetConfigStringKeys
+1851: return
+1852: leave block(1)
+type := Lower( type );
+1853: local #0
+1854: Func(0,3): Lower
+1855: local0 := 
+var data_elem := AP_GetAttributeDataElem( "Categories" );
+1856: decl local #1
+1857: "Categories"
+1858: makelocal
+1859: jmp userfunc @2247
+1860: :=
+1861: #
+return data_elem.GetProp( type );
+1862: local #1
+1863: local #0
+1864: Call Method id getprop (#35, 1 params)
+1865: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 61
+function CP_GetStorageAreaContainer( container_id, storage_area_name:=0, create
+1866: pop param 'create'
+1867: pop param 'storage_area_name'
+1868: pop param 'container_id'
+if(( !storage_area_name ) || ( storage_area_name == error ))
+1869: local #1
+1870: !
+1871: local #1
+1872: error
+1873: ==
+1874: ||
+1875: if false goto 1878
+storage_area_name := CP_DEFAULT_AREA;
+1876: "World Bank"
+1877: local1 := 
+var container_name := CP_DEFAULT_PREFIX + container_id;
+1878: decl local #3
+1879: "[Root Container] "
+1880: local #2
+1881: +
+1882: :=
+1883: #
+var storage_area := FindStorageArea( storage_area_name );
+1884: decl local #4
+1885: local #1
+1886: Func(12,0): FindStorageArea
+1887: :=
+1888: #
+if( !storage_area )
+1889: local #4
+1890: if true goto 1901
+if( !create )
+1891: local #0
+1892: if true goto 1896
+return storage_area; // Will be an error
+1893: local #4
+1894: return
+1895: goto1901
+return CP_CreateStorageAreaContainer( container_id, storage_area_name );
+1896: local #2
+1897: local #1
+1898: makelocal
+1899: jmp userfunc @2484
+1900: return
+var root_container := FindRootItemInStorageArea( storage_area, container_name )
+1901: decl local #5
+1902: local #4
+1903: local #3
+1904: Func(12,1): FindRootItemInStorageArea
+1905: :=
+1906: #
+if( !root_container && create )
+1907: local #5
+1908: !
+1909: local #0
+1910: &&
+1911: if false goto 1918
+return CP_CreateStorageAreaContainer( container_id, storage_area_name );
+1912: local #2
+1913: local #1
+1914: makelocal
+1915: jmp userfunc @2484
+1916: return
+1917: goto1920
+return root_container;
+1918: local #5
+1919: return
+1920: 0L
+1921: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 49
+function CP_GetStorageContainerForMobile( mobile, storage_area_name:=0, create:
+1922: pop param 'create'
+1923: pop param 'storage_area_name'
+1924: pop param 'mobile'
+if(( !storage_area_name ) || ( storage_area_name == error ))
+1925: local #1
+1926: !
+1927: local #1
+1928: error
+1929: ==
+1930: ||
+1931: if false goto 1934
+storage_area_name := CP_DEFAULT_AREA;
+1932: "World Bank"
+1933: local1 := 
+var container_id := CP_GetMobileContainerID( mobile );
+1934: decl local #3
+1935: local #2
+1936: makelocal
+1937: jmp userfunc @2530
+1938: :=
+1939: #
+var root_container := CP_GetStorageAreaContainer( container_id, storage_area_na
+1940: decl local #4
+1941: local #3
+1942: local #1
+1943: local #0
+1944: makelocal
+1945: jmp userfunc @1866
+1946: :=
+1947: #
+return root_container;
+1948: local #4
+1949: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+1950: pop param 'script_name'
+var i;
+1951: decl local #1
+1952: #
+for( i:=1; i<=len(script_name); i+=1 )
+1953: local #1
+1954: 1L
+1955: :=
+1956: #
+1957: local #1
+1958: local #0
+1959: Func(0,2): Len
+1960: <=
+1961: if false goto 1981
+if( !Check_ValidChar( script_name[i] ))
+1962: local #0
+1963: local #1
+1964: [] 1
+1965: 0L
+1966: makelocal
+1967: jmp userfunc @2295
+1968: if true goto 1973
+script_name[i] := " ";
+1969: local #0
+1970: local #1
+1971: " "
+1972: [] := (1) #
+SleepMS(5);
+1973: 5L
+1974: Func(3,0): Sleepms
+1975: #
+1976: local #1
+1977: 1L
+1978: +=
+1979: #
+1980: goto1957
+foreach poss_pkg in ( SplitWords( script_name ))
+1981: local #0
+1982: " "
+1983: Func(0,6): SplitWords
+1984: initforeach @1993
+if( GetPackageByName( poss_pkg ))
+1985: local #2
+1986: Func(7,0): GetPackageByName
+1987: if false goto 1990
+return poss_pkg;
+1988: local #2
+1989: return
+SleepMS(5);
+1990: 5L
+1991: Func(3,0): Sleepms
+1992: #
+1993: stepforeach @1985
+1994: leave block(3)
+return 0;
+1995: 0L
+1996: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 174
+function ProductGroups( byref buysell_cfg, mtype )
+1997: pop param 'mtype'
+1998: pop param byref 'buysell_cfg'
+var mtype_elem := FindConfigElem( buysell_cfg, mtype );
+1999: decl local #2
+2000: local #1
+2001: local #0
+2002: Func(5,5): FindConfigElem
+2003: :=
+2004: #
+if( !mtype_elem )
+2005: local #2
+2006: if true goto 2009
+return 0;
+2007: 0L
+2008: return
+return GetConfigStringArray( mtype_elem, "Sells" );
+2009: local #2
+2010: "Sells"
+2011: Func(5,2): GetConfigStringArray
+2012: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 184
+function Restock( npc, byref buysell_cfg, byref inventory, byref productgroup )
+2013: pop param byref 'productgroup'
+2014: pop param byref 'inventory'
+2015: pop param byref 'buysell_cfg'
+2016: pop param 'npc'
+var pg_elem := FindConfigElem( buySell_cfg, productgroup);
+2017: decl local #4
+2018: local #2
+2019: local #0
+2020: Func(5,5): FindConfigElem
+2021: :=
+2022: #
+foreach itemstr in ( GetConfigStringArray( pg_elem, "Item" ))
+2023: local #4
+2024: "Item"
+2025: Func(5,2): GetConfigStringArray
+2026: initforeach @2036
+SpawnItem( npc, inventory, itemstr );
+2027: local #3
+2028: local #1
+2029: local #5
+2030: makelocal
+2031: jmp userfunc @2086
+2032: #
+SleepMS(2);
+2033: 2L
+2034: Func(3,0): Sleepms
+2035: #
+2036: stepforeach @2027
+2037: leave block(3)
+foreach itemstr in ( GetConfigStringArray( pg_elem, "Multibag" ))
+2038: local #4
+2039: "Multibag"
+2040: Func(5,2): GetConfigStringArray
+2041: initforeach @2082
+var baglist := SplitWords( itemstr );
+2042: decl local #0
+2043: local #5
+2044: " "
+2045: Func(0,6): SplitWords
+2046: :=
+2047: #
+var spawnelem := FindConfigElem( buySell_cfg, baglist[1] );
+2048: decl local #1
+2049: local #2
+2050: local #8
+2051: 1L
+2052: [] 1
+2053: Func(5,5): FindConfigElem
+2054: :=
+2055: #
+var desc := spawnelem.desc;
+2056: decl local #2
+2057: local #9
+2058: get member id 'desc' (19)
+2059: :=
+2060: #
+var stuffarray := GetConfigStringArray( spawnelem, "Item" );
+2061: decl local #3
+2062: local #9
+2063: "Item"
+2064: Func(5,2): GetConfigStringArray
+2065: :=
+2066: #
+SpawnMultiBag( npc, inventory, desc, stuffarray, CInt( baglist[2] ));
+2067: local #3
+2068: local #1
+2069: local #10
+2070: local #11
+2071: local #8
+2072: 2L
+2073: [] 1
+2074: Func(0,0): CInt
+2075: makelocal
+2076: jmp userfunc @2139
+2077: #
+SleepMS(2);
+2078: 2L
+2079: Func(3,0): Sleepms
+2080: #
+2081: leave block(4)
+2082: stepforeach @2042
+2083: leave block(3)
+return 1;
+2084: 1L
+2085: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 235
+function SpawnItem( npc, byref inventory, itemstr )
+2086: pop param 'itemstr'
+2087: pop param byref 'inventory'
+2088: pop param 'npc'
+var parms := SplitWords( itemstr );
+2089: decl local #3
+2090: local #0
+2091: " "
+2092: Func(0,6): SplitWords
+2093: :=
+2094: #
+var objtype := parms[1];
+2095: decl local #4
+2096: local #3
+2097: 1L
+2098: [] 1
+2099: :=
+2100: #
+if( CInt( objtype ))
+2101: local #4
+2102: Func(0,0): CInt
+2103: if false goto 2108
+objtype := CInt( objtype );
+2104: local #4
+2105: Func(0,0): CInt
+2106: local4 := 
+2107: goto2111
+objtype := GetObjtypeByName( objtype );
+2108: local #4
+2109: Func(2,21): GetObjtypeByName
+2110: local4 := 
+var count := CInt( parms[2] );
+2111: decl local #5
+2112: local #3
+2113: 2L
+2114: [] 1
+2115: Func(0,0): CInt
+2116: :=
+2117: #
+var item := CreateItemInInventory( inventory, objtype, count );
+2118: decl local #6
+2119: local #1
+2120: local #4
+2121: local #5
+2122: Func(2,24): CreateItemInInventory
+2123: :=
+2124: #
+var item_price := GetSellPrice( npc, parms[1] );
+2125: decl local #7
+2126: local #2
+2127: local #3
+2128: 1L
+2129: [] 1
+2130: makelocal
+2131: jmp userfunc @2691
+2132: :=
+2133: #
+item.sellprice := item_price;
+2134: local #6
+2135: local #7
+2136: set member id 'sellprice' (23) #
+return 1;
+2137: 1L
+2138: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 205
+function SpawnMultiBag( npc, byref inventory, desc, stuffarray, number )
+2139: pop param 'number'
+2140: pop param 'stuffarray'
+2141: pop param 'desc'
+2142: pop param byref 'inventory'
+2143: pop param 'npc'
+for i := 1 to number
+2144: 1L
+2145: local #0
+2146: initfor @2245
+var reg_bag := CreateItemInContainer( inventory, 0x0E76, 1 );
+2147: decl local #0
+2148: local #3
+2149: 3702L
+2150: 1L
+2151: Func(2,23): CreateItemInContainer
+2152: :=
+2153: #
+if( reg_bag.errortext )
+2154: local #7
+2155: get member 'errortext'
+2156: if false goto 2174
+AI_Speak( npc, "Error creating multibag for <"+desc+"> -->"+reg_bag.errortext )
+2157: local #4
+2158: "Error creating multibag for <"
+2159: local #2
+2160: +
+2161: "> -->"
+2162: +
+2163: local #7
+2164: get member 'errortext'
+2165: +
+2166: "default"
+2167: 0L
+2168: 0L
+2169: makelocal
+2170: jmp userfunc @1055
+2171: #
+return 0;
+2172: 0L
+2173: return
+reg_bag.name := desc;
+2174: local #7
+2175: local #2
+2176: set member id 'name' (3) #
+foreach item in ( stuffarray )
+2177: local #1
+2178: initforeach @2240
+var parms := SplitWords( item );
+2179: decl local #0
+2180: local #8
+2181: " "
+2182: Func(0,6): SplitWords
+2183: :=
+2184: #
+var it := CreateItemInContainer( reg_bag, CInt( parms[1] ), CInt( parms[2] ));
+2185: decl local #1
+2186: local #7
+2187: local #11
+2188: 1L
+2189: [] 1
+2190: Func(0,0): CInt
+2191: local #11
+2192: 2L
+2193: [] 1
+2194: Func(0,0): CInt
+2195: Func(2,23): CreateItemInContainer
+2196: :=
+2197: #
+if( it.errortext )
+2198: local #12
+2199: get member 'errortext'
+2200: if false goto 2218
+AI_Speak( npc, "Error creating item for <"+desc+"> -->"+it.errortext );
+2201: local #4
+2202: "Error creating item for <"
+2203: local #2
+2204: +
+2205: "> -->"
+2206: +
+2207: local #12
+2208: get member 'errortext'
+2209: +
+2210: "default"
+2211: 0L
+2212: 0L
+2213: makelocal
+2214: jmp userfunc @1055
+2215: #
+continue;
+2216: leave block(2)
+2217: goto2240
+var item_price := GetSellPrice( npc, parms[1] );
+2218: decl local #2
+2219: local #4
+2220: local #11
+2221: 1L
+2222: [] 1
+2223: makelocal
+2224: jmp userfunc @2691
+2225: :=
+2226: #
+reg_bag.sellprice := 10 + CInt( item_price * it.amount );
+2227: local #7
+2228: 10L
+2229: local #13
+2230: local #12
+2231: get member id 'amount' (13)
+2232: *
+2233: Func(0,0): CInt
+2234: +
+2235: set member id 'sellprice' (23) #
+SleepMS(2);
+2236: 2L
+2237: Func(3,0): Sleepms
+2238: #
+2239: leave block(3)
+2240: stepforeach @2179
+2241: leave block(3)
+2242: leave block(1)
+2243: nextfor @2147
+2244: leave block(2)
+return 1;
+2245: 1L
+2246: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 57
+function AP_GetAttributeDataElem( elem_name )
+2247: pop param 'elem_name'
+var data_file := AP_GetAttributesDataFile();
+2248: decl local #1
+2249: makelocal
+2250: jmp userfunc @2276
+2251: :=
+2252: #
+var data_elem := DFFindElement( data_file, elem_name, DF_CREATE );
+2253: decl local #2
+2254: local #1
+2255: local #0
+2256: 1L
+2257: makelocal
+2258: jmp userfunc @2573
+2259: :=
+2260: #
+if( data_elem.errortext )
+2261: local #2
+2262: get member 'errortext'
+2263: if false goto 2274
+SysLog( "Error::AP_GetAttributeDataElem() - unable to find elem ["+elem_name+"]
+2264: "Error::AP_GetAttributeDataElem() - unable to find elem ["
+2265: local #0
+2266: +
+2267: "] ->"
+2268: +
+2269: local #2
+2270: get member 'errortext'
+2271: +
+2272: Func(3,3): SysLog
+2273: #
+return data_elem;
+2274: local #2
+2275: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 49
+function AP_GetAttributesDataFile()
+var data_file := DFOpenDataFile( ":attributes:attributes", DF_CREATE );
+2276: decl local #0
+2277: ":attributes:attributes"
+2278: 1L
+2279: 0L
+2280: makelocal
+2281: jmp userfunc @2635
+2282: :=
+2283: #
+if( data_file.errortext )
+2284: local #0
+2285: get member 'errortext'
+2286: if false goto 2293
+SysLog( "Error::AP_GetAttributesDataFile() - Unable to open attributes.txt ->"+
+2287: "Error::AP_GetAttributesDataFile() - Unable to open attributes.txt ->"
+2288: local #0
+2289: get member 'errortext'
+2290: +
+2291: Func(3,3): SysLog
+2292: #
+return data_file;
+2293: local #0
+2294: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+2295: pop param 'allow_space'
+2296: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+2297: decl local #2
+2298: array
+2299: "a"
+2300: init{}
+2301: "b"
+2302: init{}
+2303: "c"
+2304: init{}
+2305: "d"
+2306: init{}
+2307: "e"
+2308: init{}
+2309: "f"
+2310: init{}
+2311: "g"
+2312: init{}
+2313: "h"
+2314: init{}
+2315: "i"
+2316: init{}
+2317: "j"
+2318: init{}
+2319: "k"
+2320: init{}
+2321: "l"
+2322: init{}
+2323: "m"
+2324: init{}
+2325: "n"
+2326: init{}
+2327: "o"
+2328: init{}
+2329: "p"
+2330: init{}
+2331: "q"
+2332: init{}
+2333: "r"
+2334: init{}
+2335: "s"
+2336: init{}
+2337: "t"
+2338: init{}
+2339: "u"
+2340: init{}
+2341: "v"
+2342: init{}
+2343: "w"
+2344: init{}
+2345: "x"
+2346: init{}
+2347: "y"
+2348: init{}
+2349: "z"
+2350: init{}
+2351: "A"
+2352: init{}
+2353: "B"
+2354: init{}
+2355: "C"
+2356: init{}
+2357: "D"
+2358: init{}
+2359: "E"
+2360: init{}
+2361: "F"
+2362: init{}
+2363: "G"
+2364: init{}
+2365: "H"
+2366: init{}
+2367: "I"
+2368: init{}
+2369: "P"
+2370: init{}
+2371: "O"
+2372: init{}
+2373: "N"
+2374: init{}
+2375: "M"
+2376: init{}
+2377: "L"
+2378: init{}
+2379: "K"
+2380: init{}
+2381: "J"
+2382: init{}
+2383: "Q"
+2384: init{}
+2385: "R"
+2386: init{}
+2387: "S"
+2388: init{}
+2389: "T"
+2390: init{}
+2391: "U"
+2392: init{}
+2393: "V"
+2394: init{}
+2395: "W"
+2396: init{}
+2397: "X"
+2398: init{}
+2399: "Y"
+2400: init{}
+2401: "Z"
+2402: init{}
+2403: "1"
+2404: init{}
+2405: "2"
+2406: init{}
+2407: "3"
+2408: init{}
+2409: "4"
+2410: init{}
+2411: "5"
+2412: init{}
+2413: "6"
+2414: init{}
+2415: "7"
+2416: init{}
+2417: "8"
+2418: init{}
+2419: "9"
+2420: init{}
+2421: "0"
+2422: init{}
+2423: :=
+2424: #
+var len_text := Len( text );
+2425: decl local #3
+2426: local #1
+2427: Func(0,2): Len
+2428: :=
+2429: #
+var i;
+2430: decl local #4
+2431: #
+for( i:=1; i<=len_text; i+=1 )
+2432: local #4
+2433: 1L
+2434: :=
+2435: #
+2436: local #4
+2437: local #3
+2438: <=
+2439: if false goto 2482
+SleepMS(5);
+2440: 5L
+2441: Func(3,0): Sleepms
+2442: #
+var letter := CStr( text[i] );
+2443: decl local #0
+2444: local #1
+2445: local #4
+2446: [] 1
+2447: Func(0,1): CStr
+2448: :=
+2449: #
+if( letter in valid_char )
+2450: local #5
+2451: local #2
+2452: in
+2453: if false goto 2457
+continue;
+2454: leave block(1)
+2455: goto2477
+2456: goto2474
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+2457: local #0
+2458: local #1
+2459: local #4
+2460: [] 1
+2461: " "
+2462: ==
+2463: local #1
+2464: local #4
+2465: [] 1
+2466: Func(0,5): CAsc
+2467: 0L
+2468: ==
+2469: ||
+2470: &&
+2471: if false goto 2474
+continue;
+2472: leave block(1)
+2473: goto2477
+return 0;
+2474: 0L
+2475: return
+2476: leave block(1)
+2477: local #4
+2478: 1L
+2479: +=
+2480: #
+2481: goto2436
+return 1;
+2482: 1L
+2483: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 86
+function CP_CreateStorageAreaContainer( container_id, storage_area_name:=0 )
+2484: pop param 'storage_area_name'
+2485: pop param 'container_id'
+if(( !storage_area_name ) || ( storage_area_name == error ))
+2486: local #0
+2487: !
+2488: local #0
+2489: error
+2490: ==
+2491: ||
+2492: if false goto 2495
+storage_area_name := CP_DEFAULT_AREA;
+2493: "World Bank"
+2494: local0 := 
+var storage_area := FindStorageArea( storage_area_name );
+2495: decl local #2
+2496: local #0
+2497: Func(12,0): FindStorageArea
+2498: :=
+2499: #
+if( !storage_area )
+2500: local #2
+2501: if true goto 2505
+storage_area := CreateStorageArea( storage_area_name );
+2502: local #0
+2503: Func(12,2): CreateStorageArea
+2504: local2 := 
+var container_name := CP_DEFAULT_PREFIX + container_id;
+2505: decl local #3
+2506: "[Root Container] "
+2507: local #1
+2508: +
+2509: :=
+2510: #
+var root_container := CreateRootItemInStorageArea( storage_area, container_name
+2511: decl local #4
+2512: local #2
+2513: local #3
+2514: global #2
+2515: Func(12,3): CreateRootItemInStorageArea
+2516: :=
+2517: #
+if( root_container.errortext )
+2518: local #4
+2519: get member 'errortext'
+2520: if false goto 2528
+CP_StorageDebugMsg( "Error::CP_CreateStorageAreaContainer() - "+root_container.
+2521: "Error::CP_CreateStorageAreaContainer() - "
+2522: local #4
+2523: get member 'errortext'
+2524: +
+2525: makelocal
+2526: jmp userfunc @2550
+2527: #
+return root_container;
+2528: local #4
+2529: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 40
+function CP_GetMobileContainerID( mobile )
+2530: pop param 'mobile'
+if( mobile.IsA( POLCLASS_CORPSE ))
+2531: local #0
+2532: 7L
+2533: Call Method id isa (#0, 1 params)
+2534: if false goto 2542
+return "Owner="+Hex( mobile.ownerserial );
+2535: "Owner="
+2536: local #0
+2537: get member id 'ownerserial' (124)
+2538: Func(0,8): Hex
+2539: +
+2540: return
+2541: goto2548
+return "Owner="+Hex( mobile.serial );
+2542: "Owner="
+2543: local #0
+2544: get member id 'serial' (6)
+2545: Func(0,8): Hex
+2546: +
+2547: return
+2548: 0L
+2549: return
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 145
+function CP_StorageDebugMsg( report_text )
+2550: pop param 'report_text'
+if( STORAGE_DEBUG )
+2551: global #3
+2552: if false goto 2571
+var script_name := GetProcess( GetPid() ).name;
+2553: decl local #0
+2554: Func(3,2): GetPid
+2555: Func(3,1): GetProcess
+2556: get member id 'name' (3)
+2557: :=
+2558: #
+LogToFile( "::log/storage.log", "["+script_name+"]: "+report_text, LOG_DATETIME
+2559: "::log/storage.log"
+2560: "["
+2561: local #1
+2562: +
+2563: "]: "
+2564: +
+2565: local #0
+2566: +
+2567: 1L
+2568: Func(6,0): LogToFile
+2569: #
+2570: leave block(1)
+return 1;
+2571: 1L
+2572: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+2573: pop param 'create'
+2574: pop param 'elem_name'
+2575: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+2576: decl local #3
+2577: local #2
+2578: local #1
+2579: Func(0,1): CStr
+2580: Call Method id findelement (#72, 1 params)
+2581: :=
+2582: #
+if ( !temp && create )
+2583: local #3
+2584: !
+2585: local #0
+2586: &&
+2587: if false goto 2605
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+2588: "Debug::DFFindElement() - Creating elem: "
+2589: local #1
+2590: Func(0,1): CStr
+2591: +
+2592: makelocal
+2593: jmp userfunc @2900
+2594: #
+file_ref.CreateElement(CStr(elem_name));
+2595: local #2
+2596: local #1
+2597: Func(0,1): CStr
+2598: Call Method id createelement (#71, 1 params)
+2599: #
+temp := file_ref.FindElement(CStr(elem_name));
+2600: local #2
+2601: local #1
+2602: Func(0,1): CStr
+2603: Call Method id findelement (#72, 1 params)
+2604: local3 := 
+if ( temp )
+2605: local #3
+2606: if false goto 2610
+return temp;
+2607: local #3
+2608: return
+2609: goto2633
+elseif (create)
+2610: local #0
+2611: if false goto 2633
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+2612: decl local #0
+2613: error
+2614: "Error::DFFindElement() - Could not open data elem ["
+2615: local #1
+2616: +
+2617: "] - "
+2618: +
+2619: local #3
+2620: get member 'errortext'
+2621: +
+2622: addmember-assign(errortext)
+2623: :=
+2624: #
+DF_OutPut(errmsg.errortext);
+2625: local #4
+2626: get member 'errortext'
+2627: makelocal
+2628: jmp userfunc @2900
+2629: #
+return errmsg;
+2630: local #4
+2631: return
+2632: leave block(1)
+2633: 0L
+2634: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+2635: pop param 'flags'
+2636: pop param 'create'
+2637: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+2638: decl local #3
+2639: local #2
+2640: Func(11,0): OpenDataFile
+2641: :=
+2642: #
+if ( (!data_file) && (create) )
+2643: local #3
+2644: !
+2645: local #1
+2646: &&
+2647: if false goto 2661
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+2648: "Debug::DFOpenDataFile() - Creating data file: "
+2649: local #2
+2650: +
+2651: makelocal
+2652: jmp userfunc @2900
+2653: #
+CreateDataFile(file_name, flags);
+2654: local #2
+2655: local #0
+2656: Func(11,1): CreateDataFile
+2657: #
+data_file := OpenDataFile(file_name);
+2658: local #2
+2659: Func(11,0): OpenDataFile
+2660: local3 := 
+if ( data_file )
+2661: local #3
+2662: if false goto 2666
+return data_file;
+2663: local #3
+2664: return
+2665: goto2689
+elseif ( create )
+2666: local #1
+2667: if false goto 2689
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+2668: decl local #0
+2669: error
+2670: "Error::DFOpenDataFile() - Could not open "
+2671: local #2
+2672: +
+2673: " : "
+2674: +
+2675: local #3
+2676: get member 'errortext'
+2677: +
+2678: addmember-assign(errortext)
+2679: :=
+2680: #
+DF_OutPut(errmsg.errortext);
+2681: local #4
+2682: get member 'errortext'
+2683: makelocal
+2684: jmp userfunc @2900
+2685: #
+return errmsg;
+2686: local #4
+2687: return
+2688: leave block(1)
+2689: 0L
+2690: return
+c:/ZH099/pkg/systems/merchants/include/merchant.inc, Line 255
+function GetSellPrice( npc, objtype )
+2691: pop param 'objtype'
+2692: pop param 'npc'
+var itemdesc := ReadConfigFile( ":*:itemdesc" );
+2693: decl local #2
+2694: ":*:itemdesc"
+2695: Func(5,0): ReadConfigFile
+2696: :=
+2697: #
+var elem := FindConfigElem( itemdesc, CInt( objtype ));
+2698: decl local #3
+2699: local #2
+2700: local #0
+2701: Func(0,0): CInt
+2702: Func(5,5): FindConfigElem
+2703: :=
+2704: #
+if( elem.errortext )
+2705: local #3
+2706: get member 'errortext'
+2707: if false goto 2725
+AI_Speak( npc, "Error reading itemdesc entry for <"+objtype+"> -->"+elem.errort
+2708: local #1
+2709: "Error reading itemdesc entry for <"
+2710: local #0
+2711: +
+2712: "> -->"
+2713: +
+2714: local #3
+2715: get member 'errortext'
+2716: +
+2717: "default"
+2718: 0L
+2719: 0L
+2720: makelocal
+2721: jmp userfunc @1055
+2722: #
+return 0;
+2723: 0L
+2724: return
+var item_price := GetConfigInt( elem, "VendorSellsFor" );
+2725: decl local #4
+2726: local #3
+2727: "VendorSellsFor"
+2728: Func(5,6): GetConfigInt
+2729: :=
+2730: #
+if( !item_price )
+2731: local #4
+2732: if true goto 2745
+SysLog( "No item price for objtype "+objtype+" -->"+ elem.name );
+2733: "No item price for objtype "
+2734: local #0
+2735: +
+2736: " -->"
+2737: +
+2738: local #3
+2739: get member id 'name' (3)
+2740: +
+2741: Func(3,3): SysLog
+2742: #
+return 0;
+2743: 0L
+2744: return
+var area := A_IsWhere( npc ),
+2745: decl local #5
+2746: local #1
+2747: makelocal
+2748: jmp userfunc @2772
+2749: :=
+2750: #
+2751: decl local #6
+2752: local #5
+2753: makelocal
+2754: jmp userfunc @2844
+2755: :=
+2756: #
+if( area_value )
+2757: local #6
+2758: if false goto 2769
+item_price := item_price * area_value;
+2759: local #4
+2760: local #6
+2761: *
+2762: local4 := 
+if( item_price < 1 )
+2763: local #4
+2764: 1L
+2765: <
+2766: if false goto 2769
+item_price := 1;
+2767: 1L
+2768: local4 := 
+return CInt( item_price );
+2769: local #4
+2770: Func(0,0): CInt
+2771: return
+c:/ZH099/pkg/systems/areas/include/managment.inc, Line 92
+function A_IsWhere( object )
+2772: pop param 'object'
+var areas := ListAreasByType(),
+2773: decl local #1
+2774: makelocal
+2775: jmp userfunc @2942
+2776: :=
+2777: #
+2778: decl local #2
+2779: "Britannia-Fantasia"
+2780: :=
+2781: #
+foreach area_name in areas
+2782: local #1
+2783: initforeach @2840
+if( area_name == "Britannia-Fantasia" )
+2784: local #3
+2785: "Britannia-Fantasia"
+2786: ==
+2787: if false goto 2789
+continue;
+2788: goto2840
+var area := GetAreaSettings( area_name ),
+2789: decl local #0
+2790: local #3
+2791: makelocal
+2792: jmp userfunc @2923
+2793: :=
+2794: #
+2795: decl local #1
+2796: local #6
+2797: get member 'Min_X'
+2798: Func(0,0): CInt
+2799: :=
+2800: #
+2801: decl local #2
+2802: local #6
+2803: get member 'Max_X'
+2804: Func(0,0): CInt
+2805: :=
+2806: #
+2807: decl local #3
+2808: local #6
+2809: get member 'Min_Y'
+2810: Func(0,0): CInt
+2811: :=
+2812: #
+2813: decl local #4
+2814: local #6
+2815: get member 'Max_Y'
+2816: Func(0,0): CInt
+2817: :=
+2818: #
+2819: decl local #5
+2820: local #6
+2821: get member id 'realm' (112)
+2822: Func(0,1): CStr
+2823: :=
+2824: #
+if( A_IsInBox( object, MinX, MaxX, MinY, MaxY, Realm ))
+2825: local #0
+2826: local #7
+2827: local #8
+2828: local #9
+2829: local #10
+2830: local #11
+2831: makelocal
+2832: jmp userfunc @2966
+2833: if false goto 2836
+result := area_name;
+2834: local #3
+2835: local2 := 
+SleepMS(5);
+2836: 5L
+2837: Func(3,0): Sleepms
+2838: #
+2839: leave block(6)
+2840: stepforeach @2784
+2841: leave block(3)
+return result;
+2842: local #2
+2843: return
+c:/ZH099/pkg/systems/areas/include/settings.inc, Line 35
+function AM_GetMerchantValue( area )
+2844: pop param 'area'
+var area_elem := AM_GetSettingsCfgElem( area );
+2845: decl local #1
+2846: local #0
+2847: 0L
+2848: makelocal
+2849: jmp userfunc @2856
+2850: :=
+2851: #
+return CDbl( area_elem.MerchantValue );
+2852: local #1
+2853: get member 'MerchantValue'
+2854: Func(0,7): CDbl
+2855: return
+c:/ZH099/pkg/systems/areas/include/settings.inc, Line 21
+function AM_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+2856: pop param byref 'cfg_file'
+2857: pop param 'elem_name'
+if( !cfg_file )
+2858: local #0
+2859: if true goto 2863
+cfg_file := AM_GetSettingsCfgFile();
+2860: makelocal
+2861: jmp userfunc @2884
+2862: local0 := 
+var elem := cfg_file[elem_name];
+2863: decl local #2
+2864: local #0
+2865: local #1
+2866: [] 1
+2867: :=
+2868: #
+if( elem.errortext )
+2869: local #2
+2870: get member 'errortext'
+2871: if false goto 2882
+SysLog( "Error::AM_GetSettingsCfgElem() - Unable to find elem ["+elem_name+"] -
+2872: "Error::AM_GetSettingsCfgElem() - Unable to find elem ["
+2873: local #1
+2874: +
+2875: "] ->"
+2876: +
+2877: local #2
+2878: get member 'errortext'
+2879: +
+2880: Func(3,3): SysLog
+2881: #
+return elem;
+2882: local #2
+2883: return
+c:/ZH099/pkg/systems/areas/include/settings.inc, Line 13
+function AM_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":areas:areas" );
+2884: decl local #0
+2885: ":areas:areas"
+2886: Func(5,0): ReadConfigFile
+2887: :=
+2888: #
+if( cfg.errortext )
+2889: local #0
+2890: get member 'errortext'
+2891: if false goto 2898
+SysLog( "Error::AM_GetSettingsCfgFile() - Unable to open [:areas:areas.cfg] ->"
+2892: "Error::AM_GetSettingsCfgFile() - Unable to open [:areas:areas.cfg] ->"
+2893: local #0
+2894: get member 'errortext'
+2895: +
+2896: Func(3,3): SysLog
+2897: #
+return cfg;
+2898: local #0
+2899: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+2900: pop param 'text'
+if ( DF_DEBUG_MODE )
+2901: global #1
+2902: if false goto 2921
+var script_name := GetProcess(GetPid()).name;
+2903: decl local #0
+2904: Func(3,2): GetPid
+2905: Func(3,1): GetProcess
+2906: get member id 'name' (3)
+2907: :=
+2908: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+2909: "::log/dataFile.log"
+2910: "["
+2911: local #1
+2912: +
+2913: "]: "
+2914: +
+2915: local #0
+2916: +
+2917: 1L
+2918: Func(6,0): LogToFile
+2919: #
+2920: leave block(1)
+return 1;
+2921: 1L
+2922: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 49
+function GetAreaSettings( area_name )
+2923: pop param 'area_name'
+var cfg_area := GetAreasCfgElem( area_name );
+2924: decl local #1
+2925: local #0
+2926: 0L
+2927: makelocal
+2928: jmp userfunc @3001
+2929: :=
+2930: #
+if( cfg_area.errortext )
+2931: local #1
+2932: get member 'errortext'
+2933: if false goto 2940
+SysLog( "Error::GetAreaSettings() -->"+cfg_area.errortext );
+2934: "Error::GetAreaSettings() -->"
+2935: local #1
+2936: get member 'errortext'
+2937: +
+2938: Func(3,3): SysLog
+2939: #
+return cfg_area;
+2940: local #1
+2941: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 39
+function ListAreasByType()
+var cfg_elem := GetAreasCfgElem( "Settings" );
+2942: decl local #0
+2943: "Settings"
+2944: 0L
+2945: makelocal
+2946: jmp userfunc @3001
+2947: :=
+2948: #
+var cfg_areas := GetConfigStringArray( cfg_elem, "AreaName" );
+2949: decl local #1
+2950: local #0
+2951: "AreaName"
+2952: Func(5,2): GetConfigStringArray
+2953: :=
+2954: #
+if( cfg_areas.errortext )
+2955: local #1
+2956: get member 'errortext'
+2957: if false goto 2964
+SysLog( "Error::ListAreasByType() -->"+cfg_areas.errortext );
+2958: "Error::ListAreasByType() -->"
+2959: local #1
+2960: get member 'errortext'
+2961: +
+2962: Func(3,3): SysLog
+2963: #
+return cfg_areas;
+2964: local #1
+2965: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 59
+function A_IsInBox( byref object, byref x1, byref x2, byref y1, byref y2, byref
+2966: pop param byref 'realm'
+2967: pop param byref 'y2'
+2968: pop param byref 'y1'
+2969: pop param byref 'x2'
+2970: pop param byref 'x1'
+2971: pop param byref 'object'
+if( object.realm == realm )
+2972: local #5
+2973: get member id 'realm' (112)
+2974: local #0
+2975: ==
+2976: if false goto 2999
+if( object.x >= x1 && object.x <= x2 && object.y >= y1 && object.y <= y2 )
+2977: local #5
+2978: get member id 'x' (0)
+2979: local #4
+2980: >=
+2981: local #5
+2982: get member id 'x' (0)
+2983: local #3
+2984: <=
+2985: &&
+2986: local #5
+2987: get member id 'y' (1)
+2988: local #2
+2989: >=
+2990: &&
+2991: local #5
+2992: get member id 'y' (1)
+2993: local #1
+2994: <=
+2995: &&
+2996: if false goto 2999
+return 1;
+2997: 1L
+2998: return
+return 0;
+2999: 0L
+3000: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 23
+function GetAreasCfgElem( area_name, byref cfg_file:=0 )
+3001: pop param byref 'cfg_file'
+3002: pop param 'area_name'
+if( !cfg_file )
+3003: local #0
+3004: if true goto 3008
+cfg_file := GetAreasCfgFile();
+3005: makelocal
+3006: jmp userfunc @3029
+3007: local0 := 
+var cfg_elem := cfg_file[area_name];
+3008: decl local #2
+3009: local #0
+3010: local #1
+3011: [] 1
+3012: :=
+3013: #
+if( cfg_elem.errortext )
+3014: local #2
+3015: get member 'errortext'
+3016: if false goto 3027
+SysLog( "Error::GetAreasCfgElem() - unable to find cfg elem ["+area_name+"] ->"
+3017: "Error::GetAreasCfgElem() - unable to find cfg elem ["
+3018: local #1
+3019: +
+3020: "] ->"
+3021: +
+3022: local #2
+3023: get member 'errortext'
+3024: +
+3025: Func(3,3): SysLog
+3026: #
+return cfg_elem;
+3027: local #2
+3028: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 15
+function GetAreasCfgFile()
+var cfg_file := ReadConfigFile( ":areas:areas" );
+3029: decl local #0
+3030: ":areas:areas"
+3031: Func(5,0): ReadConfigFile
+3032: :=
+3033: #
+if( cfg_file.errortext )
+3034: local #0
+3035: get member 'errortext'
+3036: if false goto 3043
+SysLog( "Error::GetAreasCfgFile() - Unable to open areas.cfg ->"+cfg_file.error
+3037: "Error::GetAreasCfgFile() - Unable to open areas.cfg ->"
+3038: local #0
+3039: get member 'errortext'
+3040: +
+3041: Func(3,3): SysLog
+3042: #
+return cfg_file;
+3043: local #0
+3044: return

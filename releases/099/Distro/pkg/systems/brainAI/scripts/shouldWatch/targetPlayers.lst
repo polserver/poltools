@@ -1,0 +1,68 @@
+C:\ZH099\pkg\systems\brainAI\scripts\shouldWatch\targetPlayers.src, Line 17
+program BrainNerve( params )
+include ":brainAI:npcError";
+0: get arg 'params'
+var npc := params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var mobile := params[2];
+7: decl local #2
+8: local #0
+9: 2L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore
+13: 0L
+14: local0 := 
+if( mobile.cmdlevel )
+15: local #2
+16: get member id 'cmdlevel' (46)
+17: if false goto 21
+return 0;
+18: 0L
+19: progend
+20: goto49
+elseif( mobile.IsA( POLCLASS_NPC ) && !mobile.master )
+21: local #2
+22: 4L
+23: Call Method id isa (#0, 1 params)
+24: local #2
+25: get member id 'master' (63)
+26: !
+27: &&
+28: if false goto 32
+return 0;
+29: 0L
+30: progend
+31: goto49
+elseif( GetObjProperty( npc, "#Peacemaking" ) >= ReadGameClock() )
+32: local #1
+33: "#Peacemaking"
+34: Func(2,2): GetObjProperty
+35: Func(2,6): ReadGameClock
+36: >=
+37: if false goto 41
+return 0;
+38: 0L
+39: progend
+40: goto49
+elseif( GetObjProperty( mobile, "#JustRess" ) >= ReadGameClock() )
+41: local #2
+42: "#JustRess"
+43: Func(2,2): GetObjProperty
+44: Func(2,6): ReadGameClock
+45: >=
+46: if false goto 49
+return 0;
+47: 0L
+48: progend
+return 1;
+49: 1L
+50: progend
+51: leave block(3)
+52: progend

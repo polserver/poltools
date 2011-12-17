@@ -1,0 +1,582 @@
+C:\ZH099\pkg\systems\brainAI\commands\gm\restartnpc.src, Line 5
+program textcmd_fixAI(who)
+CONST REPORT_ALL	:= 0x7;
+0: get arg 'who'
+if( !AuthorizationCode( who ))
+1: local #0
+2: makelocal
+3: jmp userfunc @41
+4: if true goto 13
+SendSysMessage( who, "Cancelled." );
+5: local #0
+6: "Cancelled."
+7: 3L
+8: 1000L
+9: Func(2,3): SendSysMessage
+10: #
+return 0;
+11: 0L
+12: progend
+var targ := target(who);
+13: decl local #1
+14: local #0
+15: 1L
+16: Func(2,7): Target
+17: :=
+18: #
+var result := RestartScript(targ);
+19: decl local #2
+20: local #1
+21: Func(2,8): RestartScript
+22: :=
+23: #
+SendSysMessage(who, "Result of RestartScript("+targ.name+") ->"+result);
+24: local #0
+25: "Result of RestartScript("
+26: local #1
+27: get member id 'name' (3)
+28: +
+29: ") ->"
+30: +
+31: local #2
+32: +
+33: 3L
+34: 1000L
+35: Func(2,3): SendSysMessage
+36: #
+return 1;
+37: 1L
+38: progend
+39: leave block(3)
+40: progend
+c:/ZH099/scripts/include/security.inc, Line 14
+function AuthorizationCode( mobile )
+41: pop param 'mobile'
+if( GetObjProperty( mobile, "#AuthCodeGiven" ));
+42: local #0
+43: "#AuthCodeGiven"
+44: Func(2,1): GetObjProperty
+45: if false goto 48
+return 1;
+46: 1L
+47: return
+var autocode := GetGlobalProperty( "CA" );
+48: decl local #1
+49: "CA"
+50: Func(2,2): GetGlobalProperty
+51: :=
+52: #
+if( !autocode )
+53: local #1
+54: if true goto 70
+SendSysMessage( mobile, "Authorization code is not given yet.", 3, 53 );
+55: local #0
+56: "Authorization code is not given yet."
+57: 3L
+58: 53L
+59: Func(2,3): SendSysMessage
+60: #
+SendSysMessage( mobile, "Uses .setauthcode to create a new code.", 3, 53 );
+61: local #0
+62: "Uses .setauthcode to create a new code."
+63: 3L
+64: 53L
+65: Func(2,3): SendSysMessage
+66: #
+return 0;
+67: 0L
+68: return
+69: goto112
+var code := SendTextEntryGump( mobile, "Enter the Authorization Code.", TE_CANC
+70: decl local #0
+71: local #0
+72: "Enter the Authorization Code."
+73: 1L
+74: 1L
+75: 10L
+76: ""
+77: Func(2,4): SendTextEntryGump
+78: :=
+79: #
+if( code == autocode )
+80: local #2
+81: local #1
+82: ==
+83: if false goto 98
+SendSysMessage( mobile, "Code Accepted!", 3, 70 );
+84: local #0
+85: "Code Accepted!"
+86: 3L
+87: 70L
+88: Func(2,3): SendSysMessage
+89: #
+SetObjProperty( mobile, "#AuthCodeGiven", 1 );
+90: local #0
+91: "#AuthCodeGiven"
+92: 1L
+93: Func(2,5): SetObjProperty
+94: #
+return 1;
+95: 1L
+96: return
+97: goto111
+SendSysMessage( mobile, "It is not the Authorization code.", 3, 33 );
+98: local #0
+99: "It is not the Authorization code."
+100: 3L
+101: 33L
+102: Func(2,3): SendSysMessage
+103: #
+NotifyStaffOnline( mobile, "has provided a wrong authorization code." );
+104: local #0
+105: "has provided a wrong authorization code."
+106: makelocal
+107: jmp userfunc @114
+108: #
+return 0;
+109: 0L
+110: return
+111: leave block(1)
+112: 0L
+113: return
+c:/ZH099/scripts/include/security.inc, Line 40
+function NotifyStaffOnline( object, text )
+114: pop param 'text'
+115: pop param 'object'
+var name := object.name;
+116: decl local #2
+117: local #1
+118: get member id 'name' (3)
+119: :=
+120: #
+if( !name )
+121: local #2
+122: if true goto 130
+name := object.desc;
+123: local #1
+124: get member id 'desc' (19)
+125: local2 := 
+if( !name )
+126: local #2
+127: if true goto 130
+name := object;
+128: local #1
+129: local2 := 
+foreach character in EnumerateOnlineCharacters()
+130: Func(2,6): EnumerateOnlineCharacters
+131: initforeach @166
+if( GetObjProperty( character, "Notify" ))
+132: local #3
+133: "Notify"
+134: Func(2,1): GetObjProperty
+135: if false goto 163
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+136: local #1
+137: get member id 'cmdlevel' (46)
+138: local #3
+139: get member id 'cmdlevel' (46)
+140: <=
+141: local #3
+142: get member id 'cmdlevel' (46)
+143: 4L
+144: >=
+145: ||
+146: if false goto 163
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+147: local #3
+148: "You receive a notification:"
+149: 3L
+150: 55L
+151: Func(2,3): SendSysMessage
+152: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+153: local #3
+154: local #2
+155: " >>> "
+156: +
+157: local #0
+158: +
+159: 3L
+160: 55L
+161: Func(2,3): SendSysMessage
+162: #
+SleepMS(5);
+163: 5L
+164: Func(3,0): Sleepms
+165: #
+166: stepforeach @132
+167: leave block(3)
+if( object.serial )
+168: local #1
+169: get member id 'serial' (6)
+170: if false goto 187
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+171: local #2
+172: "["
+173: +
+174: local #1
+175: get member id 'serial' (6)
+176: +
+177: "] >>> "
+178: +
+179: local #0
+180: +
+181: 2L
+182: 0L
+183: makelocal
+184: jmp userfunc @199
+185: #
+186: goto197
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+187: local #2
+188: " >>> "
+189: +
+190: local #0
+191: +
+192: 2L
+193: 0L
+194: makelocal
+195: jmp userfunc @199
+196: #
+return 1;
+197: 1L
+198: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+199: pop param 'text_color'
+200: pop param 'flags'
+201: pop param 'report_text'
+if( !flags )
+202: local #1
+203: if true goto 207
+return 0;
+204: 0L
+205: return
+206: goto262
+elseif( flags & REPORT_CONSOLE )
+207: local #1
+208: 1L
+209: &
+210: if false goto 217
+Print( ""+report_text );
+211: ""
+212: local #2
+213: +
+214: Func(1,0): Print
+215: #
+216: goto262
+elseif( flags & REPORT_SYSLOG )
+217: local #1
+218: 2L
+219: &
+220: if false goto 251
+var script_name := CStr( GetProcess( GetPid() ).name ),
+221: decl local #0
+222: Func(3,2): GetPid
+223: Func(3,1): GetProcess
+224: get member id 'name' (3)
+225: Func(0,0): CStr
+226: :=
+227: #
+228: decl local #1
+229: local #3
+230: makelocal
+231: jmp userfunc @264
+232: :=
+233: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+234: "::log/"
+235: local #4
+236: +
+237: ".log"
+238: +
+239: "["
+240: local #3
+241: +
+242: "]: "
+243: +
+244: local #2
+245: +
+246: 1L
+247: Func(4,0): LogToFile
+248: #
+249: leave block(2)
+250: goto262
+elseif( flags & REPORT_BROADCAST )
+251: local #1
+252: 4L
+253: &
+254: if false goto 262
+Broadcast( ""+report_text, 3, text_color );
+255: ""
+256: local #2
+257: +
+258: 3L
+259: local #0
+260: Func(2,0): Broadcast
+261: #
+return 1;
+262: 1L
+263: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+264: pop param 'script_name'
+var i;
+265: decl local #1
+266: #
+for( i:=1; i<=len(script_name); i+=1 )
+267: local #1
+268: 1L
+269: :=
+270: #
+271: local #1
+272: local #0
+273: Func(0,1): Len
+274: <=
+275: if false goto 295
+if( !Check_ValidChar( script_name[i] ))
+276: local #0
+277: local #1
+278: [] 1
+279: 0L
+280: makelocal
+281: jmp userfunc @311
+282: if true goto 287
+script_name[i] := " ";
+283: local #0
+284: local #1
+285: " "
+286: [] := (1) #
+SleepMS(5);
+287: 5L
+288: Func(3,0): Sleepms
+289: #
+290: local #1
+291: 1L
+292: +=
+293: #
+294: goto271
+foreach poss_pkg in ( SplitWords( script_name ))
+295: local #0
+296: " "
+297: Func(0,5): SplitWords
+298: initforeach @307
+if( GetPackageByName( poss_pkg ))
+299: local #2
+300: Func(5,0): GetPackageByName
+301: if false goto 304
+return poss_pkg;
+302: local #2
+303: return
+SleepMS(5);
+304: 5L
+305: Func(3,0): Sleepms
+306: #
+307: stepforeach @299
+308: leave block(3)
+return 0;
+309: 0L
+310: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+311: pop param 'allow_space'
+312: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+313: decl local #2
+314: array
+315: "a"
+316: init{}
+317: "b"
+318: init{}
+319: "c"
+320: init{}
+321: "d"
+322: init{}
+323: "e"
+324: init{}
+325: "f"
+326: init{}
+327: "g"
+328: init{}
+329: "h"
+330: init{}
+331: "i"
+332: init{}
+333: "j"
+334: init{}
+335: "k"
+336: init{}
+337: "l"
+338: init{}
+339: "m"
+340: init{}
+341: "n"
+342: init{}
+343: "o"
+344: init{}
+345: "p"
+346: init{}
+347: "q"
+348: init{}
+349: "r"
+350: init{}
+351: "s"
+352: init{}
+353: "t"
+354: init{}
+355: "u"
+356: init{}
+357: "v"
+358: init{}
+359: "w"
+360: init{}
+361: "x"
+362: init{}
+363: "y"
+364: init{}
+365: "z"
+366: init{}
+367: "A"
+368: init{}
+369: "B"
+370: init{}
+371: "C"
+372: init{}
+373: "D"
+374: init{}
+375: "E"
+376: init{}
+377: "F"
+378: init{}
+379: "G"
+380: init{}
+381: "H"
+382: init{}
+383: "I"
+384: init{}
+385: "P"
+386: init{}
+387: "O"
+388: init{}
+389: "N"
+390: init{}
+391: "M"
+392: init{}
+393: "L"
+394: init{}
+395: "K"
+396: init{}
+397: "J"
+398: init{}
+399: "Q"
+400: init{}
+401: "R"
+402: init{}
+403: "S"
+404: init{}
+405: "T"
+406: init{}
+407: "U"
+408: init{}
+409: "V"
+410: init{}
+411: "W"
+412: init{}
+413: "X"
+414: init{}
+415: "Y"
+416: init{}
+417: "Z"
+418: init{}
+419: "1"
+420: init{}
+421: "2"
+422: init{}
+423: "3"
+424: init{}
+425: "4"
+426: init{}
+427: "5"
+428: init{}
+429: "6"
+430: init{}
+431: "7"
+432: init{}
+433: "8"
+434: init{}
+435: "9"
+436: init{}
+437: "0"
+438: init{}
+439: :=
+440: #
+var len_text := Len( text );
+441: decl local #3
+442: local #1
+443: Func(0,1): Len
+444: :=
+445: #
+var i;
+446: decl local #4
+447: #
+for( i:=1; i<=len_text; i+=1 )
+448: local #4
+449: 1L
+450: :=
+451: #
+452: local #4
+453: local #3
+454: <=
+455: if false goto 498
+SleepMS(5);
+456: 5L
+457: Func(3,0): Sleepms
+458: #
+var letter := CStr( text[i] );
+459: decl local #0
+460: local #1
+461: local #4
+462: [] 1
+463: Func(0,0): CStr
+464: :=
+465: #
+if( letter in valid_char )
+466: local #5
+467: local #2
+468: in
+469: if false goto 473
+continue;
+470: leave block(1)
+471: goto493
+472: goto490
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+473: local #0
+474: local #1
+475: local #4
+476: [] 1
+477: " "
+478: ==
+479: local #1
+480: local #4
+481: [] 1
+482: Func(0,4): CAsc
+483: 0L
+484: ==
+485: ||
+486: &&
+487: if false goto 490
+continue;
+488: leave block(1)
+489: goto493
+return 0;
+490: 0L
+491: return
+492: leave block(1)
+493: local #4
+494: 1L
+495: +=
+496: #
+497: goto452
+return 1;
+498: 1L
+499: return

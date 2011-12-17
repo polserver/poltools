@@ -1,0 +1,578 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @52
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\highPriest.src, Line 19
+program BrainNerve( params )
+enum DOOR_SOUNDS
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+params := 0; // Not needed anymore.
+24: 0L
+25: local0 := 
+while( npc )
+26: local #1
+27: if false goto 50
+if( event )
+28: local #2
+29: if false goto 43
+case( event.type )
+30: local #2
+31: get member 'type'
+32: casejmp
+	16: @33
+	default: @40
+EnteredArea( npc, event );
+33: local #1
+34: local #2
+35: makelocal
+36: jmp userfunc @96
+37: #
+break;
+38: goto39
+39: goto41
+break;
+40: goto41
+event := 0;
+41: 0L
+42: local2 := 
+SleepMS(5);
+43: 5L
+44: Func(3,0): Sleepms
+45: #
+event := Wait_For_Event(1);
+46: 1L
+47: Func(3,7): Wait_For_Event
+48: local2 := 
+49: goto26
+50: leave block(3)
+51: progend
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+52: pop param byref 'cfg_file'
+53: pop param 'elem_name'
+if( !cfg_file )
+54: local #0
+55: if true goto 59
+cfg_file := Classes_GetSettingsCfgFile();
+56: makelocal
+57: jmp userfunc @80
+58: local0 := 
+var elem := cfg_file[elem_name];
+59: decl local #2
+60: local #0
+61: local #1
+62: [] 1
+63: :=
+64: #
+if( elem.errortext )
+65: local #2
+66: get member 'errortext'
+67: if false goto 78
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+68: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+69: local #1
+70: +
+71: "] ->"
+72: +
+73: local #2
+74: get member 'errortext'
+75: +
+76: Func(3,1): SysLog
+77: #
+return elem;
+78: local #2
+79: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+80: decl local #0
+81: ":classes:settings"
+82: Func(6,0): ReadConfigFile
+83: :=
+84: #
+if( cfg.errortext )
+85: local #0
+86: get member 'errortext'
+87: if false goto 94
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+88: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+89: local #0
+90: get member 'errortext'
+91: +
+92: Func(3,1): SysLog
+93: #
+return cfg;
+94: local #0
+95: return
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\highPriest.src, Line 44
+function EnteredArea( npc, byref event )
+96: pop param byref 'event'
+97: pop param 'npc'
+var source := event.source;
+98: decl local #2
+99: local #0
+100: get member 'source'
+101: :=
+102: #
+if( !CheckLineOfSight( npc, source ))
+103: local #1
+104: local #2
+105: Func(2,15): CheckLineOfSight
+106: if true goto 110
+return 0;
+107: 0L
+108: return
+109: goto120
+elseif( source.dead )
+110: local #2
+111: get member id 'dead' (39)
+112: if false goto 120
+Healer_Resurrect( npc, source );
+113: local #1
+114: local #2
+115: makelocal
+116: jmp userfunc @122
+117: #
+return 1;
+118: 1L
+119: return
+return 1;
+120: 1L
+121: return
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\highPriest.src, Line 57
+function Healer_Resurrect( npc, source )
+122: pop param 'source'
+123: pop param 'npc'
+if( GetObjProperty( source, "PriestUpset" ))
+124: local #0
+125: "PriestUpset"
+126: Func(2,2): GetObjProperty
+127: if false goto 149
+AI_Speak( npc, "Hahah I see that thee was finally killed, that is what thee des
+128: local #1
+129: "Hahah I see that thee was finally killed, that is what thee deserved!"
+130: "default"
+131: 0L
+132: 0L
+133: makelocal
+134: jmp userfunc @171
+135: #
+Sleep( 2 );
+136: 2L
+137: Func(3,8): Sleep
+138: #
+AI_Speak( npc, "After what he did in the past against the holy Virtues!" );
+139: local #1
+140: "After what he did in the past against the holy Virtues!"
+141: "default"
+142: 0L
+143: 0L
+144: makelocal
+145: jmp userfunc @171
+146: #
+return 0;
+147: 0L
+148: return
+if( !ResurrectionGump( source ))
+149: local #0
+150: makelocal
+151: jmp userfunc @157
+152: if true goto 155
+return 1;
+153: 1L
+154: return
+return 1;
+155: 1L
+156: return
+c:/ZH099/pkg/systems/death/include/resurrection.inc, Line 23
+function ResurrectionGump( mobile )
+157: pop param 'mobile'
+var result := Resurrection( mobile );
+158: decl local #1
+159: local #0
+160: makelocal
+161: jmp userfunc @215
+162: :=
+163: #
+if( result.errortext )
+164: local #1
+165: get member 'errortext'
+166: if false goto 169
+return 0;
+167: 0L
+168: return
+return 1;
+169: 1L
+170: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+171: pop param 'no_wake'
+172: pop param 'do_event'
+173: pop param 'text_type'
+174: pop param 'text'
+175: pop param 'npc'
+var ev		:= struct;
+176: decl local #5
+177: struct
+178: :=
+179: #
+ev.+type	:= NPCEVENT_SPEAK;
+180: local #5
+181: "type"
+182: .+
+183: 10485765L
+184: := #
+ev.+text	:= text;
+185: local #5
+186: "text"
+187: .+
+188: local #3
+189: := #
+ev.+texttype	:= text_type;
+190: local #5
+191: "texttype"
+192: .+
+193: local #2
+194: := #
+ev.+doevent	:= do_event;
+195: local #5
+196: "doevent"
+197: .+
+198: local #1
+199: := #
+ev.+WakeUp	:= no_wake;
+200: local #5
+201: "WakeUp"
+202: .+
+203: local #0
+204: := #
+ev.+process	:= GetProcess( GetPid() );
+205: local #5
+206: "process"
+207: .+
+208: Func(3,3): GetPid
+209: Func(3,2): GetProcess
+210: := #
+return SendEvent( npc, ev );
+211: local #4
+212: local #5
+213: Func(2,7): SendEvent
+214: return
+c:/ZH099/pkg/systems/death/include/resurrection.inc, Line 33
+function Resurrection( mobile )
+215: pop param 'mobile'
+if( !mobile.IsA( POLCLASS_MOBILE ))
+216: local #0
+217: 3L
+218: Call Method id isa (#0, 1 params)
+219: if true goto 225
+return error{ "errortext":="object is not a mobile." };
+220: error
+221: "object is not a mobile."
+222: addmember-assign(errortext)
+223: return
+224: goto232
+elseif( !mobile.dead )
+225: local #0
+226: get member id 'dead' (39)
+227: if true goto 232
+return error{ "errortext":="mobile is not dead." };
+228: error
+229: "mobile is not dead."
+230: addmember-assign(errortext)
+231: return
+var result := Resurrect( mobile );
+232: decl local #1
+233: local #0
+234: 0L
+235: Func(2,13): Resurrect
+236: :=
+237: #
+if( result.errortext )
+238: local #1
+239: get member 'errortext'
+240: if false goto 252
+SendSysMessage( mobile, "Error couldn't ressurect -->"+result.errortext );
+241: local #0
+242: "Error couldn't ressurect -->"
+243: local #1
+244: get member 'errortext'
+245: +
+246: 3L
+247: 1000L
+248: Func(2,5): SendSysMessage
+249: #
+return 0;
+250: 0L
+251: return
+mobile.graphic := mobile.trueobjtype;
+252: local #0
+253: local #0
+254: get member id 'trueobjtype' (29)
+255: set member id 'graphic' (5) #
+PlaySoundEffect( mobile, SFX_RESURRECT );
+256: local #0
+257: 533L
+258: Func(2,14): PlaySoundEffect
+259: #
+SetObjProperty( mobile, "#JustRess", ReadGameClock() + 20 );
+260: local #0
+261: "#JustRess"
+262: Func(2,10): ReadGameClock
+263: 20L
+264: +
+265: Func(2,3): SetObjProperty
+266: #
+if( mobile.cmdlevel )
+267: local #0
+268: get member id 'cmdlevel' (46)
+269: if false goto 287
+if( !ICP_LoadUserSetting(mobile, "NoCmdBarLogin") && !mobile.dead && mobile.cmd
+270: local #0
+271: "NoCmdBarLogin"
+272: makelocal
+273: jmp userfunc @289
+274: !
+275: local #0
+276: get member id 'dead' (39)
+277: !
+278: &&
+279: local #0
+280: get member id 'cmdlevel' (46)
+281: &&
+282: if false goto 287
+Start_Script(":control:commands/coun/cmdbar", mobile);
+283: ":control:commands/coun/cmdbar"
+284: local #0
+285: Func(3,4): Start_Script
+286: #
+return 1;
+287: 1L
+288: return
+c:/ZH099/pkg/systems/control/include/internal/icp-util.inc, Line 54
+function ICP_LoadUserSetting( who, setting )
+289: pop param 'setting'
+290: pop param 'who'
+var data_file := DFOpenDataFile( ":control:usrsettings", DF_CREATE );
+291: decl local #2
+292: ":control:usrsettings"
+293: 1L
+294: 0L
+295: makelocal
+296: jmp userfunc @375
+297: :=
+298: #
+var data_elem := DFFindElement( data_file, Hex( who.serial ));
+299: decl local #3
+300: local #2
+301: local #1
+302: get member id 'serial' (6)
+303: Func(0,5): Hex
+304: 0L
+305: makelocal
+306: jmp userfunc @313
+307: :=
+308: #
+return data_elem.GetProp( setting );
+309: local #3
+310: local #0
+311: Call Method id getprop (#35, 1 params)
+312: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+313: pop param 'create'
+314: pop param 'elem_name'
+315: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+316: decl local #3
+317: local #2
+318: local #1
+319: Func(0,4): CStr
+320: Call Method id findelement (#72, 1 params)
+321: :=
+322: #
+if ( !temp && create )
+323: local #3
+324: !
+325: local #0
+326: &&
+327: if false goto 345
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+328: "Debug::DFFindElement() - Creating elem: "
+329: local #1
+330: Func(0,4): CStr
+331: +
+332: makelocal
+333: jmp userfunc @431
+334: #
+file_ref.CreateElement(CStr(elem_name));
+335: local #2
+336: local #1
+337: Func(0,4): CStr
+338: Call Method id createelement (#71, 1 params)
+339: #
+temp := file_ref.FindElement(CStr(elem_name));
+340: local #2
+341: local #1
+342: Func(0,4): CStr
+343: Call Method id findelement (#72, 1 params)
+344: local3 := 
+if ( temp )
+345: local #3
+346: if false goto 350
+return temp;
+347: local #3
+348: return
+349: goto373
+elseif (create)
+350: local #0
+351: if false goto 373
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+352: decl local #0
+353: error
+354: "Error::DFFindElement() - Could not open data elem ["
+355: local #1
+356: +
+357: "] - "
+358: +
+359: local #3
+360: get member 'errortext'
+361: +
+362: addmember-assign(errortext)
+363: :=
+364: #
+DF_OutPut(errmsg.errortext);
+365: local #4
+366: get member 'errortext'
+367: makelocal
+368: jmp userfunc @431
+369: #
+return errmsg;
+370: local #4
+371: return
+372: leave block(1)
+373: 0L
+374: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+375: pop param 'flags'
+376: pop param 'create'
+377: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+378: decl local #3
+379: local #2
+380: Func(10,0): OpenDataFile
+381: :=
+382: #
+if ( (!data_file) && (create) )
+383: local #3
+384: !
+385: local #1
+386: &&
+387: if false goto 401
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+388: "Debug::DFOpenDataFile() - Creating data file: "
+389: local #2
+390: +
+391: makelocal
+392: jmp userfunc @431
+393: #
+CreateDataFile(file_name, flags);
+394: local #2
+395: local #0
+396: Func(10,1): CreateDataFile
+397: #
+data_file := OpenDataFile(file_name);
+398: local #2
+399: Func(10,0): OpenDataFile
+400: local3 := 
+if ( data_file )
+401: local #3
+402: if false goto 406
+return data_file;
+403: local #3
+404: return
+405: goto429
+elseif ( create )
+406: local #1
+407: if false goto 429
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+408: decl local #0
+409: error
+410: "Error::DFOpenDataFile() - Could not open "
+411: local #2
+412: +
+413: " : "
+414: +
+415: local #3
+416: get member 'errortext'
+417: +
+418: addmember-assign(errortext)
+419: :=
+420: #
+DF_OutPut(errmsg.errortext);
+421: local #4
+422: get member 'errortext'
+423: makelocal
+424: jmp userfunc @431
+425: #
+return errmsg;
+426: local #4
+427: return
+428: leave block(1)
+429: 0L
+430: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+431: pop param 'text'
+if ( DF_DEBUG_MODE )
+432: global #1
+433: if false goto 452
+var script_name := GetProcess(GetPid()).name;
+434: decl local #0
+435: Func(3,3): GetPid
+436: Func(3,2): GetProcess
+437: get member id 'name' (3)
+438: :=
+439: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+440: "::log/dataFile.log"
+441: "["
+442: local #1
+443: +
+444: "]: "
+445: +
+446: local #0
+447: +
+448: 1L
+449: Func(9,0): LogToFile
+450: #
+451: leave block(1)
+return 1;
+452: 1L
+453: return

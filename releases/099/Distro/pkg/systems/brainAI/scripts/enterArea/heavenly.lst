@@ -1,0 +1,670 @@
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+0: decl global #0
+1: 0L
+2: :=
+3: #
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\heavenly.src, Line 14
+program BrainNerve( params )
+enum DOOR_SOUNDS
+4: get arg 'params'
+var npc		:= params[1];
+5: decl local #1
+6: local #0
+7: 1L
+8: [] 1
+9: :=
+10: #
+var event	:= params[3];
+11: decl local #2
+12: local #0
+13: 3L
+14: [] 1
+15: :=
+16: #
+var settings	:= params[4];
+17: decl local #3
+18: local #0
+19: 4L
+20: [] 1
+21: :=
+22: #
+var scripts	:= params[5];
+23: decl local #4
+24: local #0
+25: 5L
+26: [] 1
+27: :=
+28: #
+params := 0; // Not needed anymore.
+29: 0L
+30: local0 := 
+while( npc )
+31: local #1
+32: if false goto 57
+if( event )
+33: local #2
+34: if false goto 50
+case( event.type )
+35: local #2
+36: get member 'type'
+37: casejmp
+	16: @38
+	default: @47
+EnteredArea( npc, event, settings, scripts );
+38: local #1
+39: local #2
+40: local #3
+41: local #4
+42: makelocal
+43: jmp userfunc @61
+44: #
+break;
+45: goto46
+46: goto48
+break;
+47: goto48
+event := 0;
+48: 0L
+49: local2 := 
+SleepMS(5);
+50: 5L
+51: Func(3,2): Sleepms
+52: #
+event := Wait_For_Event(1);
+53: 1L
+54: Func(3,7): Wait_For_Event
+55: local2 := 
+56: goto31
+return 1;
+57: 1L
+58: progend
+59: leave block(5)
+60: progend
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\heavenly.src, Line 43
+function EnteredArea( npc, byref event, byref settings, byref scripts )
+61: pop param byref 'scripts'
+62: pop param byref 'settings'
+63: pop param byref 'event'
+64: pop param 'npc'
+var source := event.source;
+65: decl local #4
+66: local #2
+67: get member 'source'
+68: :=
+69: #
+if( npc.master && source.dead )
+70: local #3
+71: get member id 'master' (63)
+72: local #4
+73: get member id 'dead' (39)
+74: &&
+75: if false goto 92
+if( CheckLineOfSight( npc, source ))
+76: local #3
+77: local #4
+78: Func(2,12): CheckLineOfSight
+79: if false goto 92
+if( !npc.multi && !source.multi )
+80: local #3
+81: get member id 'multi' (12)
+82: !
+83: local #4
+84: get member id 'multi' (12)
+85: !
+86: &&
+87: if false goto 92
+ResurrectionGump( source );
+88: local #4
+89: makelocal
+90: jmp userfunc @208
+91: #
+if( NPC_ShouldWatch( npc, source, settings, scripts ))
+92: local #3
+93: local #4
+94: local #1
+95: local #0
+96: makelocal
+97: jmp userfunc @170
+98: if false goto 110
+if( NPC_AddToWatchList( npc, source ))
+99: local #3
+100: local #4
+101: makelocal
+102: jmp userfunc @112
+103: if false goto 110
+AI_WakeUp( npc );
+104: local #3
+105: makelocal
+106: jmp userfunc @222
+107: #
+return 1;
+108: 1L
+109: return
+return 0;
+110: 0L
+111: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 38
+function NPC_AddToWatchList( npc, mobile )
+112: pop param 'mobile'
+113: pop param 'npc'
+if( mobile.IsA( POLCLASS_MOBILE ))
+114: local #0
+115: 3L
+116: Call Method id isa (#0, 1 params)
+117: if false goto 121
+mobile := mobile.serial;
+118: local #0
+119: get member id 'serial' (6)
+120: local0 := 
+var watch_dict := NPC_LoadWatchList( npc );
+121: decl local #2
+122: local #1
+123: makelocal
+124: jmp userfunc @146
+125: :=
+126: #
+if( !watch_dict.Exists( mobile ))
+127: local #2
+128: local #0
+129: Call Method id exists (#55, 1 params)
+130: if true goto 144
+watch_dict.Insert( mobile, POLCore().systime );
+131: local #2
+132: local #0
+133: Func(2,5): POLCore
+134: get member 'systime'
+135: Call Method id insert (#50, 2 params)
+136: #
+NPC_SaveWatchList( npc, watch_dict );
+137: local #1
+138: local #2
+139: makelocal
+140: jmp userfunc @163
+141: #
+return 1;
+142: 1L
+143: return
+return 0;
+144: 0L
+145: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 23
+function NPC_LoadWatchList( npc )
+146: pop param 'npc'
+var watch_dict := GetObjProperty( npc, "#WatchList" );
+147: decl local #1
+148: local #0
+149: "#WatchList"
+150: Func(2,2): GetObjProperty
+151: :=
+152: #
+if( Lower( TypeOf( watch_dict )) != "dictionary" )
+153: local #1
+154: Func(0,1): TypeOf
+155: Func(0,0): Lower
+156: "dictionary"
+157: <>
+158: if false goto 161
+watch_dict := dictionary;
+159: dictionary
+160: local1 := 
+return watch_dict;
+161: local #1
+162: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 33
+function NPC_SaveWatchList( npc, dict_list )
+163: pop param 'dict_list'
+164: pop param 'npc'
+return SetObjProperty( npc, "#WatchList", dict_list );
+165: local #1
+166: "#WatchList"
+167: local #0
+168: Func(2,1): SetObjProperty
+169: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 81
+function NPC_ShouldWatch( npc, mobile, byref settings, byref scripts )
+170: pop param byref 'scripts'
+171: pop param byref 'settings'
+172: pop param 'mobile'
+173: pop param 'npc'
+if( !scripts["ShouldWatch"] )
+174: local #0
+175: "ShouldWatch"
+176: [] 1
+177: if true goto 180
+return 1;
+178: 1L
+179: return
+var result := Run_Script_To_Completion( scripts["ShouldWatch"].script, {npc, mo
+180: decl local #4
+181: local #0
+182: "ShouldWatch"
+183: [] 1
+184: get member id 'script' (61)
+185: array
+186: local #3
+187: init{}
+188: local #2
+189: init{}
+190: local #1
+191: init{}
+192: Func(3,6): Run_Script_To_Completion
+193: :=
+194: #
+if( result.errortext )
+195: local #4
+196: get member 'errortext'
+197: if false goto 206
+NPC_ErrorSysLog( npc, "Error::NPC_ShouldWatch() - "+result.errortext );
+198: local #3
+199: "Error::NPC_ShouldWatch() - "
+200: local #4
+201: get member 'errortext'
+202: +
+203: makelocal
+204: jmp userfunc @247
+205: #
+return result;
+206: local #4
+207: return
+c:/ZH099/pkg/systems/death/include/resurrection.inc, Line 23
+function ResurrectionGump( mobile )
+208: pop param 'mobile'
+var result := Resurrection( mobile );
+209: decl local #1
+210: local #0
+211: makelocal
+212: jmp userfunc @291
+213: :=
+214: #
+if( result.errortext )
+215: local #1
+216: get member 'errortext'
+217: if false goto 220
+return 0;
+218: 0L
+219: return
+return 1;
+220: 1L
+221: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 190
+function AI_WakeUp( npc )
+222: pop param 'npc'
+var ev		:= struct;
+223: decl local #1
+224: struct
+225: :=
+226: #
+ev.+type	:= NPCEVENT_WAKEUP;
+227: local #1
+228: "type"
+229: .+
+230: 10485779L
+231: := #
+ev.+WakeUp	:= WAKEUP;
+232: local #1
+233: "WakeUp"
+234: .+
+235: 1L
+236: := #
+ev.+process	:= GetProcess( GetPid() );
+237: local #1
+238: "process"
+239: .+
+240: Func(3,4): GetPid
+241: Func(3,1): GetProcess
+242: := #
+return SendEvent( npc, ev );
+243: local #0
+244: local #1
+245: Func(2,3): SendEvent
+246: return
+c:/ZH099/pkg/systems/brainAI/include/npcError.inc, Line 9
+function NPC_ErrorSysLog( npc, errmsg )
+247: pop param 'errmsg'
+248: pop param 'npc'
+PrintTextAbove( npc, errmsg, 3, 33 );
+249: local #1
+250: local #0
+251: 3L
+252: 33L
+253: 0L
+254: Func(2,0): PrintTextAbove
+255: #
+SysLog( "------------" );
+256: "------------"
+257: Func(3,0): SysLog
+258: #
+SysLog( "NPC Template: "+npc.npctemplate );
+259: "NPC Template: "
+260: local #1
+261: get member id 'npctemplate' (62)
+262: +
+263: Func(3,0): SysLog
+264: #
+SysLog( "NPC Name    : "+npc.name );
+265: "NPC Name    : "
+266: local #1
+267: get member id 'name' (3)
+268: +
+269: Func(3,0): SysLog
+270: #
+SysLog( errmsg );
+271: local #0
+272: Func(3,0): SysLog
+273: #
+SysLog( "------------" );
+274: "------------"
+275: Func(3,0): SysLog
+276: #
+npc.Disable( "invul" );
+277: local #1
+278: "invul"
+279: Call Method id disable (#9, 1 params)
+280: #
+SetObjProperty( npc, "GuardKill", 1 );
+281: local #1
+282: "GuardKill"
+283: 1L
+284: Func(2,1): SetObjProperty
+285: #
+npc.Kill();
+286: local #1
+287: Call Method id kill (#75, 0 params)
+288: #
+return 1;
+289: 1L
+290: return
+c:/ZH099/pkg/systems/death/include/resurrection.inc, Line 33
+function Resurrection( mobile )
+291: pop param 'mobile'
+if( !mobile.IsA( POLCLASS_MOBILE ))
+292: local #0
+293: 3L
+294: Call Method id isa (#0, 1 params)
+295: if true goto 301
+return error{ "errortext":="object is not a mobile." };
+296: error
+297: "object is not a mobile."
+298: addmember-assign(errortext)
+299: return
+300: goto308
+elseif( !mobile.dead )
+301: local #0
+302: get member id 'dead' (39)
+303: if true goto 308
+return error{ "errortext":="mobile is not dead." };
+304: error
+305: "mobile is not dead."
+306: addmember-assign(errortext)
+307: return
+var result := Resurrect( mobile );
+308: decl local #1
+309: local #0
+310: 0L
+311: Func(2,9): Resurrect
+312: :=
+313: #
+if( result.errortext )
+314: local #1
+315: get member 'errortext'
+316: if false goto 328
+SendSysMessage( mobile, "Error couldn't ressurect -->"+result.errortext );
+317: local #0
+318: "Error couldn't ressurect -->"
+319: local #1
+320: get member 'errortext'
+321: +
+322: 3L
+323: 1000L
+324: Func(2,7): SendSysMessage
+325: #
+return 0;
+326: 0L
+327: return
+mobile.graphic := mobile.trueobjtype;
+328: local #0
+329: local #0
+330: get member id 'trueobjtype' (29)
+331: set member id 'graphic' (5) #
+PlaySoundEffect( mobile, SFX_RESURRECT );
+332: local #0
+333: 533L
+334: Func(2,10): PlaySoundEffect
+335: #
+SetObjProperty( mobile, "#JustRess", ReadGameClock() + 20 );
+336: local #0
+337: "#JustRess"
+338: Func(2,11): ReadGameClock
+339: 20L
+340: +
+341: Func(2,1): SetObjProperty
+342: #
+if( mobile.cmdlevel )
+343: local #0
+344: get member id 'cmdlevel' (46)
+345: if false goto 363
+if( !ICP_LoadUserSetting(mobile, "NoCmdBarLogin") && !mobile.dead && mobile.cmd
+346: local #0
+347: "NoCmdBarLogin"
+348: makelocal
+349: jmp userfunc @365
+350: !
+351: local #0
+352: get member id 'dead' (39)
+353: !
+354: &&
+355: local #0
+356: get member id 'cmdlevel' (46)
+357: &&
+358: if false goto 363
+Start_Script(":control:commands/coun/cmdbar", mobile);
+359: ":control:commands/coun/cmdbar"
+360: local #0
+361: Func(3,3): Start_Script
+362: #
+return 1;
+363: 1L
+364: return
+c:/ZH099/pkg/systems/control/include/internal/icp-util.inc, Line 54
+function ICP_LoadUserSetting( who, setting )
+365: pop param 'setting'
+366: pop param 'who'
+var data_file := DFOpenDataFile( ":control:usrsettings", DF_CREATE );
+367: decl local #2
+368: ":control:usrsettings"
+369: 1L
+370: 0L
+371: makelocal
+372: jmp userfunc @451
+373: :=
+374: #
+var data_elem := DFFindElement( data_file, Hex( who.serial ));
+375: decl local #3
+376: local #2
+377: local #1
+378: get member id 'serial' (6)
+379: Func(0,7): Hex
+380: 0L
+381: makelocal
+382: jmp userfunc @389
+383: :=
+384: #
+return data_elem.GetProp( setting );
+385: local #3
+386: local #0
+387: Call Method id getprop (#35, 1 params)
+388: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+389: pop param 'create'
+390: pop param 'elem_name'
+391: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+392: decl local #3
+393: local #2
+394: local #1
+395: Func(0,3): CStr
+396: Call Method id findelement (#72, 1 params)
+397: :=
+398: #
+if ( !temp && create )
+399: local #3
+400: !
+401: local #0
+402: &&
+403: if false goto 421
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+404: "Debug::DFFindElement() - Creating elem: "
+405: local #1
+406: Func(0,3): CStr
+407: +
+408: makelocal
+409: jmp userfunc @507
+410: #
+file_ref.CreateElement(CStr(elem_name));
+411: local #2
+412: local #1
+413: Func(0,3): CStr
+414: Call Method id createelement (#71, 1 params)
+415: #
+temp := file_ref.FindElement(CStr(elem_name));
+416: local #2
+417: local #1
+418: Func(0,3): CStr
+419: Call Method id findelement (#72, 1 params)
+420: local3 := 
+if ( temp )
+421: local #3
+422: if false goto 426
+return temp;
+423: local #3
+424: return
+425: goto449
+elseif (create)
+426: local #0
+427: if false goto 449
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+428: decl local #0
+429: error
+430: "Error::DFFindElement() - Could not open data elem ["
+431: local #1
+432: +
+433: "] - "
+434: +
+435: local #3
+436: get member 'errortext'
+437: +
+438: addmember-assign(errortext)
+439: :=
+440: #
+DF_OutPut(errmsg.errortext);
+441: local #4
+442: get member 'errortext'
+443: makelocal
+444: jmp userfunc @507
+445: #
+return errmsg;
+446: local #4
+447: return
+448: leave block(1)
+449: 0L
+450: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+451: pop param 'flags'
+452: pop param 'create'
+453: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+454: decl local #3
+455: local #2
+456: Func(7,0): OpenDataFile
+457: :=
+458: #
+if ( (!data_file) && (create) )
+459: local #3
+460: !
+461: local #1
+462: &&
+463: if false goto 477
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+464: "Debug::DFOpenDataFile() - Creating data file: "
+465: local #2
+466: +
+467: makelocal
+468: jmp userfunc @507
+469: #
+CreateDataFile(file_name, flags);
+470: local #2
+471: local #0
+472: Func(7,1): CreateDataFile
+473: #
+data_file := OpenDataFile(file_name);
+474: local #2
+475: Func(7,0): OpenDataFile
+476: local3 := 
+if ( data_file )
+477: local #3
+478: if false goto 482
+return data_file;
+479: local #3
+480: return
+481: goto505
+elseif ( create )
+482: local #1
+483: if false goto 505
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+484: decl local #0
+485: error
+486: "Error::DFOpenDataFile() - Could not open "
+487: local #2
+488: +
+489: " : "
+490: +
+491: local #3
+492: get member 'errortext'
+493: +
+494: addmember-assign(errortext)
+495: :=
+496: #
+DF_OutPut(errmsg.errortext);
+497: local #4
+498: get member 'errortext'
+499: makelocal
+500: jmp userfunc @507
+501: #
+return errmsg;
+502: local #4
+503: return
+504: leave block(1)
+505: 0L
+506: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+507: pop param 'text'
+if ( DF_DEBUG_MODE )
+508: global #0
+509: if false goto 528
+var script_name := GetProcess(GetPid()).name;
+510: decl local #0
+511: Func(3,4): GetPid
+512: Func(3,1): GetProcess
+513: get member id 'name' (3)
+514: :=
+515: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+516: "::log/dataFile.log"
+517: "["
+518: local #1
+519: +
+520: "]: "
+521: +
+522: local #0
+523: +
+524: 1L
+525: Func(6,0): LogToFile
+526: #
+527: leave block(1)
+return 1;
+528: 1L
+529: return

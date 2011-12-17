@@ -1,0 +1,2824 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @200
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 21
+var g_datafile := DFOpenDataFile( ":brainAI:createnpc", DF_CREATE );
+11: decl global #2
+12: ":brainAI:createnpc"
+13: 1L
+14: 0L
+15: makelocal
+16: jmp userfunc @244
+17: :=
+18: #
+C:\ZH099\pkg\systems\brainAI\commands\seer\createnpc.src, Line 14
+program textcmd_createNPC(mobile, template)
+19: get arg 'mobile'
+20: get arg 'template'
+if( !AuthorizationCode( mobile ))
+21: local #0
+22: makelocal
+23: jmp userfunc @127
+24: if true goto 33
+SendSysMessage( mobile, "Cancelled." );
+25: local #0
+26: "Cancelled."
+27: 3L
+28: 1000L
+29: Func(2,4): SendSysMessage
+30: #
+return 0;
+31: 0L
+32: progend
+if( !template )
+33: local #1
+34: if true goto 43
+template := SelectTemplateFromGump( mobile );
+35: local #0
+36: makelocal
+37: jmp userfunc @450
+38: local1 := 
+if( !template )
+39: local #1
+40: if true goto 43
+return 0;
+41: 0L
+42: progend
+var targ := TargetCoordinates(mobile);
+43: decl local #2
+44: local #0
+45: Func(2,9): TargetCoordinates
+46: :=
+47: #
+if( !targ )
+48: local #2
+49: if true goto 59
+SendSysMessage(mobile, "Cancelled");
+50: local #0
+51: "Cancelled"
+52: 3L
+53: 1000L
+54: Func(2,4): SendSysMessage
+55: #
+return 0;
+56: 0L
+57: progend
+58: goto70
+elseif( targ.multi )
+59: local #2
+60: get member id 'multi' (12)
+61: if false goto 70
+SendSysMessage(mobile, "You cannot spawn inside a house.");
+62: local #0
+63: "You cannot spawn inside a house."
+64: 3L
+65: 1000L
+66: Func(2,4): SendSysMessage
+67: #
+return 0;
+68: 0L
+69: progend
+var npc := CreateNPCFromTemplate(template, targ.x, targ.y, targ.z, 0, mobile.re
+70: decl local #3
+71: local #1
+72: local #2
+73: get member id 'x' (0)
+74: local #2
+75: get member id 'y' (1)
+76: local #2
+77: get member id 'z' (2)
+78: 0L
+79: local #0
+80: get member id 'realm' (112)
+81: Func(2,10): CreateNpcFromTemplate
+82: :=
+83: #
+npc.facing := mobile.facing;
+84: local #3
+85: local #0
+86: get member id 'facing' (9)
+87: set member id 'facing' (9) #
+if( npc.errortext )
+88: local #3
+89: get member 'errortext'
+90: if false goto 107
+SendSysMessage(mobile, "Error creating NPC ["+template+"] -> "+npc.errortext);
+91: local #0
+92: "Error creating NPC ["
+93: local #1
+94: +
+95: "] -> "
+96: +
+97: local #3
+98: get member 'errortext'
+99: +
+100: 3L
+101: 1000L
+102: Func(2,4): SendSysMessage
+103: #
+return 0;
+104: 0L
+105: progend
+106: goto123
+SetObjProperty(npc, "LFucker", mobile.serial );
+107: local #3
+108: "LFucker"
+109: local #0
+110: get member id 'serial' (6)
+111: Func(2,2): SetObjProperty
+112: #
+SendSysMessage(mobile, "Created NPC template '"+template+"'");
+113: local #0
+114: "Created NPC template '"
+115: local #1
+116: +
+117: "'"
+118: +
+119: 3L
+120: 1000L
+121: Func(2,4): SendSysMessage
+122: #
+return 1;
+123: 1L
+124: progend
+125: leave block(4)
+126: progend
+c:/ZH099/scripts/include/security.inc, Line 14
+function AuthorizationCode( mobile )
+127: pop param 'mobile'
+if( GetObjProperty( mobile, "#AuthCodeGiven" ));
+128: local #0
+129: "#AuthCodeGiven"
+130: Func(2,1): GetObjProperty
+131: if false goto 134
+return 1;
+132: 1L
+133: return
+var autocode := GetGlobalProperty( "CA" );
+134: decl local #1
+135: "CA"
+136: Func(2,3): GetGlobalProperty
+137: :=
+138: #
+if( !autocode )
+139: local #1
+140: if true goto 156
+SendSysMessage( mobile, "Authorization code is not given yet.", 3, 53 );
+141: local #0
+142: "Authorization code is not given yet."
+143: 3L
+144: 53L
+145: Func(2,4): SendSysMessage
+146: #
+SendSysMessage( mobile, "Uses .setauthcode to create a new code.", 3, 53 );
+147: local #0
+148: "Uses .setauthcode to create a new code."
+149: 3L
+150: 53L
+151: Func(2,4): SendSysMessage
+152: #
+return 0;
+153: 0L
+154: return
+155: goto198
+var code := SendTextEntryGump( mobile, "Enter the Authorization Code.", TE_CANC
+156: decl local #0
+157: local #0
+158: "Enter the Authorization Code."
+159: 1L
+160: 1L
+161: 10L
+162: ""
+163: Func(2,5): SendTextEntryGump
+164: :=
+165: #
+if( code == autocode )
+166: local #2
+167: local #1
+168: ==
+169: if false goto 184
+SendSysMessage( mobile, "Code Accepted!", 3, 70 );
+170: local #0
+171: "Code Accepted!"
+172: 3L
+173: 70L
+174: Func(2,4): SendSysMessage
+175: #
+SetObjProperty( mobile, "#AuthCodeGiven", 1 );
+176: local #0
+177: "#AuthCodeGiven"
+178: 1L
+179: Func(2,2): SetObjProperty
+180: #
+return 1;
+181: 1L
+182: return
+183: goto197
+SendSysMessage( mobile, "It is not the Authorization code.", 3, 33 );
+184: local #0
+185: "It is not the Authorization code."
+186: 3L
+187: 33L
+188: Func(2,4): SendSysMessage
+189: #
+NotifyStaffOnline( mobile, "has provided a wrong authorization code." );
+190: local #0
+191: "has provided a wrong authorization code."
+192: makelocal
+193: jmp userfunc @300
+194: #
+return 0;
+195: 0L
+196: return
+197: leave block(1)
+198: 0L
+199: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+200: pop param byref 'cfg_file'
+201: pop param 'elem_name'
+if( !cfg_file )
+202: local #0
+203: if true goto 207
+cfg_file := Classes_GetSettingsCfgFile();
+204: makelocal
+205: jmp userfunc @228
+206: local0 := 
+var elem := cfg_file[elem_name];
+207: decl local #2
+208: local #0
+209: local #1
+210: [] 1
+211: :=
+212: #
+if( elem.errortext )
+213: local #2
+214: get member 'errortext'
+215: if false goto 226
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+216: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+217: local #1
+218: +
+219: "] ->"
+220: +
+221: local #2
+222: get member 'errortext'
+223: +
+224: Func(3,0): SysLog
+225: #
+return elem;
+226: local #2
+227: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+228: decl local #0
+229: ":classes:settings"
+230: Func(4,0): ReadConfigFile
+231: :=
+232: #
+if( cfg.errortext )
+233: local #0
+234: get member 'errortext'
+235: if false goto 242
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+236: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+237: local #0
+238: get member 'errortext'
+239: +
+240: Func(3,0): SysLog
+241: #
+return cfg;
+242: local #0
+243: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+244: pop param 'flags'
+245: pop param 'create'
+246: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+247: decl local #3
+248: local #2
+249: Func(10,0): OpenDataFile
+250: :=
+251: #
+if ( (!data_file) && (create) )
+252: local #3
+253: !
+254: local #1
+255: &&
+256: if false goto 270
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+257: "Debug::DFOpenDataFile() - Creating data file: "
+258: local #2
+259: +
+260: makelocal
+261: jmp userfunc @610
+262: #
+CreateDataFile(file_name, flags);
+263: local #2
+264: local #0
+265: Func(10,1): CreateDataFile
+266: #
+data_file := OpenDataFile(file_name);
+267: local #2
+268: Func(10,0): OpenDataFile
+269: local3 := 
+if ( data_file )
+270: local #3
+271: if false goto 275
+return data_file;
+272: local #3
+273: return
+274: goto298
+elseif ( create )
+275: local #1
+276: if false goto 298
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+277: decl local #0
+278: error
+279: "Error::DFOpenDataFile() - Could not open "
+280: local #2
+281: +
+282: " : "
+283: +
+284: local #3
+285: get member 'errortext'
+286: +
+287: addmember-assign(errortext)
+288: :=
+289: #
+DF_OutPut(errmsg.errortext);
+290: local #4
+291: get member 'errortext'
+292: makelocal
+293: jmp userfunc @610
+294: #
+return errmsg;
+295: local #4
+296: return
+297: leave block(1)
+298: 0L
+299: return
+c:/ZH099/scripts/include/security.inc, Line 40
+function NotifyStaffOnline( object, text )
+300: pop param 'text'
+301: pop param 'object'
+var name := object.name;
+302: decl local #2
+303: local #1
+304: get member id 'name' (3)
+305: :=
+306: #
+if( !name )
+307: local #2
+308: if true goto 316
+name := object.desc;
+309: local #1
+310: get member id 'desc' (19)
+311: local2 := 
+if( !name )
+312: local #2
+313: if true goto 316
+name := object;
+314: local #1
+315: local2 := 
+foreach character in EnumerateOnlineCharacters()
+316: Func(2,6): EnumerateOnlineCharacters
+317: initforeach @352
+if( GetObjProperty( character, "Notify" ))
+318: local #3
+319: "Notify"
+320: Func(2,1): GetObjProperty
+321: if false goto 349
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+322: local #1
+323: get member id 'cmdlevel' (46)
+324: local #3
+325: get member id 'cmdlevel' (46)
+326: <=
+327: local #3
+328: get member id 'cmdlevel' (46)
+329: 4L
+330: >=
+331: ||
+332: if false goto 349
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+333: local #3
+334: "You receive a notification:"
+335: 3L
+336: 55L
+337: Func(2,4): SendSysMessage
+338: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+339: local #3
+340: local #2
+341: " >>> "
+342: +
+343: local #0
+344: +
+345: 3L
+346: 55L
+347: Func(2,4): SendSysMessage
+348: #
+SleepMS(5);
+349: 5L
+350: Func(3,3): Sleepms
+351: #
+352: stepforeach @318
+353: leave block(3)
+if( object.serial )
+354: local #1
+355: get member id 'serial' (6)
+356: if false goto 373
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+357: local #2
+358: "["
+359: +
+360: local #1
+361: get member id 'serial' (6)
+362: +
+363: "] >>> "
+364: +
+365: local #0
+366: +
+367: 2L
+368: 0L
+369: makelocal
+370: jmp userfunc @385
+371: #
+372: goto383
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+373: local #2
+374: " >>> "
+375: +
+376: local #0
+377: +
+378: 2L
+379: 0L
+380: makelocal
+381: jmp userfunc @385
+382: #
+return 1;
+383: 1L
+384: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+385: pop param 'text_color'
+386: pop param 'flags'
+387: pop param 'report_text'
+if( !flags )
+388: local #1
+389: if true goto 393
+return 0;
+390: 0L
+391: return
+392: goto448
+elseif( flags & REPORT_CONSOLE )
+393: local #1
+394: 1L
+395: &
+396: if false goto 403
+Print( ""+report_text );
+397: ""
+398: local #2
+399: +
+400: Func(1,0): Print
+401: #
+402: goto448
+elseif( flags & REPORT_SYSLOG )
+403: local #1
+404: 2L
+405: &
+406: if false goto 437
+var script_name := CStr( GetProcess( GetPid() ).name ),
+407: decl local #0
+408: Func(3,2): GetPid
+409: Func(3,1): GetProcess
+410: get member id 'name' (3)
+411: Func(0,4): CStr
+412: :=
+413: #
+414: decl local #1
+415: local #3
+416: makelocal
+417: jmp userfunc @698
+418: :=
+419: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+420: "::log/"
+421: local #4
+422: +
+423: ".log"
+424: +
+425: "["
+426: local #3
+427: +
+428: "]: "
+429: +
+430: local #2
+431: +
+432: 1L
+433: Func(9,0): LogToFile
+434: #
+435: leave block(2)
+436: goto448
+elseif( flags & REPORT_BROADCAST )
+437: local #1
+438: 4L
+439: &
+440: if false goto 448
+Broadcast( ""+report_text, 3, text_color );
+441: ""
+442: local #2
+443: +
+444: 3L
+445: local #0
+446: Func(2,0): Broadcast
+447: #
+return 1;
+448: 1L
+449: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 23
+function SelectTemplateFromGump( mobile )
+450: pop param 'mobile'
+var cur_gump := RetrieveGump( "Index" ); // Current gump to display
+451: decl local #1
+452: "Index"
+453: makelocal
+454: jmp userfunc @861
+455: :=
+456: #
+var selection := 0; // Is user at a gump where a template can be selected.
+457: decl local #2
+458: 0L
+459: :=
+460: #
+while( mobile.connected )
+461: local #0
+462: get member id 'connected' (121)
+463: if false goto 608
+var input := GFSendGump( mobile, cur_gump );
+464: decl local #0
+465: local #0
+466: local #1
+467: makelocal
+468: jmp userfunc @774
+469: :=
+470: #
+if( !input ) // Right click
+471: local #3
+472: if true goto 482
+SendSysMessage( mobile, "Cancelled." );
+473: local #0
+474: "Cancelled."
+475: 3L
+476: 1000L
+477: Func(2,4): SendSysMessage
+478: #
+return 0;
+479: 0L
+480: return
+481: goto603
+elseif( input[BACK_BTN] )
+482: local #3
+483: 65533L
+484: [] 1
+485: if false goto 493
+cur_gump := RetrieveGump( "Index" );
+486: "Index"
+487: makelocal
+488: jmp userfunc @861
+489: local1 := 
+selection := 0;
+490: 0L
+491: local2 := 
+492: goto603
+elseif( input[UNCACHE_BTN] )
+493: local #3
+494: 65534L
+495: [] 1
+496: if false goto 519
+foreach elem_name in ( DFGetElemNames( g_datafile ))
+497: global #2
+498: makelocal
+499: jmp userfunc @633
+500: initforeach @508
+g_datafile.DeleteElement( elem_name );
+501: global #2
+502: local #4
+503: Call Method id deleteelement (#73, 1 params)
+504: #
+SleepMS(5);
+505: 5L
+506: Func(3,3): Sleepms
+507: #
+508: stepforeach @501
+509: leave block(3)
+SendSysMessage( mobile, "All createnpc gump data uncached." );
+510: local #0
+511: "All createnpc gump data uncached."
+512: 3L
+513: 1000L
+514: Func(2,4): SendSysMessage
+515: #
+return 0;
+516: 0L
+517: return
+518: goto603
+elseif( input[UNLOADCFG_BTN] )
+519: local #3
+520: 65535L
+521: [] 1
+522: if false goto 570
+SendSysMessage( mobile, "Begining to unload npcdesc.cfg files..." );
+523: local #0
+524: "Begining to unload npcdesc.cfg files..."
+525: 3L
+526: 1000L
+527: Func(2,4): SendSysMessage
+528: #
+UnloadConfigFile( ":*:npcdesc" );
+529: ":*:npcdesc"
+530: Func(4,6): UnloadConfigFile
+531: #
+UnloadConfigFile( "::npcdesc" );
+532: "::npcdesc"
+533: Func(4,6): UnloadConfigFile
+534: #
+foreach package in ( Packages() )
+535: Func(11,1): Packages
+536: initforeach @551
+if( package.npcdesc )
+537: local #4
+538: get member 'npcdesc'
+539: if false goto 548
+UnloadConfigFile( ":"+(package.name)+":npcdesc" );
+540: ":"
+541: local #4
+542: get member id 'name' (3)
+543: +
+544: ":npcdesc"
+545: +
+546: Func(4,6): UnloadConfigFile
+547: #
+SleepMS(10);
+548: 10L
+549: Func(3,3): Sleepms
+550: #
+551: stepforeach @537
+552: leave block(3)
+SendSysMessage( mobile, "ReloadConfiguration() -> "+ReloadConfiguration() );
+553: local #0
+554: "ReloadConfiguration() -> "
+555: Func(11,2): ReloadConfiguration
+556: +
+557: 3L
+558: 1000L
+559: Func(2,4): SendSysMessage
+560: #
+SendSysMessage( mobile, "All npcdesc.cfg files unloaded." );
+561: local #0
+562: "All npcdesc.cfg files unloaded."
+563: 3L
+564: 1000L
+565: Func(2,4): SendSysMessage
+566: #
+return 0;
+567: 0L
+568: return
+569: goto603
+elseif( selection == 1 )
+570: local #2
+571: 1L
+572: ==
+573: if false goto 587
+var elem_names := GetTemplateList();
+574: decl local #0
+575: makelocal
+576: jmp userfunc @745
+577: :=
+578: #
+return elem_names[input[0]];
+579: local #4
+580: local #3
+581: 0L
+582: [] 1
+583: [] 1
+584: return
+585: leave block(1)
+586: goto603
+var category_names := GetCategoryNames();
+587: decl local #0
+588: makelocal
+589: jmp userfunc @665
+590: :=
+591: #
+cur_gump := RetrieveGump( category_names[input[0]] );
+592: local #4
+593: local #3
+594: 0L
+595: [] 1
+596: [] 1
+597: makelocal
+598: jmp userfunc @861
+599: local1 := 
+selection := 1;
+600: 1L
+601: local2 := 
+602: leave block(1)
+SleepMS(2);
+603: 2L
+604: Func(3,3): Sleepms
+605: #
+606: leave block(1)
+607: goto461
+return 0;
+608: 0L
+609: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+610: pop param 'text'
+if ( DF_DEBUG_MODE )
+611: global #1
+612: if false goto 631
+var script_name := GetProcess(GetPid()).name;
+613: decl local #0
+614: Func(3,2): GetPid
+615: Func(3,1): GetProcess
+616: get member id 'name' (3)
+617: :=
+618: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+619: "::log/dataFile.log"
+620: "["
+621: local #1
+622: +
+623: "]: "
+624: +
+625: local #0
+626: +
+627: 1L
+628: Func(9,0): LogToFile
+629: #
+630: leave block(1)
+return 1;
+631: 1L
+632: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 63
+function DFGetElemNames(byref file_ref)
+633: pop param byref 'file_ref'
+var elem_keys := file_ref.Keys();
+634: decl local #1
+635: local #0
+636: Call Method id keys (#56, 0 params)
+637: :=
+638: #
+if ( elem_keys == error )
+639: local #1
+640: error
+641: ==
+642: if false goto 661
+var errmsg := error{"errortext":="Error::DFGetElemNames() - Could not return el
+643: decl local #0
+644: error
+645: "Error::DFGetElemNames() - Could not return elem keys :"
+646: local #1
+647: get member 'errortext'
+648: +
+649: addmember-assign(errortext)
+650: :=
+651: #
+DF_OutPut(errmsg.errortext);
+652: local #2
+653: get member 'errortext'
+654: makelocal
+655: jmp userfunc @610
+656: #
+return errmsg;
+657: local #2
+658: return
+659: leave block(1)
+660: goto663
+return elem_keys;
+661: local #1
+662: return
+663: 0L
+664: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 99
+function GetCategoryNames()
+var data_elem := DFFindElement( g_datafile, "Index" );
+665: decl local #0
+666: global #2
+667: "Index"
+668: 0L
+669: makelocal
+670: jmp userfunc @1591
+671: :=
+672: #
+var category_names := data_elem.GetProp( "CategoryNames" );
+673: decl local #1
+674: local #0
+675: "CategoryNames"
+676: Call Method id getprop (#35, 1 params)
+677: :=
+678: #
+if( !category_names )
+679: local #1
+680: if true goto 696
+category_names := SortNPCs().Keys();
+681: makelocal
+682: jmp userfunc @914
+683: Call Method id keys (#56, 0 params)
+684: local1 := 
+data_elem := DFFindElement( g_datafile, "Index", DF_CREATE );
+685: global #2
+686: "Index"
+687: 1L
+688: makelocal
+689: jmp userfunc @1591
+690: local0 := 
+data_elem.SetProp( "CategoryNames", category_names );
+691: local #0
+692: "CategoryNames"
+693: local #1
+694: Call Method id setprop (#36, 2 params)
+695: #
+return category_names;
+696: local #1
+697: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+698: pop param 'script_name'
+var i;
+699: decl local #1
+700: #
+for( i:=1; i<=len(script_name); i+=1 )
+701: local #1
+702: 1L
+703: :=
+704: #
+705: local #1
+706: local #0
+707: Func(0,3): Len
+708: <=
+709: if false goto 729
+if( !Check_ValidChar( script_name[i] ))
+710: local #0
+711: local #1
+712: [] 1
+713: 0L
+714: makelocal
+715: jmp userfunc @1402
+716: if true goto 721
+script_name[i] := " ";
+717: local #0
+718: local #1
+719: " "
+720: [] := (1) #
+SleepMS(5);
+721: 5L
+722: Func(3,3): Sleepms
+723: #
+724: local #1
+725: 1L
+726: +=
+727: #
+728: goto705
+foreach poss_pkg in ( SplitWords( script_name ))
+729: local #0
+730: " "
+731: Func(0,7): SplitWords
+732: initforeach @741
+if( GetPackageByName( poss_pkg ))
+733: local #2
+734: Func(11,0): GetPackageByName
+735: if false goto 738
+return poss_pkg;
+736: local #2
+737: return
+SleepMS(5);
+738: 5L
+739: Func(3,3): Sleepms
+740: #
+741: stepforeach @733
+742: leave block(3)
+return 0;
+743: 0L
+744: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 112
+function GetTemplateList()
+var data_elem := DFFindElement( g_datafile, "Index" );
+745: decl local #0
+746: global #2
+747: "Index"
+748: 0L
+749: makelocal
+750: jmp userfunc @1591
+751: :=
+752: #
+var template_names := data_elem.GetProp( "TemplateNames" );
+753: decl local #1
+754: local #0
+755: "TemplateNames"
+756: Call Method id getprop (#35, 1 params)
+757: :=
+758: #
+if( !template_names )
+759: local #1
+760: if true goto 772
+template_names := NPC_GetAllTemplateNames();
+761: makelocal
+762: jmp userfunc @812
+763: local1 := 
+template_names.Sort();
+764: local #1
+765: Call Method id sort (#54, 0 params)
+766: #
+data_elem.SetProp( "TemplateNames", template_names );
+767: local #0
+768: "TemplateNames"
+769: local #1
+770: Call Method id setprop (#36, 2 params)
+771: #
+return template_names;
+772: local #1
+773: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 314
+function GFSendGump(mobile, byref gump)
+774: pop param byref 'gump'
+775: pop param 'mobile'
+var ret_val := SendDialogGump(mobile, gump.layout, gump.data, gump.base.x, gump
+776: decl local #2
+777: local #1
+778: local #0
+779: get member 'layout'
+780: local #0
+781: get member 'data'
+782: local #0
+783: get member 'base'
+784: get member id 'x' (0)
+785: local #0
+786: get member 'base'
+787: get member id 'y' (1)
+788: 0L
+789: Func(2,7): SendDialogGump
+790: :=
+791: #
+if ( ret_val.errortext )
+792: local #2
+793: get member 'errortext'
+794: if false goto 810
+SendSysMessage(mobile, "Error - Unable to display gump.");
+795: local #1
+796: "Error - Unable to display gump."
+797: 3L
+798: 1000L
+799: Func(2,4): SendSysMessage
+800: #
+SendSysMessage(mobile, "Error text is ->"+ret_val.errortext);
+801: local #1
+802: "Error text is ->"
+803: local #2
+804: get member 'errortext'
+805: +
+806: 3L
+807: 1000L
+808: Func(2,4): SendSysMessage
+809: #
+return ret_val;
+810: local #2
+811: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 56
+function NPC_GetAllTemplateNames()
+var elem_names := array{};
+812: decl local #0
+813: array
+814: :=
+815: #
+elem_names := elem_names + GetConfigStringKeys( ReadConfigFile( "::npcdesc" ));
+816: local #0
+817: "::npcdesc"
+818: Func(4,0): ReadConfigFile
+819: Func(4,4): GetConfigStringKeys
+820: +
+821: local0 := 
+foreach package in ( Packages() )
+822: Func(11,1): Packages
+823: initforeach @857
+if( package.npcdesc )
+824: local #1
+825: get member 'npcdesc'
+826: if false goto 854
+var pkg_name := ":"+package.name+":";
+827: decl local #0
+828: ":"
+829: local #1
+830: get member id 'name' (3)
+831: +
+832: ":"
+833: +
+834: :=
+835: #
+foreach template_name in ( GetConfigStringKeys( ReadConfigFile( pkg_name+"npcde
+836: local #4
+837: "npcdesc"
+838: +
+839: Func(4,0): ReadConfigFile
+840: Func(4,4): GetConfigStringKeys
+841: initforeach @851
+elem_names.Append( pkg_name+template_name );
+842: local #0
+843: local #4
+844: local #5
+845: +
+846: Call Method id append (#52, 1 params)
+847: #
+SleepMS(2);
+848: 2L
+849: Func(3,3): Sleepms
+850: #
+851: stepforeach @842
+852: leave block(3)
+853: leave block(1)
+SleepMS(2);
+854: 2L
+855: Func(3,3): Sleepms
+856: #
+857: stepforeach @824
+858: leave block(3)
+return elem_names;
+859: local #0
+860: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 78
+function RetrieveGump( category_name )
+861: pop param 'category_name'
+if( category_name == "Index" )
+862: local #0
+863: "Index"
+864: ==
+865: if false goto 889
+var data_elem := DFFindElement( g_datafile, "Index" );
+866: decl local #0
+867: global #2
+868: "Index"
+869: 0L
+870: makelocal
+871: jmp userfunc @1591
+872: :=
+873: #
+var gump := data_elem.GetProp( "Gump" );
+874: decl local #1
+875: local #1
+876: "Gump"
+877: Call Method id getprop (#35, 1 params)
+878: :=
+879: #
+if( !gump )
+880: local #2
+881: if true goto 885
+gump := BuildIndexGump();
+882: makelocal
+883: jmp userfunc @1017
+884: local2 := 
+return gump;
+885: local #2
+886: return
+887: leave block(2)
+888: goto912
+var data_elem := DFFindElement( g_datafile, category_name );
+889: decl local #0
+890: global #2
+891: local #0
+892: 0L
+893: makelocal
+894: jmp userfunc @1591
+895: :=
+896: #
+var gump := data_elem.GetProp( "Gump" );
+897: decl local #1
+898: local #1
+899: "Gump"
+900: Call Method id getprop (#35, 1 params)
+901: :=
+902: #
+if( !gump )
+903: local #2
+904: if true goto 909
+gump := BuildNPCGump( category_name );
+905: local #0
+906: makelocal
+907: jmp userfunc @1206
+908: local2 := 
+return gump;
+909: local #2
+910: return
+911: leave block(2)
+912: 0L
+913: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 210
+function SortNPCs()
+var data_elem := DFFindElement( g_datafile, "Index", DF_CREATE );
+914: decl local #0
+915: global #2
+916: "Index"
+917: 1L
+918: makelocal
+919: jmp userfunc @1591
+920: :=
+921: #
+var categories :=  data_elem.GetProp( "NPCListSorted" );
+922: decl local #1
+923: local #0
+924: "NPCListSorted"
+925: Call Method id getprop (#35, 1 params)
+926: :=
+927: #
+if( categories )
+928: local #1
+929: if false goto 932
+return categories;
+930: local #1
+931: return
+var elem_names := GetTemplateList();
+932: decl local #2
+933: makelocal
+934: jmp userfunc @745
+935: :=
+936: #
+categories := dictionary;
+937: dictionary
+938: local1 := 
+categories[DEFAULT_CATEGORY] := array{};
+939: local #1
+940: "None"
+941: array
+942: [] := (1) #
+foreach template_name in ( elem_names )
+943: local #2
+944: initforeach @1008
+var cfg_elem := NPC_GetNPCConfig( template_name );
+945: decl local #0
+946: local #3
+947: makelocal
+948: jmp userfunc @2082
+949: :=
+950: #
+var template := struct;
+951: decl local #1
+952: struct
+953: :=
+954: #
+template.+name :=template_name;
+955: local #7
+956: "name"
+957: .+
+958: local #3
+959: := #
+template.+pos :=_template_name_iter;
+960: local #7
+961: "pos"
+962: .+
+963: local #5
+964: := #
+template.+color := GetNameColor( cfg_elem.alignment );
+965: local #7
+966: "color"
+967: .+
+968: local #6
+969: get member id 'alignment' (130)
+970: makelocal
+971: jmp userfunc @1653
+972: := #
+if( !cfg_elem.category )
+973: local #6
+974: get member 'category'
+975: if true goto 983
+categories[DEFAULT_CATEGORY].Append( template );
+976: local #1
+977: "None"
+978: [] 1
+979: local #7
+980: Call Method id append (#52, 1 params)
+981: #
+982: goto1004
+if( Lower( TypeOf( categories[cfg_elem.category] )) != "array" )
+983: local #1
+984: local #6
+985: get member 'category'
+986: [] 1
+987: Func(0,6): TypeOf
+988: Func(0,0): Lower
+989: "array"
+990: <>
+991: if false goto 997
+categories[cfg_elem.category] := array{};
+992: local #1
+993: local #6
+994: get member 'category'
+995: array
+996: [] := (1) #
+categories[cfg_elem.category].Append( template );
+997: local #1
+998: local #6
+999: get member 'category'
+1000: [] 1
+1001: local #7
+1002: Call Method id append (#52, 1 params)
+1003: #
+SleepMS(5);
+1004: 5L
+1005: Func(3,3): Sleepms
+1006: #
+1007: leave block(2)
+1008: stepforeach @945
+1009: leave block(3)
+data_elem.SetProp( "NPCListSorted", categories );
+1010: local #0
+1011: "NPCListSorted"
+1012: local #1
+1013: Call Method id setprop (#36, 2 params)
+1014: #
+return categories;
+1015: local #1
+1016: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 125
+function BuildIndexGump()
+var gump := GFCreateGump();
+1017: decl local #0
+1018: 0L
+1019: 0L
+1020: 0L
+1021: 0L
+1022: makelocal
+1023: jmp userfunc @1791
+1024: :=
+1025: #
+GFPage( gump, 0 );
+1026: local #0
+1027: 0L
+1028: makelocal
+1029: jmp userfunc @1934
+1030: #
+GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 300, 480 );
+1031: local #0
+1032: 0L
+1033: 0L
+1034: "Defaults"
+1035: "BackGround"
+1036: makelocal
+1037: jmp userfunc @1872
+1038: 300L
+1039: 480L
+1040: makelocal
+1041: jmp userfunc @1951
+1042: #
+GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 270, 450 
+1043: local #0
+1044: 15L
+1045: 15L
+1046: "Defaults"
+1047: "ForeGround"
+1048: makelocal
+1049: jmp userfunc @1872
+1050: 270L
+1051: 450L
+1052: makelocal
+1053: jmp userfunc @1951
+1054: #
+GFTextMid( gump, 15, 30, 280, 2100, "NPC Categories" );
+1055: local #0
+1056: 15L
+1057: 30L
+1058: 280L
+1059: 2100L
+1060: "NPC Categories"
+1061: makelocal
+1062: jmp userfunc @2057
+1063: #
+GFAddButton( gump, 30, 430, 4002, 4003, GF_CLOSE_BTN, UNLOADCFG_BTN );
+1064: local #0
+1065: 30L
+1066: 430L
+1067: 4002L
+1068: 4003L
+1069: 1L
+1070: 65535L
+1071: makelocal
+1072: jmp userfunc @1709
+1073: #
+GFTextLine( gump, 65, 430, 2100, "Unload" );
+1074: local #0
+1075: 65L
+1076: 430L
+1077: 2100L
+1078: "Unload"
+1079: makelocal
+1080: jmp userfunc @2008
+1081: #
+GFAddButton( gump, 150, 430, 4002, 4003, GF_CLOSE_BTN, UNCACHE_BTN );
+1082: local #0
+1083: 150L
+1084: 430L
+1085: 4002L
+1086: 4003L
+1087: 1L
+1088: 65534L
+1089: makelocal
+1090: jmp userfunc @1709
+1091: #
+GFTextLine( gump, 185, 430, 2100, "Uncache" );
+1092: local #0
+1093: 185L
+1094: 430L
+1095: 2100L
+1096: "Uncache"
+1097: makelocal
+1098: jmp userfunc @2008
+1099: #
+GFPage( gump, 1 );
+1100: local #0
+1101: 1L
+1102: makelocal
+1103: jmp userfunc @1934
+1104: #
+var y_pos := 60,
+1105: decl local #1
+1106: 60L
+1107: :=
+1108: #
+1109: decl local #2
+1110: 1L
+1111: :=
+1112: #
+foreach category_name in ( GetCategoryNames() )
+1113: makelocal
+1114: jmp userfunc @665
+1115: initforeach @1189
+GFAddButton( gump, 35, y_pos+3, 2117, 2118, GF_CLOSE_BTN, ( _category_name_iter
+1116: local #0
+1117: 35L
+1118: local #1
+1119: 3L
+1120: +
+1121: 2117L
+1122: 2118L
+1123: 1L
+1124: local #5
+1125: makelocal
+1126: jmp userfunc @1709
+1127: #
+GFTextLine( gump, 55, y_pos, 2100, category_name );
+1128: local #0
+1129: 55L
+1130: local #1
+1131: 2100L
+1132: local #3
+1133: makelocal
+1134: jmp userfunc @2008
+1135: #
+y_pos += 20;
+1136: local #1
+1137: 20L
+1138: +=
+1139: #
+counter += 1;
+1140: local #2
+1141: 1L
+1142: +=
+1143: #
+if( counter > 18 )
+1144: local #2
+1145: 18L
+1146: >
+1147: if false goto 1186
+GFAddButton( gump, 252, 430, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1 );
+1148: local #0
+1149: 252L
+1150: 430L
+1151: 2648L
+1152: 2649L
+1153: 0L
+1154: local #0
+1155: get member 'cur_page'
+1156: 1L
+1157: +
+1158: makelocal
+1159: jmp userfunc @1709
+1160: #
+GFPage( gump, gump.cur_page+1 );
+1161: local #0
+1162: local #0
+1163: get member 'cur_page'
+1164: 1L
+1165: +
+1166: makelocal
+1167: jmp userfunc @1934
+1168: #
+GFAddButton( gump, 252, 30, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1 );
+1169: local #0
+1170: 252L
+1171: 30L
+1172: 2650L
+1173: 2651L
+1174: 0L
+1175: local #0
+1176: get member 'cur_page'
+1177: 1L
+1178: -
+1179: makelocal
+1180: jmp userfunc @1709
+1181: #
+counter := 1;
+1182: 1L
+1183: local2 := 
+y_pos := 60;
+1184: 60L
+1185: local1 := 
+SleepMS(2);
+1186: 2L
+1187: Func(3,3): Sleepms
+1188: #
+1189: stepforeach @1116
+1190: leave block(3)
+var data_elem := DFFindElement( g_datafile, "Index", DF_CREATE );
+1191: decl local #3
+1192: global #2
+1193: "Index"
+1194: 1L
+1195: makelocal
+1196: jmp userfunc @1591
+1197: :=
+1198: #
+data_elem.SetProp( "Gump", gump );
+1199: local #3
+1200: "Gump"
+1201: local #0
+1202: Call Method id setprop (#36, 2 params)
+1203: #
+return gump;
+1204: local #0
+1205: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 167
+function BuildNPCGump( category_name )
+1206: pop param 'category_name'
+var npc_list := SortNPCs();
+1207: decl local #1
+1208: makelocal
+1209: jmp userfunc @914
+1210: :=
+1211: #
+if( !npc_list.Exists( category_name ))
+1212: local #1
+1213: local #0
+1214: Call Method id exists (#55, 1 params)
+1215: if true goto 1220
+return error{ "errortext":="Category name does not exist." };
+1216: error
+1217: "Category name does not exist."
+1218: addmember-assign(errortext)
+1219: return
+npc_list := npc_list[category_name];
+1220: local #1
+1221: local #0
+1222: [] 1
+1223: local1 := 
+var gump := GFCreateGump();
+1224: decl local #2
+1225: 0L
+1226: 0L
+1227: 0L
+1228: 0L
+1229: makelocal
+1230: jmp userfunc @1791
+1231: :=
+1232: #
+GFPage( gump, 0 );
+1233: local #2
+1234: 0L
+1235: makelocal
+1236: jmp userfunc @1934
+1237: #
+GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 300, 480 );
+1238: local #2
+1239: 0L
+1240: 0L
+1241: "Defaults"
+1242: "BackGround"
+1243: makelocal
+1244: jmp userfunc @1872
+1245: 300L
+1246: 480L
+1247: makelocal
+1248: jmp userfunc @1951
+1249: #
+GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 270, 450 
+1250: local #2
+1251: 15L
+1252: 15L
+1253: "Defaults"
+1254: "ForeGround"
+1255: makelocal
+1256: jmp userfunc @1872
+1257: 270L
+1258: 450L
+1259: makelocal
+1260: jmp userfunc @1951
+1261: #
+GFAddButton( gump, 27, 432, 4014, 4015, GF_CLOSE_BTN, BACK_BTN );
+1262: local #2
+1263: 27L
+1264: 432L
+1265: 4014L
+1266: 4015L
+1267: 1L
+1268: 65533L
+1269: makelocal
+1270: jmp userfunc @1709
+1271: #
+GFTextLine( gump, 60, 432, 2100, "Back" );
+1272: local #2
+1273: 60L
+1274: 432L
+1275: 2100L
+1276: "Back"
+1277: makelocal
+1278: jmp userfunc @2008
+1279: #
+var y_pos := 60;
+1280: decl local #3
+1281: 60L
+1282: :=
+1283: #
+var counter := 1;
+1284: decl local #4
+1285: 1L
+1286: :=
+1287: #
+GFTextMid( gump, 15, 30, 290, 2100, "NPC List - "+category_name );
+1288: local #2
+1289: 15L
+1290: 30L
+1291: 290L
+1292: 2100L
+1293: "NPC List - "
+1294: local #0
+1295: +
+1296: makelocal
+1297: jmp userfunc @2057
+1298: #
+GFPage( gump, 1 );
+1299: local #2
+1300: 1L
+1301: makelocal
+1302: jmp userfunc @1934
+1303: #
+foreach template in ( npc_list[category_name] )
+1304: local #1
+1305: local #0
+1306: [] 1
+1307: initforeach @1384
+GFAddButton( gump, 35, y_pos+3, 2117, 2118, GF_CLOSE_BTN, template.pos );
+1308: local #2
+1309: 35L
+1310: local #3
+1311: 3L
+1312: +
+1313: 2117L
+1314: 2118L
+1315: 1L
+1316: local #5
+1317: get member 'pos'
+1318: makelocal
+1319: jmp userfunc @1709
+1320: #
+GFTextLine( gump, 55, y_pos, template.color, template.name );
+1321: local #2
+1322: 55L
+1323: local #3
+1324: local #5
+1325: get member id 'color' (7)
+1326: local #5
+1327: get member id 'name' (3)
+1328: makelocal
+1329: jmp userfunc @2008
+1330: #
+y_pos += 20;
+1331: local #3
+1332: 20L
+1333: +=
+1334: #
+counter += 1;
+1335: local #4
+1336: 1L
+1337: +=
+1338: #
+if( counter > 18 )
+1339: local #4
+1340: 18L
+1341: >
+1342: if false goto 1381
+counter := 1;
+1343: 1L
+1344: local4 := 
+y_pos := 60;
+1345: 60L
+1346: local3 := 
+GFAddButton( gump, 252, 430, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1 );
+1347: local #2
+1348: 252L
+1349: 430L
+1350: 2648L
+1351: 2649L
+1352: 0L
+1353: local #2
+1354: get member 'cur_page'
+1355: 1L
+1356: +
+1357: makelocal
+1358: jmp userfunc @1709
+1359: #
+GFPage( gump, gump.cur_page+1 );
+1360: local #2
+1361: local #2
+1362: get member 'cur_page'
+1363: 1L
+1364: +
+1365: makelocal
+1366: jmp userfunc @1934
+1367: #
+GFAddButton( gump, 252, 30, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1 );
+1368: local #2
+1369: 252L
+1370: 30L
+1371: 2650L
+1372: 2651L
+1373: 0L
+1374: local #2
+1375: get member 'cur_page'
+1376: 1L
+1377: -
+1378: makelocal
+1379: jmp userfunc @1709
+1380: #
+SleepMS(2);
+1381: 2L
+1382: Func(3,3): Sleepms
+1383: #
+1384: stepforeach @1308
+1385: leave block(3)
+var data_elem := DFFindElement( g_datafile, Lower( category_name ), DF_CREATE )
+1386: decl local #5
+1387: global #2
+1388: local #0
+1389: Func(0,0): Lower
+1390: 1L
+1391: makelocal
+1392: jmp userfunc @1591
+1393: :=
+1394: #
+data_elem.SetProp( "Gump", gump );
+1395: local #5
+1396: "Gump"
+1397: local #2
+1398: Call Method id setprop (#36, 2 params)
+1399: #
+return gump;
+1400: local #2
+1401: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+1402: pop param 'allow_space'
+1403: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+1404: decl local #2
+1405: array
+1406: "a"
+1407: init{}
+1408: "b"
+1409: init{}
+1410: "c"
+1411: init{}
+1412: "d"
+1413: init{}
+1414: "e"
+1415: init{}
+1416: "f"
+1417: init{}
+1418: "g"
+1419: init{}
+1420: "h"
+1421: init{}
+1422: "i"
+1423: init{}
+1424: "j"
+1425: init{}
+1426: "k"
+1427: init{}
+1428: "l"
+1429: init{}
+1430: "m"
+1431: init{}
+1432: "n"
+1433: init{}
+1434: "o"
+1435: init{}
+1436: "p"
+1437: init{}
+1438: "q"
+1439: init{}
+1440: "r"
+1441: init{}
+1442: "s"
+1443: init{}
+1444: "t"
+1445: init{}
+1446: "u"
+1447: init{}
+1448: "v"
+1449: init{}
+1450: "w"
+1451: init{}
+1452: "x"
+1453: init{}
+1454: "y"
+1455: init{}
+1456: "z"
+1457: init{}
+1458: "A"
+1459: init{}
+1460: "B"
+1461: init{}
+1462: "C"
+1463: init{}
+1464: "D"
+1465: init{}
+1466: "E"
+1467: init{}
+1468: "F"
+1469: init{}
+1470: "G"
+1471: init{}
+1472: "H"
+1473: init{}
+1474: "I"
+1475: init{}
+1476: "P"
+1477: init{}
+1478: "O"
+1479: init{}
+1480: "N"
+1481: init{}
+1482: "M"
+1483: init{}
+1484: "L"
+1485: init{}
+1486: "K"
+1487: init{}
+1488: "J"
+1489: init{}
+1490: "Q"
+1491: init{}
+1492: "R"
+1493: init{}
+1494: "S"
+1495: init{}
+1496: "T"
+1497: init{}
+1498: "U"
+1499: init{}
+1500: "V"
+1501: init{}
+1502: "W"
+1503: init{}
+1504: "X"
+1505: init{}
+1506: "Y"
+1507: init{}
+1508: "Z"
+1509: init{}
+1510: "1"
+1511: init{}
+1512: "2"
+1513: init{}
+1514: "3"
+1515: init{}
+1516: "4"
+1517: init{}
+1518: "5"
+1519: init{}
+1520: "6"
+1521: init{}
+1522: "7"
+1523: init{}
+1524: "8"
+1525: init{}
+1526: "9"
+1527: init{}
+1528: "0"
+1529: init{}
+1530: :=
+1531: #
+var len_text := Len( text );
+1532: decl local #3
+1533: local #1
+1534: Func(0,3): Len
+1535: :=
+1536: #
+var i;
+1537: decl local #4
+1538: #
+for( i:=1; i<=len_text; i+=1 )
+1539: local #4
+1540: 1L
+1541: :=
+1542: #
+1543: local #4
+1544: local #3
+1545: <=
+1546: if false goto 1589
+SleepMS(5);
+1547: 5L
+1548: Func(3,3): Sleepms
+1549: #
+var letter := CStr( text[i] );
+1550: decl local #0
+1551: local #1
+1552: local #4
+1553: [] 1
+1554: Func(0,4): CStr
+1555: :=
+1556: #
+if( letter in valid_char )
+1557: local #5
+1558: local #2
+1559: in
+1560: if false goto 1564
+continue;
+1561: leave block(1)
+1562: goto1584
+1563: goto1581
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+1564: local #0
+1565: local #1
+1566: local #4
+1567: [] 1
+1568: " "
+1569: ==
+1570: local #1
+1571: local #4
+1572: [] 1
+1573: Func(0,9): CAsc
+1574: 0L
+1575: ==
+1576: ||
+1577: &&
+1578: if false goto 1581
+continue;
+1579: leave block(1)
+1580: goto1584
+return 0;
+1581: 0L
+1582: return
+1583: leave block(1)
+1584: local #4
+1585: 1L
+1586: +=
+1587: #
+1588: goto1543
+return 1;
+1589: 1L
+1590: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+1591: pop param 'create'
+1592: pop param 'elem_name'
+1593: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+1594: decl local #3
+1595: local #2
+1596: local #1
+1597: Func(0,4): CStr
+1598: Call Method id findelement (#72, 1 params)
+1599: :=
+1600: #
+if ( !temp && create )
+1601: local #3
+1602: !
+1603: local #0
+1604: &&
+1605: if false goto 1623
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+1606: "Debug::DFFindElement() - Creating elem: "
+1607: local #1
+1608: Func(0,4): CStr
+1609: +
+1610: makelocal
+1611: jmp userfunc @610
+1612: #
+file_ref.CreateElement(CStr(elem_name));
+1613: local #2
+1614: local #1
+1615: Func(0,4): CStr
+1616: Call Method id createelement (#71, 1 params)
+1617: #
+temp := file_ref.FindElement(CStr(elem_name));
+1618: local #2
+1619: local #1
+1620: Func(0,4): CStr
+1621: Call Method id findelement (#72, 1 params)
+1622: local3 := 
+if ( temp )
+1623: local #3
+1624: if false goto 1628
+return temp;
+1625: local #3
+1626: return
+1627: goto1651
+elseif (create)
+1628: local #0
+1629: if false goto 1651
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+1630: decl local #0
+1631: error
+1632: "Error::DFFindElement() - Could not open data elem ["
+1633: local #1
+1634: +
+1635: "] - "
+1636: +
+1637: local #3
+1638: get member 'errortext'
+1639: +
+1640: addmember-assign(errortext)
+1641: :=
+1642: #
+DF_OutPut(errmsg.errortext);
+1643: local #4
+1644: get member 'errortext'
+1645: makelocal
+1646: jmp userfunc @610
+1647: #
+return errmsg;
+1648: local #4
+1649: return
+1650: leave block(1)
+1651: 0L
+1652: return
+c:/ZH099/pkg/systems/brainAI/include/createNPC.inc, Line 247
+function GetNameColor( reputation )
+1653: pop param 'reputation'
+var reputation_cfg := ReadConfigFile( "::repsys" );
+1654: decl local #1
+1655: "::repsys"
+1656: Func(4,0): ReadConfigFile
+1657: :=
+1658: #
+var reputation_elem := reputation_cfg["NameColoring"];
+1659: decl local #2
+1660: local #1
+1661: "NameColoring"
+1662: [] 1
+1663: :=
+1664: #
+if( !reputation_elem )
+1665: local #2
+1666: if true goto 1678
+SysLog( "Unable to read in repsys.cfg elem [NameColoring] ->"+reputation_elem.e
+1667: "Unable to read in repsys.cfg elem [NameColoring] ->"
+1668: local #2
+1669: get member 'errortext'
+1670: +
+1671: Func(3,0): SysLog
+1672: #
+SysLog( "You probably don't have an elem name set for it. Thats naughty!" );
+1673: "You probably don't have an elem name set for it. Thats naughty!"
+1674: Func(3,0): SysLog
+1675: #
+return 0;
+1676: 0L
+1677: return
+case( reputation )
+1678: local #0
+1679: casejmp
+	"good": @1680
+	"neutral": @1687
+	"evil": @1694
+	default: @1701
+return ( GetConfigInt( reputation_elem, "innocent" ) - 1 );
+1680: local #2
+1681: "innocent"
+1682: Func(4,5): GetConfigInt
+1683: 1L
+1684: -
+1685: return
+1686: goto1707
+return ( GetConfigInt( reputation_elem, "attackable" ) -1 );
+1687: local #2
+1688: "attackable"
+1689: Func(4,5): GetConfigInt
+1690: 1L
+1691: -
+1692: return
+1693: goto1707
+return ( GetConfigInt( reputation_elem, "murderer" ) -1 );
+1694: local #2
+1695: "murderer"
+1696: Func(4,5): GetConfigInt
+1697: 1L
+1698: -
+1699: return
+1700: goto1707
+return ( GetConfigInt( reputation_elem, "attackable" ) -1 );
+1701: local #2
+1702: "attackable"
+1703: Func(4,5): GetConfigInt
+1704: 1L
+1705: -
+1706: return
+return 1;
+1707: 1L
+1708: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 172
+function GFAddButton(byref gump, x, y, off_id, on_id, btn_type:=GF_PAGE_BTN, bt
+1709: pop param 'btn_value'
+1710: pop param 'btn_type'
+1711: pop param 'on_id'
+1712: pop param 'off_id'
+1713: pop param 'y'
+1714: pop param 'x'
+1715: pop param byref 'gump'
+var line := "Button "+CStr(x)+" "+CStr(y)+" "+CStr(off_id)+" "+CStr(on_id);
+1716: decl local #7
+1717: "Button "
+1718: local #5
+1719: Func(0,4): CStr
+1720: +
+1721: " "
+1722: +
+1723: local #4
+1724: Func(0,4): CStr
+1725: +
+1726: " "
+1727: +
+1728: local #3
+1729: Func(0,4): CStr
+1730: +
+1731: " "
+1732: +
+1733: local #2
+1734: Func(0,4): CStr
+1735: +
+1736: :=
+1737: #
+btn_value := CInt(btn_value);
+1738: local #0
+1739: Func(0,1): CInt
+1740: local0 := 
+if ( btn_value < 1 ) // Catch errors (0) and invalid (negative) values
+1741: local #0
+1742: 1L
+1743: <
+1744: if false goto 1753
+gump.data_id += 1;
+1745: local #6
+1746: get member 'data_id'
+1747: 1L
+1748: +=
+1749: #
+btn_value := gump.data_id;
+1750: local #6
+1751: get member 'data_id'
+1752: local0 := 
+if ( btn_type == GF_CLOSE_BTN )
+1753: local #1
+1754: 1L
+1755: ==
+1756: if false goto 1765
+line += " 1 0 "+CStr(btn_value);
+1757: local #7
+1758: " 1 0 "
+1759: local #0
+1760: Func(0,4): CStr
+1761: +
+1762: +=
+1763: #
+1764: goto1784
+elseif ( btn_type == GF_DUMMY_BTN )
+1765: local #1
+1766: 2L
+1767: ==
+1768: if false goto 1777
+line += " 0 0 "+CStr(btn_value);
+1769: local #7
+1770: " 0 0 "
+1771: local #0
+1772: Func(0,4): CStr
+1773: +
+1774: +=
+1775: #
+1776: goto1784
+line += " 0 "+CStr(btn_value);
+1777: local #7
+1778: " 0 "
+1779: local #0
+1780: Func(0,4): CStr
+1781: +
+1782: +=
+1783: #
+(gump.layout).Append(line);
+1784: local #6
+1785: get member 'layout'
+1786: local #7
+1787: Call Method id append (#52, 1 params)
+1788: #
+return (btn_value);
+1789: local #0
+1790: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 40
+function GFCreateGump(x:=0, y:=0, width:=0, height:=0)
+1791: pop param 'height'
+1792: pop param 'width'
+1793: pop param 'y'
+1794: pop param 'x'
+var gump := struct;
+1795: decl local #4
+1796: struct
+1797: :=
+1798: #
+gump.+base := struct;
+1799: local #4
+1800: "base"
+1801: .+
+1802: struct
+1803: := #
+gump.base.+x := CInt(x);
+1804: local #4
+1805: get member 'base'
+1806: "x"
+1807: .+
+1808: local #3
+1809: Func(0,1): CInt
+1810: := #
+gump.base.+y := CInt(y);
+1811: local #4
+1812: get member 'base'
+1813: "y"
+1814: .+
+1815: local #2
+1816: Func(0,1): CInt
+1817: := #
+gump.base.+width := CInt(width);
+1818: local #4
+1819: get member 'base'
+1820: "width"
+1821: .+
+1822: local #1
+1823: Func(0,1): CInt
+1824: := #
+gump.base.+height := CInt(height);
+1825: local #4
+1826: get member 'base'
+1827: "height"
+1828: .+
+1829: local #0
+1830: Func(0,1): CInt
+1831: := #
+gump.base.+MoveLoc := 0;	// Movable flag location
+1832: local #4
+1833: get member 'base'
+1834: "MoveLoc"
+1835: .+
+1836: 0L
+1837: := #
+gump.base.+CloseLoc := 0;	// NoClose flag location
+1838: local #4
+1839: get member 'base'
+1840: "CloseLoc"
+1841: .+
+1842: 0L
+1843: := #
+gump.base.+DisposeLoc := 0;	// NoDispose flag location
+1844: local #4
+1845: get member 'base'
+1846: "DisposeLoc"
+1847: .+
+1848: 0L
+1849: := #
+gump.+layout	:= array;	// Main layout array for entire gump
+1850: local #4
+1851: "layout"
+1852: .+
+1853: array
+1854: := #
+gump.+data	:= array;	// Storage array for static-text and
+1855: local #4
+1856: "data"
+1857: .+
+1858: array
+1859: := #
+gump.+data_id	:= 1;
+1860: local #4
+1861: "data_id"
+1862: .+
+1863: 1L
+1864: := #
+gump.+cur_page := 0;
+1865: local #4
+1866: "cur_page"
+1867: .+
+1868: 0L
+1869: := #
+return(gump);
+1870: local #4
+1871: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 37
+function GFGetCfgConst(elem_name, prop_name)
+1872: pop param 'prop_name'
+1873: pop param 'elem_name'
+var cfg := ReadConfigFile(":gumps:GumpInfo");
+1874: decl local #2
+1875: ":gumps:GumpInfo"
+1876: Func(4,0): ReadConfigFile
+1877: :=
+1878: #
+if ( cfg.errortext )
+1879: local #2
+1880: get member 'errortext'
+1881: if false goto 1890
+return XGFError("GFGetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errorte
+1882: "GFGetCfgConst():: Unable to open GumpInfo.cfg -> "
+1883: local #2
+1884: get member 'errortext'
+1885: +
+1886: 0L
+1887: makelocal
+1888: jmp userfunc @2201
+1889: return
+var elem := cfg[elem_name];
+1890: decl local #3
+1891: local #2
+1892: local #1
+1893: [] 1
+1894: :=
+1895: #
+if ( elem.errortext )
+1896: local #3
+1897: get member 'errortext'
+1898: if false goto 1911
+return XGFError("GFGetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] -
+1899: "GFGetCfgConst():: Unable to find GumpInfo.cfg["
+1900: local #1
+1901: +
+1902: "] ->"
+1903: +
+1904: local #3
+1905: get member 'errortext'
+1906: +
+1907: 0L
+1908: makelocal
+1909: jmp userfunc @2201
+1910: return
+var value := GetConfigInt(elem, prop_name);
+1911: decl local #4
+1912: local #3
+1913: local #0
+1914: Func(4,5): GetConfigInt
+1915: :=
+1916: #
+if ( !value )
+1917: local #4
+1918: if true goto 1932
+return XGFError("GFGetCfgConst():: Unable to find property ["+prop_name+"] in e
+1919: "GFGetCfgConst():: Unable to find property ["
+1920: local #0
+1921: +
+1922: "] in elem ["
+1923: +
+1924: local #1
+1925: +
+1926: "]"
+1927: +
+1928: 0L
+1929: makelocal
+1930: jmp userfunc @2201
+1931: return
+return value;
+1932: local #4
+1933: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 143
+function GFPage(byref gump, page_num)
+1934: pop param 'page_num'
+1935: pop param byref 'gump'
+gump.cur_page := CInt(page_num);
+1936: local #1
+1937: local #0
+1938: Func(0,1): CInt
+1939: set member 'cur_page' #
+(gump.layout).Append("Page "+CStr(gump.cur_page));
+1940: local #1
+1941: get member 'layout'
+1942: "Page "
+1943: local #1
+1944: get member 'cur_page'
+1945: Func(0,4): CStr
+1946: +
+1947: Call Method id append (#52, 1 params)
+1948: #
+return 1;
+1949: 1L
+1950: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 151
+function GFResizePic(byref gump, x, y, gump_id, width, height)
+1951: pop param 'height'
+1952: pop param 'width'
+1953: pop param 'gump_id'
+1954: pop param 'y'
+1955: pop param 'x'
+1956: pop param byref 'gump'
+width := CInt(width);
+1957: local #1
+1958: Func(0,1): CInt
+1959: local1 := 
+height := CInt(height);
+1960: local #0
+1961: Func(0,1): CInt
+1962: local0 := 
+if ( !width )
+1963: local #1
+1964: if true goto 1969
+width := gump.base.width;
+1965: local #5
+1966: get member 'base'
+1967: get member 'width'
+1968: local1 := 
+if ( !height )
+1969: local #0
+1970: if true goto 1975
+height := gump.base.width;
+1971: local #5
+1972: get member 'base'
+1973: get member 'width'
+1974: local0 := 
+(gump.layout).Append("ResizePic "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+1975: local #5
+1976: get member 'layout'
+1977: "ResizePic "
+1978: local #4
+1979: Func(0,1): CInt
+1980: Func(0,4): CStr
+1981: +
+1982: " "
+1983: +
+1984: local #3
+1985: Func(0,1): CInt
+1986: Func(0,4): CStr
+1987: +
+1988: " "
+1989: +
+1990: local #2
+1991: Func(0,1): CInt
+1992: Func(0,4): CStr
+1993: +
+1994: " "
+1995: +
+1996: local #1
+1997: Func(0,4): CStr
+1998: +
+1999: " "
+2000: +
+2001: local #0
+2002: Func(0,4): CStr
+2003: +
+2004: Call Method id append (#52, 1 params)
+2005: #
+return 1;
+2006: 1L
+2007: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 263
+function GFTextLine(byref gump, x, y, hue:=0, text:="")
+2008: pop param 'text'
+2009: pop param 'hue'
+2010: pop param 'y'
+2011: pop param 'x'
+2012: pop param byref 'gump'
+gump.data.Append(""+CStr(text));
+2013: local #4
+2014: get member 'data'
+2015: ""
+2016: local #0
+2017: Func(0,4): CStr
+2018: +
+2019: Call Method id append (#52, 1 params)
+2020: #
+var index := gump.data.Size()-1;
+2021: decl local #5
+2022: local #4
+2023: get member 'data'
+2024: Call Method id size (#48, 0 params)
+2025: 1L
+2026: -
+2027: :=
+2028: #
+(gump.layout).Append("Text "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+2029: local #4
+2030: get member 'layout'
+2031: "Text "
+2032: local #3
+2033: Func(0,1): CInt
+2034: Func(0,4): CStr
+2035: +
+2036: " "
+2037: +
+2038: local #2
+2039: Func(0,1): CInt
+2040: Func(0,4): CStr
+2041: +
+2042: " "
+2043: +
+2044: local #1
+2045: Func(0,1): CInt
+2046: Func(0,4): CStr
+2047: +
+2048: " "
+2049: +
+2050: local #5
+2051: Func(0,4): CStr
+2052: +
+2053: Call Method id append (#52, 1 params)
+2054: #
+return (index);
+2055: local #5
+2056: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 114
+function GFTextMid(byref gump, x, y, width, color, text)
+2057: pop param 'text'
+2058: pop param 'color'
+2059: pop param 'width'
+2060: pop param 'y'
+2061: pop param 'x'
+2062: pop param byref 'gump'
+var x_pos := GFTextCoords(ALIGN_CENTER, text, x, CStr(width));
+2063: decl local #6
+2064: 1L
+2065: local #0
+2066: local #4
+2067: local #2
+2068: Func(0,4): CStr
+2069: makelocal
+2070: jmp userfunc @2214
+2071: :=
+2072: #
+return GFTextLine(gump, x_pos, y, color, CStr(text));
+2073: local #5
+2074: local #6
+2075: local #3
+2076: local #1
+2077: local #0
+2078: Func(0,4): CStr
+2079: makelocal
+2080: jmp userfunc @2008
+2081: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 35
+function NPC_GetNPCConfig( template )
+2082: pop param 'template'
+if( !template.package )
+2083: local #0
+2084: get member 'package'
+2085: if true goto 2090
+template := NPC_ParseTemplateName( template );
+2086: local #0
+2087: makelocal
+2088: jmp userfunc @2139
+2089: local0 := 
+var npc_cfg := ReadConfigFile( ":"+template.package+":npcdesc" );
+2090: decl local #1
+2091: ":"
+2092: local #0
+2093: get member 'package'
+2094: +
+2095: ":npcdesc"
+2096: +
+2097: Func(4,0): ReadConfigFile
+2098: :=
+2099: #
+if( npc_cfg.errortext )
+2100: local #1
+2101: get member 'errortext'
+2102: if false goto 2115
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not open :"+templa
+2103: error
+2104: "Error::NPC_GetNPCConfig() - Could not open :"
+2105: local #0
+2106: get member 'package'
+2107: +
+2108: ":npcdesc ->"
+2109: +
+2110: local #1
+2111: get member 'errortext'
+2112: +
+2113: addmember-assign(errortext)
+2114: return
+var cfg_elem := npc_cfg[template.template];
+2115: decl local #2
+2116: local #1
+2117: local #0
+2118: get member 'template'
+2119: [] 1
+2120: :=
+2121: #
+if( cfg_elem.errortext )
+2122: local #2
+2123: get member 'errortext'
+2124: if false goto 2137
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not find elem ["+t
+2125: error
+2126: "Error::NPC_GetNPCConfig() - Could not find elem ["
+2127: local #0
+2128: get member 'template'
+2129: +
+2130: "] ->"
+2131: +
+2132: local #2
+2133: get member 'errortext'
+2134: +
+2135: addmember-assign(errortext)
+2136: return
+return cfg_elem;
+2137: local #2
+2138: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 11
+function NPC_ParseTemplateName( template_name )
+2139: pop param 'template_name'
+if( template_name.IsA( POLCLASS_NPC ))
+2140: local #0
+2141: 4L
+2142: Call Method id isa (#0, 1 params)
+2143: if false goto 2147
+template_name := template_name.npctemplate;
+2144: local #0
+2145: get member id 'npctemplate' (62)
+2146: local0 := 
+var colon_a := Find( template_name, ":", 1 );
+2147: decl local #1
+2148: local #0
+2149: ":"
+2150: 1L
+2151: Func(0,10): Find
+2152: :=
+2153: #
+var colon_b := Find( template_name, ":", 2 );
+2154: decl local #2
+2155: local #0
+2156: ":"
+2157: 2L
+2158: Func(0,10): Find
+2159: :=
+2160: #
+var parsed := struct{"package", "template"};
+2161: decl local #3
+2162: struct
+2163: addmember(package)
+2164: addmember(template)
+2165: :=
+2166: #
+if( !colon_a || !colon_b )
+2167: local #1
+2168: !
+2169: local #2
+2170: !
+2171: ||
+2172: if false goto 2180
+parsed.package := "";
+2173: local #3
+2174: ""
+2175: set member 'package' #
+parsed.template := template_name;
+2176: local #3
+2177: local #0
+2178: set member 'template' #
+2179: goto2199
+parsed.package := template_name[colon_a+1, colon_b-2];
+2180: local #3
+2181: local #0
+2182: local #1
+2183: 1L
+2184: +
+2185: local #2
+2186: 2L
+2187: -
+2188: [,]
+2189: set member 'package' #
+parsed.template := template_name[colon_b+1, Len( template_name )];
+2190: local #3
+2191: local #0
+2192: local #2
+2193: 1L
+2194: +
+2195: local #0
+2196: Func(0,3): Len
+2197: [,]
+2198: set member 'template' #
+return parsed;
+2199: local #3
+2200: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 335
+function XGFError(text, log:=0)
+2201: pop param 'log'
+2202: pop param 'text'
+if ( log )
+2203: local #0
+2204: if false goto 2210
+SysLog("Gump Error:: "+text);
+2205: "Gump Error:: "
+2206: local #1
+2207: +
+2208: Func(3,0): SysLog
+2209: #
+return error{"errortext":=text};
+2210: error
+2211: local #1
+2212: addmember-assign(errortext)
+2213: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 104
+function GFTextCoords(type:=ALIGN_CENTER, gump_text, x_pos, width:=0)
+2214: pop param 'width'
+2215: pop param 'x_pos'
+2216: pop param 'gump_text'
+2217: pop param 'type'
+x_pos := CInt(x_pos);
+2218: local #1
+2219: Func(0,1): CInt
+2220: local1 := 
+width := CInt(width);
+2221: local #0
+2222: Func(0,1): CInt
+2223: local0 := 
+if ( type == ALIGN_CENTER )
+2224: local #3
+2225: 1L
+2226: ==
+2227: if false goto 2241
+return CInt(x_pos+CInt((width-GFTextWidth(gump_text))/2));
+2228: local #1
+2229: local #0
+2230: local #2
+2231: makelocal
+2232: jmp userfunc @2254
+2233: -
+2234: 2L
+2235: /
+2236: Func(0,1): CInt
+2237: +
+2238: Func(0,1): CInt
+2239: return
+2240: goto2252
+elseif ( type == ALIGN_RIGHT )
+2241: local #3
+2242: 2L
+2243: ==
+2244: if false goto 2252
+return CInt(x_pos-GFTextWidth(gump_text));
+2245: local #1
+2246: local #2
+2247: makelocal
+2248: jmp userfunc @2254
+2249: -
+2250: Func(0,1): CInt
+2251: return
+2252: 0L
+2253: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 124
+function GFTextWidth(gump_text)
+2254: pop param 'gump_text'
+var gft_length := struct;
+2255: decl local #1
+2256: struct
+2257: :=
+2258: #
+gft_length.+charsf :=
+2259: local #1
+2260: "charsf"
+2261: .+
+2262: "||||||||||||||`',.;:::::::::!!!!!!!!!!!!!!il1[]]]]]]]]]"bcejotî(){}===adfpqrszIÑ~~~~ghnuvyÅ<>-----xJ578$?++++++ kCE2369^/*****mwABDFOPéô40%%GLNQSZ@#######HRT&__________KöUYYYYYYYYYYYXXXXXXXXXXXXXXVVVVVVVVVVVVVVMMMMMMMMMMMMMMWWWWWWWWWWWWWW"
+2263: := #
+gft_length.+width := array
+2264: local #1
+2265: "width"
+2266: .+
+2267: array
+2268: 2L
+2269: init{}
+2270: 3L
+2271: init{}
+2272: 4L
+2273: init{}
+2274: 5L
+2275: init{}
+2276: 6L
+2277: init{}
+2278: 7L
+2279: init{}
+2280: 8L
+2281: init{}
+2282: 9L
+2283: init{}
+2284: 10L
+2285: init{}
+2286: 11L
+2287: init{}
+2288: 12L
+2289: init{}
+2290: 13L
+2291: init{}
+2292: 14L
+2293: init{}
+2294: 15L
+2295: init{}
+2296: 16L
+2297: init{}
+2298: 18L
+2299: init{}
+2300: 21L
+2301: init{}
+2302: := #
+var points:=0;
+2303: decl local #2
+2304: 0L
+2305: :=
+2306: #
+var j := Len(gump_text);
+2307: decl local #3
+2308: local #0
+2309: Func(0,3): Len
+2310: :=
+2311: #
+for ( j; j>0; j-=1 )
+2312: local #3
+2313: #
+2314: local #3
+2315: 0L
+2316: >
+2317: if false goto 2362
+var i := Find(gft_length.charsf, gump_text[j], 1) - 1;
+2318: decl local #0
+2319: local #1
+2320: get member 'charsf'
+2321: local #0
+2322: local #3
+2323: [] 1
+2324: 1L
+2325: Func(0,10): Find
+2326: 1L
+2327: -
+2328: :=
+2329: #
+if ( i>=0 )
+2330: local #4
+2331: 0L
+2332: >=
+2333: if false goto 2347
+points += gft_length.width[CInt(i/14)+1];
+2334: local #2
+2335: local #1
+2336: get member 'width'
+2337: local #4
+2338: 14L
+2339: /
+2340: Func(0,1): CInt
+2341: 1L
+2342: +
+2343: [] 1
+2344: +=
+2345: #
+2346: goto2356
+print("XGFTextWidth: Unknown Character = '"+gump_text[j]+"'");
+2347: "XGFTextWidth: Unknown Character = '"
+2348: local #0
+2349: local #3
+2350: [] 1
+2351: +
+2352: "'"
+2353: +
+2354: Func(1,0): Print
+2355: #
+2356: leave block(1)
+2357: local #3
+2358: 1L
+2359: -=
+2360: #
+2361: goto2314
+return (points);
+2362: local #2
+2363: return
