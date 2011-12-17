@@ -17,16 +17,16 @@ program acid_WalkOn( mobile, acid )
 
 	if( mobile.dead )
 		return 0;
-	elseif( mobile.cmdlevel >= 1 )
+	elseif( mobile.cmdlevel )
 		return 0;
         elseif( mobile.IsA( POLCLASS_NPC ))
                 return 0;
 	endif
 
-	SendSysMessage( mobile, "*You step into a pool of acid*" );
+	PrintTextAbovePrivate( mobile, "*You step into a pool of acid*", mobile );
 	if( !DealAcidDamage( acid, mobile, acid ))
 		DealAcidDamage( acid, mobile, acid, "4d4" );
 	endif
- 
+
 	return 1;
 endprogram
