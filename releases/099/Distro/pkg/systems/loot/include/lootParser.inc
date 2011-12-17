@@ -322,9 +322,9 @@ function Apply_Effect( item, magic, magicLevel )
    
 		CLOTHINGS:
 			if( chances < 400 )
-				ApplyMiscArMod( item );
-			else
 				ApplyMiscSkillMod( item );
+			else
+				ApplyMiscArMod( item );
 			endif
 
 			AddRandomColor( item );
