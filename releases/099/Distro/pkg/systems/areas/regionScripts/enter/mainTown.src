@@ -1,15 +1,21 @@
 /*
         Created by *Edwards
-        
+
         2009-10-06
+
+        Last Modifications 2011-12-11
 */
 use uo;
 
+include "include/string";
+
 program EnterRegionZone( mobile, region_name )
 
-        region_name := region_name; //Avoid compiler warnings
+        if( region_name["Britannia-"] )
+                region_name := RemoveFromString( region_name, "Britannia-" );
+        endif
 
-	SendSysMessage( mobile, "You have entered the protection of the main town guards.", 3, 50 );
+	SendSysMessage( mobile, "You have entered the magical protection of "+region_name+".", 3, 50 );
 
         return 1;
 endprogram

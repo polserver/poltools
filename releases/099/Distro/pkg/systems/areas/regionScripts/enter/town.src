@@ -1,7 +1,7 @@
 /*
-        Maintened by *Edwards
+        Created by *Edwards
 
-        Last modifications 2011-12-11
+        2011-12-11
 */
 use uo;
 
@@ -13,7 +13,8 @@ program EnterRegionZone( mobile, region_name )
                 region_name := RemoveFromString( region_name, "Britannia-" );
         endif
 
-	SendSysMessage( mobile, "You have left the protection of "+region_name+" town guards.", 3, 50 );
+	SendSysMessage( mobile, "You have entered "+region_name+" territory.", 3, 50 );
 
         return 1;
 endprogram
+
