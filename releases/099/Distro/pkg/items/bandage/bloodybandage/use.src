@@ -1,0 +1,78 @@
+/*
+        Maintened by *Edwards
+
+        2008-10-13
+        
+        Last Modifications 2010-03-12
+             * Fixed CInt were not called for var amount at the creation of clean bandage
+             
+        Last Modifications 2010-06-07
+             - Fixed amount cleaned now divided by 3 so classe bonus isnt too high.
+*/
+use os;
+use uo;
+
+include ":classes:classes";
+include "include/itemUtil";
+
+program use_cleanbandages( mobile, bloodbandage )
+
+       	if( !useItem_check( mobile, bloodbandage, ITEM_INCONTAINER ))
+		return 0;
+	endif
+
+	SendSysMessage( mobile, "Select a water source to clean them." );
+	var use_on := TargetCoordinates( mobile );
+	if( !use_on )
+                SendSysMessage( mobile, "Cancelled." );
+		return 0;
+	elseif( Distance( mobile, use_on ) > 8 )
+		SendSysMessage( mobile, "That is too far away." );
+		return 0;
+	elseif( !IsWater( use_on ))
+        	SendSysMessage( mobile, "You must clean the bandages in clean water." );
+        	return 0;
+	endif
+
+        var amount := CInt(( bloodbandage.amount / 3 ) * ClasseBonus( mobile, WARRIOR ));
+
+	PlaySoundEffect( mobile, 0x0012 );
+	PerformAction( mobile, 0x6 );
+
+	CreateItemInBackpack( mobile, 0xEE9, CInt( amount ));
+	DestroyItem( bloodbandage );
+ 
+        return 1;
+endprogram
+
+function IsWater( use_on )
+
+	if( use_on.item )
+		if( use_on.objtype >= 0x346e && use_on.objtype <= 0x3485 )
+			return 1;
+		elseif( use_on.objtype >= 0x3494 && use_on.objtype <= 0x34ab )
+			return 1;
+		elseif( use_on.objtype >= 0x34b8 && use_on.objtype <= 0x34ca )
+			return 1;
+		elseif( use_on.objtype >= 0x1796 && use_on.objtype <= 0x17b2 )
+			return 1;
+		endif
+  
+                return 0;
+	endif
+
+	var info := GetMapInfo( use_on.x, use_on.y );
+	var tile := info.landtile;
+
+	if( tile >= 0x04c && tile <= 0x06f )
+		return 1;
+	elseif( tile >= 0x0a8 && tile <= 0x0ab )
+		return 1;
+	elseif( tile == 0x0136 && tile == 0x0137 )
+		return 1;
+	elseif( tile >= 0x3ff0 && tile <= 0x3ff3 )
+    		return 1;
+    	endif
+
+	return 0;
+endfunction
