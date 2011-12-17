@@ -59,7 +59,7 @@ program skill_Peacemaking( mobile )
 		    difficulty := element[2];
 
                 if( SkillCheck( mobile, MUSICIANSHIP, difficulty, 0, ADV_DISABLE ) > 0 )
-		        if( SkillCheck( mobile, DISCORDANCE, -1 ) > 0 )
+		        if( SkillCheck( mobile, PEACEMAKING, -1 ) > 0 )
 				success += 1;
 				PrintTextAbove( character, "dazzled by the beautiful music!" );
     
