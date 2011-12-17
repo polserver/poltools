@@ -114,8 +114,9 @@ function DisplayDamage( damaged, amount )
 	endif
 
 	dmg_packet.SetInt32( 0x01, damaged.serial );
- 
-        foreach mobile in
+
+	dmg_packet.SendPacket( damaged );
+        foreach mobile in ListMobilesInLineOfSight( damaged, 15 );
                 SleepMS(5);
                 if( mobile.IsA( POLCLASS_NPC ))
                         continue;
