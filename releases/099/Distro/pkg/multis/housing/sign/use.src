@@ -124,7 +124,7 @@ function displaySign( mobile, sign )
                 ItemManagment( mobile );
                 return 1;
         elseif( input[BUTTON_CUSTOMHOUSING] )
-                SetHouseCustom( mobile, house );
+                //SetHouseCustom( mobile, house );
                 return 1;
         endif
         
