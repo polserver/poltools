@@ -2,7 +2,7 @@
         Modified by *Edwards
 
         2008-04-07
-        
+
         Last Modifications 2009-02-10
              * Fixed the code it's working!
 
@@ -11,6 +11,7 @@
 use uo;
 use cfgfile;
 
+include "include/string";
 include ":areas:areas";
 include ":areas:areasConstants";
 
@@ -20,16 +21,16 @@ function A_IsIn( object, option, obj_prop := 0 )
                 //We do not want restrictions for someone in a multi ( boat/house )
                 return 0;
         endif
-        
+
         var get_main_prop := GetGlobalProperty( "Areas_"+option );
         if( obj_prop )
                 get_main_prop := GetObjProperty( object, "Areas_"+option );
 	endif
- 
+
         if( !get_main_prop )
                 return 0;
         endif
-        
+
         var areas := ListAreasByType();
         foreach area_name in areas
 
@@ -39,16 +40,16 @@ function A_IsIn( object, option, obj_prop := 0 )
                     MinY := CInt( area.Min_Y ),
                     MaxY := CInt( area.Max_Y ),
                     Realm := CStr( area.Realm );
-                
+
                 if( CInt( get_main_prop[area_name] ))
                         if( A_IsInBox( object, MinX, MaxX, MinY, MaxY, Realm ))
 				return 1;
                         endif
                 endif
-                
+
                 SleepMS(5);
         endforeach
-        
+
         return 0;
 endfunction
 
@@ -58,9 +59,9 @@ function A_IsInArea( object, location, only := 0 )
 
         var loc_only := 0,
             other_loc := 0;
-        
+
         foreach area_name in areas
-        
+
                 var area := GetAreaSettings( area_name ),
                     MinX := CInt( area.Min_X ),
                     MaxX := CInt( area.Max_X ),
@@ -78,7 +79,7 @@ function A_IsInArea( object, location, only := 0 )
 
                 SleepMS(5);
         endforeach
-        
+
         if( loc_only )
                 if( only && other_loc )
                         return 0;
@@ -114,5 +115,10 @@ function A_IsWhere( object )
                 SleepMS(5);
         endforeach
 
+        if( result["Britannia-"] )
+                result := RemoveFromString( result, "Britannia-" );
+        endif
+
         return result;
 endfunction
+
