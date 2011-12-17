@@ -23,16 +23,24 @@ program RemoveScriptsControl( mobile )
 	SetObjProperty( mobile, "#RemoteScriptsControlPID", GetPid() );
 
 	while( 1 )
-		foreach script_elem in RS_GetScripts()
+                var rs_scripts := RS_GetScripts();
+                if( rs_scripts.Size() < 0 )
+                	//No scripts has to be run
+                return 0;
+                endif
+                
+		foreach script_elem in rs_scripts
+        		SleepMS(5);
+          
                 	var cfg_elem := RS_GetSettingsCfgElem( script_elem );
                 	if( CheckScriptTickle( cfg_elem ))
 				var script_path := cfg_elem.Path;
                 		var script := Start_Script( script_path );
                 		if( script.errortext )
                         		ReportText( "Error starting script <"+script_path+"> -->"+script.errortext, REPORT_SYSLOG );
+                                        continue;
                 		endif
                         endif
-        		SleepMS(5);
 		endforeach
 
                 Sleep( 60 );
