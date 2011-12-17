@@ -207,7 +207,11 @@ function ParryCheck( attacker, defender, rawDamage, damageType, attack_skill )
                          attack_skill *= 0.75; //Astral has a lower accuracy.
                          break;
                  endcase
-
+                 
+                 if( attacker.IsA( POLCLASS_NPC ))
+                         attack_skill += 50;
+                 endif
+                 
                  if( SkillCheck( defender, PARRY, CInt( attack_skill )) > 0 )
                           SendSysMessage( defender, "You successfully parry the attack." );
                           return 0;
@@ -227,7 +231,7 @@ function CalcByArea( attacker, defender, rawDamage )
                 endif
                 
                 if( dangerous_zone )
-                        rawDamage *= CDbl( 1.15 );
+                        rawDamage *= CDbl( 0.60 );
                 endif
          endif
          
