@@ -15,6 +15,7 @@ include "include/itemUtil";
 include ":attributes:attributes";
 include ":autoloop:autoloop";
 include ":botanic:botanic";
+include ":botanic:settings";
 include ":crafting:crafting";
 
 var craft_config := ReadConfigFile( ":tailoring:tailoring" );
@@ -31,7 +32,7 @@ program use_scissors( who, tool )
 		SendSysMessage( who, "Cancelled." );
 		return 0;
         endif
-        
+ 
         if( targ.graphic == 0xcf  || targ.graphic == 0xcf || targ.graphic == 0x00df )
                 CarveSheep( who, tool, targ );
         elseif( targ.IsBolt() )
@@ -42,10 +43,8 @@ program use_scissors( who, tool )
                 CutForBandages( who, tool, targ );
         elseif( targ.IsHides() )
                 CutForBridle( who, tool, targ );
-        elseif( targ.IsBotanic() )
+        elseif( BOTANIC_GetSettingsCfgElem( targ.objtype ).Product )
                 HarvestBotanic( who, targ );
-        elseif( targ.IsFlowerRoot() )
-                HarvestFlower( who, targ );
         else
                 SendSysMessage( who, "Scissors cannot be used on that to produce anything." );
         endif
