@@ -22,7 +22,7 @@ program textcmd_Players( who, text )
                 return 0;
         endif
 
-	var online_list := EnumerateOnlineCharactersABC( SORT_ASCENDING, who.cmdlevel );
+	var online_list := EnumerateOnlineCharactersABC( SORT_ASCENDING );
 	var input;
 
 	if( text )
@@ -90,15 +90,19 @@ function PlayerListGump( who, byref online_list )
 	GFTextLine( gump, 278, 25, 1720, "Summon" );
 	GFTextLine( gump, 350, 25, 1720, "Goto" );
 
-
 	var counter := 0;
 	var y_pos := 50;
 
 	GFPage( gump, 1 );
 
 	foreach player in ( online_list )
-                if( player.concealed <= who.cmdlevel  && player != who )
-		        GFTextLine( gump, 30, y_pos, 2100, player.name );
+                if( player.concealed < who.cmdlevel && player != who )
+                        if( player.cmdlevel )
+		        	GFTextLine( gump, 30, y_pos, 1720, player.name );
+                        else
+		        	GFTextLine( gump, 30, y_pos, 2100, player.name );
+                        endif
+                        
 		        GFAddButton( gump, 300, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _player_iter+SUMMON_START );
 		        GFAddButton( gump, 360, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _player_iter+GOTO_START );
                         counter += 1;
