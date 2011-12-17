@@ -1,0 +1,53 @@
+/*
+        Created by *Edwards
+
+        2011-12-11
+*/
+use uo;
+use os;
+use file;
+
+include ":areas:areasConstants";
+include ":worldsaver:saver";
+
+program Start_ServerWar()
+
+        var i;
+        for( i:=60; i>1; i-=1 )
+		Broadcast( "SYSTEM: Server WAR mode in "+i+" seconds.", 3, 33 );
+		Sleep(1);
+        endfor
+
+        SVR_SendCommand( EVENT_SAVE_NOW );
+        SVR_SendCommand( EVENT_STOPSAVING );
+        
+        Sleep(1); //Ensure a loop is made with Worldsaver events before going further
+        
+        Broadcast( "SYSTEM: Server WAR mode ACTIVE.", 3, 33 );
+        
+        var areas_restricted := array{AREAS_NO_DAMAGE, AREAS_GUARDED, AREAS_NO_LOOTING, AREAS_NO_STEALING};
+        foreach area_type in areas_restricted
+                EraseGlobalProperty( "Areas_"+area_type );
+                SleepMS(5);
+        endforeach
+        
+        //Server has no rules anymore and everyone can attack/loot/steal
+        //from everywhere without being watched by the guards aswell.
+        
+	for( i:=120; i>1; i-=1 )
+		Broadcast( "SYSTEM: Zulu Hotel is restarting in "+i+" minutes.", 3, 33 );
+		Sleep(60);
+	endfor
+
+        for( i:=60; i>1; i-=1 )
+		Broadcast( "SYSTEM: Zulu Hotel is restarting in "+i+" seconds.", 3, 33 );
+		Sleep(1);
+        endfor
+
+	Broadcast( "SYSTEM: Shutting down now!", 3, 33 );
+	Sleep(1);
+ 
+        OpenBinaryFile( "ServerWar.bat" );
+
+	return 1;
+endprogram
