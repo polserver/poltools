@@ -263,9 +263,14 @@ endfunction
 
 function FindNewOpponent( attacker, weaponElem )
 
-        var hostiles := ListHostiles( attacker, CInt( weaponElem.MaxRange ), LH_FLAG_LOS );
-        if( hostiles.Size() )
-                return hostiles.RandomEntry();
+	var maxRange := weaponElem.MaxRange;
+	if( !maxRange )
+                maxRange := 1;
+	endif
+ 
+        var hostiles := ListHostiles( attacker, CInt( maxRange ));
+        if( hostiles.Size() > 0 )
+                return hostiles[1];
         endif
         
         return 0;
