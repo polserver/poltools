@@ -31,8 +31,6 @@ program controlScript( field )
 		if( !duration )
 			duration := "5d3";
 		endif
-  
-		ParalyzeNearbyMobiles( field, duration, creator );
 
 		if( ReadGameClock() % 5 == 0 )
 			// Play once every 5 seconds.
@@ -42,7 +40,7 @@ program controlScript( field )
 		var event := Wait_For_Event(1);
 		if( event )
 			//Someone just walked onto the tile.
-			//ParalyzeMobile( event, duration, creator );
+			ParalyzeNearbyMobiles( field, duration, creator );
 		endif
 
 		if( field.IsExpired() )
@@ -65,6 +63,14 @@ function ParalyzeNearbyMobiles( field, duration, creator )
 endfunction
 
 function ParalyzeMobile( mobile, duration, creator  )
+
+        if( mobile.dead )
+                return 0;
+        elseif( mobile.paralyzed )
+                return 0;
+        elseif( mobile.frozen )
+                return 0;
+        endif
 
         duration := SPELL_GetResist( creator, mobile, 6, duration );
         TS_StartTimer( mobile, "Paralysis", RandomDiceRoll( duration ));
