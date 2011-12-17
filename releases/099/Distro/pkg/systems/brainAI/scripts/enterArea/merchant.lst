@@ -1,0 +1,482 @@
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\merchant.src, Line 14
+program BrainNerve( params )
+include ":brainAI:npcError";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var event	:= params[3];
+7: decl local #2
+8: local #0
+9: 3L
+10: [] 1
+11: :=
+12: #
+var settings	:= params[4];
+13: decl local #3
+14: local #0
+15: 4L
+16: [] 1
+17: :=
+18: #
+var scripts	:= params[5];
+19: decl local #4
+20: local #0
+21: 5L
+22: [] 1
+23: :=
+24: #
+params := 0; // Not needed anymore.
+25: 0L
+26: local0 := 
+while( npc )
+27: local #1
+28: if false goto 53
+if( event )
+29: local #2
+30: if false goto 46
+case( event.type )
+31: local #2
+32: get member 'type'
+33: casejmp
+	16: @34
+	default: @43
+EnteredArea( npc, event, settings, scripts );
+34: local #1
+35: local #2
+36: local #3
+37: local #4
+38: makelocal
+39: jmp userfunc @57
+40: #
+break;
+41: goto42
+42: goto44
+break;
+43: goto44
+event := 0;
+44: 0L
+45: local2 := 
+SleepMS(5);
+46: 5L
+47: Func(3,0): Sleepms
+48: #
+event := Wait_For_Event(1);
+49: 1L
+50: Func(3,7): Wait_For_Event
+51: local2 := 
+52: goto27
+return 1;
+53: 1L
+54: progend
+55: leave block(5)
+56: progend
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\merchant.src, Line 43
+function EnteredArea( npc, byref event, byref settings, byref scripts )
+57: pop param byref 'scripts'
+58: pop param byref 'settings'
+59: pop param byref 'event'
+60: pop param 'npc'
+var source := event.source;
+61: decl local #4
+62: local #2
+63: get member 'source'
+64: :=
+65: #
+if( NPC_ShouldWatch( npc, source, settings, scripts ))
+66: local #3
+67: local #4
+68: local #1
+69: local #0
+70: makelocal
+71: jmp userfunc @211
+72: if false goto 89
+if( NPC_AddToWatchList( npc, source ))
+73: local #3
+74: local #4
+75: makelocal
+76: jmp userfunc @153
+77: if false goto 89
+AI_WakeUp( npc );
+78: local #3
+79: makelocal
+80: jmp userfunc @312
+81: #
+GreetCustomer( npc, source );
+82: local #3
+83: local #4
+84: makelocal
+85: jmp userfunc @91
+86: #
+return 1;
+87: 1L
+88: return
+return 0;
+89: 0L
+90: return
+C:\ZH099\pkg\systems\brainAI\scripts\enterArea\merchant.src, Line 58
+function GreetCustomer( npc, source )
+91: pop param 'source'
+92: pop param 'npc'
+var next_spam := CInt( GetObjProperty( npc, "#DelaySpam" ));
+93: decl local #2
+94: local #1
+95: "#DelaySpam"
+96: Func(2,3): GetObjProperty
+97: Func(0,2): CInt
+98: :=
+99: #
+if( next_spam > ReadGameClock() )
+100: local #2
+101: Func(2,7): ReadGameClock
+102: >
+103: if false goto 107
+return 0;
+104: 0L
+105: return
+106: goto114
+SetObjProperty( npc, "#DelaySpam", ReadGameClock() + 30 );
+107: local #1
+108: "#DelaySpam"
+109: Func(2,7): ReadGameClock
+110: 30L
+111: +
+112: Func(2,2): SetObjProperty
+113: #
+TurnObjectToward( npc, source.x, source.y );
+114: local #1
+115: local #0
+116: get member id 'x' (0)
+117: local #0
+118: get member id 'y' (1)
+119: makelocal
+120: jmp userfunc @249
+121: #
+var speech := array{ "Welcome to my shop!",
+122: decl local #3
+123: array
+124: "Welcome to my shop!"
+125: init{}
+126: "Let me know if you need help!"
+127: init{}
+128: "Let me show what I just got in!"
+129: init{}
+130: "I bet I have something you want!"
+131: init{}
+132: "Exotic merchandise from all over Britannia!"
+133: init{}
+134: "Have anything you want to get rid of?"
+135: init{}
+136: :=
+137: #
+var text := speech.RandomEntry();
+138: decl local #4
+139: local #3
+140: Call Method id randomentry (#101, 0 params)
+141: :=
+142: #
+AI_Speak( npc, text );
+143: local #1
+144: local #4
+145: "default"
+146: 0L
+147: 0L
+148: makelocal
+149: jmp userfunc @268
+150: #
+return 1;
+151: 1L
+152: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 38
+function NPC_AddToWatchList( npc, mobile )
+153: pop param 'mobile'
+154: pop param 'npc'
+if( mobile.IsA( POLCLASS_MOBILE ))
+155: local #0
+156: 3L
+157: Call Method id isa (#0, 1 params)
+158: if false goto 162
+mobile := mobile.serial;
+159: local #0
+160: get member id 'serial' (6)
+161: local0 := 
+var watch_dict := NPC_LoadWatchList( npc );
+162: decl local #2
+163: local #1
+164: makelocal
+165: jmp userfunc @187
+166: :=
+167: #
+if( !watch_dict.Exists( mobile ))
+168: local #2
+169: local #0
+170: Call Method id exists (#55, 1 params)
+171: if true goto 185
+watch_dict.Insert( mobile, POLCore().systime );
+172: local #2
+173: local #0
+174: Func(2,6): POLCore
+175: get member 'systime'
+176: Call Method id insert (#50, 2 params)
+177: #
+NPC_SaveWatchList( npc, watch_dict );
+178: local #1
+179: local #2
+180: makelocal
+181: jmp userfunc @204
+182: #
+return 1;
+183: 1L
+184: return
+return 0;
+185: 0L
+186: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 23
+function NPC_LoadWatchList( npc )
+187: pop param 'npc'
+var watch_dict := GetObjProperty( npc, "#WatchList" );
+188: decl local #1
+189: local #0
+190: "#WatchList"
+191: Func(2,3): GetObjProperty
+192: :=
+193: #
+if( Lower( TypeOf( watch_dict )) != "dictionary" )
+194: local #1
+195: Func(0,1): TypeOf
+196: Func(0,0): Lower
+197: "dictionary"
+198: <>
+199: if false goto 202
+watch_dict := dictionary;
+200: dictionary
+201: local1 := 
+return watch_dict;
+202: local #1
+203: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 33
+function NPC_SaveWatchList( npc, dict_list )
+204: pop param 'dict_list'
+205: pop param 'npc'
+return SetObjProperty( npc, "#WatchList", dict_list );
+206: local #1
+207: "#WatchList"
+208: local #0
+209: Func(2,2): SetObjProperty
+210: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 81
+function NPC_ShouldWatch( npc, mobile, byref settings, byref scripts )
+211: pop param byref 'scripts'
+212: pop param byref 'settings'
+213: pop param 'mobile'
+214: pop param 'npc'
+if( !scripts["ShouldWatch"] )
+215: local #0
+216: "ShouldWatch"
+217: [] 1
+218: if true goto 221
+return 1;
+219: 1L
+220: return
+var result := Run_Script_To_Completion( scripts["ShouldWatch"].script, {npc, mo
+221: decl local #4
+222: local #0
+223: "ShouldWatch"
+224: [] 1
+225: get member id 'script' (61)
+226: array
+227: local #3
+228: init{}
+229: local #2
+230: init{}
+231: local #1
+232: init{}
+233: Func(3,6): Run_Script_To_Completion
+234: :=
+235: #
+if( result.errortext )
+236: local #4
+237: get member 'errortext'
+238: if false goto 247
+NPC_ErrorSysLog( npc, "Error::NPC_ShouldWatch() - "+result.errortext );
+239: local #3
+240: "Error::NPC_ShouldWatch() - "
+241: local #4
+242: get member 'errortext'
+243: +
+244: makelocal
+245: jmp userfunc @337
+246: #
+return result;
+247: local #4
+248: return
+c:/ZH099/scripts/include/facings.inc, Line 10
+function TurnObjectToward( object, x_pos, y_pos )
+249: pop param 'y_pos'
+250: pop param 'x_pos'
+251: pop param 'object'
+var orig := object.facing;
+252: decl local #3
+253: local #2
+254: get member id 'facing' (9)
+255: :=
+256: #
+object.facing := GetFacing( object.x, object.y, x_pos, y_pos );
+257: local #2
+258: local #2
+259: get member id 'x' (0)
+260: local #2
+261: get member id 'y' (1)
+262: local #1
+263: local #0
+264: Func(2,0): GetFacing
+265: set member id 'facing' (9) #
+return orig;
+266: local #3
+267: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+268: pop param 'no_wake'
+269: pop param 'do_event'
+270: pop param 'text_type'
+271: pop param 'text'
+272: pop param 'npc'
+var ev		:= struct;
+273: decl local #5
+274: struct
+275: :=
+276: #
+ev.+type	:= NPCEVENT_SPEAK;
+277: local #5
+278: "type"
+279: .+
+280: 10485765L
+281: := #
+ev.+text	:= text;
+282: local #5
+283: "text"
+284: .+
+285: local #3
+286: := #
+ev.+texttype	:= text_type;
+287: local #5
+288: "texttype"
+289: .+
+290: local #2
+291: := #
+ev.+doevent	:= do_event;
+292: local #5
+293: "doevent"
+294: .+
+295: local #1
+296: := #
+ev.+WakeUp	:= no_wake;
+297: local #5
+298: "WakeUp"
+299: .+
+300: local #0
+301: := #
+ev.+process	:= GetProcess( GetPid() );
+302: local #5
+303: "process"
+304: .+
+305: Func(3,4): GetPid
+306: Func(3,2): GetProcess
+307: := #
+return SendEvent( npc, ev );
+308: local #4
+309: local #5
+310: Func(2,4): SendEvent
+311: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 190
+function AI_WakeUp( npc )
+312: pop param 'npc'
+var ev		:= struct;
+313: decl local #1
+314: struct
+315: :=
+316: #
+ev.+type	:= NPCEVENT_WAKEUP;
+317: local #1
+318: "type"
+319: .+
+320: 10485779L
+321: := #
+ev.+WakeUp	:= WAKEUP;
+322: local #1
+323: "WakeUp"
+324: .+
+325: 1L
+326: := #
+ev.+process	:= GetProcess( GetPid() );
+327: local #1
+328: "process"
+329: .+
+330: Func(3,4): GetPid
+331: Func(3,2): GetProcess
+332: := #
+return SendEvent( npc, ev );
+333: local #0
+334: local #1
+335: Func(2,4): SendEvent
+336: return
+c:/ZH099/pkg/systems/brainAI/include/npcError.inc, Line 9
+function NPC_ErrorSysLog( npc, errmsg )
+337: pop param 'errmsg'
+338: pop param 'npc'
+PrintTextAbove( npc, errmsg, 3, 33 );
+339: local #1
+340: local #0
+341: 3L
+342: 33L
+343: 0L
+344: Func(2,1): PrintTextAbove
+345: #
+SysLog( "------------" );
+346: "------------"
+347: Func(3,1): SysLog
+348: #
+SysLog( "NPC Template: "+npc.npctemplate );
+349: "NPC Template: "
+350: local #1
+351: get member id 'npctemplate' (62)
+352: +
+353: Func(3,1): SysLog
+354: #
+SysLog( "NPC Name    : "+npc.name );
+355: "NPC Name    : "
+356: local #1
+357: get member id 'name' (3)
+358: +
+359: Func(3,1): SysLog
+360: #
+SysLog( errmsg );
+361: local #0
+362: Func(3,1): SysLog
+363: #
+SysLog( "------------" );
+364: "------------"
+365: Func(3,1): SysLog
+366: #
+npc.Disable( "invul" );
+367: local #1
+368: "invul"
+369: Call Method id disable (#9, 1 params)
+370: #
+SetObjProperty( npc, "GuardKill", 1 );
+371: local #1
+372: "GuardKill"
+373: 1L
+374: Func(2,2): SetObjProperty
+375: #
+npc.Kill();
+376: local #1
+377: Call Method id kill (#75, 0 params)
+378: #
+return 1;
+379: 1L
+380: return

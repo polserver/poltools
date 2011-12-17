@@ -1,0 +1,361 @@
+C:\ZH099\pkg\systems\brainAI\scripts\listen\pirate.src, Line 15
+program BrainNerve( params )
+include ":brainAI:eventid";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var event	:= params[3];
+7: decl local #2
+8: local #0
+9: 3L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore.
+13: 0L
+14: local0 := 
+var text := Lower( event.text ),
+15: decl local #3
+16: local #2
+17: get member 'text'
+18: Func(0,1): Lower
+19: :=
+20: #
+21: decl local #4
+22: local #2
+23: get member 'source'
+24: :=
+25: #
+if( source.hidden )
+26: local #4
+27: get member id 'hidden' (32)
+28: if false goto 32
+return 0;
+29: 0L
+30: progend
+31: goto51
+elseif( source.dead )
+32: local #4
+33: get member id 'dead' (39)
+34: if false goto 38
+return 0;
+35: 0L
+36: progend
+37: goto51
+elseif( source.IsA( POLCLASS_NPC ))
+38: local #4
+39: 4L
+40: Call Method id isa (#0, 1 params)
+41: if false goto 45
+return 0;
+42: 0L
+43: progend
+44: goto51
+elseif( !CheckLineOfSight( npc, source ))
+45: local #1
+46: local #4
+47: Func(2,2): CheckLineOfSight
+48: if true goto 51
+return 0;
+49: 0L
+50: progend
+Sleep(2);
+51: 2L
+52: Func(3,3): Sleep
+53: #
+AI_Turn( npc, source, NETURN_TOWARD );
+54: local #1
+55: local #4
+56: 1L
+57: 0L
+58: makelocal
+59: jmp userfunc @70
+60: #
+ProcessSpeech( npc, text );
+61: local #1
+62: local #3
+63: makelocal
+64: jmp userfunc @108
+65: #
+return 1;
+66: 1L
+67: progend
+68: leave block(5)
+69: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+70: pop param 'no_wake'
+71: pop param 'direction'
+72: pop param 'object'
+73: pop param 'npc'
+var ev		:= struct;
+74: decl local #4
+75: struct
+76: :=
+77: #
+ev.+type	:= NPCEVENT_TURN;
+78: local #4
+79: "type"
+80: .+
+81: 10485766L
+82: := #
+ev.+source	:= object;
+83: local #4
+84: "source"
+85: .+
+86: local #2
+87: := #
+ev.+direction	:= direction;
+88: local #4
+89: "direction"
+90: .+
+91: local #1
+92: := #
+ev.+WakeUp	:= no_wake;
+93: local #4
+94: "WakeUp"
+95: .+
+96: local #0
+97: := #
+ev.+process	:= GetProcess( GetPid() );
+98: local #4
+99: "process"
+100: .+
+101: Func(3,1): GetPid
+102: Func(3,0): GetProcess
+103: := #
+return SendEvent( npc, ev );
+104: local #3
+105: local #4
+106: Func(2,0): SendEvent
+107: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\pirate.src, Line 46
+function ProcessSpeech( npc, text )
+108: pop param 'text'
+109: pop param 'npc'
+var message := "";
+110: decl local #2
+111: ""
+112: :=
+113: #
+if( text["yo"] )
+114: local #0
+115: "yo"
+116: [] 1
+117: if false goto 121
+message := "Yo ho yo ho a pirate's life for me!";
+118: "Yo ho yo ho a pirate's life for me!"
+119: local2 := 
+120: goto229
+elseif( text["arr"] )
+121: local #0
+122: "arr"
+123: [] 1
+124: if false goto 128
+message := "Avast there matey!";
+125: "Avast there matey!"
+126: local2 := 
+127: goto229
+elseif( text["avast"] )
+128: local #0
+129: "avast"
+130: [] 1
+131: if false goto 135
+message := "Move that thing!";
+132: "Move that thing!"
+133: local2 := 
+134: goto229
+elseif( text["that thing"] )
+135: local #0
+136: "that thing"
+137: [] 1
+138: if false goto 142
+message := "...and that other thing!";
+139: "...and that other thing!"
+140: local2 := 
+141: goto229
+elseif( text["aweigh"] )
+142: local #0
+143: "aweigh"
+144: [] 1
+145: if false goto 149
+message := "Heave!";
+146: "Heave!"
+147: local2 := 
+148: goto229
+elseif( text["heave"] )
+149: local #0
+150: "heave"
+151: [] 1
+152: if false goto 156
+message := "Ho!";
+153: "Ho!"
+154: local2 := 
+155: goto229
+elseif( text["rum"] )
+156: local #0
+157: "rum"
+158: [] 1
+159: if false goto 163
+message := "Sixteen men on a deadman's chest";
+160: "Sixteen men on a deadman's chest"
+161: local2 := 
+162: goto229
+elseif( text["chest"] )
+163: local #0
+164: "chest"
+165: [] 1
+166: if false goto 170
+message := "Yo ho ho and a bottle of rootbeer!";
+167: "Yo ho ho and a bottle of rootbeer!"
+168: local2 := 
+169: goto229
+elseif( text[ "ahoy"] )
+170: local #0
+171: "ahoy"
+172: [] 1
+173: if false goto 177
+message := "Ahoy there, matey!";
+174: "Ahoy there, matey!"
+175: local2 := 
+176: goto229
+elseif( text[ "argh"] )
+177: local #0
+178: "argh"
+179: [] 1
+180: if false goto 184
+message := "Arr!";
+181: "Arr!"
+182: local2 := 
+183: goto229
+elseif( text["grog"] )
+184: local #0
+185: "grog"
+186: [] 1
+187: if false goto 191
+message := "Aye, I'd kill fer a flagon 'o that!";
+188: "Aye, I'd kill fer a flagon 'o that!"
+189: local2 := 
+190: goto229
+elseif( text["parrot"] )
+191: local #0
+192: "parrot"
+193: [] 1
+194: if false goto 198
+message := "Arr, I was starved so, I eats me parrot, so I did!";
+195: "Arr, I was starved so, I eats me parrot, so I did!"
+196: local2 := 
+197: goto229
+elseif( text["walk"] && text["plank" ] )
+198: local #0
+199: "walk"
+200: [] 1
+201: local #0
+202: "plank"
+203: [] 1
+204: &&
+205: if false goto 209
+message := "Arr, ye'll surely be walkin' the plank afore sunrise tomorrer!";
+206: "Arr, ye'll surely be walkin' the plank afore sunrise tomorrer!"
+207: local2 := 
+208: goto229
+elseif( text["treasure"] )
+209: local #0
+210: "treasure"
+211: [] 1
+212: if false goto 216
+message := "Aye now, ye be lookin' fer our buried locker, I'll wager.";
+213: "Aye now, ye be lookin' fer our buried locker, I'll wager."
+214: local2 := 
+215: goto229
+elseif( text["locker"] )
+216: local #0
+217: "locker"
+218: [] 1
+219: if false goto 223
+message := "Oh, it's safe and sound on the riverside.";
+220: "Oh, it's safe and sound on the riverside."
+221: local2 := 
+222: goto229
+elseif( text["river"] )
+223: local #0
+224: "river"
+225: [] 1
+226: if false goto 229
+message := "Arr, the river's near Vesper, ye ken?";
+227: "Arr, the river's near Vesper, ye ken?"
+228: local2 := 
+if( message )
+229: local #2
+230: if false goto 239
+AI_Speak( npc, message );
+231: local #1
+232: local #2
+233: "default"
+234: 0L
+235: 0L
+236: makelocal
+237: jmp userfunc @241
+238: #
+return 1;
+239: 1L
+240: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+241: pop param 'no_wake'
+242: pop param 'do_event'
+243: pop param 'text_type'
+244: pop param 'text'
+245: pop param 'npc'
+var ev		:= struct;
+246: decl local #5
+247: struct
+248: :=
+249: #
+ev.+type	:= NPCEVENT_SPEAK;
+250: local #5
+251: "type"
+252: .+
+253: 10485765L
+254: := #
+ev.+text	:= text;
+255: local #5
+256: "text"
+257: .+
+258: local #3
+259: := #
+ev.+texttype	:= text_type;
+260: local #5
+261: "texttype"
+262: .+
+263: local #2
+264: := #
+ev.+doevent	:= do_event;
+265: local #5
+266: "doevent"
+267: .+
+268: local #1
+269: := #
+ev.+WakeUp	:= no_wake;
+270: local #5
+271: "WakeUp"
+272: .+
+273: local #0
+274: := #
+ev.+process	:= GetProcess( GetPid() );
+275: local #5
+276: "process"
+277: .+
+278: Func(3,1): GetPid
+279: Func(3,0): GetProcess
+280: := #
+return SendEvent( npc, ev );
+281: local #4
+282: local #5
+283: Func(2,0): SendEvent
+284: return

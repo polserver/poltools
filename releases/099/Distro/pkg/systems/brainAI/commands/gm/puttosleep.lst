@@ -1,0 +1,624 @@
+C:\ZH099\pkg\systems\brainAI\commands\gm\puttosleep.src, Line 9
+program textcmd_putToSleep(who)
+CONST REPORT_ALL	:= 0x7;
+0: get arg 'who'
+if( !AuthorizationCode( who ))
+1: local #0
+2: makelocal
+3: jmp userfunc @73
+4: if true goto 13
+SendSysMessage( who, "Cancelled." );
+5: local #0
+6: "Cancelled."
+7: 3L
+8: 1000L
+9: Func(2,5): SendSysMessage
+10: #
+return 0;
+11: 0L
+12: progend
+var targ := target(who);
+13: decl local #1
+14: local #0
+15: 1L
+16: Func(2,9): Target
+17: :=
+18: #
+if ( !targ.IsA(POLCLASS_NPC) )
+19: local #1
+20: 4L
+21: Call Method id isa (#0, 1 params)
+22: if true goto 32
+SendSysMessage(who, "Cancelled.");
+23: local #0
+24: "Cancelled."
+25: 3L
+26: 1000L
+27: Func(2,5): SendSysMessage
+28: #
+return 0;
+29: 0L
+30: progend
+31: goto43
+AI_Sleep(targ);
+32: local #1
+33: 0L
+34: makelocal
+35: jmp userfunc @47
+36: #
+SendSysMessage(who, "Done.");
+37: local #0
+38: "Done."
+39: 3L
+40: 1000L
+41: Func(2,5): SendSysMessage
+42: #
+return 1;
+43: 1L
+44: progend
+45: leave block(2)
+46: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 129
+function AI_Sleep( npc, no_wake:=NOWAKE )
+47: pop param 'no_wake'
+48: pop param 'npc'
+var ev		:= struct;
+49: decl local #2
+50: struct
+51: :=
+52: #
+ev.+type	:= NPCEVENT_SLEEP;
+53: local #2
+54: "type"
+55: .+
+56: 10485778L
+57: := #
+ev.+WakeUp	:= NOWAKE;
+58: local #2
+59: "WakeUp"
+60: .+
+61: 0L
+62: := #
+ev.+process	:= GetProcess( GetPid() );
+63: local #2
+64: "process"
+65: .+
+66: Func(3,1): GetPid
+67: Func(3,0): GetProcess
+68: := #
+return SendEvent( npc, ev );
+69: local #1
+70: local #2
+71: Func(2,0): SendEvent
+72: return
+c:/ZH099/scripts/include/security.inc, Line 14
+function AuthorizationCode( mobile )
+73: pop param 'mobile'
+if( GetObjProperty( mobile, "#AuthCodeGiven" ));
+74: local #0
+75: "#AuthCodeGiven"
+76: Func(2,3): GetObjProperty
+77: if false goto 80
+return 1;
+78: 1L
+79: return
+var autocode := GetGlobalProperty( "CA" );
+80: decl local #1
+81: "CA"
+82: Func(2,4): GetGlobalProperty
+83: :=
+84: #
+if( !autocode )
+85: local #1
+86: if true goto 102
+SendSysMessage( mobile, "Authorization code is not given yet.", 3, 53 );
+87: local #0
+88: "Authorization code is not given yet."
+89: 3L
+90: 53L
+91: Func(2,5): SendSysMessage
+92: #
+SendSysMessage( mobile, "Uses .setauthcode to create a new code.", 3, 53 );
+93: local #0
+94: "Uses .setauthcode to create a new code."
+95: 3L
+96: 53L
+97: Func(2,5): SendSysMessage
+98: #
+return 0;
+99: 0L
+100: return
+101: goto144
+var code := SendTextEntryGump( mobile, "Enter the Authorization Code.", TE_CANC
+102: decl local #0
+103: local #0
+104: "Enter the Authorization Code."
+105: 1L
+106: 1L
+107: 10L
+108: ""
+109: Func(2,6): SendTextEntryGump
+110: :=
+111: #
+if( code == autocode )
+112: local #2
+113: local #1
+114: ==
+115: if false goto 130
+SendSysMessage( mobile, "Code Accepted!", 3, 70 );
+116: local #0
+117: "Code Accepted!"
+118: 3L
+119: 70L
+120: Func(2,5): SendSysMessage
+121: #
+SetObjProperty( mobile, "#AuthCodeGiven", 1 );
+122: local #0
+123: "#AuthCodeGiven"
+124: 1L
+125: Func(2,7): SetObjProperty
+126: #
+return 1;
+127: 1L
+128: return
+129: goto143
+SendSysMessage( mobile, "It is not the Authorization code.", 3, 33 );
+130: local #0
+131: "It is not the Authorization code."
+132: 3L
+133: 33L
+134: Func(2,5): SendSysMessage
+135: #
+NotifyStaffOnline( mobile, "has provided a wrong authorization code." );
+136: local #0
+137: "has provided a wrong authorization code."
+138: makelocal
+139: jmp userfunc @146
+140: #
+return 0;
+141: 0L
+142: return
+143: leave block(1)
+144: 0L
+145: return
+c:/ZH099/scripts/include/security.inc, Line 40
+function NotifyStaffOnline( object, text )
+146: pop param 'text'
+147: pop param 'object'
+var name := object.name;
+148: decl local #2
+149: local #1
+150: get member id 'name' (3)
+151: :=
+152: #
+if( !name )
+153: local #2
+154: if true goto 162
+name := object.desc;
+155: local #1
+156: get member id 'desc' (19)
+157: local2 := 
+if( !name )
+158: local #2
+159: if true goto 162
+name := object;
+160: local #1
+161: local2 := 
+foreach character in EnumerateOnlineCharacters()
+162: Func(2,8): EnumerateOnlineCharacters
+163: initforeach @198
+if( GetObjProperty( character, "Notify" ))
+164: local #3
+165: "Notify"
+166: Func(2,3): GetObjProperty
+167: if false goto 195
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+168: local #1
+169: get member id 'cmdlevel' (46)
+170: local #3
+171: get member id 'cmdlevel' (46)
+172: <=
+173: local #3
+174: get member id 'cmdlevel' (46)
+175: 4L
+176: >=
+177: ||
+178: if false goto 195
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+179: local #3
+180: "You receive a notification:"
+181: 3L
+182: 55L
+183: Func(2,5): SendSysMessage
+184: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+185: local #3
+186: local #2
+187: " >>> "
+188: +
+189: local #0
+190: +
+191: 3L
+192: 55L
+193: Func(2,5): SendSysMessage
+194: #
+SleepMS(5);
+195: 5L
+196: Func(3,3): Sleepms
+197: #
+198: stepforeach @164
+199: leave block(3)
+if( object.serial )
+200: local #1
+201: get member id 'serial' (6)
+202: if false goto 219
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+203: local #2
+204: "["
+205: +
+206: local #1
+207: get member id 'serial' (6)
+208: +
+209: "] >>> "
+210: +
+211: local #0
+212: +
+213: 2L
+214: 0L
+215: makelocal
+216: jmp userfunc @231
+217: #
+218: goto229
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+219: local #2
+220: " >>> "
+221: +
+222: local #0
+223: +
+224: 2L
+225: 0L
+226: makelocal
+227: jmp userfunc @231
+228: #
+return 1;
+229: 1L
+230: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+231: pop param 'text_color'
+232: pop param 'flags'
+233: pop param 'report_text'
+if( !flags )
+234: local #1
+235: if true goto 239
+return 0;
+236: 0L
+237: return
+238: goto294
+elseif( flags & REPORT_CONSOLE )
+239: local #1
+240: 1L
+241: &
+242: if false goto 249
+Print( ""+report_text );
+243: ""
+244: local #2
+245: +
+246: Func(1,0): Print
+247: #
+248: goto294
+elseif( flags & REPORT_SYSLOG )
+249: local #1
+250: 2L
+251: &
+252: if false goto 283
+var script_name := CStr( GetProcess( GetPid() ).name ),
+253: decl local #0
+254: Func(3,1): GetPid
+255: Func(3,0): GetProcess
+256: get member id 'name' (3)
+257: Func(0,1): CStr
+258: :=
+259: #
+260: decl local #1
+261: local #3
+262: makelocal
+263: jmp userfunc @296
+264: :=
+265: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+266: "::log/"
+267: local #4
+268: +
+269: ".log"
+270: +
+271: "["
+272: local #3
+273: +
+274: "]: "
+275: +
+276: local #2
+277: +
+278: 1L
+279: Func(4,0): LogToFile
+280: #
+281: leave block(2)
+282: goto294
+elseif( flags & REPORT_BROADCAST )
+283: local #1
+284: 4L
+285: &
+286: if false goto 294
+Broadcast( ""+report_text, 3, text_color );
+287: ""
+288: local #2
+289: +
+290: 3L
+291: local #0
+292: Func(2,2): Broadcast
+293: #
+return 1;
+294: 1L
+295: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+296: pop param 'script_name'
+var i;
+297: decl local #1
+298: #
+for( i:=1; i<=len(script_name); i+=1 )
+299: local #1
+300: 1L
+301: :=
+302: #
+303: local #1
+304: local #0
+305: Func(0,2): Len
+306: <=
+307: if false goto 327
+if( !Check_ValidChar( script_name[i] ))
+308: local #0
+309: local #1
+310: [] 1
+311: 0L
+312: makelocal
+313: jmp userfunc @343
+314: if true goto 319
+script_name[i] := " ";
+315: local #0
+316: local #1
+317: " "
+318: [] := (1) #
+SleepMS(5);
+319: 5L
+320: Func(3,3): Sleepms
+321: #
+322: local #1
+323: 1L
+324: +=
+325: #
+326: goto303
+foreach poss_pkg in ( SplitWords( script_name ))
+327: local #0
+328: " "
+329: Func(0,6): SplitWords
+330: initforeach @339
+if( GetPackageByName( poss_pkg ))
+331: local #2
+332: Func(5,0): GetPackageByName
+333: if false goto 336
+return poss_pkg;
+334: local #2
+335: return
+SleepMS(5);
+336: 5L
+337: Func(3,3): Sleepms
+338: #
+339: stepforeach @331
+340: leave block(3)
+return 0;
+341: 0L
+342: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+343: pop param 'allow_space'
+344: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+345: decl local #2
+346: array
+347: "a"
+348: init{}
+349: "b"
+350: init{}
+351: "c"
+352: init{}
+353: "d"
+354: init{}
+355: "e"
+356: init{}
+357: "f"
+358: init{}
+359: "g"
+360: init{}
+361: "h"
+362: init{}
+363: "i"
+364: init{}
+365: "j"
+366: init{}
+367: "k"
+368: init{}
+369: "l"
+370: init{}
+371: "m"
+372: init{}
+373: "n"
+374: init{}
+375: "o"
+376: init{}
+377: "p"
+378: init{}
+379: "q"
+380: init{}
+381: "r"
+382: init{}
+383: "s"
+384: init{}
+385: "t"
+386: init{}
+387: "u"
+388: init{}
+389: "v"
+390: init{}
+391: "w"
+392: init{}
+393: "x"
+394: init{}
+395: "y"
+396: init{}
+397: "z"
+398: init{}
+399: "A"
+400: init{}
+401: "B"
+402: init{}
+403: "C"
+404: init{}
+405: "D"
+406: init{}
+407: "E"
+408: init{}
+409: "F"
+410: init{}
+411: "G"
+412: init{}
+413: "H"
+414: init{}
+415: "I"
+416: init{}
+417: "P"
+418: init{}
+419: "O"
+420: init{}
+421: "N"
+422: init{}
+423: "M"
+424: init{}
+425: "L"
+426: init{}
+427: "K"
+428: init{}
+429: "J"
+430: init{}
+431: "Q"
+432: init{}
+433: "R"
+434: init{}
+435: "S"
+436: init{}
+437: "T"
+438: init{}
+439: "U"
+440: init{}
+441: "V"
+442: init{}
+443: "W"
+444: init{}
+445: "X"
+446: init{}
+447: "Y"
+448: init{}
+449: "Z"
+450: init{}
+451: "1"
+452: init{}
+453: "2"
+454: init{}
+455: "3"
+456: init{}
+457: "4"
+458: init{}
+459: "5"
+460: init{}
+461: "6"
+462: init{}
+463: "7"
+464: init{}
+465: "8"
+466: init{}
+467: "9"
+468: init{}
+469: "0"
+470: init{}
+471: :=
+472: #
+var len_text := Len( text );
+473: decl local #3
+474: local #1
+475: Func(0,2): Len
+476: :=
+477: #
+var i;
+478: decl local #4
+479: #
+for( i:=1; i<=len_text; i+=1 )
+480: local #4
+481: 1L
+482: :=
+483: #
+484: local #4
+485: local #3
+486: <=
+487: if false goto 530
+SleepMS(5);
+488: 5L
+489: Func(3,3): Sleepms
+490: #
+var letter := CStr( text[i] );
+491: decl local #0
+492: local #1
+493: local #4
+494: [] 1
+495: Func(0,1): CStr
+496: :=
+497: #
+if( letter in valid_char )
+498: local #5
+499: local #2
+500: in
+501: if false goto 505
+continue;
+502: leave block(1)
+503: goto525
+504: goto522
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+505: local #0
+506: local #1
+507: local #4
+508: [] 1
+509: " "
+510: ==
+511: local #1
+512: local #4
+513: [] 1
+514: Func(0,5): CAsc
+515: 0L
+516: ==
+517: ||
+518: &&
+519: if false goto 522
+continue;
+520: leave block(1)
+521: goto525
+return 0;
+522: 0L
+523: return
+524: leave block(1)
+525: local #4
+526: 1L
+527: +=
+528: #
+529: goto484
+return 1;
+530: 1L
+531: return

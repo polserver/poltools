@@ -1,0 +1,3143 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @165
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/systems/loot/include/identify_ex.inc, Line 7
+var immunities := { "AirProtection",
+11: decl global #2
+12: array
+13: "AirProtection"
+14: init{}
+15: "EarthProtection"
+16: init{}
+17: "FireProtection"
+18: init{}
+19: "WaterProtection"
+20: init{}
+21: "NecroProtection"
+22: init{}
+23: "PermPoisonProtection"
+24: init{}
+25: "PermMagicProtection"
+26: init{}
+27: "PhysicalProtection"
+28: init{}
+29: "PermSpellReflection"
+30: init{}
+31: "HealingIncrease"
+32: init{}
+33: :=
+34: #
+var wardings := { "PoisonProtection",
+35: decl global #3
+36: array
+37: "PoisonProtection"
+38: init{}
+39: "MagicProtection"
+40: init{}
+41: "SpellReflection"
+42: init{}
+43: "FreeAction"
+44: init{}
+45: :=
+46: #
+var regenerations := { "HitsRegen",
+47: decl global #4
+48: array
+49: "HitsRegen"
+50: init{}
+51: "StamRegen"
+52: init{}
+53: "ManaRegen"
+54: init{}
+55: :=
+56: #
+c:/ZH099/pkg/items/containers/include/storageAreas.inc, Line 35
+var container_type	:= "BankBox";
+57: decl global #5
+58: "BankBox"
+59: :=
+60: #
+var STORAGE_DEBUG	:= 1;
+61: decl global #6
+62: 1L
+63: :=
+64: #
+C:\ZH099\pkg\systems\brainAI\scripts\init\merchant.src, Line 17
+program BrainCriticalScript( params )
+const CPM_HOLDING	:= "Merchant-Holding";
+65: get arg 'params'
+var npc		:= params[1];
+66: decl local #1
+67: local #0
+68: 1L
+69: [] 1
+70: :=
+71: #
+var g_settings	:= params[2];
+72: decl local #2
+73: local #0
+74: 2L
+75: [] 1
+76: :=
+77: #
+params := 0; // Not needed anymore.
+78: 0L
+79: local0 := 
+npc.color := 1056 - RandomInt(55); // 1002-1056
+80: local #1
+81: 1056L
+82: 55L
+83: Func(8,2): RandomInt
+84: -
+85: set member id 'color' (7) #
+npc.truecolor := npc.color;
+86: local #1
+87: local #1
+88: get member id 'color' (7)
+89: set member id 'truecolor' (30) #
+NPC_SetupName( npc );
+90: local #1
+91: 0L
+92: makelocal
+93: jmp userfunc @259
+94: #
+NPC_SetupRandomEquipment( npc );
+95: local #1
+96: 0L
+97: 0L
+98: makelocal
+99: jmp userfunc @358
+100: #
+NPC_SetAnchorInfos( npc, g_settings );
+101: local #1
+102: local #2
+103: makelocal
+104: jmp userfunc @209
+105: #
+foreach item in ( ListEquippedItems( npc ))
+106: local #1
+107: Func(2,11): ListEquippedItems
+108: initforeach @120
+if( CanDye( item ))
+109: local #3
+110: makelocal
+111: jmp userfunc @134
+112: if false goto 117
+item.color := RandomDyeColor();
+113: local #3
+114: makelocal
+115: jmp userfunc @704
+116: set member id 'color' (7) #
+SleepMS(2);
+117: 2L
+118: Func(3,3): Sleepms
+119: #
+120: stepforeach @109
+121: leave block(3)
+StartNerve( npc, "Virtual", ":brainAI:scripts/virtual/wander" );
+122: local #1
+123: "Virtual"
+124: ":brainAI:scripts/virtual/wander"
+125: array
+126: 0L
+127: makelocal
+128: jmp userfunc @749
+129: #
+return 1;
+130: 1L
+131: progend
+132: leave block(3)
+133: progend
+c:/ZH099/pkg/items/dyes/include/dyes.inc, Line 15
+function CanDye( item )
+134: pop param 'item'
+var config := ReadConfigFile( ":*:itemdesc" );
+135: decl local #1
+136: ":*:itemdesc"
+137: Func(5,0): ReadConfigFile
+138: :=
+139: #
+config := config[item.objtype];
+140: local #1
+141: local #0
+142: get member id 'objtype' (4)
+143: [] 1
+144: local1 := 
+if( GetObjProperty( item, "Undyeable" ))
+145: local #0
+146: "Undyeable"
+147: Func(2,1): GetObjProperty
+148: if false goto 152
+return 0;
+149: 0L
+150: return
+151: goto163
+elseif( config.CanDye )
+152: local #1
+153: get member 'CanDye'
+154: if false goto 158
+return 1;
+155: 1L
+156: return
+157: goto163
+elseif( config.dyeable )
+158: local #1
+159: get member 'dyeable'
+160: if false goto 163
+return 1;
+161: 1L
+162: return
+return 0;
+163: 0L
+164: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+165: pop param byref 'cfg_file'
+166: pop param 'elem_name'
+if( !cfg_file )
+167: local #0
+168: if true goto 172
+cfg_file := Classes_GetSettingsCfgFile();
+169: makelocal
+170: jmp userfunc @193
+171: local0 := 
+var elem := cfg_file[elem_name];
+172: decl local #2
+173: local #0
+174: local #1
+175: [] 1
+176: :=
+177: #
+if( elem.errortext )
+178: local #2
+179: get member 'errortext'
+180: if false goto 191
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+181: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+182: local #1
+183: +
+184: "] ->"
+185: +
+186: local #2
+187: get member 'errortext'
+188: +
+189: Func(3,0): SysLog
+190: #
+return elem;
+191: local #2
+192: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+193: decl local #0
+194: ":classes:settings"
+195: Func(5,0): ReadConfigFile
+196: :=
+197: #
+if( cfg.errortext )
+198: local #0
+199: get member 'errortext'
+200: if false goto 207
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+201: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+202: local #0
+203: get member 'errortext'
+204: +
+205: Func(3,0): SysLog
+206: #
+return cfg;
+207: local #0
+208: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 215
+function NPC_SetAnchorInfos( npc, gsettings )
+209: pop param 'gsettings'
+210: pop param 'npc'
+var starting_point := GetObjProperty( npc, "StartingPoint" );
+211: decl local #2
+212: local #1
+213: "StartingPoint"
+214: Func(2,1): GetObjProperty
+215: :=
+216: #
+if( !starting_point )
+217: local #2
+218: if true goto 243
+var location := struct;
+219: decl local #0
+220: struct
+221: :=
+222: #
+location.+x := npc.x;
+223: local #3
+224: "x"
+225: .+
+226: local #1
+227: get member id 'x' (0)
+228: := #
+location.+y := npc.y;
+229: local #3
+230: "y"
+231: .+
+232: local #1
+233: get member id 'y' (1)
+234: := #
+starting_point := location;
+235: local #3
+236: local2 := 
+SetObjProperty( npc, "StartingPoint", location );
+237: local #1
+238: "StartingPoint"
+239: local #3
+240: Func(2,2): SetObjProperty
+241: #
+242: leave block(1)
+AI_SetAnchor( npc, starting_point.x, starting_point.y, CInt( gsettings["AreaSiz
+243: local #1
+244: local #2
+245: get member id 'x' (0)
+246: local #2
+247: get member id 'y' (1)
+248: local #0
+249: "AreaSize"
+250: [] 1
+251: Func(0,1): CInt
+252: 80L
+253: 0L
+254: makelocal
+255: jmp userfunc @905
+256: #
+return 1;
+257: 1L
+258: return
+c:/ZH099/pkg/systems/brainAI/include/npcInit.inc, Line 184
+function NPC_SetupName( mobile, name_elem:=0 )
+259: pop param 'name_elem'
+260: pop param 'mobile'
+if( !mobile.name["<random>"] )
+261: local #1
+262: get member id 'name' (3)
+263: "<random>"
+264: [] 1
+265: if true goto 269
+return 1;
+266: 1L
+267: return
+268: goto286
+elseif( !name_elem )
+269: local #0
+270: if true goto 286
+var npc_elem := NPC_GetNPCConfig( mobile );
+271: decl local #0
+272: local #1
+273: makelocal
+274: jmp userfunc @1536
+275: :=
+276: #
+name_elem := npc_elem.NameTemplate;
+277: local #2
+278: get member 'NameTemplate'
+279: local0 := 
+if( name_elem.errortext )
+280: local #0
+281: get member 'errortext'
+282: if false goto 285
+return name_elem;
+283: local #0
+284: return
+285: leave block(1)
+var npc_names := ReadConfigFile( ":brainAI:names" );
+286: decl local #2
+287: ":brainAI:names"
+288: Func(5,0): ReadConfigFile
+289: :=
+290: #
+if( !npc_names[name_elem] )
+291: local #2
+292: local #0
+293: [] 1
+294: if true goto 303
+return error{"errortext" := "There is no elem ["+name_elem+"] in NAMES.CFG"};
+295: error
+296: "There is no elem ["
+297: local #0
+298: +
+299: "] in NAMES.CFG"
+300: +
+301: addmember-assign(errortext)
+302: return
+var name_list := GetConfigStringArray( npc_names[name_elem], "Name" );
+303: decl local #3
+304: local #2
+305: local #0
+306: [] 1
+307: "Name"
+308: Func(5,2): GetConfigStringArray
+309: :=
+310: #
+if ( name_list.Size() < 1 )
+311: local #3
+312: Call Method id size (#48, 0 params)
+313: 1L
+314: <
+315: if false goto 324
+return error{"errortext":="No names were found in the ["+name_elem+"] elem for 
+316: error
+317: "No names were found in the ["
+318: local #0
+319: +
+320: "] elem for names.cfg"
+321: +
+322: addmember-assign(errortext)
+323: return
+var my_name := mobile.name;
+324: decl local #4
+325: local #1
+326: get member id 'name' (3)
+327: :=
+328: #
+while( my_name["<random>"] )
+329: local #4
+330: "<random>"
+331: [] 1
+332: if false goto 352
+var replacement := name_list[RandomInt( name_list.Size() )+1];
+333: decl local #0
+334: local #3
+335: local #3
+336: Call Method id size (#48, 0 params)
+337: Func(8,2): RandomInt
+338: 1L
+339: +
+340: [] 1
+341: :=
+342: #
+my_name["<random>"] := replacement;
+343: local #4
+344: "<random>"
+345: local #5
+346: [] := (1) #
+SleepMS(2);
+347: 2L
+348: Func(3,3): Sleepms
+349: #
+350: leave block(1)
+351: goto329
+SetName( mobile, my_name );
+352: local #1
+353: local #4
+354: Func(2,14): SetName
+355: #
+return my_name;
+356: local #4
+357: return
+c:/ZH099/pkg/systems/brainAI/include/npcInit.inc, Line 82
+function NPC_SetupRandomEquipment( mobile, elem_name:=0, flags:=EQUIP_NOGENDER 
+358: pop param 'flags'
+359: pop param 'elem_name'
+360: pop param 'mobile'
+if( !elem_name )
+361: local #1
+362: if true goto 373
+var npc_elem := NPC_GetNPCConfig( mobile );
+363: decl local #0
+364: local #2
+365: makelocal
+366: jmp userfunc @1536
+367: :=
+368: #
+elem_name := npc_elem.EquipTemplate;
+369: local #3
+370: get member 'EquipTemplate'
+371: local1 := 
+372: leave block(1)
+var index_cfg := ReadConfigFile( ":equipment:equipIndex" );
+373: decl local #3
+374: ":equipment:equipIndex"
+375: Func(5,0): ReadConfigFile
+376: :=
+377: #
+if( index_cfg.errortext )
+378: local #3
+379: get member 'errortext'
+380: if false goto 388
+return error{"errortext":="Could not open equipIndex.cfg -> "+index_cfg.errorte
+381: error
+382: "Could not open equipIndex.cfg -> "
+383: local #3
+384: get member 'errortext'
+385: +
+386: addmember-assign(errortext)
+387: return
+var group_cfg := ReadConfigFile( ":equipment:equipGroups" );
+388: decl local #4
+389: ":equipment:equipGroups"
+390: Func(5,0): ReadConfigFile
+391: :=
+392: #
+if( group_cfg.errortext )
+393: local #4
+394: get member 'errortext'
+395: if false goto 403
+return error{"errortext":="Could not open equipGroups.cfg -> "+group_cfg.errort
+396: error
+397: "Could not open equipGroups.cfg -> "
+398: local #4
+399: get member 'errortext'
+400: +
+401: addmember-assign(errortext)
+402: return
+var index_elem := index_cfg[elem_Name];
+403: decl local #5
+404: local #3
+405: local #1
+406: [] 1
+407: :=
+408: #
+if( !index_elem )
+409: local #5
+410: if true goto 419
+return error{"errortext":="equipIndex.cfg elem ["+index_elem+"] does not exist.
+411: error
+412: "equipIndex.cfg elem ["
+413: local #5
+414: +
+415: "] does not exist."
+416: +
+417: addmember-assign(errortext)
+418: return
+foreach entry in ( GetConfigStringDictionary( index_elem, "EquipGroup" ))
+419: local #5
+420: "EquipGroup"
+421: Func(5,3): GetConfigStringDictionary
+422: initforeach @576
+SleepMS(5);
+423: 5L
+424: Func(3,3): Sleepms
+425: #
+if( RandomDiceRoll( "1d100+1" ) <= CInt( entry ))
+426: "1d100+1"
+427: Func(8,0): RandomDiceRoll
+428: local #6
+429: Func(0,1): CInt
+430: <=
+431: if false goto 576
+var group_elem := group_cfg[CStr( _entry_iter )];
+432: decl local #0
+433: local #4
+434: local #8
+435: Func(0,4): CStr
+436: [] 1
+437: :=
+438: #
+if( !group_elem )
+439: local #9
+440: if true goto 454
+PrintTextAbove( mobile, "equipGroups.cfg elem ["+_entry_iter+"] does not exist.
+441: local #2
+442: "equipGroups.cfg elem ["
+443: local #8
+444: +
+445: "] does not exist."
+446: +
+447: 3L
+448: 1000L
+449: 0L
+450: Func(2,5): PrintTextAbove
+451: #
+continue;
+452: leave block(1)
+453: goto576
+var item_list := array{};
+454: decl local #1
+455: array
+456: :=
+457: #
+if( !flags )
+458: local #0
+459: if true goto 474
+var temp := GetConfigStringArray( group_elem, "Item" );
+460: decl local #0
+461: local #9
+462: "Item"
+463: Func(5,2): GetConfigStringArray
+464: :=
+465: #
+if( temp )
+466: local #11
+467: if false goto 472
+item_list += temp;
+468: local #10
+469: local #11
+470: +=
+471: #
+472: leave block(1)
+473: goto509
+elseif( flags & EQUIP_MALE )
+474: local #0
+475: 1L
+476: &
+477: if false goto 492
+var temp := GetConfigStringArray( group_elem, "Male" );
+478: decl local #0
+479: local #9
+480: "Male"
+481: Func(5,2): GetConfigStringArray
+482: :=
+483: #
+if( temp )
+484: local #11
+485: if false goto 490
+item_list += temp;
+486: local #10
+487: local #11
+488: +=
+489: #
+490: leave block(1)
+491: goto509
+elseif( flags & EQUIP_FEMALE )
+492: local #0
+493: 2L
+494: &
+495: if false goto 509
+var temp := GetConfigStringArray( group_elem, "Female" );
+496: decl local #0
+497: local #9
+498: "Female"
+499: Func(5,2): GetConfigStringArray
+500: :=
+501: #
+if( temp )
+502: local #11
+503: if false goto 508
+item_list += temp;
+504: local #10
+505: local #11
+506: +=
+507: #
+508: leave block(1)
+var item := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, item_list.Rando
+509: decl local #2
+510: local #2
+511: get member id 'x' (0)
+512: local #2
+513: get member id 'y' (1)
+514: local #2
+515: get member id 'z' (2)
+516: local #10
+517: Call Method id randomentry (#101, 0 params)
+518: 1L
+519: local #2
+520: get member id 'realm' (112)
+521: Func(2,20): CreateItemAtLocation
+522: :=
+523: #
+if( item.errortext )
+524: local #11
+525: get member 'errortext'
+526: if false goto 544
+PrintTextAbove( mobile, "Error could not create <"+_entry_iter+"> -->"+item.err
+527: local #2
+528: "Error could not create <"
+529: local #8
+530: +
+531: "> -->"
+532: +
+533: local #11
+534: get member 'errortext'
+535: +
+536: 3L
+537: 1000L
+538: 0L
+539: Func(2,5): PrintTextAbove
+540: #
+continue;
+541: leave block(3)
+542: goto576
+543: goto565
+elseif( !EquipItem( mobile, item ))
+544: local #2
+545: local #11
+546: Func(2,21): EquipItem
+547: if true goto 565
+PrintTextAbove( mobile, "Unable to equip - "+item.desc+" - destroying." );
+548: local #2
+549: "Unable to equip - "
+550: local #11
+551: get member id 'desc' (19)
+552: +
+553: " - destroying."
+554: +
+555: 3L
+556: 1000L
+557: 0L
+558: Func(2,5): PrintTextAbove
+559: #
+DestroyItem( item );
+560: local #11
+561: Func(2,22): DestroyItem
+562: #
+continue;
+563: leave block(3)
+564: goto576
+SetObjProperty( item, "NoLoot", 1 );
+565: local #11
+566: "NoLoot"
+567: 1L
+568: Func(2,2): SetObjProperty
+569: #
+IDItem( mobile, item );
+570: local #2
+571: local #11
+572: makelocal
+573: jmp userfunc @985
+574: #
+575: leave block(3)
+576: stepforeach @423
+577: leave block(3)
+foreach entry in ( GetConfigStringDictionary( index_elem, "EquipItem" ))
+578: local #5
+579: "EquipItem"
+580: Func(5,3): GetConfigStringDictionary
+581: initforeach @655
+SleepMS(5);
+582: 5L
+583: Func(3,3): Sleepms
+584: #
+var item := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, _entry_iter, 1,
+585: decl local #0
+586: local #2
+587: get member id 'x' (0)
+588: local #2
+589: get member id 'y' (1)
+590: local #2
+591: get member id 'z' (2)
+592: local #8
+593: 1L
+594: local #2
+595: get member id 'realm' (112)
+596: Func(2,20): CreateItemAtLocation
+597: :=
+598: #
+if( item.errortext )
+599: local #9
+600: get member 'errortext'
+601: if false goto 619
+PrintTextAbove( mobile, "Error could not create <"+_entry_iter+"> -->"+item.err
+602: local #2
+603: "Error could not create <"
+604: local #8
+605: +
+606: "> -->"
+607: +
+608: local #9
+609: get member 'errortext'
+610: +
+611: 3L
+612: 1000L
+613: 0L
+614: Func(2,5): PrintTextAbove
+615: #
+continue;
+616: leave block(1)
+617: goto655
+618: goto640
+elseif( !EquipItem( mobile, item ))
+619: local #2
+620: local #9
+621: Func(2,21): EquipItem
+622: if true goto 640
+PrintTextAbove( mobile, "Unable to equip - "+item.desc+" - destroying." );
+623: local #2
+624: "Unable to equip - "
+625: local #9
+626: get member id 'desc' (19)
+627: +
+628: " - destroying."
+629: +
+630: 3L
+631: 1000L
+632: 0L
+633: Func(2,5): PrintTextAbove
+634: #
+DestroyItem( item );
+635: local #9
+636: Func(2,22): DestroyItem
+637: #
+continue;
+638: leave block(1)
+639: goto655
+item.color := CInt( entry );
+640: local #9
+641: local #6
+642: Func(0,1): CInt
+643: set member id 'color' (7) #
+SetObjProperty( item, "NoLoot", 1 );
+644: local #9
+645: "NoLoot"
+646: 1L
+647: Func(2,2): SetObjProperty
+648: #
+IDItem( mobile, item );
+649: local #2
+650: local #9
+651: makelocal
+652: jmp userfunc @985
+653: #
+654: leave block(1)
+655: stepforeach @582
+656: leave block(3)
+foreach entry in ( GetConfigStringDictionary( index_elem, "EquipMount" ))
+657: local #5
+658: "EquipMount"
+659: Func(5,3): GetConfigStringDictionary
+660: initforeach @700
+SleepMS(5);
+661: 5L
+662: Func(3,3): Sleepms
+663: #
+var item := MP_Mount( mobile, _entry_iter );
+664: decl local #0
+665: local #2
+666: local #8
+667: makelocal
+668: jmp userfunc @1114
+669: :=
+670: #
+if( item.errortext )
+671: local #9
+672: get member 'errortext'
+673: if false goto 690
+PrintTextAbove( mobile, "Error could not mount <"+_entry_iter+"> -->"+item.erro
+674: local #2
+675: "Error could not mount <"
+676: local #8
+677: +
+678: "> -->"
+679: +
+680: local #9
+681: get member 'errortext'
+682: +
+683: 3L
+684: 1000L
+685: 0L
+686: Func(2,5): PrintTextAbove
+687: #
+continue;
+688: leave block(1)
+689: goto700
+item.color := CInt( entry );
+690: local #9
+691: local #6
+692: Func(0,1): CInt
+693: set member id 'color' (7) #
+SetObjProperty( item, "NoLoot", 1 );
+694: local #9
+695: "NoLoot"
+696: 1L
+697: Func(2,2): SetObjProperty
+698: #
+699: leave block(1)
+700: stepforeach @661
+701: leave block(3)
+return 1;
+702: 1L
+703: return
+c:/ZH099/pkg/items/dyes/include/dyes.inc, Line 44
+function RandomDyeColor()
+return RandomIntRange( MIN_COLOR, MAX_COLOR );
+704: 2L
+705: 1001L
+706: makelocal
+707: jmp userfunc @709
+708: return
+c:/ZH099/scripts/include/util_extend.inc, Line 18
+function RandomIntRange(min_val:=0, max_val:=1)
+709: pop param 'max_val'
+710: pop param 'min_val'
+if ( min_val < 0 || max_val < 0 )
+711: local #1
+712: 0L
+713: <
+714: local #0
+715: 0L
+716: <
+717: ||
+718: if false goto 724
+return error{"errortext":="Values must be >= 0"};
+719: error
+720: "Values must be >= 0"
+721: addmember-assign(errortext)
+722: return
+723: goto732
+elseif ( max_val <= min_val )
+724: local #0
+725: local #1
+726: <=
+727: if false goto 732
+return error{"errortext":="Min is not < max."};
+728: error
+729: "Min is not < max."
+730: addmember-assign(errortext)
+731: return
+var difference := CInt(max_val) - CInt(min_val);
+732: decl local #2
+733: local #0
+734: Func(0,1): CInt
+735: local #1
+736: Func(0,1): CInt
+737: -
+738: :=
+739: #
+var random := RandomInt(difference);
+740: decl local #3
+741: local #2
+742: Func(8,2): RandomInt
+743: :=
+744: #
+return ( random + min_val );
+745: local #3
+746: local #1
+747: +
+748: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 81
+function StartNerve( mobile, nerve_name, nerve_script, data:=array, flags:=NF_N
+749: pop param 'flags'
+750: pop param 'data'
+751: pop param 'nerve_script'
+752: pop param 'nerve_name'
+753: pop param 'mobile'
+if( GetNerveProcess( mobile, nerve_name ))
+754: local #4
+755: local #3
+756: makelocal
+757: jmp userfunc @955
+758: if false goto 761
+return 0;
+759: 0L
+760: return
+if( Lower( TypeOf( data )) != "array")
+761: local #1
+762: Func(0,6): TypeOf
+763: Func(0,0): Lower
+764: "array"
+765: <>
+766: if false goto 771
+data := array{data};
+767: array
+768: local #1
+769: init{}
+770: local1 := 
+data.Insert( 1, mobile );
+771: local #1
+772: 1L
+773: local #4
+774: Call Method id insert (#50, 2 params)
+775: #
+data.Insert( 2, nerve_name );
+776: local #1
+777: 2L
+778: local #3
+779: Call Method id insert (#50, 2 params)
+780: #
+var process := Start_Script( nerve_script, data );
+781: decl local #5
+782: local #2
+783: local #1
+784: Func(3,4): Start_Script
+785: :=
+786: #
+if( process.errortext )
+787: local #5
+788: get member 'errortext'
+789: if false goto 816
+var errmsg := "Error::StartNerve() - ["+nerve_name+"] ["+nerve_script+"] failed
+790: decl local #0
+791: "Error::StartNerve() - ["
+792: local #3
+793: +
+794: "] ["
+795: +
+796: local #2
+797: +
+798: "] failed to start! ->"
+799: +
+800: local #5
+801: get member 'errortext'
+802: +
+803: :=
+804: #
+NPC_ErrorSysLog( mobile, errmsg );
+805: local #4
+806: local #6
+807: makelocal
+808: jmp userfunc @1492
+809: #
+return error{"errortext":=errmsg};
+810: error
+811: local #6
+812: addmember-assign(errortext)
+813: return
+814: leave block(1)
+815: goto858
+var nerve_dict := LoadNerves( mobile );
+816: decl local #0
+817: local #4
+818: makelocal
+819: jmp userfunc @1097
+820: :=
+821: #
+if( nerve_dict.Exists( nerve_name ))
+822: local #6
+823: local #3
+824: Call Method id exists (#55, 1 params)
+825: if false goto 831
+StopNerve( mobile, nerve_name );
+826: local #4
+827: local #3
+828: makelocal
+829: jmp userfunc @860
+830: #
+var nerve_info := struct;
+831: decl local #1
+832: struct
+833: :=
+834: #
+nerve_info.+pid := process.pid;
+835: local #7
+836: "pid"
+837: .+
+838: local #5
+839: get member id 'pid' (103)
+840: := #
+nerve_info.+flags := flags;
+841: local #7
+842: "flags"
+843: .+
+844: local #0
+845: := #
+nerve_dict[nerve_name] := nerve_info;
+846: local #6
+847: local #3
+848: local #7
+849: [] := (1) #
+SaveNerves( mobile, nerve_dict );
+850: local #4
+851: local #6
+852: makelocal
+853: jmp userfunc @1898
+854: #
+return process;
+855: local #5
+856: return
+857: leave block(2)
+858: 0L
+859: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 119
+function StopNerve( mobile, nerve_name )
+860: pop param 'nerve_name'
+861: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+862: decl local #2
+863: local #1
+864: makelocal
+865: jmp userfunc @1097
+866: :=
+867: #
+if( nerve_dict.Exists( nerve_name ))
+868: local #2
+869: local #0
+870: Call Method id exists (#55, 1 params)
+871: if false goto 895
+var process := GetNerveProcess( mobile, nerve_name );
+872: decl local #0
+873: local #1
+874: local #0
+875: makelocal
+876: jmp userfunc @955
+877: :=
+878: #
+if( process )
+879: local #3
+880: if false goto 884
+process.Kill();
+881: local #3
+882: Call Method id kill (#75, 0 params)
+883: #
+nerve_dict.Erase( nerve_name );
+884: local #2
+885: local #0
+886: Call Method id erase (#49, 1 params)
+887: #
+return SaveNerves( mobile, nerve_dict );
+888: local #1
+889: local #2
+890: makelocal
+891: jmp userfunc @1898
+892: return
+893: leave block(1)
+894: goto903
+return error{"errortext" := "Error::StopNerve() - Invalid nerve name  ["+nerve_
+895: error
+896: "Error::StopNerve() - Invalid nerve name  ["
+897: local #0
+898: +
+899: "]"
+900: +
+901: addmember-assign(errortext)
+902: return
+903: 0L
+904: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 104
+function AI_SetAnchor( npc, x, y, distance_start, percent_subtract, no_wake:=NO
+905: pop param 'no_wake'
+906: pop param 'percent_subtract'
+907: pop param 'distance_start'
+908: pop param 'y'
+909: pop param 'x'
+910: pop param 'npc'
+var ev		:= struct;
+911: decl local #6
+912: struct
+913: :=
+914: #
+ev.+type	:= NPCEVENT_ANCHOR;
+915: local #6
+916: "type"
+917: .+
+918: 10485781L
+919: := #
+ev.+x		:= x;
+920: local #6
+921: "x"
+922: .+
+923: local #4
+924: := #
+ev.+y		:= y;
+925: local #6
+926: "y"
+927: .+
+928: local #3
+929: := #
+ev.+distance	:= distance_start;
+930: local #6
+931: "distance"
+932: .+
+933: local #2
+934: := #
+ev.+percent	:= percent_subtract;
+935: local #6
+936: "percent"
+937: .+
+938: local #1
+939: := #
+ev.+WakeUp	:= no_wake;
+940: local #6
+941: "WakeUp"
+942: .+
+943: local #0
+944: := #
+ev.+process	:= GetProcess( GetPid() );
+945: local #6
+946: "process"
+947: .+
+948: Func(3,2): GetPid
+949: Func(3,1): GetProcess
+950: := #
+return SendEvent( npc, ev );
+951: local #5
+952: local #6
+953: Func(2,17): SendEvent
+954: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 49
+function GetNerveProcess( mobile, nerve_name )
+955: pop param 'nerve_name'
+956: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+957: decl local #2
+958: local #1
+959: makelocal
+960: jmp userfunc @1097
+961: :=
+962: #
+if( nerve_dict.Exists( nerve_name ))
+963: local #2
+964: local #0
+965: Call Method id exists (#55, 1 params)
+966: if false goto 975
+return GetProcess( CInt( nerve_dict[nerve_name].pid ));
+967: local #2
+968: local #0
+969: [] 1
+970: get member id 'pid' (103)
+971: Func(0,1): CInt
+972: Func(3,1): GetProcess
+973: return
+974: goto983
+return error{"errortext" := "Error::GetNerveProcess() - Invalid nerve name  ["+
+975: error
+976: "Error::GetNerveProcess() - Invalid nerve name  ["
+977: local #0
+978: +
+979: "]"
+980: +
+981: addmember-assign(errortext)
+982: return
+983: 0L
+984: return
+c:/ZH099/pkg/skills/mage/itemid/include/itemID.inc, Line 16
+function IDItem( mobile, item )
+985: pop param 'item'
+986: pop param 'mobile'
+var charges := GetObjProperty( item, "Charges" ),
+987: decl local #2
+988: local #0
+989: "Charges"
+990: Func(2,1): GetObjProperty
+991: :=
+992: #
+993: decl local #3
+994: local #0
+995: "ChanceOfEffect"
+996: Func(2,1): GetObjProperty
+997: :=
+998: #
+999: decl local #4
+1000: local #0
+1001: "PoisonLevel"
+1002: Func(2,1): GetObjProperty
+1003: :=
+1004: #
+if( GetObjProperty( item, "UnIDedMagicalItem" ) ||
+1005: local #0
+1006: "UnIDedMagicalItem"
+1007: Func(2,1): GetObjProperty
+1008: local #0
+1009: "IsGMItem"
+1010: Func(2,1): GetObjProperty
+1011: ||
+1012: local #0
+1013: "EnchantColor"
+1014: Func(2,1): GetObjProperty
+1015: ||
+1016: if false goto 1021
+NameByEnchant( item );
+1017: local #0
+1018: makelocal
+1019: jmp userfunc @1227
+1020: #
+if( item.container.IsA( POLCLASS_CORPSE ) && GetObjProperty( item.container, "n
+1021: local #0
+1022: get member id 'container' (15)
+1023: 7L
+1024: Call Method id isa (#0, 1 params)
+1025: local #0
+1026: get member id 'container' (15)
+1027: "npctemplate"
+1028: Func(2,1): GetObjProperty
+1029: &&
+1030: if false goto 1040
+PrintTextAbove( item.container, item.desc );
+1031: local #0
+1032: get member id 'container' (15)
+1033: local #0
+1034: get member id 'desc' (19)
+1035: 3L
+1036: 1000L
+1037: 0L
+1038: Func(2,5): PrintTextAbove
+1039: #
+SendSysMessage( mobile, "It appears to be "+item.desc+"." );
+1040: local #1
+1041: "It appears to be "
+1042: local #0
+1043: get member id 'desc' (19)
+1044: +
+1045: "."
+1046: +
+1047: 3L
+1048: 1000L
+1049: Func(2,4): SendSysMessage
+1050: #
+if( charges )
+1051: local #2
+1052: if false goto 1064
+SendSysMessage( mobile, "There is "+charges+" charges left." );
+1053: local #1
+1054: "There is "
+1055: local #2
+1056: +
+1057: " charges left."
+1058: +
+1059: 3L
+1060: 1000L
+1061: Func(2,4): SendSysMessage
+1062: #
+1063: goto1089
+elseif( chance_effect )
+1064: local #3
+1065: if false goto 1077
+SendSysMessage( mobile, "It has "+chance_effect+"% chances of effects," );
+1066: local #1
+1067: "It has "
+1068: local #3
+1069: +
+1070: "% chances of effects,"
+1071: +
+1072: 3L
+1073: 1000L
+1074: Func(2,4): SendSysMessage
+1075: #
+1076: goto1089
+elseif( poison_lvl )
+1077: local #4
+1078: if false goto 1089
+SendSysMessage( mobile, "Cursed with poison level "+poison_lvl+"." );
+1079: local #1
+1080: "Cursed with poison level "
+1081: local #4
+1082: +
+1083: "."
+1084: +
+1085: 3L
+1086: 1000L
+1087: Func(2,4): SendSysMessage
+1088: #
+SetObjProperty( item, "IDed", mobile.serial );
+1089: local #0
+1090: "IDed"
+1091: local #1
+1092: get member id 'serial' (6)
+1093: Func(2,2): SetObjProperty
+1094: #
+return 1;
+1095: 1L
+1096: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 34
+function LoadNerves( mobile )
+1097: pop param 'mobile'
+var nerve_dict := GetObjProperty( mobile, "#NerveInfo" );
+1098: decl local #1
+1099: local #0
+1100: "#NerveInfo"
+1101: Func(2,1): GetObjProperty
+1102: :=
+1103: #
+if ( Lower( TypeOf( nerve_dict )) != "dictionary" )
+1104: local #1
+1105: Func(0,6): TypeOf
+1106: Func(0,0): Lower
+1107: "dictionary"
+1108: <>
+1109: if false goto 1112
+nerve_dict := dictionary;
+1110: dictionary
+1111: local1 := 
+return nerve_dict;
+1112: local #1
+1113: return
+c:/ZH099/pkg/items/mounts/include/mounts.inc, Line 98
+function MP_Mount( mobile, npc )
+1114: pop param 'npc'
+1115: pop param 'mobile'
+mobile.graphic := 400 + mobile.gender;
+1116: local #1
+1117: 400L
+1118: local #1
+1119: get member id 'gender' (28)
+1120: +
+1121: set member id 'graphic' (5) #
+var mount_piece := MP_GetMount( mobile );
+1122: decl local #2
+1123: local #1
+1124: makelocal
+1125: jmp userfunc @2274
+1126: :=
+1127: #
+if( mount_piece )
+1128: local #2
+1129: if false goto 1134
+return error{"errortext":="Mobile is already mounted."};
+1130: error
+1131: "Mobile is already mounted."
+1132: addmember-assign(errortext)
+1133: return
+var mount_graphic := MP_GetMountGraphic( npc );
+1134: decl local #3
+1135: local #0
+1136: makelocal
+1137: jmp userfunc @2291
+1138: :=
+1139: #
+if( !mount_graphic )
+1140: local #3
+1141: if true goto 1144
+return mount_graphic;
+1142: local #3
+1143: return
+mount_piece := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, "MountPiece"
+1144: local #1
+1145: get member id 'x' (0)
+1146: local #1
+1147: get member id 'y' (1)
+1148: local #1
+1149: get member id 'z' (2)
+1150: "MountPiece"
+1151: 1L
+1152: "britannia"
+1153: Func(2,20): CreateItemAtLocation
+1154: local2 := 
+mount_piece.graphic := mount_graphic;
+1155: local #2
+1156: local #3
+1157: set member id 'graphic' (5) #
+mount_piece.color := npc.color;
+1158: local #2
+1159: local #0
+1160: get member id 'color' (7)
+1161: set member id 'color' (7) #
+SetName( mount_piece, npc.name );
+1162: local #2
+1163: local #0
+1164: get member id 'name' (3)
+1165: Func(2,14): SetName
+1166: #
+SetObjProperty( mount_piece, "serial", npc.serial );
+1167: local #2
+1168: "serial"
+1169: local #0
+1170: get member id 'serial' (6)
+1171: Func(2,2): SetObjProperty
+1172: #
+SetObjProperty( mount_piece, "color", npc.color );
+1173: local #2
+1174: "color"
+1175: local #0
+1176: get member id 'color' (7)
+1177: Func(2,2): SetObjProperty
+1178: #
+var result := EquipItem( mobile, mount_piece );
+1179: decl local #4
+1180: local #1
+1181: local #2
+1182: Func(2,21): EquipItem
+1183: :=
+1184: #
+if( !result )
+1185: local #4
+1186: if true goto 1193
+DestroyItem( mount_piece );
+1187: local #2
+1188: Func(2,22): DestroyItem
+1189: #
+return result;
+1190: local #4
+1191: return
+1192: goto1196
+mount_piece.movable := 0;
+1193: local #2
+1194: 0L
+1195: set member id 'movable' (20) #
+mobile.facing := npc.facing;
+1196: local #1
+1197: local #0
+1198: get member id 'facing' (9)
+1199: set member id 'facing' (9) #
+MoveObjectToLocation( npc, 5140, 1773, 0, "britannia", MOVEOBJECT_FORCELOCATION
+1200: local #0
+1201: 5140L
+1202: 1773L
+1203: 0L
+1204: "britannia"
+1205: 1073741824L
+1206: Func(2,23): MoveObjectToLocation
+1207: #
+SetObjProperty( npc, "mounted", 1 );
+1208: local #0
+1209: "mounted"
+1210: 1L
+1211: Func(2,2): SetObjProperty
+1212: #
+SetObjProperty( npc, "MustSleep", mobile.serial );
+1213: local #0
+1214: "MustSleep"
+1215: local #1
+1216: get member id 'serial' (6)
+1217: Func(2,2): SetObjProperty
+1218: #
+npc.hidden := 1;
+1219: local #0
+1220: 1L
+1221: set member id 'hidden' (32) #
+npc.frozen := 1;
+1222: local #0
+1223: 1L
+1224: set member id 'frozen' (34) #
+return mount_piece;
+1225: local #2
+1226: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 21
+function NameByEnchant( item )
+1227: pop param 'item'
+EraseObjProperty( item, "UnIDedMagicalItem" );
+1228: local #0
+1229: "UnIDedMagicalItem"
+1230: Func(2,13): EraseObjProperty
+1231: #
+var base_name := GetObjProperty( item, "BaseName" );
+1232: decl local #1
+1233: local #0
+1234: "BaseName"
+1235: Func(2,1): GetObjProperty
+1236: :=
+1237: #
+if( !base_name )
+1238: local #1
+1239: if true goto 1259
+var item_cfg := ReadConfigFile( ":*:itemdesc" ),
+1240: decl local #0
+1241: ":*:itemdesc"
+1242: Func(5,0): ReadConfigFile
+1243: :=
+1244: #
+1245: decl local #1
+1246: local #2
+1247: local #0
+1248: get member id 'objtype' (4)
+1249: [] 1
+1250: get member id 'desc' (19)
+1251: :=
+1252: #
+SetName( item, item_name );
+1253: local #0
+1254: local #3
+1255: Func(2,14): SetName
+1256: #
+1257: leave block(2)
+1258: goto1263
+SetName( item, base_name );
+1259: local #0
+1260: local #1
+1261: Func(2,14): SetName
+1262: #
+var enchanted_name := GetObjProperty( item, "Enchanted" );;
+1263: decl local #2
+1264: local #0
+1265: "Enchanted"
+1266: Func(2,1): GetObjProperty
+1267: :=
+1268: #
+if( enchanted_name )
+1269: local #2
+1270: if false goto 1280
+SetName( item, enchanted_name+" "+item.desc );
+1271: local #0
+1272: local #2
+1273: " "
+1274: +
+1275: local #0
+1276: get member id 'desc' (19)
+1277: +
+1278: Func(2,14): SetName
+1279: #
+var enchanted_color := GetObjProperty( item, "EnchantColor" );
+1280: decl local #3
+1281: local #0
+1282: "EnchantColor"
+1283: Func(2,1): GetObjProperty
+1284: :=
+1285: #
+if( enchanted_color )
+1286: local #3
+1287: if false goto 1295
+item.color := enchanted_color;
+1288: local #0
+1289: local #3
+1290: set member id 'color' (7) #
+EraseObjProperty( item, "EnchantColor" );
+1291: local #0
+1292: "EnchantColor"
+1293: Func(2,13): EraseObjProperty
+1294: #
+var isGMItem := GetObjProperty( item, "IsGMItem" );
+1295: decl local #4
+1296: local #0
+1297: "IsGMItem"
+1298: Func(2,1): GetObjProperty
+1299: :=
+1300: #
+if( isGMItem )
+1301: local #4
+1302: if false goto 1309
+SetName( item, isGMItem );
+1303: local #0
+1304: local #4
+1305: Func(2,14): SetName
+1306: #
+return 1;
+1307: 1L
+1308: return
+var hitScript := GetObjProperty( item, "HitScriptNumber" );
+1309: decl local #5
+1310: local #0
+1311: "HitScriptNumber"
+1312: Func(2,1): GetObjProperty
+1313: :=
+1314: #
+if( hitScript )
+1315: local #5
+1316: if false goto 1322
+RenameByHitscript( item, hitScript );
+1317: local #0
+1318: local #5
+1319: makelocal
+1320: jmp userfunc @1695
+1321: #
+var onHitScript := GetObjProperty( item, "OnHitScriptNumber" );
+1322: decl local #6
+1323: local #0
+1324: "OnHitScriptNumber"
+1325: Func(2,1): GetObjProperty
+1326: :=
+1327: #
+if( onHitScript )
+1328: local #6
+1329: if false goto 1335
+RenameByOnHitscript( item, onHitScript );
+1330: local #0
+1331: local #6
+1332: makelocal
+1333: jmp userfunc @1820
+1334: #
+var dmg_mode := item.dmg_mod;
+1335: decl local #7
+1336: local #0
+1337: get member id 'dmg_mod' (91)
+1338: :=
+1339: #
+if( dmg_mode )
+1340: local #7
+1341: if false goto 1348
+RenameByMod( item, "Damage", dmg_mode );
+1342: local #0
+1343: "Damage"
+1344: local #7
+1345: makelocal
+1346: jmp userfunc @1781
+1347: #
+var ar_mode := item.ar_mod;
+1348: decl local #8
+1349: local #0
+1350: get member id 'ar_mod' (31)
+1351: :=
+1352: #
+if( ar_mode )
+1353: local #8
+1354: if false goto 1361
+RenameByMod( item, "Ar", ar_mode );
+1355: local #0
+1356: "Ar"
+1357: local #8
+1358: makelocal
+1359: jmp userfunc @1781
+1360: #
+var ar_bonus := GetObjProperty( item, "ArBonus" );
+1361: decl local #9
+1362: local #0
+1363: "ArBonus"
+1364: Func(2,1): GetObjProperty
+1365: :=
+1366: #
+if( ar_bonus )
+1367: local #9
+1368: if false goto 1378
+RenameByMod( item, "ArBonus", CInt( ar_bonus * 5 ));
+1369: local #0
+1370: "ArBonus"
+1371: local #9
+1372: 5L
+1373: *
+1374: Func(0,1): CInt
+1375: makelocal
+1376: jmp userfunc @1781
+1377: #
+var hp_mode := item.maxhp_mod;
+1378: decl local #10
+1379: local #0
+1380: get member id 'maxhp_mod' (89)
+1381: :=
+1382: #
+if( hp_mode )
+1383: local #10
+1384: if false goto 1394
+RenameByMod( item, "MaxHP", CInt( hp_mode / 2 ));
+1385: local #0
+1386: "MaxHP"
+1387: local #10
+1388: 2L
+1389: /
+1390: Func(0,1): CInt
+1391: makelocal
+1392: jmp userfunc @1781
+1393: #
+var skill_mod := GetEquipmentModifiers( item );
+1394: decl local #11
+1395: local #0
+1396: 4L
+1397: makelocal
+1398: jmp userfunc @2169
+1399: :=
+1400: #
+if( skill_mod.Size() )
+1401: local #11
+1402: Call Method id size (#48, 0 params)
+1403: if false goto 1425
+var skill_keys := skill_mod.Keys();
+1404: decl local #0
+1405: local #11
+1406: Call Method id keys (#56, 0 params)
+1407: :=
+1408: #
+foreach modifier in skill_keys
+1409: local #12
+1410: initforeach @1422
+RenameByAttriMod( item, modifier, skill_mod[modifier] );
+1411: local #0
+1412: local #13
+1413: local #11
+1414: local #13
+1415: [] 1
+1416: makelocal
+1417: jmp userfunc @1655
+1418: #
+SleepMS(5);
+1419: 5L
+1420: Func(3,3): Sleepms
+1421: #
+1422: stepforeach @1411
+1423: leave block(3)
+1424: leave block(1)
+foreach protection in immunities
+1425: global #2
+1426: initforeach @1445
+var mobile_prot := GetObjProperty( item, protection );
+1427: decl local #0
+1428: local #0
+1429: local #12
+1430: Func(2,1): GetObjProperty
+1431: :=
+1432: #
+if( mobile_prot )
+1433: local #15
+1434: if false goto 1441
+RenameByImmunity( item, protection, mobile_prot );
+1435: local #0
+1436: local #12
+1437: local #15
+1438: makelocal
+1439: jmp userfunc @1756
+1440: #
+SleepMS(5);
+1441: 5L
+1442: Func(3,3): Sleepms
+1443: #
+1444: leave block(1)
+1445: stepforeach @1427
+1446: leave block(3)
+foreach prot in wardings
+1447: global #3
+1448: initforeach @1466
+var charges := GetObjProperty( item, prot );
+1449: decl local #0
+1450: local #0
+1451: local #12
+1452: Func(2,1): GetObjProperty
+1453: :=
+1454: #
+if( charges )
+1455: local #15
+1456: if false goto 1462
+RenameByWardings( item, prot );
+1457: local #0
+1458: local #12
+1459: makelocal
+1460: jmp userfunc @1881
+1461: #
+SleepMS(5);
+1462: 5L
+1463: Func(3,3): Sleepms
+1464: #
+1465: leave block(1)
+1466: stepforeach @1449
+1467: leave block(3)
+foreach mod in regenerations
+1468: global #4
+1469: initforeach @1488
+var mobile_mod := GetObjProperty( item, mod );
+1470: decl local #0
+1471: local #0
+1472: local #12
+1473: Func(2,1): GetObjProperty
+1474: :=
+1475: #
+if( mobile_mod )
+1476: local #15
+1477: if false goto 1484
+RenameByImmunity( item, mod, mobile_mod );
+1478: local #0
+1479: local #12
+1480: local #15
+1481: makelocal
+1482: jmp userfunc @1756
+1483: #
+SleepMS(5);
+1484: 5L
+1485: Func(3,3): Sleepms
+1486: #
+1487: leave block(1)
+1488: stepforeach @1470
+1489: leave block(3)
+return 1;
+1490: 1L
+1491: return
+c:/ZH099/pkg/systems/brainAI/include/npcError.inc, Line 9
+function NPC_ErrorSysLog( npc, errmsg )
+1492: pop param 'errmsg'
+1493: pop param 'npc'
+PrintTextAbove( npc, errmsg, 3, 33 );
+1494: local #1
+1495: local #0
+1496: 3L
+1497: 33L
+1498: 0L
+1499: Func(2,5): PrintTextAbove
+1500: #
+SysLog( "------------" );
+1501: "------------"
+1502: Func(3,0): SysLog
+1503: #
+SysLog( "NPC Template: "+npc.npctemplate );
+1504: "NPC Template: "
+1505: local #1
+1506: get member id 'npctemplate' (62)
+1507: +
+1508: Func(3,0): SysLog
+1509: #
+SysLog( "NPC Name    : "+npc.name );
+1510: "NPC Name    : "
+1511: local #1
+1512: get member id 'name' (3)
+1513: +
+1514: Func(3,0): SysLog
+1515: #
+SysLog( errmsg );
+1516: local #0
+1517: Func(3,0): SysLog
+1518: #
+SysLog( "------------" );
+1519: "------------"
+1520: Func(3,0): SysLog
+1521: #
+npc.Disable( "invul" );
+1522: local #1
+1523: "invul"
+1524: Call Method id disable (#9, 1 params)
+1525: #
+SetObjProperty( npc, "GuardKill", 1 );
+1526: local #1
+1527: "GuardKill"
+1528: 1L
+1529: Func(2,2): SetObjProperty
+1530: #
+npc.Kill();
+1531: local #1
+1532: Call Method id kill (#75, 0 params)
+1533: #
+return 1;
+1534: 1L
+1535: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 35
+function NPC_GetNPCConfig( template )
+1536: pop param 'template'
+if( !template.package )
+1537: local #0
+1538: get member 'package'
+1539: if true goto 1544
+template := NPC_ParseTemplateName( template );
+1540: local #0
+1541: makelocal
+1542: jmp userfunc @1593
+1543: local0 := 
+var npc_cfg := ReadConfigFile( ":"+template.package+":npcdesc" );
+1544: decl local #1
+1545: ":"
+1546: local #0
+1547: get member 'package'
+1548: +
+1549: ":npcdesc"
+1550: +
+1551: Func(5,0): ReadConfigFile
+1552: :=
+1553: #
+if( npc_cfg.errortext )
+1554: local #1
+1555: get member 'errortext'
+1556: if false goto 1569
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not open :"+templa
+1557: error
+1558: "Error::NPC_GetNPCConfig() - Could not open :"
+1559: local #0
+1560: get member 'package'
+1561: +
+1562: ":npcdesc ->"
+1563: +
+1564: local #1
+1565: get member 'errortext'
+1566: +
+1567: addmember-assign(errortext)
+1568: return
+var cfg_elem := npc_cfg[template.template];
+1569: decl local #2
+1570: local #1
+1571: local #0
+1572: get member 'template'
+1573: [] 1
+1574: :=
+1575: #
+if( cfg_elem.errortext )
+1576: local #2
+1577: get member 'errortext'
+1578: if false goto 1591
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not find elem ["+t
+1579: error
+1580: "Error::NPC_GetNPCConfig() - Could not find elem ["
+1581: local #0
+1582: get member 'template'
+1583: +
+1584: "] ->"
+1585: +
+1586: local #2
+1587: get member 'errortext'
+1588: +
+1589: addmember-assign(errortext)
+1590: return
+return cfg_elem;
+1591: local #2
+1592: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 11
+function NPC_ParseTemplateName( template_name )
+1593: pop param 'template_name'
+if( template_name.IsA( POLCLASS_NPC ))
+1594: local #0
+1595: 4L
+1596: Call Method id isa (#0, 1 params)
+1597: if false goto 1601
+template_name := template_name.npctemplate;
+1598: local #0
+1599: get member id 'npctemplate' (62)
+1600: local0 := 
+var colon_a := Find( template_name, ":", 1 );
+1601: decl local #1
+1602: local #0
+1603: ":"
+1604: 1L
+1605: Func(0,8): Find
+1606: :=
+1607: #
+var colon_b := Find( template_name, ":", 2 );
+1608: decl local #2
+1609: local #0
+1610: ":"
+1611: 2L
+1612: Func(0,8): Find
+1613: :=
+1614: #
+var parsed := struct{"package", "template"};
+1615: decl local #3
+1616: struct
+1617: addmember(package)
+1618: addmember(template)
+1619: :=
+1620: #
+if( !colon_a || !colon_b )
+1621: local #1
+1622: !
+1623: local #2
+1624: !
+1625: ||
+1626: if false goto 1634
+parsed.package := "";
+1627: local #3
+1628: ""
+1629: set member 'package' #
+parsed.template := template_name;
+1630: local #3
+1631: local #0
+1632: set member 'template' #
+1633: goto1653
+parsed.package := template_name[colon_a+1, colon_b-2];
+1634: local #3
+1635: local #0
+1636: local #1
+1637: 1L
+1638: +
+1639: local #2
+1640: 2L
+1641: -
+1642: [,]
+1643: set member 'package' #
+parsed.template := template_name[colon_b+1, Len( template_name )];
+1644: local #3
+1645: local #0
+1646: local #2
+1647: 1L
+1648: +
+1649: local #0
+1650: Func(0,3): Len
+1651: [,]
+1652: set member 'template' #
+return parsed;
+1653: local #3
+1654: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 175
+function RenameByAttriMod( item, attribute, value )
+1655: pop param 'value'
+1656: pop param 'attribute'
+1657: pop param 'item'
+if( !value )
+1658: local #0
+1659: if true goto 1662
+return 0;
+1660: 0L
+1661: return
+if( attribute in AP_ListAttributesByType( "Stat" ))
+1662: local #1
+1663: "Stat"
+1664: makelocal
+1665: jmp userfunc @2095
+1666: in
+1667: if false goto 1673
+value := CInt( value / 5 );
+1668: local #0
+1669: 5L
+1670: /
+1671: Func(0,1): CInt
+1672: local0 := 
+var mod_elem := GetEnchantmentElem( item, attribute );
+1673: decl local #3
+1674: local #2
+1675: local #1
+1676: makelocal
+1677: jmp userfunc @2120
+1678: :=
+1679: #
+var name := CStr ( "Name"+value );
+1680: decl local #4
+1681: "Name"
+1682: local #0
+1683: +
+1684: Func(0,4): CStr
+1685: :=
+1686: #
+SetAdjective( item, mod_elem, name );
+1687: local #2
+1688: local #3
+1689: local #4
+1690: makelocal
+1691: jmp userfunc @1905
+1692: #
+return 1;
+1693: 1L
+1694: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 118
+function RenameByHitscript( item, hitScript )
+1695: pop param 'hitScript'
+1696: pop param 'item'
+var enchantment_cfg := ReadConfigFile( ":loot:effects_hit" );
+1697: decl local #2
+1698: ":loot:effects_hit"
+1699: Func(5,0): ReadConfigFile
+1700: :=
+1701: #
+if( enchantment_cfg.errortext )
+1702: local #2
+1703: get member 'errortext'
+1704: if false goto 1717
+PrintTextAbove( item, "Error reading config <:loot:effects_hit> -->"+enchantmen
+1705: local #1
+1706: "Error reading config <:loot:effects_hit> -->"
+1707: local #2
+1708: get member 'errortext'
+1709: +
+1710: 3L
+1711: 1000L
+1712: 0L
+1713: Func(2,5): PrintTextAbove
+1714: #
+return 0;
+1715: 0L
+1716: return
+var chant_elem := FindConfigElem( enchantment_cfg, hitScript );
+1717: decl local #3
+1718: local #2
+1719: local #0
+1720: Func(5,5): FindConfigElem
+1721: :=
+1722: #
+if( chant_elem.errortext )
+1723: local #3
+1724: get member 'errortext'
+1725: if false goto 1742
+PrintTextAbove( item, "Error reading chant_elem <"+hitScript+"> -->"+chant_elem
+1726: local #1
+1727: "Error reading chant_elem <"
+1728: local #0
+1729: +
+1730: "> -->"
+1731: +
+1732: local #3
+1733: get member 'errortext'
+1734: +
+1735: 3L
+1736: 1000L
+1737: 0L
+1738: Func(2,5): PrintTextAbove
+1739: #
+return 0;
+1740: 0L
+1741: return
+SetAdjective( item, chant_elem, "Name" );
+1742: local #1
+1743: local #3
+1744: "Name"
+1745: makelocal
+1746: jmp userfunc @1905
+1747: #
+SetObjProperty( item, "HitScript", chant_elem.HitScript );
+1748: local #1
+1749: "HitScript"
+1750: local #3
+1751: get member id 'hitscript' (94)
+1752: Func(2,2): SetObjProperty
+1753: #
+return 1;
+1754: 1L
+1755: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 210
+function RenameByImmunity( item, immunity, power )
+1756: pop param 'power'
+1757: pop param 'immunity'
+1758: pop param 'item'
+var immunity_elem := GetEnchantmentElem( item, immunity );
+1759: decl local #3
+1760: local #2
+1761: local #1
+1762: makelocal
+1763: jmp userfunc @2120
+1764: :=
+1765: #
+var name := CStr( "Name"+power );
+1766: decl local #4
+1767: "Name"
+1768: local #0
+1769: +
+1770: Func(0,4): CStr
+1771: :=
+1772: #
+SetAdjective( item, immunity_elem, name );
+1773: local #2
+1774: local #3
+1775: local #4
+1776: makelocal
+1777: jmp userfunc @1905
+1778: #
+return 1;
+1779: 1L
+1780: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 193
+function RenameByMod( item, mod, value )
+1781: pop param 'value'
+1782: pop param 'mod'
+1783: pop param 'item'
+if( !value )
+1784: local #0
+1785: if true goto 1788
+return 0;
+1786: 0L
+1787: return
+var mod_elem := GetEnchantmentElem( item, mod );
+1788: decl local #3
+1789: local #2
+1790: local #1
+1791: makelocal
+1792: jmp userfunc @2120
+1793: :=
+1794: #
+var temp := CInt( value / 5 );
+1795: decl local #4
+1796: local #0
+1797: 5L
+1798: /
+1799: Func(0,1): CInt
+1800: :=
+1801: #
+if( temp )
+1802: local #4
+1803: if false goto 1818
+var name := CStr( "Name"+temp );
+1804: decl local #0
+1805: "Name"
+1806: local #4
+1807: +
+1808: Func(0,4): CStr
+1809: :=
+1810: #
+SetAdjective( item, mod_elem, name );
+1811: local #2
+1812: local #3
+1813: local #5
+1814: makelocal
+1815: jmp userfunc @1905
+1816: #
+1817: leave block(1)
+return 1;
+1818: 1L
+1819: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 138
+function RenameByOnHitscript( item, onHitScript )
+1820: pop param 'onHitScript'
+1821: pop param 'item'
+var enchantment_cfg := ReadConfigFile( ":loot:effects_onhit" );
+1822: decl local #2
+1823: ":loot:effects_onhit"
+1824: Func(5,0): ReadConfigFile
+1825: :=
+1826: #
+if( enchantment_cfg.errortext )
+1827: local #2
+1828: get member 'errortext'
+1829: if false goto 1842
+PrintTextAbove( item, "Error reading config <:loot:effects_onhit> -->"+enchantm
+1830: local #1
+1831: "Error reading config <:loot:effects_onhit> -->"
+1832: local #2
+1833: get member 'errortext'
+1834: +
+1835: 3L
+1836: 1000L
+1837: 0L
+1838: Func(2,5): PrintTextAbove
+1839: #
+return 0;
+1840: 0L
+1841: return
+var chant_elem := FindConfigElem( enchantment_cfg, onHitScript );
+1842: decl local #3
+1843: local #2
+1844: local #0
+1845: Func(5,5): FindConfigElem
+1846: :=
+1847: #
+if( chant_elem.errortext )
+1848: local #3
+1849: get member 'errortext'
+1850: if false goto 1867
+PrintTextAbove( item, "Error reading chant_elem <"+onHitScript+"> -->"+chant_el
+1851: local #1
+1852: "Error reading chant_elem <"
+1853: local #0
+1854: +
+1855: "> -->"
+1856: +
+1857: local #3
+1858: get member 'errortext'
+1859: +
+1860: 3L
+1861: 1000L
+1862: 0L
+1863: Func(2,5): PrintTextAbove
+1864: #
+return 0;
+1865: 0L
+1866: return
+SetAdjective( item, chant_elem, "Name" );
+1867: local #1
+1868: local #3
+1869: "Name"
+1870: makelocal
+1871: jmp userfunc @1905
+1872: #
+SetObjProperty( item, "OnHitScript", chant_elem.OnHitScript );
+1873: local #1
+1874: "OnHitScript"
+1875: local #3
+1876: get member id 'onhitscript' (96)
+1877: Func(2,2): SetObjProperty
+1878: #
+return 1;
+1879: 1L
+1880: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 220
+function RenameByWardings( item, immunity )
+1881: pop param 'immunity'
+1882: pop param 'item'
+var immunity_elem := GetEnchantmentElem( item, immunity );
+1883: decl local #2
+1884: local #1
+1885: local #0
+1886: makelocal
+1887: jmp userfunc @2120
+1888: :=
+1889: #
+SetAdjective( item, immunity_elem, "Name" );
+1890: local #1
+1891: local #2
+1892: "Name"
+1893: makelocal
+1894: jmp userfunc @1905
+1895: #
+return 1;
+1896: 1L
+1897: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 44
+function SaveNerves( mobile, nerve_dict )
+1898: pop param 'nerve_dict'
+1899: pop param 'mobile'
+return SetObjProperty( mobile, "#NerveInfo", nerve_dict );
+1900: local #1
+1901: "#NerveInfo"
+1902: local #0
+1903: Func(2,2): SetObjProperty
+1904: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 229
+function SetAdjective( item, elem, value )
+1905: pop param 'value'
+1906: pop param 'elem'
+1907: pop param 'item'
+var colorkey := "Color";
+1908: decl local #3
+1909: "Color"
+1910: :=
+1911: #
+if( GetObjProperty( item, "Cursed" ))
+1912: local #2
+1913: "Cursed"
+1914: Func(2,1): GetObjProperty
+1915: if false goto 1924
+value := "C"+value;
+1916: "C"
+1917: local #0
+1918: +
+1919: local0 := 
+colorkey := "C"+colorkey;
+1920: "C"
+1921: local #3
+1922: +
+1923: local3 := 
+var position := GetConfigString( elem, "Place" );
+1924: decl local #4
+1925: local #1
+1926: "Place"
+1927: Func(5,6): GetConfigString
+1928: :=
+1929: #
+if( position.errortext )
+1930: local #4
+1931: get member 'errortext'
+1932: if false goto 1945
+PrintTextAbove( item, "Error reading position <Place> -->"+position.errortext )
+1933: local #2
+1934: "Error reading position <Place> -->"
+1935: local #4
+1936: get member 'errortext'
+1937: +
+1938: 3L
+1939: 1000L
+1940: 0L
+1941: Func(2,5): PrintTextAbove
+1942: #
+return 0;
+1943: 0L
+1944: return
+var adjective := GetConfigString( elem, value );
+1945: decl local #5
+1946: local #1
+1947: local #0
+1948: Func(5,6): GetConfigString
+1949: :=
+1950: #
+if( adjective.errortext )
+1951: local #5
+1952: get member 'errortext'
+1953: if false goto 1970
+PrintTextAbove( item, "Error reading adjective <"+value+"> -->"+adjective.error
+1954: local #2
+1955: "Error reading adjective <"
+1956: local #0
+1957: +
+1958: "> -->"
+1959: +
+1960: local #5
+1961: get member 'errortext'
+1962: +
+1963: 3L
+1964: 1000L
+1965: 0L
+1966: Func(2,5): PrintTextAbove
+1967: #
+return 0;
+1968: 0L
+1969: return
+if( position == "Prefix" )
+1970: local #4
+1971: "Prefix"
+1972: ==
+1973: if false goto 1987
+SetName( item, Lower( adjective+" "+TruncateArticle( item.desc )));
+1974: local #2
+1975: local #5
+1976: " "
+1977: +
+1978: local #2
+1979: get member id 'desc' (19)
+1980: makelocal
+1981: jmp userfunc @2024
+1982: +
+1983: Func(0,0): Lower
+1984: Func(2,14): SetName
+1985: #
+1986: goto1999
+SetName( item, Lower( TruncateArticle( item.desc )+" "+adjective ));
+1987: local #2
+1988: local #2
+1989: get member id 'desc' (19)
+1990: makelocal
+1991: jmp userfunc @2024
+1992: " "
+1993: +
+1994: local #5
+1995: +
+1996: Func(0,0): Lower
+1997: Func(2,14): SetName
+1998: #
+SetName( item, AddArticle( item.desc ));
+1999: local #2
+2000: local #2
+2001: get member id 'desc' (19)
+2002: makelocal
+2003: jmp userfunc @2062
+2004: Func(2,14): SetName
+2005: #
+var color_elem := GetConfigString( elem, colorkey );
+2006: decl local #6
+2007: local #1
+2008: local #3
+2009: Func(5,6): GetConfigString
+2010: :=
+2011: #
+var color_item := CInt( color_elem );
+2012: decl local #7
+2013: local #6
+2014: Func(0,1): CInt
+2015: :=
+2016: #
+if( color_item )
+2017: local #7
+2018: if false goto 2022
+item.color := color_item;
+2019: local #2
+2020: local #7
+2021: set member id 'color' (7) #
+return 1;
+2022: 1L
+2023: return
+c:/ZH099/scripts/include/string.inc, Line 22
+function TruncateArticle( text )
+2024: pop param 'text'
+text := CStr(text);
+2025: local #0
+2026: Func(0,4): CStr
+2027: local0 := 
+var i := Len(text);
+2028: decl local #1
+2029: local #0
+2030: Func(0,3): Len
+2031: :=
+2032: #
+if ( Lower(text[1, 2]) == "a " )
+2033: local #0
+2034: 1L
+2035: 2L
+2036: [,]
+2037: Func(0,0): Lower
+2038: "a "
+2039: ==
+2040: if false goto 2047
+text := text[3, i];
+2041: local #0
+2042: 3L
+2043: local #1
+2044: [,]
+2045: local0 := 
+2046: goto2060
+elseif ( Lower(text[1, 3]) == "an " )
+2047: local #0
+2048: 1L
+2049: 3L
+2050: [,]
+2051: Func(0,0): Lower
+2052: "an "
+2053: ==
+2054: if false goto 2060
+text := text[4, i];
+2055: local #0
+2056: 4L
+2057: local #1
+2058: [,]
+2059: local0 := 
+return text;
+2060: local #0
+2061: return
+c:/ZH099/scripts/include/string.inc, Line 35
+function AddArticle( text )
+2062: pop param 'text'
+var vowels := array{"a", "e", "i", "o", "u"};
+2063: decl local #1
+2064: array
+2065: "a"
+2066: init{}
+2067: "e"
+2068: init{}
+2069: "i"
+2070: init{}
+2071: "o"
+2072: init{}
+2073: "u"
+2074: init{}
+2075: :=
+2076: #
+if ( Lower(text[1]) in vowels )
+2077: local #0
+2078: 1L
+2079: [] 1
+2080: Func(0,0): Lower
+2081: local #1
+2082: in
+2083: if false goto 2089
+text := "an "+text;
+2084: "an "
+2085: local #0
+2086: +
+2087: local0 := 
+2088: goto2093
+text := "a "+text;
+2089: "a "
+2090: local #0
+2091: +
+2092: local0 := 
+return text;
+2093: local #0
+2094: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 69
+function AP_ListAttributesByType( type:="" )
+2095: pop param 'type'
+if( !type )
+2096: local #0
+2097: if true goto 2107
+var cfg_file := ReadConfigFile( ":attributes:attributes" );
+2098: decl local #0
+2099: ":attributes:attributes"
+2100: Func(5,0): ReadConfigFile
+2101: :=
+2102: #
+return GetConfigStringKeys( cfg_file );
+2103: local #1
+2104: Func(5,4): GetConfigStringKeys
+2105: return
+2106: leave block(1)
+type := Lower( type );
+2107: local #0
+2108: Func(0,0): Lower
+2109: local0 := 
+var data_elem := AP_GetAttributeDataElem( "Categories" );
+2110: decl local #1
+2111: "Categories"
+2112: makelocal
+2113: jmp userfunc @2379
+2114: :=
+2115: #
+return data_elem.GetProp( type );
+2116: local #1
+2117: local #0
+2118: Call Method id getprop (#35, 1 params)
+2119: return
+c:/ZH099/pkg/systems/loot/include/identify.inc, Line 158
+function GetEnchantmentElem( item, elem )
+2120: pop param 'elem'
+2121: pop param 'item'
+var enchantment_cfg := ReadConfigFile( ":loot:enchant_desc" );
+2122: decl local #2
+2123: ":loot:enchant_desc"
+2124: Func(5,0): ReadConfigFile
+2125: :=
+2126: #
+if( enchantment_cfg.errortext )
+2127: local #2
+2128: get member 'errortext'
+2129: if false goto 2142
+PrintTextAbove( item, "Error reading config <:loot:enchant_desc> -->"+enchantme
+2130: local #1
+2131: "Error reading config <:loot:enchant_desc> -->"
+2132: local #2
+2133: get member 'errortext'
+2134: +
+2135: 3L
+2136: 1000L
+2137: 0L
+2138: Func(2,5): PrintTextAbove
+2139: #
+return 0;
+2140: 0L
+2141: return
+var chant_elem := FindConfigElem( enchantment_cfg, elem );
+2142: decl local #3
+2143: local #2
+2144: local #0
+2145: Func(5,5): FindConfigElem
+2146: :=
+2147: #
+if( chant_elem.errortext )
+2148: local #3
+2149: get member 'errortext'
+2150: if false goto 2167
+PrintTextAbove( item, "Error reading chant_elem <"+elem+"> -->"+chant_elem.erro
+2151: local #1
+2152: "Error reading chant_elem <"
+2153: local #0
+2154: +
+2155: "> -->"
+2156: +
+2157: local #3
+2158: get member 'errortext'
+2159: +
+2160: 3L
+2161: 1000L
+2162: 0L
+2163: Func(2,5): PrintTextAbove
+2164: #
+return 0;
+2165: 0L
+2166: return
+return chant_elem;
+2167: local #3
+2168: return
+c:/ZH099/pkg/items/equipment/include/equipment.inc, Line 81
+function GetEquipmentModifiers( item, flags:=EQUIP_CSTM_OR_ITEMDESC )
+2169: pop param 'flags'
+2170: pop param 'item'
+var cstm_mods;
+2171: decl local #2
+2172: #
+if( flags & EQUIP_CUSTOM_MODS || flags & EQUIP_CSTM_OR_ITEMDESC )
+2173: local #0
+2174: 2L
+2175: &
+2176: local #0
+2177: 4L
+2178: &
+2179: ||
+2180: if false goto 2199
+cstm_mods := GetObjProperty( item, "AttribMods" );
+2181: local #1
+2182: "AttribMods"
+2183: Func(2,1): GetObjProperty
+2184: local2 := 
+if( Lower( TypeOf( cstm_mods )) != "dictionary" )
+2185: local #2
+2186: Func(0,6): TypeOf
+2187: Func(0,0): Lower
+2188: "dictionary"
+2189: <>
+2190: if false goto 2193
+cstm_mods := dictionary;
+2191: dictionary
+2192: local2 := 
+if( flags & EQUIP_CSTM_OR_ITEMDESC )
+2193: local #0
+2194: 4L
+2195: &
+2196: if false goto 2199
+return cstm_mods;
+2197: local #2
+2198: return
+var itemdesc_mods := dictionary;
+2199: decl local #3
+2200: dictionary
+2201: :=
+2202: #
+if( flags & EQUIP_ITEMDESC_MODS || flags & EQUIP_CSTM_OR_ITEMDESC )
+2203: local #0
+2204: 1L
+2205: &
+2206: local #0
+2207: 4L
+2208: &
+2209: ||
+2210: if false goto 2246
+var item_cfg := ReadConfigFile( ":*:itemdesc" );
+2211: decl local #0
+2212: ":*:itemdesc"
+2213: Func(5,0): ReadConfigFile
+2214: :=
+2215: #
+item_cfg := item_cfg[item.objtype];
+2216: local #4
+2217: local #1
+2218: get member id 'objtype' (4)
+2219: [] 1
+2220: local4 := 
+var modifier := Abs( item_cfg.DefaultDex ),
+2221: decl local #1
+2222: local #4
+2223: get member 'DefaultDex'
+2224: Func(9,0): Abs
+2225: :=
+2226: #
+2227: decl local #2
+2228: local #1
+2229: "DefaultDex"
+2230: Func(2,1): GetObjProperty
+2231: Func(0,1): CInt
+2232: :=
+2233: #
+if( cust_modifier )
+2234: local #6
+2235: if false goto 2240
+modifier := modifier - cust_modifier;
+2236: local #5
+2237: local #6
+2238: -
+2239: local5 := 
+itemdesc_mods["dexterity"] := -modifier;
+2240: local #3
+2241: "dexterity"
+2242: local #5
+2243: unary -
+2244: [] := (1) #
+2245: leave block(3)
+if( flags & EQUIP_BOTH_MODS )
+2246: local #0
+2247: 3L
+2248: &
+2249: if false goto 2262
+foreach modifier in ( cstm_mods )
+2250: local #2
+2251: initforeach @2260
+itemdesc_mods.Insert( _modifier_iter, modifier );
+2252: local #3
+2253: local #6
+2254: local #4
+2255: Call Method id insert (#50, 2 params)
+2256: #
+SleepMS(2);
+2257: 2L
+2258: Func(3,3): Sleepms
+2259: #
+2260: stepforeach @2252
+2261: leave block(3)
+if( itemdesc_mods.Size() > 0 )
+2262: local #3
+2263: Call Method id size (#48, 0 params)
+2264: 0L
+2265: >
+2266: if false goto 2270
+return itemdesc_mods;
+2267: local #3
+2268: return
+2269: goto2272
+return cstm_mods;
+2270: local #2
+2271: return
+2272: 0L
+2273: return
+c:/ZH099/pkg/items/mounts/include/mounts.inc, Line 224
+function MP_GetMount( mobile )
+2274: pop param 'mobile'
+var mount_piece := GetEquipmentByLayer( mobile, LAYER_MOUNT );
+2275: decl local #1
+2276: local #0
+2277: 25L
+2278: Func(2,12): GetEquipmentByLayer
+2279: :=
+2280: #
+if( mount_piece.errortext )
+2281: local #1
+2282: get member 'errortext'
+2283: if false goto 2289
+return error{"errortext":=mount_piece.errortext};
+2284: error
+2285: local #1
+2286: get member 'errortext'
+2287: addmember-assign(errortext)
+2288: return
+return 1;
+2289: 1L
+2290: return
+c:/ZH099/pkg/items/mounts/include/mounts.inc, Line 40
+function MP_GetMountGraphic( mobile )
+2291: pop param 'mobile'
+var mobile_graphic;
+2292: decl local #1
+2293: #
+if( mobile.IsA( POLCLASS_NPC ))
+2294: local #0
+2295: 4L
+2296: Call Method id isa (#0, 1 params)
+2297: if false goto 2303
+mobile_graphic := Hex( mobile.graphic );
+2298: local #0
+2299: get member id 'graphic' (5)
+2300: Func(0,5): Hex
+2301: local1 := 
+2302: goto2307
+mobile_graphic := Hex( CInt( mobile ));
+2303: local #0
+2304: Func(0,1): CInt
+2305: Func(0,5): Hex
+2306: local1 := 
+var elem := MP_GetMountsCfgElem( "MobileToMount" );
+2307: decl local #2
+2308: "MobileToMount"
+2309: 0L
+2310: makelocal
+2311: jmp userfunc @2335
+2312: :=
+2313: #
+var tile_graphic := GetConfigInt( elem, mobile_graphic );
+2314: decl local #3
+2315: local #2
+2316: local #1
+2317: Func(5,7): GetConfigInt
+2318: :=
+2319: #
+if( tile_graphic )
+2320: local #3
+2321: if false goto 2325
+return tile_graphic;
+2322: local #3
+2323: return
+2324: goto2333
+return error{"errortext":="Error::MP_GetMountGraphic() - No mount tile graphic 
+2325: error
+2326: "Error::MP_GetMountGraphic() - No mount tile graphic matches mobile graphic '"
+2327: local #1
+2328: +
+2329: "'"
+2330: +
+2331: addmember-assign(errortext)
+2332: return
+2333: 0L
+2334: return
+c:/ZH099/pkg/items/mounts/include/mounts.inc, Line 26
+function MP_GetMountsCfgElem( elem_name, byref cfg_file:=0 )
+2335: pop param byref 'cfg_file'
+2336: pop param 'elem_name'
+if( !cfg_file )
+2337: local #0
+2338: if true goto 2342
+cfg_file := MP_GetMountsCfgFile();
+2339: makelocal
+2340: jmp userfunc @2363
+2341: local0 := 
+var elem := cfg_file[elem_name];
+2342: decl local #2
+2343: local #0
+2344: local #1
+2345: [] 1
+2346: :=
+2347: #
+if( elem.errortext )
+2348: local #2
+2349: get member 'errortext'
+2350: if false goto 2361
+SysLog( "Error::MP_GetMountsCfgElem() - Unable to find elem ["+elem_name+"] ->"
+2351: "Error::MP_GetMountsCfgElem() - Unable to find elem ["
+2352: local #1
+2353: +
+2354: "] ->"
+2355: +
+2356: local #2
+2357: get member 'errortext'
+2358: +
+2359: Func(3,0): SysLog
+2360: #
+return elem;
+2361: local #2
+2362: return
+c:/ZH099/pkg/items/mounts/include/mounts.inc, Line 18
+function MP_GetMountsCfgFile()
+var cfg := ReadConfigFile( ":mounts:mounts" );
+2363: decl local #0
+2364: ":mounts:mounts"
+2365: Func(5,0): ReadConfigFile
+2366: :=
+2367: #
+if( cfg.errortext )
+2368: local #0
+2369: get member 'errortext'
+2370: if false goto 2377
+SysLog( "Error::MP_GetMountsCfgFile() - Unable to open [:mounts:mounts.cfg] ->"
+2371: "Error::MP_GetMountsCfgFile() - Unable to open [:mounts:mounts.cfg] ->"
+2372: local #0
+2373: get member 'errortext'
+2374: +
+2375: Func(3,0): SysLog
+2376: #
+return cfg;
+2377: local #0
+2378: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 57
+function AP_GetAttributeDataElem( elem_name )
+2379: pop param 'elem_name'
+var data_file := AP_GetAttributesDataFile();
+2380: decl local #1
+2381: makelocal
+2382: jmp userfunc @2408
+2383: :=
+2384: #
+var data_elem := DFFindElement( data_file, elem_name, DF_CREATE );
+2385: decl local #2
+2386: local #1
+2387: local #0
+2388: 1L
+2389: makelocal
+2390: jmp userfunc @2427
+2391: :=
+2392: #
+if( data_elem.errortext )
+2393: local #2
+2394: get member 'errortext'
+2395: if false goto 2406
+SysLog( "Error::AP_GetAttributeDataElem() - unable to find elem ["+elem_name+"]
+2396: "Error::AP_GetAttributeDataElem() - unable to find elem ["
+2397: local #0
+2398: +
+2399: "] ->"
+2400: +
+2401: local #2
+2402: get member 'errortext'
+2403: +
+2404: Func(3,0): SysLog
+2405: #
+return data_elem;
+2406: local #2
+2407: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 49
+function AP_GetAttributesDataFile()
+var data_file := DFOpenDataFile( ":attributes:attributes", DF_CREATE );
+2408: decl local #0
+2409: ":attributes:attributes"
+2410: 1L
+2411: 0L
+2412: makelocal
+2413: jmp userfunc @2489
+2414: :=
+2415: #
+if( data_file.errortext )
+2416: local #0
+2417: get member 'errortext'
+2418: if false goto 2425
+SysLog( "Error::AP_GetAttributesDataFile() - Unable to open attributes.txt ->"+
+2419: "Error::AP_GetAttributesDataFile() - Unable to open attributes.txt ->"
+2420: local #0
+2421: get member 'errortext'
+2422: +
+2423: Func(3,0): SysLog
+2424: #
+return data_file;
+2425: local #0
+2426: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+2427: pop param 'create'
+2428: pop param 'elem_name'
+2429: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+2430: decl local #3
+2431: local #2
+2432: local #1
+2433: Func(0,4): CStr
+2434: Call Method id findelement (#72, 1 params)
+2435: :=
+2436: #
+if ( !temp && create )
+2437: local #3
+2438: !
+2439: local #0
+2440: &&
+2441: if false goto 2459
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+2442: "Debug::DFFindElement() - Creating elem: "
+2443: local #1
+2444: Func(0,4): CStr
+2445: +
+2446: makelocal
+2447: jmp userfunc @2545
+2448: #
+file_ref.CreateElement(CStr(elem_name));
+2449: local #2
+2450: local #1
+2451: Func(0,4): CStr
+2452: Call Method id createelement (#71, 1 params)
+2453: #
+temp := file_ref.FindElement(CStr(elem_name));
+2454: local #2
+2455: local #1
+2456: Func(0,4): CStr
+2457: Call Method id findelement (#72, 1 params)
+2458: local3 := 
+if ( temp )
+2459: local #3
+2460: if false goto 2464
+return temp;
+2461: local #3
+2462: return
+2463: goto2487
+elseif (create)
+2464: local #0
+2465: if false goto 2487
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+2466: decl local #0
+2467: error
+2468: "Error::DFFindElement() - Could not open data elem ["
+2469: local #1
+2470: +
+2471: "] - "
+2472: +
+2473: local #3
+2474: get member 'errortext'
+2475: +
+2476: addmember-assign(errortext)
+2477: :=
+2478: #
+DF_OutPut(errmsg.errortext);
+2479: local #4
+2480: get member 'errortext'
+2481: makelocal
+2482: jmp userfunc @2545
+2483: #
+return errmsg;
+2484: local #4
+2485: return
+2486: leave block(1)
+2487: 0L
+2488: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+2489: pop param 'flags'
+2490: pop param 'create'
+2491: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+2492: decl local #3
+2493: local #2
+2494: Func(11,0): OpenDataFile
+2495: :=
+2496: #
+if ( (!data_file) && (create) )
+2497: local #3
+2498: !
+2499: local #1
+2500: &&
+2501: if false goto 2515
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+2502: "Debug::DFOpenDataFile() - Creating data file: "
+2503: local #2
+2504: +
+2505: makelocal
+2506: jmp userfunc @2545
+2507: #
+CreateDataFile(file_name, flags);
+2508: local #2
+2509: local #0
+2510: Func(11,1): CreateDataFile
+2511: #
+data_file := OpenDataFile(file_name);
+2512: local #2
+2513: Func(11,0): OpenDataFile
+2514: local3 := 
+if ( data_file )
+2515: local #3
+2516: if false goto 2520
+return data_file;
+2517: local #3
+2518: return
+2519: goto2543
+elseif ( create )
+2520: local #1
+2521: if false goto 2543
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+2522: decl local #0
+2523: error
+2524: "Error::DFOpenDataFile() - Could not open "
+2525: local #2
+2526: +
+2527: " : "
+2528: +
+2529: local #3
+2530: get member 'errortext'
+2531: +
+2532: addmember-assign(errortext)
+2533: :=
+2534: #
+DF_OutPut(errmsg.errortext);
+2535: local #4
+2536: get member 'errortext'
+2537: makelocal
+2538: jmp userfunc @2545
+2539: #
+return errmsg;
+2540: local #4
+2541: return
+2542: leave block(1)
+2543: 0L
+2544: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+2545: pop param 'text'
+if ( DF_DEBUG_MODE )
+2546: global #1
+2547: if false goto 2566
+var script_name := GetProcess(GetPid()).name;
+2548: decl local #0
+2549: Func(3,2): GetPid
+2550: Func(3,1): GetProcess
+2551: get member id 'name' (3)
+2552: :=
+2553: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+2554: "::log/dataFile.log"
+2555: "["
+2556: local #1
+2557: +
+2558: "]: "
+2559: +
+2560: local #0
+2561: +
+2562: 1L
+2563: Func(10,0): LogToFile
+2564: #
+2565: leave block(1)
+return 1;
+2566: 1L
+2567: return

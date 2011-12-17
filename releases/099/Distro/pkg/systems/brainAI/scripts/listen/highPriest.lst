@@ -1,0 +1,958 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @196
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\listen\highPriest.src, Line 19
+program BrainNerve( params )
+include ":datafile:datafile";
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+params := 0; // Not needed anymore.
+24: 0L
+25: local0 := 
+var text := Lower( event.text ),
+26: decl local #3
+27: local #2
+28: get member 'text'
+29: Func(0,0): Lower
+30: :=
+31: #
+32: decl local #4
+33: local #2
+34: get member 'source'
+35: :=
+36: #
+if( source.hidden )
+37: local #4
+38: get member id 'hidden' (32)
+39: if false goto 43
+return 0;
+40: 0L
+41: progend
+42: goto62
+elseif( source.dead )
+43: local #4
+44: get member id 'dead' (39)
+45: if false goto 49
+return 0;
+46: 0L
+47: progend
+48: goto62
+elseif( source.IsA( POLCLASS_NPC ))
+49: local #4
+50: 4L
+51: Call Method id isa (#0, 1 params)
+52: if false goto 56
+return 0;
+53: 0L
+54: progend
+55: goto62
+elseif( !CheckLineOfSight( npc, source ))
+56: local #1
+57: local #4
+58: Func(2,8): CheckLineOfSight
+59: if true goto 62
+return 0;
+60: 0L
+61: progend
+AI_Turn( npc, source, NETURN_TOWARD );
+62: local #1
+63: local #4
+64: 1L
+65: 0L
+66: makelocal
+67: jmp userfunc @158
+68: #
+if(( source.criminal || source.murderer || GetObjProperty( source, "PriestUpset
+69: local #4
+70: get member id 'criminal' (48)
+71: local #4
+72: get member id 'murderer' (57)
+73: ||
+74: local #4
+75: "PriestUpset"
+76: Func(2,2): GetObjProperty
+77: ||
+78: local #4
+79: get member id 'cmdlevel' (46)
+80: !
+81: &&
+82: if false goto 104
+AI_Speak( npc, "No, I won't listen to thy request." );
+83: local #1
+84: "No, I won't listen to thy request."
+85: "default"
+86: 0L
+87: 0L
+88: makelocal
+89: jmp userfunc @114
+90: #
+Sleep(3);
+91: 3L
+92: Func(3,6): Sleep
+93: #
+AI_Speak( npc, "Thine past behavior made thee unworthy in the eyes of the Virtu
+94: local #1
+95: "Thine past behavior made thee unworthy in the eyes of the Virtues"
+96: "default"
+97: 0L
+98: 0L
+99: makelocal
+100: jmp userfunc @114
+101: #
+return 0;
+102: 0L
+103: progend
+ProcessSpeech( npc, source, text );
+104: local #1
+105: local #4
+106: local #3
+107: makelocal
+108: jmp userfunc @240
+109: #
+return 1;
+110: 1L
+111: progend
+112: leave block(5)
+113: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+114: pop param 'no_wake'
+115: pop param 'do_event'
+116: pop param 'text_type'
+117: pop param 'text'
+118: pop param 'npc'
+var ev		:= struct;
+119: decl local #5
+120: struct
+121: :=
+122: #
+ev.+type	:= NPCEVENT_SPEAK;
+123: local #5
+124: "type"
+125: .+
+126: 10485765L
+127: := #
+ev.+text	:= text;
+128: local #5
+129: "text"
+130: .+
+131: local #3
+132: := #
+ev.+texttype	:= text_type;
+133: local #5
+134: "texttype"
+135: .+
+136: local #2
+137: := #
+ev.+doevent	:= do_event;
+138: local #5
+139: "doevent"
+140: .+
+141: local #1
+142: := #
+ev.+WakeUp	:= no_wake;
+143: local #5
+144: "WakeUp"
+145: .+
+146: local #0
+147: := #
+ev.+process	:= GetProcess( GetPid() );
+148: local #5
+149: "process"
+150: .+
+151: Func(3,4): GetPid
+152: Func(3,1): GetProcess
+153: := #
+return SendEvent( npc, ev );
+154: local #4
+155: local #5
+156: Func(2,3): SendEvent
+157: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+158: pop param 'no_wake'
+159: pop param 'direction'
+160: pop param 'object'
+161: pop param 'npc'
+var ev		:= struct;
+162: decl local #4
+163: struct
+164: :=
+165: #
+ev.+type	:= NPCEVENT_TURN;
+166: local #4
+167: "type"
+168: .+
+169: 10485766L
+170: := #
+ev.+source	:= object;
+171: local #4
+172: "source"
+173: .+
+174: local #2
+175: := #
+ev.+direction	:= direction;
+176: local #4
+177: "direction"
+178: .+
+179: local #1
+180: := #
+ev.+WakeUp	:= no_wake;
+181: local #4
+182: "WakeUp"
+183: .+
+184: local #0
+185: := #
+ev.+process	:= GetProcess( GetPid() );
+186: local #4
+187: "process"
+188: .+
+189: Func(3,4): GetPid
+190: Func(3,1): GetProcess
+191: := #
+return SendEvent( npc, ev );
+192: local #3
+193: local #4
+194: Func(2,3): SendEvent
+195: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+196: pop param byref 'cfg_file'
+197: pop param 'elem_name'
+if( !cfg_file )
+198: local #0
+199: if true goto 203
+cfg_file := Classes_GetSettingsCfgFile();
+200: makelocal
+201: jmp userfunc @224
+202: local0 := 
+var elem := cfg_file[elem_name];
+203: decl local #2
+204: local #0
+205: local #1
+206: [] 1
+207: :=
+208: #
+if( elem.errortext )
+209: local #2
+210: get member 'errortext'
+211: if false goto 222
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+212: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+213: local #1
+214: +
+215: "] ->"
+216: +
+217: local #2
+218: get member 'errortext'
+219: +
+220: Func(3,0): SysLog
+221: #
+return elem;
+222: local #2
+223: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+224: decl local #0
+225: ":classes:settings"
+226: Func(5,0): ReadConfigFile
+227: :=
+228: #
+if( cfg.errortext )
+229: local #0
+230: get member 'errortext'
+231: if false goto 238
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+232: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+233: local #0
+234: get member 'errortext'
+235: +
+236: Func(3,0): SysLog
+237: #
+return cfg;
+238: local #0
+239: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\highPriest.src, Line 56
+function ProcessSpeech( npc, source, text )
+240: pop param 'text'
+241: pop param 'source'
+242: pop param 'npc'
+if( text["help"] )
+243: local #0
+244: "help"
+245: [] 1
+246: if false goto 267
+AI_Speak( npc, "I will obey to the following orders:" );
+247: local #2
+248: "I will obey to the following orders:"
+249: "default"
+250: 0L
+251: 0L
+252: makelocal
+253: jmp userfunc @114
+254: #
+Sleep(3);
+255: 3L
+256: Func(3,6): Sleep
+257: #
+AI_Speak( npc, "remove curse - uncurse - detect curse - purify - bless - cure -
+258: local #2
+259: "remove curse - uncurse - detect curse - purify - bless - cure - heal - protection - dispel"
+260: "default"
+261: 0L
+262: 0L
+263: makelocal
+264: jmp userfunc @114
+265: #
+266: goto346
+elseif( text["remove curse"] || text["uncurse"] )
+267: local #0
+268: "remove curse"
+269: [] 1
+270: local #0
+271: "uncurse"
+272: [] 1
+273: ||
+274: if false goto 283
+Send_RemoveCurse( npc, source );
+275: local #2
+276: local #1
+277: makelocal
+278: jmp userfunc @663
+279: #
+return 1;
+280: 1L
+281: return
+282: goto346
+elseif( text["detect curse"] )
+283: local #0
+284: "detect curse"
+285: [] 1
+286: if false goto 295
+Send_DetectCurse( npc, source );
+287: local #2
+288: local #1
+289: makelocal
+290: jmp userfunc @471
+291: #
+return 1;
+292: 1L
+293: return
+294: goto346
+elseif( text["purify"] )
+295: local #0
+296: "purify"
+297: [] 1
+298: if false goto 307
+Send_Purify( npc, source );
+299: local #2
+300: local #1
+301: makelocal
+302: jmp userfunc @577
+303: #
+return 1;
+304: 1L
+305: return
+306: goto346
+elseif( text["bless"] || text["cure"] || text["heal"] || text["protection"] || 
+307: local #0
+308: "bless"
+309: [] 1
+310: local #0
+311: "cure"
+312: [] 1
+313: ||
+314: local #0
+315: "heal"
+316: [] 1
+317: ||
+318: local #0
+319: "protection"
+320: [] 1
+321: ||
+322: local #0
+323: "dispel"
+324: [] 1
+325: ||
+326: if false goto 336
+Send_Cast( npc, source, text );
+327: local #2
+328: local #1
+329: local #0
+330: makelocal
+331: jmp userfunc @348
+332: #
+return 1;
+333: 1L
+334: return
+335: goto346
+AI_Speak( npc, "*hummm?*" );
+336: local #2
+337: "*hummm?*"
+338: "default"
+339: 0L
+340: 0L
+341: makelocal
+342: jmp userfunc @114
+343: #
+return 1;
+344: 1L
+345: return
+return 1;
+346: 1L
+347: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\highPriest.src, Line 151
+function Send_Cast( npc, source, text )
+348: pop param 'text'
+349: pop param 'source'
+350: pop param 'npc'
+var price := 0;
+351: decl local #3
+352: 0L
+353: :=
+354: #
+case( text )
+355: local #0
+356: casejmp
+	"bless": @357
+	"cure": @378
+	"heal": @403
+	"protection": @428
+	"dispel": @449
+	default: @469
+price := 1500;
+357: 1500L
+358: local3 := 
+AI_Speak( npc, "For a small donation leaved to your discretion I can grant thee
+359: local #2
+360: "For a small donation leaved to your discretion I can grant thee a blessing from the Virtues."
+361: "default"
+362: 0L
+363: 0L
+364: makelocal
+365: jmp userfunc @114
+366: #
+SetObjProperty( source, "#PriestDemand", array{"bless", price} );
+367: local #1
+368: "#PriestDemand"
+369: array
+370: "bless"
+371: init{}
+372: local #3
+373: init{}
+374: Func(2,1): SetObjProperty
+375: #
+break;
+376: goto377
+377: goto469
+price := 1000;
+378: 1000L
+379: local3 := 
+AI_Speak( npc, "Freeing thou from all toxins cost "+price+" gold pieces." );
+380: local #2
+381: "Freeing thou from all toxins cost "
+382: local #3
+383: +
+384: " gold pieces."
+385: +
+386: "default"
+387: 0L
+388: 0L
+389: makelocal
+390: jmp userfunc @114
+391: #
+SetObjProperty( source, "#PriestDemand", array{"cure", price} );
+392: local #1
+393: "#PriestDemand"
+394: array
+395: "cure"
+396: init{}
+397: local #3
+398: init{}
+399: Func(2,1): SetObjProperty
+400: #
+break;
+401: goto402
+402: goto469
+price := 500;
+403: 500L
+404: local3 := 
+AI_Speak( npc, "I'll heal all of thine wounds for a "+price+" gold pieces donat
+405: local #2
+406: "I'll heal all of thine wounds for a "
+407: local #3
+408: +
+409: " gold pieces donation."
+410: +
+411: "default"
+412: 0L
+413: 0L
+414: makelocal
+415: jmp userfunc @114
+416: #
+SetObjProperty( source, "#PriestDemand", array{"heal", price} );
+417: local #1
+418: "#PriestDemand"
+419: array
+420: "heal"
+421: init{}
+422: local #3
+423: init{}
+424: Func(2,1): SetObjProperty
+425: #
+break;
+426: goto427
+427: goto469
+price := 1500;
+428: 1500L
+429: local3 := 
+AI_Speak( npc, "For a small donation leaved to your discretion I can grant thee
+430: local #2
+431: "For a small donation leaved to your discretion I can grant thee a protection from the Virtues."
+432: "default"
+433: 0L
+434: 0L
+435: makelocal
+436: jmp userfunc @114
+437: #
+SetObjProperty( source, "#PriestDemand", array{"protection", price} );
+438: local #1
+439: "#PriestDemand"
+440: array
+441: "protection"
+442: init{}
+443: local #3
+444: init{}
+445: Func(2,1): SetObjProperty
+446: #
+break;
+447: goto448
+448: goto469
+price := 2000;
+449: 2000L
+450: local3 := 
+AI_Speak( npc, "For a small donation leaved to your discretion I can grant thee
+451: local #2
+452: "For a small donation leaved to your discretion I can grant thee a dispel from the Virtues."
+453: "default"
+454: 0L
+455: 0L
+456: makelocal
+457: jmp userfunc @114
+458: #
+SetObjProperty( source, "#PriestDemand", array{"dispel", price} );
+459: local #1
+460: "#PriestDemand"
+461: array
+462: "dispel"
+463: init{}
+464: local #3
+465: init{}
+466: Func(2,1): SetObjProperty
+467: #
+break;
+468: goto469
+return 1;
+469: 1L
+470: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\highPriest.src, Line 108
+function Send_DetectCurse( npc, source )
+471: pop param 'source'
+472: pop param 'npc'
+AI_Speak( npc, "Show me the item." );
+473: local #1
+474: "Show me the item."
+475: "default"
+476: 0L
+477: 0L
+478: makelocal
+479: jmp userfunc @114
+480: #
+var item := Target( source );
+481: decl local #2
+482: local #0
+483: 1L
+484: Func(2,9): Target
+485: :=
+486: #
+if( !item )
+487: local #2
+488: if true goto 498
+AI_Speak( npc, "I cannot evaluate anything." );
+489: local #1
+490: "I cannot evaluate anything."
+491: "default"
+492: 0L
+493: 0L
+494: makelocal
+495: jmp userfunc @114
+496: #
+497: goto575
+elseif( item.IsA( POLCLASS_MOBILE ))
+498: local #2
+499: 3L
+500: Call Method id isa (#0, 1 params)
+501: if false goto 511
+AI_Speak( npc, "I really don't think it's cursed, nor that it will ever be." );
+502: local #1
+503: "I really don't think it's cursed, nor that it will ever be."
+504: "default"
+505: 0L
+506: 0L
+507: makelocal
+508: jmp userfunc @114
+509: #
+510: goto575
+var curse := GetObjProperty( item, "Cursed" );
+511: decl local #0
+512: local #2
+513: "Cursed"
+514: Func(2,2): GetObjProperty
+515: :=
+516: #
+if( curse == 2 || curse == 3 )
+517: local #3
+518: 2L
+519: ==
+520: local #3
+521: 3L
+522: ==
+523: ||
+524: if false goto 534
+AI_Speak( npc, "That item isn't only cursed, but the curse is also already reve
+525: local #1
+526: "That item isn't only cursed, but the curse is also already revealed."
+527: "default"
+528: 0L
+529: 0L
+530: makelocal
+531: jmp userfunc @114
+532: #
+533: goto574
+elseif( curse == 1 )
+534: local #3
+535: 1L
+536: ==
+537: if false goto 574
+var price := CInt( AP_GetTrueStat( source, STRENGTH ) * item.maxhp );
+538: decl local #0
+539: local #0
+540: "Strength"
+541: makelocal
+542: jmp userfunc @785
+543: local #2
+544: get member id 'maxhp' (90)
+545: *
+546: Func(0,2): CInt
+547: :=
+548: #
+SetObjProperty( source, "#PriestDemand", array{"DetectCurse", price, item.seria
+549: local #0
+550: "#PriestDemand"
+551: array
+552: "DetectCurse"
+553: init{}
+554: local #4
+555: init{}
+556: local #2
+557: get member id 'serial' (6)
+558: init{}
+559: Func(2,1): SetObjProperty
+560: #
+AI_Speak( npc, "I'll tell thee if that item is cursed is thee can spare at leas
+561: local #1
+562: "I'll tell thee if that item is cursed is thee can spare at least "
+563: local #4
+564: +
+565: " gold pieces."
+566: +
+567: "default"
+568: 0L
+569: 0L
+570: makelocal
+571: jmp userfunc @114
+572: #
+573: leave block(1)
+574: leave block(1)
+return 1;
+575: 1L
+576: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\highPriest.src, Line 130
+function Send_Purify( npc, source )
+577: pop param 'source'
+578: pop param 'npc'
+AI_Speak( npc, "What item dost thou want me to free from all malefic magical in
+579: local #1
+580: "What item dost thou want me to free from all malefic magical influences?"
+581: "default"
+582: 0L
+583: 0L
+584: makelocal
+585: jmp userfunc @114
+586: #
+var item := Target( source );
+587: decl local #2
+588: local #0
+589: 1L
+590: Func(2,9): Target
+591: :=
+592: #
+if( !item )
+593: local #2
+594: if true goto 604
+AI_Speak( npc, "I cannot evaluate anything." );
+595: local #1
+596: "I cannot evaluate anything."
+597: "default"
+598: 0L
+599: 0L
+600: makelocal
+601: jmp userfunc @114
+602: #
+603: goto661
+elseif( item.IsA( POLCLASS_MOBILE ))
+604: local #2
+605: 3L
+606: Call Method id isa (#0, 1 params)
+607: if false goto 617
+AI_Speak( npc, "I really don't think it's malefic, nor that it will ever be." )
+608: local #1
+609: "I really don't think it's malefic, nor that it will ever be."
+610: "default"
+611: 0L
+612: 0L
+613: makelocal
+614: jmp userfunc @114
+615: #
+616: goto661
+var price := CInt( AP_GetTrueStat( source, STRENGTH ) * item.maxhp * 10 );
+617: decl local #0
+618: local #0
+619: "Strength"
+620: makelocal
+621: jmp userfunc @785
+622: local #2
+623: get member id 'maxhp' (90)
+624: *
+625: 10L
+626: *
+627: Func(0,2): CInt
+628: :=
+629: #
+if( price > 55000 )
+630: local #3
+631: 55000L
+632: >
+633: if false goto 636
+price := 55000;
+634: 55000L
+635: local3 := 
+SetObjProperty( source, "#PriestDemand", array{"Purify", price, item.serial} );
+636: local #0
+637: "#PriestDemand"
+638: array
+639: "Purify"
+640: init{}
+641: local #3
+642: init{}
+643: local #2
+644: get member id 'serial' (6)
+645: init{}
+646: Func(2,1): SetObjProperty
+647: #
+AI_Speak( npc, "That's a hard feat and I'll only do it if thee agree to make a 
+648: local #1
+649: "That's a hard feat and I'll only do it if thee agree to make a donation of at least "
+650: local #3
+651: +
+652: " gold pieces."
+653: +
+654: "default"
+655: 0L
+656: 0L
+657: makelocal
+658: jmp userfunc @114
+659: #
+660: leave block(1)
+return 1;
+661: 1L
+662: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\highPriest.src, Line 82
+function Send_RemoveCurse( npc, source )
+663: pop param 'source'
+664: pop param 'npc'
+AI_Speak( npc, "Show me the cursed item." );
+665: local #1
+666: "Show me the cursed item."
+667: "default"
+668: 0L
+669: 0L
+670: makelocal
+671: jmp userfunc @114
+672: #
+var item := Target( source );
+673: decl local #2
+674: local #0
+675: 1L
+676: Func(2,9): Target
+677: :=
+678: #
+if( !item )
+679: local #2
+680: if true goto 690
+AI_Speak( npc, "I cannot evaluate anything." );
+681: local #1
+682: "I cannot evaluate anything."
+683: "default"
+684: 0L
+685: 0L
+686: makelocal
+687: jmp userfunc @114
+688: #
+689: goto783
+elseif( item.IsA( POLCLASS_MOBILE ))
+690: local #2
+691: 3L
+692: Call Method id isa (#0, 1 params)
+693: if false goto 714
+AI_Speak( npc, "The Virues of Compassion teach us to always respect the people 
+694: local #1
+695: "The Virues of Compassion teach us to always respect the people around us."
+696: "default"
+697: 0L
+698: 0L
+699: makelocal
+700: jmp userfunc @114
+701: #
+Sleep(5);
+702: 5L
+703: Func(3,6): Sleep
+704: #
+AI_Speak( npc, "That also mean to not insult them by telling them they are a cu
+705: local #1
+706: "That also mean to not insult them by telling them they are a curse."
+707: "default"
+708: 0L
+709: 0L
+710: makelocal
+711: jmp userfunc @114
+712: #
+713: goto783
+var curse := GetObjProperty( item, "Cursed" );
+714: decl local #0
+715: local #2
+716: "Cursed"
+717: Func(2,2): GetObjProperty
+718: :=
+719: #
+if( GetObjProperty( item, "CannotBeUncursed" ))
+720: local #2
+721: "CannotBeUncursed"
+722: Func(2,2): GetObjProperty
+723: if false goto 733
+AI_Speak( npc, "That curse is too strong, I never saw something like that befor
+724: local #1
+725: "That curse is too strong, I never saw something like that before!"
+726: "default"
+727: 0L
+728: 0L
+729: makelocal
+730: jmp userfunc @114
+731: #
+732: goto782
+elseif( curse == 2 )
+733: local #3
+734: 2L
+735: ==
+736: if false goto 774
+var price := CInt( AP_GetTrueStat( source, STRENGTH ) * item.maxhp );
+737: decl local #0
+738: local #0
+739: "Strength"
+740: makelocal
+741: jmp userfunc @785
+742: local #2
+743: get member id 'maxhp' (90)
+744: *
+745: Func(0,2): CInt
+746: :=
+747: #
+SetObjProperty( source, "#PriestDemand", array{"RemoveCurse", price, item.seria
+748: local #0
+749: "#PriestDemand"
+750: array
+751: "RemoveCurse"
+752: init{}
+753: local #4
+754: init{}
+755: local #2
+756: get member id 'serial' (6)
+757: init{}
+758: Func(2,1): SetObjProperty
+759: #
+AI_Speak( npc, "I will remove the curse from that item for at least "+price+" g
+760: local #1
+761: "I will remove the curse from that item for at least "
+762: local #4
+763: +
+764: " gold pieces."
+765: +
+766: "default"
+767: 0L
+768: 0L
+769: makelocal
+770: jmp userfunc @114
+771: #
+772: leave block(1)
+773: goto782
+AI_Speak( npc, "I can't remove a curse from an item that isn't cursed or don't 
+774: local #1
+775: "I can't remove a curse from an item that isn't cursed or don't seem to be."
+776: "default"
+777: 0L
+778: 0L
+779: makelocal
+780: jmp userfunc @114
+781: #
+782: leave block(1)
+return 1;
+783: 1L
+784: return
+c:/ZH099/pkg/systems/attributes/include/stats.inc, Line 13
+function AP_GetTrueStat( who, stat_name )
+785: pop param 'stat_name'
+786: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, stat_name )) / 10.0;
+787: local #1
+788: local #0
+789: Func(8,0): GetAttributeBaseValue
+790: Func(0,5): CDbl
+791: 10LF
+792: /
+793: return

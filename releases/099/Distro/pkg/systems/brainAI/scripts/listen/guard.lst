@@ -1,0 +1,269 @@
+C:\ZH099\pkg\systems\brainAI\scripts\listen\guard.src, Line 15
+program BrainNerve( params )
+include ":brainAI:eventid";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var event	:= params[3];
+7: decl local #2
+8: local #0
+9: 3L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore.
+13: 0L
+14: local0 := 
+var text := Lower( event.text ),
+15: decl local #3
+16: local #2
+17: get member 'text'
+18: Func(0,0): Lower
+19: :=
+20: #
+21: decl local #4
+22: local #2
+23: get member 'source'
+24: :=
+25: #
+if( source.hidden )
+26: local #4
+27: get member id 'hidden' (32)
+28: if false goto 32
+return 0;
+29: 0L
+30: progend
+31: goto51
+elseif( source.dead )
+32: local #4
+33: get member id 'dead' (39)
+34: if false goto 38
+return 0;
+35: 0L
+36: progend
+37: goto51
+elseif( source.IsA( POLCLASS_NPC ))
+38: local #4
+39: 4L
+40: Call Method id isa (#0, 1 params)
+41: if false goto 45
+return 0;
+42: 0L
+43: progend
+44: goto51
+elseif( !CheckLineOfSight( npc, source ))
+45: local #1
+46: local #4
+47: Func(2,5): CheckLineOfSight
+48: if true goto 51
+return 0;
+49: 0L
+50: progend
+AI_Turn( npc, source, NETURN_TOWARD );
+51: local #1
+52: local #4
+53: 1L
+54: 0L
+55: makelocal
+56: jmp userfunc @67
+57: #
+ProcessSpeech( npc, text );
+58: local #1
+59: local #3
+60: makelocal
+61: jmp userfunc @105
+62: #
+return 1;
+63: 1L
+64: progend
+65: leave block(5)
+66: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+67: pop param 'no_wake'
+68: pop param 'direction'
+69: pop param 'object'
+70: pop param 'npc'
+var ev		:= struct;
+71: decl local #4
+72: struct
+73: :=
+74: #
+ev.+type	:= NPCEVENT_TURN;
+75: local #4
+76: "type"
+77: .+
+78: 10485766L
+79: := #
+ev.+source	:= object;
+80: local #4
+81: "source"
+82: .+
+83: local #2
+84: := #
+ev.+direction	:= direction;
+85: local #4
+86: "direction"
+87: .+
+88: local #1
+89: := #
+ev.+WakeUp	:= no_wake;
+90: local #4
+91: "WakeUp"
+92: .+
+93: local #0
+94: := #
+ev.+process	:= GetProcess( GetPid() );
+95: local #4
+96: "process"
+97: .+
+98: Func(3,4): GetPid
+99: Func(3,1): GetProcess
+100: := #
+return SendEvent( npc, ev );
+101: local #3
+102: local #4
+103: Func(2,3): SendEvent
+104: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\guard.src, Line 45
+function ProcessSpeech( npc, text )
+105: pop param 'text'
+106: pop param 'npc'
+if( text["help"] )
+107: local #0
+108: "help"
+109: [] 1
+110: if false goto 133
+AI_Speak( npc, "I will obey the following orders:" );
+111: local #1
+112: "I will obey the following orders:"
+113: "default"
+114: 0L
+115: 0L
+116: makelocal
+117: jmp userfunc @145
+118: #
+Sleep(2);
+119: 2L
+120: Func(3,6): Sleep
+121: #
+AI_Speak( npc, "guard" );
+122: local #1
+123: "guard"
+124: "default"
+125: 0L
+126: 0L
+127: makelocal
+128: jmp userfunc @145
+129: #
+return 1;
+130: 1L
+131: return
+132: goto143
+elseif( text["guard"] )
+133: local #0
+134: "guard"
+135: [] 1
+136: if false goto 143
+AI_WakeUp( npc );
+137: local #1
+138: makelocal
+139: jmp userfunc @189
+140: #
+return 1;
+141: 1L
+142: return
+return 1;
+143: 1L
+144: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+145: pop param 'no_wake'
+146: pop param 'do_event'
+147: pop param 'text_type'
+148: pop param 'text'
+149: pop param 'npc'
+var ev		:= struct;
+150: decl local #5
+151: struct
+152: :=
+153: #
+ev.+type	:= NPCEVENT_SPEAK;
+154: local #5
+155: "type"
+156: .+
+157: 10485765L
+158: := #
+ev.+text	:= text;
+159: local #5
+160: "text"
+161: .+
+162: local #3
+163: := #
+ev.+texttype	:= text_type;
+164: local #5
+165: "texttype"
+166: .+
+167: local #2
+168: := #
+ev.+doevent	:= do_event;
+169: local #5
+170: "doevent"
+171: .+
+172: local #1
+173: := #
+ev.+WakeUp	:= no_wake;
+174: local #5
+175: "WakeUp"
+176: .+
+177: local #0
+178: := #
+ev.+process	:= GetProcess( GetPid() );
+179: local #5
+180: "process"
+181: .+
+182: Func(3,4): GetPid
+183: Func(3,1): GetProcess
+184: := #
+return SendEvent( npc, ev );
+185: local #4
+186: local #5
+187: Func(2,3): SendEvent
+188: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 190
+function AI_WakeUp( npc )
+189: pop param 'npc'
+var ev		:= struct;
+190: decl local #1
+191: struct
+192: :=
+193: #
+ev.+type	:= NPCEVENT_WAKEUP;
+194: local #1
+195: "type"
+196: .+
+197: 10485779L
+198: := #
+ev.+WakeUp	:= WAKEUP;
+199: local #1
+200: "WakeUp"
+201: .+
+202: 1L
+203: := #
+ev.+process	:= GetProcess( GetPid() );
+204: local #1
+205: "process"
+206: .+
+207: Func(3,4): GetPid
+208: Func(3,1): GetProcess
+209: := #
+return SendEvent( npc, ev );
+210: local #0
+211: local #1
+212: Func(2,3): SendEvent
+213: return

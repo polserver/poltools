@@ -1,0 +1,1776 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @117
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\listen\titleMaster.src, Line 24
+program BrainNerve( params )
+include ":attributes:attributes";
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+params := 0; // Not needed anymore.
+24: 0L
+25: local0 := 
+var text := Lower( event.text ),
+26: decl local #3
+27: local #2
+28: get member 'text'
+29: Func(0,0): Lower
+30: :=
+31: #
+32: decl local #4
+33: local #2
+34: get member 'source'
+35: :=
+36: #
+if( source.hidden )
+37: local #4
+38: get member id 'hidden' (32)
+39: if false goto 43
+return 0;
+40: 0L
+41: progend
+42: goto62
+elseif( source.dead )
+43: local #4
+44: get member id 'dead' (39)
+45: if false goto 49
+return 0;
+46: 0L
+47: progend
+48: goto62
+elseif( source.IsA( POLCLASS_NPC ))
+49: local #4
+50: 4L
+51: Call Method id isa (#0, 1 params)
+52: if false goto 56
+return 0;
+53: 0L
+54: progend
+55: goto62
+elseif( !CheckLineOfSight( npc, source ))
+56: local #1
+57: local #4
+58: Func(2,10): CheckLineOfSight
+59: if true goto 62
+return 0;
+60: 0L
+61: progend
+AI_Turn( npc, source, NETURN_TOWARD );
+62: local #1
+63: local #4
+64: 1L
+65: 0L
+66: makelocal
+67: jmp userfunc @79
+68: #
+ProcessSpeech( npc, source, text );
+69: local #1
+70: local #4
+71: local #3
+72: makelocal
+73: jmp userfunc @161
+74: #
+return 1;
+75: 1L
+76: progend
+77: leave block(5)
+78: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+79: pop param 'no_wake'
+80: pop param 'direction'
+81: pop param 'object'
+82: pop param 'npc'
+var ev		:= struct;
+83: decl local #4
+84: struct
+85: :=
+86: #
+ev.+type	:= NPCEVENT_TURN;
+87: local #4
+88: "type"
+89: .+
+90: 10485766L
+91: := #
+ev.+source	:= object;
+92: local #4
+93: "source"
+94: .+
+95: local #2
+96: := #
+ev.+direction	:= direction;
+97: local #4
+98: "direction"
+99: .+
+100: local #1
+101: := #
+ev.+WakeUp	:= no_wake;
+102: local #4
+103: "WakeUp"
+104: .+
+105: local #0
+106: := #
+ev.+process	:= GetProcess( GetPid() );
+107: local #4
+108: "process"
+109: .+
+110: Func(3,4): GetPid
+111: Func(3,1): GetProcess
+112: := #
+return SendEvent( npc, ev );
+113: local #3
+114: local #4
+115: Func(2,3): SendEvent
+116: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+117: pop param byref 'cfg_file'
+118: pop param 'elem_name'
+if( !cfg_file )
+119: local #0
+120: if true goto 124
+cfg_file := Classes_GetSettingsCfgFile();
+121: makelocal
+122: jmp userfunc @145
+123: local0 := 
+var elem := cfg_file[elem_name];
+124: decl local #2
+125: local #0
+126: local #1
+127: [] 1
+128: :=
+129: #
+if( elem.errortext )
+130: local #2
+131: get member 'errortext'
+132: if false goto 143
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+133: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+134: local #1
+135: +
+136: "] ->"
+137: +
+138: local #2
+139: get member 'errortext'
+140: +
+141: Func(3,0): SysLog
+142: #
+return elem;
+143: local #2
+144: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+145: decl local #0
+146: ":classes:settings"
+147: Func(5,0): ReadConfigFile
+148: :=
+149: #
+if( cfg.errortext )
+150: local #0
+151: get member 'errortext'
+152: if false goto 159
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+153: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+154: local #0
+155: get member 'errortext'
+156: +
+157: Func(3,0): SysLog
+158: #
+return cfg;
+159: local #0
+160: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\titleMaster.src, Line 54
+function ProcessSpeech( npc, source, text )
+161: pop param 'text'
+162: pop param 'source'
+163: pop param 'npc'
+if( text["help"] )
+164: local #0
+165: "help"
+166: [] 1
+167: if false goto 188
+AI_Speak( npc, "I will obey to the following orders:" );
+168: local #2
+169: "I will obey to the following orders:"
+170: "default"
+171: 0L
+172: 0L
+173: makelocal
+174: jmp userfunc @463
+175: #
+Sleep(3);
+176: 3L
+177: Func(3,6): Sleep
+178: #
+AI_Speak( npc, "title" );
+179: local #2
+180: "title"
+181: "default"
+182: 0L
+183: 0L
+184: makelocal
+185: jmp userfunc @463
+186: #
+187: goto199
+elseif( text["title"] )
+188: local #0
+189: "title"
+190: [] 1
+191: if false goto 199
+SendTitles( npc, source );
+192: local #2
+193: local #1
+194: makelocal
+195: jmp userfunc @201
+196: #
+return 1;
+197: 1L
+198: return
+return 1;
+199: 1L
+200: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\titleMaster.src, Line 68
+function SendTitles( npc, mobile )
+201: pop param 'mobile'
+202: pop param 'npc'
+var gump := GFCreateGump();
+203: decl local #2
+204: 0L
+205: 0L
+206: 0L
+207: 0L
+208: makelocal
+209: jmp userfunc @743
+210: :=
+211: #
+GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 300, 425 );
+212: local #2
+213: 0L
+214: 0L
+215: "Defaults"
+216: "BackGround"
+217: makelocal
+218: jmp userfunc @824
+219: 300L
+220: 425L
+221: makelocal
+222: jmp userfunc @903
+223: #
+GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 270, 25 )
+224: local #2
+225: 15L
+226: 15L
+227: "Defaults"
+228: "ForeGround"
+229: makelocal
+230: jmp userfunc @824
+231: 270L
+232: 25L
+233: makelocal
+234: jmp userfunc @903
+235: #
+GFTextMid( gump, 15, 17, 300, 1720, "Select your Title" );
+236: local #2
+237: 15L
+238: 17L
+239: 300L
+240: 1720L
+241: "Select your Title"
+242: makelocal
+243: jmp userfunc @1047
+244: #
+GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 270, 370 
+245: local #2
+246: 15L
+247: 45L
+248: "Defaults"
+249: "ForeGround"
+250: makelocal
+251: jmp userfunc @824
+252: 270L
+253: 370L
+254: makelocal
+255: jmp userfunc @903
+256: #
+GFTextMid( gump, 15, 60, 270, 1720, "Menu" );
+257: local #2
+258: 15L
+259: 60L
+260: 270L
+261: 1720L
+262: "Menu"
+263: makelocal
+264: jmp userfunc @1047
+265: #
+var skill_list := AP_ListAttributesByType( "skill" ),
+266: decl local #3
+267: "skill"
+268: makelocal
+269: jmp userfunc @636
+270: :=
+271: #
+272: decl local #4
+273: local #3
+274: Call Method id size (#48, 0 params)
+275: :=
+276: #
+var counter := 0,
+277: decl local #5
+278: 0L
+279: :=
+280: #
+281: decl local #6
+282: 100L
+283: :=
+284: #
+GFPage( gump, 1 );
+285: local #2
+286: 1L
+287: makelocal
+288: jmp userfunc @886
+289: #
+foreach skill in ( skill_list )
+290: local #3
+291: initforeach @394
+var title := AP_GetSkillTitle( skill ),
+292: decl local #0
+293: local #7
+294: makelocal
+295: jmp userfunc @602
+296: :=
+297: #
+298: decl local #1
+299: local #0
+300: local #7
+301: makelocal
+302: jmp userfunc @581
+303: Func(0,5): CDbl
+304: makelocal
+305: jmp userfunc @507
+306: :=
+307: #
+if( !level )
+308: local #11
+309: if true goto 312
+continue;
+310: leave block(2)
+311: goto394
+GFTextLine( gump, 50, y_pos, 2100, level+" "+title );
+312: local #2
+313: 50L
+314: local #6
+315: 2100L
+316: local #11
+317: " "
+318: +
+319: local #10
+320: +
+321: makelocal
+322: jmp userfunc @998
+323: #
+GFAddButton( gump, 30, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _skill_iter );
+324: local #2
+325: 30L
+326: local #6
+327: 3L
+328: +
+329: 2117L
+330: 2118L
+331: 1L
+332: local #9
+333: makelocal
+334: jmp userfunc @661
+335: #
+y_pos += 20;
+336: local #6
+337: 20L
+338: +=
+339: #
+counter += 1;
+340: local #5
+341: 1L
+342: +=
+343: #
+if( counter >= 13 && _skill_iter < num )
+344: local #5
+345: 13L
+346: >=
+347: local #9
+348: local #4
+349: <
+350: &&
+351: if false goto 390
+GFAddButton( gump, 30, 385, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1 );
+352: local #2
+353: 30L
+354: 385L
+355: 2706L
+356: 2707L
+357: 0L
+358: local #2
+359: get member 'cur_page'
+360: 1L
+361: +
+362: makelocal
+363: jmp userfunc @661
+364: #
+GFPage( gump, gump.cur_page+1 );
+365: local #2
+366: local #2
+367: get member 'cur_page'
+368: 1L
+369: +
+370: makelocal
+371: jmp userfunc @886
+372: #
+GFAddButton( gump, 30, 55, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1 );
+373: local #2
+374: 30L
+375: 55L
+376: 2704L
+377: 2705L
+378: 0L
+379: local #2
+380: get member 'cur_page'
+381: 1L
+382: -
+383: makelocal
+384: jmp userfunc @661
+385: #
+counter := 0;
+386: 0L
+387: local5 := 
+y_pos := 100;
+388: 100L
+389: local6 := 
+SleepMS(2);
+390: 2L
+391: Func(3,2): Sleepms
+392: #
+393: leave block(2)
+394: stepforeach @292
+395: leave block(3)
+var input := GFSendGump( mobile, gump );
+396: decl local #7
+397: local #0
+398: local #2
+399: makelocal
+400: jmp userfunc @960
+401: :=
+402: #
+if( !input )
+403: local #7
+404: if true goto 418
+AI_Speak( npc, "Your title has been removed." );
+405: local #1
+406: "Your title has been removed."
+407: "default"
+408: 0L
+409: 0L
+410: makelocal
+411: jmp userfunc @463
+412: #
+mobile.title_suffix := "";
+413: local #0
+414: ""
+415: set member id 'title_suffix' (52) #
+return 0;
+416: 0L
+417: return
+input := input[0];
+418: local #7
+419: 0L
+420: [] 1
+421: local7 := 
+var result := skill_list[input];
+422: decl local #8
+423: local #3
+424: local #7
+425: [] 1
+426: :=
+427: #
+var title := AP_GetSkillTitle( result ),
+428: decl local #9
+429: local #8
+430: makelocal
+431: jmp userfunc @602
+432: :=
+433: #
+434: decl local #10
+435: local #0
+436: local #8
+437: makelocal
+438: jmp userfunc @581
+439: Func(0,5): CDbl
+440: makelocal
+441: jmp userfunc @507
+442: :=
+443: #
+mobile.title_suffix := ", "+level+" "+title;
+444: local #0
+445: ", "
+446: local #10
+447: +
+448: " "
+449: +
+450: local #9
+451: +
+452: set member id 'title_suffix' (52) #
+AI_Speak( npc, "Your title has been updated." );
+453: local #1
+454: "Your title has been updated."
+455: "default"
+456: 0L
+457: 0L
+458: makelocal
+459: jmp userfunc @463
+460: #
+return 1;
+461: 1L
+462: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+463: pop param 'no_wake'
+464: pop param 'do_event'
+465: pop param 'text_type'
+466: pop param 'text'
+467: pop param 'npc'
+var ev		:= struct;
+468: decl local #5
+469: struct
+470: :=
+471: #
+ev.+type	:= NPCEVENT_SPEAK;
+472: local #5
+473: "type"
+474: .+
+475: 10485765L
+476: := #
+ev.+text	:= text;
+477: local #5
+478: "text"
+479: .+
+480: local #3
+481: := #
+ev.+texttype	:= text_type;
+482: local #5
+483: "texttype"
+484: .+
+485: local #2
+486: := #
+ev.+doevent	:= do_event;
+487: local #5
+488: "doevent"
+489: .+
+490: local #1
+491: := #
+ev.+WakeUp	:= no_wake;
+492: local #5
+493: "WakeUp"
+494: .+
+495: local #0
+496: := #
+ev.+process	:= GetProcess( GetPid() );
+497: local #5
+498: "process"
+499: .+
+500: Func(3,4): GetPid
+501: Func(3,1): GetProcess
+502: := #
+return SendEvent( npc, ev );
+503: local #4
+504: local #5
+505: Func(2,3): SendEvent
+506: return
+c:/ZH099/pkg/systems/attributes/include/titles.inc, Line 12
+function AP_GetLevelTitle( skill_level )
+507: pop param 'skill_level'
+skill_level := CDbl( skill_level );
+508: local #0
+509: Func(0,5): CDbl
+510: local0 := 
+if( skill_level < 0.0 )
+511: local #0
+512: 0LF
+513: <
+514: if false goto 517
+return 0;
+515: 0L
+516: return
+var title_cfg := ReadConfigFile( ":attributes:titles" );
+517: decl local #1
+518: ":attributes:titles"
+519: Func(5,0): ReadConfigFile
+520: :=
+521: #
+if( !title_cfg )
+522: local #1
+523: if true goto 526
+return title_cfg;
+524: local #1
+525: return
+var title_elem := title_cfg["LevelTitles"];
+526: decl local #2
+527: local #1
+528: "LevelTitles"
+529: [] 1
+530: :=
+531: #
+if( !title_elem )
+532: local #2
+533: if true goto 536
+return title_elem;
+534: local #2
+535: return
+var levels_list := GetConfigStringArray( title_elem, "Level" );
+536: decl local #3
+537: local #2
+538: "Level"
+539: Func(5,3): GetConfigStringArray
+540: :=
+541: #
+var cur_title;
+542: decl local #4
+543: #
+foreach level in ( levels_list )
+544: local #3
+545: initforeach @577
+level := SplitWords( level );
+546: local #5
+547: " "
+548: Func(0,8): SplitWords
+549: local5 := 
+var amt := CDbl( level[1] );
+550: decl local #0
+551: local #5
+552: 1L
+553: [] 1
+554: Func(0,5): CDbl
+555: :=
+556: #
+var title := CStr( level[2] );
+557: decl local #1
+558: local #5
+559: 2L
+560: [] 1
+561: Func(0,6): CStr
+562: :=
+563: #
+if( skill_level >= amt )
+564: local #0
+565: local #8
+566: >=
+567: if false goto 571
+cur_title := title;
+568: local #9
+569: local4 := 
+570: goto573
+break;
+571: leave block(2)
+572: goto578
+SleepMS(5);
+573: 5L
+574: Func(3,2): Sleepms
+575: #
+576: leave block(2)
+577: stepforeach @546
+578: leave block(3)
+return cur_title;
+579: local #4
+580: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+581: pop param 'skill_name'
+582: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+583: local #1
+584: local #0
+585: makelocal
+586: jmp userfunc @627
+587: local #1
+588: local #0
+589: makelocal
+590: jmp userfunc @593
+591: +
+592: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+593: pop param 'skill_name'
+594: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+595: local #1
+596: local #0
+597: Func(8,1): GetAttributeTemporaryMod
+598: Func(0,5): CDbl
+599: 10LF
+600: /
+601: return
+c:/ZH099/pkg/systems/attributes/include/titles.inc, Line 47
+function AP_GetSkillTitle( skill_name )
+602: pop param 'skill_name'
+var elem_info := AP_GetAttributeCfgElem( skill_name );
+603: decl local #1
+604: local #0
+605: 0L
+606: makelocal
+607: jmp userfunc @1085
+608: :=
+609: #
+if( !elem_info )
+610: local #1
+611: if true goto 614
+return elem_info;
+612: local #1
+613: return
+if( elem_info.Title )
+614: local #1
+615: get member 'Title'
+616: if false goto 621
+return elem_info.Title;
+617: local #1
+618: get member 'Title'
+619: return
+620: goto625
+return error{"errortext":="Attribute does not have a 'Title' entry."};
+621: error
+622: "Attribute does not have a 'Title' entry."
+623: addmember-assign(errortext)
+624: return
+625: 0L
+626: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+627: pop param 'skill_name'
+628: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+629: local #1
+630: local #0
+631: Func(8,0): GetAttributeBaseValue
+632: Func(0,5): CDbl
+633: 10LF
+634: /
+635: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 69
+function AP_ListAttributesByType( type:="" )
+636: pop param 'type'
+if( !type )
+637: local #0
+638: if true goto 648
+var cfg_file := ReadConfigFile( ":attributes:attributes" );
+639: decl local #0
+640: ":attributes:attributes"
+641: Func(5,0): ReadConfigFile
+642: :=
+643: #
+return GetConfigStringKeys( cfg_file );
+644: local #1
+645: Func(5,1): GetConfigStringKeys
+646: return
+647: leave block(1)
+type := Lower( type );
+648: local #0
+649: Func(0,0): Lower
+650: local0 := 
+var data_elem := AP_GetAttributeDataElem( "Categories" );
+651: decl local #1
+652: "Categories"
+653: makelocal
+654: jmp userfunc @1113
+655: :=
+656: #
+return data_elem.GetProp( type );
+657: local #1
+658: local #0
+659: Call Method id getprop (#35, 1 params)
+660: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 172
+function GFAddButton(byref gump, x, y, off_id, on_id, btn_type:=GF_PAGE_BTN, bt
+661: pop param 'btn_value'
+662: pop param 'btn_type'
+663: pop param 'on_id'
+664: pop param 'off_id'
+665: pop param 'y'
+666: pop param 'x'
+667: pop param byref 'gump'
+var line := "Button "+CStr(x)+" "+CStr(y)+" "+CStr(off_id)+" "+CStr(on_id);
+668: decl local #7
+669: "Button "
+670: local #5
+671: Func(0,6): CStr
+672: +
+673: " "
+674: +
+675: local #4
+676: Func(0,6): CStr
+677: +
+678: " "
+679: +
+680: local #3
+681: Func(0,6): CStr
+682: +
+683: " "
+684: +
+685: local #2
+686: Func(0,6): CStr
+687: +
+688: :=
+689: #
+btn_value := CInt(btn_value);
+690: local #0
+691: Func(0,2): CInt
+692: local0 := 
+if ( btn_value < 1 ) // Catch errors (0) and invalid (negative) values
+693: local #0
+694: 1L
+695: <
+696: if false goto 705
+gump.data_id += 1;
+697: local #6
+698: get member 'data_id'
+699: 1L
+700: +=
+701: #
+btn_value := gump.data_id;
+702: local #6
+703: get member 'data_id'
+704: local0 := 
+if ( btn_type == GF_CLOSE_BTN )
+705: local #1
+706: 1L
+707: ==
+708: if false goto 717
+line += " 1 0 "+CStr(btn_value);
+709: local #7
+710: " 1 0 "
+711: local #0
+712: Func(0,6): CStr
+713: +
+714: +=
+715: #
+716: goto736
+elseif ( btn_type == GF_DUMMY_BTN )
+717: local #1
+718: 2L
+719: ==
+720: if false goto 729
+line += " 0 0 "+CStr(btn_value);
+721: local #7
+722: " 0 0 "
+723: local #0
+724: Func(0,6): CStr
+725: +
+726: +=
+727: #
+728: goto736
+line += " 0 "+CStr(btn_value);
+729: local #7
+730: " 0 "
+731: local #0
+732: Func(0,6): CStr
+733: +
+734: +=
+735: #
+(gump.layout).Append(line);
+736: local #6
+737: get member 'layout'
+738: local #7
+739: Call Method id append (#52, 1 params)
+740: #
+return (btn_value);
+741: local #0
+742: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 40
+function GFCreateGump(x:=0, y:=0, width:=0, height:=0)
+743: pop param 'height'
+744: pop param 'width'
+745: pop param 'y'
+746: pop param 'x'
+var gump := struct;
+747: decl local #4
+748: struct
+749: :=
+750: #
+gump.+base := struct;
+751: local #4
+752: "base"
+753: .+
+754: struct
+755: := #
+gump.base.+x := CInt(x);
+756: local #4
+757: get member 'base'
+758: "x"
+759: .+
+760: local #3
+761: Func(0,2): CInt
+762: := #
+gump.base.+y := CInt(y);
+763: local #4
+764: get member 'base'
+765: "y"
+766: .+
+767: local #2
+768: Func(0,2): CInt
+769: := #
+gump.base.+width := CInt(width);
+770: local #4
+771: get member 'base'
+772: "width"
+773: .+
+774: local #1
+775: Func(0,2): CInt
+776: := #
+gump.base.+height := CInt(height);
+777: local #4
+778: get member 'base'
+779: "height"
+780: .+
+781: local #0
+782: Func(0,2): CInt
+783: := #
+gump.base.+MoveLoc := 0;	// Movable flag location
+784: local #4
+785: get member 'base'
+786: "MoveLoc"
+787: .+
+788: 0L
+789: := #
+gump.base.+CloseLoc := 0;	// NoClose flag location
+790: local #4
+791: get member 'base'
+792: "CloseLoc"
+793: .+
+794: 0L
+795: := #
+gump.base.+DisposeLoc := 0;	// NoDispose flag location
+796: local #4
+797: get member 'base'
+798: "DisposeLoc"
+799: .+
+800: 0L
+801: := #
+gump.+layout	:= array;	// Main layout array for entire gump
+802: local #4
+803: "layout"
+804: .+
+805: array
+806: := #
+gump.+data	:= array;	// Storage array for static-text and
+807: local #4
+808: "data"
+809: .+
+810: array
+811: := #
+gump.+data_id	:= 1;
+812: local #4
+813: "data_id"
+814: .+
+815: 1L
+816: := #
+gump.+cur_page := 0;
+817: local #4
+818: "cur_page"
+819: .+
+820: 0L
+821: := #
+return(gump);
+822: local #4
+823: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 37
+function GFGetCfgConst(elem_name, prop_name)
+824: pop param 'prop_name'
+825: pop param 'elem_name'
+var cfg := ReadConfigFile(":gumps:GumpInfo");
+826: decl local #2
+827: ":gumps:GumpInfo"
+828: Func(5,0): ReadConfigFile
+829: :=
+830: #
+if ( cfg.errortext )
+831: local #2
+832: get member 'errortext'
+833: if false goto 842
+return XGFError("GFGetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errorte
+834: "GFGetCfgConst():: Unable to open GumpInfo.cfg -> "
+835: local #2
+836: get member 'errortext'
+837: +
+838: 0L
+839: makelocal
+840: jmp userfunc @1072
+841: return
+var elem := cfg[elem_name];
+842: decl local #3
+843: local #2
+844: local #1
+845: [] 1
+846: :=
+847: #
+if ( elem.errortext )
+848: local #3
+849: get member 'errortext'
+850: if false goto 863
+return XGFError("GFGetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] -
+851: "GFGetCfgConst():: Unable to find GumpInfo.cfg["
+852: local #1
+853: +
+854: "] ->"
+855: +
+856: local #3
+857: get member 'errortext'
+858: +
+859: 0L
+860: makelocal
+861: jmp userfunc @1072
+862: return
+var value := GetConfigInt(elem, prop_name);
+863: decl local #4
+864: local #3
+865: local #0
+866: Func(5,5): GetConfigInt
+867: :=
+868: #
+if ( !value )
+869: local #4
+870: if true goto 884
+return XGFError("GFGetCfgConst():: Unable to find property ["+prop_name+"] in e
+871: "GFGetCfgConst():: Unable to find property ["
+872: local #0
+873: +
+874: "] in elem ["
+875: +
+876: local #1
+877: +
+878: "]"
+879: +
+880: 0L
+881: makelocal
+882: jmp userfunc @1072
+883: return
+return value;
+884: local #4
+885: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 143
+function GFPage(byref gump, page_num)
+886: pop param 'page_num'
+887: pop param byref 'gump'
+gump.cur_page := CInt(page_num);
+888: local #1
+889: local #0
+890: Func(0,2): CInt
+891: set member 'cur_page' #
+(gump.layout).Append("Page "+CStr(gump.cur_page));
+892: local #1
+893: get member 'layout'
+894: "Page "
+895: local #1
+896: get member 'cur_page'
+897: Func(0,6): CStr
+898: +
+899: Call Method id append (#52, 1 params)
+900: #
+return 1;
+901: 1L
+902: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 151
+function GFResizePic(byref gump, x, y, gump_id, width, height)
+903: pop param 'height'
+904: pop param 'width'
+905: pop param 'gump_id'
+906: pop param 'y'
+907: pop param 'x'
+908: pop param byref 'gump'
+width := CInt(width);
+909: local #1
+910: Func(0,2): CInt
+911: local1 := 
+height := CInt(height);
+912: local #0
+913: Func(0,2): CInt
+914: local0 := 
+if ( !width )
+915: local #1
+916: if true goto 921
+width := gump.base.width;
+917: local #5
+918: get member 'base'
+919: get member 'width'
+920: local1 := 
+if ( !height )
+921: local #0
+922: if true goto 927
+height := gump.base.width;
+923: local #5
+924: get member 'base'
+925: get member 'width'
+926: local0 := 
+(gump.layout).Append("ResizePic "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+927: local #5
+928: get member 'layout'
+929: "ResizePic "
+930: local #4
+931: Func(0,2): CInt
+932: Func(0,6): CStr
+933: +
+934: " "
+935: +
+936: local #3
+937: Func(0,2): CInt
+938: Func(0,6): CStr
+939: +
+940: " "
+941: +
+942: local #2
+943: Func(0,2): CInt
+944: Func(0,6): CStr
+945: +
+946: " "
+947: +
+948: local #1
+949: Func(0,6): CStr
+950: +
+951: " "
+952: +
+953: local #0
+954: Func(0,6): CStr
+955: +
+956: Call Method id append (#52, 1 params)
+957: #
+return 1;
+958: 1L
+959: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 314
+function GFSendGump(mobile, byref gump)
+960: pop param byref 'gump'
+961: pop param 'mobile'
+var ret_val := SendDialogGump(mobile, gump.layout, gump.data, gump.base.x, gump
+962: decl local #2
+963: local #1
+964: local #0
+965: get member 'layout'
+966: local #0
+967: get member 'data'
+968: local #0
+969: get member 'base'
+970: get member id 'x' (0)
+971: local #0
+972: get member 'base'
+973: get member id 'y' (1)
+974: 0L
+975: Func(2,8): SendDialogGump
+976: :=
+977: #
+if ( ret_val.errortext )
+978: local #2
+979: get member 'errortext'
+980: if false goto 996
+SendSysMessage(mobile, "Error - Unable to display gump.");
+981: local #1
+982: "Error - Unable to display gump."
+983: 3L
+984: 1000L
+985: Func(2,7): SendSysMessage
+986: #
+SendSysMessage(mobile, "Error text is ->"+ret_val.errortext);
+987: local #1
+988: "Error text is ->"
+989: local #2
+990: get member 'errortext'
+991: +
+992: 3L
+993: 1000L
+994: Func(2,7): SendSysMessage
+995: #
+return ret_val;
+996: local #2
+997: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 263
+function GFTextLine(byref gump, x, y, hue:=0, text:="")
+998: pop param 'text'
+999: pop param 'hue'
+1000: pop param 'y'
+1001: pop param 'x'
+1002: pop param byref 'gump'
+gump.data.Append(""+CStr(text));
+1003: local #4
+1004: get member 'data'
+1005: ""
+1006: local #0
+1007: Func(0,6): CStr
+1008: +
+1009: Call Method id append (#52, 1 params)
+1010: #
+var index := gump.data.Size()-1;
+1011: decl local #5
+1012: local #4
+1013: get member 'data'
+1014: Call Method id size (#48, 0 params)
+1015: 1L
+1016: -
+1017: :=
+1018: #
+(gump.layout).Append("Text "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+1019: local #4
+1020: get member 'layout'
+1021: "Text "
+1022: local #3
+1023: Func(0,2): CInt
+1024: Func(0,6): CStr
+1025: +
+1026: " "
+1027: +
+1028: local #2
+1029: Func(0,2): CInt
+1030: Func(0,6): CStr
+1031: +
+1032: " "
+1033: +
+1034: local #1
+1035: Func(0,2): CInt
+1036: Func(0,6): CStr
+1037: +
+1038: " "
+1039: +
+1040: local #5
+1041: Func(0,6): CStr
+1042: +
+1043: Call Method id append (#52, 1 params)
+1044: #
+return (index);
+1045: local #5
+1046: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 114
+function GFTextMid(byref gump, x, y, width, color, text)
+1047: pop param 'text'
+1048: pop param 'color'
+1049: pop param 'width'
+1050: pop param 'y'
+1051: pop param 'x'
+1052: pop param byref 'gump'
+var x_pos := GFTextCoords(ALIGN_CENTER, text, x, CStr(width));
+1053: decl local #6
+1054: 1L
+1055: local #0
+1056: local #4
+1057: local #2
+1058: Func(0,6): CStr
+1059: makelocal
+1060: jmp userfunc @1295
+1061: :=
+1062: #
+return GFTextLine(gump, x_pos, y, color, CStr(text));
+1063: local #5
+1064: local #6
+1065: local #3
+1066: local #1
+1067: local #0
+1068: Func(0,6): CStr
+1069: makelocal
+1070: jmp userfunc @998
+1071: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 335
+function XGFError(text, log:=0)
+1072: pop param 'log'
+1073: pop param 'text'
+if ( log )
+1074: local #0
+1075: if false goto 1081
+SysLog("Gump Error:: "+text);
+1076: "Gump Error:: "
+1077: local #1
+1078: +
+1079: Func(3,0): SysLog
+1080: #
+return error{"errortext":=text};
+1081: error
+1082: local #1
+1083: addmember-assign(errortext)
+1084: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 33
+function AP_GetAttributeCfgElem( attribute_name, byref cfg_file:=0 )
+1085: pop param byref 'cfg_file'
+1086: pop param 'attribute_name'
+if( !cfg_file )
+1087: local #0
+1088: if true goto 1092
+cfg_file := AP_GetAttributesCfgFile();
+1089: makelocal
+1090: jmp userfunc @1142
+1091: local0 := 
+var cfg_elem := cfg_file[attribute_name];
+1092: decl local #2
+1093: local #0
+1094: local #1
+1095: [] 1
+1096: :=
+1097: #
+if( cfg_elem.errortext )
+1098: local #2
+1099: get member 'errortext'
+1100: if false goto 1111
+SysLog( "Error::AP_GetAttributeCfgElem() - unable to find cfg elem ["+attribute
+1101: "Error::AP_GetAttributeCfgElem() - unable to find cfg elem ["
+1102: local #1
+1103: +
+1104: "] ->"
+1105: +
+1106: local #2
+1107: get member 'errortext'
+1108: +
+1109: Func(3,0): SysLog
+1110: #
+return cfg_elem;
+1111: local #2
+1112: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 57
+function AP_GetAttributeDataElem( elem_name )
+1113: pop param 'elem_name'
+var data_file := AP_GetAttributesDataFile();
+1114: decl local #1
+1115: makelocal
+1116: jmp userfunc @1158
+1117: :=
+1118: #
+var data_elem := DFFindElement( data_file, elem_name, DF_CREATE );
+1119: decl local #2
+1120: local #1
+1121: local #0
+1122: 1L
+1123: makelocal
+1124: jmp userfunc @1177
+1125: :=
+1126: #
+if( data_elem.errortext )
+1127: local #2
+1128: get member 'errortext'
+1129: if false goto 1140
+SysLog( "Error::AP_GetAttributeDataElem() - unable to find elem ["+elem_name+"]
+1130: "Error::AP_GetAttributeDataElem() - unable to find elem ["
+1131: local #0
+1132: +
+1133: "] ->"
+1134: +
+1135: local #2
+1136: get member 'errortext'
+1137: +
+1138: Func(3,0): SysLog
+1139: #
+return data_elem;
+1140: local #2
+1141: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 25
+function AP_GetAttributesCfgFile()
+var cfg_file := ReadConfigFile( ":attributes:attributes" );
+1142: decl local #0
+1143: ":attributes:attributes"
+1144: Func(5,0): ReadConfigFile
+1145: :=
+1146: #
+if( cfg_file.errortext )
+1147: local #0
+1148: get member 'errortext'
+1149: if false goto 1156
+SysLog( "Error::AP_GetAttributesCfgFile() - Unable to open attributes.cfg ->"+c
+1150: "Error::AP_GetAttributesCfgFile() - Unable to open attributes.cfg ->"
+1151: local #0
+1152: get member 'errortext'
+1153: +
+1154: Func(3,0): SysLog
+1155: #
+return cfg_file;
+1156: local #0
+1157: return
+c:/ZH099/pkg/systems/attributes/include/attributes.inc, Line 49
+function AP_GetAttributesDataFile()
+var data_file := DFOpenDataFile( ":attributes:attributes", DF_CREATE );
+1158: decl local #0
+1159: ":attributes:attributes"
+1160: 1L
+1161: 0L
+1162: makelocal
+1163: jmp userfunc @1239
+1164: :=
+1165: #
+if( data_file.errortext )
+1166: local #0
+1167: get member 'errortext'
+1168: if false goto 1175
+SysLog( "Error::AP_GetAttributesDataFile() - Unable to open attributes.txt ->"+
+1169: "Error::AP_GetAttributesDataFile() - Unable to open attributes.txt ->"
+1170: local #0
+1171: get member 'errortext'
+1172: +
+1173: Func(3,0): SysLog
+1174: #
+return data_file;
+1175: local #0
+1176: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+1177: pop param 'create'
+1178: pop param 'elem_name'
+1179: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+1180: decl local #3
+1181: local #2
+1182: local #1
+1183: Func(0,6): CStr
+1184: Call Method id findelement (#72, 1 params)
+1185: :=
+1186: #
+if ( !temp && create )
+1187: local #3
+1188: !
+1189: local #0
+1190: &&
+1191: if false goto 1209
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+1192: "Debug::DFFindElement() - Creating elem: "
+1193: local #1
+1194: Func(0,6): CStr
+1195: +
+1196: makelocal
+1197: jmp userfunc @1445
+1198: #
+file_ref.CreateElement(CStr(elem_name));
+1199: local #2
+1200: local #1
+1201: Func(0,6): CStr
+1202: Call Method id createelement (#71, 1 params)
+1203: #
+temp := file_ref.FindElement(CStr(elem_name));
+1204: local #2
+1205: local #1
+1206: Func(0,6): CStr
+1207: Call Method id findelement (#72, 1 params)
+1208: local3 := 
+if ( temp )
+1209: local #3
+1210: if false goto 1214
+return temp;
+1211: local #3
+1212: return
+1213: goto1237
+elseif (create)
+1214: local #0
+1215: if false goto 1237
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+1216: decl local #0
+1217: error
+1218: "Error::DFFindElement() - Could not open data elem ["
+1219: local #1
+1220: +
+1221: "] - "
+1222: +
+1223: local #3
+1224: get member 'errortext'
+1225: +
+1226: addmember-assign(errortext)
+1227: :=
+1228: #
+DF_OutPut(errmsg.errortext);
+1229: local #4
+1230: get member 'errortext'
+1231: makelocal
+1232: jmp userfunc @1445
+1233: #
+return errmsg;
+1234: local #4
+1235: return
+1236: leave block(1)
+1237: 0L
+1238: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+1239: pop param 'flags'
+1240: pop param 'create'
+1241: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+1242: decl local #3
+1243: local #2
+1244: Func(11,0): OpenDataFile
+1245: :=
+1246: #
+if ( (!data_file) && (create) )
+1247: local #3
+1248: !
+1249: local #1
+1250: &&
+1251: if false goto 1265
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+1252: "Debug::DFOpenDataFile() - Creating data file: "
+1253: local #2
+1254: +
+1255: makelocal
+1256: jmp userfunc @1445
+1257: #
+CreateDataFile(file_name, flags);
+1258: local #2
+1259: local #0
+1260: Func(11,1): CreateDataFile
+1261: #
+data_file := OpenDataFile(file_name);
+1262: local #2
+1263: Func(11,0): OpenDataFile
+1264: local3 := 
+if ( data_file )
+1265: local #3
+1266: if false goto 1270
+return data_file;
+1267: local #3
+1268: return
+1269: goto1293
+elseif ( create )
+1270: local #1
+1271: if false goto 1293
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+1272: decl local #0
+1273: error
+1274: "Error::DFOpenDataFile() - Could not open "
+1275: local #2
+1276: +
+1277: " : "
+1278: +
+1279: local #3
+1280: get member 'errortext'
+1281: +
+1282: addmember-assign(errortext)
+1283: :=
+1284: #
+DF_OutPut(errmsg.errortext);
+1285: local #4
+1286: get member 'errortext'
+1287: makelocal
+1288: jmp userfunc @1445
+1289: #
+return errmsg;
+1290: local #4
+1291: return
+1292: leave block(1)
+1293: 0L
+1294: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 104
+function GFTextCoords(type:=ALIGN_CENTER, gump_text, x_pos, width:=0)
+1295: pop param 'width'
+1296: pop param 'x_pos'
+1297: pop param 'gump_text'
+1298: pop param 'type'
+x_pos := CInt(x_pos);
+1299: local #1
+1300: Func(0,2): CInt
+1301: local1 := 
+width := CInt(width);
+1302: local #0
+1303: Func(0,2): CInt
+1304: local0 := 
+if ( type == ALIGN_CENTER )
+1305: local #3
+1306: 1L
+1307: ==
+1308: if false goto 1322
+return CInt(x_pos+CInt((width-GFTextWidth(gump_text))/2));
+1309: local #1
+1310: local #0
+1311: local #2
+1312: makelocal
+1313: jmp userfunc @1335
+1314: -
+1315: 2L
+1316: /
+1317: Func(0,2): CInt
+1318: +
+1319: Func(0,2): CInt
+1320: return
+1321: goto1333
+elseif ( type == ALIGN_RIGHT )
+1322: local #3
+1323: 2L
+1324: ==
+1325: if false goto 1333
+return CInt(x_pos-GFTextWidth(gump_text));
+1326: local #1
+1327: local #2
+1328: makelocal
+1329: jmp userfunc @1335
+1330: -
+1331: Func(0,2): CInt
+1332: return
+1333: 0L
+1334: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 124
+function GFTextWidth(gump_text)
+1335: pop param 'gump_text'
+var gft_length := struct;
+1336: decl local #1
+1337: struct
+1338: :=
+1339: #
+gft_length.+charsf :=
+1340: local #1
+1341: "charsf"
+1342: .+
+1343: "||||||||||||||`',.;:::::::::!!!!!!!!!!!!!!il1[]]]]]]]]]"bcejotî(){}===adfpqrszIÑ~~~~ghnuvyÅ<>-----xJ578$?++++++ kCE2369^/*****mwABDFOPéô40%%GLNQSZ@#######HRT&__________KöUYYYYYYYYYYYXXXXXXXXXXXXXXVVVVVVVVVVVVVVMMMMMMMMMMMMMMWWWWWWWWWWWWWW"
+1344: := #
+gft_length.+width := array
+1345: local #1
+1346: "width"
+1347: .+
+1348: array
+1349: 2L
+1350: init{}
+1351: 3L
+1352: init{}
+1353: 4L
+1354: init{}
+1355: 5L
+1356: init{}
+1357: 6L
+1358: init{}
+1359: 7L
+1360: init{}
+1361: 8L
+1362: init{}
+1363: 9L
+1364: init{}
+1365: 10L
+1366: init{}
+1367: 11L
+1368: init{}
+1369: 12L
+1370: init{}
+1371: 13L
+1372: init{}
+1373: 14L
+1374: init{}
+1375: 15L
+1376: init{}
+1377: 16L
+1378: init{}
+1379: 18L
+1380: init{}
+1381: 21L
+1382: init{}
+1383: := #
+var points:=0;
+1384: decl local #2
+1385: 0L
+1386: :=
+1387: #
+var j := Len(gump_text);
+1388: decl local #3
+1389: local #0
+1390: Func(0,4): Len
+1391: :=
+1392: #
+for ( j; j>0; j-=1 )
+1393: local #3
+1394: #
+1395: local #3
+1396: 0L
+1397: >
+1398: if false goto 1443
+var i := Find(gft_length.charsf, gump_text[j], 1) - 1;
+1399: decl local #0
+1400: local #1
+1401: get member 'charsf'
+1402: local #0
+1403: local #3
+1404: [] 1
+1405: 1L
+1406: Func(0,3): Find
+1407: 1L
+1408: -
+1409: :=
+1410: #
+if ( i>=0 )
+1411: local #4
+1412: 0L
+1413: >=
+1414: if false goto 1428
+points += gft_length.width[CInt(i/14)+1];
+1415: local #2
+1416: local #1
+1417: get member 'width'
+1418: local #4
+1419: 14L
+1420: /
+1421: Func(0,2): CInt
+1422: 1L
+1423: +
+1424: [] 1
+1425: +=
+1426: #
+1427: goto1437
+print("XGFTextWidth: Unknown Character = '"+gump_text[j]+"'");
+1428: "XGFTextWidth: Unknown Character = '"
+1429: local #0
+1430: local #3
+1431: [] 1
+1432: +
+1433: "'"
+1434: +
+1435: Func(1,0): Print
+1436: #
+1437: leave block(1)
+1438: local #3
+1439: 1L
+1440: -=
+1441: #
+1442: goto1395
+return (points);
+1443: local #2
+1444: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+1445: pop param 'text'
+if ( DF_DEBUG_MODE )
+1446: global #1
+1447: if false goto 1466
+var script_name := GetProcess(GetPid()).name;
+1448: decl local #0
+1449: Func(3,4): GetPid
+1450: Func(3,1): GetProcess
+1451: get member id 'name' (3)
+1452: :=
+1453: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+1454: "::log/dataFile.log"
+1455: "["
+1456: local #1
+1457: +
+1458: "]: "
+1459: +
+1460: local #0
+1461: +
+1462: 1L
+1463: Func(10,0): LogToFile
+1464: #
+1465: leave block(1)
+return 1;
+1466: 1L
+1467: return

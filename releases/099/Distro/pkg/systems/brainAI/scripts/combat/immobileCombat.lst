@@ -1,0 +1,1255 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @358
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/systems/loot/include/identify_ex.inc, Line 7
+var immunities := { "AirProtection",
+11: decl global #2
+12: array
+13: "AirProtection"
+14: init{}
+15: "EarthProtection"
+16: init{}
+17: "FireProtection"
+18: init{}
+19: "WaterProtection"
+20: init{}
+21: "NecroProtection"
+22: init{}
+23: "PermPoisonProtection"
+24: init{}
+25: "PermMagicProtection"
+26: init{}
+27: "PhysicalProtection"
+28: init{}
+29: "PermSpellReflection"
+30: init{}
+31: "HealingIncrease"
+32: init{}
+33: :=
+34: #
+var wardings := { "PoisonProtection",
+35: decl global #3
+36: array
+37: "PoisonProtection"
+38: init{}
+39: "MagicProtection"
+40: init{}
+41: "SpellReflection"
+42: init{}
+43: "FreeAction"
+44: init{}
+45: :=
+46: #
+var regenerations := { "HitsRegen",
+47: decl global #4
+48: array
+49: "HitsRegen"
+50: init{}
+51: "StamRegen"
+52: init{}
+53: "ManaRegen"
+54: init{}
+55: :=
+56: #
+C:\ZH099\pkg\systems\brainAI\scripts\combat\immobileCombat.src, Line 23
+var pathfind_ticker := 0;
+57: decl global #5
+58: 0L
+59: :=
+60: #
+C:\ZH099\pkg\systems\brainAI\scripts\combat\immobileCombat.src, Line 25
+program BrainNerve( params )
+61: get arg 'params'
+var npc		:= params[1];
+62: decl local #1
+63: local #0
+64: 1L
+65: [] 1
+66: :=
+67: #
+var nerve_name	:= params[2];
+68: decl local #2
+69: local #0
+70: 2L
+71: [] 1
+72: :=
+73: #
+var event	:= params[3];
+74: decl local #3
+75: local #0
+76: 3L
+77: [] 1
+78: :=
+79: #
+var bsettings	:= params[4];
+80: decl local #4
+81: local #0
+82: 4L
+83: [] 1
+84: :=
+85: #
+var scripts	:= params[5];
+86: decl local #5
+87: local #0
+88: 5L
+89: [] 1
+90: :=
+91: #
+NPC_SetuptCombat( npc );
+92: local #1
+93: makelocal
+94: jmp userfunc @476
+95: #
+var opponent := event.source;
+96: decl local #6
+97: local #3
+98: get member 'source'
+99: :=
+100: #
+AI_SetOpponent( npc, opponent );
+101: local #1
+102: local #6
+103: 1L
+104: makelocal
+105: jmp userfunc @250
+106: #
+var min_range, max_range;
+107: decl local #7
+108: #
+109: decl local #8
+110: #
+NPC_WeaponRanges( npc, min_range, max_range );
+111: local #1
+112: local #7
+113: local #8
+114: makelocal
+115: jmp userfunc @509
+116: #
+while( npc )
+117: local #1
+118: if false goto 172
+var dist := Distance( npc, opponent );
+119: decl local #0
+120: local #1
+121: local #6
+122: Func(2,4): Distance
+123: :=
+124: #
+if( DoneFighting( npc, opponent, dist, bsettings ))
+125: local #1
+126: local #6
+127: local #9
+128: local #4
+129: makelocal
+130: jmp userfunc @402
+131: if false goto 162
+if( scripts.Exists( "EndFight" ))
+132: local #5
+133: "EndFight"
+134: Call Method id exists (#55, 1 params)
+135: if false goto 148
+AI_StartNerve( npc, "EndFight", scripts["EndFight"].script, params );
+136: local #1
+137: "EndFight"
+138: local #5
+139: "EndFight"
+140: [] 1
+141: get member id 'script' (61)
+142: local #0
+143: 0L
+144: makelocal
+145: jmp userfunc @282
+146: #
+147: goto154
+AI_WarMode( npc, 0 );
+148: local #1
+149: 0L
+150: 0L
+151: makelocal
+152: jmp userfunc @326
+153: #
+AI_EndNerve( npc, nerve_name );
+154: local #1
+155: local #2
+156: 0L
+157: makelocal
+158: jmp userfunc @218
+159: #
+break;
+160: leave block(1)
+161: goto172
+SleepMS(50);
+162: 50L
+163: Func(3,2): Sleepms
+164: #
+AI_ClearThoughts( npc, CLR_NERVE );
+165: local #1
+166: 2L
+167: makelocal
+168: jmp userfunc @176
+169: #
+170: leave block(1)
+171: goto117
+return 1;
+172: 1L
+173: progend
+174: leave block(9)
+175: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 45
+function AI_ClearThoughts( npc, flags )
+176: pop param 'flags'
+177: pop param 'npc'
+var brain	:= flags & CLR_BRAIN;
+178: decl local #2
+179: local #0
+180: 1L
+181: &
+182: :=
+183: #
+var nerve	:= flags & CLR_NERVE;
+184: decl local #3
+185: local #0
+186: 2L
+187: &
+188: :=
+189: #
+var both	:= flags & CLR_BOTH;
+190: decl local #4
+191: local #0
+192: 3L
+193: &
+194: :=
+195: #
+if( both || brain )
+196: local #4
+197: local #2
+198: ||
+199: if false goto 206
+brain := NPC.process;
+200: local #1
+201: get member id 'process' (64)
+202: local2 := 
+brain.clear_event_queue();
+203: local #2
+204: Call Method id clear_event_queue (#78, 0 params)
+205: #
+if( both || nerve )
+206: local #4
+207: local #3
+208: ||
+209: if false goto 216
+nerve := GetProcess( GetPid() );
+210: Func(3,4): GetPid
+211: Func(3,1): GetProcess
+212: local3 := 
+nerve.clear_event_queue();
+213: local #3
+214: Call Method id clear_event_queue (#78, 0 params)
+215: #
+return 1;
+216: 1L
+217: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 64
+function AI_EndNerve( npc, nerve_name, no_wake:=NOWAKE )
+218: pop param 'no_wake'
+219: pop param 'nerve_name'
+220: pop param 'npc'
+var ev		:= struct;
+221: decl local #3
+222: struct
+223: :=
+224: #
+ev.+type	:= NPCEVENT_ENDNERVE;
+225: local #3
+226: "type"
+227: .+
+228: 10485775L
+229: := #
+ev.+name	:= nerve_name;
+230: local #3
+231: "name"
+232: .+
+233: local #1
+234: := #
+ev.+WakeUp	:= no_wake;
+235: local #3
+236: "WakeUp"
+237: .+
+238: local #0
+239: := #
+ev.+process	:= GetProcess( GetPid() );
+240: local #3
+241: "process"
+242: .+
+243: Func(3,4): GetPid
+244: Func(3,1): GetProcess
+245: := #
+return SendEvent( npc, ev );
+246: local #2
+247: local #3
+248: Func(2,3): SendEvent
+249: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 118
+function AI_SetOpponent( npc, opponent, no_wake:=WAKEUP )
+250: pop param 'no_wake'
+251: pop param 'opponent'
+252: pop param 'npc'
+var ev		:= struct;
+253: decl local #3
+254: struct
+255: :=
+256: #
+ev.+type	:= NPCEVENT_OPPONENT;
+257: local #3
+258: "type"
+259: .+
+260: 10485764L
+261: := #
+ev.+source	:= opponent;
+262: local #3
+263: "source"
+264: .+
+265: local #1
+266: := #
+ev.+WakeUp	:= no_wake;
+267: local #3
+268: "WakeUp"
+269: .+
+270: local #0
+271: := #
+ev.+process	:= GetProcess( GetPid() );
+272: local #3
+273: "process"
+274: .+
+275: Func(3,4): GetPid
+276: Func(3,1): GetProcess
+277: := #
+return SendEvent( npc, ev );
+278: local #2
+279: local #3
+280: Func(2,3): SendEvent
+281: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 152
+function AI_StartNerve( npc, nerve_name, script_name, data, no_wake:=NOWAKE )
+282: pop param 'no_wake'
+283: pop param 'data'
+284: pop param 'script_name'
+285: pop param 'nerve_name'
+286: pop param 'npc'
+var ev		:= struct;
+287: decl local #5
+288: struct
+289: :=
+290: #
+ev.+type	:= NPCEVENT_STARTNERVE;
+291: local #5
+292: "type"
+293: .+
+294: 10485776L
+295: := #
+ev.+name	:= nerve_name;
+296: local #5
+297: "name"
+298: .+
+299: local #3
+300: := #
+ev.+script	:= script_name;
+301: local #5
+302: "script"
+303: .+
+304: local #2
+305: := #
+ev.+data	:= data;
+306: local #5
+307: "data"
+308: .+
+309: local #1
+310: := #
+ev.+WakeUp	:= no_wake;
+311: local #5
+312: "WakeUp"
+313: .+
+314: local #0
+315: := #
+ev.+process	:= GetProcess( GetPid() );
+316: local #5
+317: "process"
+318: .+
+319: Func(3,4): GetPid
+320: Func(3,1): GetProcess
+321: := #
+return SendEvent( npc, ev );
+322: local #4
+323: local #5
+324: Func(2,3): SendEvent
+325: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 211
+function AI_WarMode( npc, mode:=0, no_wake:=NOWAKE )
+326: pop param 'no_wake'
+327: pop param 'mode'
+328: pop param 'npc'
+var ev		:= struct;
+329: decl local #3
+330: struct
+331: :=
+332: #
+ev.+type	:= NPCEVENT_WARMODE;
+333: local #3
+334: "type"
+335: .+
+336: 10485767L
+337: := #
+ev.+value	:= mode;
+338: local #3
+339: "value"
+340: .+
+341: local #1
+342: := #
+ev.+WakeUp	:= no_wake;
+343: local #3
+344: "WakeUp"
+345: .+
+346: local #0
+347: := #
+ev.+process	:= GetProcess( GetPid() );
+348: local #3
+349: "process"
+350: .+
+351: Func(3,4): GetPid
+352: Func(3,1): GetProcess
+353: := #
+return SendEvent( npc, ev );
+354: local #2
+355: local #3
+356: Func(2,3): SendEvent
+357: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+358: pop param byref 'cfg_file'
+359: pop param 'elem_name'
+if( !cfg_file )
+360: local #0
+361: if true goto 365
+cfg_file := Classes_GetSettingsCfgFile();
+362: makelocal
+363: jmp userfunc @386
+364: local0 := 
+var elem := cfg_file[elem_name];
+365: decl local #2
+366: local #0
+367: local #1
+368: [] 1
+369: :=
+370: #
+if( elem.errortext )
+371: local #2
+372: get member 'errortext'
+373: if false goto 384
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+374: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+375: local #1
+376: +
+377: "] ->"
+378: +
+379: local #2
+380: get member 'errortext'
+381: +
+382: Func(3,0): SysLog
+383: #
+return elem;
+384: local #2
+385: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+386: decl local #0
+387: ":classes:settings"
+388: Func(5,0): ReadConfigFile
+389: :=
+390: #
+if( cfg.errortext )
+391: local #0
+392: get member 'errortext'
+393: if false goto 400
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+394: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+395: local #0
+396: get member 'errortext'
+397: +
+398: Func(3,0): SysLog
+399: #
+return cfg;
+400: local #0
+401: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 33
+function DoneFighting( npc, opponent, byref dist, byref settings )
+402: pop param byref 'settings'
+403: pop param byref 'dist'
+404: pop param 'opponent'
+405: pop param 'npc'
+if( !opponent )
+406: local #2
+407: if true goto 411
+return 1;
+408: 1L
+409: return
+410: goto468
+elseif( opponent.dead )
+411: local #2
+412: get member id 'dead' (39)
+413: if false goto 417
+return 1;
+414: 1L
+415: return
+416: goto468
+elseif( opponent.concealed )
+417: local #2
+418: get member id 'concealed' (33)
+419: if false goto 423
+return 1;
+420: 1L
+421: return
+422: goto468
+elseif( dist > 30 )
+423: local #1
+424: 30L
+425: >
+426: if false goto 430
+return 1;
+427: 1L
+428: return
+429: goto468
+elseif( GetObjProperty( npc, "#Peacemaking" ) > ReadGameClock() )
+430: local #3
+431: "#Peacemaking"
+432: Func(2,2): GetObjProperty
+433: Func(2,18): ReadGameClock
+434: >
+435: if false goto 439
+return 1;
+436: 1L
+437: return
+438: goto468
+elseif( opponent.hidden )
+439: local #2
+440: get member id 'hidden' (32)
+441: if false goto 455
+if( !DetectHidden( npc, opponent ))
+442: local #3
+443: local #2
+444: makelocal
+445: jmp userfunc @648
+446: if true goto 452
+pathfind_ticker += 1;
+447: global #5
+448: 1L
+449: +=
+450: #
+451: goto454
+pathfind_ticker := 0;
+452: 0L
+453: global5 := 
+454: goto468
+elseif( !CheckForPathLOS( npc, opponent, settings ))
+455: local #3
+456: local #2
+457: local #0
+458: makelocal
+459: jmp userfunc @576
+460: if true goto 466
+pathfind_ticker += 1;
+461: global #5
+462: 1L
+463: +=
+464: #
+465: goto468
+pathfind_ticker := 0;
+466: 0L
+467: global5 := 
+if( pathfind_ticker >= 60 )
+468: global #5
+469: 60L
+470: >=
+471: if false goto 474
+return 1;
+472: 1L
+473: return
+return 0;
+474: 0L
+475: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 232
+function NPC_SetuptCombat( npc )
+476: pop param 'npc'
+var battle_cry := GetObjProperty( npc, "BattleCryWord" );
+477: decl local #1
+478: local #0
+479: "BattleCryWord"
+480: Func(2,2): GetObjProperty
+481: :=
+482: #
+if( battle_cry )
+483: local #1
+484: if false goto 494
+AI_Speak( npc, battle_cry.RandomEntry() );
+485: local #0
+486: local #1
+487: Call Method id randomentry (#101, 0 params)
+488: "default"
+489: 0L
+490: 0L
+491: makelocal
+492: jmp userfunc @532
+493: #
+if( npc.hidden )
+494: local #0
+495: get member id 'hidden' (32)
+496: if false goto 507
+npc.hidden := 0;
+497: local #0
+498: 0L
+499: set member id 'hidden' (32) #
+PrintTextAbove( npc, "*Springs from hiding!*", 3, 55 );
+500: local #0
+501: "*Springs from hiding!*"
+502: 3L
+503: 55L
+504: 0L
+505: Func(2,0): PrintTextAbove
+506: #
+return 1;
+507: 1L
+508: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 20
+function NPC_WeaponRanges( npc, byref min_range, byref max_range )
+509: pop param byref 'max_range'
+510: pop param byref 'min_range'
+511: pop param 'npc'
+min_range := CInt( CS_GetWeaponInfo( npc.weapon, "MinRange" ));
+512: local #2
+513: get member id 'weapon' (42)
+514: "MinRange"
+515: makelocal
+516: jmp userfunc @630
+517: Func(0,2): CInt
+518: local1 := 
+max_range := CInt( CS_GetWeaponInfo( npc.weapon, "MaxRange" ));
+519: local #2
+520: get member id 'weapon' (42)
+521: "MaxRange"
+522: makelocal
+523: jmp userfunc @630
+524: Func(0,2): CInt
+525: local0 := 
+if( !max_range )
+526: local #0
+527: if true goto 530
+max_range := 1;
+528: 1L
+529: local0 := 
+return 1;
+530: 1L
+531: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+532: pop param 'no_wake'
+533: pop param 'do_event'
+534: pop param 'text_type'
+535: pop param 'text'
+536: pop param 'npc'
+var ev		:= struct;
+537: decl local #5
+538: struct
+539: :=
+540: #
+ev.+type	:= NPCEVENT_SPEAK;
+541: local #5
+542: "type"
+543: .+
+544: 10485765L
+545: := #
+ev.+text	:= text;
+546: local #5
+547: "text"
+548: .+
+549: local #3
+550: := #
+ev.+texttype	:= text_type;
+551: local #5
+552: "texttype"
+553: .+
+554: local #2
+555: := #
+ev.+doevent	:= do_event;
+556: local #5
+557: "doevent"
+558: .+
+559: local #1
+560: := #
+ev.+WakeUp	:= no_wake;
+561: local #5
+562: "WakeUp"
+563: .+
+564: local #0
+565: := #
+ev.+process	:= GetProcess( GetPid() );
+566: local #5
+567: "process"
+568: .+
+569: Func(3,4): GetPid
+570: Func(3,1): GetProcess
+571: := #
+return SendEvent( npc, ev );
+572: local #4
+573: local #5
+574: Func(2,3): SendEvent
+575: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 64
+function CheckForPathLOS( npc, destination, settings )
+576: pop param 'settings'
+577: pop param 'destination'
+578: pop param 'npc'
+if( !CheckLosAt( npc, destination.x, destination.y, destination.z ))
+579: local #2
+580: local #1
+581: get member id 'x' (0)
+582: local #1
+583: get member id 'y' (1)
+584: local #1
+585: get member id 'z' (2)
+586: Func(2,10): CheckLosAt
+587: if true goto 628
+var pathfind_range := CInt( settings["AreaSize"] );
+588: decl local #0
+589: local #0
+590: "AreaSize"
+591: [] 1
+592: Func(0,2): CInt
+593: :=
+594: #
+if( pathfind_range < 5 )
+595: local #3
+596: 5L
+597: <
+598: if false goto 601
+pathfind_range := 5;
+599: 5L
+600: local3 := 
+var flags := FP_IGNORE_MOBILES;
+601: decl local #1
+602: 1L
+603: :=
+604: #
+if( settings["OpenDoors"] )
+605: local #0
+606: "OpenDoors"
+607: [] 1
+608: if false goto 613
+flags += FP_IGNORE_DOORS;
+609: local #4
+610: 2L
+611: +=
+612: #
+if( !GetNewPath( npc, destination.x, destination.y, destination.z, pathfind_ran
+613: local #2
+614: local #1
+615: get member id 'x' (0)
+616: local #1
+617: get member id 'y' (1)
+618: local #1
+619: get member id 'z' (2)
+620: local #3
+621: local #4
+622: makelocal
+623: jmp userfunc @732
+624: if true goto 627
+return 0;
+625: 0L
+626: return
+627: leave block(2)
+return 1;
+628: 1L
+629: return
+c:/ZH099/pkg/items/weapons/include/weaponInfo.inc, Line 8
+function CS_GetWeaponInfo( weapon, prop_name )
+630: pop param 'prop_name'
+631: pop param 'weapon'
+var config := ReadConfigFile( ":*:itemdesc" );
+632: decl local #2
+633: ":*:itemdesc"
+634: Func(5,0): ReadConfigFile
+635: :=
+636: #
+var info := config[weapon.objtype];
+637: decl local #3
+638: local #2
+639: local #1
+640: get member id 'objtype' (4)
+641: [] 1
+642: :=
+643: #
+return GetConfigString( info, prop_name );
+644: local #3
+645: local #0
+646: Func(5,6): GetConfigString
+647: return
+c:/ZH099/pkg/skills/thief/detecthidden/include/detectHidden.inc, Line 12
+function DetectHidden( mobile, hider )
+648: pop param 'hider'
+649: pop param 'mobile'
+if( !hider.hidden )
+650: local #0
+651: get member id 'hidden' (32)
+652: if true goto 655
+return 1; //Already revealed.
+653: 1L
+654: return
+var mobile_skill := AP_GetSkill( mobile, DETECTING_HIDDEN ),
+655: decl local #2
+656: local #1
+657: "DetectingHidden"
+658: makelocal
+659: jmp userfunc @965
+660: :=
+661: #
+662: decl local #3
+663: local #0
+664: "Hiding"
+665: makelocal
+666: jmp userfunc @965
+667: :=
+668: #
+mobile_skill *= ClasseBonus( mobile, THIEF );
+669: local #2
+670: local #1
+671: "IsThief"
+672: makelocal
+673: jmp userfunc @995
+674: *=
+675: #
+hider_skill *= ClasseBonus( hider, THIEF );
+676: local #3
+677: local #0
+678: "IsThief"
+679: makelocal
+680: jmp userfunc @995
+681: *=
+682: #
+if( mobile.IsA( POLCLASS_NPC ))
+683: local #1
+684: 4L
+685: Call Method id isa (#0, 1 params)
+686: if false goto 695
+if( !mobile_skill )
+687: local #2
+688: if true goto 691
+return 0;
+689: 0L
+690: return
+mobile_skill *= 2;
+691: local #2
+692: 2L
+693: *=
+694: #
+var chance := CInt( mobile_skill - hider_skill );
+695: decl local #4
+696: local #2
+697: local #3
+698: -
+699: Func(0,2): CInt
+700: :=
+701: #
+if( chance < 0 )
+702: local #4
+703: 0L
+704: <
+705: if false goto 708
+chance := 5;
+706: 5L
+707: local4 := 
+if( RandomInt( 100 ) > chance && !mobile.multi )
+708: 100L
+709: Func(8,2): RandomInt
+710: local #4
+711: >
+712: local #1
+713: get member id 'multi' (12)
+714: !
+715: &&
+716: if false goto 719
+return 0;
+717: 0L
+718: return
+hider.hidden := 0;
+719: local #0
+720: 0L
+721: set member id 'hidden' (32) #
+PrintTextAbovePrivate( hider, "You have been discovered!", hider );
+722: local #0
+723: "You have been discovered!"
+724: local #0
+725: 3L
+726: 1000L
+727: 0L
+728: Func(2,28): PrintTextAbovePrivate
+729: #
+return 1;
+730: 1L
+731: return
+c:/ZH099/pkg/systems/brainAI/include/commonFunctions.inc, Line 160
+function GetNewPath( npc, x, y, z, pathfind_range, flags )
+732: pop param 'flags'
+733: pop param 'pathfind_range'
+734: pop param 'z'
+735: pop param 'y'
+736: pop param 'x'
+737: pop param 'npc'
+var search_field := ListItemsNearLocation( npc.x, npc.y, npc.z, 2, npc.realm );
+738: decl local #6
+739: local #5
+740: get member id 'x' (0)
+741: local #5
+742: get member id 'y' (1)
+743: local #5
+744: get member id 'z' (2)
+745: 2L
+746: local #5
+747: get member id 'realm' (112)
+748: Func(2,30): ListItemsNearLocation
+749: :=
+750: #
+foreach item in search_field
+751: local #6
+752: initforeach @835
+SleepMS(5);
+753: 5L
+754: Func(3,2): Sleepms
+755: #
+if( item.movable ) //Automatic Anti-Blocking with items.
+756: local #7
+757: get member id 'movable' (20)
+758: if false goto 798
+var npc_backpack := NPC_SetupBackPack( npc );
+759: decl local #0
+760: local #5
+761: makelocal
+762: jmp userfunc @927
+763: :=
+764: #
+var move_item := MoveItemToContainer( item, npc_backpack );
+765: decl local #1
+766: local #7
+767: local #10
+768: -1L
+769: -1L
+770: Func(2,29): MoveItemToContainer
+771: :=
+772: #
+if( move_item.errortext )
+773: local #11
+774: get member 'errortext'
+775: if false goto 788
+PrintTextAbove( npc, "Error looting items -->"+move_item.errortext );
+776: local #5
+777: "Error looting items -->"
+778: local #11
+779: get member 'errortext'
+780: +
+781: 3L
+782: 1000L
+783: 0L
+784: Func(2,0): PrintTextAbove
+785: #
+continue;
+786: leave block(2)
+787: goto835
+AI_Speak( npc, "*Yoink*", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE );
+788: local #5
+789: "*Yoink*"
+790: "yell"
+791: 1L
+792: 0L
+793: makelocal
+794: jmp userfunc @532
+795: #
+796: leave block(2)
+797: goto835
+elseif( AP_GetSkill( npc, MAGERY )&& GetObjProperty( item, "SummonedField" )) /
+798: local #5
+799: "Magery"
+800: makelocal
+801: jmp userfunc @965
+802: local #7
+803: "SummonedField"
+804: Func(2,2): GetObjProperty
+805: &&
+806: if false goto 835
+var script := Start_Script( ":magery:spellStarter", array{ npc, 34, 0, item } )
+807: decl local #0
+808: ":magery:spellStarter"
+809: array
+810: local #5
+811: init{}
+812: 34L
+813: init{}
+814: 0L
+815: init{}
+816: local #7
+817: init{}
+818: Func(3,3): Start_Script
+819: :=
+820: #
+if( script.errortext )
+821: local #10
+822: get member 'errortext'
+823: if false goto 832
+PrintTextAbove( npc, script.errortext );
+824: local #5
+825: local #10
+826: get member 'errortext'
+827: 3L
+828: 1000L
+829: 0L
+830: Func(2,0): PrintTextAbove
+831: #
+break;
+832: leave block(1)
+833: goto836
+834: leave block(1)
+835: stepforeach @753
+836: leave block(3)
+var path := FindPath( npc.x, npc.y, npc.z, x, y, z, npc.realm, flags, pathfind_
+837: decl local #7
+838: local #5
+839: get member id 'x' (0)
+840: local #5
+841: get member id 'y' (1)
+842: local #5
+843: get member id 'z' (2)
+844: local #4
+845: local #3
+846: local #2
+847: local #5
+848: get member id 'realm' (112)
+849: local #0
+850: local #1
+851: Func(2,31): FindPath
+852: :=
+853: #
+if( !path )
+854: local #7
+855: if true goto 858
+return 0;
+856: 0L
+857: return
+var move_x := CInt( path[1].x ),
+858: decl local #8
+859: local #7
+860: 1L
+861: [] 1
+862: get member id 'x' (0)
+863: Func(0,2): CInt
+864: :=
+865: #
+866: decl local #9
+867: local #7
+868: 1L
+869: [] 1
+870: get member id 'y' (1)
+871: Func(0,2): CInt
+872: :=
+873: #
+874: decl local #10
+875: local #7
+876: 1L
+877: [] 1
+878: get member id 'z' (2)
+879: Func(0,2): CInt
+880: :=
+881: #
+var search_doors := ListItemsAtLocation( move_x, mobe_y, mobe_z, npc.realm );
+882: decl local #11
+883: local #8
+884: local #9
+885: local #10
+886: local #5
+887: get member id 'realm' (112)
+888: Func(2,32): ListItemsAtLocation
+889: :=
+890: #
+if( search_doors.Size() )
+891: local #11
+892: Call Method id size (#48, 0 params)
+893: if false goto 921
+foreach item in search_doors
+894: local #11
+895: initforeach @919
+if( item.IsDoor() )
+896: local #12
+897: Call Method isdoor (0 params)
+898: if false goto 915
+if( item.locked )
+899: local #12
+900: get member id 'locked' (70)
+901: if false goto 905
+return 0;
+902: 0L
+903: return
+904: goto909
+elseif( item.IsOpen() )
+905: local #12
+906: Call Method isopen (0 params)
+907: if false goto 909
+break;
+908: goto920
+UseItem( item, npc );
+909: local #12
+910: local #5
+911: Func(2,33): UseItem
+912: #
+break;
+913: goto920
+914: goto916
+continue;
+915: goto919
+SleepMS(5);
+916: 5L
+917: Func(3,2): Sleepms
+918: #
+919: stepforeach @896
+920: leave block(3)
+return array{move_x, mobe_y};
+921: array
+922: local #8
+923: init{}
+924: local #9
+925: init{}
+926: return
+c:/ZH099/pkg/systems/brainAI/include/npcInit.inc, Line 39
+function NPC_SetupBackPack( mobile )
+927: pop param 'mobile'
+if( !mobile.backpack )
+928: local #0
+929: get member id 'backpack' (41)
+930: if true goto 962
+var backpack := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, "BackPack",
+931: decl local #0
+932: local #0
+933: get member id 'x' (0)
+934: local #0
+935: get member id 'y' (1)
+936: local #0
+937: get member id 'z' (2)
+938: "BackPack"
+939: 1L
+940: local #0
+941: get member id 'realm' (112)
+942: Func(2,20): CreateItemAtLocation
+943: :=
+944: #
+var result := EquipItem( mobile, backpack );
+945: decl local #1
+946: local #0
+947: local #1
+948: Func(2,21): EquipItem
+949: :=
+950: #
+if( !result )
+951: local #2
+952: if true goto 959
+DestroyItem( backpack );
+953: local #1
+954: Func(2,22): DestroyItem
+955: #
+return result;
+956: local #2
+957: return
+958: goto961
+return backpack;
+959: local #1
+960: return
+961: leave block(2)
+return mobile.backpack;
+962: local #0
+963: get member id 'backpack' (41)
+964: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+965: pop param 'skill_name'
+966: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+967: local #1
+968: local #0
+969: makelocal
+970: jmp userfunc @986
+971: local #1
+972: local #0
+973: makelocal
+974: jmp userfunc @977
+975: +
+976: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+977: pop param 'skill_name'
+978: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+979: local #1
+980: local #0
+981: Func(7,1): GetAttributeTemporaryMod
+982: Func(0,3): CDbl
+983: 10LF
+984: /
+985: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+986: pop param 'skill_name'
+987: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+988: local #1
+989: local #0
+990: Func(7,0): GetAttributeBaseValue
+991: Func(0,3): CDbl
+992: 10LF
+993: /
+994: return
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 28
+function ClasseBonus( mobile, classe )
+995: pop param 'classe'
+996: pop param 'mobile'
+var level := CInt( GetObjProperty( mobile, classe ));
+997: decl local #2
+998: local #1
+999: local #0
+1000: Func(2,2): GetObjProperty
+1001: Func(0,2): CInt
+1002: :=
+1003: #
+if( level )
+1004: local #2
+1005: if false goto 1015
+return CDbl( settings.BonusLevel * level ) + 1;
+1006: global #0
+1007: get member 'BonusLevel'
+1008: local #2
+1009: *
+1010: Func(0,3): CDbl
+1011: 1L
+1012: +
+1013: return
+1014: goto1017
+return 1;
+1015: 1L
+1016: return
+1017: 0L
+1018: return

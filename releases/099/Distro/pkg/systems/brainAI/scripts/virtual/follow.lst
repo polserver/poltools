@@ -1,0 +1,611 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @290
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\follow.src, Line 14
+var following := 0,
+11: decl global #2
+12: 0L
+13: :=
+14: #
+15: decl global #3
+16: 0L
+17: :=
+18: #
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\follow.src, Line 17
+program BrainNerve( params )
+19: get arg 'params'
+var npc		:= params[1];
+20: decl local #1
+21: local #0
+22: 1L
+23: [] 1
+24: :=
+25: #
+var nerve_name	:= params[2];
+26: decl local #2
+27: local #0
+28: 2L
+29: [] 1
+30: :=
+31: #
+var source	:= params[3];
+32: decl local #3
+33: local #0
+34: 3L
+35: [] 1
+36: :=
+37: #
+params := 0; // Not needed anymore.
+38: 0L
+39: local0 := 
+SetObjProperty( npc, "#Follow", source.serial );
+40: local #1
+41: "#Follow"
+42: local #3
+43: get member id 'serial' (6)
+44: Func(2,1): SetObjProperty
+45: #
+AI_SetAnchor( npc, npc.x, npc.y, 0, 100 );
+46: local #1
+47: local #1
+48: get member id 'x' (0)
+49: local #1
+50: get member id 'y' (1)
+51: 0L
+52: 100L
+53: 0L
+54: makelocal
+55: jmp userfunc @163
+56: #
+while( npc )
+57: local #1
+58: if false goto 85
+if( !canFollow( npc, source ))
+59: local #1
+60: local #3
+61: makelocal
+62: jmp userfunc @213
+63: if true goto 71
+AI_EndNerve( npc, nerve_name );
+64: local #1
+65: local #2
+66: 0L
+67: makelocal
+68: jmp userfunc @131
+69: #
+break;
+70: goto85
+Follow( npc, source );
+71: local #1
+72: local #3
+73: makelocal
+74: jmp userfunc @334
+75: #
+SleepMS(400);
+76: 400L
+77: Func(3,2): Sleepms
+78: #
+AI_ClearThoughts( npc, CLR_NERVE );
+79: local #1
+80: 2L
+81: makelocal
+82: jmp userfunc @89
+83: #
+84: goto57
+return 1;
+85: 1L
+86: progend
+87: leave block(4)
+88: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 45
+function AI_ClearThoughts( npc, flags )
+89: pop param 'flags'
+90: pop param 'npc'
+var brain	:= flags & CLR_BRAIN;
+91: decl local #2
+92: local #0
+93: 1L
+94: &
+95: :=
+96: #
+var nerve	:= flags & CLR_NERVE;
+97: decl local #3
+98: local #0
+99: 2L
+100: &
+101: :=
+102: #
+var both	:= flags & CLR_BOTH;
+103: decl local #4
+104: local #0
+105: 3L
+106: &
+107: :=
+108: #
+if( both || brain )
+109: local #4
+110: local #2
+111: ||
+112: if false goto 119
+brain := NPC.process;
+113: local #1
+114: get member id 'process' (64)
+115: local2 := 
+brain.clear_event_queue();
+116: local #2
+117: Call Method id clear_event_queue (#78, 0 params)
+118: #
+if( both || nerve )
+119: local #4
+120: local #3
+121: ||
+122: if false goto 129
+nerve := GetProcess( GetPid() );
+123: Func(3,4): GetPid
+124: Func(3,1): GetProcess
+125: local3 := 
+nerve.clear_event_queue();
+126: local #3
+127: Call Method id clear_event_queue (#78, 0 params)
+128: #
+return 1;
+129: 1L
+130: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 64
+function AI_EndNerve( npc, nerve_name, no_wake:=NOWAKE )
+131: pop param 'no_wake'
+132: pop param 'nerve_name'
+133: pop param 'npc'
+var ev		:= struct;
+134: decl local #3
+135: struct
+136: :=
+137: #
+ev.+type	:= NPCEVENT_ENDNERVE;
+138: local #3
+139: "type"
+140: .+
+141: 10485775L
+142: := #
+ev.+name	:= nerve_name;
+143: local #3
+144: "name"
+145: .+
+146: local #1
+147: := #
+ev.+WakeUp	:= no_wake;
+148: local #3
+149: "WakeUp"
+150: .+
+151: local #0
+152: := #
+ev.+process	:= GetProcess( GetPid() );
+153: local #3
+154: "process"
+155: .+
+156: Func(3,4): GetPid
+157: Func(3,1): GetProcess
+158: := #
+return SendEvent( npc, ev );
+159: local #2
+160: local #3
+161: Func(2,3): SendEvent
+162: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 104
+function AI_SetAnchor( npc, x, y, distance_start, percent_subtract, no_wake:=NO
+163: pop param 'no_wake'
+164: pop param 'percent_subtract'
+165: pop param 'distance_start'
+166: pop param 'y'
+167: pop param 'x'
+168: pop param 'npc'
+var ev		:= struct;
+169: decl local #6
+170: struct
+171: :=
+172: #
+ev.+type	:= NPCEVENT_ANCHOR;
+173: local #6
+174: "type"
+175: .+
+176: 10485781L
+177: := #
+ev.+x		:= x;
+178: local #6
+179: "x"
+180: .+
+181: local #4
+182: := #
+ev.+y		:= y;
+183: local #6
+184: "y"
+185: .+
+186: local #3
+187: := #
+ev.+distance	:= distance_start;
+188: local #6
+189: "distance"
+190: .+
+191: local #2
+192: := #
+ev.+percent	:= percent_subtract;
+193: local #6
+194: "percent"
+195: .+
+196: local #1
+197: := #
+ev.+WakeUp	:= no_wake;
+198: local #6
+199: "WakeUp"
+200: .+
+201: local #0
+202: := #
+ev.+process	:= GetProcess( GetPid() );
+203: local #6
+204: "process"
+205: .+
+206: Func(3,4): GetPid
+207: Func(3,1): GetProcess
+208: := #
+return SendEvent( npc, ev );
+209: local #5
+210: local #6
+211: Func(2,3): SendEvent
+212: return
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\follow.src, Line 44
+function canFollow( npc, source )
+213: pop param 'source'
+214: pop param 'npc'
+if( npc.opponent )
+215: local #1
+216: get member id 'opponent' (120)
+217: if false goto 221
+return 0;
+218: 0L
+219: return
+220: goto288
+elseif( npc.frozen || npc.paralyzed )
+221: local #1
+222: get member id 'frozen' (34)
+223: local #1
+224: get member id 'paralyzed' (35)
+225: ||
+226: if false goto 230
+return 0;
+227: 0L
+228: return
+229: goto288
+elseif( npc.hidden || npc.concealed )
+230: local #1
+231: get member id 'hidden' (32)
+232: local #1
+233: get member id 'concealed' (33)
+234: ||
+235: if false goto 239
+return 0;
+236: 0L
+237: return
+238: goto288
+elseif( source.hidden || source.concealed )
+239: local #0
+240: get member id 'hidden' (32)
+241: local #0
+242: get member id 'concealed' (33)
+243: ||
+244: if false goto 248
+return 0;
+245: 0L
+246: return
+247: goto288
+elseif( source.dead )
+248: local #0
+249: get member id 'dead' (39)
+250: if false goto 254
+return 0;
+251: 0L
+252: return
+253: goto288
+elseif( !source.connected )
+254: local #0
+255: get member id 'connected' (121)
+256: if true goto 260
+return 0;
+257: 0L
+258: return
+259: goto288
+elseif( source.warmode && !IsTotem( npc ))
+260: local #0
+261: get member id 'warmode' (27)
+262: local #1
+263: makelocal
+264: jmp userfunc @415
+265: !
+266: &&
+267: if false goto 279
+PrintTextAbovePrivate( npc, "The creature looks hesitant to follow you.", sourc
+268: local #1
+269: "The creature looks hesitant to follow you."
+270: local #0
+271: 3L
+272: 1000L
+273: 0L
+274: Func(2,15): PrintTextAbovePrivate
+275: #
+return 0;
+276: 0L
+277: return
+278: goto288
+elseif( GetObjProperty( npc, "#Follow" ) != source.serial )
+279: local #1
+280: "#Follow"
+281: Func(2,2): GetObjProperty
+282: local #0
+283: get member id 'serial' (6)
+284: <>
+285: if false goto 288
+return 0;
+286: 0L
+287: return
+return 1;
+288: 1L
+289: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+290: pop param byref 'cfg_file'
+291: pop param 'elem_name'
+if( !cfg_file )
+292: local #0
+293: if true goto 297
+cfg_file := Classes_GetSettingsCfgFile();
+294: makelocal
+295: jmp userfunc @318
+296: local0 := 
+var elem := cfg_file[elem_name];
+297: decl local #2
+298: local #0
+299: local #1
+300: [] 1
+301: :=
+302: #
+if( elem.errortext )
+303: local #2
+304: get member 'errortext'
+305: if false goto 316
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+306: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+307: local #1
+308: +
+309: "] ->"
+310: +
+311: local #2
+312: get member 'errortext'
+313: +
+314: Func(3,0): SysLog
+315: #
+return elem;
+316: local #2
+317: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+318: decl local #0
+319: ":classes:settings"
+320: Func(5,0): ReadConfigFile
+321: :=
+322: #
+if( cfg.errortext )
+323: local #0
+324: get member 'errortext'
+325: if false goto 332
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+326: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+327: local #0
+328: get member 'errortext'
+329: +
+330: Func(3,0): SysLog
+331: #
+return cfg;
+332: local #0
+333: return
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\follow.src, Line 68
+function Follow( npc, source )
+334: pop param 'source'
+335: pop param 'npc'
+var dist := CoordinateDistance( npc.x, npc.y, source.x, source.y );
+336: decl local #2
+337: local #1
+338: get member id 'x' (0)
+339: local #1
+340: get member id 'y' (1)
+341: local #0
+342: get member id 'x' (0)
+343: local #0
+344: get member id 'y' (1)
+345: Func(2,16): CoordinateDistance
+346: :=
+347: #
+if( dist < 2 )
+348: local #2
+349: 2L
+350: <
+351: if false goto 355
+chaseloop := 0;
+352: 0L
+353: global3 := 
+354: goto405
+elseif( chaseloop > 10 )
+355: global #3
+356: 10L
+357: >
+358: if false goto 378
+npc.facing := source.facing;
+359: local #1
+360: local #0
+361: get member id 'facing' (9)
+362: set member id 'facing' (9) #
+MoveObjectToLocation( npc, source.x, source.y, source.z, source.realm, MOVEOBJE
+363: local #1
+364: local #0
+365: get member id 'x' (0)
+366: local #0
+367: get member id 'y' (1)
+368: local #0
+369: get member id 'z' (2)
+370: local #0
+371: get member id 'realm' (112)
+372: 1073741824L
+373: Func(2,14): MoveObjectToLocation
+374: #
+chaseloop := 0;
+375: 0L
+376: global3 := 
+377: goto405
+elseif( dist > 10 && chaseloop > 10 )
+378: local #2
+379: 10L
+380: >
+381: global #3
+382: 10L
+383: >
+384: &&
+385: if false goto 391
+chaseloop += 1;
+386: global #3
+387: 1L
+388: +=
+389: #
+390: goto405
+AI_Move( npc, source.x, source.y, source.z, NEMOVE_TOWARD, NEMOVE_RUN, 1 );
+391: local #1
+392: local #0
+393: get member id 'x' (0)
+394: local #0
+395: get member id 'y' (1)
+396: local #0
+397: get member id 'z' (2)
+398: 1L
+399: 2L
+400: 1L
+401: 0L
+402: makelocal
+403: jmp userfunc @428
+404: #
+if( !CheckLineOfSight( npc, source ))
+405: local #1
+406: local #0
+407: Func(2,17): CheckLineOfSight
+408: if true goto 413
+chaseloop += 1;
+409: global #3
+410: 1L
+411: +=
+412: #
+return 1;
+413: 1L
+414: return
+c:/ZH099/pkg/items/totem/include/totem.inc, Line 14
+function IsTotem( npc )
+415: pop param 'npc'
+var totem := GetObjProperty( npc, "IsTotem" );
+416: decl local #1
+417: local #0
+418: "IsTotem"
+419: Func(2,2): GetObjProperty
+420: :=
+421: #
+if( !totem )
+422: local #1
+423: if true goto 426
+return 0;
+424: 0L
+425: return
+return 1;
+426: 1L
+427: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 88
+function AI_Move( npc, x, y, z, to_from:=NEMOVE_TOWARD, speed:=NEMOVE_RUN, loop
+428: pop param 'no_wake'
+429: pop param 'loop'
+430: pop param 'speed'
+431: pop param 'to_from'
+432: pop param 'z'
+433: pop param 'y'
+434: pop param 'x'
+435: pop param 'npc'
+var ev		:= struct;
+436: decl local #8
+437: struct
+438: :=
+439: #
+ev.+type	:= NPCEVENT_MOVE;
+440: local #8
+441: "type"
+442: .+
+443: 10485763L
+444: := #
+ev.+x		:= x;
+445: local #8
+446: "x"
+447: .+
+448: local #6
+449: := #
+ev.+y		:= y;
+450: local #8
+451: "y"
+452: .+
+453: local #5
+454: := #
+ev.+z		:= z;
+455: local #8
+456: "z"
+457: .+
+458: local #4
+459: := #
+ev.+direction	:= to_from;
+460: local #8
+461: "direction"
+462: .+
+463: local #3
+464: := #
+ev.+speed	:= speed;
+465: local #8
+466: "speed"
+467: .+
+468: local #2
+469: := #
+ev.+WakeUp	:= no_wake;
+470: local #8
+471: "WakeUp"
+472: .+
+473: local #0
+474: := #
+ev.+loop	:= loop;
+475: local #8
+476: "loop"
+477: .+
+478: local #1
+479: := #
+ev.+process	:= GetProcess( GetPid() );
+480: local #8
+481: "process"
+482: .+
+483: Func(3,4): GetPid
+484: Func(3,1): GetProcess
+485: := #
+return SendEvent( npc, ev );
+486: local #7
+487: local #8
+488: Func(2,3): SendEvent
+489: return

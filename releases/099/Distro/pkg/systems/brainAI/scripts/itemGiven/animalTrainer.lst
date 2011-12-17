@@ -1,0 +1,1244 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @54
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\animalTrainer.src, Line 17
+program BrainNerve( params )
+CONST START_CONTROLLER			:= 0x1;
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+params := 0; // Not needed anymore.
+24: 0L
+25: local0 := 
+while( npc )
+26: local #1
+27: if false goto 50
+if( event )
+28: local #2
+29: if false goto 43
+case( event.type )
+30: local #2
+31: get member 'type'
+32: casejmp
+	1024: @33
+	default: @40
+ItemGivenEvent( npc, event );
+33: local #1
+34: local #2
+35: makelocal
+36: jmp userfunc @98
+37: #
+break;
+38: goto39
+39: goto41
+break;
+40: goto41
+event := 0;
+41: 0L
+42: local2 := 
+SleepMS(5);
+43: 5L
+44: Func(3,2): Sleepms
+45: #
+event := Wait_For_Event(1);
+46: 1L
+47: Func(3,7): Wait_For_Event
+48: local2 := 
+49: goto26
+return 1;
+50: 1L
+51: progend
+52: leave block(3)
+53: progend
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+54: pop param byref 'cfg_file'
+55: pop param 'elem_name'
+if( !cfg_file )
+56: local #0
+57: if true goto 61
+cfg_file := Classes_GetSettingsCfgFile();
+58: makelocal
+59: jmp userfunc @82
+60: local0 := 
+var elem := cfg_file[elem_name];
+61: decl local #2
+62: local #0
+63: local #1
+64: [] 1
+65: :=
+66: #
+if( elem.errortext )
+67: local #2
+68: get member 'errortext'
+69: if false goto 80
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+70: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+71: local #1
+72: +
+73: "] ->"
+74: +
+75: local #2
+76: get member 'errortext'
+77: +
+78: Func(3,0): SysLog
+79: #
+return elem;
+80: local #2
+81: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+82: decl local #0
+83: ":classes:settings"
+84: Func(5,0): ReadConfigFile
+85: :=
+86: #
+if( cfg.errortext )
+87: local #0
+88: get member 'errortext'
+89: if false goto 96
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+90: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+91: local #0
+92: get member 'errortext'
+93: +
+94: Func(3,0): SysLog
+95: #
+return cfg;
+96: local #0
+97: return
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\animalTrainer.src, Line 43
+function ItemGivenEvent( npc, byref event )
+98: pop param byref 'event'
+99: pop param 'npc'
+var item := event.item;
+100: decl local #2
+101: local #0
+102: get member 'item'
+103: :=
+104: #
+var source := event.source;
+105: decl local #3
+106: local #0
+107: get member 'source'
+108: :=
+109: #
+ReleaseItem( item );
+110: local #2
+111: Func(2,13): ReleaseItem
+112: #
+if( source.hidden || source.IsA( POLCLASS_NPC ))
+113: local #3
+114: get member id 'hidden' (32)
+115: local #3
+116: 4L
+117: Call Method id isa (#0, 1 params)
+118: ||
+119: if false goto 122
+return 1;
+120: 1L
+121: return
+AI_Turn( npc, event.source, NETURN_TOWARD );
+122: local #1
+123: local #0
+124: get member 'source'
+125: 1L
+126: 0L
+127: makelocal
+128: jmp userfunc @546
+129: #
+if( item.objtype == 0xeed )
+130: local #2
+131: get member id 'objtype' (4)
+132: 3821L
+133: ==
+134: if false goto 142
+TrainSkill( npc, source, item );
+135: local #1
+136: local #3
+137: local #2
+138: makelocal
+139: jmp userfunc @294
+140: #
+141: goto150
+elseif( LoadTicket( npc, source, item ))
+142: local #1
+143: local #3
+144: local #2
+145: makelocal
+146: jmp userfunc @152
+147: if false goto 150
+return 1;
+148: 1L
+149: return
+return 0;
+150: 0L
+151: return
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\animalTrainer.src, Line 65
+function LoadTicket( npc, byref source, byref item );
+152: pop param byref 'item'
+153: pop param byref 'source'
+154: pop param 'npc'
+var template := GetObjProperty( item, "Template" );
+155: decl local #3
+156: local #0
+157: "Template"
+158: Func(2,2): GetObjProperty
+159: :=
+160: #
+var color := GetObjProperty( item, "Color" );
+161: decl local #4
+162: local #0
+163: "Color"
+164: Func(2,2): GetObjProperty
+165: :=
+166: #
+var name := GetObjProperty( item, "Name" );
+167: decl local #5
+168: local #0
+169: "Name"
+170: Func(2,2): GetObjProperty
+171: :=
+172: #
+if( item.objtype != 0xF022 || !template )
+173: local #0
+174: get member id 'objtype' (4)
+175: 61474L
+176: <>
+177: local #3
+178: !
+179: ||
+180: if false goto 203
+AI_Speak( npc, "I have nowhere to put '"+item.desc+"', but thank you anyway.", 
+181: local #2
+182: "I have nowhere to put '"
+183: local #0
+184: get member id 'desc' (19)
+185: +
+186: "', but thank you anyway."
+187: +
+188: "default"
+189: 1L
+190: 0L
+191: makelocal
+192: jmp userfunc @502
+193: #
+MoveItemToContainer( item, source.backpack );
+194: local #0
+195: local #1
+196: get member id 'backpack' (41)
+197: -1L
+198: -1L
+199: Func(2,8): MoveItemToContainer
+200: #
+return 0;
+201: 0L
+202: return
+DestroyItem( item );
+203: local #0
+204: Func(2,14): DestroyItem
+205: #
+Sleep(5);
+206: 5L
+207: Func(3,6): Sleep
+208: #
+var creature := CreateNpcFromTemplate( template, npc.x, npc.y, npc.z, 0, npc.re
+209: decl local #6
+210: local #3
+211: local #2
+212: get member id 'x' (0)
+213: local #2
+214: get member id 'y' (1)
+215: local #2
+216: get member id 'z' (2)
+217: 0L
+218: local #2
+219: get member id 'realm' (112)
+220: Func(2,15): CreateNpcFromTemplate
+221: :=
+222: #
+creature.color := color;
+223: local #6
+224: local #4
+225: set member id 'color' (7) #
+creature.name := name;
+226: local #6
+227: local #5
+228: set member id 'name' (3) #
+SetObjProperty( creature, "#Peacemaking", ReadGameClock() + 5 );
+229: local #6
+230: "#Peacemaking"
+231: Func(2,11): ReadGameClock
+232: 5L
+233: +
+234: Func(2,1): SetObjProperty
+235: #
+tameCreature( creature, source );
+236: local #6
+237: local #1
+238: makelocal
+239: jmp userfunc @256
+240: #
+AI_Speak( npc, "Take care of "+creature.name+" and be sure to feed it!" );
+241: local #2
+242: "Take care of "
+243: local #6
+244: get member id 'name' (3)
+245: +
+246: " and be sure to feed it!"
+247: +
+248: "default"
+249: 0L
+250: 0L
+251: makelocal
+252: jmp userfunc @502
+253: #
+return 1;
+254: 1L
+255: return
+c:/ZH099/pkg/skills/ranger/animaltaming/include/taming.inc, Line 12
+function tameCreature( npc, mobile )
+256: pop param 'mobile'
+257: pop param 'npc'
+var delay := CInt( AP_GetSkill( mobile, ANIMAL_LORE ) + 1 ) * 50;
+258: decl local #2
+259: local #0
+260: "AnimalLore"
+261: makelocal
+262: jmp userfunc @584
+263: 1L
+264: +
+265: Func(0,2): CInt
+266: 50L
+267: *
+268: :=
+269: #
+delay *= ClasseBonus( mobile, RANGER );
+270: local #2
+271: local #0
+272: "IsRanger"
+273: makelocal
+274: jmp userfunc @653
+275: *=
+276: #
+if( delay < 1500 )
+277: local #2
+278: 1500L
+279: <
+280: if false goto 283
+delay := 1500;
+281: 1500L
+282: local2 := 
+TS_StartTimer( npc, "Tame", CInt( delay ), 0, mobile );
+283: local #1
+284: "Tame"
+285: local #2
+286: Func(0,2): CInt
+287: 0L
+288: local #0
+289: makelocal
+290: jmp userfunc @444
+291: #
+return 1;
+292: 1L
+293: return
+c:/ZH099/pkg/systems/brainAI/include/merchantUtil.inc, Line 63
+function TrainSkill( npc, byref source, byref item )
+294: pop param byref 'item'
+295: pop param byref 'source'
+296: pop param 'npc'
+var train_skill := GetObjProperty( source, "#VendorTrain" );
+297: decl local #3
+298: local #1
+299: "#VendorTrain"
+300: Func(2,2): GetObjProperty
+301: :=
+302: #
+if( !train_skill )
+303: local #3
+304: if true goto 322
+AI_Speak( npc, "I don't know what this is for, but thanks!" );
+305: local #2
+306: "I don't know what this is for, but thanks!"
+307: "default"
+308: 0L
+309: 0L
+310: makelocal
+311: jmp userfunc @502
+312: #
+MoveItemToContainer( item, source.backpack );
+313: local #0
+314: local #1
+315: get member id 'backpack' (41)
+316: -1L
+317: -1L
+318: Func(2,8): MoveItemToContainer
+319: #
+return 0;
+320: 0L
+321: return
+var npc_skill := AP_GetSkill( npc, train_skill ),
+322: decl local #4
+323: local #2
+324: local #3
+325: makelocal
+326: jmp userfunc @584
+327: :=
+328: #
+329: decl local #5
+330: local #1
+331: local #3
+332: makelocal
+333: jmp userfunc @605
+334: :=
+335: #
+if( npc_skill >= 33 && source_skill < 33 )
+336: local #4
+337: 33L
+338: >=
+339: local #5
+340: 33L
+341: <
+342: &&
+343: if false goto 421
+var train_value := CInt( item.amount / 10 );
+344: decl local #0
+345: local #0
+346: get member id 'amount' (13)
+347: 10L
+348: /
+349: Func(0,2): CInt
+350: :=
+351: #
+if( !train_value )
+352: local #6
+353: if true goto 365
+AI_Speak( npc, "You do not have enough money!" );
+354: local #2
+355: "You do not have enough money!"
+356: "default"
+357: 0L
+358: 0L
+359: makelocal
+360: jmp userfunc @502
+361: #
+return 0;
+362: 0L
+363: return
+364: goto371
+elseif( train_value >= 33 )
+365: local #6
+366: 33L
+367: >=
+368: if false goto 371
+train_value := 33;
+369: 33L
+370: local6 := 
+SubtractAmount( item, CInt( train_value * 10 ));
+371: local #0
+372: local #6
+373: 10L
+374: *
+375: Func(0,2): CInt
+376: Func(2,9): SubtractAmount
+377: #
+AI_Speak( npc, "Let me show you how it's done!" );
+378: local #2
+379: "Let me show you how it's done!"
+380: "default"
+381: 0L
+382: 0L
+383: makelocal
+384: jmp userfunc @502
+385: #
+Sleep(1);
+386: 1L
+387: Func(3,6): Sleep
+388: #
+var new_skill := CInt( source_skill + train_value );
+389: decl local #1
+390: local #5
+391: local #6
+392: +
+393: Func(0,2): CInt
+394: :=
+395: #
+if( new_skill > 33 )
+396: local #7
+397: 33L
+398: >
+399: if false goto 402
+new_skill := 33;
+400: 33L
+401: local7 := 
+AP_SetTrueSkill( source, train_skill, new_skill );
+402: local #1
+403: local #3
+404: local #7
+405: makelocal
+406: jmp userfunc @614
+407: #
+EraseObjProperty( source, "#VendorTrain" );
+408: local #1
+409: "#VendorTrain"
+410: Func(2,10): EraseObjProperty
+411: #
+MoveItemToContainer( item, source.backpack );
+412: local #0
+413: local #1
+414: get member id 'backpack' (41)
+415: -1L
+416: -1L
+417: Func(2,8): MoveItemToContainer
+418: #
+419: leave block(2)
+420: goto442
+AI_Speak( npc, "I cannot teach you "+train_skill+"." );
+421: local #2
+422: "I cannot teach you "
+423: local #3
+424: +
+425: "."
+426: +
+427: "default"
+428: 0L
+429: 0L
+430: makelocal
+431: jmp userfunc @502
+432: #
+MoveItemToContainer( source.backpack, item );
+433: local #1
+434: get member id 'backpack' (41)
+435: local #0
+436: -1L
+437: -1L
+438: Func(2,8): MoveItemToContainer
+439: #
+return 0;
+440: 0L
+441: return
+return 1;
+442: 1L
+443: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 131
+function TS_StartTimer( mobile, timer_name, duration, level:=0, attacker:=0 )
+444: pop param 'attacker'
+445: pop param 'level'
+446: pop param 'duration'
+447: pop param 'timer_name'
+448: pop param 'mobile'
+duration := CInt( duration );
+449: local #2
+450: Func(0,2): CInt
+451: local2 := 
+if( duration < 1 )
+452: local #2
+453: 1L
+454: <
+455: if false goto 460
+return error{"errortext":="Error::TS_StartTimer() - Duration must be greater th
+456: error
+457: "Error::TS_StartTimer() - Duration must be greater than 0."
+458: addmember-assign(errortext)
+459: return
+var event := struct;
+460: decl local #5
+461: struct
+462: :=
+463: #
+event.+type := EVENT_ADD_TIMER;
+464: local #5
+465: "type"
+466: .+
+467: 1L
+468: := #
+event.+name := CStr(timer_name);
+469: local #5
+470: "name"
+471: .+
+472: local #3
+473: Func(0,5): CStr
+474: := #
+event.+amount := duration;
+475: local #5
+476: "amount"
+477: .+
+478: local #2
+479: := #
+event.+level := CInt(level);
+480: local #5
+481: "level"
+482: .+
+483: local #1
+484: Func(0,2): CInt
+485: := #
+event.+attacker := attacker;
+486: local #5
+487: "attacker"
+488: .+
+489: local #0
+490: := #
+var process := TS_GetControllerProcess( mobile, START_CONTROLLER );
+491: decl local #6
+492: local #4
+493: 1L
+494: makelocal
+495: jmp userfunc @677
+496: :=
+497: #
+return process.SendEvent( event );
+498: local #6
+499: local #5
+500: Call Method id sendevent (#74, 1 params)
+501: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+502: pop param 'no_wake'
+503: pop param 'do_event'
+504: pop param 'text_type'
+505: pop param 'text'
+506: pop param 'npc'
+var ev		:= struct;
+507: decl local #5
+508: struct
+509: :=
+510: #
+ev.+type	:= NPCEVENT_SPEAK;
+511: local #5
+512: "type"
+513: .+
+514: 10485765L
+515: := #
+ev.+text	:= text;
+516: local #5
+517: "text"
+518: .+
+519: local #3
+520: := #
+ev.+texttype	:= text_type;
+521: local #5
+522: "texttype"
+523: .+
+524: local #2
+525: := #
+ev.+doevent	:= do_event;
+526: local #5
+527: "doevent"
+528: .+
+529: local #1
+530: := #
+ev.+WakeUp	:= no_wake;
+531: local #5
+532: "WakeUp"
+533: .+
+534: local #0
+535: := #
+ev.+process	:= GetProcess( GetPid() );
+536: local #5
+537: "process"
+538: .+
+539: Func(3,4): GetPid
+540: Func(3,1): GetProcess
+541: := #
+return SendEvent( npc, ev );
+542: local #4
+543: local #5
+544: Func(2,3): SendEvent
+545: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+546: pop param 'no_wake'
+547: pop param 'direction'
+548: pop param 'object'
+549: pop param 'npc'
+var ev		:= struct;
+550: decl local #4
+551: struct
+552: :=
+553: #
+ev.+type	:= NPCEVENT_TURN;
+554: local #4
+555: "type"
+556: .+
+557: 10485766L
+558: := #
+ev.+source	:= object;
+559: local #4
+560: "source"
+561: .+
+562: local #2
+563: := #
+ev.+direction	:= direction;
+564: local #4
+565: "direction"
+566: .+
+567: local #1
+568: := #
+ev.+WakeUp	:= no_wake;
+569: local #4
+570: "WakeUp"
+571: .+
+572: local #0
+573: := #
+ev.+process	:= GetProcess( GetPid() );
+574: local #4
+575: "process"
+576: .+
+577: Func(3,4): GetPid
+578: Func(3,1): GetProcess
+579: := #
+return SendEvent( npc, ev );
+580: local #3
+581: local #4
+582: Func(2,3): SendEvent
+583: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+584: pop param 'skill_name'
+585: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+586: local #1
+587: local #0
+588: makelocal
+589: jmp userfunc @605
+590: local #1
+591: local #0
+592: makelocal
+593: jmp userfunc @596
+594: +
+595: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+596: pop param 'skill_name'
+597: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+598: local #1
+599: local #0
+600: Func(7,1): GetAttributeTemporaryMod
+601: Func(0,3): CDbl
+602: 10LF
+603: /
+604: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+605: pop param 'skill_name'
+606: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+607: local #1
+608: local #0
+609: Func(7,0): GetAttributeBaseValue
+610: Func(0,3): CDbl
+611: 10LF
+612: /
+613: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 23
+function AP_SetTrueSkill( mobile, skill_name, points )
+614: pop param 'points'
+615: pop param 'skill_name'
+616: pop param 'mobile'
+var result;
+617: decl local #3
+618: #
+if( points >= 0 )
+619: local #0
+620: 0L
+621: >=
+622: if false goto 635
+result := SetAttributeBaseValue( mobile, skill_name, CInt( CDbl( points ) * 10.
+623: local #2
+624: local #1
+625: local #0
+626: Func(0,3): CDbl
+627: 10LF
+628: *
+629: 0.1LF
+630: +
+631: Func(0,2): CInt
+632: Func(7,2): SetAttributeBaseValue
+633: local3 := 
+634: goto646
+result := SetAttributeBaseValue( mobile, skill_name, CInt( CDbl( points ) * 10.
+635: local #2
+636: local #1
+637: local #0
+638: Func(0,3): CDbl
+639: 10LF
+640: *
+641: 0.1LF
+642: -
+643: Func(0,2): CInt
+644: Func(7,2): SetAttributeBaseValue
+645: local3 := 
+RecalcVitals( mobile );
+646: local #2
+647: 1L
+648: 1L
+649: Func(6,0): RecalcVitals
+650: #
+return result;
+651: local #3
+652: return
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 28
+function ClasseBonus( mobile, classe )
+653: pop param 'classe'
+654: pop param 'mobile'
+var level := CInt( GetObjProperty( mobile, classe ));
+655: decl local #2
+656: local #1
+657: local #0
+658: Func(2,2): GetObjProperty
+659: Func(0,2): CInt
+660: :=
+661: #
+if( level )
+662: local #2
+663: if false goto 673
+return CDbl( settings.BonusLevel * level ) + 1;
+664: global #0
+665: get member 'BonusLevel'
+666: local #2
+667: *
+668: Func(0,3): CDbl
+669: 1L
+670: +
+671: return
+672: goto675
+return 1;
+673: 1L
+674: return
+675: 0L
+676: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 47
+function TS_GetControllerProcess( mobile, start:=NOSTART_CONTROLLER )
+677: pop param 'start'
+678: pop param 'mobile'
+var pid := CInt( GetObjProperty( mobile, "TimerControlPID" ));
+679: decl local #2
+680: local #1
+681: "TimerControlPID"
+682: Func(2,2): GetObjProperty
+683: Func(0,2): CInt
+684: :=
+685: #
+var process := GetProcess( pid );
+686: decl local #3
+687: local #2
+688: Func(3,1): GetProcess
+689: :=
+690: #
+if( !process )
+691: local #3
+692: if true goto 699
+if( start )
+693: local #0
+694: if false goto 699
+process := TS_StartController( mobile );
+695: local #1
+696: makelocal
+697: jmp userfunc @701
+698: local3 := 
+return process;
+699: local #3
+700: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 61
+function TS_StartController( mobile )
+701: pop param 'mobile'
+if( TS_GetControllerProcess( mobile, NOSTART_CONTROLLER ))
+702: local #0
+703: 0L
+704: makelocal
+705: jmp userfunc @677
+706: if false goto 711
+return error{"errortext":="Error::TS_StartController() - Controller is already 
+707: error
+708: "Error::TS_StartController() - Controller is already running."
+709: addmember-assign(errortext)
+710: return
+var script := Start_Script( ":timedscripts:timerControl", mobile );
+711: decl local #1
+712: ":timedscripts:timerControl"
+713: local #0
+714: Func(3,3): Start_Script
+715: :=
+716: #
+if( script.errortext )
+717: local #1
+718: get member 'errortext'
+719: if false goto 729
+ReportText( "Error::TS_StartController() ->"+script.errortext, REPORT_SYSLOG );
+720: "Error::TS_StartController() ->"
+721: local #1
+722: get member 'errortext'
+723: +
+724: 2L
+725: 0L
+726: makelocal
+727: jmp userfunc @731
+728: #
+return script;
+729: local #1
+730: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+731: pop param 'text_color'
+732: pop param 'flags'
+733: pop param 'report_text'
+if( !flags )
+734: local #1
+735: if true goto 739
+return 0;
+736: 0L
+737: return
+738: goto794
+elseif( flags & REPORT_CONSOLE )
+739: local #1
+740: 1L
+741: &
+742: if false goto 749
+Print( ""+report_text );
+743: ""
+744: local #2
+745: +
+746: Func(1,0): Print
+747: #
+748: goto794
+elseif( flags & REPORT_SYSLOG )
+749: local #1
+750: 2L
+751: &
+752: if false goto 783
+var script_name := CStr( GetProcess( GetPid() ).name ),
+753: decl local #0
+754: Func(3,4): GetPid
+755: Func(3,1): GetProcess
+756: get member id 'name' (3)
+757: Func(0,5): CStr
+758: :=
+759: #
+760: decl local #1
+761: local #3
+762: makelocal
+763: jmp userfunc @796
+764: :=
+765: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+766: "::log/"
+767: local #4
+768: +
+769: ".log"
+770: +
+771: "["
+772: local #3
+773: +
+774: "]: "
+775: +
+776: local #2
+777: +
+778: 1L
+779: Func(9,0): LogToFile
+780: #
+781: leave block(2)
+782: goto794
+elseif( flags & REPORT_BROADCAST )
+783: local #1
+784: 4L
+785: &
+786: if false goto 794
+Broadcast( ""+report_text, 3, text_color );
+787: ""
+788: local #2
+789: +
+790: 3L
+791: local #0
+792: Func(2,5): Broadcast
+793: #
+return 1;
+794: 1L
+795: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+796: pop param 'script_name'
+var i;
+797: decl local #1
+798: #
+for( i:=1; i<=len(script_name); i+=1 )
+799: local #1
+800: 1L
+801: :=
+802: #
+803: local #1
+804: local #0
+805: Func(0,4): Len
+806: <=
+807: if false goto 827
+if( !Check_ValidChar( script_name[i] ))
+808: local #0
+809: local #1
+810: [] 1
+811: 0L
+812: makelocal
+813: jmp userfunc @843
+814: if true goto 819
+script_name[i] := " ";
+815: local #0
+816: local #1
+817: " "
+818: [] := (1) #
+SleepMS(5);
+819: 5L
+820: Func(3,2): Sleepms
+821: #
+822: local #1
+823: 1L
+824: +=
+825: #
+826: goto803
+foreach poss_pkg in ( SplitWords( script_name ))
+827: local #0
+828: " "
+829: Func(0,7): SplitWords
+830: initforeach @839
+if( GetPackageByName( poss_pkg ))
+831: local #2
+832: Func(11,0): GetPackageByName
+833: if false goto 836
+return poss_pkg;
+834: local #2
+835: return
+SleepMS(5);
+836: 5L
+837: Func(3,2): Sleepms
+838: #
+839: stepforeach @831
+840: leave block(3)
+return 0;
+841: 0L
+842: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+843: pop param 'allow_space'
+844: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+845: decl local #2
+846: array
+847: "a"
+848: init{}
+849: "b"
+850: init{}
+851: "c"
+852: init{}
+853: "d"
+854: init{}
+855: "e"
+856: init{}
+857: "f"
+858: init{}
+859: "g"
+860: init{}
+861: "h"
+862: init{}
+863: "i"
+864: init{}
+865: "j"
+866: init{}
+867: "k"
+868: init{}
+869: "l"
+870: init{}
+871: "m"
+872: init{}
+873: "n"
+874: init{}
+875: "o"
+876: init{}
+877: "p"
+878: init{}
+879: "q"
+880: init{}
+881: "r"
+882: init{}
+883: "s"
+884: init{}
+885: "t"
+886: init{}
+887: "u"
+888: init{}
+889: "v"
+890: init{}
+891: "w"
+892: init{}
+893: "x"
+894: init{}
+895: "y"
+896: init{}
+897: "z"
+898: init{}
+899: "A"
+900: init{}
+901: "B"
+902: init{}
+903: "C"
+904: init{}
+905: "D"
+906: init{}
+907: "E"
+908: init{}
+909: "F"
+910: init{}
+911: "G"
+912: init{}
+913: "H"
+914: init{}
+915: "I"
+916: init{}
+917: "P"
+918: init{}
+919: "O"
+920: init{}
+921: "N"
+922: init{}
+923: "M"
+924: init{}
+925: "L"
+926: init{}
+927: "K"
+928: init{}
+929: "J"
+930: init{}
+931: "Q"
+932: init{}
+933: "R"
+934: init{}
+935: "S"
+936: init{}
+937: "T"
+938: init{}
+939: "U"
+940: init{}
+941: "V"
+942: init{}
+943: "W"
+944: init{}
+945: "X"
+946: init{}
+947: "Y"
+948: init{}
+949: "Z"
+950: init{}
+951: "1"
+952: init{}
+953: "2"
+954: init{}
+955: "3"
+956: init{}
+957: "4"
+958: init{}
+959: "5"
+960: init{}
+961: "6"
+962: init{}
+963: "7"
+964: init{}
+965: "8"
+966: init{}
+967: "9"
+968: init{}
+969: "0"
+970: init{}
+971: :=
+972: #
+var len_text := Len( text );
+973: decl local #3
+974: local #1
+975: Func(0,4): Len
+976: :=
+977: #
+var i;
+978: decl local #4
+979: #
+for( i:=1; i<=len_text; i+=1 )
+980: local #4
+981: 1L
+982: :=
+983: #
+984: local #4
+985: local #3
+986: <=
+987: if false goto 1030
+SleepMS(5);
+988: 5L
+989: Func(3,2): Sleepms
+990: #
+var letter := CStr( text[i] );
+991: decl local #0
+992: local #1
+993: local #4
+994: [] 1
+995: Func(0,5): CStr
+996: :=
+997: #
+if( letter in valid_char )
+998: local #5
+999: local #2
+1000: in
+1001: if false goto 1005
+continue;
+1002: leave block(1)
+1003: goto1025
+1004: goto1022
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+1005: local #0
+1006: local #1
+1007: local #4
+1008: [] 1
+1009: " "
+1010: ==
+1011: local #1
+1012: local #4
+1013: [] 1
+1014: Func(0,9): CAsc
+1015: 0L
+1016: ==
+1017: ||
+1018: &&
+1019: if false goto 1022
+continue;
+1020: leave block(1)
+1021: goto1025
+return 0;
+1022: 0L
+1023: return
+1024: leave block(1)
+1025: local #4
+1026: 1L
+1027: +=
+1028: #
+1029: goto984
+return 1;
+1030: 1L
+1031: return

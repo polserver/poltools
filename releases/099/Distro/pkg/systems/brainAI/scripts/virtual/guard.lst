@@ -1,0 +1,331 @@
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\guard.src, Line 13
+var following := 0,
+0: decl global #0
+1: 0L
+2: :=
+3: #
+4: decl global #1
+5: 0L
+6: :=
+7: #
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\guard.src, Line 16
+program BrainNerve( params )
+8: get arg 'params'
+var npc		:= params[1];
+9: decl local #1
+10: local #0
+11: 1L
+12: [] 1
+13: :=
+14: #
+var nerve_name	:= params[2];
+15: decl local #2
+16: local #0
+17: 2L
+18: [] 1
+19: :=
+20: #
+var source	:= params[3];
+21: decl local #3
+22: local #0
+23: 3L
+24: [] 1
+25: :=
+26: #
+params := 0; // Not needed anymore.
+27: 0L
+28: local0 := 
+SetObjProperty( npc, "#Guard", source.serial );
+29: local #1
+30: "#Guard"
+31: local #3
+32: get member id 'serial' (6)
+33: Func(2,1): SetObjProperty
+34: #
+while( npc )
+35: local #1
+36: if false goto 63
+if( !canGuard( npc, source ))
+37: local #1
+38: local #3
+39: makelocal
+40: jmp userfunc @141
+41: if true goto 49
+AI_EndNerve( npc, nerve_name );
+42: local #1
+43: local #2
+44: 0L
+45: makelocal
+46: jmp userfunc @109
+47: #
+break;
+48: goto63
+Guard( npc, source );
+49: local #1
+50: local #3
+51: makelocal
+52: jmp userfunc @208
+53: #
+SleepMS(400);
+54: 400L
+55: Func(3,2): Sleepms
+56: #
+AI_ClearThoughts( npc, CLR_NERVE );
+57: local #1
+58: 2L
+59: makelocal
+60: jmp userfunc @67
+61: #
+62: goto35
+return 1;
+63: 1L
+64: progend
+65: leave block(4)
+66: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 45
+function AI_ClearThoughts( npc, flags )
+67: pop param 'flags'
+68: pop param 'npc'
+var brain	:= flags & CLR_BRAIN;
+69: decl local #2
+70: local #0
+71: 1L
+72: &
+73: :=
+74: #
+var nerve	:= flags & CLR_NERVE;
+75: decl local #3
+76: local #0
+77: 2L
+78: &
+79: :=
+80: #
+var both	:= flags & CLR_BOTH;
+81: decl local #4
+82: local #0
+83: 3L
+84: &
+85: :=
+86: #
+if( both || brain )
+87: local #4
+88: local #2
+89: ||
+90: if false goto 97
+brain := NPC.process;
+91: local #1
+92: get member id 'process' (64)
+93: local2 := 
+brain.clear_event_queue();
+94: local #2
+95: Call Method id clear_event_queue (#78, 0 params)
+96: #
+if( both || nerve )
+97: local #4
+98: local #3
+99: ||
+100: if false goto 107
+nerve := GetProcess( GetPid() );
+101: Func(3,4): GetPid
+102: Func(3,1): GetProcess
+103: local3 := 
+nerve.clear_event_queue();
+104: local #3
+105: Call Method id clear_event_queue (#78, 0 params)
+106: #
+return 1;
+107: 1L
+108: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 64
+function AI_EndNerve( npc, nerve_name, no_wake:=NOWAKE )
+109: pop param 'no_wake'
+110: pop param 'nerve_name'
+111: pop param 'npc'
+var ev		:= struct;
+112: decl local #3
+113: struct
+114: :=
+115: #
+ev.+type	:= NPCEVENT_ENDNERVE;
+116: local #3
+117: "type"
+118: .+
+119: 10485775L
+120: := #
+ev.+name	:= nerve_name;
+121: local #3
+122: "name"
+123: .+
+124: local #1
+125: := #
+ev.+WakeUp	:= no_wake;
+126: local #3
+127: "WakeUp"
+128: .+
+129: local #0
+130: := #
+ev.+process	:= GetProcess( GetPid() );
+131: local #3
+132: "process"
+133: .+
+134: Func(3,4): GetPid
+135: Func(3,1): GetProcess
+136: := #
+return SendEvent( npc, ev );
+137: local #2
+138: local #3
+139: Func(2,3): SendEvent
+140: return
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\guard.src, Line 42
+function canGuard( npc, source )
+141: pop param 'source'
+142: pop param 'npc'
+if( npc.opponent )
+143: local #1
+144: get member id 'opponent' (120)
+145: if false goto 149
+return 0;
+146: 0L
+147: return
+148: goto206
+elseif( npc.frozen || npc.paralyzed )
+149: local #1
+150: get member id 'frozen' (34)
+151: local #1
+152: get member id 'paralyzed' (35)
+153: ||
+154: if false goto 158
+return 0;
+155: 0L
+156: return
+157: goto206
+elseif( npc.hidden || npc.concealed )
+158: local #1
+159: get member id 'hidden' (32)
+160: local #1
+161: get member id 'concealed' (33)
+162: ||
+163: if false goto 167
+return 0;
+164: 0L
+165: return
+166: goto206
+elseif( source.hidden || source.concealed )
+167: local #0
+168: get member id 'hidden' (32)
+169: local #0
+170: get member id 'concealed' (33)
+171: ||
+172: if false goto 176
+return 0;
+173: 0L
+174: return
+175: goto206
+elseif( source.dead )
+176: local #0
+177: get member id 'dead' (39)
+178: if false goto 182
+return 0;
+179: 0L
+180: return
+181: goto206
+elseif( !source.connected )
+182: local #0
+183: get member id 'connected' (121)
+184: if true goto 188
+return 0;
+185: 0L
+186: return
+187: goto206
+elseif( GetObjProperty( npc, "#Guard" ) != source.serial )
+188: local #1
+189: "#Guard"
+190: Func(2,2): GetObjProperty
+191: local #0
+192: get member id 'serial' (6)
+193: <>
+194: if false goto 198
+return 0;
+195: 0L
+196: return
+197: goto206
+elseif( Distance( npc, source ) > 15 )
+198: local #1
+199: local #0
+200: Func(2,4): Distance
+201: 15L
+202: >
+203: if false goto 206
+return 0;
+204: 0L
+205: return
+return 1;
+206: 1L
+207: return
+C:\ZH099\pkg\systems\brainAI\scripts\virtual\guard.src, Line 65
+function Guard( npc, source )
+208: pop param 'source'
+209: pop param 'npc'
+foreach mobile in ListHostiles( source, 9, LH_FLAG_LOS );
+210: local #0
+211: 9L
+212: 1L
+213: Func(2,5): ListHostiles
+214: initforeach @224
+if( mobile )
+215: local #2
+216: if false goto 223
+AI_Attack( npc, mobile );
+217: local #1
+218: local #2
+219: 1L
+220: makelocal
+221: jmp userfunc @228
+222: #
+break;
+223: goto225
+224: stepforeach @215
+225: leave block(3)
+return 1;
+226: 1L
+227: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 34
+function AI_Attack( npc, opponent, no_wake:=WAKEUP )
+228: pop param 'no_wake'
+229: pop param 'opponent'
+230: pop param 'npc'
+var ev		:= struct;
+231: decl local #3
+232: struct
+233: :=
+234: #
+ev.+type	:= SYSEVENT_ENGAGED;
+235: local #3
+236: "type"
+237: .+
+238: 2L
+239: := #
+ev.+source	:= opponent;
+240: local #3
+241: "source"
+242: .+
+243: local #1
+244: := #
+ev.+WakeUp	:= no_wake;
+245: local #3
+246: "WakeUp"
+247: .+
+248: local #0
+249: := #
+ev.+process	:= GetProcess( GetPid() );
+250: local #3
+251: "process"
+252: .+
+253: Func(3,4): GetPid
+254: Func(3,1): GetProcess
+255: := #
+return SendEvent( npc, ev );
+256: local #2
+257: local #3
+258: Func(2,3): SendEvent
+259: return

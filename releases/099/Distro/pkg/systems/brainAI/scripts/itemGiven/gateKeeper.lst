@@ -1,0 +1,737 @@
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+0: decl global #0
+1: 0L
+2: :=
+3: #
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\gateKeeper.src, Line 24
+program BrainNerve( params )
+enum TIME_HELPERS
+4: get arg 'params'
+var npc		:= params[1];
+5: decl local #1
+6: local #0
+7: 1L
+8: [] 1
+9: :=
+10: #
+var event	:= params[3];
+11: decl local #2
+12: local #0
+13: 3L
+14: [] 1
+15: :=
+16: #
+params := 0; // Not needed anymore.
+17: 0L
+18: local0 := 
+while( npc )
+19: local #1
+20: if false goto 43
+if( event )
+21: local #2
+22: if false goto 36
+case( event.type )
+23: local #2
+24: get member 'type'
+25: casejmp
+	1024: @26
+	default: @33
+ItemGivenEvent( npc, event );
+26: local #1
+27: local #2
+28: makelocal
+29: jmp userfunc @47
+30: #
+break;
+31: goto32
+32: goto34
+break;
+33: goto34
+event := 0;
+34: 0L
+35: local2 := 
+SleepMS(5);
+36: 5L
+37: Func(3,2): Sleepms
+38: #
+event := Wait_For_Event(1);
+39: 1L
+40: Func(3,6): Wait_For_Event
+41: local2 := 
+42: goto19
+return 1;
+43: 1L
+44: progend
+45: leave block(3)
+46: progend
+C:\ZH099\pkg\systems\brainAI\scripts\itemGiven\gateKeeper.src, Line 50
+function ItemGivenEvent( npc, byref event )
+47: pop param byref 'event'
+48: pop param 'npc'
+var item := event.item;
+49: decl local #2
+50: local #0
+51: get member 'item'
+52: :=
+53: #
+var source := event.source;
+54: decl local #3
+55: local #0
+56: get member 'source'
+57: :=
+58: #
+ReleaseItem( item );
+59: local #2
+60: Func(2,8): ReleaseItem
+61: #
+if( source.hidden || source.IsA( POLCLASS_NPC ))
+62: local #3
+63: get member id 'hidden' (32)
+64: local #3
+65: 4L
+66: Call Method id isa (#0, 1 params)
+67: ||
+68: if false goto 71
+return 1;
+69: 1L
+70: return
+var g_datafile := DFOpenDataFile( ":doom:main", DF_CREATE );
+71: decl local #4
+72: ":doom:main"
+73: 1L
+74: 0L
+75: makelocal
+76: jmp userfunc @522
+77: :=
+78: #
+var data_elem := DFFindElement( g_datafile, "Main", DF_CREATE );
+79: decl local #5
+80: local #4
+81: "Main"
+82: 1L
+83: makelocal
+84: jmp userfunc @460
+85: :=
+86: #
+if( !item.IsHellSpawnBone() )
+87: local #2
+88: Call Method ishellspawnbone (0 params)
+89: if true goto 108
+AI_Speak( npc, "I require 10 000 Hellspawn bones of the damned." );
+90: local #1
+91: "I require 10 000 Hellspawn bones of the damned."
+92: "default"
+93: 0L
+94: 0L
+95: makelocal
+96: jmp userfunc @416
+97: #
+MoveItemToContainer( item, source.backpack );
+98: local #2
+99: local #3
+100: get member id 'backpack' (41)
+101: -1L
+102: -1L
+103: Func(2,9): MoveItemToContainer
+104: #
+return 1;
+105: 1L
+106: return
+107: goto141
+elseif( item.amount < 10000 )
+108: local #2
+109: get member id 'amount' (13)
+110: 10000L
+111: <
+112: if false goto 141
+MoveItemToContainer( item, source.backpack );
+113: local #2
+114: local #3
+115: get member id 'backpack' (41)
+116: -1L
+117: -1L
+118: Func(2,9): MoveItemToContainer
+119: #
+AI_Speak( npc, "Although your valor is considerable, you are not yet worthy to 
+120: local #1
+121: "Although your valor is considerable, you are not yet worthy to enter."
+122: "default"
+123: 0L
+124: 0L
+125: makelocal
+126: jmp userfunc @416
+127: #
+Sleep(2);
+128: 2L
+129: Func(3,7): Sleep
+130: #
+AI_Speak( npc, "I require 10 000 Hellspawn bones of the damned." );
+131: local #1
+132: "I require 10 000 Hellspawn bones of the damned."
+133: "default"
+134: 0L
+135: 0L
+136: makelocal
+137: jmp userfunc @416
+138: #
+return 1;
+139: 1L
+140: return
+var doom_started := data_elem.GetProp( "doomStarted" );
+141: decl local #6
+142: local #5
+143: "doomStarted"
+144: Call Method id getprop (#35, 1 params)
+145: :=
+146: #
+if( !doom_started )
+147: local #6
+148: if true goto 176
+var doom_occupied := data_elem.GetProp( "doomOccupied" );
+149: decl local #0
+150: local #5
+151: "doomOccupied"
+152: Call Method id getprop (#35, 1 params)
+153: :=
+154: #
+foreach serial in doom_occupied
+155: local #7
+156: initforeach @167
+var mobile := SystemFindObjectBySerial( serial );
+157: decl local #0
+158: local #8
+159: 0L
+160: Func(2,10): SystemFindObjectBySerial
+161: :=
+162: #
+SleepMS(5);
+163: 5L
+164: Func(3,2): Sleepms
+165: #
+166: leave block(1)
+167: stepforeach @157
+168: leave block(3)
+data_elem.SetProp( "doomStarted", ReadGameClock() );
+169: local #5
+170: "doomStarted"
+171: Func(2,6): ReadGameClock
+172: Call Method id setprop (#36, 2 params)
+173: #
+174: leave block(1)
+175: goto211
+var doom_respawn := CInt( data_elem.GetProp( "doomRespawn" ));
+176: decl local #0
+177: local #5
+178: "doomRespawn"
+179: Call Method id getprop (#35, 1 params)
+180: Func(0,2): CInt
+181: :=
+182: #
+if( doom_respawn >= ReadGameClock() )
+183: local #7
+184: Func(2,6): ReadGameClock
+185: >=
+186: if false goto 208
+var delay := TIME_GetTimeDesc( CInt( doom_respawn - ReadGameClock() ), 1 );
+187: decl local #0
+188: local #7
+189: Func(2,6): ReadGameClock
+190: -
+191: Func(0,2): CInt
+192: 1L
+193: makelocal
+194: jmp userfunc @261
+195: :=
+196: #
+AI_Speak( npc, delay+" until Doom Dungeon respawn correctly." );
+197: local #1
+198: local #8
+199: " until Doom Dungeon respawn correctly."
+200: +
+201: "default"
+202: 0L
+203: 0L
+204: makelocal
+205: jmp userfunc @416
+206: #
+207: leave block(1)
+return 0;
+208: 0L
+209: return
+210: leave block(1)
+data_elem.SetProp( "doomRespawn", ReadGameClock() + SECONDS_IN_DAY );
+211: local #5
+212: "doomRespawn"
+213: Func(2,6): ReadGameClock
+214: 86400L
+215: +
+216: Call Method id setprop (#36, 2 params)
+217: #
+AI_Speak( npc, "You are worthy of passage. Prepare yourself..." );
+218: local #1
+219: "You are worthy of passage. Prepare yourself..."
+220: "default"
+221: 0L
+222: 0L
+223: makelocal
+224: jmp userfunc @416
+225: #
+DestroyItem( item );
+226: local #2
+227: Func(2,11): DestroyItem
+228: #
+Sleep(5);
+229: 5L
+230: Func(3,7): Sleep
+231: #
+var gate_entrance := CreateItemAtLocation( npc.x, npc.y, npc.z, 0x2051, 1, npc.
+232: decl local #7
+233: local #1
+234: get member id 'x' (0)
+235: local #1
+236: get member id 'y' (1)
+237: local #1
+238: get member id 'z' (2)
+239: 8273L
+240: 1L
+241: local #1
+242: get member id 'realm' (112)
+243: Func(2,12): CreateItemAtLocation
+244: :=
+245: #
+gate_entrance.SetDuration( 60 );
+246: local #7
+247: 60L
+248: Call Method setduration (1 params)
+249: #
+npc.concealed := 1;
+250: local #1
+251: 1L
+252: set member id 'concealed' (33) #
+Sleep( 60 );
+253: 60L
+254: Func(3,7): Sleep
+255: #
+npc.concealed := 0;
+256: local #1
+257: 0L
+258: set member id 'concealed' (33) #
+return 1;
+259: 1L
+260: return
+c:/ZH099/pkg/utils/timeutils/include/gameTime.inc, Line 216
+function TIME_GetTimeDesc( seconds, showseconds := 0 )
+261: pop param 'showseconds'
+262: pop param 'seconds'
+seconds := CInt( seconds );
+263: local #1
+264: Func(0,2): CInt
+265: local1 := 
+var minutes := CInt( seconds / 60 );
+266: decl local #2
+267: local #1
+268: 60L
+269: /
+270: Func(0,2): CInt
+271: :=
+272: #
+var hours := CInt( minutes / 60 );
+273: decl local #3
+274: local #2
+275: 60L
+276: /
+277: Func(0,2): CInt
+278: :=
+279: #
+var days := CInt( hours / 24 );
+280: decl local #4
+281: local #3
+282: 24L
+283: /
+284: Func(0,2): CInt
+285: :=
+286: #
+if( seconds < 60 )
+287: local #1
+288: 60L
+289: <
+290: if false goto 300
+if( showseconds )
+291: local #0
+292: if false goto 298
+return( seconds+" seconds" );
+293: local #1
+294: " seconds"
+295: +
+296: return
+297: goto300
+return "< 1 minute";
+298: "< 1 minute"
+299: return
+hours -= days * 24;
+300: local #3
+301: local #4
+302: 24L
+303: *
+304: -=
+305: #
+minutes -= ( days * 24 + hours )*60;
+306: local #2
+307: local #4
+308: 24L
+309: *
+310: local #3
+311: +
+312: 60L
+313: *
+314: -=
+315: #
+var returnstring := "";
+316: decl local #5
+317: ""
+318: :=
+319: #
+if( days )
+320: local #4
+321: if false goto 337
+if( days > 1 )
+322: local #4
+323: 1L
+324: >
+325: if false goto 333
+returnstring := returnstring+days+" days, ";
+326: local #5
+327: local #4
+328: +
+329: " days, "
+330: +
+331: local5 := 
+332: goto337
+returnstring := returnstring+"1 day, ";
+333: local #5
+334: "1 day, "
+335: +
+336: local5 := 
+if( hours || days )
+337: local #3
+338: local #4
+339: ||
+340: if false goto 356
+if( hours > 1 )
+341: local #3
+342: 1L
+343: >
+344: if false goto 352
+returnstring := returnstring+hours+" hours, ";
+345: local #5
+346: local #3
+347: +
+348: " hours, "
+349: +
+350: local5 := 
+351: goto356
+returnstring := returnstring+"1 hour, ";
+352: local #5
+353: "1 hour, "
+354: +
+355: local5 := 
+if( minutes || hours || days )
+356: local #2
+357: local #3
+358: ||
+359: local #4
+360: ||
+361: if false goto 377
+if( minutes > 1 )
+362: local #2
+363: 1L
+364: >
+365: if false goto 373
+returnstring := returnstring+minutes+" minutes";
+366: local #5
+367: local #2
+368: +
+369: " minutes"
+370: +
+371: local5 := 
+372: goto377
+returnstring := returnstring+"1 minute";
+373: local #5
+374: "1 minute"
+375: +
+376: local5 := 
+if( showseconds )
+377: local #0
+378: if false goto 414
+seconds := CInt( seconds % 60 );
+379: local #1
+380: 60L
+381: %
+382: Func(0,2): CInt
+383: local1 := 
+if( seconds > 1 )
+384: local #1
+385: 1L
+386: >
+387: if false goto 397
+returnstring := returnstring+", "+seconds+" seconds ";
+388: local #5
+389: ", "
+390: +
+391: local #1
+392: +
+393: " seconds "
+394: +
+395: local5 := 
+396: goto414
+elseif( seconds == 1 )
+397: local #1
+398: 1L
+399: ==
+400: if false goto 408
+returnstring := returnstring+", "+"1 second ";
+401: local #5
+402: ", "
+403: +
+404: "1 second "
+405: +
+406: local5 := 
+407: goto414
+returnstring := returnstring+", "+"0 seconds ";
+408: local #5
+409: ", "
+410: +
+411: "0 seconds "
+412: +
+413: local5 := 
+return returnstring;
+414: local #5
+415: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+416: pop param 'no_wake'
+417: pop param 'do_event'
+418: pop param 'text_type'
+419: pop param 'text'
+420: pop param 'npc'
+var ev		:= struct;
+421: decl local #5
+422: struct
+423: :=
+424: #
+ev.+type	:= NPCEVENT_SPEAK;
+425: local #5
+426: "type"
+427: .+
+428: 10485765L
+429: := #
+ev.+text	:= text;
+430: local #5
+431: "text"
+432: .+
+433: local #3
+434: := #
+ev.+texttype	:= text_type;
+435: local #5
+436: "texttype"
+437: .+
+438: local #2
+439: := #
+ev.+doevent	:= do_event;
+440: local #5
+441: "doevent"
+442: .+
+443: local #1
+444: := #
+ev.+WakeUp	:= no_wake;
+445: local #5
+446: "WakeUp"
+447: .+
+448: local #0
+449: := #
+ev.+process	:= GetProcess( GetPid() );
+450: local #5
+451: "process"
+452: .+
+453: Func(3,4): GetPid
+454: Func(3,1): GetProcess
+455: := #
+return SendEvent( npc, ev );
+456: local #4
+457: local #5
+458: Func(2,3): SendEvent
+459: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 74
+function DFFindElement(byref file_ref, elem_name, create:=DF_NO_CREATE)
+460: pop param 'create'
+461: pop param 'elem_name'
+462: pop param byref 'file_ref'
+var temp := file_ref.FindElement(CStr(elem_name));
+463: decl local #3
+464: local #2
+465: local #1
+466: Func(0,5): CStr
+467: Call Method id findelement (#72, 1 params)
+468: :=
+469: #
+if ( !temp && create )
+470: local #3
+471: !
+472: local #0
+473: &&
+474: if false goto 492
+DF_OutPut("Debug::DFFindElement() - Creating elem: "+CStr(elem_name));
+475: "Debug::DFFindElement() - Creating elem: "
+476: local #1
+477: Func(0,5): CStr
+478: +
+479: makelocal
+480: jmp userfunc @578
+481: #
+file_ref.CreateElement(CStr(elem_name));
+482: local #2
+483: local #1
+484: Func(0,5): CStr
+485: Call Method id createelement (#71, 1 params)
+486: #
+temp := file_ref.FindElement(CStr(elem_name));
+487: local #2
+488: local #1
+489: Func(0,5): CStr
+490: Call Method id findelement (#72, 1 params)
+491: local3 := 
+if ( temp )
+492: local #3
+493: if false goto 497
+return temp;
+494: local #3
+495: return
+496: goto520
+elseif (create)
+497: local #0
+498: if false goto 520
+var errmsg := error{"errortext":="Error::DFFindElement() - Could not open data 
+499: decl local #0
+500: error
+501: "Error::DFFindElement() - Could not open data elem ["
+502: local #1
+503: +
+504: "] - "
+505: +
+506: local #3
+507: get member 'errortext'
+508: +
+509: addmember-assign(errortext)
+510: :=
+511: #
+DF_OutPut(errmsg.errortext);
+512: local #4
+513: get member 'errortext'
+514: makelocal
+515: jmp userfunc @578
+516: #
+return errmsg;
+517: local #4
+518: return
+519: leave block(1)
+520: 0L
+521: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 37
+function DFOpenDataFile(file_name, create:=DF_NO_CREATE, flags:=DF_KEYTYPE_STRI
+522: pop param 'flags'
+523: pop param 'create'
+524: pop param 'file_name'
+var data_file := OpenDataFile(file_name);
+525: decl local #3
+526: local #2
+527: Func(7,0): OpenDataFile
+528: :=
+529: #
+if ( (!data_file) && (create) )
+530: local #3
+531: !
+532: local #1
+533: &&
+534: if false goto 548
+DF_OutPut("Debug::DFOpenDataFile() - Creating data file: "+file_name);
+535: "Debug::DFOpenDataFile() - Creating data file: "
+536: local #2
+537: +
+538: makelocal
+539: jmp userfunc @578
+540: #
+CreateDataFile(file_name, flags);
+541: local #2
+542: local #0
+543: Func(7,1): CreateDataFile
+544: #
+data_file := OpenDataFile(file_name);
+545: local #2
+546: Func(7,0): OpenDataFile
+547: local3 := 
+if ( data_file )
+548: local #3
+549: if false goto 553
+return data_file;
+550: local #3
+551: return
+552: goto576
+elseif ( create )
+553: local #1
+554: if false goto 576
+var errmsg := error{"errortext":="Error::DFOpenDataFile() - Could not open "+fi
+555: decl local #0
+556: error
+557: "Error::DFOpenDataFile() - Could not open "
+558: local #2
+559: +
+560: " : "
+561: +
+562: local #3
+563: get member 'errortext'
+564: +
+565: addmember-assign(errortext)
+566: :=
+567: #
+DF_OutPut(errmsg.errortext);
+568: local #4
+569: get member 'errortext'
+570: makelocal
+571: jmp userfunc @578
+572: #
+return errmsg;
+573: local #4
+574: return
+575: leave block(1)
+576: 0L
+577: return
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 122
+function DF_OutPut(text)
+578: pop param 'text'
+if ( DF_DEBUG_MODE )
+579: global #0
+580: if false goto 599
+var script_name := GetProcess(GetPid()).name;
+581: decl local #0
+582: Func(3,4): GetPid
+583: Func(3,1): GetProcess
+584: get member id 'name' (3)
+585: :=
+586: #
+LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
+587: "::log/dataFile.log"
+588: "["
+589: local #1
+590: +
+591: "]: "
+592: +
+593: local #0
+594: +
+595: 1L
+596: Func(6,0): LogToFile
+597: #
+598: leave block(1)
+return 1;
+599: 1L
+600: return

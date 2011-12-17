@@ -1,0 +1,4411 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @289
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+c:/ZH099/pkg/systems/loot/include/identify_ex.inc, Line 7
+var immunities := { "AirProtection",
+11: decl global #2
+12: array
+13: "AirProtection"
+14: init{}
+15: "EarthProtection"
+16: init{}
+17: "FireProtection"
+18: init{}
+19: "WaterProtection"
+20: init{}
+21: "NecroProtection"
+22: init{}
+23: "PermPoisonProtection"
+24: init{}
+25: "PermMagicProtection"
+26: init{}
+27: "PhysicalProtection"
+28: init{}
+29: "PermSpellReflection"
+30: init{}
+31: "HealingIncrease"
+32: init{}
+33: :=
+34: #
+var wardings := { "PoisonProtection",
+35: decl global #3
+36: array
+37: "PoisonProtection"
+38: init{}
+39: "MagicProtection"
+40: init{}
+41: "SpellReflection"
+42: init{}
+43: "FreeAction"
+44: init{}
+45: :=
+46: #
+var regenerations := { "HitsRegen",
+47: decl global #4
+48: array
+49: "HitsRegen"
+50: init{}
+51: "StamRegen"
+52: init{}
+53: "ManaRegen"
+54: init{}
+55: :=
+56: #
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 22
+program BrainNerve( params )
+const LEVEL_MULTIPLIER := 1500;
+57: get arg 'params'
+var npc		:= params[1];
+58: decl local #1
+59: local #0
+60: 1L
+61: [] 1
+62: :=
+63: #
+var event	:= params[3];
+64: decl local #2
+65: local #0
+66: 3L
+67: [] 1
+68: :=
+69: #
+params := 0; // Not needed anymore.
+70: 0L
+71: local0 := 
+var text := SplitWords( Lower( event.text )),
+72: decl local #3
+73: local #2
+74: get member 'text'
+75: Func(0,2): Lower
+76: " "
+77: Func(0,9): SplitWords
+78: :=
+79: #
+80: decl local #4
+81: local #2
+82: get member 'source'
+83: :=
+84: #
+85: decl local #5
+86: local #1
+87: get member id 'master' (63)
+88: :=
+89: #
+if( source.hidden )
+90: local #4
+91: get member id 'hidden' (32)
+92: if false goto 96
+return 0;
+93: 0L
+94: progend
+95: goto120
+elseif( source.dead )
+96: local #4
+97: get member id 'dead' (39)
+98: if false goto 102
+return 0;
+99: 0L
+100: progend
+101: goto120
+elseif( source.IsA( POLCLASS_NPC ))
+102: local #4
+103: 4L
+104: Call Method id isa (#0, 1 params)
+105: if false goto 109
+return 0;
+106: 0L
+107: progend
+108: goto120
+elseif( !npc_master )
+109: local #5
+110: if true goto 114
+return 0;
+111: 0L
+112: progend
+113: goto120
+elseif( source != npc_master );
+114: local #4
+115: local #5
+116: <>
+117: if false goto 120
+return 0;
+118: 0L
+119: progend
+AI_Turn( npc, source, NETURN_TOWARD );
+120: local #1
+121: local #4
+122: 1L
+123: 0L
+124: makelocal
+125: jmp userfunc @220
+126: #
+if( !CheckPet( source ))
+127: local #4
+128: makelocal
+129: jmp userfunc @258
+130: if true goto 156
+StopActivities( npc );
+131: local #1
+132: makelocal
+133: jmp userfunc @910
+134: #
+TS_LowerDuration( npc, "Tame", -1 );
+135: local #1
+136: "Tame"
+137: -1L
+138: makelocal
+139: jmp userfunc @2119
+140: #
+AI_Speak( npc, "*"+npc.name+" can roam free again*" );
+141: local #1
+142: "*"
+143: local #1
+144: get member id 'name' (3)
+145: +
+146: " can roam free again*"
+147: +
+148: "default"
+149: 0L
+150: 0L
+151: makelocal
+152: jmp userfunc @176
+153: #
+return 0;
+154: 0L
+155: progend
+SendStatus( source );
+156: local #4
+157: Func(2,33): SendStatus
+158: #
+PlaySoundEffect( npc, NPC_GetBarkSound( npc ));
+159: local #1
+160: local #1
+161: makelocal
+162: jmp userfunc @395
+163: Func(2,37): PlaySoundEffect
+164: #
+ProcessSpeech( npc, source, text, event );
+165: local #1
+166: local #4
+167: local #3
+168: local #2
+169: makelocal
+170: jmp userfunc @542
+171: #
+return 1;
+172: 1L
+173: progend
+174: leave block(6)
+175: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+176: pop param 'no_wake'
+177: pop param 'do_event'
+178: pop param 'text_type'
+179: pop param 'text'
+180: pop param 'npc'
+var ev		:= struct;
+181: decl local #5
+182: struct
+183: :=
+184: #
+ev.+type	:= NPCEVENT_SPEAK;
+185: local #5
+186: "type"
+187: .+
+188: 10485765L
+189: := #
+ev.+text	:= text;
+190: local #5
+191: "text"
+192: .+
+193: local #3
+194: := #
+ev.+texttype	:= text_type;
+195: local #5
+196: "texttype"
+197: .+
+198: local #2
+199: := #
+ev.+doevent	:= do_event;
+200: local #5
+201: "doevent"
+202: .+
+203: local #1
+204: := #
+ev.+WakeUp	:= no_wake;
+205: local #5
+206: "WakeUp"
+207: .+
+208: local #0
+209: := #
+ev.+process	:= GetProcess( GetPid() );
+210: local #5
+211: "process"
+212: .+
+213: Func(3,3): GetPid
+214: Func(3,2): GetProcess
+215: := #
+return SendEvent( npc, ev );
+216: local #4
+217: local #5
+218: Func(2,6): SendEvent
+219: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+220: pop param 'no_wake'
+221: pop param 'direction'
+222: pop param 'object'
+223: pop param 'npc'
+var ev		:= struct;
+224: decl local #4
+225: struct
+226: :=
+227: #
+ev.+type	:= NPCEVENT_TURN;
+228: local #4
+229: "type"
+230: .+
+231: 10485766L
+232: := #
+ev.+source	:= object;
+233: local #4
+234: "source"
+235: .+
+236: local #2
+237: := #
+ev.+direction	:= direction;
+238: local #4
+239: "direction"
+240: .+
+241: local #1
+242: := #
+ev.+WakeUp	:= no_wake;
+243: local #4
+244: "WakeUp"
+245: .+
+246: local #0
+247: := #
+ev.+process	:= GetProcess( GetPid() );
+248: local #4
+249: "process"
+250: .+
+251: Func(3,3): GetPid
+252: Func(3,2): GetProcess
+253: := #
+return SendEvent( npc, ev );
+254: local #3
+255: local #4
+256: Func(2,6): SendEvent
+257: return
+c:/ZH099/pkg/skills/ranger/animaltaming/include/taming.inc, Line 34
+function CheckPet( mobile )
+258: pop param 'mobile'
+var max_pets := GetMaxPets( mobile );
+259: decl local #1
+260: local #0
+261: makelocal
+262: jmp userfunc @372
+263: :=
+264: #
+var num_pets := CountPet( mobile );
+265: decl local #2
+266: local #0
+267: makelocal
+268: jmp userfunc @333
+269: :=
+270: #
+if( mobile.cmdlevel )
+271: local #0
+272: get member id 'cmdlevel' (46)
+273: if false goto 277
+return 1;
+274: 1L
+275: return
+276: goto287
+elseif( num_pets > max_pets && num_pets > 2 )
+277: local #2
+278: local #1
+279: >
+280: local #2
+281: 2L
+282: >
+283: &&
+284: if false goto 287
+return 0;
+285: 0L
+286: return
+return 1;
+287: 1L
+288: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+289: pop param byref 'cfg_file'
+290: pop param 'elem_name'
+if( !cfg_file )
+291: local #0
+292: if true goto 296
+cfg_file := Classes_GetSettingsCfgFile();
+293: makelocal
+294: jmp userfunc @317
+295: local0 := 
+var elem := cfg_file[elem_name];
+296: decl local #2
+297: local #0
+298: local #1
+299: [] 1
+300: :=
+301: #
+if( elem.errortext )
+302: local #2
+303: get member 'errortext'
+304: if false goto 315
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+305: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+306: local #1
+307: +
+308: "] ->"
+309: +
+310: local #2
+311: get member 'errortext'
+312: +
+313: Func(3,1): SysLog
+314: #
+return elem;
+315: local #2
+316: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+317: decl local #0
+318: ":classes:settings"
+319: Func(4,0): ReadConfigFile
+320: :=
+321: #
+if( cfg.errortext )
+322: local #0
+323: get member 'errortext'
+324: if false goto 331
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+325: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+326: local #0
+327: get member 'errortext'
+328: +
+329: Func(3,1): SysLog
+330: #
+return cfg;
+331: local #0
+332: return
+c:/ZH099/pkg/skills/ranger/animaltaming/include/taming.inc, Line 49
+function CountPet( mobile )
+333: pop param 'mobile'
+var num_pets := 0;
+334: decl local #1
+335: 0L
+336: :=
+337: #
+var mobs := ListMobilesNearLocation( mobile.x, mobile.y, mobile.z, 20, mobile.r
+338: decl local #2
+339: local #0
+340: get member id 'x' (0)
+341: local #0
+342: get member id 'y' (1)
+343: local #0
+344: get member id 'z' (2)
+345: 20L
+346: local #0
+347: get member id 'realm' (112)
+348: Func(2,7): ListMobilesNearLocation
+349: :=
+350: #
+foreach creature in mobs
+351: local #2
+352: initforeach @368
+if( creature.master && mobile == creature.master )
+353: local #3
+354: get member id 'master' (63)
+355: local #0
+356: local #3
+357: get member id 'master' (63)
+358: ==
+359: &&
+360: if false goto 365
+num_pets += 1;
+361: local #1
+362: 1L
+363: +=
+364: #
+SleepMS(5);
+365: 5L
+366: Func(3,0): Sleepms
+367: #
+368: stepforeach @353
+369: leave block(3)
+return num_pets;
+370: local #1
+371: return
+c:/ZH099/pkg/skills/ranger/animaltaming/include/taming.inc, Line 26
+function GetMaxPets( mobile )
+372: pop param 'mobile'
+var petmax := CInt( AP_GetSkill( mobile, ANIMAL_LORE ) / 15 );
+373: decl local #1
+374: local #0
+375: "AnimalLore"
+376: makelocal
+377: jmp userfunc @2704
+378: 15L
+379: /
+380: Func(0,5): CInt
+381: :=
+382: #
+petmax *= ClasseBonus( mobile, RANGER );
+383: local #1
+384: local #0
+385: "IsRanger"
+386: makelocal
+387: jmp userfunc @2734
+388: *=
+389: #
+return CInt( petmax + 1 );
+390: local #1
+391: 1L
+392: +
+393: Func(0,5): CInt
+394: return
+c:/ZH099/pkg/systems/brainAI/include/npcEffects.inc, Line 36
+function NPC_GetBarkSound( source )
+395: pop param 'source'
+var source_effects := NPC_GetNPCConfig( source.npctemplate );
+396: decl local #1
+397: local #0
+398: get member id 'npctemplate' (62)
+399: makelocal
+400: jmp userfunc @423
+401: :=
+402: #
+if( !source_effects )
+403: local #1
+404: if true goto 407
+return 0;
+405: 0L
+406: return
+var bark_sound_list := GetConfigStringArray( source_effects, "BarkSound" );
+407: decl local #2
+408: local #1
+409: "BarkSound"
+410: Func(4,2): GetConfigStringArray
+411: :=
+412: #
+if( TypeOf( bark_sound_list ) != "Array" )
+413: local #2
+414: Func(0,8): TypeOf
+415: "Array"
+416: <>
+417: if false goto 420
+return 0;
+418: 0L
+419: return
+return bark_sound_list.RandomEntry();
+420: local #2
+421: Call Method id randomentry (#101, 0 params)
+422: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 35
+function NPC_GetNPCConfig( template )
+423: pop param 'template'
+if( !template.package )
+424: local #0
+425: get member 'package'
+426: if true goto 431
+template := NPC_ParseTemplateName( template );
+427: local #0
+428: makelocal
+429: jmp userfunc @480
+430: local0 := 
+var npc_cfg := ReadConfigFile( ":"+template.package+":npcdesc" );
+431: decl local #1
+432: ":"
+433: local #0
+434: get member 'package'
+435: +
+436: ":npcdesc"
+437: +
+438: Func(4,0): ReadConfigFile
+439: :=
+440: #
+if( npc_cfg.errortext )
+441: local #1
+442: get member 'errortext'
+443: if false goto 456
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not open :"+templa
+444: error
+445: "Error::NPC_GetNPCConfig() - Could not open :"
+446: local #0
+447: get member 'package'
+448: +
+449: ":npcdesc ->"
+450: +
+451: local #1
+452: get member 'errortext'
+453: +
+454: addmember-assign(errortext)
+455: return
+var cfg_elem := npc_cfg[template.template];
+456: decl local #2
+457: local #1
+458: local #0
+459: get member 'template'
+460: [] 1
+461: :=
+462: #
+if( cfg_elem.errortext )
+463: local #2
+464: get member 'errortext'
+465: if false goto 478
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not find elem ["+t
+466: error
+467: "Error::NPC_GetNPCConfig() - Could not find elem ["
+468: local #0
+469: get member 'template'
+470: +
+471: "] ->"
+472: +
+473: local #2
+474: get member 'errortext'
+475: +
+476: addmember-assign(errortext)
+477: return
+return cfg_elem;
+478: local #2
+479: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 11
+function NPC_ParseTemplateName( template_name )
+480: pop param 'template_name'
+if( template_name.IsA( POLCLASS_NPC ))
+481: local #0
+482: 4L
+483: Call Method id isa (#0, 1 params)
+484: if false goto 488
+template_name := template_name.npctemplate;
+485: local #0
+486: get member id 'npctemplate' (62)
+487: local0 := 
+var colon_a := Find( template_name, ":", 1 );
+488: decl local #1
+489: local #0
+490: ":"
+491: 1L
+492: Func(0,10): Find
+493: :=
+494: #
+var colon_b := Find( template_name, ":", 2 );
+495: decl local #2
+496: local #0
+497: ":"
+498: 2L
+499: Func(0,10): Find
+500: :=
+501: #
+var parsed := struct{"package", "template"};
+502: decl local #3
+503: struct
+504: addmember(package)
+505: addmember(template)
+506: :=
+507: #
+if( !colon_a || !colon_b )
+508: local #1
+509: !
+510: local #2
+511: !
+512: ||
+513: if false goto 521
+parsed.package := "";
+514: local #3
+515: ""
+516: set member 'package' #
+parsed.template := template_name;
+517: local #3
+518: local #0
+519: set member 'template' #
+520: goto540
+parsed.package := template_name[colon_a+1, colon_b-2];
+521: local #3
+522: local #0
+523: local #1
+524: 1L
+525: +
+526: local #2
+527: 2L
+528: -
+529: [,]
+530: set member 'package' #
+parsed.template := template_name[colon_b+1, Len( template_name )];
+531: local #3
+532: local #0
+533: local #2
+534: 1L
+535: +
+536: local #0
+537: Func(0,1): Len
+538: [,]
+539: set member 'template' #
+return parsed;
+540: local #3
+541: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 64
+function ProcessSpeech( npc, master, command, event )
+542: pop param 'event'
+543: pop param 'command'
+544: pop param 'master'
+545: pop param 'npc'
+if( command[1] == "all" || command[1] == TruncateArticle( npc.name ))
+546: local #1
+547: 1L
+548: [] 1
+549: "all"
+550: ==
+551: local #1
+552: 1L
+553: [] 1
+554: local #3
+555: get member id 'name' (3)
+556: makelocal
+557: jmp userfunc @2081
+558: ==
+559: ||
+560: if false goto 625
+if( command[3] == "me" )
+561: local #1
+562: 3L
+563: [] 1
+564: "me"
+565: ==
+566: if false goto 571
+command[3] := master;
+567: local #1
+568: 3L
+569: local #2
+570: [] := (1) #
+case( command[2] )
+571: local #1
+572: 2L
+573: [] 1
+574: casejmp
+	"stop": @575
+	"stay": @581
+	"kill": @587
+	"attack": @587
+	"release": @595
+	"come": @601
+	"follow": @601
+	"guard": @609
+	"transfer": @617
+	default: @624
+Tamed_Stop( npc );
+575: local #3
+576: makelocal
+577: jmp userfunc @1235
+578: #
+break;
+579: goto580
+580: goto624
+Tamed_Stay( npc );
+581: local #3
+582: makelocal
+583: jmp userfunc @1223
+584: #
+break;
+585: goto586
+586: goto624
+Tamed_Attack( npc, master, event );
+587: local #3
+588: local #2
+589: local #0
+590: makelocal
+591: jmp userfunc @937
+592: #
+break;
+593: goto594
+594: goto624
+Tamed_Release( npc );
+595: local #3
+596: makelocal
+597: jmp userfunc @1191
+598: #
+break;
+599: goto600
+600: goto624
+Tamed_Follow( npc, master, command );
+601: local #3
+602: local #2
+603: local #1
+604: makelocal
+605: jmp userfunc @1027
+606: #
+break;
+607: goto608
+608: goto624
+Tamed_Guard( npc, master, command );
+609: local #3
+610: local #2
+611: local #1
+612: makelocal
+613: jmp userfunc @1105
+614: #
+break;
+615: goto616
+616: goto624
+Tamed_Transfer( npc, master, command );
+617: local #3
+618: local #2
+619: local #1
+620: makelocal
+621: jmp userfunc @1240
+622: #
+break;
+623: goto624
+624: goto908
+if( !IsTotem( npc ))
+625: local #3
+626: makelocal
+627: jmp userfunc @2777
+628: if true goto 632
+return 0;
+629: 0L
+630: return
+631: goto640
+elseif( GetObjProperty( npc, "#LastOrder" ) > ReadGameClock() )
+632: local #3
+633: "#LastOrder"
+634: Func(2,1): GetObjProperty
+635: Func(2,5): ReadGameClock
+636: >
+637: if false goto 640
+return 0;
+638: 0L
+639: return
+SetObjProperty( npc, "#LastOrder", ReadGameClock() + 5 );
+640: local #3
+641: "#LastOrder"
+642: Func(2,5): ReadGameClock
+643: 5L
+644: +
+645: Func(2,2): SetObjProperty
+646: #
+var the_order := Lower( command[1] );
+647: decl local #0
+648: local #1
+649: 1L
+650: [] 1
+651: Func(0,2): Lower
+652: :=
+653: #
+if( the_order == "help" );
+654: local #4
+655: "help"
+656: ==
+657: if false goto 663
+Totem_Help( npc );
+658: local #3
+659: makelocal
+660: jmp userfunc @1773
+661: #
+662: goto907
+elseif( the_order == "loot" )
+663: local #4
+664: "loot"
+665: ==
+666: if false goto 672
+Totem_Loot( npc );
+667: local #3
+668: makelocal
+669: jmp userfunc @1872
+670: #
+671: goto907
+elseif( the_order == "fetch" || the_order == "get" )
+672: local #4
+673: "fetch"
+674: ==
+675: local #4
+676: "get"
+677: ==
+678: ||
+679: if false goto 686
+Totem_GetItem( npc, master );
+680: local #3
+681: local #2
+682: makelocal
+683: jmp userfunc @1547
+684: #
+685: goto907
+elseif( the_order == "drop" )
+686: local #4
+687: "drop"
+688: ==
+689: if false goto 695
+Totem_DropContainer( npc );
+690: local #3
+691: makelocal
+692: jmp userfunc @1479
+693: #
+694: goto907
+elseif( the_order == "give" )
+695: local #4
+696: "give"
+697: ==
+698: if false goto 705
+Totem_GiveLoot( npc, master );
+699: local #3
+700: local #2
+701: makelocal
+702: jmp userfunc @1645
+703: #
+704: goto907
+elseif( the_order == "hide" || the_order == "conceal" )
+705: local #4
+706: "hide"
+707: ==
+708: local #4
+709: "conceal"
+710: ==
+711: ||
+712: if false goto 718
+Totem_Hide( npc );
+713: local #3
+714: makelocal
+715: jmp userfunc @1860
+716: #
+717: goto907
+elseif( the_order == "boost" )
+718: local #4
+719: "boost"
+720: ==
+721: if false goto 767
+if( Totem_GetLevel( npc ) < 7 )
+722: local #3
+723: makelocal
+724: jmp userfunc @1631
+725: 7L
+726: <
+727: if false goto 730
+return 0;
+728: 0L
+729: return
+Totem_CastSpell( npc, master, 7 ); //reactive armor
+730: local #3
+731: local #2
+732: 7L
+733: makelocal
+734: jmp userfunc @1423
+735: #
+Totem_CastSpell( npc, master, 9 ); //agility
+736: local #3
+737: local #2
+738: 9L
+739: makelocal
+740: jmp userfunc @1423
+741: #
+Totem_CastSpell( npc, master, 10 ); //cunning
+742: local #3
+743: local #2
+744: 10L
+745: makelocal
+746: jmp userfunc @1423
+747: #
+Totem_CastSpell( npc, master, 15 ); //protection
+748: local #3
+749: local #2
+750: 15L
+751: makelocal
+752: jmp userfunc @1423
+753: #
+Totem_CastSpell( npc, master, 16 ); //strength
+754: local #3
+755: local #2
+756: 16L
+757: makelocal
+758: jmp userfunc @1423
+759: #
+Totem_CastSpell( npc, master, 17 ); //bless
+760: local #3
+761: local #2
+762: 17L
+763: makelocal
+764: jmp userfunc @1423
+765: #
+766: goto907
+elseif( the_order == "heal" )
+767: local #4
+768: "heal"
+769: ==
+770: if false goto 778
+Totem_CastSpell( npc, master, 4 );
+771: local #3
+772: local #2
+773: 4L
+774: makelocal
+775: jmp userfunc @1423
+776: #
+777: goto907
+elseif( the_order == "nightsight" || the_order == "nsight" || the_order == "lig
+778: local #4
+779: "nightsight"
+780: ==
+781: local #4
+782: "nsight"
+783: ==
+784: ||
+785: local #4
+786: "light"
+787: ==
+788: ||
+789: if false goto 797
+Totem_CastSpell( npc, master, 6 );
+790: local #3
+791: local #2
+792: 6L
+793: makelocal
+794: jmp userfunc @1423
+795: #
+796: goto907
+elseif( the_order == "reactivearmor" || the_order == "armor" )
+797: local #4
+798: "reactivearmor"
+799: ==
+800: local #4
+801: "armor"
+802: ==
+803: ||
+804: if false goto 812
+Totem_CastSpell( npc, master, 7 );
+805: local #3
+806: local #2
+807: 7L
+808: makelocal
+809: jmp userfunc @1423
+810: #
+811: goto907
+elseif( the_order == "agility" )
+812: local #4
+813: "agility"
+814: ==
+815: if false goto 823
+Totem_CastSpell( npc, master, 9 );
+816: local #3
+817: local #2
+818: 9L
+819: makelocal
+820: jmp userfunc @1423
+821: #
+822: goto907
+elseif( the_order == "cunning" )
+823: local #4
+824: "cunning"
+825: ==
+826: if false goto 834
+Totem_CastSpell( npc, master, 10 );
+827: local #3
+828: local #2
+829: 10L
+830: makelocal
+831: jmp userfunc @1423
+832: #
+833: goto907
+elseif( the_order == "cure" )
+834: local #4
+835: "cure"
+836: ==
+837: if false goto 845
+Totem_CastSpell( npc, master, 11 );
+838: local #3
+839: local #2
+840: 11L
+841: makelocal
+842: jmp userfunc @1423
+843: #
+844: goto907
+elseif( the_order == "protection" || the_order == "protect" )
+845: local #4
+846: "protection"
+847: ==
+848: local #4
+849: "protect"
+850: ==
+851: ||
+852: if false goto 860
+Totem_CastSpell( npc, master, 15 );
+853: local #3
+854: local #2
+855: 15L
+856: makelocal
+857: jmp userfunc @1423
+858: #
+859: goto907
+elseif( the_order == "stength" )
+860: local #4
+861: "stength"
+862: ==
+863: if false goto 871
+Totem_CastSpell( npc, master, 16 );
+864: local #3
+865: local #2
+866: 16L
+867: makelocal
+868: jmp userfunc @1423
+869: #
+870: goto907
+elseif( the_order == "bless" )
+871: local #4
+872: "bless"
+873: ==
+874: if false goto 882
+Totem_CastSpell( npc, master, 17 );
+875: local #3
+876: local #2
+877: 17L
+878: makelocal
+879: jmp userfunc @1423
+880: #
+881: goto907
+elseif( the_order == "greaterheal" || the_order == "gheal" )
+882: local #4
+883: "greaterheal"
+884: ==
+885: local #4
+886: "gheal"
+887: ==
+888: ||
+889: if false goto 897
+Totem_CastSpell( npc, master, 29 );
+890: local #3
+891: local #2
+892: 29L
+893: makelocal
+894: jmp userfunc @1423
+895: #
+896: goto907
+elseif( the_order == "reveal" )
+897: local #4
+898: "reveal"
+899: ==
+900: if false goto 907
+Totem_CastSpell( npc, master, 48 );
+901: local #3
+902: local #2
+903: 48L
+904: makelocal
+905: jmp userfunc @1423
+906: #
+907: leave block(1)
+return 1;
+908: 1L
+909: return
+c:/ZH099/pkg/systems/brainAI/include/tamedUtil.inc, Line 66
+function StopActivities( npc )
+910: pop param 'npc'
+EraseObjProperty( npc, "Stay" );
+911: local #0
+912: "Stay"
+913: Func(2,17): EraseObjProperty
+914: #
+EraseObjProperty( npc, "#Follow" );
+915: local #0
+916: "#Follow"
+917: Func(2,17): EraseObjProperty
+918: #
+EraseObjProperty( npc, "#Guard" );
+919: local #0
+920: "#Guard"
+921: Func(2,17): EraseObjProperty
+922: #
+AI_EndNerve( npc, "Combat" );
+923: local #0
+924: "Combat"
+925: 0L
+926: makelocal
+927: jmp userfunc @2578
+928: #
+AI_WarMode( npc, 0 );
+929: local #0
+930: 0L
+931: 0L
+932: makelocal
+933: jmp userfunc @2672
+934: #
+return 1;
+935: 1L
+936: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 165
+function Tamed_Attack( npc, master, event )
+937: pop param 'event'
+938: pop param 'master'
+939: pop param 'npc'
+if( IsTotem( npc ))
+940: local #2
+941: makelocal
+942: jmp userfunc @2777
+943: if false goto 952
+if( Totem_GetLevel( npc ) < 5 )
+944: local #2
+945: makelocal
+946: jmp userfunc @1631
+947: 5L
+948: <
+949: if false goto 952
+return 0;
+950: 0L
+951: return
+var targ := Target( master, TGTOPT_NOCHECK_LOS );
+952: decl local #3
+953: local #1
+954: 0L
+955: Func(2,39): Target
+956: :=
+957: #
+if( !targ )
+958: local #3
+959: if true goto 963
+return 0;
+960: 0L
+961: return
+962: goto993
+elseif( !targ.IsA( POLCLASS_MOBILE ))
+963: local #3
+964: 3L
+965: Call Method id isa (#0, 1 params)
+966: if true goto 970
+return 0;
+967: 0L
+968: return
+969: goto993
+elseif( targ == targ.master )
+970: local #3
+971: local #3
+972: get member id 'master' (63)
+973: ==
+974: if false goto 978
+return 0;
+975: 0L
+976: return
+977: goto993
+elseif( targ == npc )
+978: local #3
+979: local #2
+980: ==
+981: if false goto 985
+return 0;
+982: 0L
+983: return
+984: goto993
+elseif( A_IsIn( targ, AREAS_NO_DAMAGE ))
+985: local #3
+986: "No-Damage"
+987: 0L
+988: makelocal
+989: jmp userfunc @2417
+990: if false goto 993
+return 0;
+991: 0L
+992: return
+foreach creature in ListMobilesInLineOfSight( master, 20 )
+993: local #1
+994: 20L
+995: Func(2,30): ListMobilesInLineOfSight
+996: initforeach @1023
+SleepMS(5);
+997: 5L
+998: Func(3,0): Sleepms
+999: #
+if( !creature.IsA( POLCLASS_NPC ))
+1000: local #4
+1001: 4L
+1002: Call Method id isa (#0, 1 params)
+1003: if true goto 1006
+continue;
+1004: goto1023
+1005: goto1013
+elseif( creature.master != event.source )
+1006: local #4
+1007: get member id 'master' (63)
+1008: local #0
+1009: get member 'source'
+1010: <>
+1011: if false goto 1013
+continue;
+1012: goto1023
+StopActivities( creature );
+1013: local #4
+1014: makelocal
+1015: jmp userfunc @910
+1016: #
+AI_Attack( npc, targ );
+1017: local #2
+1018: local #3
+1019: 1L
+1020: makelocal
+1021: jmp userfunc @2546
+1022: #
+1023: stepforeach @997
+1024: leave block(3)
+return 1;
+1025: 1L
+1026: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 215
+function Tamed_Follow( npc, master, command )
+1027: pop param 'command'
+1028: pop param 'master'
+1029: pop param 'npc'
+if( IsTotem( npc ))
+1030: local #2
+1031: makelocal
+1032: jmp userfunc @2777
+1033: if false goto 1038
+command[3] := master;
+1034: local #0
+1035: 3L
+1036: local #1
+1037: [] := (1) #
+if( !command[3] )
+1038: local #0
+1039: 3L
+1040: [] 1
+1041: if true goto 1072
+command[3] := Target( master );
+1042: local #0
+1043: 3L
+1044: local #1
+1045: 1L
+1046: Func(2,39): Target
+1047: [] := (1) #
+if( !command[3] )
+1048: local #0
+1049: 3L
+1050: [] 1
+1051: if true goto 1055
+return 0;
+1052: 0L
+1053: return
+1054: goto1072
+elseif( !command[3].IsA( POLCLASS_MOBILE ))
+1055: local #0
+1056: 3L
+1057: [] 1
+1058: 3L
+1059: Call Method id isa (#0, 1 params)
+1060: if true goto 1064
+return 0;
+1061: 0L
+1062: return
+1063: goto1072
+elseif( command[3].IsA( POLCLASS_NPC ))
+1064: local #0
+1065: 3L
+1066: [] 1
+1067: 4L
+1068: Call Method id isa (#0, 1 params)
+1069: if false goto 1072
+return 0;
+1070: 0L
+1071: return
+StopActivities( npc );
+1072: local #2
+1073: makelocal
+1074: jmp userfunc @910
+1075: #
+AI_Speak( npc, "*following "+command[3].name+"*" );
+1076: local #2
+1077: "*following "
+1078: local #0
+1079: 3L
+1080: [] 1
+1081: get member id 'name' (3)
+1082: +
+1083: "*"
+1084: +
+1085: "default"
+1086: 0L
+1087: 0L
+1088: makelocal
+1089: jmp userfunc @176
+1090: #
+StartNerve( npc, "Virtual", ":brainAI:scripts/virtual/follow", array{command[3]
+1091: local #2
+1092: "Virtual"
+1093: ":brainAI:scripts/virtual/follow"
+1094: array
+1095: local #0
+1096: 3L
+1097: [] 1
+1098: init{}
+1099: 0L
+1100: makelocal
+1101: jmp userfunc @2919
+1102: #
+return 1;
+1103: 1L
+1104: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 240
+function Tamed_Guard( npc, master, command )
+1105: pop param 'command'
+1106: pop param 'master'
+1107: pop param 'npc'
+if( IsTotem( npc ))
+1108: local #2
+1109: makelocal
+1110: jmp userfunc @2777
+1111: if false goto 1124
+if( Totem_GetLevel( npc ) < 5 )
+1112: local #2
+1113: makelocal
+1114: jmp userfunc @1631
+1115: 5L
+1116: <
+1117: if false goto 1120
+return 0;
+1118: 0L
+1119: return
+command[3] := master;
+1120: local #0
+1121: 3L
+1122: local #1
+1123: [] := (1) #
+if( !command[3] )
+1124: local #0
+1125: 3L
+1126: [] 1
+1127: if true goto 1158
+command[3] := Target( master );
+1128: local #0
+1129: 3L
+1130: local #1
+1131: 1L
+1132: Func(2,39): Target
+1133: [] := (1) #
+if( !command[3] )
+1134: local #0
+1135: 3L
+1136: [] 1
+1137: if true goto 1141
+return 0;
+1138: 0L
+1139: return
+1140: goto1158
+elseif( !command[3].IsA( POLCLASS_MOBILE ))
+1141: local #0
+1142: 3L
+1143: [] 1
+1144: 3L
+1145: Call Method id isa (#0, 1 params)
+1146: if true goto 1150
+return 0;
+1147: 0L
+1148: return
+1149: goto1158
+elseif( command[3].IsA( POLCLASS_NPC ))
+1150: local #0
+1151: 3L
+1152: [] 1
+1153: 4L
+1154: Call Method id isa (#0, 1 params)
+1155: if false goto 1158
+return 0;
+1156: 0L
+1157: return
+StopActivities( npc );
+1158: local #2
+1159: makelocal
+1160: jmp userfunc @910
+1161: #
+AI_Speak( npc, "*guarding "+command[3].name+"*" );
+1162: local #2
+1163: "*guarding "
+1164: local #0
+1165: 3L
+1166: [] 1
+1167: get member id 'name' (3)
+1168: +
+1169: "*"
+1170: +
+1171: "default"
+1172: 0L
+1173: 0L
+1174: makelocal
+1175: jmp userfunc @176
+1176: #
+StartNerve( npc, "Virtual", ":brainAI:scripts/virtual/guard", array{command[3]}
+1177: local #2
+1178: "Virtual"
+1179: ":brainAI:scripts/virtual/guard"
+1180: array
+1181: local #0
+1182: 3L
+1183: [] 1
+1184: init{}
+1185: 0L
+1186: makelocal
+1187: jmp userfunc @2919
+1188: #
+return 1;
+1189: 1L
+1190: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 201
+function Tamed_Release( npc )
+1191: pop param 'npc'
+if( IsTotem( npc ))
+1192: local #0
+1193: makelocal
+1194: jmp userfunc @2777
+1195: if false goto 1198
+return 0;
+1196: 0L
+1197: return
+StopActivities( npc );
+1198: local #0
+1199: makelocal
+1200: jmp userfunc @910
+1201: #
+TS_LowerDuration( npc, "Tame", -1 );
+1202: local #0
+1203: "Tame"
+1204: -1L
+1205: makelocal
+1206: jmp userfunc @2119
+1207: #
+AI_Speak( npc, "*"+npc.name+" can roam free again*" );
+1208: local #0
+1209: "*"
+1210: local #0
+1211: get member id 'name' (3)
+1212: +
+1213: " can roam free again*"
+1214: +
+1215: "default"
+1216: 0L
+1217: 0L
+1218: makelocal
+1219: jmp userfunc @176
+1220: #
+return 1;
+1221: 1L
+1222: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 314
+function Tamed_Stay( npc )
+1223: pop param 'npc'
+StopActivities( npc );
+1224: local #0
+1225: makelocal
+1226: jmp userfunc @910
+1227: #
+SetObjProperty( npc, "Stay", 1 );
+1228: local #0
+1229: "Stay"
+1230: 1L
+1231: Func(2,2): SetObjProperty
+1232: #
+return 1;
+1233: 1L
+1234: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 160
+function Tamed_Stop( npc )
+1235: pop param 'npc'
+return StopActivities( npc );
+1236: local #0
+1237: makelocal
+1238: jmp userfunc @910
+1239: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\tamed.src, Line 268
+function Tamed_Transfer( npc, master, command )
+1240: pop param 'command'
+1241: pop param 'master'
+1242: pop param 'npc'
+if( IsTotem( npc ))
+1243: local #2
+1244: makelocal
+1245: jmp userfunc @2777
+1246: if false goto 1250
+return 0;
+1247: 0L
+1248: return
+1249: goto1291
+elseif( GetObjProperty( npc, "SummonedBy" ))
+1250: local #2
+1251: "SummonedBy"
+1252: Func(2,1): GetObjProperty
+1253: if false goto 1257
+return 0;
+1254: 0L
+1255: return
+1256: goto1291
+elseif( !command[3] )
+1257: local #0
+1258: 3L
+1259: [] 1
+1260: if true goto 1291
+command[3] := Target( master );
+1261: local #0
+1262: 3L
+1263: local #1
+1264: 1L
+1265: Func(2,39): Target
+1266: [] := (1) #
+if( !command[3] )
+1267: local #0
+1268: 3L
+1269: [] 1
+1270: if true goto 1274
+return 0;
+1271: 0L
+1272: return
+1273: goto1291
+elseif( !command[3].IsA( POLCLASS_MOBILE ))
+1274: local #0
+1275: 3L
+1276: [] 1
+1277: 3L
+1278: Call Method id isa (#0, 1 params)
+1279: if true goto 1283
+return 0;
+1280: 0L
+1281: return
+1282: goto1291
+elseif( command[3].IsA( POLCLASS_NPC ))
+1283: local #0
+1284: 3L
+1285: [] 1
+1286: 4L
+1287: Call Method id isa (#0, 1 params)
+1288: if false goto 1291
+return 0;
+1289: 0L
+1290: return
+if( command[3] == master )
+1291: local #0
+1292: 3L
+1293: [] 1
+1294: local #1
+1295: ==
+1296: if false goto 1300
+return 0;
+1297: 0L
+1298: return
+1299: goto1307
+elseif( !command[3].connected )
+1300: local #0
+1301: 3L
+1302: [] 1
+1303: get member id 'connected' (121)
+1304: if true goto 1307
+return 0;
+1305: 0L
+1306: return
+StopActivities( npc );
+1307: local #2
+1308: makelocal
+1309: jmp userfunc @910
+1310: #
+var npc_cfg := NPC_GetNPCConfig( npc.npctemplate ),
+1311: decl local #3
+1312: local #2
+1313: get member id 'npctemplate' (62)
+1314: makelocal
+1315: jmp userfunc @423
+1316: :=
+1317: #
+1318: decl local #4
+1319: local #0
+1320: 3L
+1321: [] 1
+1322: "AnimalTaming"
+1323: makelocal
+1324: jmp userfunc @2704
+1325: :=
+1326: #
+1327: decl local #5
+1328: local #3
+1329: get member 'Taming'
+1330: :=
+1331: #
+if(( !requiredTaming || requiredTaming > targ_taming ) && requiredTaming > 65 )
+1332: local #5
+1333: !
+1334: local #5
+1335: local #4
+1336: >
+1337: ||
+1338: local #5
+1339: 65L
+1340: >
+1341: &&
+1342: if false goto 1357
+SendSysMessage( master, command[3].name+" has no chance of controlling this bea
+1343: local #1
+1344: local #0
+1345: 3L
+1346: [] 1
+1347: get member id 'name' (3)
+1348: " has no chance of controlling this beast!"
+1349: +
+1350: 3L
+1351: 1000L
+1352: Func(2,4): SendSysMessage
+1353: #
+return 0;
+1354: 0L
+1355: return
+1356: goto1385
+elseif( !YesNo( command[3], "Accept "+master.name+"'s pet?", "Yes, I do!", "No,
+1357: local #0
+1358: 3L
+1359: [] 1
+1360: "Accept "
+1361: local #1
+1362: get member id 'name' (3)
+1363: +
+1364: "'s pet?"
+1365: +
+1366: "Yes, I do!"
+1367: "No, I don't!"
+1368: 10L
+1369: makelocal
+1370: jmp userfunc @2376
+1371: if true goto 1385
+SendSysMessage( master, command[3].name+" has not accepted the transfer." );
+1372: local #1
+1373: local #0
+1374: 3L
+1375: [] 1
+1376: get member id 'name' (3)
+1377: " has not accepted the transfer."
+1378: +
+1379: 3L
+1380: 1000L
+1381: Func(2,4): SendSysMessage
+1382: #
+return 0;
+1383: 0L
+1384: return
+AI_Speak( npc, "*"+npc.name+" accepts "+command[3].name+" as a new master*" );
+1385: local #2
+1386: "*"
+1387: local #2
+1388: get member id 'name' (3)
+1389: +
+1390: " accepts "
+1391: +
+1392: local #0
+1393: 3L
+1394: [] 1
+1395: get member id 'name' (3)
+1396: +
+1397: " as a new master*"
+1398: +
+1399: "default"
+1400: 0L
+1401: 0L
+1402: makelocal
+1403: jmp userfunc @176
+1404: #
+TS_LowerDuration( npc, "Tame", -1 );
+1405: local #2
+1406: "Tame"
+1407: -1L
+1408: makelocal
+1409: jmp userfunc @2119
+1410: #
+Sleep(2);
+1411: 2L
+1412: Func(3,7): Sleep
+1413: #
+tameCreature( npc, command[3] );
+1414: local #2
+1415: local #0
+1416: 3L
+1417: [] 1
+1418: makelocal
+1419: jmp userfunc @3075
+1420: #
+return 1;
+1421: 1L
+1422: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 24
+function Totem_CastSpell( npc, master, spell_id )
+1423: pop param 'spell_id'
+1424: pop param 'master'
+1425: pop param 'npc'
+var circle := SPELL_GetCircle( spell_id );
+1426: decl local #3
+1427: local #0
+1428: makelocal
+1429: jmp userfunc @2852
+1430: :=
+1431: #
+if( circle > Totem_GetLevel( npc ))
+1432: local #3
+1433: local #2
+1434: makelocal
+1435: jmp userfunc @1631
+1436: >
+1437: if false goto 1440
+return 0;
+1438: 0L
+1439: return
+var script := Run_Script( ":magery:spellStarter", {npc, spell_id, 0, master, 0,
+1440: decl local #4
+1441: ":magery:spellStarter"
+1442: array
+1443: local #2
+1444: init{}
+1445: local #0
+1446: init{}
+1447: 0L
+1448: init{}
+1449: local #1
+1450: init{}
+1451: 0L
+1452: init{}
+1453: 0L
+1454: init{}
+1455: 0L
+1456: init{}
+1457: 1L
+1458: init{}
+1459: Func(3,6): Run_Script
+1460: :=
+1461: #
+if( script.errortext )
+1462: local #4
+1463: get member 'errortext'
+1464: if false goto 1477
+PrintTextAbove( npc, "Error - Could not start spell -->"+script.errortext );
+1465: local #2
+1466: "Error - Could not start spell -->"
+1467: local #4
+1468: get member 'errortext'
+1469: +
+1470: 3L
+1471: 1000L
+1472: 0L
+1473: Func(2,8): PrintTextAbove
+1474: #
+return 0;
+1475: 0L
+1476: return
+return 1;
+1477: 1L
+1478: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 189
+function Totem_DropContainer( npc )
+1479: pop param 'npc'
+var list_items := EnumerateItemsInContainer( npc.backpack );
+1480: decl local #1
+1481: local #0
+1482: get member id 'backpack' (41)
+1483: 0L
+1484: Func(2,14): EnumerateItemsInContainer
+1485: :=
+1486: #
+if( !list_items.Size() )
+1487: local #1
+1488: Call Method id size (#48, 0 params)
+1489: if true goto 1492
+return 0;
+1490: 0L
+1491: return
+StopActivities( npc );
+1492: local #0
+1493: makelocal
+1494: jmp userfunc @910
+1495: #
+foreach item in list_items
+1496: local #1
+1497: initforeach @1543
+SleepMS(5);
+1498: 5L
+1499: Func(3,0): Sleepms
+1500: #
+if( item.IsTotemItem() )
+1501: local #2
+1502: Call Method istotemitem (0 params)
+1503: if false goto 1506
+continue;
+1504: goto1543
+1505: goto1523
+elseif( item.container.serial != npc.serial )
+1506: local #2
+1507: get member id 'container' (15)
+1508: get member id 'serial' (6)
+1509: local #0
+1510: get member id 'serial' (6)
+1511: <>
+1512: if false goto 1515
+continue;
+1513: goto1543
+1514: goto1523
+elseif( !useItem_check( npc, item, DEFAULT_ITEM ))
+1515: local #0
+1516: local #2
+1517: 1L
+1518: 0L
+1519: makelocal
+1520: jmp userfunc @2212
+1521: if true goto 1523
+continue;
+1522: goto1543
+var move := MoveObjectToLocation( item, npc.x, npc.y, npc.z, npc.realm, MOVEOBJ
+1523: decl local #0
+1524: local #2
+1525: local #0
+1526: get member id 'x' (0)
+1527: local #0
+1528: get member id 'y' (1)
+1529: local #0
+1530: get member id 'z' (2)
+1531: local #0
+1532: get member id 'realm' (112)
+1533: 1073741824L
+1534: Func(2,23): MoveObjectToLocation
+1535: :=
+1536: #
+if( move )
+1537: local #5
+1538: if false goto 1542
+Sleep(1);
+1539: 1L
+1540: Func(3,7): Sleep
+1541: #
+1542: leave block(1)
+1543: stepforeach @1498
+1544: leave block(3)
+return 1;
+1545: 1L
+1546: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 110
+function Totem_GetItem( npc, master )
+1547: pop param 'master'
+1548: pop param 'npc'
+if( Totem_GetLevel( npc ) < 7 )
+1549: local #1
+1550: makelocal
+1551: jmp userfunc @1631
+1552: 7L
+1553: <
+1554: if false goto 1557
+return 0;
+1555: 0L
+1556: return
+var targ := Target( master );
+1557: decl local #2
+1558: local #0
+1559: 1L
+1560: Func(2,39): Target
+1561: :=
+1562: #
+if( !targ )
+1563: local #2
+1564: if true goto 1574
+SendSysMessage( master, "Cancelled." );
+1565: local #0
+1566: "Cancelled."
+1567: 3L
+1568: 1000L
+1569: Func(2,4): SendSysMessage
+1570: #
+return 0;
+1571: 0L
+1572: return
+1573: goto1596
+elseif( !targ.IsA( POLCLASS_ITEM ))
+1574: local #2
+1575: 2L
+1576: Call Method id isa (#0, 1 params)
+1577: if true goto 1587
+SendSysMessage( master, "You should consider therapy." );
+1578: local #0
+1579: "You should consider therapy."
+1580: 3L
+1581: 1000L
+1582: Func(2,4): SendSysMessage
+1583: #
+return 0;
+1584: 0L
+1585: return
+1586: goto1596
+elseif( !useItem_check( master, targ, ITEM_WILD ))
+1587: local #0
+1588: local #2
+1589: 8L
+1590: 0L
+1591: makelocal
+1592: jmp userfunc @2212
+1593: if true goto 1596
+return 0;
+1594: 0L
+1595: return
+StopActivities( npc );
+1596: local #1
+1597: makelocal
+1598: jmp userfunc @910
+1599: #
+if( !Totem_RunToIt( npc, targ ))
+1600: local #1
+1601: local #2
+1602: makelocal
+1603: jmp userfunc @2039
+1604: if true goto 1607
+return 0;
+1605: 0L
+1606: return
+var move := MoveItemToContainer( targ, npc.backpack );
+1607: decl local #3
+1608: local #2
+1609: local #1
+1610: get member id 'backpack' (41)
+1611: -1L
+1612: -1L
+1613: Func(2,45): MoveItemToContainer
+1614: :=
+1615: #
+if( move )
+1616: local #3
+1617: if false goto 1629
+AI_Speak( npc, "*Yoink*" );
+1618: local #1
+1619: "*Yoink*"
+1620: "default"
+1621: 0L
+1622: 0L
+1623: makelocal
+1624: jmp userfunc @176
+1625: #
+Sleep(1);
+1626: 1L
+1627: Func(3,7): Sleep
+1628: #
+return 1;
+1629: 1L
+1630: return
+c:/ZH099/pkg/items/totem/include/totem.inc, Line 39
+function Totem_GetLevel( npc )
+1631: pop param 'npc'
+var level := CInt( GetObjProperty( npc, "TotemLevel" ));
+1632: decl local #1
+1633: local #0
+1634: "TotemLevel"
+1635: Func(2,1): GetObjProperty
+1636: Func(0,5): CInt
+1637: :=
+1638: #
+if( !level )
+1639: local #1
+1640: if true goto 1643
+level := 0;
+1641: 0L
+1642: local1 := 
+return level;
+1643: local #1
+1644: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 144
+function Totem_GiveLoot( npc, master )
+1645: pop param 'master'
+1646: pop param 'npc'
+var list_items := EnumerateItemsInContainer( npc.backpack );
+1647: decl local #2
+1648: local #1
+1649: get member id 'backpack' (41)
+1650: 0L
+1651: Func(2,14): EnumerateItemsInContainer
+1652: :=
+1653: #
+if( !list_items.Size() )
+1654: local #2
+1655: Call Method id size (#48, 0 params)
+1656: if true goto 1659
+return 0;
+1657: 0L
+1658: return
+var targ := Target( master );
+1659: decl local #3
+1660: local #0
+1661: 1L
+1662: Func(2,39): Target
+1663: :=
+1664: #
+if( !targ )
+1665: local #3
+1666: if true goto 1676
+SendSysMessage( master, "Cancelled." );
+1667: local #0
+1668: "Cancelled."
+1669: 3L
+1670: 1000L
+1671: Func(2,4): SendSysMessage
+1672: #
+return 0;
+1673: 0L
+1674: return
+1675: goto1725
+elseif( !targ.IsA( POLCLASS_MOBILE ) || targ.IsA( POLCLASS_NPC ))
+1676: local #3
+1677: 3L
+1678: Call Method id isa (#0, 1 params)
+1679: !
+1680: local #3
+1681: 4L
+1682: Call Method id isa (#0, 1 params)
+1683: ||
+1684: if false goto 1694
+SendSysMessage( master, "You must select an active player." );
+1685: local #0
+1686: "You must select an active player."
+1687: 3L
+1688: 1000L
+1689: Func(2,4): SendSysMessage
+1690: #
+return 0;
+1691: 0L
+1692: return
+1693: goto1725
+elseif( targ.serial != master.serial && !YesNo( targ, "Do you accept items from
+1694: local #3
+1695: get member id 'serial' (6)
+1696: local #0
+1697: get member id 'serial' (6)
+1698: <>
+1699: local #3
+1700: "Do you accept items from "
+1701: local #0
+1702: get member id 'name' (3)
+1703: +
+1704: "'s totem?"
+1705: +
+1706: "Yes, of course!"
+1707: "Nah, no need."
+1708: 10L
+1709: makelocal
+1710: jmp userfunc @2376
+1711: !
+1712: &&
+1713: if false goto 1725
+SendSysMessage( master, targ.name+" does not accept." );
+1714: local #0
+1715: local #3
+1716: get member id 'name' (3)
+1717: " does not accept."
+1718: +
+1719: 3L
+1720: 1000L
+1721: Func(2,4): SendSysMessage
+1722: #
+return 0;
+1723: 0L
+1724: return
+StopActivities( npc );
+1725: local #1
+1726: makelocal
+1727: jmp userfunc @910
+1728: #
+if( !Totem_RunToIt( npc, targ ))
+1729: local #1
+1730: local #3
+1731: makelocal
+1732: jmp userfunc @2039
+1733: if true goto 1736
+return 0;
+1734: 0L
+1735: return
+foreach item in list_items
+1736: local #2
+1737: initforeach @1769
+SleepMS(5);
+1738: 5L
+1739: Func(3,0): Sleepms
+1740: #
+if( item.IsTotemItem() )
+1741: local #4
+1742: Call Method istotemitem (0 params)
+1743: if false goto 1746
+continue;
+1744: goto1769
+1745: goto1754
+elseif( item.container.serial != npc.serial )
+1746: local #4
+1747: get member id 'container' (15)
+1748: get member id 'serial' (6)
+1749: local #1
+1750: get member id 'serial' (6)
+1751: <>
+1752: if false goto 1754
+continue;
+1753: goto1769
+var move := MoveItemToContainer( item, targ.backpack );
+1754: decl local #0
+1755: local #4
+1756: local #3
+1757: get member id 'backpack' (41)
+1758: -1L
+1759: -1L
+1760: Func(2,45): MoveItemToContainer
+1761: :=
+1762: #
+if( move )
+1763: local #7
+1764: if false goto 1768
+Sleep(1);
+1765: 1L
+1766: Func(3,7): Sleep
+1767: #
+1768: leave block(1)
+1769: stepforeach @1738
+1770: leave block(3)
+return 0;
+1771: 0L
+1772: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 220
+function Totem_Help( npc )
+1773: pop param 'npc'
+var level_string := array{};
+1774: decl local #1
+1775: array
+1776: :=
+1777: #
+level_string.Append( "hide " );
+1778: local #1
+1779: "hide "
+1780: Call Method id append (#52, 1 params)
+1781: #
+level_string.Append( "heal - nightsight " );
+1782: local #1
+1783: "heal - nightsight "
+1784: Call Method id append (#52, 1 params)
+1785: #
+level_string.Append( "agility - cunning - cure - protection - strength " );
+1786: local #1
+1787: "agility - cunning - cure - protection - strength "
+1788: Call Method id append (#52, 1 params)
+1789: #
+level_string.Append( "bless " );
+1790: local #1
+1791: "bless "
+1792: Call Method id append (#52, 1 params)
+1793: #
+level_string.Append( "greaterheal " );
+1794: local #1
+1795: "greaterheal "
+1796: Call Method id append (#52, 1 params)
+1797: #
+level_string.Append( "attack " );
+1798: local #1
+1799: "attack "
+1800: Call Method id append (#52, 1 params)
+1801: #
+level_string.Append( "reveal " );
+1802: local #1
+1803: "reveal "
+1804: Call Method id append (#52, 1 params)
+1805: #
+level_string.Append( "loot - boost " );
+1806: local #1
+1807: "loot - boost "
+1808: Call Method id append (#52, 1 params)
+1809: #
+AI_Speak( npc, "I will obey the following orders:" );
+1810: local #0
+1811: "I will obey the following orders:"
+1812: "default"
+1813: 0L
+1814: 0L
+1815: makelocal
+1816: jmp userfunc @176
+1817: #
+var level := Totem_GetLevel( npc )+1,
+1818: decl local #2
+1819: local #0
+1820: makelocal
+1821: jmp userfunc @1631
+1822: 1L
+1823: +
+1824: :=
+1825: #
+1826: decl local #3
+1827: ""
+1828: :=
+1829: #
+var i;
+1830: decl local #4
+1831: #
+for( i:=1; i<=level; i+=1 )
+1832: local #4
+1833: 1L
+1834: :=
+1835: #
+1836: local #4
+1837: local #2
+1838: <=
+1839: if false goto 1858
+AI_Speak( npc, level_string[i] );
+1840: local #0
+1841: local #1
+1842: local #4
+1843: [] 1
+1844: "default"
+1845: 0L
+1846: 0L
+1847: makelocal
+1848: jmp userfunc @176
+1849: #
+Sleep(1);
+1850: 1L
+1851: Func(3,7): Sleep
+1852: #
+1853: local #4
+1854: 1L
+1855: +=
+1856: #
+1857: goto1836
+return 1;
+1858: 1L
+1859: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 15
+function Totem_Hide( npc )
+1860: pop param 'npc'
+TS_StartTimer( npc, "Invisibility", CInt( 10 ), 0 );
+1861: local #0
+1862: "Invisibility"
+1863: 10L
+1864: Func(0,5): CInt
+1865: 0L
+1866: 0L
+1867: makelocal
+1868: jmp userfunc @2154
+1869: #
+return 1;
+1870: 1L
+1871: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 42
+function Totem_Loot( npc )
+1872: pop param 'npc'
+if( Totem_GetLevel( npc ) < 7 )
+1873: local #0
+1874: makelocal
+1875: jmp userfunc @1631
+1876: 7L
+1877: <
+1878: if false goto 1881
+return 0;
+1879: 0L
+1880: return
+NPC_SetupBackPack( npc );
+1881: local #0
+1882: makelocal
+1883: jmp userfunc @2814
+1884: #
+var near_items := ListItemsNearLocation( npc.x, npc.y, npc.z, 4, npc.realm );
+1885: decl local #1
+1886: local #0
+1887: get member id 'x' (0)
+1888: local #0
+1889: get member id 'y' (1)
+1890: local #0
+1891: get member id 'z' (2)
+1892: 4L
+1893: local #0
+1894: get member id 'realm' (112)
+1895: Func(2,46): ListItemsNearLocation
+1896: :=
+1897: #
+if( !near_items.Size() )
+1898: local #1
+1899: Call Method id size (#48, 0 params)
+1900: if true goto 1903
+return 0;
+1901: 0L
+1902: return
+StopActivities( npc );
+1903: local #0
+1904: makelocal
+1905: jmp userfunc @910
+1906: #
+foreach item in near_items
+1907: local #1
+1908: initforeach @2035
+SleepMS(5);
+1909: 5L
+1910: Func(3,0): Sleepms
+1911: #
+if( item.IsTotemItem() )
+1912: local #2
+1913: Call Method istotemitem (0 params)
+1914: if false goto 1917
+continue;
+1915: goto2035
+1916: goto2032
+elseif( item.IsA( POLCLASS_CORPSE ) && !A_IsIn( item, AREAS_NO_LOOTING ))
+1917: local #2
+1918: 7L
+1919: Call Method id isa (#0, 1 params)
+1920: local #2
+1921: "No-Looting"
+1922: 0L
+1923: makelocal
+1924: jmp userfunc @2417
+1925: !
+1926: &&
+1927: if false goto 1994
+if( !Totem_RunToIt( npc, item ))
+1928: local #0
+1929: local #2
+1930: makelocal
+1931: jmp userfunc @2039
+1932: if true goto 1934
+continue;
+1933: goto2035
+var corpse_items := EnumerateItemsInContainer( item );
+1934: decl local #0
+1935: local #2
+1936: 0L
+1937: Func(2,14): EnumerateItemsInContainer
+1938: :=
+1939: #
+if( !corpse_items.Size() )
+1940: local #5
+1941: Call Method id size (#48, 0 params)
+1942: if true goto 1945
+continue;
+1943: leave block(1)
+1944: goto2035
+foreach thing in corpse_items
+1945: local #5
+1946: initforeach @1990
+SleepMS(5);
+1947: 5L
+1948: Func(3,0): Sleepms
+1949: #
+if( thing.container.serial != item.serial )
+1950: local #6
+1951: get member id 'container' (15)
+1952: get member id 'serial' (6)
+1953: local #2
+1954: get member id 'serial' (6)
+1955: <>
+1956: if false goto 1959
+continue;
+1957: goto1990
+1958: goto1967
+elseif( !useItem_check( npc, item, DEFAULT_ITEM ))
+1959: local #0
+1960: local #2
+1961: 1L
+1962: 0L
+1963: makelocal
+1964: jmp userfunc @2212
+1965: if true goto 1967
+continue;
+1966: goto1990
+var move := MoveItemToContainer( thing, npc.backpack );
+1967: decl local #0
+1968: local #6
+1969: local #0
+1970: get member id 'backpack' (41)
+1971: -1L
+1972: -1L
+1973: Func(2,45): MoveItemToContainer
+1974: :=
+1975: #
+if( move )
+1976: local #9
+1977: if false goto 1989
+AI_Speak( npc, "*Yoink*" );
+1978: local #0
+1979: "*Yoink*"
+1980: "default"
+1981: 0L
+1982: 0L
+1983: makelocal
+1984: jmp userfunc @176
+1985: #
+Sleep(1);
+1986: 1L
+1987: Func(3,7): Sleep
+1988: #
+1989: leave block(1)
+1990: stepforeach @1947
+1991: leave block(3)
+1992: leave block(1)
+1993: goto2032
+if( !useItem_check( npc, item, ITEM_WILD ))
+1994: local #0
+1995: local #2
+1996: 8L
+1997: 0L
+1998: makelocal
+1999: jmp userfunc @2212
+2000: if true goto 2003
+continue;
+2001: goto2035
+2002: goto2009
+elseif( !Totem_RunToIt( npc, item ))
+2003: local #0
+2004: local #2
+2005: makelocal
+2006: jmp userfunc @2039
+2007: if true goto 2009
+continue;
+2008: goto2035
+var move := MoveItemToContainer( item, npc.backpack );
+2009: decl local #0
+2010: local #2
+2011: local #0
+2012: get member id 'backpack' (41)
+2013: -1L
+2014: -1L
+2015: Func(2,45): MoveItemToContainer
+2016: :=
+2017: #
+if( move )
+2018: local #5
+2019: if false goto 2031
+AI_Speak( npc, "*Yoink*" );
+2020: local #0
+2021: "*Yoink*"
+2022: "default"
+2023: 0L
+2024: 0L
+2025: makelocal
+2026: jmp userfunc @176
+2027: #
+Sleep(1);
+2028: 1L
+2029: Func(3,7): Sleep
+2030: #
+2031: leave block(1)
+SleepMS(5);
+2032: 5L
+2033: Func(3,0): Sleepms
+2034: #
+2035: stepforeach @1909
+2036: leave block(3)
+return 1;
+2037: 1L
+2038: return
+c:/ZH099/pkg/items/totem/include/orders.inc, Line 246
+function Totem_RunToIt( npc, item )
+2039: pop param 'item'
+2040: pop param 'npc'
+var i;
+2041: decl local #2
+2042: #
+for( i:=4; i>0; i-=1 )
+2043: local #2
+2044: 4L
+2045: :=
+2046: #
+2047: local #2
+2048: 0L
+2049: >
+2050: if false goto 2079
+if ( Distance( npc, item ) < 2 )
+2051: local #1
+2052: local #0
+2053: Func(2,9): Distance
+2054: 2L
+2055: <
+2056: if false goto 2060
+return 1;
+2057: 1L
+2058: return
+2059: goto2074
+AI_Move( npc, item.x, item.y, item.z, NEMOVE_TOWARD, NEMOVE_RUN, 1 );
+2060: local #1
+2061: local #0
+2062: get member id 'x' (0)
+2063: local #0
+2064: get member id 'y' (1)
+2065: local #0
+2066: get member id 'z' (2)
+2067: 1L
+2068: 2L
+2069: 1L
+2070: 0L
+2071: makelocal
+2072: jmp userfunc @2610
+2073: #
+2074: local #2
+2075: 1L
+2076: -=
+2077: #
+2078: goto2047
+return 1;
+2079: 1L
+2080: return
+c:/ZH099/scripts/include/string.inc, Line 22
+function TruncateArticle( text )
+2081: pop param 'text'
+text := CStr(text);
+2082: local #0
+2083: Func(0,0): CStr
+2084: local0 := 
+var i := Len(text);
+2085: decl local #1
+2086: local #0
+2087: Func(0,1): Len
+2088: :=
+2089: #
+if ( Lower(text[1, 2]) == "a " )
+2090: local #0
+2091: 1L
+2092: 2L
+2093: [,]
+2094: Func(0,2): Lower
+2095: "a "
+2096: ==
+2097: if false goto 2104
+text := text[3, i];
+2098: local #0
+2099: 3L
+2100: local #1
+2101: [,]
+2102: local0 := 
+2103: goto2117
+elseif ( Lower(text[1, 3]) == "an " )
+2104: local #0
+2105: 1L
+2106: 3L
+2107: [,]
+2108: Func(0,2): Lower
+2109: "an "
+2110: ==
+2111: if false goto 2117
+text := text[4, i];
+2112: local #0
+2113: 4L
+2114: local #1
+2115: [,]
+2116: local0 := 
+return text;
+2117: local #0
+2118: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 149
+function TS_LowerDuration( mobile, timer_name, amount )
+2119: pop param 'amount'
+2120: pop param 'timer_name'
+2121: pop param 'mobile'
+var event := struct;
+2122: decl local #3
+2123: struct
+2124: :=
+2125: #
+event.+type := EVENT_LOWER_TIMER;
+2126: local #3
+2127: "type"
+2128: .+
+2129: 2L
+2130: := #
+event.+name := CStr( timer_name );
+2131: local #3
+2132: "name"
+2133: .+
+2134: local #1
+2135: Func(0,0): CStr
+2136: := #
+event.+amount := CInt( amount );
+2137: local #3
+2138: "amount"
+2139: .+
+2140: local #0
+2141: Func(0,5): CInt
+2142: := #
+var process := TS_GetControllerProcess( mobile );
+2143: decl local #4
+2144: local #2
+2145: 0L
+2146: makelocal
+2147: jmp userfunc @3113
+2148: :=
+2149: #
+return process.SendEvent( event );
+2150: local #4
+2151: local #3
+2152: Call Method id sendevent (#74, 1 params)
+2153: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 131
+function TS_StartTimer( mobile, timer_name, duration, level:=0, attacker:=0 )
+2154: pop param 'attacker'
+2155: pop param 'level'
+2156: pop param 'duration'
+2157: pop param 'timer_name'
+2158: pop param 'mobile'
+duration := CInt( duration );
+2159: local #2
+2160: Func(0,5): CInt
+2161: local2 := 
+if( duration < 1 )
+2162: local #2
+2163: 1L
+2164: <
+2165: if false goto 2170
+return error{"errortext":="Error::TS_StartTimer() - Duration must be greater th
+2166: error
+2167: "Error::TS_StartTimer() - Duration must be greater than 0."
+2168: addmember-assign(errortext)
+2169: return
+var event := struct;
+2170: decl local #5
+2171: struct
+2172: :=
+2173: #
+event.+type := EVENT_ADD_TIMER;
+2174: local #5
+2175: "type"
+2176: .+
+2177: 1L
+2178: := #
+event.+name := CStr(timer_name);
+2179: local #5
+2180: "name"
+2181: .+
+2182: local #3
+2183: Func(0,0): CStr
+2184: := #
+event.+amount := duration;
+2185: local #5
+2186: "amount"
+2187: .+
+2188: local #2
+2189: := #
+event.+level := CInt(level);
+2190: local #5
+2191: "level"
+2192: .+
+2193: local #1
+2194: Func(0,5): CInt
+2195: := #
+event.+attacker := attacker;
+2196: local #5
+2197: "attacker"
+2198: .+
+2199: local #0
+2200: := #
+var process := TS_GetControllerProcess( mobile, START_CONTROLLER );
+2201: decl local #6
+2202: local #4
+2203: 1L
+2204: makelocal
+2205: jmp userfunc @3113
+2206: :=
+2207: #
+return process.SendEvent( event );
+2208: local #6
+2209: local #5
+2210: Call Method id sendevent (#74, 1 params)
+2211: return
+c:/ZH099/scripts/include/itemUtil.inc, Line 25
+function useItem_check( mobile, item, option := DEFAULT_ITEM, temp_dist := 0 )
+2212: pop param 'temp_dist'
+2213: pop param 'option'
+2214: pop param 'item'
+2215: pop param 'mobile'
+if( !ReserveItem( item ))
+2216: local #2
+2217: Func(2,10): ReserveItem
+2218: if true goto 2228
+SendSysMessage( mobile, "You cannot use that item." );
+2219: local #3
+2220: "You cannot use that item."
+2221: 3L
+2222: 1000L
+2223: Func(2,4): SendSysMessage
+2224: #
+return 0;
+2225: 0L
+2226: return
+2227: goto2240
+elseif( !Accessible( mobile, item ))
+2228: local #3
+2229: local #2
+2230: Func(2,11): Accessible
+2231: if true goto 2240
+SendSysMessage( mobile, "You do not have access to that item." );
+2232: local #3
+2233: "You do not have access to that item."
+2234: 3L
+2235: 1000L
+2236: Func(2,4): SendSysMessage
+2237: #
+return 0;
+2238: 0L
+2239: return
+if( option & ITEM_WILD )
+2240: local #1
+2241: 8L
+2242: &
+2243: if false goto 2298
+if( !item.movable )
+2244: local #2
+2245: get member id 'movable' (20)
+2246: if true goto 2256
+SendSysMessage( mobile, "That item is not movable." );
+2247: local #3
+2248: "That item is not movable."
+2249: 3L
+2250: 1000L
+2251: Func(2,4): SendSysMessage
+2252: #
+return 0;
+2253: 0L
+2254: return
+2255: goto2297
+elseif( !CheckLosAt( mobile, item.x, item.y, item.z ))
+2256: local #3
+2257: local #2
+2258: get member id 'x' (0)
+2259: local #2
+2260: get member id 'y' (1)
+2261: local #2
+2262: get member id 'z' (2)
+2263: Func(2,12): CheckLosAt
+2264: if true goto 2274
+SendSysMessage( mobile, "You cannot see that item." );
+2265: local #3
+2266: "You cannot see that item."
+2267: 3L
+2268: 1000L
+2269: Func(2,4): SendSysMessage
+2270: #
+return 0;
+2271: 0L
+2272: return
+2273: goto2297
+elseif( temp_dist )
+2274: local #0
+2275: if false goto 2297
+if( !CoordinateDistance( mobile.x, mobile.y, item.x, item.y ) > temp_dist )
+2276: local #3
+2277: get member id 'x' (0)
+2278: local #3
+2279: get member id 'y' (1)
+2280: local #2
+2281: get member id 'x' (0)
+2282: local #2
+2283: get member id 'y' (1)
+2284: Func(2,13): CoordinateDistance
+2285: !
+2286: local #0
+2287: >
+2288: if false goto 2297
+SendSysMessage( mobile, "You are too far from the item." );
+2289: local #3
+2290: "You are too far from the item."
+2291: 3L
+2292: 1000L
+2293: Func(2,4): SendSysMessage
+2294: #
+return 0;
+2295: 0L
+2296: return
+2297: goto2355
+elseif( option & ITEM_INCONTAINER )
+2298: local #1
+2299: 2L
+2300: &
+2301: if false goto 2330
+if( !item.movable )
+2302: local #2
+2303: get member id 'movable' (20)
+2304: if true goto 2314
+SendSysMessage( mobile, "That item is not movable." );
+2305: local #3
+2306: "That item is not movable."
+2307: 3L
+2308: 1000L
+2309: Func(2,4): SendSysMessage
+2310: #
+return 0;
+2311: 0L
+2312: return
+2313: goto2329
+elseif( !( item in EnumerateItemsInContainer( mobile.backpack )))
+2314: local #2
+2315: local #3
+2316: get member id 'backpack' (41)
+2317: 0L
+2318: Func(2,14): EnumerateItemsInContainer
+2319: in
+2320: if true goto 2329
+SendSysMessage( mobile, "That item is not in your backpack." );
+2321: local #3
+2322: "That item is not in your backpack."
+2323: 3L
+2324: 1000L
+2325: Func(2,4): SendSysMessage
+2326: #
+return 0;
+2327: 0L
+2328: return
+2329: goto2355
+elseif( option & ITEM_EQUIPPED )
+2330: local #1
+2331: 4L
+2332: &
+2333: if false goto 2355
+if( item in ListEquippedItems( mobile ))
+2334: local #2
+2335: local #3
+2336: Func(2,15): ListEquippedItems
+2337: in
+2338: if false goto 2342
+return 1;
+2339: 1L
+2340: return
+2341: goto2355
+SendSysMessage( mobile, "You must equip "+item.desc+" before using it." );
+2342: local #3
+2343: "You must equip "
+2344: local #2
+2345: get member id 'desc' (19)
+2346: +
+2347: " before using it."
+2348: +
+2349: 3L
+2350: 1000L
+2351: Func(2,4): SendSysMessage
+2352: #
+return 0;
+2353: 0L
+2354: return
+if(( item.IsA( POLCLASS_CONTAINER ) || item.IsA( POLCLASS_DOOR )) && item.locke
+2355: local #2
+2356: 6L
+2357: Call Method id isa (#0, 1 params)
+2358: local #2
+2359: 8L
+2360: Call Method id isa (#0, 1 params)
+2361: ||
+2362: local #2
+2363: get member id 'locked' (70)
+2364: &&
+2365: if false goto 2374
+SendSysMessage( mobile, "That item is locked!" );
+2366: local #3
+2367: "That item is locked!"
+2368: 3L
+2369: 1000L
+2370: Func(2,4): SendSysMessage
+2371: #
+return 0;
+2372: 0L
+2373: return
+return 1;
+2374: 1L
+2375: return
+c:/ZH099/pkg/utils/gumps/include/yesno.inc, Line 12
+function YesNo( mobile, prompt:="", yes_text:="Yes", no_text:="No", delay:=0 )
+2376: pop param 'delay'
+2377: pop param 'no_text'
+2378: pop param 'yes_text'
+2379: pop param 'prompt'
+2380: pop param 'mobile'
+var parms := array{mobile, prompt, yes_text, no_text, delay};
+2381: decl local #5
+2382: array
+2383: local #4
+2384: init{}
+2385: local #3
+2386: init{}
+2387: local #2
+2388: init{}
+2389: local #1
+2390: init{}
+2391: local #0
+2392: init{}
+2393: :=
+2394: #
+var script := Run_Script( ":gumps:yesNoGump", parms );
+2395: decl local #6
+2396: ":gumps:yesNoGump"
+2397: local #5
+2398: Func(3,6): Run_Script
+2399: :=
+2400: #
+if( script.errortext )
+2401: local #6
+2402: get member 'errortext'
+2403: if false goto 2415
+SendSysMessage( mobile, "Error starting script <:gumps:yesNoGump> -->"+script.e
+2404: local #4
+2405: "Error starting script <:gumps:yesNoGump> -->"
+2406: local #6
+2407: get member 'errortext'
+2408: +
+2409: 3L
+2410: 1000L
+2411: Func(2,4): SendSysMessage
+2412: #
+return 0;
+2413: 0L
+2414: return
+return script;
+2415: local #6
+2416: return
+c:/ZH099/pkg/systems/areas/include/managment.inc, Line 17
+function A_IsIn( object, option, obj_prop := 0 )
+2417: pop param 'obj_prop'
+2418: pop param 'option'
+2419: pop param 'object'
+if( object.multi )
+2420: local #2
+2421: get member id 'multi' (12)
+2422: if false goto 2425
+return 0;
+2423: 0L
+2424: return
+var get_main_prop := GetGlobalProperty( "Areas_"+option );
+2425: decl local #3
+2426: "Areas_"
+2427: local #1
+2428: +
+2429: Func(2,3): GetGlobalProperty
+2430: :=
+2431: #
+if( obj_prop )
+2432: local #0
+2433: if false goto 2440
+get_main_prop := GetObjProperty( object, "Areas_"+option );
+2434: local #2
+2435: "Areas_"
+2436: local #1
+2437: +
+2438: Func(2,1): GetObjProperty
+2439: local3 := 
+if( !get_main_prop )
+2440: local #3
+2441: if true goto 2444
+return 0;
+2442: 0L
+2443: return
+var areas := ListAreasByType();
+2444: decl local #4
+2445: makelocal
+2446: jmp userfunc @2790
+2447: :=
+2448: #
+foreach area_name in areas
+2449: local #4
+2450: initforeach @2507
+var area := GetAreaSettings( area_name ),
+2451: decl local #0
+2452: local #5
+2453: makelocal
+2454: jmp userfunc @2758
+2455: :=
+2456: #
+2457: decl local #1
+2458: local #8
+2459: get member 'Min_X'
+2460: Func(0,5): CInt
+2461: :=
+2462: #
+2463: decl local #2
+2464: local #8
+2465: get member 'Max_X'
+2466: Func(0,5): CInt
+2467: :=
+2468: #
+2469: decl local #3
+2470: local #8
+2471: get member 'Min_Y'
+2472: Func(0,5): CInt
+2473: :=
+2474: #
+2475: decl local #4
+2476: local #8
+2477: get member 'Max_Y'
+2478: Func(0,5): CInt
+2479: :=
+2480: #
+2481: decl local #5
+2482: local #8
+2483: get member id 'realm' (112)
+2484: Func(0,0): CStr
+2485: :=
+2486: #
+if( CInt( get_main_prop[area_name] ))
+2487: local #3
+2488: local #5
+2489: [] 1
+2490: Func(0,5): CInt
+2491: if false goto 2503
+if( A_IsInBox( object, MinX, MaxX, MinY, MaxY, Realm ))
+2492: local #2
+2493: local #9
+2494: local #10
+2495: local #11
+2496: local #12
+2497: local #13
+2498: makelocal
+2499: jmp userfunc @2511
+2500: if false goto 2503
+return 1;
+2501: 1L
+2502: return
+SleepMS(5);
+2503: 5L
+2504: Func(3,0): Sleepms
+2505: #
+2506: leave block(6)
+2507: stepforeach @2451
+2508: leave block(3)
+return 0;
+2509: 0L
+2510: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 59
+function A_IsInBox( byref object, byref x1, byref x2, byref y1, byref y2, byref
+2511: pop param byref 'realm'
+2512: pop param byref 'y2'
+2513: pop param byref 'y1'
+2514: pop param byref 'x2'
+2515: pop param byref 'x1'
+2516: pop param byref 'object'
+if( object.realm == realm )
+2517: local #5
+2518: get member id 'realm' (112)
+2519: local #0
+2520: ==
+2521: if false goto 2544
+if( object.x >= x1 && object.x <= x2 && object.y >= y1 && object.y <= y2 )
+2522: local #5
+2523: get member id 'x' (0)
+2524: local #4
+2525: >=
+2526: local #5
+2527: get member id 'x' (0)
+2528: local #3
+2529: <=
+2530: &&
+2531: local #5
+2532: get member id 'y' (1)
+2533: local #2
+2534: >=
+2535: &&
+2536: local #5
+2537: get member id 'y' (1)
+2538: local #1
+2539: <=
+2540: &&
+2541: if false goto 2544
+return 1;
+2542: 1L
+2543: return
+return 0;
+2544: 0L
+2545: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 34
+function AI_Attack( npc, opponent, no_wake:=WAKEUP )
+2546: pop param 'no_wake'
+2547: pop param 'opponent'
+2548: pop param 'npc'
+var ev		:= struct;
+2549: decl local #3
+2550: struct
+2551: :=
+2552: #
+ev.+type	:= SYSEVENT_ENGAGED;
+2553: local #3
+2554: "type"
+2555: .+
+2556: 2L
+2557: := #
+ev.+source	:= opponent;
+2558: local #3
+2559: "source"
+2560: .+
+2561: local #1
+2562: := #
+ev.+WakeUp	:= no_wake;
+2563: local #3
+2564: "WakeUp"
+2565: .+
+2566: local #0
+2567: := #
+ev.+process	:= GetProcess( GetPid() );
+2568: local #3
+2569: "process"
+2570: .+
+2571: Func(3,3): GetPid
+2572: Func(3,2): GetProcess
+2573: := #
+return SendEvent( npc, ev );
+2574: local #2
+2575: local #3
+2576: Func(2,6): SendEvent
+2577: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 64
+function AI_EndNerve( npc, nerve_name, no_wake:=NOWAKE )
+2578: pop param 'no_wake'
+2579: pop param 'nerve_name'
+2580: pop param 'npc'
+var ev		:= struct;
+2581: decl local #3
+2582: struct
+2583: :=
+2584: #
+ev.+type	:= NPCEVENT_ENDNERVE;
+2585: local #3
+2586: "type"
+2587: .+
+2588: 10485775L
+2589: := #
+ev.+name	:= nerve_name;
+2590: local #3
+2591: "name"
+2592: .+
+2593: local #1
+2594: := #
+ev.+WakeUp	:= no_wake;
+2595: local #3
+2596: "WakeUp"
+2597: .+
+2598: local #0
+2599: := #
+ev.+process	:= GetProcess( GetPid() );
+2600: local #3
+2601: "process"
+2602: .+
+2603: Func(3,3): GetPid
+2604: Func(3,2): GetProcess
+2605: := #
+return SendEvent( npc, ev );
+2606: local #2
+2607: local #3
+2608: Func(2,6): SendEvent
+2609: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 88
+function AI_Move( npc, x, y, z, to_from:=NEMOVE_TOWARD, speed:=NEMOVE_RUN, loop
+2610: pop param 'no_wake'
+2611: pop param 'loop'
+2612: pop param 'speed'
+2613: pop param 'to_from'
+2614: pop param 'z'
+2615: pop param 'y'
+2616: pop param 'x'
+2617: pop param 'npc'
+var ev		:= struct;
+2618: decl local #8
+2619: struct
+2620: :=
+2621: #
+ev.+type	:= NPCEVENT_MOVE;
+2622: local #8
+2623: "type"
+2624: .+
+2625: 10485763L
+2626: := #
+ev.+x		:= x;
+2627: local #8
+2628: "x"
+2629: .+
+2630: local #6
+2631: := #
+ev.+y		:= y;
+2632: local #8
+2633: "y"
+2634: .+
+2635: local #5
+2636: := #
+ev.+z		:= z;
+2637: local #8
+2638: "z"
+2639: .+
+2640: local #4
+2641: := #
+ev.+direction	:= to_from;
+2642: local #8
+2643: "direction"
+2644: .+
+2645: local #3
+2646: := #
+ev.+speed	:= speed;
+2647: local #8
+2648: "speed"
+2649: .+
+2650: local #2
+2651: := #
+ev.+WakeUp	:= no_wake;
+2652: local #8
+2653: "WakeUp"
+2654: .+
+2655: local #0
+2656: := #
+ev.+loop	:= loop;
+2657: local #8
+2658: "loop"
+2659: .+
+2660: local #1
+2661: := #
+ev.+process	:= GetProcess( GetPid() );
+2662: local #8
+2663: "process"
+2664: .+
+2665: Func(3,3): GetPid
+2666: Func(3,2): GetProcess
+2667: := #
+return SendEvent( npc, ev );
+2668: local #7
+2669: local #8
+2670: Func(2,6): SendEvent
+2671: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 211
+function AI_WarMode( npc, mode:=0, no_wake:=NOWAKE )
+2672: pop param 'no_wake'
+2673: pop param 'mode'
+2674: pop param 'npc'
+var ev		:= struct;
+2675: decl local #3
+2676: struct
+2677: :=
+2678: #
+ev.+type	:= NPCEVENT_WARMODE;
+2679: local #3
+2680: "type"
+2681: .+
+2682: 10485767L
+2683: := #
+ev.+value	:= mode;
+2684: local #3
+2685: "value"
+2686: .+
+2687: local #1
+2688: := #
+ev.+WakeUp	:= no_wake;
+2689: local #3
+2690: "WakeUp"
+2691: .+
+2692: local #0
+2693: := #
+ev.+process	:= GetProcess( GetPid() );
+2694: local #3
+2695: "process"
+2696: .+
+2697: Func(3,3): GetPid
+2698: Func(3,2): GetProcess
+2699: := #
+return SendEvent( npc, ev );
+2700: local #2
+2701: local #3
+2702: Func(2,6): SendEvent
+2703: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+2704: pop param 'skill_name'
+2705: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+2706: local #1
+2707: local #0
+2708: makelocal
+2709: jmp userfunc @2725
+2710: local #1
+2711: local #0
+2712: makelocal
+2713: jmp userfunc @2716
+2714: +
+2715: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+2716: pop param 'skill_name'
+2717: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+2718: local #1
+2719: local #0
+2720: Func(6,1): GetAttributeTemporaryMod
+2721: Func(0,6): CDbl
+2722: 10LF
+2723: /
+2724: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+2725: pop param 'skill_name'
+2726: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+2727: local #1
+2728: local #0
+2729: Func(6,0): GetAttributeBaseValue
+2730: Func(0,6): CDbl
+2731: 10LF
+2732: /
+2733: return
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 28
+function ClasseBonus( mobile, classe )
+2734: pop param 'classe'
+2735: pop param 'mobile'
+var level := CInt( GetObjProperty( mobile, classe ));
+2736: decl local #2
+2737: local #1
+2738: local #0
+2739: Func(2,1): GetObjProperty
+2740: Func(0,5): CInt
+2741: :=
+2742: #
+if( level )
+2743: local #2
+2744: if false goto 2754
+return CDbl( settings.BonusLevel * level ) + 1;
+2745: global #0
+2746: get member 'BonusLevel'
+2747: local #2
+2748: *
+2749: Func(0,6): CDbl
+2750: 1L
+2751: +
+2752: return
+2753: goto2756
+return 1;
+2754: 1L
+2755: return
+2756: 0L
+2757: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 49
+function GetAreaSettings( area_name )
+2758: pop param 'area_name'
+var cfg_area := GetAreasCfgElem( area_name );
+2759: decl local #1
+2760: local #0
+2761: 0L
+2762: makelocal
+2763: jmp userfunc @3167
+2764: :=
+2765: #
+if( cfg_area.errortext )
+2766: local #1
+2767: get member 'errortext'
+2768: if false goto 2775
+SysLog( "Error::GetAreaSettings() -->"+cfg_area.errortext );
+2769: "Error::GetAreaSettings() -->"
+2770: local #1
+2771: get member 'errortext'
+2772: +
+2773: Func(3,1): SysLog
+2774: #
+return cfg_area;
+2775: local #1
+2776: return
+c:/ZH099/pkg/items/totem/include/totem.inc, Line 14
+function IsTotem( npc )
+2777: pop param 'npc'
+var totem := GetObjProperty( npc, "IsTotem" );
+2778: decl local #1
+2779: local #0
+2780: "IsTotem"
+2781: Func(2,1): GetObjProperty
+2782: :=
+2783: #
+if( !totem )
+2784: local #1
+2785: if true goto 2788
+return 0;
+2786: 0L
+2787: return
+return 1;
+2788: 1L
+2789: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 39
+function ListAreasByType()
+var cfg_elem := GetAreasCfgElem( "Settings" );
+2790: decl local #0
+2791: "Settings"
+2792: 0L
+2793: makelocal
+2794: jmp userfunc @3167
+2795: :=
+2796: #
+var cfg_areas := GetConfigStringArray( cfg_elem, "AreaName" );
+2797: decl local #1
+2798: local #0
+2799: "AreaName"
+2800: Func(4,2): GetConfigStringArray
+2801: :=
+2802: #
+if( cfg_areas.errortext )
+2803: local #1
+2804: get member 'errortext'
+2805: if false goto 2812
+SysLog( "Error::ListAreasByType() -->"+cfg_areas.errortext );
+2806: "Error::ListAreasByType() -->"
+2807: local #1
+2808: get member 'errortext'
+2809: +
+2810: Func(3,1): SysLog
+2811: #
+return cfg_areas;
+2812: local #1
+2813: return
+c:/ZH099/pkg/systems/brainAI/include/npcInit.inc, Line 39
+function NPC_SetupBackPack( mobile )
+2814: pop param 'mobile'
+if( !mobile.backpack )
+2815: local #0
+2816: get member id 'backpack' (41)
+2817: if true goto 2849
+var backpack := CreateItemAtLocation( mobile.x, mobile.y, mobile.z, "BackPack",
+2818: decl local #0
+2819: local #0
+2820: get member id 'x' (0)
+2821: local #0
+2822: get member id 'y' (1)
+2823: local #0
+2824: get member id 'z' (2)
+2825: "BackPack"
+2826: 1L
+2827: local #0
+2828: get member id 'realm' (112)
+2829: Func(2,20): CreateItemAtLocation
+2830: :=
+2831: #
+var result := EquipItem( mobile, backpack );
+2832: decl local #1
+2833: local #0
+2834: local #1
+2835: Func(2,21): EquipItem
+2836: :=
+2837: #
+if( !result )
+2838: local #2
+2839: if true goto 2846
+DestroyItem( backpack );
+2840: local #1
+2841: Func(2,22): DestroyItem
+2842: #
+return result;
+2843: local #2
+2844: return
+2845: goto2848
+return backpack;
+2846: local #1
+2847: return
+2848: leave block(2)
+return mobile.backpack;
+2849: local #0
+2850: get member id 'backpack' (41)
+2851: return
+c:/ZH099/pkg/systems/spells/include/spells.inc, Line 187
+function SPELL_GetCircle( spellid )
+2852: pop param 'spellid'
+var cfg_elem := SPELL_GetSpellsCfgElem( spellid );
+2853: decl local #1
+2854: local #0
+2855: 0L
+2856: makelocal
+2857: jmp userfunc @2869
+2858: :=
+2859: #
+var circle := GetConfigInt( cfg_elem, "Circle" );
+2860: decl local #2
+2861: local #1
+2862: "Circle"
+2863: Func(4,7): GetConfigInt
+2864: :=
+2865: #
+return CInt( circle );
+2866: local #2
+2867: Func(0,5): CInt
+2868: return
+c:/ZH099/pkg/systems/spells/include/spells.inc, Line 38
+function SPELL_GetSpellsCfgElem( elem_name, byref cfg_file := 0 )
+2869: pop param byref 'cfg_file'
+2870: pop param 'elem_name'
+if( !cfg_file )
+2871: local #0
+2872: if true goto 2876
+cfg_file := SPELL_GetSpellsCfgFile();
+2873: makelocal
+2874: jmp userfunc @2900
+2875: local0 := 
+var elem := cfg_file[elem_name];
+2876: decl local #2
+2877: local #0
+2878: local #1
+2879: [] 1
+2880: :=
+2881: #
+if( elem.errortext )
+2882: local #2
+2883: get member 'errortext'
+2884: if false goto 2898
+ReportText( "Error::SPELL_GetSpellsCfgElem() - Unable to find elem ["+elem_name
+2885: "Error::SPELL_GetSpellsCfgElem() - Unable to find elem ["
+2886: local #1
+2887: +
+2888: "] ->"
+2889: +
+2890: local #2
+2891: get member 'errortext'
+2892: +
+2893: 2L
+2894: 0L
+2895: makelocal
+2896: jmp userfunc @3302
+2897: #
+return elem;
+2898: local #2
+2899: return
+c:/ZH099/pkg/systems/spells/include/spells.inc, Line 29
+function SPELL_GetSpellsCfgFile()
+var cfg := ReadConfigFile( ":spells:spells" );
+2900: decl local #0
+2901: ":spells:spells"
+2902: Func(4,0): ReadConfigFile
+2903: :=
+2904: #
+if( cfg.errortext )
+2905: local #0
+2906: get member 'errortext'
+2907: if false goto 2917
+ReportText( "Error::SPELL_GetSpellsCfgFile() - Unable to open [:magery:spells.c
+2908: "Error::SPELL_GetSpellsCfgFile() - Unable to open [:magery:spells.cfg] ->"
+2909: local #0
+2910: get member 'errortext'
+2911: +
+2912: 2L
+2913: 0L
+2914: makelocal
+2915: jmp userfunc @3302
+2916: #
+return cfg;
+2917: local #0
+2918: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 81
+function StartNerve( mobile, nerve_name, nerve_script, data:=array, flags:=NF_N
+2919: pop param 'flags'
+2920: pop param 'data'
+2921: pop param 'nerve_script'
+2922: pop param 'nerve_name'
+2923: pop param 'mobile'
+if( GetNerveProcess( mobile, nerve_name ))
+2924: local #4
+2925: local #3
+2926: makelocal
+2927: jmp userfunc @3211
+2928: if false goto 2931
+return 0;
+2929: 0L
+2930: return
+if( Lower( TypeOf( data )) != "array")
+2931: local #1
+2932: Func(0,8): TypeOf
+2933: Func(0,2): Lower
+2934: "array"
+2935: <>
+2936: if false goto 2941
+data := array{data};
+2937: array
+2938: local #1
+2939: init{}
+2940: local1 := 
+data.Insert( 1, mobile );
+2941: local #1
+2942: 1L
+2943: local #4
+2944: Call Method id insert (#50, 2 params)
+2945: #
+data.Insert( 2, nerve_name );
+2946: local #1
+2947: 2L
+2948: local #3
+2949: Call Method id insert (#50, 2 params)
+2950: #
+var process := Start_Script( nerve_script, data );
+2951: decl local #5
+2952: local #2
+2953: local #1
+2954: Func(3,4): Start_Script
+2955: :=
+2956: #
+if( process.errortext )
+2957: local #5
+2958: get member 'errortext'
+2959: if false goto 2986
+var errmsg := "Error::StartNerve() - ["+nerve_name+"] ["+nerve_script+"] failed
+2960: decl local #0
+2961: "Error::StartNerve() - ["
+2962: local #3
+2963: +
+2964: "] ["
+2965: +
+2966: local #2
+2967: +
+2968: "] failed to start! ->"
+2969: +
+2970: local #5
+2971: get member 'errortext'
+2972: +
+2973: :=
+2974: #
+NPC_ErrorSysLog( mobile, errmsg );
+2975: local #4
+2976: local #6
+2977: makelocal
+2978: jmp userfunc @3258
+2979: #
+return error{"errortext":=errmsg};
+2980: error
+2981: local #6
+2982: addmember-assign(errortext)
+2983: return
+2984: leave block(1)
+2985: goto3028
+var nerve_dict := LoadNerves( mobile );
+2986: decl local #0
+2987: local #4
+2988: makelocal
+2989: jmp userfunc @3241
+2990: :=
+2991: #
+if( nerve_dict.Exists( nerve_name ))
+2992: local #6
+2993: local #3
+2994: Call Method id exists (#55, 1 params)
+2995: if false goto 3001
+StopNerve( mobile, nerve_name );
+2996: local #4
+2997: local #3
+2998: makelocal
+2999: jmp userfunc @3030
+3000: #
+var nerve_info := struct;
+3001: decl local #1
+3002: struct
+3003: :=
+3004: #
+nerve_info.+pid := process.pid;
+3005: local #7
+3006: "pid"
+3007: .+
+3008: local #5
+3009: get member id 'pid' (103)
+3010: := #
+nerve_info.+flags := flags;
+3011: local #7
+3012: "flags"
+3013: .+
+3014: local #0
+3015: := #
+nerve_dict[nerve_name] := nerve_info;
+3016: local #6
+3017: local #3
+3018: local #7
+3019: [] := (1) #
+SaveNerves( mobile, nerve_dict );
+3020: local #4
+3021: local #6
+3022: makelocal
+3023: jmp userfunc @3367
+3024: #
+return process;
+3025: local #5
+3026: return
+3027: leave block(2)
+3028: 0L
+3029: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 119
+function StopNerve( mobile, nerve_name )
+3030: pop param 'nerve_name'
+3031: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+3032: decl local #2
+3033: local #1
+3034: makelocal
+3035: jmp userfunc @3241
+3036: :=
+3037: #
+if( nerve_dict.Exists( nerve_name ))
+3038: local #2
+3039: local #0
+3040: Call Method id exists (#55, 1 params)
+3041: if false goto 3065
+var process := GetNerveProcess( mobile, nerve_name );
+3042: decl local #0
+3043: local #1
+3044: local #0
+3045: makelocal
+3046: jmp userfunc @3211
+3047: :=
+3048: #
+if( process )
+3049: local #3
+3050: if false goto 3054
+process.Kill();
+3051: local #3
+3052: Call Method id kill (#75, 0 params)
+3053: #
+nerve_dict.Erase( nerve_name );
+3054: local #2
+3055: local #0
+3056: Call Method id erase (#49, 1 params)
+3057: #
+return SaveNerves( mobile, nerve_dict );
+3058: local #1
+3059: local #2
+3060: makelocal
+3061: jmp userfunc @3367
+3062: return
+3063: leave block(1)
+3064: goto3073
+return error{"errortext" := "Error::StopNerve() - Invalid nerve name  ["+nerve_
+3065: error
+3066: "Error::StopNerve() - Invalid nerve name  ["
+3067: local #0
+3068: +
+3069: "]"
+3070: +
+3071: addmember-assign(errortext)
+3072: return
+3073: 0L
+3074: return
+c:/ZH099/pkg/skills/ranger/animaltaming/include/taming.inc, Line 12
+function tameCreature( npc, mobile )
+3075: pop param 'mobile'
+3076: pop param 'npc'
+var delay := CInt( AP_GetSkill( mobile, ANIMAL_LORE ) + 1 ) * 50;
+3077: decl local #2
+3078: local #0
+3079: "AnimalLore"
+3080: makelocal
+3081: jmp userfunc @2704
+3082: 1L
+3083: +
+3084: Func(0,5): CInt
+3085: 50L
+3086: *
+3087: :=
+3088: #
+delay *= ClasseBonus( mobile, RANGER );
+3089: local #2
+3090: local #0
+3091: "IsRanger"
+3092: makelocal
+3093: jmp userfunc @2734
+3094: *=
+3095: #
+if( delay < 1500 )
+3096: local #2
+3097: 1500L
+3098: <
+3099: if false goto 3102
+delay := 1500;
+3100: 1500L
+3101: local2 := 
+TS_StartTimer( npc, "Tame", CInt( delay ), 0, mobile );
+3102: local #1
+3103: "Tame"
+3104: local #2
+3105: Func(0,5): CInt
+3106: 0L
+3107: local #0
+3108: makelocal
+3109: jmp userfunc @2154
+3110: #
+return 1;
+3111: 1L
+3112: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 47
+function TS_GetControllerProcess( mobile, start:=NOSTART_CONTROLLER )
+3113: pop param 'start'
+3114: pop param 'mobile'
+var pid := CInt( GetObjProperty( mobile, "TimerControlPID" ));
+3115: decl local #2
+3116: local #1
+3117: "TimerControlPID"
+3118: Func(2,1): GetObjProperty
+3119: Func(0,5): CInt
+3120: :=
+3121: #
+var process := GetProcess( pid );
+3122: decl local #3
+3123: local #2
+3124: Func(3,2): GetProcess
+3125: :=
+3126: #
+if( !process )
+3127: local #3
+3128: if true goto 3135
+if( start )
+3129: local #0
+3130: if false goto 3135
+process := TS_StartController( mobile );
+3131: local #1
+3132: makelocal
+3133: jmp userfunc @3137
+3134: local3 := 
+return process;
+3135: local #3
+3136: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 61
+function TS_StartController( mobile )
+3137: pop param 'mobile'
+if( TS_GetControllerProcess( mobile, NOSTART_CONTROLLER ))
+3138: local #0
+3139: 0L
+3140: makelocal
+3141: jmp userfunc @3113
+3142: if false goto 3147
+return error{"errortext":="Error::TS_StartController() - Controller is already 
+3143: error
+3144: "Error::TS_StartController() - Controller is already running."
+3145: addmember-assign(errortext)
+3146: return
+var script := Start_Script( ":timedscripts:timerControl", mobile );
+3147: decl local #1
+3148: ":timedscripts:timerControl"
+3149: local #0
+3150: Func(3,4): Start_Script
+3151: :=
+3152: #
+if( script.errortext )
+3153: local #1
+3154: get member 'errortext'
+3155: if false goto 3165
+ReportText( "Error::TS_StartController() ->"+script.errortext, REPORT_SYSLOG );
+3156: "Error::TS_StartController() ->"
+3157: local #1
+3158: get member 'errortext'
+3159: +
+3160: 2L
+3161: 0L
+3162: makelocal
+3163: jmp userfunc @3302
+3164: #
+return script;
+3165: local #1
+3166: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 23
+function GetAreasCfgElem( area_name, byref cfg_file:=0 )
+3167: pop param byref 'cfg_file'
+3168: pop param 'area_name'
+if( !cfg_file )
+3169: local #0
+3170: if true goto 3174
+cfg_file := GetAreasCfgFile();
+3171: makelocal
+3172: jmp userfunc @3195
+3173: local0 := 
+var cfg_elem := cfg_file[area_name];
+3174: decl local #2
+3175: local #0
+3176: local #1
+3177: [] 1
+3178: :=
+3179: #
+if( cfg_elem.errortext )
+3180: local #2
+3181: get member 'errortext'
+3182: if false goto 3193
+SysLog( "Error::GetAreasCfgElem() - unable to find cfg elem ["+area_name+"] ->"
+3183: "Error::GetAreasCfgElem() - unable to find cfg elem ["
+3184: local #1
+3185: +
+3186: "] ->"
+3187: +
+3188: local #2
+3189: get member 'errortext'
+3190: +
+3191: Func(3,1): SysLog
+3192: #
+return cfg_elem;
+3193: local #2
+3194: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 15
+function GetAreasCfgFile()
+var cfg_file := ReadConfigFile( ":areas:areas" );
+3195: decl local #0
+3196: ":areas:areas"
+3197: Func(4,0): ReadConfigFile
+3198: :=
+3199: #
+if( cfg_file.errortext )
+3200: local #0
+3201: get member 'errortext'
+3202: if false goto 3209
+SysLog( "Error::GetAreasCfgFile() - Unable to open areas.cfg ->"+cfg_file.error
+3203: "Error::GetAreasCfgFile() - Unable to open areas.cfg ->"
+3204: local #0
+3205: get member 'errortext'
+3206: +
+3207: Func(3,1): SysLog
+3208: #
+return cfg_file;
+3209: local #0
+3210: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 49
+function GetNerveProcess( mobile, nerve_name )
+3211: pop param 'nerve_name'
+3212: pop param 'mobile'
+var nerve_dict := LoadNerves( mobile );
+3213: decl local #2
+3214: local #1
+3215: makelocal
+3216: jmp userfunc @3241
+3217: :=
+3218: #
+if( nerve_dict.Exists( nerve_name ))
+3219: local #2
+3220: local #0
+3221: Call Method id exists (#55, 1 params)
+3222: if false goto 3231
+return GetProcess( CInt( nerve_dict[nerve_name].pid ));
+3223: local #2
+3224: local #0
+3225: [] 1
+3226: get member id 'pid' (103)
+3227: Func(0,5): CInt
+3228: Func(3,2): GetProcess
+3229: return
+3230: goto3239
+return error{"errortext" := "Error::GetNerveProcess() - Invalid nerve name  ["+
+3231: error
+3232: "Error::GetNerveProcess() - Invalid nerve name  ["
+3233: local #0
+3234: +
+3235: "]"
+3236: +
+3237: addmember-assign(errortext)
+3238: return
+3239: 0L
+3240: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 34
+function LoadNerves( mobile )
+3241: pop param 'mobile'
+var nerve_dict := GetObjProperty( mobile, "#NerveInfo" );
+3242: decl local #1
+3243: local #0
+3244: "#NerveInfo"
+3245: Func(2,1): GetObjProperty
+3246: :=
+3247: #
+if ( Lower( TypeOf( nerve_dict )) != "dictionary" )
+3248: local #1
+3249: Func(0,8): TypeOf
+3250: Func(0,2): Lower
+3251: "dictionary"
+3252: <>
+3253: if false goto 3256
+nerve_dict := dictionary;
+3254: dictionary
+3255: local1 := 
+return nerve_dict;
+3256: local #1
+3257: return
+c:/ZH099/pkg/systems/brainAI/include/npcError.inc, Line 9
+function NPC_ErrorSysLog( npc, errmsg )
+3258: pop param 'errmsg'
+3259: pop param 'npc'
+PrintTextAbove( npc, errmsg, 3, 33 );
+3260: local #1
+3261: local #0
+3262: 3L
+3263: 33L
+3264: 0L
+3265: Func(2,8): PrintTextAbove
+3266: #
+SysLog( "------------" );
+3267: "------------"
+3268: Func(3,1): SysLog
+3269: #
+SysLog( "NPC Template: "+npc.npctemplate );
+3270: "NPC Template: "
+3271: local #1
+3272: get member id 'npctemplate' (62)
+3273: +
+3274: Func(3,1): SysLog
+3275: #
+SysLog( "NPC Name    : "+npc.name );
+3276: "NPC Name    : "
+3277: local #1
+3278: get member id 'name' (3)
+3279: +
+3280: Func(3,1): SysLog
+3281: #
+SysLog( errmsg );
+3282: local #0
+3283: Func(3,1): SysLog
+3284: #
+SysLog( "------------" );
+3285: "------------"
+3286: Func(3,1): SysLog
+3287: #
+npc.Disable( "invul" );
+3288: local #1
+3289: "invul"
+3290: Call Method id disable (#9, 1 params)
+3291: #
+SetObjProperty( npc, "GuardKill", 1 );
+3292: local #1
+3293: "GuardKill"
+3294: 1L
+3295: Func(2,2): SetObjProperty
+3296: #
+npc.Kill();
+3297: local #1
+3298: Call Method id kill (#75, 0 params)
+3299: #
+return 1;
+3300: 1L
+3301: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+3302: pop param 'text_color'
+3303: pop param 'flags'
+3304: pop param 'report_text'
+if( !flags )
+3305: local #1
+3306: if true goto 3310
+return 0;
+3307: 0L
+3308: return
+3309: goto3365
+elseif( flags & REPORT_CONSOLE )
+3310: local #1
+3311: 1L
+3312: &
+3313: if false goto 3320
+Print( ""+report_text );
+3314: ""
+3315: local #2
+3316: +
+3317: Func(1,0): Print
+3318: #
+3319: goto3365
+elseif( flags & REPORT_SYSLOG )
+3320: local #1
+3321: 2L
+3322: &
+3323: if false goto 3354
+var script_name := CStr( GetProcess( GetPid() ).name ),
+3324: decl local #0
+3325: Func(3,3): GetPid
+3326: Func(3,2): GetProcess
+3327: get member id 'name' (3)
+3328: Func(0,0): CStr
+3329: :=
+3330: #
+3331: decl local #1
+3332: local #3
+3333: makelocal
+3334: jmp userfunc @3374
+3335: :=
+3336: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+3337: "::log/"
+3338: local #4
+3339: +
+3340: ".log"
+3341: +
+3342: "["
+3343: local #3
+3344: +
+3345: "]: "
+3346: +
+3347: local #2
+3348: +
+3349: 1L
+3350: Func(9,0): LogToFile
+3351: #
+3352: leave block(2)
+3353: goto3365
+elseif( flags & REPORT_BROADCAST )
+3354: local #1
+3355: 4L
+3356: &
+3357: if false goto 3365
+Broadcast( ""+report_text, 3, text_color );
+3358: ""
+3359: local #2
+3360: +
+3361: 3L
+3362: local #0
+3363: Func(2,0): Broadcast
+3364: #
+return 1;
+3365: 1L
+3366: return
+c:/ZH099/pkg/systems/brainAI/include/npcNerves.inc, Line 44
+function SaveNerves( mobile, nerve_dict )
+3367: pop param 'nerve_dict'
+3368: pop param 'mobile'
+return SetObjProperty( mobile, "#NerveInfo", nerve_dict );
+3369: local #1
+3370: "#NerveInfo"
+3371: local #0
+3372: Func(2,2): SetObjProperty
+3373: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+3374: pop param 'script_name'
+var i;
+3375: decl local #1
+3376: #
+for( i:=1; i<=len(script_name); i+=1 )
+3377: local #1
+3378: 1L
+3379: :=
+3380: #
+3381: local #1
+3382: local #0
+3383: Func(0,1): Len
+3384: <=
+3385: if false goto 3405
+if( !Check_ValidChar( script_name[i] ))
+3386: local #0
+3387: local #1
+3388: [] 1
+3389: 0L
+3390: makelocal
+3391: jmp userfunc @3421
+3392: if true goto 3397
+script_name[i] := " ";
+3393: local #0
+3394: local #1
+3395: " "
+3396: [] := (1) #
+SleepMS(5);
+3397: 5L
+3398: Func(3,0): Sleepms
+3399: #
+3400: local #1
+3401: 1L
+3402: +=
+3403: #
+3404: goto3381
+foreach poss_pkg in ( SplitWords( script_name ))
+3405: local #0
+3406: " "
+3407: Func(0,9): SplitWords
+3408: initforeach @3417
+if( GetPackageByName( poss_pkg ))
+3409: local #2
+3410: Func(11,0): GetPackageByName
+3411: if false goto 3414
+return poss_pkg;
+3412: local #2
+3413: return
+SleepMS(5);
+3414: 5L
+3415: Func(3,0): Sleepms
+3416: #
+3417: stepforeach @3409
+3418: leave block(3)
+return 0;
+3419: 0L
+3420: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+3421: pop param 'allow_space'
+3422: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+3423: decl local #2
+3424: array
+3425: "a"
+3426: init{}
+3427: "b"
+3428: init{}
+3429: "c"
+3430: init{}
+3431: "d"
+3432: init{}
+3433: "e"
+3434: init{}
+3435: "f"
+3436: init{}
+3437: "g"
+3438: init{}
+3439: "h"
+3440: init{}
+3441: "i"
+3442: init{}
+3443: "j"
+3444: init{}
+3445: "k"
+3446: init{}
+3447: "l"
+3448: init{}
+3449: "m"
+3450: init{}
+3451: "n"
+3452: init{}
+3453: "o"
+3454: init{}
+3455: "p"
+3456: init{}
+3457: "q"
+3458: init{}
+3459: "r"
+3460: init{}
+3461: "s"
+3462: init{}
+3463: "t"
+3464: init{}
+3465: "u"
+3466: init{}
+3467: "v"
+3468: init{}
+3469: "w"
+3470: init{}
+3471: "x"
+3472: init{}
+3473: "y"
+3474: init{}
+3475: "z"
+3476: init{}
+3477: "A"
+3478: init{}
+3479: "B"
+3480: init{}
+3481: "C"
+3482: init{}
+3483: "D"
+3484: init{}
+3485: "E"
+3486: init{}
+3487: "F"
+3488: init{}
+3489: "G"
+3490: init{}
+3491: "H"
+3492: init{}
+3493: "I"
+3494: init{}
+3495: "P"
+3496: init{}
+3497: "O"
+3498: init{}
+3499: "N"
+3500: init{}
+3501: "M"
+3502: init{}
+3503: "L"
+3504: init{}
+3505: "K"
+3506: init{}
+3507: "J"
+3508: init{}
+3509: "Q"
+3510: init{}
+3511: "R"
+3512: init{}
+3513: "S"
+3514: init{}
+3515: "T"
+3516: init{}
+3517: "U"
+3518: init{}
+3519: "V"
+3520: init{}
+3521: "W"
+3522: init{}
+3523: "X"
+3524: init{}
+3525: "Y"
+3526: init{}
+3527: "Z"
+3528: init{}
+3529: "1"
+3530: init{}
+3531: "2"
+3532: init{}
+3533: "3"
+3534: init{}
+3535: "4"
+3536: init{}
+3537: "5"
+3538: init{}
+3539: "6"
+3540: init{}
+3541: "7"
+3542: init{}
+3543: "8"
+3544: init{}
+3545: "9"
+3546: init{}
+3547: "0"
+3548: init{}
+3549: :=
+3550: #
+var len_text := Len( text );
+3551: decl local #3
+3552: local #1
+3553: Func(0,1): Len
+3554: :=
+3555: #
+var i;
+3556: decl local #4
+3557: #
+for( i:=1; i<=len_text; i+=1 )
+3558: local #4
+3559: 1L
+3560: :=
+3561: #
+3562: local #4
+3563: local #3
+3564: <=
+3565: if false goto 3608
+SleepMS(5);
+3566: 5L
+3567: Func(3,0): Sleepms
+3568: #
+var letter := CStr( text[i] );
+3569: decl local #0
+3570: local #1
+3571: local #4
+3572: [] 1
+3573: Func(0,0): CStr
+3574: :=
+3575: #
+if( letter in valid_char )
+3576: local #5
+3577: local #2
+3578: in
+3579: if false goto 3583
+continue;
+3580: leave block(1)
+3581: goto3603
+3582: goto3600
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+3583: local #0
+3584: local #1
+3585: local #4
+3586: [] 1
+3587: " "
+3588: ==
+3589: local #1
+3590: local #4
+3591: [] 1
+3592: Func(0,4): CAsc
+3593: 0L
+3594: ==
+3595: ||
+3596: &&
+3597: if false goto 3600
+continue;
+3598: leave block(1)
+3599: goto3603
+return 0;
+3600: 0L
+3601: return
+3602: leave block(1)
+3603: local #4
+3604: 1L
+3605: +=
+3606: #
+3607: goto3562
+return 1;
+3608: 1L
+3609: return

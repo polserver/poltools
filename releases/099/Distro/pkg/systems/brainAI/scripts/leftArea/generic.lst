@@ -1,0 +1,158 @@
+C:\ZH099\pkg\systems\brainAI\scripts\leftArea\generic.src, Line 13
+program BrainNerve( params )
+include ":brainAI:npcError";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var event	:= params[3];
+7: decl local #2
+8: local #0
+9: 3L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore.
+13: 0L
+14: local0 := 
+while( npc )
+15: local #1
+16: if false goto 39
+if( event )
+17: local #2
+18: if false goto 32
+case( event.type )
+19: local #2
+20: get member 'type'
+21: casejmp
+	32: @22
+	default: @29
+LeftArea( npc, event );
+22: local #1
+23: local #2
+24: makelocal
+25: jmp userfunc @43
+26: #
+break;
+27: goto28
+28: goto30
+break;
+29: goto30
+event := 0;
+30: 0L
+31: local2 := 
+SleepMS(5);
+32: 5L
+33: Func(3,2): Sleepms
+34: #
+event := Wait_For_Event(1);
+35: 1L
+36: Func(3,7): Wait_For_Event
+37: local2 := 
+38: goto15
+return 1;
+39: 1L
+40: progend
+41: leave block(3)
+42: progend
+C:\ZH099\pkg\systems\brainAI\scripts\leftArea\generic.src, Line 42
+function LeftArea( npc, byref event )
+43: pop param byref 'event'
+44: pop param 'npc'
+var source := event.source;
+45: decl local #2
+46: local #0
+47: get member 'source'
+48: :=
+49: #
+if( NPC_RemoveFromWatchList( npc, source ))
+50: local #1
+51: local #2
+52: makelocal
+53: jmp userfunc @59
+54: if false goto 57
+return 1;
+55: 1L
+56: return
+return 0;
+57: 0L
+58: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 54
+function NPC_RemoveFromWatchList( npc, mobile )
+59: pop param 'mobile'
+60: pop param 'npc'
+if( mobile.IsA( POLCLASS_MOBILE ))
+61: local #0
+62: 3L
+63: Call Method id isa (#0, 1 params)
+64: if false goto 68
+mobile := mobile.serial;
+65: local #0
+66: get member id 'serial' (6)
+67: local0 := 
+var watch_dict := NPC_LoadWatchList( npc );
+68: decl local #2
+69: local #1
+70: makelocal
+71: jmp userfunc @98
+72: :=
+73: #
+if( watch_dict.Exists( mobile ))
+74: local #2
+75: local #0
+76: Call Method id exists (#55, 1 params)
+77: if false goto 89
+watch_dict.Erase( mobile );
+78: local #2
+79: local #0
+80: Call Method id erase (#49, 1 params)
+81: #
+NPC_SaveWatchList( npc, watch_dict );
+82: local #1
+83: local #2
+84: makelocal
+85: jmp userfunc @91
+86: #
+return 1;
+87: 1L
+88: return
+return 0;
+89: 0L
+90: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 33
+function NPC_SaveWatchList( npc, dict_list )
+91: pop param 'dict_list'
+92: pop param 'npc'
+return SetObjProperty( npc, "#WatchList", dict_list );
+93: local #1
+94: "#WatchList"
+95: local #0
+96: Func(2,1): SetObjProperty
+97: return
+c:/ZH099/pkg/systems/brainAI/include/npcWatchList.inc, Line 23
+function NPC_LoadWatchList( npc )
+98: pop param 'npc'
+var watch_dict := GetObjProperty( npc, "#WatchList" );
+99: decl local #1
+100: local #0
+101: "#WatchList"
+102: Func(2,2): GetObjProperty
+103: :=
+104: #
+if( Lower( TypeOf( watch_dict )) != "dictionary" )
+105: local #1
+106: Func(0,1): TypeOf
+107: Func(0,0): Lower
+108: "dictionary"
+109: <>
+110: if false goto 113
+watch_dict := dictionary;
+111: dictionary
+112: local1 := 
+return watch_dict;
+113: local #1
+114: return

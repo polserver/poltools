@@ -1,0 +1,404 @@
+C:\ZH099\pkg\systems\brainAI\scripts\listen\crier.src, Line 16
+program BrainNerve( params )
+include ":brainAI:npcError";
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+var event	:= params[3];
+7: decl local #2
+8: local #0
+9: 3L
+10: [] 1
+11: :=
+12: #
+params := 0; // Not needed anymore.
+13: 0L
+14: local0 := 
+var text := Lower( event.text ),
+15: decl local #3
+16: local #2
+17: get member 'text'
+18: Func(0,0): Lower
+19: :=
+20: #
+21: decl local #4
+22: local #2
+23: get member 'source'
+24: :=
+25: #
+if( source.hidden )
+26: local #4
+27: get member id 'hidden' (32)
+28: if false goto 32
+return 0;
+29: 0L
+30: progend
+31: goto51
+elseif( source.dead )
+32: local #4
+33: get member id 'dead' (39)
+34: if false goto 38
+return 0;
+35: 0L
+36: progend
+37: goto51
+elseif( source.IsA( POLCLASS_NPC ))
+38: local #4
+39: 4L
+40: Call Method id isa (#0, 1 params)
+41: if false goto 45
+return 0;
+42: 0L
+43: progend
+44: goto51
+elseif( !CheckLineOfSight( npc, source ))
+45: local #1
+46: local #4
+47: Func(2,7): CheckLineOfSight
+48: if true goto 51
+return 0;
+49: 0L
+50: progend
+AI_Turn( npc, source, NETURN_TOWARD );
+51: local #1
+52: local #4
+53: 1L
+54: 0L
+55: makelocal
+56: jmp userfunc @68
+57: #
+ProcessSpeech( npc, source, text );
+58: local #1
+59: local #4
+60: local #3
+61: makelocal
+62: jmp userfunc @106
+63: #
+return 1;
+64: 1L
+65: progend
+66: leave block(5)
+67: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 165
+function AI_Turn( npc, object, direction:=NETURN_TOWARD, no_wake:=NOWAKE )
+68: pop param 'no_wake'
+69: pop param 'direction'
+70: pop param 'object'
+71: pop param 'npc'
+var ev		:= struct;
+72: decl local #4
+73: struct
+74: :=
+75: #
+ev.+type	:= NPCEVENT_TURN;
+76: local #4
+77: "type"
+78: .+
+79: 10485766L
+80: := #
+ev.+source	:= object;
+81: local #4
+82: "source"
+83: .+
+84: local #2
+85: := #
+ev.+direction	:= direction;
+86: local #4
+87: "direction"
+88: .+
+89: local #1
+90: := #
+ev.+WakeUp	:= no_wake;
+91: local #4
+92: "WakeUp"
+93: .+
+94: local #0
+95: := #
+ev.+process	:= GetProcess( GetPid() );
+96: local #4
+97: "process"
+98: .+
+99: Func(3,4): GetPid
+100: Func(3,2): GetProcess
+101: := #
+return SendEvent( npc, ev );
+102: local #3
+103: local #4
+104: Func(2,4): SendEvent
+105: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\crier.src, Line 46
+function ProcessSpeech( npc, source, text )
+106: pop param 'text'
+107: pop param 'source'
+108: pop param 'npc'
+if( text["help"] )
+109: local #0
+110: "help"
+111: [] 1
+112: if false goto 135
+AI_Speak( npc, "I will obey the following orders:" );
+113: local #2
+114: "I will obey the following orders:"
+115: "default"
+116: 0L
+117: 0L
+118: makelocal
+119: jmp userfunc @285
+120: #
+Sleep(2);
+121: 2L
+122: Func(3,7): Sleep
+123: #
+AI_Speak( npc, "news" );
+124: local #2
+125: "news"
+126: "default"
+127: 0L
+128: 0L
+129: makelocal
+130: jmp userfunc @285
+131: #
+return 1;
+132: 1L
+133: return
+134: goto202
+elseif( text["news"] )
+135: local #0
+136: "news"
+137: [] 1
+138: if false goto 145
+SpoutTheNews( npc, source );
+139: local #2
+140: local #1
+141: makelocal
+142: jmp userfunc @204
+143: #
+144: goto202
+elseif( text["add"] && source.cmdlevel > 1 )
+145: local #0
+146: "add"
+147: [] 1
+148: local #1
+149: get member id 'cmdlevel' (46)
+150: 1L
+151: >
+152: &&
+153: if false goto 189
+var news := SendTextEntryGump( source, "What should be the news?", TE_CANCEL_EN
+154: decl local #0
+155: local #1
+156: "What should be the news?"
+157: 1L
+158: 1L
+159: 100L
+160: ""
+161: Func(2,8): SendTextEntryGump
+162: :=
+163: #
+if( !news )
+164: local #3
+165: if true goto 174
+SendSysMessage( source, "Cancelled." );
+166: local #1
+167: "Cancelled."
+168: 3L
+169: 1000L
+170: Func(2,9): SendSysMessage
+171: #
+return 0;
+172: 0L
+173: return
+var the_news := array{};
+174: decl local #1
+175: array
+176: :=
+177: #
+the_news.Append( news );
+178: local #4
+179: local #3
+180: Call Method id append (#52, 1 params)
+181: #
+SetObjProperty( npc, "News", the_news );
+182: local #2
+183: "News"
+184: local #4
+185: Func(2,2): SetObjProperty
+186: #
+187: leave block(2)
+188: goto202
+elseif( text["delete"] && source.cmdlevel > 1 )
+189: local #0
+190: "delete"
+191: [] 1
+192: local #1
+193: get member id 'cmdlevel' (46)
+194: 1L
+195: >
+196: &&
+197: if false goto 202
+EraseObjProperty( npc, "News" );
+198: local #2
+199: "News"
+200: Func(2,10): EraseObjProperty
+201: #
+return 1;
+202: 1L
+203: return
+C:\ZH099\pkg\systems\brainAI\scripts\listen\crier.src, Line 73
+function SpoutTheNews( npc, source )
+204: pop param 'source'
+205: pop param 'npc'
+var news := GetObjProperty( npc, "News" );
+206: decl local #2
+207: local #1
+208: "News"
+209: Func(2,3): GetObjProperty
+210: :=
+211: #
+if( !news )
+212: local #2
+213: if true goto 224
+AI_Speak( npc, "No news is good news!" );
+214: local #1
+215: "No news is good news!"
+216: "default"
+217: 0L
+218: 0L
+219: makelocal
+220: jmp userfunc @285
+221: #
+return 0;
+222: 0L
+223: return
+var i;
+224: decl local #3
+225: #
+for( i:=1; i<=Len( news ); i+=1 )
+226: local #3
+227: 1L
+228: :=
+229: #
+230: local #3
+231: local #2
+232: Func(0,3): Len
+233: <=
+234: if false goto 264
+TurnObjectToward( npc, source.x, source.y );
+235: local #1
+236: local #0
+237: get member id 'x' (0)
+238: local #0
+239: get member id 'y' (1)
+240: makelocal
+241: jmp userfunc @266
+242: #
+SleepMS(5);
+243: 5L
+244: Func(3,0): Sleepms
+245: #
+AI_Speak( npc, news[i] );
+246: local #1
+247: local #2
+248: local #3
+249: [] 1
+250: "default"
+251: 0L
+252: 0L
+253: makelocal
+254: jmp userfunc @285
+255: #
+Sleep(2);
+256: 2L
+257: Func(3,7): Sleep
+258: #
+259: local #3
+260: 1L
+261: +=
+262: #
+263: goto230
+return 1;
+264: 1L
+265: return
+c:/ZH099/scripts/include/facings.inc, Line 10
+function TurnObjectToward( object, x_pos, y_pos )
+266: pop param 'y_pos'
+267: pop param 'x_pos'
+268: pop param 'object'
+var orig := object.facing;
+269: decl local #3
+270: local #2
+271: get member id 'facing' (9)
+272: :=
+273: #
+object.facing := GetFacing( object.x, object.y, x_pos, y_pos );
+274: local #2
+275: local #2
+276: get member id 'x' (0)
+277: local #2
+278: get member id 'y' (1)
+279: local #1
+280: local #0
+281: Func(2,0): GetFacing
+282: set member id 'facing' (9) #
+return orig;
+283: local #3
+284: return
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 139
+function AI_Speak( npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, do_event:=SPEA
+285: pop param 'no_wake'
+286: pop param 'do_event'
+287: pop param 'text_type'
+288: pop param 'text'
+289: pop param 'npc'
+var ev		:= struct;
+290: decl local #5
+291: struct
+292: :=
+293: #
+ev.+type	:= NPCEVENT_SPEAK;
+294: local #5
+295: "type"
+296: .+
+297: 10485765L
+298: := #
+ev.+text	:= text;
+299: local #5
+300: "text"
+301: .+
+302: local #3
+303: := #
+ev.+texttype	:= text_type;
+304: local #5
+305: "texttype"
+306: .+
+307: local #2
+308: := #
+ev.+doevent	:= do_event;
+309: local #5
+310: "doevent"
+311: .+
+312: local #1
+313: := #
+ev.+WakeUp	:= no_wake;
+314: local #5
+315: "WakeUp"
+316: .+
+317: local #0
+318: := #
+ev.+process	:= GetProcess( GetPid() );
+319: local #5
+320: "process"
+321: .+
+322: Func(3,4): GetPid
+323: Func(3,2): GetProcess
+324: := #
+return SendEvent( npc, ev );
+325: local #4
+326: local #5
+327: Func(2,4): SendEvent
+328: return

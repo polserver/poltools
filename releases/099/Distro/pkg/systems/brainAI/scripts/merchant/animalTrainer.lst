@@ -1,0 +1,866 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @78
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\merchant\animalTrainer.src, Line 14
+program BrainNerve( params )
+CONST START_CONTROLLER			:= 0x1;
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+params := 0; // Not needed anymore.
+24: 0L
+25: local0 := 
+while( npc )
+26: local #1
+27: if false goto 57
+if( event )
+28: local #2
+29: if false goto 50
+case( event.type )
+30: local #2
+31: get member 'type'
+32: casejmp
+	512: @33
+	256: @40
+	default: @47
+SoldEvent( npc, event );
+33: local #1
+34: local #2
+35: makelocal
+36: jmp userfunc @122
+37: #
+break;
+38: goto39
+39: goto48
+BoughtEvent( npc, event );
+40: local #1
+41: local #2
+42: makelocal
+43: jmp userfunc @61
+44: #
+break;
+45: goto46
+46: goto48
+break;
+47: goto48
+event := 0;
+48: 0L
+49: local2 := 
+SleepMS(5);
+50: 5L
+51: Func(3,2): Sleepms
+52: #
+event := Wait_For_Event(1);
+53: 1L
+54: Func(3,6): Wait_For_Event
+55: local2 := 
+56: goto26
+return 1;
+57: 1L
+58: progend
+59: leave block(3)
+60: progend
+C:\ZH099\pkg\systems\brainAI\scripts\merchant\animalTrainer.src, Line 69
+function BoughtEvent( npc, byref event )
+61: pop param byref 'event'
+62: pop param 'npc'
+PrintTextAbovePrivate( npc, "The total of thy sell is "+event.amount, event.sou
+63: local #1
+64: "The total of thy sell is "
+65: local #0
+66: get member id 'amount' (13)
+67: +
+68: local #0
+69: get member 'source'
+70: 3L
+71: local #1
+72: get member id 'speech_color' (66)
+73: 0L
+74: Func(2,10): PrintTextAbovePrivate
+75: #
+return 1;
+76: 1L
+77: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+78: pop param byref 'cfg_file'
+79: pop param 'elem_name'
+if( !cfg_file )
+80: local #0
+81: if true goto 85
+cfg_file := Classes_GetSettingsCfgFile();
+82: makelocal
+83: jmp userfunc @106
+84: local0 := 
+var elem := cfg_file[elem_name];
+85: decl local #2
+86: local #0
+87: local #1
+88: [] 1
+89: :=
+90: #
+if( elem.errortext )
+91: local #2
+92: get member 'errortext'
+93: if false goto 104
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+94: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+95: local #1
+96: +
+97: "] ->"
+98: +
+99: local #2
+100: get member 'errortext'
+101: +
+102: Func(3,0): SysLog
+103: #
+return elem;
+104: local #2
+105: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+106: decl local #0
+107: ":classes:settings"
+108: Func(4,0): ReadConfigFile
+109: :=
+110: #
+if( cfg.errortext )
+111: local #0
+112: get member 'errortext'
+113: if false goto 120
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+114: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+115: local #0
+116: get member 'errortext'
+117: +
+118: Func(3,0): SysLog
+119: #
+return cfg;
+120: local #0
+121: return
+C:\ZH099\pkg\systems\brainAI\scripts\merchant\animalTrainer.src, Line 43
+function SoldEvent( npc, byref event )
+122: pop param byref 'event'
+123: pop param 'npc'
+PrintTextAbovePrivate( npc, "The total of thy purchase is "+event.amount, event
+124: local #1
+125: "The total of thy purchase is "
+126: local #0
+127: get member id 'amount' (13)
+128: +
+129: local #0
+130: get member 'source'
+131: 3L
+132: local #1
+133: get member id 'speech_color' (66)
+134: 0L
+135: Func(2,10): PrintTextAbovePrivate
+136: #
+foreach item in EnumerateItemsInContainer( event.source.backpack )
+137: local #0
+138: get member 'source'
+139: get member id 'backpack' (41)
+140: 0L
+141: Func(2,11): EnumerateItemsInContainer
+142: initforeach @209
+if( item.IsAnimal() )
+143: local #2
+144: Call Method isanimal (0 params)
+145: if false goto 206
+var template := item.NPCTemplate(),
+146: decl local #0
+147: local #2
+148: Call Method npctemplate (0 params)
+149: :=
+150: #
+151: decl local #1
+152: local #5
+153: local #0
+154: get member 'source'
+155: get member id 'x' (0)
+156: local #0
+157: get member 'source'
+158: get member id 'y' (1)
+159: local #0
+160: get member 'source'
+161: get member id 'z' (2)
+162: 0L
+163: local #0
+164: get member 'source'
+165: get member id 'realm' (112)
+166: Func(2,12): CreateNpcFromTemplate
+167: :=
+168: #
+if( creature.errortext )
+169: local #6
+170: get member 'errortext'
+171: if false goto 191
+PrintTextAbove( npc, "Error creating <"+template+"> -->"+creature.errortext );
+172: local #1
+173: "Error creating <"
+174: local #5
+175: +
+176: "> -->"
+177: +
+178: local #6
+179: get member 'errortext'
+180: +
+181: 3L
+182: 1000L
+183: 0L
+184: Func(2,0): PrintTextAbove
+185: #
+DestroyItem( item );
+186: local #2
+187: Func(2,13): DestroyItem
+188: #
+continue;
+189: leave block(2)
+190: goto209
+npc.facing := event.source.facing;
+191: local #1
+192: local #0
+193: get member 'source'
+194: get member id 'facing' (9)
+195: set member id 'facing' (9) #
+DestroyItem( item );
+196: local #2
+197: Func(2,13): DestroyItem
+198: #
+tameCreature( creature, event.source );
+199: local #6
+200: local #0
+201: get member 'source'
+202: makelocal
+203: jmp userfunc @213
+204: #
+205: leave block(2)
+SleepMS(5);
+206: 5L
+207: Func(3,2): Sleepms
+208: #
+209: stepforeach @143
+210: leave block(3)
+return 1;
+211: 1L
+212: return
+c:/ZH099/pkg/skills/ranger/animaltaming/include/taming.inc, Line 12
+function tameCreature( npc, mobile )
+213: pop param 'mobile'
+214: pop param 'npc'
+var delay := CInt( AP_GetSkill( mobile, ANIMAL_LORE ) + 1 ) * 50;
+215: decl local #2
+216: local #0
+217: "AnimalLore"
+218: makelocal
+219: jmp userfunc @309
+220: 1L
+221: +
+222: Func(0,2): CInt
+223: 50L
+224: *
+225: :=
+226: #
+delay *= ClasseBonus( mobile, RANGER );
+227: local #2
+228: local #0
+229: "IsRanger"
+230: makelocal
+231: jmp userfunc @339
+232: *=
+233: #
+if( delay < 1500 )
+234: local #2
+235: 1500L
+236: <
+237: if false goto 240
+delay := 1500;
+238: 1500L
+239: local2 := 
+TS_StartTimer( npc, "Tame", CInt( delay ), 0, mobile );
+240: local #1
+241: "Tame"
+242: local #2
+243: Func(0,2): CInt
+244: 0L
+245: local #0
+246: makelocal
+247: jmp userfunc @251
+248: #
+return 1;
+249: 1L
+250: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 131
+function TS_StartTimer( mobile, timer_name, duration, level:=0, attacker:=0 )
+251: pop param 'attacker'
+252: pop param 'level'
+253: pop param 'duration'
+254: pop param 'timer_name'
+255: pop param 'mobile'
+duration := CInt( duration );
+256: local #2
+257: Func(0,2): CInt
+258: local2 := 
+if( duration < 1 )
+259: local #2
+260: 1L
+261: <
+262: if false goto 267
+return error{"errortext":="Error::TS_StartTimer() - Duration must be greater th
+263: error
+264: "Error::TS_StartTimer() - Duration must be greater than 0."
+265: addmember-assign(errortext)
+266: return
+var event := struct;
+267: decl local #5
+268: struct
+269: :=
+270: #
+event.+type := EVENT_ADD_TIMER;
+271: local #5
+272: "type"
+273: .+
+274: 1L
+275: := #
+event.+name := CStr(timer_name);
+276: local #5
+277: "name"
+278: .+
+279: local #3
+280: Func(0,5): CStr
+281: := #
+event.+amount := duration;
+282: local #5
+283: "amount"
+284: .+
+285: local #2
+286: := #
+event.+level := CInt(level);
+287: local #5
+288: "level"
+289: .+
+290: local #1
+291: Func(0,2): CInt
+292: := #
+event.+attacker := attacker;
+293: local #5
+294: "attacker"
+295: .+
+296: local #0
+297: := #
+var process := TS_GetControllerProcess( mobile, START_CONTROLLER );
+298: decl local #6
+299: local #4
+300: 1L
+301: makelocal
+302: jmp userfunc @363
+303: :=
+304: #
+return process.SendEvent( event );
+305: local #6
+306: local #5
+307: Call Method id sendevent (#74, 1 params)
+308: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+309: pop param 'skill_name'
+310: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+311: local #1
+312: local #0
+313: makelocal
+314: jmp userfunc @330
+315: local #1
+316: local #0
+317: makelocal
+318: jmp userfunc @321
+319: +
+320: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+321: pop param 'skill_name'
+322: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+323: local #1
+324: local #0
+325: Func(6,1): GetAttributeTemporaryMod
+326: Func(0,3): CDbl
+327: 10LF
+328: /
+329: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+330: pop param 'skill_name'
+331: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+332: local #1
+333: local #0
+334: Func(6,0): GetAttributeBaseValue
+335: Func(0,3): CDbl
+336: 10LF
+337: /
+338: return
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 28
+function ClasseBonus( mobile, classe )
+339: pop param 'classe'
+340: pop param 'mobile'
+var level := CInt( GetObjProperty( mobile, classe ));
+341: decl local #2
+342: local #1
+343: local #0
+344: Func(2,2): GetObjProperty
+345: Func(0,2): CInt
+346: :=
+347: #
+if( level )
+348: local #2
+349: if false goto 359
+return CDbl( settings.BonusLevel * level ) + 1;
+350: global #0
+351: get member 'BonusLevel'
+352: local #2
+353: *
+354: Func(0,3): CDbl
+355: 1L
+356: +
+357: return
+358: goto361
+return 1;
+359: 1L
+360: return
+361: 0L
+362: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 47
+function TS_GetControllerProcess( mobile, start:=NOSTART_CONTROLLER )
+363: pop param 'start'
+364: pop param 'mobile'
+var pid := CInt( GetObjProperty( mobile, "TimerControlPID" ));
+365: decl local #2
+366: local #1
+367: "TimerControlPID"
+368: Func(2,2): GetObjProperty
+369: Func(0,2): CInt
+370: :=
+371: #
+var process := GetProcess( pid );
+372: decl local #3
+373: local #2
+374: Func(3,1): GetProcess
+375: :=
+376: #
+if( !process )
+377: local #3
+378: if true goto 385
+if( start )
+379: local #0
+380: if false goto 385
+process := TS_StartController( mobile );
+381: local #1
+382: makelocal
+383: jmp userfunc @387
+384: local3 := 
+return process;
+385: local #3
+386: return
+c:/ZH099/pkg/systems/timedScripts/include/timedScripts.inc, Line 61
+function TS_StartController( mobile )
+387: pop param 'mobile'
+if( TS_GetControllerProcess( mobile, NOSTART_CONTROLLER ))
+388: local #0
+389: 0L
+390: makelocal
+391: jmp userfunc @363
+392: if false goto 397
+return error{"errortext":="Error::TS_StartController() - Controller is already 
+393: error
+394: "Error::TS_StartController() - Controller is already running."
+395: addmember-assign(errortext)
+396: return
+var script := Start_Script( ":timedscripts:timerControl", mobile );
+397: decl local #1
+398: ":timedscripts:timerControl"
+399: local #0
+400: Func(3,3): Start_Script
+401: :=
+402: #
+if( script.errortext )
+403: local #1
+404: get member 'errortext'
+405: if false goto 415
+ReportText( "Error::TS_StartController() ->"+script.errortext, REPORT_SYSLOG );
+406: "Error::TS_StartController() ->"
+407: local #1
+408: get member 'errortext'
+409: +
+410: 2L
+411: 0L
+412: makelocal
+413: jmp userfunc @417
+414: #
+return script;
+415: local #1
+416: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+417: pop param 'text_color'
+418: pop param 'flags'
+419: pop param 'report_text'
+if( !flags )
+420: local #1
+421: if true goto 425
+return 0;
+422: 0L
+423: return
+424: goto480
+elseif( flags & REPORT_CONSOLE )
+425: local #1
+426: 1L
+427: &
+428: if false goto 435
+Print( ""+report_text );
+429: ""
+430: local #2
+431: +
+432: Func(1,0): Print
+433: #
+434: goto480
+elseif( flags & REPORT_SYSLOG )
+435: local #1
+436: 2L
+437: &
+438: if false goto 469
+var script_name := CStr( GetProcess( GetPid() ).name ),
+439: decl local #0
+440: Func(3,4): GetPid
+441: Func(3,1): GetProcess
+442: get member id 'name' (3)
+443: Func(0,5): CStr
+444: :=
+445: #
+446: decl local #1
+447: local #3
+448: makelocal
+449: jmp userfunc @482
+450: :=
+451: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+452: "::log/"
+453: local #4
+454: +
+455: ".log"
+456: +
+457: "["
+458: local #3
+459: +
+460: "]: "
+461: +
+462: local #2
+463: +
+464: 1L
+465: Func(9,0): LogToFile
+466: #
+467: leave block(2)
+468: goto480
+elseif( flags & REPORT_BROADCAST )
+469: local #1
+470: 4L
+471: &
+472: if false goto 480
+Broadcast( ""+report_text, 3, text_color );
+473: ""
+474: local #2
+475: +
+476: 3L
+477: local #0
+478: Func(2,5): Broadcast
+479: #
+return 1;
+480: 1L
+481: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+482: pop param 'script_name'
+var i;
+483: decl local #1
+484: #
+for( i:=1; i<=len(script_name); i+=1 )
+485: local #1
+486: 1L
+487: :=
+488: #
+489: local #1
+490: local #0
+491: Func(0,4): Len
+492: <=
+493: if false goto 513
+if( !Check_ValidChar( script_name[i] ))
+494: local #0
+495: local #1
+496: [] 1
+497: 0L
+498: makelocal
+499: jmp userfunc @529
+500: if true goto 505
+script_name[i] := " ";
+501: local #0
+502: local #1
+503: " "
+504: [] := (1) #
+SleepMS(5);
+505: 5L
+506: Func(3,2): Sleepms
+507: #
+508: local #1
+509: 1L
+510: +=
+511: #
+512: goto489
+foreach poss_pkg in ( SplitWords( script_name ))
+513: local #0
+514: " "
+515: Func(0,7): SplitWords
+516: initforeach @525
+if( GetPackageByName( poss_pkg ))
+517: local #2
+518: Func(11,0): GetPackageByName
+519: if false goto 522
+return poss_pkg;
+520: local #2
+521: return
+SleepMS(5);
+522: 5L
+523: Func(3,2): Sleepms
+524: #
+525: stepforeach @517
+526: leave block(3)
+return 0;
+527: 0L
+528: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+529: pop param 'allow_space'
+530: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+531: decl local #2
+532: array
+533: "a"
+534: init{}
+535: "b"
+536: init{}
+537: "c"
+538: init{}
+539: "d"
+540: init{}
+541: "e"
+542: init{}
+543: "f"
+544: init{}
+545: "g"
+546: init{}
+547: "h"
+548: init{}
+549: "i"
+550: init{}
+551: "j"
+552: init{}
+553: "k"
+554: init{}
+555: "l"
+556: init{}
+557: "m"
+558: init{}
+559: "n"
+560: init{}
+561: "o"
+562: init{}
+563: "p"
+564: init{}
+565: "q"
+566: init{}
+567: "r"
+568: init{}
+569: "s"
+570: init{}
+571: "t"
+572: init{}
+573: "u"
+574: init{}
+575: "v"
+576: init{}
+577: "w"
+578: init{}
+579: "x"
+580: init{}
+581: "y"
+582: init{}
+583: "z"
+584: init{}
+585: "A"
+586: init{}
+587: "B"
+588: init{}
+589: "C"
+590: init{}
+591: "D"
+592: init{}
+593: "E"
+594: init{}
+595: "F"
+596: init{}
+597: "G"
+598: init{}
+599: "H"
+600: init{}
+601: "I"
+602: init{}
+603: "P"
+604: init{}
+605: "O"
+606: init{}
+607: "N"
+608: init{}
+609: "M"
+610: init{}
+611: "L"
+612: init{}
+613: "K"
+614: init{}
+615: "J"
+616: init{}
+617: "Q"
+618: init{}
+619: "R"
+620: init{}
+621: "S"
+622: init{}
+623: "T"
+624: init{}
+625: "U"
+626: init{}
+627: "V"
+628: init{}
+629: "W"
+630: init{}
+631: "X"
+632: init{}
+633: "Y"
+634: init{}
+635: "Z"
+636: init{}
+637: "1"
+638: init{}
+639: "2"
+640: init{}
+641: "3"
+642: init{}
+643: "4"
+644: init{}
+645: "5"
+646: init{}
+647: "6"
+648: init{}
+649: "7"
+650: init{}
+651: "8"
+652: init{}
+653: "9"
+654: init{}
+655: "0"
+656: init{}
+657: :=
+658: #
+var len_text := Len( text );
+659: decl local #3
+660: local #1
+661: Func(0,4): Len
+662: :=
+663: #
+var i;
+664: decl local #4
+665: #
+for( i:=1; i<=len_text; i+=1 )
+666: local #4
+667: 1L
+668: :=
+669: #
+670: local #4
+671: local #3
+672: <=
+673: if false goto 716
+SleepMS(5);
+674: 5L
+675: Func(3,2): Sleepms
+676: #
+var letter := CStr( text[i] );
+677: decl local #0
+678: local #1
+679: local #4
+680: [] 1
+681: Func(0,5): CStr
+682: :=
+683: #
+if( letter in valid_char )
+684: local #5
+685: local #2
+686: in
+687: if false goto 691
+continue;
+688: leave block(1)
+689: goto711
+690: goto708
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+691: local #0
+692: local #1
+693: local #4
+694: [] 1
+695: " "
+696: ==
+697: local #1
+698: local #4
+699: [] 1
+700: Func(0,9): CAsc
+701: 0L
+702: ==
+703: ||
+704: &&
+705: if false goto 708
+continue;
+706: leave block(1)
+707: goto711
+return 0;
+708: 0L
+709: return
+710: leave block(1)
+711: local #4
+712: 1L
+713: +=
+714: #
+715: goto670
+return 1;
+716: 1L
+717: return

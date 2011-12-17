@@ -1,0 +1,1806 @@
+c:/ZH099/pkg/systems/classes/include/classes.inc, Line 26
+var settings := Classes_GetSettingsCfgElem( "Settings" );
+0: decl global #0
+1: "Settings"
+2: 0L
+3: makelocal
+4: jmp userfunc @61
+5: :=
+6: #
+c:/ZH099/pkg/utils/datafile/include/datafile.inc, Line 35
+var DF_DEBUG_MODE	:= 0;
+7: decl global #1
+8: 0L
+9: :=
+10: #
+C:\ZH099\pkg\systems\brainAI\scripts\doubleClick\beholder.src, Line 14
+program BrainNerve( params )
+enum DAMAGE_TYPES
+11: get arg 'params'
+var npc		:= params[1];
+12: decl local #1
+13: local #0
+14: 1L
+15: [] 1
+16: :=
+17: #
+var event	:= params[3];
+18: decl local #2
+19: local #0
+20: 3L
+21: [] 1
+22: :=
+23: #
+var settings	:= params[4];
+24: decl local #3
+25: local #0
+26: 4L
+27: [] 1
+28: :=
+29: #
+params := 0; // Not needed anymore.
+30: 0L
+31: local0 := 
+while( npc )
+32: local #1
+33: if false goto 57
+if( event )
+34: local #2
+35: if false goto 50
+case( event.type )
+36: local #2
+37: get member 'type'
+38: casejmp
+	2048: @39
+	default: @47
+DblClickEvent( npc, event, settings );
+39: local #1
+40: local #2
+41: local #3
+42: makelocal
+43: jmp userfunc @105
+44: #
+break;
+45: goto46
+46: goto48
+break;
+47: goto48
+event := 0;
+48: 0L
+49: local2 := 
+SleepMS(5);
+50: 5L
+51: Func(3,3): Sleepms
+52: #
+event := Wait_For_Event(1);
+53: 1L
+54: Func(3,6): Wait_For_Event
+55: local2 := 
+56: goto32
+return 1;
+57: 1L
+58: progend
+59: leave block(4)
+60: progend
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 20
+function Classes_GetSettingsCfgElem( elem_name, byref cfg_file:=0 )
+61: pop param byref 'cfg_file'
+62: pop param 'elem_name'
+if( !cfg_file )
+63: local #0
+64: if true goto 68
+cfg_file := Classes_GetSettingsCfgFile();
+65: makelocal
+66: jmp userfunc @89
+67: local0 := 
+var elem := cfg_file[elem_name];
+68: decl local #2
+69: local #0
+70: local #1
+71: [] 1
+72: :=
+73: #
+if( elem.errortext )
+74: local #2
+75: get member 'errortext'
+76: if false goto 87
+SysLog( "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["+elem_name
+77: "Error::Classes_GetSettingsCfgElem() - Unable to find elem ["
+78: local #1
+79: +
+80: "] ->"
+81: +
+82: local #2
+83: get member 'errortext'
+84: +
+85: Func(3,0): SysLog
+86: #
+return elem;
+87: local #2
+88: return
+c:/ZH099/pkg/systems/classes/include/settings.inc, Line 12
+function Classes_GetSettingsCfgFile()
+var cfg := ReadConfigFile( ":classes:settings" );
+89: decl local #0
+90: ":classes:settings"
+91: Func(4,0): ReadConfigFile
+92: :=
+93: #
+if( cfg.errortext )
+94: local #0
+95: get member 'errortext'
+96: if false goto 103
+SysLog( "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:setting
+97: "Error::Classes_GetSettingsCfgFile() - Unable to open [:classes:settings.cfg] ->"
+98: local #0
+99: get member 'errortext'
+100: +
+101: Func(3,0): SysLog
+102: #
+return cfg;
+103: local #0
+104: return
+C:\ZH099\pkg\systems\brainAI\scripts\doubleClick\beholder.src, Line 43
+function DblClickEvent( npc, byref event, byref settings )
+105: pop param byref 'settings'
+106: pop param byref 'event'
+107: pop param 'npc'
+var source := event.source;
+108: decl local #3
+109: local #1
+110: get member 'source'
+111: :=
+112: #
+if( source.hidden )
+113: local #3
+114: get member id 'hidden' (32)
+115: if false goto 119
+return 0;
+116: 0L
+117: return
+118: goto143
+elseif( source.IsA( POLCLASS_NPC ))
+119: local #3
+120: 4L
+121: Call Method id isa (#0, 1 params)
+122: if false goto 126
+return 0;
+123: 0L
+124: return
+125: goto143
+elseif( !CheckLineOfSight( source, npc ))
+126: local #3
+127: local #2
+128: Func(2,17): CheckLineOfSight
+129: if true goto 133
+return 0;
+130: 0L
+131: return
+132: goto143
+elseif( Distance( source, npc ) <= settings["DblClickRange"] )
+133: local #3
+134: local #2
+135: Func(2,7): Distance
+136: local #0
+137: "DblClickRange"
+138: [] 1
+139: <=
+140: if false goto 143
+return 0;
+141: 0L
+142: return
+var damage := AP_GetSkill( event.source, INTELLIGENCE );
+143: decl local #4
+144: local #1
+145: get member 'source'
+146: "Intelligence"
+147: makelocal
+148: jmp userfunc @163
+149: :=
+150: #
+ApplyDamageEX( npc, CInt( damage ), "DblClick", event.source );
+151: local #2
+152: local #4
+153: Func(0,1): CInt
+154: "DblClick"
+155: local #1
+156: get member 'source'
+157: 1L
+158: makelocal
+159: jmp userfunc @193
+160: #
+return 1;
+161: 1L
+162: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 8
+function AP_GetSkill( who, skill_name )
+163: pop param 'skill_name'
+164: pop param 'who'
+return AP_GetTrueSkill( who, skill_name )+AP_GetSkillMod( who, skill_name );
+165: local #1
+166: local #0
+167: makelocal
+168: jmp userfunc @184
+169: local #1
+170: local #0
+171: makelocal
+172: jmp userfunc @175
+173: +
+174: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 18
+function AP_GetSkillMod( who, skill_name )
+175: pop param 'skill_name'
+176: pop param 'who'
+return CDbl( GetAttributeTemporaryMod( who, skill_name )) / 10.0;
+177: local #1
+178: local #0
+179: Func(6,1): GetAttributeTemporaryMod
+180: Func(0,2): CDbl
+181: 10LF
+182: /
+183: return
+c:/ZH099/pkg/systems/attributes/include/skills.inc, Line 13
+function AP_GetTrueSkill( who, skill_name )
+184: pop param 'skill_name'
+185: pop param 'who'
+return CDbl( GetAttributeBaseValue( who, skill_name )) / 10.0;
+186: local #1
+187: local #0
+188: Func(6,0): GetAttributeBaseValue
+189: Func(0,2): CDbl
+190: 10LF
+191: /
+192: return
+c:/ZH099/pkg/systems/damage/include/damage.inc, Line 46
+function ApplyDamageEX( mobile, amount, type:=DMG_FORCED, source:=0, flag:=DAMA
+193: pop param 'flag'
+194: pop param 'source'
+195: pop param 'type'
+196: pop param 'amount'
+197: pop param 'mobile'
+if( !amount )
+198: local #3
+199: if true goto 203
+return 0;
+200: 0L
+201: return
+202: goto387
+elseif( GetObjProperty( mobile, "Invul" ))
+203: local #4
+204: "Invul"
+205: Func(2,1): GetObjProperty
+206: if false goto 210
+return 0;
+207: 0L
+208: return
+209: goto387
+elseif( amount < 0 )
+210: local #3
+211: 0L
+212: <
+213: if false goto 222
+HealDamage( mobile, Abs( amount ));
+214: local #4
+215: local #3
+216: Func(8,0): Abs
+217: Func(5,5): HealDamage
+218: #
+return 0;
+219: 0L
+220: return
+221: goto387
+elseif( source )
+222: local #1
+223: if false goto 375
+if( mobile.cmdlevel > source.cmdlevel && source.cmdlevel < 4 )
+224: local #4
+225: get member id 'cmdlevel' (46)
+226: local #1
+227: get member id 'cmdlevel' (46)
+228: >
+229: local #1
+230: get member id 'cmdlevel' (46)
+231: 4L
+232: <
+233: &&
+234: if false goto 238
+return 0;
+235: 0L
+236: return
+237: goto262
+elseif( type != DMG_POISON )
+238: local #2
+239: "Poison"
+240: <>
+241: if false goto 262
+if( A_IsIn( mobile, AREAS_NO_DAMAGE ))
+242: local #4
+243: "No-Damage"
+244: 0L
+245: makelocal
+246: jmp userfunc @1037
+247: if false goto 262
+if( source.IsA( POLCLASS_NPC ))
+248: local #1
+249: 4L
+250: Call Method id isa (#0, 1 params)
+251: if false goto 260
+SetObjProperty( source, "GuardKill", 1 );
+252: local #1
+253: "GuardKill"
+254: 1L
+255: Func(2,2): SetObjProperty
+256: #
+source.Kill();
+257: local #1
+258: Call Method id kill (#75, 0 params)
+259: #
+return 0;
+260: 0L
+261: return
+SetScriptController( source );
+262: local #1
+263: Func(2,16): SetScriptController
+264: #
+SetLastDamageInfo( mobile, amount, type, source );
+265: local #4
+266: local #3
+267: local #2
+268: local #1
+269: makelocal
+270: jmp userfunc @964
+271: #
+if( amount >= AP_GetVital( mobile, HITS ))
+272: local #3
+273: local #4
+274: "Hits"
+275: makelocal
+276: jmp userfunc @1166
+277: >=
+278: if false goto 374
+if( mobile.acctname && source.acctname )
+279: local #4
+280: get member id 'acctname' (44)
+281: local #1
+282: get member id 'acctname' (44)
+283: &&
+284: if false goto 374
+SendVictimMessage( mobile, source );
+285: local #4
+286: local #1
+287: makelocal
+288: jmp userfunc @926
+289: #
+NotifyStaffOnline( mobile, "is killed by "+source.name );
+290: local #4
+291: "is killed by "
+292: local #1
+293: get member id 'name' (3)
+294: +
+295: makelocal
+296: jmp userfunc @657
+297: #
+DMG_ReportText( mobile, "Killed by: "+source.serial+" Account: "+source.acctnam
+298: local #4
+299: "Killed by: "
+300: local #1
+301: get member id 'serial' (6)
+302: +
+303: " Account: "
+304: +
+305: local #1
+306: get member id 'acctname' (44)
+307: +
+308: " by type: "
+309: +
+310: local #2
+311: +
+312: " x:"
+313: +
+314: local #4
+315: get member id 'x' (0)
+316: +
+317: " y:"
+318: +
+319: local #4
+320: get member id 'y' (1)
+321: +
+322: " z:"
+323: +
+324: local #4
+325: get member id 'z' (2)
+326: +
+327: " realm:"
+328: +
+329: local #4
+330: get member id 'realm' (112)
+331: +
+332: 2L
+333: makelocal
+334: jmp userfunc @487
+335: #
+DMG_ReportText( source, "Kills: "+mobile.serial+" Account: "+mobile.acctname+" 
+336: local #1
+337: "Kills: "
+338: local #4
+339: get member id 'serial' (6)
+340: +
+341: " Account: "
+342: +
+343: local #4
+344: get member id 'acctname' (44)
+345: +
+346: " by type: "
+347: +
+348: local #2
+349: +
+350: " x:"
+351: +
+352: local #4
+353: get member id 'x' (0)
+354: +
+355: " y:"
+356: +
+357: local #4
+358: get member id 'y' (1)
+359: +
+360: " z:"
+361: +
+362: local #4
+363: get member id 'z' (2)
+364: +
+365: " realm:"
+366: +
+367: local #4
+368: get member id 'realm' (112)
+369: +
+370: 2L
+371: makelocal
+372: jmp userfunc @487
+373: #
+374: goto387
+elseif( type != DMG_POISON )
+375: local #2
+376: "Poison"
+377: <>
+378: if false goto 387
+if( A_IsIn( mobile, AREAS_NO_DAMAGE ))
+379: local #4
+380: "No-Damage"
+381: 0L
+382: makelocal
+383: jmp userfunc @1037
+384: if false goto 387
+return 0;
+385: 0L
+386: return
+DisplayDamage( mobile, amount );
+387: local #4
+388: local #3
+389: makelocal
+390: jmp userfunc @417
+391: #
+ApplyRawDamage( mobile, CInt( amount ), flag );
+392: local #4
+393: local #3
+394: Func(0,1): CInt
+395: local #0
+396: Func(5,6): ApplyRawDamage
+397: #
+mobile.paralyzed := 0;
+398: local #4
+399: 0L
+400: set member id 'paralyzed' (35) #
+if( !mobile.IsA( POLCLASS_NPC ) && amount > 30 )
+401: local #4
+402: 4L
+403: Call Method id isa (#0, 1 params)
+404: !
+405: local #3
+406: 30L
+407: >
+408: &&
+409: if false goto 415
+MakeBleed( mobile );
+410: local #4
+411: 0L
+412: makelocal
+413: jmp userfunc @552
+414: #
+return 1;
+415: 1L
+416: return
+c:/ZH099/scripts/include/packets.inc, Line 102
+function DisplayDamage( damaged, amount )
+417: pop param 'amount'
+418: pop param 'damaged'
+if( damaged.hidden || damaged.concealed )
+419: local #1
+420: get member id 'hidden' (32)
+421: local #1
+422: get member id 'concealed' (33)
+423: ||
+424: if false goto 427
+return 0;
+425: 0L
+426: return
+var dmg_packet := CreatePacket( 0x0B, 0x07 );
+427: decl local #2
+428: 11L
+429: 7L
+430: Func(11,1): CreatePacket
+431: :=
+432: #
+if( CInt( amount ) <= 255 )
+433: local #0
+434: Func(0,1): CInt
+435: 255L
+436: <=
+437: if false goto 445
+dmg_packet.SetInt8( 0x06, CInt( amount ));
+438: local #2
+439: 6L
+440: local #0
+441: Func(0,1): CInt
+442: Call Method id setint8 (#62, 2 params)
+443: #
+444: goto451
+dmg_packet.SetInt16( 0x05, CInt( amount ));
+445: local #2
+446: 5L
+447: local #0
+448: Func(0,1): CInt
+449: Call Method id setint16 (#63, 2 params)
+450: #
+dmg_packet.SetInt32( 0x01, damaged.serial );
+451: local #2
+452: 1L
+453: local #1
+454: get member id 'serial' (6)
+455: Call Method id setint32 (#64, 2 params)
+456: #
+dmg_packet.SendPacket( damaged );
+457: local #2
+458: local #1
+459: Call Method id sendpacket (#57, 1 params)
+460: #
+foreach mobile in ListMobilesInLineOfSight( damaged, 15 );
+461: local #1
+462: 15L
+463: Func(2,11): ListMobilesInLineOfSight
+464: initforeach @483
+SleepMS(5);
+465: 5L
+466: Func(3,3): Sleepms
+467: #
+if( mobile.IsA( POLCLASS_NPC ))
+468: local #3
+469: 4L
+470: Call Method id isa (#0, 1 params)
+471: if false goto 474
+continue;
+472: goto483
+473: goto479
+elseif( !GetObjProperty( mobile, "NotifyDmg" ))
+474: local #3
+475: "NotifyDmg"
+476: Func(2,1): GetObjProperty
+477: if true goto 479
+continue;
+478: goto483
+dmg_packet.SendPacket( mobile );
+479: local #2
+480: local #3
+481: Call Method id sendpacket (#57, 1 params)
+482: #
+483: stepforeach @465
+484: leave block(3)
+return 1;
+485: 1L
+486: return
+c:/ZH099/pkg/utils/security/include/damageReport.inc, Line 19
+function DMG_ReportText( who, report_text:="?", flags:=DMG_REPORT_DISABLE )
+487: pop param 'flags'
+488: pop param 'report_text'
+489: pop param 'who'
+if( !flags )
+490: local #0
+491: if true goto 494
+return 0;
+492: 0L
+493: return
+if( flags & DMG_REPORT_CONSOLE )
+494: local #0
+495: 1L
+496: &
+497: if false goto 503
+Print( ""+report_text );
+498: ""
+499: local #1
+500: +
+501: Func(1,0): Print
+502: #
+if( flags & DMG_REPORT_SYSLOG )
+503: local #0
+504: 2L
+505: &
+506: if false goto 539
+var script_name := GetProcess(GetPid()).name;
+507: decl local #0
+508: Func(3,2): GetPid
+509: Func(3,1): GetProcess
+510: get member id 'name' (3)
+511: :=
+512: #
+var acct := who.acctname;
+513: decl local #1
+514: local #2
+515: get member id 'acctname' (44)
+516: :=
+517: #
+LogToFile("::log/damage/"+acct+".log", "Character: "+who.name+" ["+script_name+
+518: "::log/damage/"
+519: local #4
+520: +
+521: ".log"
+522: +
+523: "Character: "
+524: local #2
+525: get member id 'name' (3)
+526: +
+527: " ["
+528: +
+529: local #3
+530: +
+531: "]: "
+532: +
+533: local #1
+534: +
+535: 1L
+536: Func(9,0): LogToFile
+537: #
+538: leave block(2)
+if( flags & DMG_REPORT_BROADCAST )
+539: local #0
+540: 4L
+541: &
+542: if false goto 550
+Broadcast( ""+report_text );
+543: ""
+544: local #1
+545: +
+546: 3L
+547: 1000L
+548: Func(2,0): Broadcast
+549: #
+return 1;
+550: 1L
+551: return
+c:/ZH099/pkg/items/blood/include/blood.inc, Line 11
+function MakeBleed( object, blood_color:=0 )
+552: pop param 'blood_color'
+553: pop param 'object'
+if( GetObjProperty( object, "NoBlood" ))
+554: local #1
+555: "NoBlood"
+556: Func(2,1): GetObjProperty
+557: if false goto 561
+return 0;
+558: 0L
+559: return
+560: goto568
+elseif( !blood_color )
+561: local #0
+562: if true goto 568
+blood_color := CInt( GetObjProperty( object, "BloodColor" ));
+563: local #1
+564: "BloodColor"
+565: Func(2,1): GetObjProperty
+566: Func(0,1): CInt
+567: local0 := 
+if( object.npctemplate )
+568: local #1
+569: get member id 'npctemplate' (62)
+570: if false goto 592
+var npc_info := NPC_GetNPCConfig( object.npctemplate );
+571: decl local #0
+572: local #1
+573: get member id 'npctemplate' (62)
+574: makelocal
+575: jmp userfunc @742
+576: :=
+577: #
+if( !npc_info.NoBlood )
+578: local #2
+579: get member 'NoBlood'
+580: if true goto 584
+return 0;
+581: 0L
+582: return
+583: goto590
+if( !blood_color )
+584: local #0
+585: if true goto 590
+blood_color := CInt( npc_info.BloodColor );
+586: local #2
+587: get member 'BloodColor'
+588: Func(0,1): CInt
+589: local0 := 
+590: leave block(1)
+591: goto623
+elseif( object.IsA( POLCLASS_CORPSE ))
+592: local #1
+593: 7L
+594: Call Method id isa (#0, 1 params)
+595: if false goto 623
+var template := object.NPCTemplate();
+596: decl local #0
+597: local #1
+598: Call Method npctemplate (0 params)
+599: :=
+600: #
+if( template )
+601: local #2
+602: if false goto 622
+var npc_info := NPC_GetNPCConfig( template );
+603: decl local #0
+604: local #2
+605: makelocal
+606: jmp userfunc @742
+607: :=
+608: #
+if( !npc_info.NoBlood )
+609: local #3
+610: get member 'NoBlood'
+611: if true goto 615
+return 0;
+612: 0L
+613: return
+614: goto621
+if( !blood_color )
+615: local #0
+616: if true goto 621
+blood_color := CInt( npc_info.BloodColor );
+617: local #3
+618: get member 'BloodColor'
+619: Func(0,1): CInt
+620: local0 := 
+621: leave block(1)
+622: leave block(1)
+var blood := CreateItemAtLocation( object.x, object.y, object.z, "blood", 1, ob
+623: decl local #2
+624: local #1
+625: get member id 'x' (0)
+626: local #1
+627: get member id 'y' (1)
+628: local #1
+629: get member id 'z' (2)
+630: "blood"
+631: 1L
+632: local #1
+633: get member id 'realm' (112)
+634: Func(2,14): CreateItemAtLocation
+635: :=
+636: #
+if( blood.errortext )
+637: local #2
+638: get member 'errortext'
+639: if false goto 652
+PrintTextAbove( object, "Error creating blood -->"+blood.errortext );
+640: local #1
+641: "Error creating blood -->"
+642: local #2
+643: get member 'errortext'
+644: +
+645: 3L
+646: 1000L
+647: 0L
+648: Func(2,5): PrintTextAbove
+649: #
+return 0;
+650: 0L
+651: return
+blood.color := blood_color;
+652: local #2
+653: local #0
+654: set member id 'color' (7) #
+return blood;
+655: local #2
+656: return
+c:/ZH099/scripts/include/security.inc, Line 40
+function NotifyStaffOnline( object, text )
+657: pop param 'text'
+658: pop param 'object'
+var name := object.name;
+659: decl local #2
+660: local #1
+661: get member id 'name' (3)
+662: :=
+663: #
+if( !name )
+664: local #2
+665: if true goto 673
+name := object.desc;
+666: local #1
+667: get member id 'desc' (19)
+668: local2 := 
+if( !name )
+669: local #2
+670: if true goto 673
+name := object;
+671: local #1
+672: local2 := 
+foreach character in EnumerateOnlineCharacters()
+673: Func(2,9): EnumerateOnlineCharacters
+674: initforeach @709
+if( GetObjProperty( character, "Notify" ))
+675: local #3
+676: "Notify"
+677: Func(2,1): GetObjProperty
+678: if false goto 706
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+679: local #1
+680: get member id 'cmdlevel' (46)
+681: local #3
+682: get member id 'cmdlevel' (46)
+683: <=
+684: local #3
+685: get member id 'cmdlevel' (46)
+686: 4L
+687: >=
+688: ||
+689: if false goto 706
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+690: local #3
+691: "You receive a notification:"
+692: 3L
+693: 55L
+694: Func(2,4): SendSysMessage
+695: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+696: local #3
+697: local #2
+698: " >>> "
+699: +
+700: local #0
+701: +
+702: 3L
+703: 55L
+704: Func(2,4): SendSysMessage
+705: #
+SleepMS(5);
+706: 5L
+707: Func(3,3): Sleepms
+708: #
+709: stepforeach @675
+710: leave block(3)
+if( object.serial )
+711: local #1
+712: get member id 'serial' (6)
+713: if false goto 730
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+714: local #2
+715: "["
+716: +
+717: local #1
+718: get member id 'serial' (6)
+719: +
+720: "] >>> "
+721: +
+722: local #0
+723: +
+724: 2L
+725: 0L
+726: makelocal
+727: jmp userfunc @861
+728: #
+729: goto740
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+730: local #2
+731: " >>> "
+732: +
+733: local #0
+734: +
+735: 2L
+736: 0L
+737: makelocal
+738: jmp userfunc @861
+739: #
+return 1;
+740: 1L
+741: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 35
+function NPC_GetNPCConfig( template )
+742: pop param 'template'
+if( !template.package )
+743: local #0
+744: get member 'package'
+745: if true goto 750
+template := NPC_ParseTemplateName( template );
+746: local #0
+747: makelocal
+748: jmp userfunc @799
+749: local0 := 
+var npc_cfg := ReadConfigFile( ":"+template.package+":npcdesc" );
+750: decl local #1
+751: ":"
+752: local #0
+753: get member 'package'
+754: +
+755: ":npcdesc"
+756: +
+757: Func(4,0): ReadConfigFile
+758: :=
+759: #
+if( npc_cfg.errortext )
+760: local #1
+761: get member 'errortext'
+762: if false goto 775
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not open :"+templa
+763: error
+764: "Error::NPC_GetNPCConfig() - Could not open :"
+765: local #0
+766: get member 'package'
+767: +
+768: ":npcdesc ->"
+769: +
+770: local #1
+771: get member 'errortext'
+772: +
+773: addmember-assign(errortext)
+774: return
+var cfg_elem := npc_cfg[template.template];
+775: decl local #2
+776: local #1
+777: local #0
+778: get member 'template'
+779: [] 1
+780: :=
+781: #
+if( cfg_elem.errortext )
+782: local #2
+783: get member 'errortext'
+784: if false goto 797
+return error{"errortext":="Error::NPC_GetNPCConfig() - Could not find elem ["+t
+785: error
+786: "Error::NPC_GetNPCConfig() - Could not find elem ["
+787: local #0
+788: get member 'template'
+789: +
+790: "] ->"
+791: +
+792: local #2
+793: get member 'errortext'
+794: +
+795: addmember-assign(errortext)
+796: return
+return cfg_elem;
+797: local #2
+798: return
+c:/ZH099/pkg/systems/brainAI/include/npcUtil.inc, Line 11
+function NPC_ParseTemplateName( template_name )
+799: pop param 'template_name'
+if( template_name.IsA( POLCLASS_NPC ))
+800: local #0
+801: 4L
+802: Call Method id isa (#0, 1 params)
+803: if false goto 807
+template_name := template_name.npctemplate;
+804: local #0
+805: get member id 'npctemplate' (62)
+806: local0 := 
+var colon_a := Find( template_name, ":", 1 );
+807: decl local #1
+808: local #0
+809: ":"
+810: 1L
+811: Func(0,10): Find
+812: :=
+813: #
+var colon_b := Find( template_name, ":", 2 );
+814: decl local #2
+815: local #0
+816: ":"
+817: 2L
+818: Func(0,10): Find
+819: :=
+820: #
+var parsed := struct{"package", "template"};
+821: decl local #3
+822: struct
+823: addmember(package)
+824: addmember(template)
+825: :=
+826: #
+if( !colon_a || !colon_b )
+827: local #1
+828: !
+829: local #2
+830: !
+831: ||
+832: if false goto 840
+parsed.package := "";
+833: local #3
+834: ""
+835: set member 'package' #
+parsed.template := template_name;
+836: local #3
+837: local #0
+838: set member 'template' #
+839: goto859
+parsed.package := template_name[colon_a+1, colon_b-2];
+840: local #3
+841: local #0
+842: local #1
+843: 1L
+844: +
+845: local #2
+846: 2L
+847: -
+848: [,]
+849: set member 'package' #
+parsed.template := template_name[colon_b+1, Len( template_name )];
+850: local #3
+851: local #0
+852: local #2
+853: 1L
+854: +
+855: local #0
+856: Func(0,3): Len
+857: [,]
+858: set member 'template' #
+return parsed;
+859: local #3
+860: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+861: pop param 'text_color'
+862: pop param 'flags'
+863: pop param 'report_text'
+if( !flags )
+864: local #1
+865: if true goto 869
+return 0;
+866: 0L
+867: return
+868: goto924
+elseif( flags & REPORT_CONSOLE )
+869: local #1
+870: 1L
+871: &
+872: if false goto 879
+Print( ""+report_text );
+873: ""
+874: local #2
+875: +
+876: Func(1,0): Print
+877: #
+878: goto924
+elseif( flags & REPORT_SYSLOG )
+879: local #1
+880: 2L
+881: &
+882: if false goto 913
+var script_name := CStr( GetProcess( GetPid() ).name ),
+883: decl local #0
+884: Func(3,2): GetPid
+885: Func(3,1): GetProcess
+886: get member id 'name' (3)
+887: Func(0,4): CStr
+888: :=
+889: #
+890: decl local #1
+891: local #3
+892: makelocal
+893: jmp userfunc @1194
+894: :=
+895: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+896: "::log/"
+897: local #4
+898: +
+899: ".log"
+900: +
+901: "["
+902: local #3
+903: +
+904: "]: "
+905: +
+906: local #2
+907: +
+908: 1L
+909: Func(9,0): LogToFile
+910: #
+911: leave block(2)
+912: goto924
+elseif( flags & REPORT_BROADCAST )
+913: local #1
+914: 4L
+915: &
+916: if false goto 924
+Broadcast( ""+report_text, 3, text_color );
+917: ""
+918: local #2
+919: +
+920: 3L
+921: local #0
+922: Func(2,0): Broadcast
+923: #
+return 1;
+924: 1L
+925: return
+c:/ZH099/pkg/systems/damage/include/damage.inc, Line 97
+function SendVictimMessage( mobile, source )
+926: pop param 'source'
+927: pop param 'mobile'
+var text_noto := GetObjProperty( source, "KillNoto" );
+928: decl local #2
+929: local #0
+930: "KillNoto"
+931: Func(2,1): GetObjProperty
+932: :=
+933: #
+if( source.IsA( POLCLASS_NPC ) || !text_noto )
+934: local #0
+935: 4L
+936: Call Method id isa (#0, 1 params)
+937: local #2
+938: !
+939: ||
+940: if false goto 951
+SendSysMessage( mobile, source.name+" has killed you.", 3, 33 );
+941: local #1
+942: local #0
+943: get member id 'name' (3)
+944: " has killed you."
+945: +
+946: 3L
+947: 33L
+948: Func(2,4): SendSysMessage
+949: #
+950: goto962
+SendSysMessage( mobile, source.name+": "+text_noto, 3, 33 );
+951: local #1
+952: local #0
+953: get member id 'name' (3)
+954: ": "
+955: +
+956: local #2
+957: +
+958: 3L
+959: 33L
+960: Func(2,4): SendSysMessage
+961: #
+return 1;
+962: 1L
+963: return
+c:/ZH099/pkg/systems/damage/include/damage_ex.inc, Line 9
+function SetLastDamageInfo( mobile, amount, type, source := "None" )
+964: pop param 'source'
+965: pop param 'type'
+966: pop param 'amount'
+967: pop param 'mobile'
+var serial := source.serial,
+968: decl local #4
+969: local #0
+970: get member id 'serial' (6)
+971: :=
+972: #
+973: decl local #5
+974: Func(2,15): ReadGameClock
+975: :=
+976: #
+var acctname := source.npctemplate;
+977: decl local #6
+978: local #0
+979: get member id 'npctemplate' (62)
+980: :=
+981: #
+if( source.acctname )
+982: local #0
+983: get member id 'acctname' (44)
+984: if false goto 988
+acctname := source.acctname;
+985: local #0
+986: get member id 'acctname' (44)
+987: local6 := 
+var name;
+988: decl local #7
+989: #
+if( source.name )
+990: local #0
+991: get member id 'name' (3)
+992: if false goto 997
+name := source.name;
+993: local #0
+994: get member id 'name' (3)
+995: local7 := 
+996: goto1004
+elseif( source.IsA( POLCLASS_ITEM ))
+997: local #0
+998: 2L
+999: Call Method id isa (#0, 1 params)
+1000: if false goto 1004
+name := source.desc;
+1001: local #0
+1002: get member id 'desc' (19)
+1003: local7 := 
+var mobiletemplate;
+1004: decl local #8
+1005: #
+if( mobile.npctemplate )
+1006: local #3
+1007: get member id 'npctemplate' (62)
+1008: if false goto 1012
+mobiletemplate := mobile.npctemplate;
+1009: local #3
+1010: get member id 'npctemplate' (62)
+1011: local8 := 
+var last_damage := {serial, time, amount, type, acctname, name, mobiletemplate}
+1012: decl local #9
+1013: array
+1014: local #4
+1015: init{}
+1016: local #5
+1017: init{}
+1018: local #2
+1019: init{}
+1020: local #1
+1021: init{}
+1022: local #6
+1023: init{}
+1024: local #7
+1025: init{}
+1026: local #8
+1027: init{}
+1028: :=
+1029: #
+SetObjProperty( mobile, "LastDamage", last_damage );
+1030: local #3
+1031: "LastDamage"
+1032: local #9
+1033: Func(2,2): SetObjProperty
+1034: #
+return last_damage;
+1035: local #9
+1036: return
+c:/ZH099/pkg/systems/areas/include/managment.inc, Line 17
+function A_IsIn( object, option, obj_prop := 0 )
+1037: pop param 'obj_prop'
+1038: pop param 'option'
+1039: pop param 'object'
+if( object.multi )
+1040: local #2
+1041: get member id 'multi' (12)
+1042: if false goto 1045
+return 0;
+1043: 0L
+1044: return
+var get_main_prop := GetGlobalProperty( "Areas_"+option );
+1045: decl local #3
+1046: "Areas_"
+1047: local #1
+1048: +
+1049: Func(2,3): GetGlobalProperty
+1050: :=
+1051: #
+if( obj_prop )
+1052: local #0
+1053: if false goto 1060
+get_main_prop := GetObjProperty( object, "Areas_"+option );
+1054: local #2
+1055: "Areas_"
+1056: local #1
+1057: +
+1058: Func(2,1): GetObjProperty
+1059: local3 := 
+if( !get_main_prop )
+1060: local #3
+1061: if true goto 1064
+return 0;
+1062: 0L
+1063: return
+var areas := ListAreasByType();
+1064: decl local #4
+1065: makelocal
+1066: jmp userfunc @1241
+1067: :=
+1068: #
+foreach area_name in areas
+1069: local #4
+1070: initforeach @1127
+var area := GetAreaSettings( area_name ),
+1071: decl local #0
+1072: local #5
+1073: makelocal
+1074: jmp userfunc @1175
+1075: :=
+1076: #
+1077: decl local #1
+1078: local #8
+1079: get member 'Min_X'
+1080: Func(0,1): CInt
+1081: :=
+1082: #
+1083: decl local #2
+1084: local #8
+1085: get member 'Max_X'
+1086: Func(0,1): CInt
+1087: :=
+1088: #
+1089: decl local #3
+1090: local #8
+1091: get member 'Min_Y'
+1092: Func(0,1): CInt
+1093: :=
+1094: #
+1095: decl local #4
+1096: local #8
+1097: get member 'Max_Y'
+1098: Func(0,1): CInt
+1099: :=
+1100: #
+1101: decl local #5
+1102: local #8
+1103: get member id 'realm' (112)
+1104: Func(0,4): CStr
+1105: :=
+1106: #
+if( CInt( get_main_prop[area_name] ))
+1107: local #3
+1108: local #5
+1109: [] 1
+1110: Func(0,1): CInt
+1111: if false goto 1123
+if( A_IsInBox( object, MinX, MaxX, MinY, MaxY, Realm ))
+1112: local #2
+1113: local #9
+1114: local #10
+1115: local #11
+1116: local #12
+1117: local #13
+1118: makelocal
+1119: jmp userfunc @1131
+1120: if false goto 1123
+return 1;
+1121: 1L
+1122: return
+SleepMS(5);
+1123: 5L
+1124: Func(3,3): Sleepms
+1125: #
+1126: leave block(6)
+1127: stepforeach @1071
+1128: leave block(3)
+return 0;
+1129: 0L
+1130: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 59
+function A_IsInBox( byref object, byref x1, byref x2, byref y1, byref y2, byref
+1131: pop param byref 'realm'
+1132: pop param byref 'y2'
+1133: pop param byref 'y1'
+1134: pop param byref 'x2'
+1135: pop param byref 'x1'
+1136: pop param byref 'object'
+if( object.realm == realm )
+1137: local #5
+1138: get member id 'realm' (112)
+1139: local #0
+1140: ==
+1141: if false goto 1164
+if( object.x >= x1 && object.x <= x2 && object.y >= y1 && object.y <= y2 )
+1142: local #5
+1143: get member id 'x' (0)
+1144: local #4
+1145: >=
+1146: local #5
+1147: get member id 'x' (0)
+1148: local #3
+1149: <=
+1150: &&
+1151: local #5
+1152: get member id 'y' (1)
+1153: local #2
+1154: >=
+1155: &&
+1156: local #5
+1157: get member id 'y' (1)
+1158: local #1
+1159: <=
+1160: &&
+1161: if false goto 1164
+return 1;
+1162: 1L
+1163: return
+return 0;
+1164: 0L
+1165: return
+c:/ZH099/pkg/systems/attributes/include/vitals.inc, Line 40
+function AP_GetVital( mobile, vital_name )
+1166: pop param 'vital_name'
+1167: pop param 'mobile'
+return CDbl( GetVital( mobile, vital_name )) / 100.0;
+1168: local #1
+1169: local #0
+1170: Func(5,1): GetVital
+1171: Func(0,2): CDbl
+1172: 100LF
+1173: /
+1174: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 49
+function GetAreaSettings( area_name )
+1175: pop param 'area_name'
+var cfg_area := GetAreasCfgElem( area_name );
+1176: decl local #1
+1177: local #0
+1178: 0L
+1179: makelocal
+1180: jmp userfunc @1454
+1181: :=
+1182: #
+if( cfg_area.errortext )
+1183: local #1
+1184: get member 'errortext'
+1185: if false goto 1192
+SysLog( "Error::GetAreaSettings() -->"+cfg_area.errortext );
+1186: "Error::GetAreaSettings() -->"
+1187: local #1
+1188: get member 'errortext'
+1189: +
+1190: Func(3,0): SysLog
+1191: #
+return cfg_area;
+1192: local #1
+1193: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+1194: pop param 'script_name'
+var i;
+1195: decl local #1
+1196: #
+for( i:=1; i<=len(script_name); i+=1 )
+1197: local #1
+1198: 1L
+1199: :=
+1200: #
+1201: local #1
+1202: local #0
+1203: Func(0,3): Len
+1204: <=
+1205: if false goto 1225
+if( !Check_ValidChar( script_name[i] ))
+1206: local #0
+1207: local #1
+1208: [] 1
+1209: 0L
+1210: makelocal
+1211: jmp userfunc @1265
+1212: if true goto 1217
+script_name[i] := " ";
+1213: local #0
+1214: local #1
+1215: " "
+1216: [] := (1) #
+SleepMS(5);
+1217: 5L
+1218: Func(3,3): Sleepms
+1219: #
+1220: local #1
+1221: 1L
+1222: +=
+1223: #
+1224: goto1201
+foreach poss_pkg in ( SplitWords( script_name ))
+1225: local #0
+1226: " "
+1227: Func(0,7): SplitWords
+1228: initforeach @1237
+if( GetPackageByName( poss_pkg ))
+1229: local #2
+1230: Func(11,0): GetPackageByName
+1231: if false goto 1234
+return poss_pkg;
+1232: local #2
+1233: return
+SleepMS(5);
+1234: 5L
+1235: Func(3,3): Sleepms
+1236: #
+1237: stepforeach @1229
+1238: leave block(3)
+return 0;
+1239: 0L
+1240: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 39
+function ListAreasByType()
+var cfg_elem := GetAreasCfgElem( "Settings" );
+1241: decl local #0
+1242: "Settings"
+1243: 0L
+1244: makelocal
+1245: jmp userfunc @1454
+1246: :=
+1247: #
+var cfg_areas := GetConfigStringArray( cfg_elem, "AreaName" );
+1248: decl local #1
+1249: local #0
+1250: "AreaName"
+1251: Func(4,2): GetConfigStringArray
+1252: :=
+1253: #
+if( cfg_areas.errortext )
+1254: local #1
+1255: get member 'errortext'
+1256: if false goto 1263
+SysLog( "Error::ListAreasByType() -->"+cfg_areas.errortext );
+1257: "Error::ListAreasByType() -->"
+1258: local #1
+1259: get member 'errortext'
+1260: +
+1261: Func(3,0): SysLog
+1262: #
+return cfg_areas;
+1263: local #1
+1264: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+1265: pop param 'allow_space'
+1266: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+1267: decl local #2
+1268: array
+1269: "a"
+1270: init{}
+1271: "b"
+1272: init{}
+1273: "c"
+1274: init{}
+1275: "d"
+1276: init{}
+1277: "e"
+1278: init{}
+1279: "f"
+1280: init{}
+1281: "g"
+1282: init{}
+1283: "h"
+1284: init{}
+1285: "i"
+1286: init{}
+1287: "j"
+1288: init{}
+1289: "k"
+1290: init{}
+1291: "l"
+1292: init{}
+1293: "m"
+1294: init{}
+1295: "n"
+1296: init{}
+1297: "o"
+1298: init{}
+1299: "p"
+1300: init{}
+1301: "q"
+1302: init{}
+1303: "r"
+1304: init{}
+1305: "s"
+1306: init{}
+1307: "t"
+1308: init{}
+1309: "u"
+1310: init{}
+1311: "v"
+1312: init{}
+1313: "w"
+1314: init{}
+1315: "x"
+1316: init{}
+1317: "y"
+1318: init{}
+1319: "z"
+1320: init{}
+1321: "A"
+1322: init{}
+1323: "B"
+1324: init{}
+1325: "C"
+1326: init{}
+1327: "D"
+1328: init{}
+1329: "E"
+1330: init{}
+1331: "F"
+1332: init{}
+1333: "G"
+1334: init{}
+1335: "H"
+1336: init{}
+1337: "I"
+1338: init{}
+1339: "P"
+1340: init{}
+1341: "O"
+1342: init{}
+1343: "N"
+1344: init{}
+1345: "M"
+1346: init{}
+1347: "L"
+1348: init{}
+1349: "K"
+1350: init{}
+1351: "J"
+1352: init{}
+1353: "Q"
+1354: init{}
+1355: "R"
+1356: init{}
+1357: "S"
+1358: init{}
+1359: "T"
+1360: init{}
+1361: "U"
+1362: init{}
+1363: "V"
+1364: init{}
+1365: "W"
+1366: init{}
+1367: "X"
+1368: init{}
+1369: "Y"
+1370: init{}
+1371: "Z"
+1372: init{}
+1373: "1"
+1374: init{}
+1375: "2"
+1376: init{}
+1377: "3"
+1378: init{}
+1379: "4"
+1380: init{}
+1381: "5"
+1382: init{}
+1383: "6"
+1384: init{}
+1385: "7"
+1386: init{}
+1387: "8"
+1388: init{}
+1389: "9"
+1390: init{}
+1391: "0"
+1392: init{}
+1393: :=
+1394: #
+var len_text := Len( text );
+1395: decl local #3
+1396: local #1
+1397: Func(0,3): Len
+1398: :=
+1399: #
+var i;
+1400: decl local #4
+1401: #
+for( i:=1; i<=len_text; i+=1 )
+1402: local #4
+1403: 1L
+1404: :=
+1405: #
+1406: local #4
+1407: local #3
+1408: <=
+1409: if false goto 1452
+SleepMS(5);
+1410: 5L
+1411: Func(3,3): Sleepms
+1412: #
+var letter := CStr( text[i] );
+1413: decl local #0
+1414: local #1
+1415: local #4
+1416: [] 1
+1417: Func(0,4): CStr
+1418: :=
+1419: #
+if( letter in valid_char )
+1420: local #5
+1421: local #2
+1422: in
+1423: if false goto 1427
+continue;
+1424: leave block(1)
+1425: goto1447
+1426: goto1444
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+1427: local #0
+1428: local #1
+1429: local #4
+1430: [] 1
+1431: " "
+1432: ==
+1433: local #1
+1434: local #4
+1435: [] 1
+1436: Func(0,9): CAsc
+1437: 0L
+1438: ==
+1439: ||
+1440: &&
+1441: if false goto 1444
+continue;
+1442: leave block(1)
+1443: goto1447
+return 0;
+1444: 0L
+1445: return
+1446: leave block(1)
+1447: local #4
+1448: 1L
+1449: +=
+1450: #
+1451: goto1406
+return 1;
+1452: 1L
+1453: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 23
+function GetAreasCfgElem( area_name, byref cfg_file:=0 )
+1454: pop param byref 'cfg_file'
+1455: pop param 'area_name'
+if( !cfg_file )
+1456: local #0
+1457: if true goto 1461
+cfg_file := GetAreasCfgFile();
+1458: makelocal
+1459: jmp userfunc @1482
+1460: local0 := 
+var cfg_elem := cfg_file[area_name];
+1461: decl local #2
+1462: local #0
+1463: local #1
+1464: [] 1
+1465: :=
+1466: #
+if( cfg_elem.errortext )
+1467: local #2
+1468: get member 'errortext'
+1469: if false goto 1480
+SysLog( "Error::GetAreasCfgElem() - unable to find cfg elem ["+area_name+"] ->"
+1470: "Error::GetAreasCfgElem() - unable to find cfg elem ["
+1471: local #1
+1472: +
+1473: "] ->"
+1474: +
+1475: local #2
+1476: get member 'errortext'
+1477: +
+1478: Func(3,0): SysLog
+1479: #
+return cfg_elem;
+1480: local #2
+1481: return
+c:/ZH099/pkg/systems/areas/include/areas.inc, Line 15
+function GetAreasCfgFile()
+var cfg_file := ReadConfigFile( ":areas:areas" );
+1482: decl local #0
+1483: ":areas:areas"
+1484: Func(4,0): ReadConfigFile
+1485: :=
+1486: #
+if( cfg_file.errortext )
+1487: local #0
+1488: get member 'errortext'
+1489: if false goto 1496
+SysLog( "Error::GetAreasCfgFile() - Unable to open areas.cfg ->"+cfg_file.error
+1490: "Error::GetAreasCfgFile() - Unable to open areas.cfg ->"
+1491: local #0
+1492: get member 'errortext'
+1493: +
+1494: Func(3,0): SysLog
+1495: #
+return cfg_file;
+1496: local #0
+1497: return

@@ -1,0 +1,1847 @@
+C:\ZH099\pkg\systems\brainAI\commands\gm\sendevent.src, Line 9
+program textcmd_sendEvent(who, event)
+CONST REPORT_ALL	:= 0x7;
+0: get arg 'who'
+1: get arg 'event'
+if( !AuthorizationCode( who ))
+2: local #0
+3: makelocal
+4: jmp userfunc @86
+5: if true goto 14
+SendSysMessage( who, "Cancelled." );
+6: local #0
+7: "Cancelled."
+8: 3L
+9: 1000L
+10: Func(2,1): SendSysMessage
+11: #
+return 0;
+12: 0L
+13: progend
+if ( !event )
+14: local #1
+15: if true goto 25
+event := CInt(RequestGump(who, "Enter event value", "Place a + or - at the begi
+16: local #0
+17: "Enter event value"
+18: "Place a + or - at the begining if it is a number."
+19: ""
+20: 0L
+21: makelocal
+22: jmp userfunc @309
+23: Func(0,0): CInt
+24: local1 := 
+if ( event[1] in {"+", "-"})
+25: local #1
+26: 1L
+27: [] 1
+28: array
+29: "+"
+30: init{}
+31: "-"
+32: init{}
+33: in
+34: if false goto 38
+event := CInt(event);
+35: local #1
+36: Func(0,0): CInt
+37: local1 := 
+var ev := struct;
+38: decl local #2
+39: struct
+40: :=
+41: #
+ev.+source := who;
+42: local #2
+43: "source"
+44: .+
+45: local #0
+46: := #
+ev.+type := event;
+47: local #2
+48: "type"
+49: .+
+50: local #1
+51: := #
+var targ := target(who);
+52: decl local #3
+53: local #0
+54: 1L
+55: Func(2,9): Target
+56: :=
+57: #
+if ( targ )
+58: local #3
+59: if false goto 76
+SendEvent(targ, ev);
+60: local #3
+61: local #2
+62: Func(2,10): SendEvent
+63: #
+SendSysMessage(who, "Event sent as ("+TypeOf(event)+")");
+64: local #0
+65: "Event sent as ("
+66: local #1
+67: Func(0,8): TypeOf
+68: +
+69: ")"
+70: +
+71: 3L
+72: 1000L
+73: Func(2,1): SendSysMessage
+74: #
+75: goto82
+SendSysMessage(who, "Cancelled");
+76: local #0
+77: "Cancelled"
+78: 3L
+79: 1000L
+80: Func(2,1): SendSysMessage
+81: #
+return 1;
+82: 1L
+83: progend
+84: leave block(4)
+85: progend
+c:/ZH099/scripts/include/security.inc, Line 14
+function AuthorizationCode( mobile )
+86: pop param 'mobile'
+if( GetObjProperty( mobile, "#AuthCodeGiven" ));
+87: local #0
+88: "#AuthCodeGiven"
+89: Func(2,4): GetObjProperty
+90: if false goto 93
+return 1;
+91: 1L
+92: return
+var autocode := GetGlobalProperty( "CA" );
+93: decl local #1
+94: "CA"
+95: Func(2,5): GetGlobalProperty
+96: :=
+97: #
+if( !autocode )
+98: local #1
+99: if true goto 115
+SendSysMessage( mobile, "Authorization code is not given yet.", 3, 53 );
+100: local #0
+101: "Authorization code is not given yet."
+102: 3L
+103: 53L
+104: Func(2,1): SendSysMessage
+105: #
+SendSysMessage( mobile, "Uses .setauthcode to create a new code.", 3, 53 );
+106: local #0
+107: "Uses .setauthcode to create a new code."
+108: 3L
+109: 53L
+110: Func(2,1): SendSysMessage
+111: #
+return 0;
+112: 0L
+113: return
+114: goto157
+var code := SendTextEntryGump( mobile, "Enter the Authorization Code.", TE_CANC
+115: decl local #0
+116: local #0
+117: "Enter the Authorization Code."
+118: 1L
+119: 1L
+120: 10L
+121: ""
+122: Func(2,6): SendTextEntryGump
+123: :=
+124: #
+if( code == autocode )
+125: local #2
+126: local #1
+127: ==
+128: if false goto 143
+SendSysMessage( mobile, "Code Accepted!", 3, 70 );
+129: local #0
+130: "Code Accepted!"
+131: 3L
+132: 70L
+133: Func(2,1): SendSysMessage
+134: #
+SetObjProperty( mobile, "#AuthCodeGiven", 1 );
+135: local #0
+136: "#AuthCodeGiven"
+137: 1L
+138: Func(2,7): SetObjProperty
+139: #
+return 1;
+140: 1L
+141: return
+142: goto156
+SendSysMessage( mobile, "It is not the Authorization code.", 3, 33 );
+143: local #0
+144: "It is not the Authorization code."
+145: 3L
+146: 33L
+147: Func(2,1): SendSysMessage
+148: #
+NotifyStaffOnline( mobile, "has provided a wrong authorization code." );
+149: local #0
+150: "has provided a wrong authorization code."
+151: makelocal
+152: jmp userfunc @159
+153: #
+return 0;
+154: 0L
+155: return
+156: leave block(1)
+157: 0L
+158: return
+c:/ZH099/scripts/include/security.inc, Line 40
+function NotifyStaffOnline( object, text )
+159: pop param 'text'
+160: pop param 'object'
+var name := object.name;
+161: decl local #2
+162: local #1
+163: get member id 'name' (3)
+164: :=
+165: #
+if( !name )
+166: local #2
+167: if true goto 175
+name := object.desc;
+168: local #1
+169: get member id 'desc' (19)
+170: local2 := 
+if( !name )
+171: local #2
+172: if true goto 175
+name := object;
+173: local #1
+174: local2 := 
+foreach character in EnumerateOnlineCharacters()
+175: Func(2,8): EnumerateOnlineCharacters
+176: initforeach @211
+if( GetObjProperty( character, "Notify" ))
+177: local #3
+178: "Notify"
+179: Func(2,4): GetObjProperty
+180: if false goto 208
+if( object.cmdlevel <= character.cmdlevel || character.cmdlevel >= 4 )
+181: local #1
+182: get member id 'cmdlevel' (46)
+183: local #3
+184: get member id 'cmdlevel' (46)
+185: <=
+186: local #3
+187: get member id 'cmdlevel' (46)
+188: 4L
+189: >=
+190: ||
+191: if false goto 208
+SendSysMessage( character, "You receive a notification:", 3, 55 );
+192: local #3
+193: "You receive a notification:"
+194: 3L
+195: 55L
+196: Func(2,1): SendSysMessage
+197: #
+SendSysMessage( character, name+" >>> "+text, 3, 55 );
+198: local #3
+199: local #2
+200: " >>> "
+201: +
+202: local #0
+203: +
+204: 3L
+205: 55L
+206: Func(2,1): SendSysMessage
+207: #
+SleepMS(5);
+208: 5L
+209: Func(3,0): Sleepms
+210: #
+211: stepforeach @177
+212: leave block(3)
+if( object.serial )
+213: local #1
+214: get member id 'serial' (6)
+215: if false goto 232
+ReportText( name+"["+object.serial+"] >>> "+text, REPORT_SYSLOG );
+216: local #2
+217: "["
+218: +
+219: local #1
+220: get member id 'serial' (6)
+221: +
+222: "] >>> "
+223: +
+224: local #0
+225: +
+226: 2L
+227: 0L
+228: makelocal
+229: jmp userfunc @244
+230: #
+231: goto242
+ReportText( name+" >>> "+text, REPORT_SYSLOG );
+232: local #2
+233: " >>> "
+234: +
+235: local #0
+236: +
+237: 2L
+238: 0L
+239: makelocal
+240: jmp userfunc @244
+241: #
+return 1;
+242: 1L
+243: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 22
+function ReportText( report_text:="?", flags:=REPORT_DISABLE, text_color:=0 )
+244: pop param 'text_color'
+245: pop param 'flags'
+246: pop param 'report_text'
+if( !flags )
+247: local #1
+248: if true goto 252
+return 0;
+249: 0L
+250: return
+251: goto307
+elseif( flags & REPORT_CONSOLE )
+252: local #1
+253: 1L
+254: &
+255: if false goto 262
+Print( ""+report_text );
+256: ""
+257: local #2
+258: +
+259: Func(1,0): Print
+260: #
+261: goto307
+elseif( flags & REPORT_SYSLOG )
+262: local #1
+263: 2L
+264: &
+265: if false goto 296
+var script_name := CStr( GetProcess( GetPid() ).name ),
+266: decl local #0
+267: Func(3,4): GetPid
+268: Func(3,3): GetProcess
+269: get member id 'name' (3)
+270: Func(0,1): CStr
+271: :=
+272: #
+273: decl local #1
+274: local #3
+275: makelocal
+276: jmp userfunc @512
+277: :=
+278: #
+LogToFile( "::log/"+pkg_name+".log", "["+script_name+"]: "+report_text, LOG_DAT
+279: "::log/"
+280: local #4
+281: +
+282: ".log"
+283: +
+284: "["
+285: local #3
+286: +
+287: "]: "
+288: +
+289: local #2
+290: +
+291: 1L
+292: Func(6,0): LogToFile
+293: #
+294: leave block(2)
+295: goto307
+elseif( flags & REPORT_BROADCAST )
+296: local #1
+297: 4L
+298: &
+299: if false goto 307
+Broadcast( ""+report_text, 3, text_color );
+300: ""
+301: local #2
+302: +
+303: 3L
+304: local #0
+305: Func(2,3): Broadcast
+306: #
+return 1;
+307: 1L
+308: return
+c:/ZH099/pkg/utils/gumps/include/requestgump.inc, Line 39
+function RequestGump(mobile, question, option := "", pre_val := "", cancel_btn:
+309: pop param 'cancel_btn'
+310: pop param 'pre_val'
+311: pop param 'option'
+312: pop param 'question'
+313: pop param 'mobile'
+if ( !pre_val || pre_val == error )
+314: local #1
+315: !
+316: local #1
+317: error
+318: ==
+319: ||
+320: if false goto 323
+pre_val := "";
+321: ""
+322: local1 := 
+var r_gump := GFCreateGump(140, 100);
+323: decl local #5
+324: 140L
+325: 100L
+326: 0L
+327: 0L
+328: makelocal
+329: jmp userfunc @734
+330: :=
+331: #
+GFClosable(r_gump, 0);
+332: local #5
+333: 0L
+334: makelocal
+335: jmp userfunc @675
+336: #
+GFResizePic(r_gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 400, 205);
+337: local #5
+338: 0L
+339: 0L
+340: "Defaults"
+341: "BackGround"
+342: makelocal
+343: jmp userfunc @843
+344: 400L
+345: 205L
+346: makelocal
+347: jmp userfunc @905
+348: #
+GFResizePic(r_gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 370, 175);
+349: local #5
+350: 15L
+351: 15L
+352: "Defaults"
+353: "ForeGround"
+354: makelocal
+355: jmp userfunc @843
+356: 370L
+357: 175L
+358: makelocal
+359: jmp userfunc @905
+360: #
+GFAddAlphaRegion( r_gump, 0, 0, 400, 205 );
+361: local #5
+362: 0L
+363: 0L
+364: 400L
+365: 205L
+366: makelocal
+367: jmp userfunc @559
+368: #
+var y_pos := 20;
+369: decl local #6
+370: 20L
+371: :=
+372: #
+foreach line in (GFWordWrap(question, 370))
+373: local #3
+374: 370L
+375: makelocal
+376: jmp userfunc @1133
+377: initforeach @393
+GFTextLine(r_gump, 20, y_pos, 1153, line);
+378: local #5
+379: 20L
+380: local #6
+381: 1153L
+382: local #7
+383: makelocal
+384: jmp userfunc @1084
+385: #
+y_pos += 20;
+386: local #6
+387: 20L
+388: +=
+389: #
+SleepMS(2);
+390: 2L
+391: Func(3,0): Sleepms
+392: #
+393: stepforeach @378
+394: leave block(3)
+y_pos := 75;
+395: 75L
+396: local6 := 
+foreach line in (GFWordWrap(option, 370))
+397: local #2
+398: 370L
+399: makelocal
+400: jmp userfunc @1133
+401: initforeach @417
+GFTextLine(r_gump, 20, y_pos, 1153, line);
+402: local #5
+403: 20L
+404: local #6
+405: 1153L
+406: local #7
+407: makelocal
+408: jmp userfunc @1084
+409: #
+y_pos += 20;
+410: local #6
+411: 20L
+412: +=
+413: #
+SleepMS(2);
+414: 2L
+415: Func(3,0): Sleepms
+416: #
+417: stepforeach @402
+418: leave block(3)
+GFResizePic(r_gump, 20, 100, GFGetCfgConst("BackGrounds", "GOLDTRIM"), 360, 30)
+419: local #5
+420: 20L
+421: 100L
+422: "BackGrounds"
+423: "GOLDTRIM"
+424: makelocal
+425: jmp userfunc @843
+426: 360L
+427: 30L
+428: makelocal
+429: jmp userfunc @905
+430: #
+var r_txt := GFTextEntry(r_gump, 30, 105, 335, 25, 1153, pre_val);
+431: decl local #7
+432: local #5
+433: 30L
+434: 105L
+435: 335L
+436: 25L
+437: 1153L
+438: local #1
+439: 0L
+440: makelocal
+441: jmp userfunc @1000
+442: :=
+443: #
+if ( cancel_btn )
+444: local #0
+445: if false goto 467
+GFAddButton(r_gump, 90, 160, 2128, 2129, GF_CLOSE_BTN, 100);
+446: local #5
+447: 90L
+448: 160L
+449: 2128L
+450: 2129L
+451: 1L
+452: 100L
+453: makelocal
+454: jmp userfunc @593
+455: #
+GFAddButton(r_gump, 240, 160, 2119, 2120, GF_CLOSE_BTN, 200);
+456: local #5
+457: 240L
+458: 160L
+459: 2119L
+460: 2120L
+461: 1L
+462: 200L
+463: makelocal
+464: jmp userfunc @593
+465: #
+466: goto477
+GFAddButton(r_gump, 180, 160, 2128, 2129, GF_CLOSE_BTN, 100);
+467: local #5
+468: 180L
+469: 160L
+470: 2128L
+471: 2129L
+472: 1L
+473: 100L
+474: makelocal
+475: jmp userfunc @593
+476: #
+var input := GFSendGump(mobile, r_gump);
+477: decl local #8
+478: local #4
+479: local #5
+480: makelocal
+481: jmp userfunc @962
+482: :=
+483: #
+var text_area := GFExtractData(input, r_txt);
+484: decl local #9
+485: local #8
+486: local #7
+487: makelocal
+488: jmp userfunc @815
+489: :=
+490: #
+if ( input[200] )
+491: local #8
+492: 200L
+493: [] 1
+494: if false goto 498
+return error;
+495: error
+496: return
+497: goto510
+elseif ( !text_area || text_area == error )
+498: local #9
+499: !
+500: local #9
+501: error
+502: ==
+503: ||
+504: if false goto 508
+return 0;
+505: 0L
+506: return
+507: goto510
+return text_area;
+508: local #9
+509: return
+510: 0L
+511: return
+c:/ZH099/pkg/utils/security/include/report.inc, Line 40
+function GetPkgName( script_name )
+512: pop param 'script_name'
+var i;
+513: decl local #1
+514: #
+for( i:=1; i<=len(script_name); i+=1 )
+515: local #1
+516: 1L
+517: :=
+518: #
+519: local #1
+520: local #0
+521: Func(0,2): Len
+522: <=
+523: if false goto 543
+if( !Check_ValidChar( script_name[i] ))
+524: local #0
+525: local #1
+526: [] 1
+527: 0L
+528: makelocal
+529: jmp userfunc @1272
+530: if true goto 535
+script_name[i] := " ";
+531: local #0
+532: local #1
+533: " "
+534: [] := (1) #
+SleepMS(5);
+535: 5L
+536: Func(3,0): Sleepms
+537: #
+538: local #1
+539: 1L
+540: +=
+541: #
+542: goto519
+foreach poss_pkg in ( SplitWords( script_name ))
+543: local #0
+544: " "
+545: Func(0,5): SplitWords
+546: initforeach @555
+if( GetPackageByName( poss_pkg ))
+547: local #2
+548: Func(4,0): GetPackageByName
+549: if false goto 552
+return poss_pkg;
+550: local #2
+551: return
+SleepMS(5);
+552: 5L
+553: Func(3,0): Sleepms
+554: #
+555: stepforeach @547
+556: leave block(3)
+return 0;
+557: 0L
+558: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 166
+function GFAddAlphaRegion(byref gump, x, y, width, height)
+559: pop param 'height'
+560: pop param 'width'
+561: pop param 'y'
+562: pop param 'x'
+563: pop param byref 'gump'
+(gump.layout).Append("CheckerTrans "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+564: local #4
+565: get member 'layout'
+566: "CheckerTrans "
+567: local #3
+568: Func(0,0): CInt
+569: Func(0,1): CStr
+570: +
+571: " "
+572: +
+573: local #2
+574: Func(0,0): CInt
+575: Func(0,1): CStr
+576: +
+577: " "
+578: +
+579: local #1
+580: Func(0,0): CInt
+581: Func(0,1): CStr
+582: +
+583: " "
+584: +
+585: local #0
+586: Func(0,0): CInt
+587: Func(0,1): CStr
+588: +
+589: Call Method id append (#52, 1 params)
+590: #
+return 1;
+591: 1L
+592: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 172
+function GFAddButton(byref gump, x, y, off_id, on_id, btn_type:=GF_PAGE_BTN, bt
+593: pop param 'btn_value'
+594: pop param 'btn_type'
+595: pop param 'on_id'
+596: pop param 'off_id'
+597: pop param 'y'
+598: pop param 'x'
+599: pop param byref 'gump'
+var line := "Button "+CStr(x)+" "+CStr(y)+" "+CStr(off_id)+" "+CStr(on_id);
+600: decl local #7
+601: "Button "
+602: local #5
+603: Func(0,1): CStr
+604: +
+605: " "
+606: +
+607: local #4
+608: Func(0,1): CStr
+609: +
+610: " "
+611: +
+612: local #3
+613: Func(0,1): CStr
+614: +
+615: " "
+616: +
+617: local #2
+618: Func(0,1): CStr
+619: +
+620: :=
+621: #
+btn_value := CInt(btn_value);
+622: local #0
+623: Func(0,0): CInt
+624: local0 := 
+if ( btn_value < 1 ) // Catch errors (0) and invalid (negative) values
+625: local #0
+626: 1L
+627: <
+628: if false goto 637
+gump.data_id += 1;
+629: local #6
+630: get member 'data_id'
+631: 1L
+632: +=
+633: #
+btn_value := gump.data_id;
+634: local #6
+635: get member 'data_id'
+636: local0 := 
+if ( btn_type == GF_CLOSE_BTN )
+637: local #1
+638: 1L
+639: ==
+640: if false goto 649
+line += " 1 0 "+CStr(btn_value);
+641: local #7
+642: " 1 0 "
+643: local #0
+644: Func(0,1): CStr
+645: +
+646: +=
+647: #
+648: goto668
+elseif ( btn_type == GF_DUMMY_BTN )
+649: local #1
+650: 2L
+651: ==
+652: if false goto 661
+line += " 0 0 "+CStr(btn_value);
+653: local #7
+654: " 0 0 "
+655: local #0
+656: Func(0,1): CStr
+657: +
+658: +=
+659: #
+660: goto668
+line += " 0 "+CStr(btn_value);
+661: local #7
+662: " 0 "
+663: local #0
+664: Func(0,1): CStr
+665: +
+666: +=
+667: #
+(gump.layout).Append(line);
+668: local #6
+669: get member 'layout'
+670: local #7
+671: Call Method id append (#52, 1 params)
+672: #
+return (btn_value);
+673: local #0
+674: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 71
+function GFClosable(byref gump, bool)
+675: pop param 'bool'
+676: pop param byref 'gump'
+case ( bool )
+677: local #0
+678: casejmp
+	0: @679
+	1: @701
+	default: @723
+if ( gump.base.CloseLoc )
+679: local #1
+680: get member 'base'
+681: get member 'CloseLoc'
+682: if false goto 688
+return XGFError("Gump already contains the 'NoClose' flag.");
+683: "Gump already contains the 'NoClose' flag."
+684: 0L
+685: makelocal
+686: jmp userfunc @1259
+687: return
+(gump.layout).Append("NoClose");
+688: local #1
+689: get member 'layout'
+690: "NoClose"
+691: Call Method id append (#52, 1 params)
+692: #
+gump.base.CloseLoc := (gump.layout).Size();
+693: local #1
+694: get member 'base'
+695: local #1
+696: get member 'layout'
+697: Call Method id size (#48, 0 params)
+698: set member 'CloseLoc' #
+break;
+699: goto700
+700: goto732
+if ( !gump.base.CloseLoc )
+701: local #1
+702: get member 'base'
+703: get member 'CloseLoc'
+704: if true goto 710
+return XGFError("Gump is already closable.");
+705: "Gump is already closable."
+706: 0L
+707: makelocal
+708: jmp userfunc @1259
+709: return
+(gump.layout).Erase(gump.base.CloseLoc);
+710: local #1
+711: get member 'layout'
+712: local #1
+713: get member 'base'
+714: get member 'CloseLoc'
+715: Call Method id erase (#49, 1 params)
+716: #
+gump.base.CloseLoc := 0;
+717: local #1
+718: get member 'base'
+719: 0L
+720: set member 'CloseLoc' #
+break;
+721: goto722
+722: goto732
+return XGFError("gumps::Closable: Invalid bool value '"+bool+"'");
+723: "gumps::Closable: Invalid bool value '"
+724: local #0
+725: +
+726: "'"
+727: +
+728: 0L
+729: makelocal
+730: jmp userfunc @1259
+731: return
+return 1;
+732: 1L
+733: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 40
+function GFCreateGump(x:=0, y:=0, width:=0, height:=0)
+734: pop param 'height'
+735: pop param 'width'
+736: pop param 'y'
+737: pop param 'x'
+var gump := struct;
+738: decl local #4
+739: struct
+740: :=
+741: #
+gump.+base := struct;
+742: local #4
+743: "base"
+744: .+
+745: struct
+746: := #
+gump.base.+x := CInt(x);
+747: local #4
+748: get member 'base'
+749: "x"
+750: .+
+751: local #3
+752: Func(0,0): CInt
+753: := #
+gump.base.+y := CInt(y);
+754: local #4
+755: get member 'base'
+756: "y"
+757: .+
+758: local #2
+759: Func(0,0): CInt
+760: := #
+gump.base.+width := CInt(width);
+761: local #4
+762: get member 'base'
+763: "width"
+764: .+
+765: local #1
+766: Func(0,0): CInt
+767: := #
+gump.base.+height := CInt(height);
+768: local #4
+769: get member 'base'
+770: "height"
+771: .+
+772: local #0
+773: Func(0,0): CInt
+774: := #
+gump.base.+MoveLoc := 0;	// Movable flag location
+775: local #4
+776: get member 'base'
+777: "MoveLoc"
+778: .+
+779: 0L
+780: := #
+gump.base.+CloseLoc := 0;	// NoClose flag location
+781: local #4
+782: get member 'base'
+783: "CloseLoc"
+784: .+
+785: 0L
+786: := #
+gump.base.+DisposeLoc := 0;	// NoDispose flag location
+787: local #4
+788: get member 'base'
+789: "DisposeLoc"
+790: .+
+791: 0L
+792: := #
+gump.+layout	:= array;	// Main layout array for entire gump
+793: local #4
+794: "layout"
+795: .+
+796: array
+797: := #
+gump.+data	:= array;	// Storage array for static-text and
+798: local #4
+799: "data"
+800: .+
+801: array
+802: := #
+gump.+data_id	:= 1;
+803: local #4
+804: "data_id"
+805: .+
+806: 1L
+807: := #
+gump.+cur_page := 0;
+808: local #4
+809: "cur_page"
+810: .+
+811: 0L
+812: := #
+return(gump);
+813: local #4
+814: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 56
+function GFExtractData(input, data_id)
+815: pop param 'data_id'
+816: pop param 'input'
+var key_string := CStr(data_id)+": ";
+817: decl local #2
+818: local #0
+819: Func(0,1): CStr
+820: ": "
+821: +
+822: :=
+823: #
+var data_string := input[data_id];
+824: decl local #3
+825: local #1
+826: local #0
+827: [] 1
+828: :=
+829: #
+var ret_val := data_string[Len(key_string)+1,Len(data_string)];
+830: decl local #4
+831: local #3
+832: local #2
+833: Func(0,2): Len
+834: 1L
+835: +
+836: local #3
+837: Func(0,2): Len
+838: [,]
+839: :=
+840: #
+return ret_val;
+841: local #4
+842: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 37
+function GFGetCfgConst(elem_name, prop_name)
+843: pop param 'prop_name'
+844: pop param 'elem_name'
+var cfg := ReadConfigFile(":gumps:GumpInfo");
+845: decl local #2
+846: ":gumps:GumpInfo"
+847: Func(5,0): ReadConfigFile
+848: :=
+849: #
+if ( cfg.errortext )
+850: local #2
+851: get member 'errortext'
+852: if false goto 861
+return XGFError("GFGetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errorte
+853: "GFGetCfgConst():: Unable to open GumpInfo.cfg -> "
+854: local #2
+855: get member 'errortext'
+856: +
+857: 0L
+858: makelocal
+859: jmp userfunc @1259
+860: return
+var elem := cfg[elem_name];
+861: decl local #3
+862: local #2
+863: local #1
+864: [] 1
+865: :=
+866: #
+if ( elem.errortext )
+867: local #3
+868: get member 'errortext'
+869: if false goto 882
+return XGFError("GFGetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] -
+870: "GFGetCfgConst():: Unable to find GumpInfo.cfg["
+871: local #1
+872: +
+873: "] ->"
+874: +
+875: local #3
+876: get member 'errortext'
+877: +
+878: 0L
+879: makelocal
+880: jmp userfunc @1259
+881: return
+var value := GetConfigInt(elem, prop_name);
+882: decl local #4
+883: local #3
+884: local #0
+885: Func(5,1): GetConfigInt
+886: :=
+887: #
+if ( !value )
+888: local #4
+889: if true goto 903
+return XGFError("GFGetCfgConst():: Unable to find property ["+prop_name+"] in e
+890: "GFGetCfgConst():: Unable to find property ["
+891: local #0
+892: +
+893: "] in elem ["
+894: +
+895: local #1
+896: +
+897: "]"
+898: +
+899: 0L
+900: makelocal
+901: jmp userfunc @1259
+902: return
+return value;
+903: local #4
+904: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 151
+function GFResizePic(byref gump, x, y, gump_id, width, height)
+905: pop param 'height'
+906: pop param 'width'
+907: pop param 'gump_id'
+908: pop param 'y'
+909: pop param 'x'
+910: pop param byref 'gump'
+width := CInt(width);
+911: local #1
+912: Func(0,0): CInt
+913: local1 := 
+height := CInt(height);
+914: local #0
+915: Func(0,0): CInt
+916: local0 := 
+if ( !width )
+917: local #1
+918: if true goto 923
+width := gump.base.width;
+919: local #5
+920: get member 'base'
+921: get member 'width'
+922: local1 := 
+if ( !height )
+923: local #0
+924: if true goto 929
+height := gump.base.width;
+925: local #5
+926: get member 'base'
+927: get member 'width'
+928: local0 := 
+(gump.layout).Append("ResizePic "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+929: local #5
+930: get member 'layout'
+931: "ResizePic "
+932: local #4
+933: Func(0,0): CInt
+934: Func(0,1): CStr
+935: +
+936: " "
+937: +
+938: local #3
+939: Func(0,0): CInt
+940: Func(0,1): CStr
+941: +
+942: " "
+943: +
+944: local #2
+945: Func(0,0): CInt
+946: Func(0,1): CStr
+947: +
+948: " "
+949: +
+950: local #1
+951: Func(0,1): CStr
+952: +
+953: " "
+954: +
+955: local #0
+956: Func(0,1): CStr
+957: +
+958: Call Method id append (#52, 1 params)
+959: #
+return 1;
+960: 1L
+961: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 314
+function GFSendGump(mobile, byref gump)
+962: pop param byref 'gump'
+963: pop param 'mobile'
+var ret_val := SendDialogGump(mobile, gump.layout, gump.data, gump.base.x, gump
+964: decl local #2
+965: local #1
+966: local #0
+967: get member 'layout'
+968: local #0
+969: get member 'data'
+970: local #0
+971: get member 'base'
+972: get member id 'x' (0)
+973: local #0
+974: get member 'base'
+975: get member id 'y' (1)
+976: 0L
+977: Func(2,0): SendDialogGump
+978: :=
+979: #
+if ( ret_val.errortext )
+980: local #2
+981: get member 'errortext'
+982: if false goto 998
+SendSysMessage(mobile, "Error - Unable to display gump.");
+983: local #1
+984: "Error - Unable to display gump."
+985: 3L
+986: 1000L
+987: Func(2,1): SendSysMessage
+988: #
+SendSysMessage(mobile, "Error text is ->"+ret_val.errortext);
+989: local #1
+990: "Error text is ->"
+991: local #2
+992: get member 'errortext'
+993: +
+994: 3L
+995: 1000L
+996: Func(2,1): SendSysMessage
+997: #
+return ret_val;
+998: local #2
+999: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 296
+function GFTextEntry(byref gump, x, y, width, height, txt_color, ini_text:="", 
+1000: pop param 'txt_id'
+1001: pop param 'ini_text'
+1002: pop param 'txt_color'
+1003: pop param 'height'
+1004: pop param 'width'
+1005: pop param 'y'
+1006: pop param 'x'
+1007: pop param byref 'gump'
+gump.data.Append(""+CStr(ini_text));
+1008: local #7
+1009: get member 'data'
+1010: ""
+1011: local #1
+1012: Func(0,1): CStr
+1013: +
+1014: Call Method id append (#52, 1 params)
+1015: #
+var index := gump.data.Size()-1;
+1016: decl local #8
+1017: local #7
+1018: get member 'data'
+1019: Call Method id size (#48, 0 params)
+1020: 1L
+1021: -
+1022: :=
+1023: #
+txt_id := CInt(txt_id);
+1024: local #0
+1025: Func(0,0): CInt
+1026: local0 := 
+if ( txt_id < 1 ) // Catch errors (0) and invalid (negative) values
+1027: local #0
+1028: 1L
+1029: <
+1030: if false goto 1039
+gump.data_id += 1;
+1031: local #7
+1032: get member 'data_id'
+1033: 1L
+1034: +=
+1035: #
+txt_id := gump.data_id;
+1036: local #7
+1037: get member 'data_id'
+1038: local0 := 
+(gump.layout).Append("TextEntry "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+1039: local #7
+1040: get member 'layout'
+1041: "TextEntry "
+1042: local #6
+1043: Func(0,0): CInt
+1044: Func(0,1): CStr
+1045: +
+1046: " "
+1047: +
+1048: local #5
+1049: Func(0,0): CInt
+1050: Func(0,1): CStr
+1051: +
+1052: " "
+1053: +
+1054: local #4
+1055: Func(0,0): CInt
+1056: Func(0,1): CStr
+1057: +
+1058: " "
+1059: +
+1060: local #3
+1061: Func(0,0): CInt
+1062: Func(0,1): CStr
+1063: +
+1064: " "
+1065: +
+1066: local #2
+1067: Func(0,0): CInt
+1068: Func(0,1): CStr
+1069: +
+1070: " "
+1071: +
+1072: local #0
+1073: Func(0,1): CStr
+1074: +
+1075: " "
+1076: +
+1077: local #8
+1078: Func(0,1): CStr
+1079: +
+1080: Call Method id append (#52, 1 params)
+1081: #
+return (txt_id);
+1082: local #0
+1083: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 263
+function GFTextLine(byref gump, x, y, hue:=0, text:="")
+1084: pop param 'text'
+1085: pop param 'hue'
+1086: pop param 'y'
+1087: pop param 'x'
+1088: pop param byref 'gump'
+gump.data.Append(""+CStr(text));
+1089: local #4
+1090: get member 'data'
+1091: ""
+1092: local #0
+1093: Func(0,1): CStr
+1094: +
+1095: Call Method id append (#52, 1 params)
+1096: #
+var index := gump.data.Size()-1;
+1097: decl local #5
+1098: local #4
+1099: get member 'data'
+1100: Call Method id size (#48, 0 params)
+1101: 1L
+1102: -
+1103: :=
+1104: #
+(gump.layout).Append("Text "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
+1105: local #4
+1106: get member 'layout'
+1107: "Text "
+1108: local #3
+1109: Func(0,0): CInt
+1110: Func(0,1): CStr
+1111: +
+1112: " "
+1113: +
+1114: local #2
+1115: Func(0,0): CInt
+1116: Func(0,1): CStr
+1117: +
+1118: " "
+1119: +
+1120: local #1
+1121: Func(0,0): CInt
+1122: Func(0,1): CStr
+1123: +
+1124: " "
+1125: +
+1126: local #5
+1127: Func(0,1): CStr
+1128: +
+1129: Call Method id append (#52, 1 params)
+1130: #
+return (index);
+1131: local #5
+1132: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 165
+function GFWordWrap(text, pixels)
+1133: pop param 'pixels'
+1134: pop param 'text'
+var wrap_lines := array{};
+1135: decl local #2
+1136: array
+1137: :=
+1138: #
+var word_list := SplitWords(text);
+1139: decl local #3
+1140: local #1
+1141: " "
+1142: Func(0,5): SplitWords
+1143: :=
+1144: #
+var space_size := GFTextWidth(" ");
+1145: decl local #4
+1146: " "
+1147: makelocal
+1148: jmp userfunc @1461
+1149: :=
+1150: #
+var cur_line := "";
+1151: decl local #5
+1152: ""
+1153: :=
+1154: #
+var cur_length := 0;
+1155: decl local #6
+1156: 0L
+1157: :=
+1158: #
+var start_new := 0;
+1159: decl local #7
+1160: 0L
+1161: :=
+1162: #
+foreach word in ( word_list )
+1163: local #3
+1164: initforeach @1232
+var word_width := GFTextWidth(word);
+1165: decl local #0
+1166: local #8
+1167: makelocal
+1168: jmp userfunc @1461
+1169: :=
+1170: #
+if ( word == "[P]" )
+1171: local #8
+1172: "[P]"
+1173: ==
+1174: if false goto 1182
+word := "";
+1175: ""
+1176: local8 := 
+word_width := 0;
+1177: 0L
+1178: local11 := 
+start_new := 1;
+1179: 1L
+1180: local7 := 
+1181: goto1202
+elseif ( (word_width+cur_length) > pixels )
+1182: local #11
+1183: local #6
+1184: +
+1185: local #0
+1186: >
+1187: if false goto 1202
+start_new := 1;
+1188: 1L
+1189: local7 := 
+if ( cur_line[Len(cur_line)] == " " )
+1190: local #5
+1191: local #5
+1192: Func(0,2): Len
+1193: [] 1
+1194: " "
+1195: ==
+1196: if false goto 1202
+cur_line[Len(cur_line)] := "";
+1197: local #5
+1198: local #5
+1199: Func(0,2): Len
+1200: ""
+1201: [] := (1) #
+if ( start_new )
+1202: local #7
+1203: if false goto 1214
+start_new := 0;
+1204: 0L
+1205: local7 := 
+wrap_lines.Append(cur_line);
+1206: local #2
+1207: local #5
+1208: Call Method id append (#52, 1 params)
+1209: #
+cur_line := "";
+1210: ""
+1211: local5 := 
+cur_length := 0;
+1212: 0L
+1213: local6 := 
+if ( word )
+1214: local #8
+1215: if false goto 1228
+cur_line += word+" ";
+1216: local #5
+1217: local #8
+1218: " "
+1219: +
+1220: +=
+1221: #
+cur_length += word_width+space_size;
+1222: local #6
+1223: local #11
+1224: local #4
+1225: +
+1226: +=
+1227: #
+SleepMS(2);
+1228: 2L
+1229: Func(3,0): Sleepms
+1230: #
+1231: leave block(1)
+1232: stepforeach @1165
+1233: leave block(3)
+if ( wrap_lines[wrap_lines.Size()] != cur_line )
+1234: local #2
+1235: local #2
+1236: Call Method id size (#48, 0 params)
+1237: [] 1
+1238: local #5
+1239: <>
+1240: if false goto 1257
+if ( cur_line[Len(cur_line)] == " " )
+1241: local #5
+1242: local #5
+1243: Func(0,2): Len
+1244: [] 1
+1245: " "
+1246: ==
+1247: if false goto 1253
+cur_line[Len(cur_line)] := "";
+1248: local #5
+1249: local #5
+1250: Func(0,2): Len
+1251: ""
+1252: [] := (1) #
+wrap_lines.Append(cur_line);
+1253: local #2
+1254: local #5
+1255: Call Method id append (#52, 1 params)
+1256: #
+return wrap_lines;
+1257: local #2
+1258: return
+c:/ZH099/pkg/utils/gumps/include/gumps.inc, Line 335
+function XGFError(text, log:=0)
+1259: pop param 'log'
+1260: pop param 'text'
+if ( log )
+1261: local #0
+1262: if false goto 1268
+SysLog("Gump Error:: "+text);
+1263: "Gump Error:: "
+1264: local #1
+1265: +
+1266: Func(3,1): SysLog
+1267: #
+return error{"errortext":=text};
+1268: error
+1269: local #1
+1270: addmember-assign(errortext)
+1271: return
+c:/ZH099/scripts/include/string.inc, Line 147
+function Check_ValidChar( text, allow_space:=0 )
+1272: pop param 'allow_space'
+1273: pop param 'text'
+var valid_char := array{ "a", "b", "c", "d", "e", "f", "g",
+1274: decl local #2
+1275: array
+1276: "a"
+1277: init{}
+1278: "b"
+1279: init{}
+1280: "c"
+1281: init{}
+1282: "d"
+1283: init{}
+1284: "e"
+1285: init{}
+1286: "f"
+1287: init{}
+1288: "g"
+1289: init{}
+1290: "h"
+1291: init{}
+1292: "i"
+1293: init{}
+1294: "j"
+1295: init{}
+1296: "k"
+1297: init{}
+1298: "l"
+1299: init{}
+1300: "m"
+1301: init{}
+1302: "n"
+1303: init{}
+1304: "o"
+1305: init{}
+1306: "p"
+1307: init{}
+1308: "q"
+1309: init{}
+1310: "r"
+1311: init{}
+1312: "s"
+1313: init{}
+1314: "t"
+1315: init{}
+1316: "u"
+1317: init{}
+1318: "v"
+1319: init{}
+1320: "w"
+1321: init{}
+1322: "x"
+1323: init{}
+1324: "y"
+1325: init{}
+1326: "z"
+1327: init{}
+1328: "A"
+1329: init{}
+1330: "B"
+1331: init{}
+1332: "C"
+1333: init{}
+1334: "D"
+1335: init{}
+1336: "E"
+1337: init{}
+1338: "F"
+1339: init{}
+1340: "G"
+1341: init{}
+1342: "H"
+1343: init{}
+1344: "I"
+1345: init{}
+1346: "P"
+1347: init{}
+1348: "O"
+1349: init{}
+1350: "N"
+1351: init{}
+1352: "M"
+1353: init{}
+1354: "L"
+1355: init{}
+1356: "K"
+1357: init{}
+1358: "J"
+1359: init{}
+1360: "Q"
+1361: init{}
+1362: "R"
+1363: init{}
+1364: "S"
+1365: init{}
+1366: "T"
+1367: init{}
+1368: "U"
+1369: init{}
+1370: "V"
+1371: init{}
+1372: "W"
+1373: init{}
+1374: "X"
+1375: init{}
+1376: "Y"
+1377: init{}
+1378: "Z"
+1379: init{}
+1380: "1"
+1381: init{}
+1382: "2"
+1383: init{}
+1384: "3"
+1385: init{}
+1386: "4"
+1387: init{}
+1388: "5"
+1389: init{}
+1390: "6"
+1391: init{}
+1392: "7"
+1393: init{}
+1394: "8"
+1395: init{}
+1396: "9"
+1397: init{}
+1398: "0"
+1399: init{}
+1400: :=
+1401: #
+var len_text := Len( text );
+1402: decl local #3
+1403: local #1
+1404: Func(0,2): Len
+1405: :=
+1406: #
+var i;
+1407: decl local #4
+1408: #
+for( i:=1; i<=len_text; i+=1 )
+1409: local #4
+1410: 1L
+1411: :=
+1412: #
+1413: local #4
+1414: local #3
+1415: <=
+1416: if false goto 1459
+SleepMS(5);
+1417: 5L
+1418: Func(3,0): Sleepms
+1419: #
+var letter := CStr( text[i] );
+1420: decl local #0
+1421: local #1
+1422: local #4
+1423: [] 1
+1424: Func(0,1): CStr
+1425: :=
+1426: #
+if( letter in valid_char )
+1427: local #5
+1428: local #2
+1429: in
+1430: if false goto 1434
+continue;
+1431: leave block(1)
+1432: goto1454
+1433: goto1451
+elseif( allow_space && ( text[i] == " " || CAsc( text[i] ) == 0 ))
+1434: local #0
+1435: local #1
+1436: local #4
+1437: [] 1
+1438: " "
+1439: ==
+1440: local #1
+1441: local #4
+1442: [] 1
+1443: Func(0,7): CAsc
+1444: 0L
+1445: ==
+1446: ||
+1447: &&
+1448: if false goto 1451
+continue;
+1449: leave block(1)
+1450: goto1454
+return 0;
+1451: 0L
+1452: return
+1453: leave block(1)
+1454: local #4
+1455: 1L
+1456: +=
+1457: #
+1458: goto1413
+return 1;
+1459: 1L
+1460: return
+c:/ZH099/pkg/utils/gumps/include/gumps_ex.inc, Line 124
+function GFTextWidth(gump_text)
+1461: pop param 'gump_text'
+var gft_length := struct;
+1462: decl local #1
+1463: struct
+1464: :=
+1465: #
+gft_length.+charsf :=
+1466: local #1
+1467: "charsf"
+1468: .+
+1469: "||||||||||||||`',.;:::::::::!!!!!!!!!!!!!!il1[]]]]]]]]]"bcejot”(){}===adfpqrszI„~~~~ghnuvy<>-----xJ578$?++++++ kCE2369^/*****mwABDFOPŽ™40%%GLNQSZ@#######HRT&__________KšUYYYYYYYYYYYXXXXXXXXXXXXXXVVVVVVVVVVVVVVMMMMMMMMMMMMMMWWWWWWWWWWWWWW"
+1470: := #
+gft_length.+width := array
+1471: local #1
+1472: "width"
+1473: .+
+1474: array
+1475: 2L
+1476: init{}
+1477: 3L
+1478: init{}
+1479: 4L
+1480: init{}
+1481: 5L
+1482: init{}
+1483: 6L
+1484: init{}
+1485: 7L
+1486: init{}
+1487: 8L
+1488: init{}
+1489: 9L
+1490: init{}
+1491: 10L
+1492: init{}
+1493: 11L
+1494: init{}
+1495: 12L
+1496: init{}
+1497: 13L
+1498: init{}
+1499: 14L
+1500: init{}
+1501: 15L
+1502: init{}
+1503: 16L
+1504: init{}
+1505: 18L
+1506: init{}
+1507: 21L
+1508: init{}
+1509: := #
+var points:=0;
+1510: decl local #2
+1511: 0L
+1512: :=
+1513: #
+var j := Len(gump_text);
+1514: decl local #3
+1515: local #0
+1516: Func(0,2): Len
+1517: :=
+1518: #
+for ( j; j>0; j-=1 )
+1519: local #3
+1520: #
+1521: local #3
+1522: 0L
+1523: >
+1524: if false goto 1569
+var i := Find(gft_length.charsf, gump_text[j], 1) - 1;
+1525: decl local #0
+1526: local #1
+1527: get member 'charsf'
+1528: local #0
+1529: local #3
+1530: [] 1
+1531: 1L
+1532: Func(0,4): Find
+1533: 1L
+1534: -
+1535: :=
+1536: #
+if ( i>=0 )
+1537: local #4
+1538: 0L
+1539: >=
+1540: if false goto 1554
+points += gft_length.width[CInt(i/14)+1];
+1541: local #2
+1542: local #1
+1543: get member 'width'
+1544: local #4
+1545: 14L
+1546: /
+1547: Func(0,0): CInt
+1548: 1L
+1549: +
+1550: [] 1
+1551: +=
+1552: #
+1553: goto1563
+print("XGFTextWidth: Unknown Character = '"+gump_text[j]+"'");
+1554: "XGFTextWidth: Unknown Character = '"
+1555: local #0
+1556: local #3
+1557: [] 1
+1558: +
+1559: "'"
+1560: +
+1561: Func(1,0): Print
+1562: #
+1563: leave block(1)
+1564: local #3
+1565: 1L
+1566: -=
+1567: #
+1568: goto1521
+return (points);
+1569: local #2
+1570: return

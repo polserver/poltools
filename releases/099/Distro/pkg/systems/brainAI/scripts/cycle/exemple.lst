@@ -1,0 +1,67 @@
+C:\ZH099\pkg\systems\brainAI\scripts\cycle\exemple.src, Line 14
+program BrainCriticalScript( params )
+CONST SPEAK_DOEVENT_ENABLE			:= 0x1;
+0: get arg 'params'
+var npc		:= params[1];
+1: decl local #1
+2: local #0
+3: 1L
+4: [] 1
+5: :=
+6: #
+params := 0; // Not needed anymore.
+7: 0L
+8: local0 := 
+AI_Wander( npc, NOWAKE );
+9: local #1
+10: 0L
+11: 0L
+12: makelocal
+13: jmp userfunc @19
+14: #
+return 1;
+15: 1L
+16: progend
+17: leave block(2)
+18: progend
+c:/ZH099/pkg/systems/brainAI/include/npcCommands.inc, Line 200
+function AI_Wander( npc, loop:=0, no_wake:=NOWAKE )
+19: pop param 'no_wake'
+20: pop param 'loop'
+21: pop param 'npc'
+var ev		:= struct;
+22: decl local #3
+23: struct
+24: :=
+25: #
+ev.+type	:= NPCEVENT_WANDER;
+26: local #3
+27: "type"
+28: .+
+29: 10485782L
+30: := #
+ev.+WakeUp	:= no_wake;
+31: local #3
+32: "WakeUp"
+33: .+
+34: local #0
+35: := #
+ev.+loop	:= CInt( loop );
+36: local #3
+37: "loop"
+38: .+
+39: local #1
+40: Func(0,2): CInt
+41: := #
+ev.+process	:= GetProcess( GetPid() );
+42: local #3
+43: "process"
+44: .+
+45: Func(3,4): GetPid
+46: Func(3,1): GetProcess
+47: := #
+return SendEvent( npc, ev );
+48: local #2
+49: local #3
+50: Func(2,3): SendEvent
+51: return
