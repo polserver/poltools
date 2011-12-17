@@ -42,7 +42,7 @@ program controlScript( field )
 		var event := Wait_For_Event(1);
 		if( event )
 			//Someone just walked onto the tile.
-			//PoisonMobile( event, poison_level, creator );
+                       //PoisonMobile( event, poison_level, creator );
 		endif
 		
 		if( field.IsExpired() )
