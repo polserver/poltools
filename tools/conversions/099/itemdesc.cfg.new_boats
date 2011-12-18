@@ -1,0 +1,47 @@
+Item 0x1F014
+{
+	Name boatrope
+	Graphic 1
+}
+
+Item 0x1F015
+{
+	Name boatwheel
+	Graphic 1
+}
+
+Item 0x1F016
+{
+	Name boathull
+	Graphic 1
+}
+
+Item 0x1F017
+{
+	Name boattiller
+	Graphic 1
+}
+
+Item 0x1F018
+{
+	Name boatrudder
+	Graphic 1
+}
+
+Item 0x1F019
+{
+	Name boatsails
+	Graphic 1
+}
+
+Item 0x1F01A
+{
+	Name boatstorage
+	Graphic 1
+}
+
+Item 0x1F01B
+{
+	Name boatweaponsslot
+	Graphic 1
+}
