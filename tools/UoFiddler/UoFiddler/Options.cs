@@ -258,8 +258,11 @@ namespace UoFiddler
 
         public static void LoadProfile(string filename)
         {
+            string FileName = Path.Combine(FiddlerControls.Options.AppDataPath, filename);
+            if (!File.Exists(FileName))
+                return;
             XmlDocument dom = new XmlDocument();
-            dom.Load(filename);
+            dom.Load(FileName);
             XmlElement xOptions = dom["Options"];
             XmlElement elem = (XmlElement)xOptions.SelectSingleNode("OutputPath");
             if (elem != null)
@@ -353,7 +356,6 @@ namespace UoFiddler
             elem = (XmlElement)xOptions.SelectSingleNode("RootPath");
             if (elem != null)
                 Files.RootDir = elem.GetAttribute("path");
-
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
                 string key;
