@@ -173,8 +173,9 @@ namespace Ultima
                 using (BinaryReader indexReader = new BinaryReader(fsIndex),
                                     lookupReader = new BinaryReader(fsLookup))
                 {
-                    int count = (int)(indexReader.BaseStream.Length / 4);
-
+                    int count = Math.Min((int)(indexReader.BaseStream.Length / 4),
+                                        (int)(lookupReader.BaseStream.Length / 12));
+                    
                     HuedTileList[][] lists = new HuedTileList[8][];
 
                     for (int x = 0; x < 8; ++x)

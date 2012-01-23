@@ -218,7 +218,7 @@ namespace FiddlerControls
                     Cursor.Current = Cursors.WaitCursor;
                     multiMapToolStripMenuItem.Checked = facet01ToolStripMenuItem.Checked = facet02ToolStripMenuItem.Checked = facet03ToolStripMenuItem.Checked = facet04ToolStripMenuItem.Checked = facet05ToolStripMenuItem.Checked = false;
                     strip.Checked = true;
-                    if ((int)strip.Tag==0)
+                    if ((int)strip.Tag==-1)
                         pictureBox.Image = Ultima.MultiMap.GetMultiMap();
                     else
                         pictureBox.Image = Ultima.MultiMap.GetFacetImage((int)strip.Tag);
@@ -312,7 +312,5 @@ namespace FiddlerControls
                     hScrollBar.Value,vScrollBar.Value,e.ClipRectangle.Width,e.ClipRectangle.Height,
                     GraphicsUnit.Pixel);
         }
-
-        
     }
 }
