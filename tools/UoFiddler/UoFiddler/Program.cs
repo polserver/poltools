@@ -24,9 +24,9 @@ namespace UoFiddler
         {
             try
             {
-                Options.Startup();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                Options.Startup();
                 Application.Run(new UoFiddler());
                 Options.Save();
                 FiddlerControls.Map.SaveMapOverlays();

@@ -216,7 +216,13 @@ namespace FiddlerControls
                 if (!strip.Checked)
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    multiMapToolStripMenuItem.Checked = facet01ToolStripMenuItem.Checked = facet02ToolStripMenuItem.Checked = facet03ToolStripMenuItem.Checked = facet04ToolStripMenuItem.Checked = facet05ToolStripMenuItem.Checked = false;
+                    multiMapToolStripMenuItem.Checked = 
+                        facet00ToolStripMenuItem.Checked = 
+                        facet01ToolStripMenuItem.Checked = 
+                        facet02ToolStripMenuItem.Checked = 
+                        facet03ToolStripMenuItem.Checked = 
+                        facet04ToolStripMenuItem.Checked = 
+                        facet05ToolStripMenuItem.Checked = false;
                     strip.Checked = true;
                     if ((int)strip.Tag==-1)
                         pictureBox.Image = Ultima.MultiMap.GetMultiMap();
