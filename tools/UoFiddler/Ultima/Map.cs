@@ -724,7 +724,6 @@ namespace Ultima
                                     }
                                     y = 0;
                                 }
-                                return;
                             }
                         }
                     }
@@ -797,7 +796,6 @@ namespace Ultima
                                     }
                                     y = 0;
                                 }
-                                return;
                             }
                         }
                     }
