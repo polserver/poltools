@@ -57,9 +57,17 @@ namespace FiddlerControls
                 dataGridView1.Columns[3].Visible = false; // extraFlag
             }
             if (!Loaded)
+            {
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                source.ListChanged += new System.ComponentModel.ListChangedEventHandler(source_ListChanged);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
+        }
+
+        private void source_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
+        {
+            Options.ChangedUltimaClass["Skills"] = true;
         }
 
         private void OnFilePathChangeEvent()
@@ -78,6 +86,31 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Skills"] = false;
+        }
+
+        private void OnClickAdd(object sender, EventArgs e)
+        {
+            dataGridView1.CancelEdit();
+            Ultima.SkillInfo skill = new Ultima.SkillInfo(Ultima.Skills.SkillEntries.Count, "new skill", false, 0);
+            source.Add(skill);
+            source.MoveLast();
+            dataGridView1.Invalidate();
+        }
+
+        private void OnClickDelete(object sender, EventArgs e)
+        {
+            dataGridView1.CancelEdit();
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                foreach (Ultima.SkillInfo skill in Ultima.Skills.SkillEntries)
+                {
+                    if (skill.Index > dataGridView1.SelectedRows[0].Index)
+                        skill.Index--;
+                }
+                source.RemoveCurrent();
+                dataGridView1.Invalidate();
+            }
         }
     }
 }
