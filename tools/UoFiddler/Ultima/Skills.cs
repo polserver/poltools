@@ -127,7 +127,7 @@ namespace Ultima
     {
         private string m_Name;
 
-        public int Index { get; private set; }
+        public int Index { get; set; }
         public bool IsAction { get; set; }
         public string Name
         {
