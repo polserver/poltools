@@ -81,9 +81,21 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             SkillGroups.List.Clear();
-            for (int i = 0; i < SkillGroups.SkillList.Count; ++i)
+            int skillcount=int.MinValue;
+            foreach (TreeNode root in treeView1.Nodes)
             {
-                SkillGroups.SkillList[i] = 0;
+                foreach (TreeNode child in root.Nodes)
+                {
+                    int id = (int)child.Tag;
+                    if (id > skillcount)
+                        skillcount = id;
+                }
+            }
+            ++skillcount;
+            SkillGroups.SkillList.Clear();
+            for (int i = 0; i < skillcount; ++i)
+            {
+                SkillGroups.SkillList.Add(0);
             }
             foreach (TreeNode root in treeView1.Nodes)
             {
@@ -133,18 +145,22 @@ namespace FiddlerControls
                 nodeCopy = new TreeNode(sourceNode.Text, sourceNode.ImageIndex, sourceNode.SelectedImageIndex);
                 nodeCopy.Tag = sourceNode.Tag;
 
-                if (targetNode.Parent != null && sourceNode.Parent != null)
+                bool targetIsSkill = targetNode.Tag != null;
+                bool sourceIsSkill = sourceNode.Tag != null;
+                if (targetIsSkill && !sourceIsSkill)
+                    return;
+                if (targetIsSkill && sourceIsSkill)
                 {
                     if (sourceNode.Index > targetNode.Index)
                         targetNode.Parent.Nodes.Insert(targetNode.Index, nodeCopy);
                     else
                         targetNode.Parent.Nodes.Insert(targetNode.Index + 1, nodeCopy);
                 }
-                if (targetNode.Parent == null && sourceNode.Parent != null)
+                else if (!targetIsSkill && sourceIsSkill)
                 {
                     targetNode.Nodes.Add(nodeCopy);
                 }
-                else if (targetNode.Parent == null && sourceNode.Parent == null)
+                else if (!targetIsSkill && !sourceIsSkill)
                 {
                     if (String.Equals("Misc", targetNode.Text))
                     {
@@ -164,12 +180,10 @@ namespace FiddlerControls
                     }
                 }
                 else
-                {
-                    treeView1.Invalidate();
                     return;
-                }
-
                 sourceNode.Remove();
+                nodeCopy.EnsureVisible();
+                treeView1.SelectedNode = nodeCopy;
                 treeView1.Invalidate();
                 Options.ChangedUltimaClass["SkillGrp"] = true;
             }
@@ -224,31 +238,48 @@ namespace FiddlerControls
         {
             if (treeView1.SelectedNode != null)
             {
-                if (treeView1.SelectedNode.Parent == null)
+                while (treeView1.SelectedNode.GetNodeCount(false) > 0)
                 {
+                    TreeNode node = treeView1.SelectedNode.FirstNode;
+                    node.Remove();
+                }
+                treeView1.SelectedNode.Remove();
+            }
+        }
 
-                    if (!String.Equals("Misc", treeView1.SelectedNode.Text))
+        private void onOpeningContext(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                if (treeView1.SelectedNode.Tag == null)
+                    SkillIDTextBox.Text = "";
+                else
+                {
+                    int id = (int)treeView1.SelectedNode.Tag;
+                    SkillIDTextBox.Text = id.ToString();
+                }
+                SkillIDTextBox.Enabled = true;
+            }
+            else
+            {
+                SkillIDTextBox.Text = "";
+                SkillIDTextBox.Enabled = false;
+            }
+        }
+
+        private void onKeyDownSkillID(object sender, KeyEventArgs e)
+        {
+            if (treeView1.SelectedNode == null)
+                return;
+            if (e.KeyCode == Keys.Enter)
+            {
+                string line = SkillIDTextBox.Text.Trim();
+                if (line.Length > 0)
+                {
+                    int id;
+                    if (int.TryParse(line, out id))
                     {
-                        TreeNode misc = null;
-                        foreach (TreeNode node in treeView1.Nodes)
-                        {
-                            if (String.Equals("Misc", node.Text))
-                            {
-                                misc = node;
-                                break;
-                            }
-                        }
-                        if (misc == null)
-                            return;
-
-                        while (treeView1.SelectedNode.GetNodeCount(false) > 0)
-                        {
-                            TreeNode node = treeView1.SelectedNode.FirstNode;
-                            node.Remove();
-                            misc.Nodes.Add(node);
-                        }
-
-                        treeView1.SelectedNode.Remove();
+                        treeView1.SelectedNode.Tag = id;
                     }
                 }
             }
