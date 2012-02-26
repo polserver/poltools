@@ -74,22 +74,22 @@ namespace FiddlerControls
             int tox = (int)numericUpDownToX1.Value;
             int toy = (int)numericUpDownToY1.Value;
 
-            if ((x1 < 0) || (x1 > workingmap.Width) || (x1 > replacemap.Width))
+            if ((x1 < 0) || (x1 > replacemap.Width))
             {
                 MessageBox.Show("Invalid X1 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
-            if ((x2 < 0) || (x2 > workingmap.Width) || (x2 > replacemap.Width))
+            if ((x2 < 0) || (x2 > replacemap.Width))
             {
                 MessageBox.Show("Invalid X2 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
-            if ((y1 < 0) || (y1 > workingmap.Height) || (y1 > replacemap.Height))
+            if ((y1 < 0) || (y1 > replacemap.Height))
             {
                 MessageBox.Show("Invalid Y1 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
-            if ((y2 < 0) || (y2 > workingmap.Height) || (y2 > replacemap.Height))
+            if ((y2 < 0) || (y2 > replacemap.Height))
             {
                 MessageBox.Show("Invalid Y2 coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
@@ -99,12 +99,12 @@ namespace FiddlerControls
                 MessageBox.Show("X1 and Y1 cannot be bigger than X2 and Y2!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
-            if ((tox < 0) || (tox > workingmap.Width) || ((tox + (x2 - x1)) > workingmap.Width) || (tox > replacemap.Width) || ((tox + (x2 - x1)) > replacemap.Width))
+            if ((tox < 0) || (tox > workingmap.Width) || ((tox + (x2 - x1)) > workingmap.Width))
             {
                 MessageBox.Show("Invalid toX coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
-            if ((toy < 0) || (toy > workingmap.Height) || ((toy + (y2 - y1)) > workingmap.Height) || (toy > replacemap.Height) || ((toy + (y2 - y1)) > replacemap.Height))
+            if ((toy < 0) || (toy > workingmap.Height) || ((toy + (y2 - y1)) > workingmap.Height))
             {
                 MessageBox.Show("Invalid toX coordinate!", "Map Replace", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
