@@ -87,7 +87,7 @@ namespace FiddlerControls
             for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
-                if ((int)item.Tag == graphic)
+                if (((int)item.Tag == graphic) || ((int)item.Tag==-1 && i==graphic))
                 {
                     if (refMarker.listView1.SelectedItems.Count == 1)
                         refMarker.listView1.SelectedItems[0].Selected = false;
@@ -121,6 +121,8 @@ namespace FiddlerControls
             for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
+                if ((int)item.Tag == -1)
+                    continue;
                 if (regex.IsMatch(TileData.ItemTable[(int)item.Tag].Name))
                 {
                     if (refMarker.listView1.SelectedItems.Count == 1)

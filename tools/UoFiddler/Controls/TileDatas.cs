@@ -81,7 +81,7 @@ namespace FiddlerControls
             {
                 for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
-                    for (int j = 0; i < refMarker.treeViewItem.Nodes[i].Nodes.Count; ++j)
+                    for (int j = 0; j < refMarker.treeViewItem.Nodes[i].Nodes.Count; ++j)
                     {
                         TreeNode node = refMarker.treeViewItem.Nodes[i].Nodes[j];
                         if (node.Tag != null)
@@ -131,16 +131,26 @@ namespace FiddlerControls
             }
             else
             {
+                int s_index=0;
                 if (next)
                 {
-                    if (refMarker.treeViewItem.SelectedNode.Index >= 0)
-                        index = refMarker.treeViewItem.SelectedNode.Index + 1;
-                    if (index >= refMarker.treeViewItem.Nodes.Count)
-                        index = 0;
+                    if (refMarker.treeViewItem.SelectedNode!=null)
+                    {
+                        if (refMarker.treeViewItem.SelectedNode.Parent!=null)
+                        {
+                            index=refMarker.treeViewItem.SelectedNode.Parent.Index;
+                            s_index=refMarker.treeViewItem.SelectedNode.Index+1;
+                        }
+                        else
+                        {
+                            index = refMarker.treeViewItem.SelectedNode.Index;
+                            s_index = 0;
+                        }
+                    }
                 }
                 for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
-                    for (int j = 0; i < refMarker.treeViewItem.Nodes[i].Nodes.Count; ++j)
+                    for (int j = s_index; j < refMarker.treeViewItem.Nodes[i].Nodes.Count; ++j)
                     {
                         TreeNode node = refMarker.treeViewItem.Nodes[i].Nodes[j];
                         if (node.Tag != null)
@@ -154,6 +164,7 @@ namespace FiddlerControls
                             }
                         }
                     }
+                    s_index = 0;
                 }
             }
             return false;

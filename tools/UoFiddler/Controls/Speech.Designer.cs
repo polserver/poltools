@@ -42,10 +42,10 @@ namespace FiddlerControls
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Speech));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.IDEntry = new System.Windows.Forms.ToolStripTextBox();
             this.IDButton = new System.Windows.Forms.ToolStripButton();
             this.IDNextButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.KeyWordEntry = new System.Windows.Forms.ToolStripTextBox();
             this.KeyWordButton = new System.Windows.Forms.ToolStripButton();
             this.KeyWordNextButton = new System.Windows.Forms.ToolStripButton();
@@ -75,17 +75,12 @@ namespace FiddlerControls
             this.KeyWordEntry,
             this.KeyWordButton,
             this.KeyWordNextButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 33);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 28);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip1.Size = new System.Drawing.Size(619, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // IDEntry
             // 
@@ -99,7 +94,7 @@ namespace FiddlerControls
             this.IDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.IDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.IDButton.Name = "IDButton";
-            this.IDButton.Size = new System.Drawing.Size(31, 22);
+            this.IDButton.Size = new System.Drawing.Size(34, 22);
             this.IDButton.Text = "Find";
             this.IDButton.Click += new System.EventHandler(this.OnClickFindID);
             // 
@@ -108,9 +103,14 @@ namespace FiddlerControls
             this.IDNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.IDNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.IDNextButton.Name = "IDNextButton";
-            this.IDNextButton.Size = new System.Drawing.Size(57, 22);
+            this.IDNextButton.Size = new System.Drawing.Size(61, 22);
             this.IDNextButton.Text = "Find Next";
             this.IDNextButton.Click += new System.EventHandler(this.OnClickNextID);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // KeyWordEntry
             // 
@@ -123,7 +123,7 @@ namespace FiddlerControls
             this.KeyWordButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.KeyWordButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.KeyWordButton.Name = "KeyWordButton";
-            this.KeyWordButton.Size = new System.Drawing.Size(31, 22);
+            this.KeyWordButton.Size = new System.Drawing.Size(34, 22);
             this.KeyWordButton.Text = "Find";
             this.KeyWordButton.Click += new System.EventHandler(this.OnClickFindKeyWord);
             // 
@@ -132,7 +132,7 @@ namespace FiddlerControls
             this.KeyWordNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.KeyWordNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.KeyWordNextButton.Name = "KeyWordNextButton";
-            this.KeyWordNextButton.Size = new System.Drawing.Size(57, 22);
+            this.KeyWordNextButton.Size = new System.Drawing.Size(61, 22);
             this.KeyWordNextButton.Text = "Find Next";
             this.KeyWordNextButton.Click += new System.EventHandler(this.OnClickNextKeyWord);
             // 
@@ -142,11 +142,11 @@ namespace FiddlerControls
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 58);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 53);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(619, 266);
+            this.dataGridView1.Size = new System.Drawing.Size(619, 271);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellValueChanged);
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.onHeaderClick);
@@ -157,19 +157,19 @@ namespace FiddlerControls
             this.addEntryToolStripMenuItem,
             this.deleteEntryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(146, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 48);
             // 
             // addEntryToolStripMenuItem
             // 
             this.addEntryToolStripMenuItem.Name = "addEntryToolStripMenuItem";
-            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.addEntryToolStripMenuItem.Text = "Add Entry";
             this.addEntryToolStripMenuItem.Click += new System.EventHandler(this.OnAddEntry);
             // 
             // deleteEntryToolStripMenuItem
             // 
             this.deleteEntryToolStripMenuItem.Name = "deleteEntryToolStripMenuItem";
-            this.deleteEntryToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.deleteEntryToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.deleteEntryToolStripMenuItem.Text = "Delete Entry";
             this.deleteEntryToolStripMenuItem.Click += new System.EventHandler(this.OnDeleteEntry);
             // 
@@ -222,7 +222,7 @@ namespace FiddlerControls
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(78, 22);
+            this.toolStripButton2.Size = new System.Drawing.Size(82, 22);
             this.toolStripButton2.Text = "Export to CSV";
             this.toolStripButton2.Click += new System.EventHandler(this.OnClickExport);
             // 
@@ -232,7 +232,7 @@ namespace FiddlerControls
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(90, 22);
+            this.toolStripButton3.Size = new System.Drawing.Size(100, 22);
             this.toolStripButton3.Text = "Import from CSV";
             this.toolStripButton3.Click += new System.EventHandler(this.OnClickImport);
             // 
