@@ -2,6 +2,8 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace Ultima
 {
@@ -15,6 +17,17 @@ namespace Ultima
 
         private static byte[] m_StreamBuffer;
         private static byte[] Validbuffer;
+       
+
+        struct CheckSums
+        {
+            public byte[] checksum;
+            public int pos;
+            public int length;
+            public int index;
+        }
+        private static List<CheckSums> checksumsLand;
+        private static List<CheckSums> checksumsStatic;
 
         static Art()
         {
@@ -38,15 +51,17 @@ namespace Ultima
             return (GetIdxLength() == 0x13FDC);
         }
 
-        public static ushort GetLegalItemID(int itemID)
+        public static ushort GetLegalItemID(int itemID, bool checkmaxid=true)
         {
             if (itemID < 0)
                 return 0;
 
-            int max = GetMaxItemID();
-            if (itemID > max)
-                return 0;
-
+            if (checkmaxid)
+            {
+                int max = GetMaxItemID();
+                if (itemID > max)
+                    return 0;
+            }
             return (ushort)itemID;
         }
 
@@ -238,10 +253,10 @@ namespace Ultima
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static Bitmap GetStatic(int index)
+        public static Bitmap GetStatic(int index, bool checkmaxid=true)
         {
             bool patched;
-            return GetStatic(index, out patched);
+            return GetStatic(index, out patched, checkmaxid);
         }
         /// <summary>
         /// Returns Bitmap of Static (with Cache) and verdata bool
@@ -249,9 +264,9 @@ namespace Ultima
         /// <param name="index"></param>
         /// <param name="patched"></param>
         /// <returns></returns>
-        public static Bitmap GetStatic(int index, out bool patched)
+        public static Bitmap GetStatic(int index, out bool patched, bool checkmaxid=true)
         {
-            index = GetLegalItemID(index);
+            index = GetLegalItemID(index, checkmaxid);
             index += 0x4000;
             
             if (m_patched.Contains(index))
@@ -457,12 +472,15 @@ namespace Ultima
             return bmp;
         }
 
+
         /// <summary>
         /// Saves mul
         /// </summary>
         /// <param name="path"></param>
         public static unsafe void Save(string path)
         {
+            checksumsLand=new List<CheckSums>();
+            checksumsStatic = new List<CheckSums>();
             string idx = Path.Combine(path, "artidx.mul");
             string mul = Path.Combine(path, "art.mul");
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
@@ -470,6 +488,9 @@ namespace Ultima
             {
                 MemoryStream memidx = new MemoryStream();
                 MemoryStream memmul = new MemoryStream();
+                SHA256Managed sha = new SHA256Managed();
+                //StreamWriter Tex = new StreamWriter(new FileStream("d:/artlog.txt", FileMode.Create, FileAccess.ReadWrite));
+
                 using (BinaryWriter binidx = new BinaryWriter(memidx),
                                     binmul = new BinaryWriter(memmul))
                 {
@@ -481,17 +502,31 @@ namespace Ultima
                             if (index < 0x4000)
                                 m_Cache[index] = GetLand(index);
                             else
-                                m_Cache[index] = GetStatic(index - 0x4000);
+                                m_Cache[index] = GetStatic(index - 0x4000,false);
                         }
                         Bitmap bmp = m_Cache[index];
                         if ((bmp == null) || (m_Removed[index]))
                         {
                             binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
+                            binidx.Write((int)0); // length
                             binidx.Write((int)-1); // extra
+                            //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, (int)-1, (int)-1));
                         }
                         else if (index < 0x4000)
                         {
+                            MemoryStream ms = new MemoryStream();
+                            bmp.Save(ms, ImageFormat.Bmp);
+                            byte[] checksum = sha.ComputeHash(ms.ToArray());
+                            CheckSums sum;
+                            if (compareSaveImagesLand(checksum, out sum))
+                            {
+                                binidx.Write((int)sum.pos); //lookup
+                                binidx.Write((int)sum.length);
+                                binidx.Write((int)0);
+                                //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, (int)sum.pos, (int)sum.length));
+                                //Tex.WriteLine(System.String.Format("0x{0:X4} -> 0x{1:X4}", sum.index, index));
+                                continue;
+                            }
                             //land
                             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
                             ushort* line = (ushort*)bd.Scan0;
@@ -519,13 +554,31 @@ namespace Ultima
                                 for (int n = 0; n < linewidth; n++)
                                     binmul.Write((ushort)(cur[x + n] ^ 0x8000));
                             }
+                            int start = length;
                             length = (int)binmul.BaseStream.Position - length;
                             binidx.Write(length);
                             binidx.Write((int)0);
                             bmp.UnlockBits(bd);
+                            CheckSums s = new CheckSums() { pos = start, length = length, checksum = checksum, index=index };
+                            //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, start, length));
+                            checksumsLand.Add(s);
                         }
                         else
                         {
+                            MemoryStream ms = new MemoryStream();
+                            bmp.Save(ms, ImageFormat.Bmp);
+                            byte[] checksum = sha.ComputeHash(ms.ToArray());
+                            CheckSums sum;
+                            if (compareSaveImagesStatic(checksum,out sum))
+                            {
+                                binidx.Write((int)sum.pos); //lookup
+                                binidx.Write((int)sum.length);
+                                binidx.Write((int)0);
+                                //Tex.WriteLine(System.String.Format("0x{0:X4} -> 0x{1:X4}", sum.index, index));
+                                //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, sum.pos, sum.length));
+                                continue;
+                            }
+
                             // art
                             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
                             ushort* line = (ushort*)bd.Scan0;
@@ -581,16 +634,77 @@ namespace Ultima
                                 binmul.Write((short)0); //xOffset
                                 binmul.Write((short)0); //Run
                             }
+                            int start = length;
                             length = (int)binmul.BaseStream.Position - length;
                             binidx.Write(length);
                             binidx.Write((int)0);
                             bmp.UnlockBits(bd);
+                            CheckSums s = new CheckSums() { pos = start, length = length, checksum = checksum, index=index };
+                            //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, start, length));
+                            checksumsStatic.Add(s);
                         }
                     }
                     memidx.WriteTo(fsidx);
                     memmul.WriteTo(fsmul);
                 }
             }
+        }
+
+        private static bool compareSaveImagesLand(byte[] newchecksum, out CheckSums sum)
+        {
+            sum = new CheckSums();
+            for (int i = 0; i < checksumsLand.Count; ++i)
+            {
+                byte[] cmp = checksumsLand[i].checksum;
+                if (((cmp == null) || (newchecksum == null))
+                    || (cmp.Length != newchecksum.Length))
+                {
+                    return false;
+                }
+                bool valid = true;
+                for (int j = 0; j < cmp.Length; ++j)
+                {
+                    if (cmp[j] != newchecksum[j])
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    sum = checksumsLand[i];
+                    return true;
+                }
+            }
+            return false;
+        }
+        private static bool compareSaveImagesStatic(byte[] newchecksum, out CheckSums sum)
+        {
+            sum = new CheckSums();
+            for (int i = 0; i < checksumsStatic.Count; ++i)
+            {
+                byte[] cmp = checksumsStatic[i].checksum;
+                if (((cmp == null) || (newchecksum == null))
+                    || (cmp.Length != newchecksum.Length))
+                {
+                    return false;
+                }
+                bool valid = true;
+                for (int j = 0; j < cmp.Length; ++j)
+                {
+                    if (cmp[j] != newchecksum[j])
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    sum = checksumsStatic[i];
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
