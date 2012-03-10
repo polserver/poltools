@@ -2,6 +2,8 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace Ultima
 {
@@ -13,6 +15,14 @@ namespace Ultima
         private static Hashtable m_patched = new Hashtable();
 
         private static byte[] m_StreamBuffer;
+        struct CheckSums
+        {
+            public byte[] checksum;
+            public int pos;
+            public int length;
+            public int index;
+        }
+        private static List<CheckSums> checksums;
 
         /// <summary>
         /// ReReads texmaps
@@ -147,6 +157,7 @@ namespace Ultima
         {
             string idx = Path.Combine(path, "texidx.mul");
             string mul = Path.Combine(path, "texmaps.mul");
+            checksums = new List<CheckSums>();
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
@@ -155,6 +166,8 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(memidx),
                                     binmul = new BinaryWriter(memmul))
                 {
+                    SHA256Managed sha = new SHA256Managed();
+                    //StreamWriter Tex = new StreamWriter(new FileStream("d:/texlog.txt", FileMode.Create, FileAccess.ReadWrite));
                     for (int index = 0; index < GetIdxLength(); ++index)
                     {
                         if (m_Cache[index] == null)
@@ -164,11 +177,24 @@ namespace Ultima
                         if ((bmp == null) || (m_Removed[index]))
                         {
                             binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
+                            binidx.Write((int)0); // length
                             binidx.Write((int)-1); // extra
                         }
                         else
                         {
+                            MemoryStream ms = new MemoryStream();
+                            bmp.Save(ms, ImageFormat.Bmp);
+                            byte[] checksum = sha.ComputeHash(ms.ToArray());
+                            CheckSums sum;
+                            if (compareSaveImages(checksum, out sum))
+                            {
+                                binidx.Write((int)sum.pos); //lookup
+                                binidx.Write((int)sum.length);
+                                binidx.Write((int)0);
+                                //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, (int)sum.pos, (int)sum.length));
+                                //Tex.WriteLine(System.String.Format("0x{0:X4} -> 0x{1:X4}", sum.index, index));
+                                continue;
+                            }
                             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
                             ushort* line = (ushort*)bd.Scan0;
                             int delta = bd.Stride >> 1;
@@ -184,16 +210,49 @@ namespace Ultima
                                     binmul.Write((ushort)(cur[X] ^ 0x8000));
                                 }
                             }
+                            int start = length;
                             length = (int)binmul.BaseStream.Position - length;
                             binidx.Write(length);
                             binidx.Write((int)(bmp.Width == 64 ? 0 : 1));
                             bmp.UnlockBits(bd);
+                            CheckSums s = new CheckSums() { pos = start, length = length, checksum = checksum, index = index };
+                            //Tex.WriteLine(System.String.Format("0x{0:X4} : 0x{1:X4} 0x{2:X4}", index, start, length));
+                            checksums.Add(s);
                         }
                     }
                     memidx.WriteTo(fsidx);
                     memmul.WriteTo(fsmul);
                 }
             }
+        }
+
+        private static bool compareSaveImages(byte[] newchecksum, out CheckSums sum)
+        {
+            sum = new CheckSums();
+            for (int i = 0; i < checksums.Count; ++i)
+            {
+                byte[] cmp = checksums[i].checksum;
+                if (((cmp == null) || (newchecksum == null))
+                    || (cmp.Length != newchecksum.Length))
+                {
+                    return false;
+                }
+                bool valid = true;
+                for (int j = 0; j < cmp.Length; ++j)
+                {
+                    if (cmp[j] != newchecksum[j])
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    sum = checksums[i];
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

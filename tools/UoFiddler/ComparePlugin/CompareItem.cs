@@ -199,14 +199,17 @@ namespace ComparePlugin
             byte[] btImage2 = new byte[1];
             btImage2 = (byte[])ic.ConvertTo(bitsec, btImage2.GetType());
 
-            string hash1string = BitConverter.ToString(shaM.ComputeHash(btImage1));
-            string hash2string = BitConverter.ToString(shaM.ComputeHash(btImage2));
-            bool res;
-            if (hash1string != hash2string)
-                res = false;
-            else
-                res = true;
-
+            byte[] checksum1 = shaM.ComputeHash(btImage1);
+            byte[] checksum2 = shaM.ComputeHash(btImage2);
+            bool res=true;
+            for (int j = 0; j < checksum1.Length; ++j)
+            {
+                if (checksum1[j] != checksum2[j])
+                {
+                    res = false;
+                    break;
+                }
+            }
             m_Compare[index] = res;
             return res;
         }
