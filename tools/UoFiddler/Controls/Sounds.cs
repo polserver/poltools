@@ -145,10 +145,22 @@ namespace FiddlerControls
                     index = 0;
             }
 
+            int number;
+            bool numeric = FiddlerControls.Utils.ConvertStringToInt(name, out number);
+
             for (int i = index; i < treeView.Nodes.Count; ++i)
             {
                 TreeNode node = treeView.Nodes[i];
-                if (node.Text.Contains(name))
+                if (numeric)
+                {
+                    if ((int)node.Tag == number)
+                    {
+                        treeView.SelectedNode = node;
+                        node.EnsureVisible();
+                        return true;
+                    }
+                }
+                else if (node.Text.Contains(name))
                 {
                     treeView.SelectedNode = node;
                     node.EnsureVisible();
