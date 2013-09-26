@@ -11,7 +11,13 @@ use os;
 
 include ":security:report";
 
+const AUTHCODE_ENABLED := 0; // Make this by default false
+
 function AuthorizationCode( mobile )
+
+	if ( !AUTHCODE_ENABLED )
+		return 1;
+	endif
 
         if( GetObjProperty( mobile, "#AuthCodeGiven" ));
                 return 1;
