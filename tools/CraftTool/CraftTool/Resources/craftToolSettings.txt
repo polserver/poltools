@@ -1,5 +1,0 @@
-Elem Settings
-{
-	POLPath	
-	UOLPath	
-}
