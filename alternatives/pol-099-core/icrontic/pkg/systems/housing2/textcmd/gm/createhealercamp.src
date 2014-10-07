@@ -1,9 +1,0 @@
-use uo;
-use os;
-
-program textcmd_bigasstent( who)
-  sendsysmessage(who,"target the place to create the healer's camp");
-  var targ := TargetMultiPlacement( who, 0x3f0, CRMULTI_IGNORE_OBJECTS );
-  var house := CreateMultiAtLocation( targ.x, targ.y, targ.z, 0x3f0 );
-  
-endprogram

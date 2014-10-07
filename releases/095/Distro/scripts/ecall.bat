@@ -1,1 +1,0 @@
-ecompile -r . -r ..\pkg

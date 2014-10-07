@@ -1,1 +1,0 @@
-<center><b>** Please read these MOTDs **</b><center><br><u>Welcome to POL095!</u><br><br>Shard admins should change the <i>motd.txt</i> file in the motd package - see the readme for details.<br><br>Please report any bugs in the distro to the distro team!<br><br>

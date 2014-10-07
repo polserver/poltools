@@ -1,8 +1,0 @@
-use uo;
-use os;
-
-
-program snoop(who)
-    start_script("../pkg/skills/snooping/snooping", who);
-endprogram
-

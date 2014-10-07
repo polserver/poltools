@@ -1,7 +1,0 @@
-<CENTER>Last Updated 2011-05-09</CENTER>
-<BASEFONT COLOR=\"#FFFFFF\" SIZE="0"><CENTER><B>** Zulu Hotel **</B></CENTER><BR>Welcome to Zulu Hotel
-
-<B>o</B><A HREF="http://myzh.org">Forum</A>
-
-Zulu Hotel emulates Ultima Online as you remember it, along with a few customized extras to spice up the endgame. Take a trip back in time and re-enter the world that captivated us all.
-

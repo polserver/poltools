@@ -1,7 +1,0 @@
-include "include/attributes";
-
-program walkon_tilerefresh( who )
-	SetHp(who, GetMaxHP(who));
-	SetMana(who, GetMaxMana(who));
-	SetStamina(who, GetMaxStamina(who));
-endprogram

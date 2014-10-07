@@ -1,8 +1,0 @@
-
-use uo;
-
-program get_coords( character , item )
-
-    PrintTextAbovePrivate( character , "( " + character.x + " , " + character.y + " , " + character.z + " )" , character );
-
-endprogram

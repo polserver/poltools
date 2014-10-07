@@ -1,5 +1,0 @@
-include ":devpkgB:test";
-
-program testprogram()
-    foo();
-endprogram

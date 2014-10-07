@@ -1,9 +1,0 @@
-<BASEFONT COLOR=\"#FFFFFF\" SIZE="0">
-<CENTER><B>** Help and Information **</B></CENTER>
-<BR>
-<U>Using this Spawn Menu</U>
-<BR>
-<BR>
-<B>o</B> Use the Configuration page to select the Chest Size and Loot Level.<BR>
-<B>o</B> Use the Chest Type page to select the lootgroup types.<BR>
-<B>o</B> Respawn Amount is in Minutes.<BR>
