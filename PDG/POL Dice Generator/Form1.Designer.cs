@@ -51,7 +51,7 @@
             // 
             // TB_MinValue
             // 
-            this.TB_MinValue.Location = new System.Drawing.Point(55, 4);
+            this.TB_MinValue.Location = new System.Drawing.Point(87, 19);
             this.TB_MinValue.Name = "TB_MinValue";
             this.TB_MinValue.Size = new System.Drawing.Size(100, 20);
             this.TB_MinValue.TabIndex = 0;
@@ -59,7 +59,7 @@
             // 
             // TB_MaxValue
             // 
-            this.TB_MaxValue.Location = new System.Drawing.Point(55, 30);
+            this.TB_MaxValue.Location = new System.Drawing.Point(87, 45);
             this.TB_MaxValue.Name = "TB_MaxValue";
             this.TB_MaxValue.Size = new System.Drawing.Size(100, 20);
             this.TB_MaxValue.TabIndex = 1;
@@ -68,7 +68,7 @@
             // TB_Result
             // 
             this.TB_Result.BackColor = System.Drawing.SystemColors.Window;
-            this.TB_Result.Location = new System.Drawing.Point(55, 59);
+            this.TB_Result.Location = new System.Drawing.Point(87, 74);
             this.TB_Result.Name = "TB_Result";
             this.TB_Result.ReadOnly = true;
             this.TB_Result.Size = new System.Drawing.Size(100, 20);
@@ -77,7 +77,7 @@
             // LBL_MinValue
             // 
             this.LBL_MinValue.AutoSize = true;
-            this.LBL_MinValue.Location = new System.Drawing.Point(25, 7);
+            this.LBL_MinValue.Location = new System.Drawing.Point(57, 22);
             this.LBL_MinValue.Name = "LBL_MinValue";
             this.LBL_MinValue.Size = new System.Drawing.Size(27, 13);
             this.LBL_MinValue.TabIndex = 3;
@@ -86,7 +86,7 @@
             // LBL_MaxValue
             // 
             this.LBL_MaxValue.AutoSize = true;
-            this.LBL_MaxValue.Location = new System.Drawing.Point(22, 33);
+            this.LBL_MaxValue.Location = new System.Drawing.Point(54, 48);
             this.LBL_MaxValue.Name = "LBL_MaxValue";
             this.LBL_MaxValue.Size = new System.Drawing.Size(30, 13);
             this.LBL_MaxValue.TabIndex = 4;
@@ -95,7 +95,7 @@
             // LBL_Result
             // 
             this.LBL_Result.AutoSize = true;
-            this.LBL_Result.Location = new System.Drawing.Point(17, 62);
+            this.LBL_Result.Location = new System.Drawing.Point(49, 77);
             this.LBL_Result.Name = "LBL_Result";
             this.LBL_Result.Size = new System.Drawing.Size(32, 13);
             this.LBL_Result.TabIndex = 5;
@@ -103,7 +103,7 @@
             // 
             // BTN_Create
             // 
-            this.BTN_Create.Location = new System.Drawing.Point(80, 84);
+            this.BTN_Create.Location = new System.Drawing.Point(121, 99);
             this.BTN_Create.Name = "BTN_Create";
             this.BTN_Create.Size = new System.Drawing.Size(75, 23);
             this.BTN_Create.TabIndex = 6;
@@ -114,7 +114,7 @@
             // 
             // BTN_Exit
             // 
-            this.BTN_Exit.Location = new System.Drawing.Point(80, 113);
+            this.BTN_Exit.Location = new System.Drawing.Point(121, 128);
             this.BTN_Exit.Name = "BTN_Exit";
             this.BTN_Exit.Size = new System.Drawing.Size(75, 23);
             this.BTN_Exit.TabIndex = 7;
@@ -124,7 +124,7 @@
             // 
             // BTN_Copy
             // 
-            this.BTN_Copy.Location = new System.Drawing.Point(3, 84);
+            this.BTN_Copy.Location = new System.Drawing.Point(44, 99);
             this.BTN_Copy.Name = "BTN_Copy";
             this.BTN_Copy.Size = new System.Drawing.Size(75, 23);
             this.BTN_Copy.TabIndex = 8;
@@ -177,7 +177,7 @@
             this.grpOptions.Controls.Add(this.chkUniform);
             this.grpOptions.Controls.Add(this.chkUpdate);
             this.grpOptions.Controls.Add(this.chkAutocopy);
-            this.grpOptions.Location = new System.Drawing.Point(3, 136);
+            this.grpOptions.Location = new System.Drawing.Point(44, 151);
             this.grpOptions.Name = "grpOptions";
             this.grpOptions.Size = new System.Drawing.Size(152, 62);
             this.grpOptions.TabIndex = 12;
@@ -202,7 +202,7 @@
             // 
             // BTN_Options
             // 
-            this.BTN_Options.Location = new System.Drawing.Point(3, 113);
+            this.BTN_Options.Location = new System.Drawing.Point(44, 128);
             this.BTN_Options.Name = "BTN_Options";
             this.BTN_Options.Size = new System.Drawing.Size(75, 23);
             this.BTN_Options.TabIndex = 13;
@@ -214,7 +214,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(158, 202);
+            this.ClientSize = new System.Drawing.Size(249, 232);
             this.Controls.Add(this.BTN_Options);
             this.Controls.Add(this.grpOptions);
             this.Controls.Add(this.BTN_Copy);
