@@ -1,0 +1,9 @@
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\bin\Debug\POL Dice Generator.exe.config
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\bin\Debug\POL Dice Generator.exe
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\bin\Debug\POL Dice Generator.pdb
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\obj\Debug\POL Dice Generator.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\obj\Debug\POL_Dice_Generator.MyForm.resources
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\obj\Debug\POL_Dice_Generator.Properties.Resources.resources
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\obj\Debug\POL Dice Generator.csproj.GenerateResource.Cache
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\obj\Debug\POL Dice Generator.exe
+D:\Documents\GitHub\poltools\PDG\POL Dice Generator\obj\Debug\POL Dice Generator.pdb
