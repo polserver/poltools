@@ -1,0 +1,9 @@
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\x86\Debug\POLGumpExport.POLExportForm.resources
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\x86\Debug\POLGumpExport.csproj.GenerateResource.Cache
+D:\Documents\GitHub\poltools\POLExportPlugin\bin\x86\Debug\POLGumpExport.dll
+D:\Documents\GitHub\poltools\POLExportPlugin\bin\x86\Debug\POLGumpExport.pdb
+D:\Documents\GitHub\poltools\POLExportPlugin\bin\x86\Debug\GumpStudioCore.dll
+D:\Documents\GitHub\poltools\POLExportPlugin\bin\x86\Debug\Ultima.dll
+D:\Documents\GitHub\poltools\POLExportPlugin\bin\x86\Debug\UOFont.dll
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\x86\Debug\POLGumpExport.dll
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\x86\Debug\POLGumpExport.pdb

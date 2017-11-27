@@ -310,13 +310,13 @@ namespace POLGumpExport
 
         private string DistroGump_GFTilePic(string gump_name, ItemElement elem)
         {
-            string hue = (elem.Hue != null) ? elem.Hue.ToString() : "0";
+            string hue = (elem.Hue != null) ? elem.Hue.Index.ToString() : "0";
             return String.Format("GFTilePic({0}, {1}, {2}, {3}, {4});", gump_name, elem.X, elem.Y, elem.ItemID, hue);
         }
 
         private string DistroGump_GFGumpPic(string gump_name, ImageElement elem)
         {
-            string hue = (elem.Hue != null) ? elem.Hue.ToString() : "0";
+            string hue = (elem.Hue != null) ? elem.Hue.Index.ToString() : "0";
             return String.Format("GFGumpPic({0}, {1}, {2}, {3}, {4});", gump_name, elem.X, elem.Y, elem.GumpID, hue);
         }
 
@@ -332,7 +332,7 @@ namespace POLGumpExport
 
         private string DistroGump_GFTextLine(string gump_name, LabelElement elem)
         {
-            string hue = (elem.Hue != null) ? elem.Hue.ToString() : "0";
+            string hue = (elem.Hue != null) ? elem.Hue.Index.ToString() : "0";
 
             string text = (bGetDefaultText) ? "TextLine" : "";
             if (elem.Text != null)
@@ -349,7 +349,7 @@ namespace POLGumpExport
                 if (elem.InitialText != String.Empty)
                     text = elem.InitialText;
 
-            string hue = (elem.Hue != null) ? elem.Hue.ToString() : "0";
+            string hue = (elem.Hue != null) ? elem.Hue.Index.ToString() : "0";
 
             return String.Format("GFTextEntry({0}, {1}, {2}, {3}, {4}, {5}, \"{6}\", {7});", gump_name, elem.X, elem.Y, elem.Width, elem.Height, hue, text, elem.ID);
         }
@@ -595,7 +595,7 @@ namespace POLGumpExport
 
         private string Gump_WriteTilePic(ItemElement elem)
         {
-            if (IsHued(elem.Hue.ToString()))
+            if (IsHued(elem.Hue.Index.ToString()))
             {
                 return string.Format("tilepichue {1} {2} {3} {4}", elem.X, elem.Y, elem.ItemID, elem.Hue);
             }
@@ -604,7 +604,7 @@ namespace POLGumpExport
 
         private string Gump_WriteGumpPic(ImageElement elem)
         {
-            if (IsHued(elem.Hue.ToString()))
+            if (IsHued(elem.Hue.Index.ToString()))
             {
                 return String.Format("gumppic {0} {1} {2} {3}", elem.X, elem.Y, elem.GumpID, elem.Hue);
             }

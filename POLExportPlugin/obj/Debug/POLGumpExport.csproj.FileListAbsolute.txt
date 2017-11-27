@@ -1,0 +1,3 @@
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\Debug\POLGumpExport.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\Debug\POLGumpExport.POLExportForm.resources
+D:\Documents\GitHub\poltools\POLExportPlugin\obj\Debug\POLGumpExport.csproj.GenerateResource.Cache
