@@ -597,7 +597,7 @@ namespace POLGumpExport
         {
             if (IsHued(elem.Hue.Index.ToString()))
             {
-                return string.Format("tilepichue {1} {2} {3} {4}", elem.X, elem.Y, elem.ItemID, elem.Hue);
+                return string.Format("tilepichue {1} {2} {3} {4}", elem.X, elem.Y, elem.ItemID, elem.Hue.Index);
             }
             else return String.Format("tilepic {0} {1} {2}", elem.X, elem.Y, elem.ItemID);
         }
@@ -606,7 +606,7 @@ namespace POLGumpExport
         {
             if (IsHued(elem.Hue.Index.ToString()))
             {
-                return String.Format("gumppic {0} {1} {2} {3}", elem.X, elem.Y, elem.GumpID, elem.Hue);
+                return String.Format("gumppic {0} {1} {2} {3}", elem.X, elem.Y, elem.GumpID, elem.Hue.Index);
             }
             else return String.Format("gumppic {0} {1} {2}", elem.X, elem.Y, elem.GumpID);
         }
@@ -634,7 +634,7 @@ namespace POLGumpExport
 
             texts.Add(text);
 
-            return String.Format("text {0} {1} {2} {3}", elem.X, elem.Y, elem.Hue, textid);
+            return String.Format("text {0} {1} {2} {3}", elem.X, elem.Y, elem.Hue.Index, textid);
         }
 
         string Gump_WritePage(ref int pageid)
@@ -674,7 +674,7 @@ namespace POLGumpExport
 
             texts.Add(text);
 
-            return String.Format("textentry {0} {1} {2} {3} {4} {5} {6}", elem.X, elem.Y, elem.Width, elem.Height, elem.Hue, elem.ID, textid);
+            return String.Format("textentry {0} {1} {2} {3} {4} {5} {6}", elem.X, elem.Y, elem.Width, elem.Height, elem.Hue.Index, elem.ID, textid);
         }
         #endregion
 
