@@ -371,22 +371,28 @@ namespace POLGumpExport
 
        private string DistroGump_GFAddHTMLLocalized(string gump_name, HTMLElement elem)
        {
-           //TODO: What about allowing Hue to be placed in HTML when using cliloc?
-           return String.Format("GFAddHTMLLocalized( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7} );", gump_name, elem.X, elem.Y, elem.Width, elem.Height, elem.CliLocID, BoolToString(elem.ShowBackground), BoolToString(elem.ShowScrollbar));
+            //TODO: What about allowing Hue to be placed in HTML when using cliloc?
+            if (elem.ShowScrollbar || elem.ShowBackground)
+                return String.Format("GFAddHTMLLocalized( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7} );", gump_name, elem.X, elem.Y, elem.Width, elem.Height, elem.CliLocID, BoolToString(elem.ShowBackground), BoolToString(elem.ShowScrollbar));
+            else
+                return String.Format("GFAddHTMLLocalized( {0}, {1}, {2}, {3}, {4}, {5}, 0, 0 );", gump_name, elem.X, elem.Y, elem.Width, elem.Height, elem.CliLocID);
        }
 
-       private string DistroGump_GFHTMLArea(string gump_name, HTMLElement elem)
-       {
-           string text = (bGetDefaultText) ? "HtmlElement" : "";
+        private string DistroGump_GFHTMLArea(string gump_name, HTMLElement elem)
+        {
+            string text = (bGetDefaultText) ? "HtmlElement" : "";
 
-           if (elem.HTML != null)
-               if (elem.HTML != String.Empty)
-                   text = elem.HTML;
+            if (elem.HTML != null)
+                if (elem.HTML != String.Empty)
+                    text = elem.HTML;
 
-           return String.Format("GFHTMLArea( {0}, {1}, {2}, {3}, {4}, \"{5}\", {6}, {7} );", gump_name, elem.X, elem.Y, elem.Width, elem.Height, text, BoolToString(elem.ShowBackground), BoolToString(elem.ShowScrollbar));
-       }
+            if (elem.ShowScrollbar || elem.ShowBackground)
+                return String.Format("GFHTMLArea( {0}, {1}, {2}, {3}, {4}, \"{5}\", {6}, {7} );", gump_name, elem.X, elem.Y, elem.Width, elem.Height, text, BoolToString(elem.ShowBackground), BoolToString(elem.ShowScrollbar));
+            else
+                return String.Format("GFHTMLArea( {0}, {1}, {2}, {3}, {4}, \"{5}\", 0, 0 );", gump_name, elem.X, elem.Y, elem.Width, elem.Height, text);
+        }
 
-       private string DistroGump_GFPage(string gump_name, ref int pageindex)
+        private string DistroGump_GFPage(string gump_name, ref int pageindex)
        {
            return String.Format("GFPage( {0}, {1} );", gump_name, pageindex++);
        }
@@ -394,7 +400,7 @@ namespace POLGumpExport
        string DistroGump_GFCreateGump(string gump_name, System.Drawing.Point loc)
        {  
            if (loc.X != 0 || loc.Y != 0)
-               return String.Format("var {0} := GFCreateGump( {1},{2} );", gump_name, loc.X, loc.Y);
+               return String.Format("var {0} := GFCreateGump( {1}, {2} );", gump_name, loc.X, loc.Y);
            else
                return String.Format("var {0} := GFCreateGump( 0, 0 );", gump_name);
 
