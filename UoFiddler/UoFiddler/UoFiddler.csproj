@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -18,7 +18,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <StartupObject>UoFiddler.Program</StartupObject>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetZone>Custom</TargetZone>
     <GenerateManifests>true</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -36,7 +36,7 @@
     <MapFileExtensions>false</MapFileExtensions>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>4.6.0.%2a</ApplicationVersion>
+    <ApplicationVersion>4.9.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -44,7 +44,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -53,6 +53,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -66,6 +67,7 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,6 +79,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -88,6 +91,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,6 +103,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -110,6 +115,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>34BE64D55FF45AFC60137966BA1A054A189D1296</ManifestCertificateThumbprint>
@@ -131,88 +137,89 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="Forms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
+    <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExceptionForm.cs">
+    <Compile Include="Forms\ExceptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExceptionForm.Designer.cs">
+    <Compile Include="Forms\ExceptionForm.Designer.cs">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoadProfile.cs">
+    <Compile Include="Classes\ExternTool.cs" />
+    <Compile Include="Forms\LoadProfile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoadProfile.Designer.cs">
+    <Compile Include="Forms\LoadProfile.Designer.cs">
       <DependentUpon>LoadProfile.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManagePlugins.cs">
+    <Compile Include="Forms\ManagePlugins.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ManagePlugins.Designer.cs">
+    <Compile Include="Forms\ManagePlugins.Designer.cs">
       <DependentUpon>ManagePlugins.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManageTools.cs">
+    <Compile Include="Forms\ManageTools.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ManageTools.Designer.cs">
+    <Compile Include="Forms\ManageTools.Designer.cs">
       <DependentUpon>ManageTools.cs</DependentUpon>
     </Compile>
-    <Compile Include="Options.cs">
+    <Compile Include="Classes\FiddlerOptions.cs">
     </Compile>
-    <Compile Include="OptionsForm.cs">
+    <Compile Include="Forms\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionsForm.Designer.cs">
+    <Compile Include="Forms\OptionsForm.Designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PathSettings.cs">
+    <Compile Include="Forms\PathSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PathSettings.Designer.cs">
+    <Compile Include="Forms\PathSettings.Designer.cs">
       <DependentUpon>PathSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="UnDocked.cs">
+    <Compile Include="Forms\UnDocked.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UnDocked.Designer.cs">
+    <Compile Include="Forms\UnDocked.Designer.cs">
       <DependentUpon>UnDocked.cs</DependentUpon>
     </Compile>
-    <Compile Include="UoFiddler.cs">
+    <Compile Include="Forms\UoFiddler.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UoFiddler.Designer.cs">
+    <Compile Include="Forms\UoFiddler.Designer.cs">
       <DependentUpon>UoFiddler.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExceptionForm.resx">
+    <EmbeddedResource Include="Forms\ExceptionForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoadProfile.resx">
+    <EmbeddedResource Include="Forms\LoadProfile.resx">
       <DependentUpon>LoadProfile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ManagePlugins.resx">
+    <EmbeddedResource Include="Forms\ManagePlugins.resx">
       <DependentUpon>ManagePlugins.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ManageTools.resx">
+    <EmbeddedResource Include="Forms\ManageTools.resx">
       <DependentUpon>ManageTools.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionsForm.resx">
+    <EmbeddedResource Include="Forms\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PathSettings.resx">
+    <EmbeddedResource Include="Forms\PathSettings.resx">
       <DependentUpon>PathSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -221,11 +228,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UnDocked.resx">
+    <EmbeddedResource Include="Forms\UnDocked.resx">
       <DependentUpon>UnDocked.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UoFiddler.resx">
+    <EmbeddedResource Include="Forms\UoFiddler.resx">
       <SubType>Designer</SubType>
       <DependentUpon>UoFiddler.cs</DependentUpon>
     </EmbeddedResource>
@@ -236,15 +243,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Controls\Controls.csproj">
-      <Project>{BBF3C337-3D0E-484D-8C59-BA8296C5897C}</Project>
-      <Name>Controls</Name>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Ultima\Ultima.csproj">
       <Project>{E08CFBE4-E013-44EE-8829-426D05BC083F}</Project>
       <Name>Ultima</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\UoFiddler.Controls\UoFiddler.Controls.csproj">
+      <Project>{bbf3c337-3d0e-484d-8c59-ba8296c5897c}</Project>
+      <Name>UoFiddler.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -261,42 +267,15 @@
     <None Include="Animationlist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UoFiddler_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using Microsoft.Win32;
 
 namespace Ultima
@@ -9,14 +10,14 @@ namespace Ultima
     {
         public delegate void FileSaveHandler();
         public static event FileSaveHandler FileSaveEvent;
+
         public static void FireFileSaveEvent()
         {
-            if (FileSaveEvent != null)
-                FileSaveEvent();
+            FileSaveEvent?.Invoke();
         }
 
         private static bool m_CacheData = true;
-        private static bool m_UseHashFile = false;
+        private static bool m_UseHashFile;
         private static Dictionary<string, string> m_MulPath;
         private static string m_Directory;
         private static string m_RootDir;
@@ -42,8 +43,7 @@ namespace Ultima
         /// </summary>
         public static string RootDir { get { return m_RootDir; } set { m_RootDir = value; } }
 
-        private static string[] m_Files = new string[]
-		{
+        private readonly static string[] m_Files = {
 			"anim.idx",
 			"anim.mul",
 			"anim2.idx",
@@ -184,14 +184,21 @@ namespace Ultima
             m_MulPath = new Dictionary<string, string>();
             m_RootDir = Directory;
             if (m_RootDir == null)
+            {
                 m_RootDir = "";
+            }
+
             foreach (string file in m_Files)
             {
                 string filePath = Path.Combine(m_RootDir, file);
                 if (File.Exists(filePath))
+                {
                     m_MulPath[file] = file;
+                }
                 else
+                {
                     m_MulPath[file] = "";
+                }
             }
         }
 
@@ -217,13 +224,19 @@ namespace Ultima
                         }
                     }
                     else // absolut dir ignore
+                    {
                         continue;
+                    }
                 }
                 filePath = Path.Combine(m_RootDir, file); //file was not set, or relative and non existent
                 if (File.Exists(filePath))
+                {
                     m_MulPath[file] = file;
+                }
                 else
+                {
                     m_MulPath[file] = "";
+                }
             }
         }
 
@@ -238,22 +251,35 @@ namespace Ultima
         }
 
         /// <summary>
-        /// Looks up a given <paramref name="file" /> in <see cref="Files.MulPath"/>
+        ///     Looks up a given <paramref name="file" /> in <see cref="Files.MulPath" />
         /// </summary>
-        /// <returns>The absolute path to <paramref name="file" /> -or- <c>null</c> if <paramref name="file" /> was not found.</returns>
+        /// <returns>
+        ///     The absolute path to <paramref name="file" /> -or- <c>null</c> if <paramref name="file" /> was not found.
+        /// </returns>
         public static string GetFilePath(string file)
         {
             if (MulPath.Count > 0)
             {
                 string path = "";
                 if (MulPath.ContainsKey(file.ToLower()))
+                {
                     path = MulPath[file.ToLower()];
+                }
+
                 if (String.IsNullOrEmpty(path))
+                {
                     return null;
+                }
+
                 if (String.IsNullOrEmpty(Path.GetDirectoryName(path)))
+                {
                     path = Path.Combine(m_RootDir, path);
+                }
+
                 if (File.Exists(path))
+                {
                     return path;
+                }
             }
             return null;
         }
@@ -263,7 +289,7 @@ namespace Ultima
             return GetFilePath(String.Format(format, args));
         }
 
-        static readonly string[] knownRegkeys = new string[] { 
+        static readonly string[] knownRegkeys = { 
             @"Origin Worlds Online\Ultima Online\1.0", 
             @"Origin Worlds Online\Ultima Online Third Dawn\1.0",
             @"EA GAMES\Ultima Online Samurai Empire", 
@@ -280,10 +306,10 @@ namespace Ultima
             @"Origin Worlds Online\Ultima Online Samurai Empire\3d\1.0",
 			@"Origin Worlds Online\Ultima Online\KR Legacy Beta",
 			@"Electronic Arts\EA Games\Ultima Online Stygian Abyss Classic",
-			@"Electronic Arts\EA Games\Ultima Online Classic",
+			@"Electronic Arts\EA Games\Ultima Online Classic"
         };
 
-        static readonly string[] knownRegPathkeys = new string[] { 
+        static readonly string[] knownRegPathkeys = { 
             "ExePath",
             "Install Dir",
             "InstallDir"
@@ -296,10 +322,14 @@ namespace Ultima
             {
                 string exePath;
 
-                if (IntPtr.Size == 8)
+                if (Environment.Is64BitOperatingSystem)
+                {
                     exePath = GetPath(string.Format(@"Wow6432Node\{0}", knownRegkeys[i]));
+                }
                 else
+                {
                     exePath = GetPath(knownRegkeys[i]);
+                }
 
                 if (exePath != null)
                 {
@@ -321,26 +351,49 @@ namespace Ultima
                     key = Registry.CurrentUser.OpenSubKey(string.Format(@"SOFTWARE\{0}", regkey));
 
                     if (key == null)
+                    {
                         return null;
+                    }
                 }
 
                 string path = null;
                 foreach (string pathkey in knownRegPathkeys)
                 {
                     path = key.GetValue(pathkey) as string;
-                    if (((path == null) || (path.Length <= 0)) || (!System.IO.Directory.Exists(path) && !File.Exists(path)))
+                    
+                    if ((path == null) || (path.Length <= 0))
+                    {
                         continue;
+                    }
+
+                    if (pathkey == "InstallDir")
+                    {
+                        path = path + @"\";
+                    }
+
+                    if (!System.IO.Directory.Exists(path) && !File.Exists(path))
+                    {
+                        continue;
+                    }
+
+                    
                     break;
                 }
 
                 if (path == null)
+                {
                     return null;
+                }
 
                 if (!System.IO.Directory.Exists(path))
+                {
                     path = Path.GetDirectoryName(path);
+                }
 
                 if ((path == null) || (!System.IO.Directory.Exists(path)))
+                {
                     return null;
+                }
 
                 return path;
             }
@@ -359,17 +412,24 @@ namespace Ultima
         public static bool CompareMD5(string file, string hash)
         {
             if (file == null)
+            {
                 return false;
-            System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
-            using (System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider())
+            }
+
+            FileStream FileCheck = File.OpenRead(file);
+            using (MD5 md5 = new MD5CryptoServiceProvider())
             {
                 byte[] md5Hash = md5.ComputeHash(FileCheck);
                 FileCheck.Close();
                 string md5string = BitConverter.ToString(md5Hash).Replace("-", "").ToLower();
                 if (md5string == hash)
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
             }
         }
 
@@ -381,9 +441,12 @@ namespace Ultima
         public static byte[] GetMD5(string file)
         {
             if (file == null)
+            {
                 return null;
-            System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
-            using (System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider())
+            }
+
+            FileStream FileCheck = File.OpenRead(file);
+            using (MD5 md5 = new MD5CryptoServiceProvider())
             {
                 byte[] md5Hash = md5.ComputeHash(FileCheck);
                 FileCheck.Close();
@@ -396,28 +459,38 @@ namespace Ultima
         /// </summary>
         /// <param name="what"></param>
         /// <returns></returns>
-        public static bool CompareHashFile(string what,string path)
+        public static bool CompareHashFile(string what, string path)
         {
-            string FileName = Path.Combine(path, String.Format("UOFiddler{0}.hash", what));
-            if (File.Exists(FileName))
+            string FileName = Path.Combine(path, string.Format("UOFiddler{0}.hash", what));
+            if (!File.Exists(FileName))
             {
-                try
+                return false;
+            }
+
+            try
+            {
+                using (var fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader bin = new BinaryReader(new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    if (fs.Length == 0)
+                    {
+                        return false; // If file is empty there is nothing to compare
+                    }
+
+                    using (var bin = new BinaryReader(fs))
                     {
                         int length = bin.ReadInt32();
-                        byte[] buffer = new byte[length];
+                        var buffer = new byte[length];
                         bin.Read(buffer, 0, length);
                         string hashold = BitConverter.ToString(buffer).Replace("-", "").ToLower();
-                        return Files.CompareMD5(Files.GetFilePath(String.Format("{0}.mul", what)), hashold);
+
+                        return CompareMD5(GetFilePath(string.Format("{0}.mul", what)), hashold);
                     }
                 }
-                catch
-                {
-                    return false;
-                }
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -425,19 +498,27 @@ namespace Ultima
         /// </summary>
         public static void CheckForNewMapSize()
         {
-            if (Files.GetFilePath("map1.mul") != null)
+            if (GetFilePath("map1.mul") != null)
             {
-                if (Ultima.Map.Trammel.Width == 7168)
-                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);
+                if (Map.Trammel.Width == 7168)
+                {
+                    Map.Trammel = new Map(1, 1, 7168, 4096);
+                }
                 else
-                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);
+                {
+                    Map.Trammel = new Map(1, 1, 6144, 4096);
+                }
             }
             else
             {
-                if (Ultima.Map.Trammel.Width == 7168)
-                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 7168, 4096);
+                if (Map.Trammel.Width == 7168)
+                {
+                    Map.Trammel = new Map(0, 1, 7168, 4096);
+                }
                 else
-                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 6144, 4096);
+                {
+                    Map.Trammel = new Map(0, 1, 6144, 4096);
+                }
             }
         }
     }

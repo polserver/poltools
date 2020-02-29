@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace Ultima
 {
@@ -44,15 +41,18 @@ namespace Ultima
             m_Cache = new UOSound[0xFFF];
             m_Removed = new bool[0xFFF];
 			m_FileIndex = new FileIndex("soundidx.mul", "sound.mul", "soundLegacyMUL.uop", 0xFFF, 8, ".dat", -1, false);
-            Regex reg = new Regex(@"(\d{1,4}) \x7B(\d{1,4})\x7D (\d{1,3})", RegexOptions.Compiled);
+            var reg = new Regex(@"(\d{1,4}) \x7B(\d{1,4})\x7D (\d{1,3})", RegexOptions.Compiled);
 
             m_Translations = new Dictionary<int, int>();
 
             string line;
             string path = Files.GetFilePath("Sound.def");
             if (path == null)
+            {
                 return;
-            using (StreamReader reader = new StreamReader(path))
+            }
+
+            using (var reader = new StreamReader(path))
             {
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -61,7 +61,9 @@ namespace Ultima
                         Match match = reg.Match(line);
 
                         if (match.Success)
+                        {
                             m_Translations.Add(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
+                        }
                     }
                 }
             }
@@ -88,11 +90,19 @@ namespace Ultima
         {
             translated = false;
             if (soundID < 0)
+            {
                 return null;
+            }
+
             if (m_Removed[soundID])
+            {
                 return null;
+            }
+
             if (m_Cache[soundID] != null)
+            {
                 return m_Cache[soundID];
+            }
 
             int length, extra;
             bool patched;
@@ -101,39 +111,48 @@ namespace Ultima
             if ((m_FileIndex.Index[soundID].lookup < 0) || (length <= 0))
             {
                 if (!m_Translations.TryGetValue(soundID, out soundID))
+                {
                     return null;
+                }
 
                 translated = true;
                 stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
             }
 
             if (stream == null)
+            {
                 return null;
+            }
 
             length -= 32;
             int[] waveHeader = WaveHeader(length);
 
-            byte[] stringBuffer = new byte[32];
-            byte[] buffer = new byte[length];
+            var stringBuffer = new byte[32];
+            var buffer = new byte[length];
 
             stream.Read(stringBuffer, 0, 32);
             stream.Read(buffer, 0, length);
             stream.Close();
 
-            byte[] resultBuffer = new byte[buffer.Length + (waveHeader.Length << 2)];
+            var resultBuffer = new byte[buffer.Length + (waveHeader.Length << 2)];
 
             Buffer.BlockCopy(waveHeader, 0, resultBuffer, 0, (waveHeader.Length << 2));
             Buffer.BlockCopy(buffer, 0, resultBuffer, (waveHeader.Length << 2), buffer.Length);
 
-            string str = Encoding.ASCII.GetString(stringBuffer); // seems that the null terminator's not being properly recognized :/
+            string str = Encoding.ASCII.GetString(stringBuffer); 
+                // seems that the null terminator's not being properly recognized :/
             if (str.IndexOf('\0') > 0)
+            {
                 str = str.Substring(0, str.IndexOf('\0'));
-            UOSound sound = new UOSound(str, soundID, resultBuffer);
+            }
+            var sound = new UOSound(str, soundID, resultBuffer);
 
             if (Files.CacheData)
             {
                 if (!translated) // no .def definition
+                {
                     m_Cache[soundID] = sound;
+                }
             }
 
             return sound;
@@ -160,7 +179,8 @@ namespace Ultima
              * short[..] - data /
              * ====================
              * */
-            return new int[] { 0x46464952, (length + 36), 0x45564157, 0x20746D66, 0x10, 0x010001, 0x5622, 0xAC44, 0x100002, 0x61746164, length };
+            return new[] 
+            { 0x46464952, (length + 36), 0x45564157, 0x20746D66, 0x10, 0x010001, 0x5622, 0xAC44, 0x100002, 0x61746164, length };
         }
 
         /// <summary>
@@ -173,9 +193,15 @@ namespace Ultima
             translated = false;
             name = "";
             if (soundID < 0)
+            {
                 return false;
+            }
+
             if (m_Removed[soundID])
+            {
                 return false;
+            }
+
             if (m_Cache[soundID] != null)
             {
                 name = m_Cache[soundID].Name;
@@ -189,21 +215,30 @@ namespace Ultima
             if ((m_FileIndex.Index[soundID].lookup < 0) || (length <= 0))
             {
                 if (!m_Translations.TryGetValue(soundID, out soundID))
+                {
                     return false;
+                }
                 else
+                {
                     translated = true;
+                }
 
                 stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
             }
             if (stream == null)
+            {
                 return false;
+            }
 
-            byte[] stringBuffer = new byte[32];
+            var stringBuffer = new byte[32];
             stream.Read(stringBuffer, 0, 32);
             stream.Close();
             name = Encoding.ASCII.GetString(stringBuffer); // seems that the null terminator's not being properly recognized :/
             if (name.IndexOf('\0') > 0)
+            {
                 name = name.Substring(0, name.IndexOf('\0'));
+            }
+
             return true;
         }
 
@@ -215,14 +250,19 @@ namespace Ultima
         public static double GetSoundLength(int soundID)
         {
             if (soundID < 0)
+            {
                 return 0;
+            }
+
             if (m_Removed[soundID])
+            {
                 return 0;
+            }
 
             double len;
             if (m_Cache[soundID] != null)
             {
-                len = (double)m_Cache[soundID].buffer.Length;
+                len = m_Cache[soundID].buffer.Length;
                 len -= 44; //wavheaderlength
             }
             else
@@ -233,16 +273,21 @@ namespace Ultima
                 if ((m_FileIndex.Index[soundID].lookup < 0) || (length <= 0))
                 {
                     if (!m_Translations.TryGetValue(soundID, out soundID))
+                    {
                         return 0;
+                    }
 
                     stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
                 }
 
                 if (stream == null)
+                {
                     return 0;
+                }
+
                 stream.Close();
                 length -= 32; //mulheaderlength
-                len = (double)length;
+                len = length;
             }
             len /= 0x5622; // Sample Rate
             len /= 2;
@@ -275,11 +320,11 @@ namespace Ultima
             string idx = Path.Combine(path, "soundidx.mul");
             string mul = Path.Combine(path, "sound.mul");
             int Headerlength = 44;
-            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+            using (
+                FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                using (BinaryWriter binidx = new BinaryWriter(fsidx),
-                                    binmul = new BinaryWriter(fsmul))
+                using (BinaryWriter binidx = new BinaryWriter(fsidx), binmul = new BinaryWriter(fsmul))
                 {
                     for (int i = 0; i < m_Cache.Length; ++i)
                     {
@@ -289,34 +334,41 @@ namespace Ultima
                             bool trans;
                             sound = GetSound(i, out trans);
                             if (!trans)
+                            {
                                 m_Cache[i] = sound;
+                            }
                             else
+                            {
                                 sound = null;
+                            }
                         }
                         if ((sound == null) || (m_Removed[i]))
                         {
-                            binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
-                            binidx.Write((int)-1); // extra
+                            binidx.Write(-1); // lookup
+                            binidx.Write(-1); // length
+                            binidx.Write(-1); // extra
                         }
                         else
                         {
                             binidx.Write((int)fsmul.Position); //lookup
-                            int length = (int)fsmul.Position;
+                            var length = (int)fsmul.Position;
 
-                            byte[] b = new byte[32];
+                            var b = new byte[32];
                             if (sound.Name != null)
                             {
                                 byte[] bb = Encoding.Default.GetBytes(sound.Name);
                                 if (bb.Length > 32)
+                                {
                                     Array.Resize(ref bb, 32);
+                                }
+
                                 bb.CopyTo(b, 0);
                             }
                             binmul.Write(b);
-                            using (MemoryStream m = new MemoryStream(sound.buffer))
+                            using (var m = new MemoryStream(sound.buffer))
                             {
                                 m.Seek(Headerlength, SeekOrigin.Begin);
-                                byte[] resultBuffer = new byte[m.Length - Headerlength];
+                                var resultBuffer = new byte[m.Length - Headerlength];
                                 m.Read(resultBuffer, 0, (int)m.Length - Headerlength);
                                 binmul.Write(resultBuffer);
                             }
@@ -332,7 +384,9 @@ namespace Ultima
 
         public static void SaveSoundListToCSV(string FileName)
         {
-            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            using (
+                var Tex = new StreamWriter(
+                    new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("ID;Name;Length");
                 string name = "";
@@ -352,7 +406,9 @@ namespace Ultima
         public static bool IsRemovedSound(int soundID)
         {
             if (soundID < 0)
+            {
                 return true;
+            }
 
             return m_Removed[soundID];
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -48,10 +49,14 @@ namespace Ultima
                 mcl = m_Components[index];
 
                 if (mcl == null)
+                {
                     m_Components[index] = mcl = Load(index);
+                }
             }
             else
+            {
                 mcl = MultiComponentList.Empty;
+            }
 
             return mcl;
         }
@@ -65,12 +70,18 @@ namespace Ultima
                 Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
                 if (stream == null)
+                {
                     return MultiComponentList.Empty;
+                }
 
-				if (PostHSFormat || Art.IsUOAHS())
+                if (PostHSFormat || Art.IsUOAHS())
+                {
                     return new MultiComponentList(new BinaryReader(stream), length / 16);
+                }
                 else
+                {
                     return new MultiComponentList(new BinaryReader(stream), length / 12);
+                }
             }
             catch
             {
@@ -88,7 +99,7 @@ namespace Ultima
             m_Components[index] = comp;
         }
 
-        public static MultiComponentList ImportFromFile(int index, string FileName, Multis.ImportType type)
+        public static MultiComponentList ImportFromFile(int index, string FileName, ImportType type)
         {
             try
             {
@@ -100,7 +111,7 @@ namespace Ultima
             }
         }
 
-        public static MultiComponentList LoadFromFile(string FileName, Multis.ImportType type)
+        public static MultiComponentList LoadFromFile(string FileName, ImportType type)
         {
             try
             {
@@ -114,8 +125,8 @@ namespace Ultima
 
         public static List<MultiComponentList> LoadFromCache(string FileName)
         {
-            List<MultiComponentList> multilist = new List<MultiComponentList>();
-            using (StreamReader ip = new StreamReader(FileName))
+            var multilist = new List<MultiComponentList>();
+            using (var ip = new StreamReader(FileName))
             {
                 string line;
                 while ((line = ip.ReadLine()) != null)
@@ -136,35 +147,42 @@ namespace Ultima
             byte flag = bin.ReadByte();
 
             if (flag == 0)
+            {
                 return null;
+            }
             else
+            {
                 return bin.ReadString();
+            }
         }
         public static List<Object[]> LoadFromDesigner(string FileName)
         {
-            List<Object[]> multilist = new List<Object[]>();
+            var multilist = new List<Object[]>();
             string root = Path.GetFileNameWithoutExtension(FileName);
             string idx = String.Format("{0}.idx", root);
             string bin = String.Format("{0}.bin", root);
             if ((!File.Exists(idx)) || (!File.Exists(bin)))
+            {
                 return multilist;
-            using (FileStream idxfs = new FileStream(idx, FileMode.Open, FileAccess.Read, FileShare.Read),
+            }
+
+            using (
+                FileStream idxfs = new FileStream(idx, FileMode.Open, FileAccess.Read, FileShare.Read),
                               binfs = new FileStream(bin, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (BinaryReader idxbin = new BinaryReader(idxfs),
-                                    binbin = new BinaryReader(binfs))
+                using (BinaryReader idxbin = new BinaryReader(idxfs), binbin = new BinaryReader(binfs))
                 {
                     int count = idxbin.ReadInt32();
                     int version = idxbin.ReadInt32();
 
                     for (int i = 0; i < count; ++i)
                     {
-                        Object[] data = new Object[2];
+                        var data = new Object[2];
                         switch (version)
                         {
                             case 0:
                                 data[0] = ReadUOAString(idxbin);
-                                List<MultiComponentList.MultiTileEntry> arr = new List<MultiComponentList.MultiTileEntry>();
+                                var arr = new List<MultiComponentList.MultiTileEntry>();
                                 data[0] += "-" + ReadUOAString(idxbin);
                                 data[0] += "-" + ReadUOAString(idxbin);
                                 int width = idxbin.ReadInt32();
@@ -199,7 +217,7 @@ namespace Ultima
                                             hue = binbin.ReadInt32();
                                             break;
                                     }
-                                    MultiComponentList.MultiTileEntry tempitem = new MultiComponentList.MultiTileEntry();
+                                    var tempitem = new MultiComponentList.MultiTileEntry();
                                     tempitem.m_ItemID = (ushort)index;
                                     tempitem.m_Flags = 1;
                                     tempitem.m_OffsetX = (short)x;
@@ -222,7 +240,7 @@ namespace Ultima
 
         public static List<MultiComponentList.MultiTileEntry> RebuildTiles(MultiComponentList.MultiTileEntry[] tiles)
         {
-            List<MultiComponentList.MultiTileEntry> newtiles = new List<MultiComponentList.MultiTileEntry>();
+            var newtiles = new List<MultiComponentList.MultiTileEntry>();
             newtiles.AddRange(tiles);
 
             if (newtiles[0].m_OffsetX == 0 && newtiles[0].m_OffsetY == 0 && newtiles[0].m_OffsetZ == 0) // found a centeritem
@@ -232,7 +250,9 @@ namespace Ultima
                     for (int j = newtiles.Count - 1; j >= 0; --j) // remove all invis items
                     {
                         if (newtiles[j].m_ItemID == 0x1)
+                        {
                             newtiles.RemoveAt(j);
+                        }
                     }
                     return newtiles;
                 }
@@ -248,7 +268,9 @@ namespace Ultima
                             for (int j = newtiles.Count-1; j >= 0; --j) // and remove all invis
                             {
                                 if (newtiles[j].m_ItemID == 0x1)
+                                {
                                     newtiles.RemoveAt(j);
+                                }
                             }
                             newtiles.Insert(0, centeritem);
                             return newtiles;
@@ -257,7 +279,9 @@ namespace Ultima
                     for (int j = newtiles.Count-1; j >= 1; --j) // nothing found so remove all invis exept the first
                     {
                         if (newtiles[j].m_ItemID == 0x1)
+                        {
                             newtiles.RemoveAt(j);
+                        }
                     }
                     return newtiles;
                 }
@@ -272,7 +296,9 @@ namespace Ultima
                     for (int j = newtiles.Count-1; j >= 0; --j) // remove all invis
                     {
                         if (newtiles[j].m_ItemID == 0x1)
+                        {
                             newtiles.RemoveAt(j);
+                        }
                     }
                     newtiles.Insert(0, centeritem);
                     return newtiles;
@@ -281,9 +307,11 @@ namespace Ultima
             for (int j = newtiles.Count-1; j >= 0; --j) // nothing found so remove all invis
             {
                 if (newtiles[j].m_ItemID == 0x1)
+                {
                     newtiles.RemoveAt(j);
+                }
             }
-            MultiComponentList.MultiTileEntry invisitem = new MultiComponentList.MultiTileEntry();
+            var invisitem = new MultiComponentList.MultiTileEntry();
             invisitem.m_ItemID = 0x1; // and create a new invis
             invisitem.m_OffsetX = 0;
             invisitem.m_OffsetY = 0;
@@ -299,11 +327,11 @@ namespace Ultima
 			bool isUOAHS = PostHSFormat || Art.IsUOAHS();
             string idx = Path.Combine(path, "multi.idx");
             string mul = Path.Combine(path, "multi.mul");
-            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+            using (
+                FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                using (BinaryWriter binidx = new BinaryWriter(fsidx),
-                                    binmul = new BinaryWriter(fsmul))
+                using (BinaryWriter binidx = new BinaryWriter(fsidx), binmul = new BinaryWriter(fsmul))
                 {
                     for (int index = 0; index < 0x3000; ++index)
                     {
@@ -311,29 +339,35 @@ namespace Ultima
 
                         if (comp == MultiComponentList.Empty)
                         {
-                            binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
-                            binidx.Write((int)-1); // extra
+                            binidx.Write(-1); // lookup
+                            binidx.Write(-1); // length
+                            binidx.Write(-1); // extra
                         }
                         else
                         {
                             List<MultiComponentList.MultiTileEntry> tiles = RebuildTiles(comp.SortedTiles);
                             binidx.Write((int)fsmul.Position); //lookup
                             if (isUOAHS)
-                                binidx.Write((int)(tiles.Count * 16)); //length
+                            {
+                                binidx.Write((tiles.Count * 16)); //length
+                            }
                             else
-                                binidx.Write((int)(tiles.Count * 12)); //length
-                            binidx.Write((int)-1); //extra
+                            {
+                                binidx.Write((tiles.Count * 12)); //length
+                            }
+
+                            binidx.Write(-1); //extra
                             for (int i = 0; i < tiles.Count; ++i)
                             {
-                                binmul.Write((ushort)tiles[i].m_ItemID);
-                                binmul.Write((short)tiles[i].m_OffsetX);
-                                binmul.Write((short)tiles[i].m_OffsetY);
-                                binmul.Write((short)tiles[i].m_OffsetZ);
-                                binmul.Write((int)tiles[i].m_Flags);
+                                binmul.Write(tiles[i].m_ItemID);
+                                binmul.Write(tiles[i].m_OffsetX);
+                                binmul.Write(tiles[i].m_OffsetY);
+                                binmul.Write(tiles[i].m_OffsetZ);
+                                binmul.Write(tiles[i].m_Flags);
                                 if (isUOAHS)
-                                    binmul.Write((int)tiles[i].m_Unk1);
-
+                                {
+                                    binmul.Write(tiles[i].m_Unk1);
+                                }
                             }
                         }
                     }
@@ -345,9 +379,11 @@ namespace Ultima
     public sealed class MultiComponentList
     {
         private Point m_Min, m_Max, m_Center;
-        private int m_Width, m_Height, m_maxHeight, m_Surface;
+        private int m_Width, m_Height;
+        private readonly int m_maxHeight;
+        private int m_Surface;
         private MTile[][][] m_Tiles;
-        private MultiTileEntry[] m_SortedTiles;
+        private readonly MultiTileEntry[] m_SortedTiles;
 
         public static readonly MultiComponentList Empty = new MultiComponentList();
 
@@ -387,7 +423,9 @@ namespace Ultima
         public Bitmap GetImage(int maxheight)
         {
             if (m_Width == 0 || m_Height == 0)
+            {
                 return null;
+            }
 
             int xMin = 1000, yMin = 1000;
             int xMax = -1000, yMax = -1000;
@@ -403,7 +441,9 @@ namespace Ultima
                         Bitmap bmp = Art.GetStatic(tiles[i].ID);
 
                         if (bmp == null)
+                        {
                             continue;
+                        }
 
                         int px = (x - y) * 22;
                         int py = (x + y) * 22;
@@ -413,24 +453,32 @@ namespace Ultima
                         py -= bmp.Height;
 
                         if (px < xMin)
+                        {
                             xMin = px;
+                        }
 
                         if (py < yMin)
+                        {
                             yMin = py;
+                        }
 
                         px += bmp.Width;
                         py += bmp.Height;
 
                         if (px > xMax)
+                        {
                             xMax = px;
+                        }
 
                         if (py > yMax)
+                        {
                             yMax = py;
+                        }
                     }
                 }
             }
 
-            Bitmap canvas = new Bitmap(xMax - xMin, yMax - yMin);
+            var canvas = new Bitmap(xMax - xMin, yMax - yMin);
             Graphics gfx = Graphics.FromImage(canvas);
             gfx.Clear(Color.Transparent);
             for (int x = 0; x < m_Width; ++x)
@@ -445,9 +493,15 @@ namespace Ultima
                         Bitmap bmp = Art.GetStatic(tiles[i].ID);
 
                         if (bmp == null)
+                        {
                             continue;
+                        }
+
                         if ((tiles[i].Z) > maxheight)
+                        {
                             continue;
+                        }
+
                         int px = (x - y) * 22;
                         int py = (x + y) * 22;
 
@@ -485,26 +539,40 @@ namespace Ultima
                 m_SortedTiles[i].m_OffsetZ = reader.ReadInt16();
                 m_SortedTiles[i].m_Flags = reader.ReadInt32();
                 if (useNewMultiFormat)
+                {
                     m_SortedTiles[i].m_Unk1 = reader.ReadInt32();
+                }
                 else
+                {
                     m_SortedTiles[i].m_Unk1 = 0;
+                }
 
                 MultiTileEntry e = m_SortedTiles[i];
 
                 if (e.m_OffsetX < m_Min.X)
+                {
                     m_Min.X = e.m_OffsetX;
+                }
 
                 if (e.m_OffsetY < m_Min.Y)
+                {
                     m_Min.Y = e.m_OffsetY;
+                }
 
                 if (e.m_OffsetX > m_Max.X)
+                {
                     m_Max.X = e.m_OffsetX;
+                }
 
                 if (e.m_OffsetY > m_Max.Y)
+                {
                     m_Max.Y = e.m_OffsetY;
+                }
 
                 if (e.m_OffsetZ > m_maxHeight)
+                {
                     m_maxHeight = e.m_OffsetZ;
+                }
             }
             ConvertList();
             reader.Close();
@@ -518,7 +586,7 @@ namespace Ultima
             {
                 case Multis.ImportType.TXT:
                     itemcount = 0;
-                    using (StreamReader ip = new StreamReader(FileName))
+                    using (var ip = new StreamReader(FileName))
                     {
                         string line;
                         while ((line = ip.ReadLine()) != null)
@@ -530,7 +598,7 @@ namespace Ultima
                     itemcount = 0;
                     m_Min.X = 10000;
                     m_Min.Y = 10000;
-                    using (StreamReader ip = new StreamReader(FileName))
+                    using (var ip = new StreamReader(FileName))
                     {
                         string line;
                         while ((line = ip.ReadLine()) != null)
@@ -550,19 +618,29 @@ namespace Ultima
                             MultiTileEntry e = m_SortedTiles[itemcount];
 
                             if (e.m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = e.m_OffsetX;
+                            }
 
                             if (e.m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = e.m_OffsetY;
+                            }
 
                             if (e.m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = e.m_OffsetX;
+                            }
 
                             if (e.m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = e.m_OffsetY;
+                            }
 
                             if (e.m_OffsetZ > m_maxHeight)
+                            {
                                 m_maxHeight = e.m_OffsetZ;
+                            }
 
                             itemcount++;
                         }
@@ -576,21 +654,31 @@ namespace Ultima
                             m_SortedTiles[i].m_OffsetX -= (short)centerx;
                             m_SortedTiles[i].m_OffsetY -= (short)centery;
                             if (m_SortedTiles[i].m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = m_SortedTiles[i].m_OffsetX;
+                            }
+
                             if (m_SortedTiles[i].m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = m_SortedTiles[i].m_OffsetX;
+                            }
 
                             if (m_SortedTiles[i].m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = m_SortedTiles[i].m_OffsetY;
+                            }
+
                             if (m_SortedTiles[i].m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = m_SortedTiles[i].m_OffsetY;
+                            }
                         }
                     }
                     break;
                 case Multis.ImportType.UOA:
                     itemcount = 0;
 
-                    using (StreamReader ip = new StreamReader(FileName))
+                    using (var ip = new StreamReader(FileName))
                     {
                         string line;
                         while ((line = ip.ReadLine()) != null)
@@ -608,7 +696,7 @@ namespace Ultima
                     itemcount = 0;
                     m_Min.X = 10000;
                     m_Min.Y = 10000;
-                    using (StreamReader ip = new StreamReader(FileName))
+                    using (var ip = new StreamReader(FileName))
                     {
                         string line;
                         int i = -1;
@@ -616,7 +704,10 @@ namespace Ultima
                         {
                             ++i;
                             if (i < 4)
+                            {
                                 continue;
+                            }
+
                             string[] split = line.Split(' ');
 
                             m_SortedTiles[itemcount].m_ItemID = Convert.ToUInt16(split[0]);
@@ -629,19 +720,29 @@ namespace Ultima
                             MultiTileEntry e = m_SortedTiles[itemcount];
 
                             if (e.m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = e.m_OffsetX;
+                            }
 
                             if (e.m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = e.m_OffsetY;
+                            }
 
                             if (e.m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = e.m_OffsetX;
+                            }
 
                             if (e.m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = e.m_OffsetY;
+                            }
 
                             if (e.m_OffsetZ > m_maxHeight)
+                            {
                                 m_maxHeight = e.m_OffsetZ;
+                            }
 
                             ++itemcount;
                         }
@@ -655,24 +756,37 @@ namespace Ultima
                             m_SortedTiles[i].m_OffsetX -= (short)centerx;
                             m_SortedTiles[i].m_OffsetY -= (short)centery;
                             if (m_SortedTiles[i].m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = m_SortedTiles[i].m_OffsetX;
+                            }
+
                             if (m_SortedTiles[i].m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = m_SortedTiles[i].m_OffsetX;
+                            }
 
                             if (m_SortedTiles[i].m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = m_SortedTiles[i].m_OffsetY;
+                            }
+
                             if (m_SortedTiles[i].m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = m_SortedTiles[i].m_OffsetY;
+                            }
                         }
                     }
 
                     break;
                 case Multis.ImportType.UOAB:
-                    using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    using (BinaryReader reader = new BinaryReader(fs))
+                    using (var fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (var reader = new BinaryReader(fs))
                     {
                         if (reader.ReadInt16() != 1) //Version check
+                        {
                             return;
+                        }
+
                         string tmp;
                         tmp = Multis.ReadUOAString(reader); //Name
                         tmp = Multis.ReadUOAString(reader); //Category
@@ -702,19 +816,29 @@ namespace Ultima
                             MultiTileEntry e = m_SortedTiles[itemcount];
 
                             if (e.m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = e.m_OffsetX;
+                            }
 
                             if (e.m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = e.m_OffsetY;
+                            }
 
                             if (e.m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = e.m_OffsetX;
+                            }
 
                             if (e.m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = e.m_OffsetY;
+                            }
 
                             if (e.m_OffsetZ > m_maxHeight)
+                            {
                                 m_maxHeight = e.m_OffsetZ;
+                            }
                         }
                         int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
                         int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
@@ -726,38 +850,50 @@ namespace Ultima
                             m_SortedTiles[itemcount].m_OffsetX -= (short)centerx;
                             m_SortedTiles[itemcount].m_OffsetY -= (short)centery;
                             if (m_SortedTiles[itemcount].m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = m_SortedTiles[itemcount].m_OffsetX;
+                            }
+
                             if (m_SortedTiles[itemcount].m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = m_SortedTiles[itemcount].m_OffsetX;
+                            }
 
                             if (m_SortedTiles[itemcount].m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = m_SortedTiles[itemcount].m_OffsetY;
+                            }
+
                             if (m_SortedTiles[itemcount].m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = m_SortedTiles[itemcount].m_OffsetY;
+                            }
                         }
                     }
                     break;
 
                 case Multis.ImportType.WSC:
                     itemcount = 0;
-                    using (StreamReader ip = new StreamReader(FileName))
+                    using (var ip = new StreamReader(FileName))
                     {
                         string line;
                         while ((line = ip.ReadLine()) != null)
                         {
                             line = line.Trim();
                             if (line.StartsWith("SECTION WORLDITEM"))
+                            {
                                 ++itemcount;
+                            }
                         }
                     }
                     m_SortedTiles = new MultiTileEntry[itemcount];
                     itemcount = 0;
                     m_Min.X = 10000;
                     m_Min.Y = 10000;
-                    using (StreamReader ip = new StreamReader(FileName))
+                    using (var ip = new StreamReader(FileName))
                     {
                         string line;
-                        MultiTileEntry tempitem = new MultiTileEntry();
+                        var tempitem = new MultiTileEntry();
                         tempitem.m_ItemID = 0xFFFF;
                         tempitem.m_Flags = 1;
                         tempitem.m_Unk1 = 0;
@@ -785,9 +921,14 @@ namespace Ultima
                                 line = line.Trim();
                                 tempitem.m_OffsetX = Convert.ToInt16(line);
                                 if (tempitem.m_OffsetX < m_Min.X)
+                                {
                                     m_Min.X = tempitem.m_OffsetX;
+                                }
+
                                 if (tempitem.m_OffsetX > m_Max.X)
+                                {
                                     m_Max.X = tempitem.m_OffsetX;
+                                }
                             }
                             else if (line.StartsWith("Y"))
                             {
@@ -795,9 +936,14 @@ namespace Ultima
                                 line = line.Trim();
                                 tempitem.m_OffsetY = Convert.ToInt16(line);
                                 if (tempitem.m_OffsetY < m_Min.Y)
+                                {
                                     m_Min.Y = tempitem.m_OffsetY;
+                                }
+
                                 if (tempitem.m_OffsetY > m_Max.Y)
+                                {
                                     m_Max.Y = tempitem.m_OffsetY;
+                                }
                             }
                             else if (line.StartsWith("Z"))
                             {
@@ -805,12 +951,15 @@ namespace Ultima
                                 line = line.Trim();
                                 tempitem.m_OffsetZ = Convert.ToInt16(line);
                                 if (tempitem.m_OffsetZ > m_maxHeight)
+                                {
                                     m_maxHeight = tempitem.m_OffsetZ;
-
+                                }
                             }
                         }
                         if (tempitem.m_ItemID != 0xFFFF)
+                        {
                             m_SortedTiles[itemcount] = tempitem;
+                        }
 
                         int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
                         int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
@@ -822,14 +971,24 @@ namespace Ultima
                             m_SortedTiles[i].m_OffsetX -= (short)centerx;
                             m_SortedTiles[i].m_OffsetY -= (short)centery;
                             if (m_SortedTiles[i].m_OffsetX < m_Min.X)
+                            {
                                 m_Min.X = m_SortedTiles[i].m_OffsetX;
+                            }
+
                             if (m_SortedTiles[i].m_OffsetX > m_Max.X)
+                            {
                                 m_Max.X = m_SortedTiles[i].m_OffsetX;
+                            }
 
                             if (m_SortedTiles[i].m_OffsetY < m_Min.Y)
+                            {
                                 m_Min.Y = m_SortedTiles[i].m_OffsetY;
+                            }
+
                             if (m_SortedTiles[i].m_OffsetY > m_Max.Y)
+                            {
                                 m_Max.Y = m_SortedTiles[i].m_OffsetY;
+                            }
                         }
                     }
                     break;
@@ -848,19 +1007,30 @@ namespace Ultima
             foreach (MultiTileEntry entry in arr)
             {
                 if (entry.m_OffsetX < m_Min.X)
+                {
                     m_Min.X = entry.m_OffsetX;
+                }
 
                 if (entry.m_OffsetY < m_Min.Y)
+                {
                     m_Min.Y = entry.m_OffsetY;
+                }
 
                 if (entry.m_OffsetX > m_Max.X)
+                {
                     m_Max.X = entry.m_OffsetX;
+                }
 
                 if (entry.m_OffsetY > m_Max.Y)
+                {
                     m_Max.Y = entry.m_OffsetY;
+                }
 
                 if (entry.m_OffsetZ > m_maxHeight)
+                {
                     m_maxHeight = entry.m_OffsetZ;
+                }
+
                 m_SortedTiles[i] = entry;
 
                 ++i;
@@ -875,14 +1045,24 @@ namespace Ultima
                 m_SortedTiles[i].m_OffsetX -= (short)centerx;
                 m_SortedTiles[i].m_OffsetY -= (short)centery;
                 if (m_SortedTiles[i].m_OffsetX < m_Min.X)
+                {
                     m_Min.X = m_SortedTiles[i].m_OffsetX;
+                }
+
                 if (m_SortedTiles[i].m_OffsetX > m_Max.X)
+                {
                     m_Max.X = m_SortedTiles[i].m_OffsetX;
+                }
 
                 if (m_SortedTiles[i].m_OffsetY < m_Min.Y)
+                {
                     m_Min.Y = m_SortedTiles[i].m_OffsetY;
+                }
+
                 if (m_SortedTiles[i].m_OffsetY > m_Max.Y)
+                {
                     m_Max.Y = m_SortedTiles[i].m_OffsetY;
+                }
             }
             ConvertList();
         }
@@ -909,20 +1089,35 @@ namespace Ultima
                 MultiTileEntry e = m_SortedTiles[itemcount];
 
                 if (e.m_OffsetX < m_Min.X)
+                {
                     m_Min.X = e.m_OffsetX;
+                }
+
                 if (e.m_OffsetY < m_Min.Y)
+                {
                     m_Min.Y = e.m_OffsetY;
+                }
+
                 if (e.m_OffsetX > m_Max.X)
+                {
                     m_Max.X = e.m_OffsetX;
+                }
+
                 if (e.m_OffsetY > m_Max.Y)
+                {
                     m_Max.Y = e.m_OffsetY;
+                }
+
                 if (e.m_OffsetZ > m_maxHeight)
+                {
                     m_maxHeight = e.m_OffsetZ;
+                }
 
                 ++itemcount;
                 if (itemcount == count)
+                {
                     break;
-
+                }
             }
             int centerx = m_Max.X - (int)(Math.Round((m_Max.X - m_Min.X) / 2.0));
             int centery = m_Max.Y - (int)(Math.Round((m_Max.Y - m_Min.Y) / 2.0));
@@ -934,14 +1129,24 @@ namespace Ultima
                 m_SortedTiles[i].m_OffsetX -= (short)centerx;
                 m_SortedTiles[i].m_OffsetY -= (short)centery;
                 if (m_SortedTiles[i].m_OffsetX < m_Min.X)
+                {
                     m_Min.X = m_SortedTiles[i].m_OffsetX;
+                }
+
                 if (m_SortedTiles[i].m_OffsetX > m_Max.X)
+                {
                     m_Max.X = m_SortedTiles[i].m_OffsetX;
+                }
 
                 if (m_SortedTiles[i].m_OffsetY < m_Min.Y)
+                {
                     m_Min.Y = m_SortedTiles[i].m_OffsetY;
+                }
+
                 if (m_SortedTiles[i].m_OffsetY > m_Max.Y)
+                {
                     m_Max.Y = m_SortedTiles[i].m_OffsetY;
+                }
             }
             ConvertList();
         }
@@ -952,7 +1157,7 @@ namespace Ultima
             m_Width = (m_Max.X - m_Min.X) + 1;
             m_Height = (m_Max.Y - m_Min.Y) + 1;
 
-            MTileList[][] tiles = new MTileList[m_Width][];
+            var tiles = new MTileList[m_Width][];
             m_Tiles = new MTile[m_Width][][];
 
             for (int x = 0; x < m_Width; ++x)
@@ -961,7 +1166,9 @@ namespace Ultima
                 m_Tiles[x] = new MTile[m_Height][];
 
                 for (int y = 0; y < m_Height; ++y)
+                {
                     tiles[x][y] = new MTileList();
+                }
             }
 
             for (int i = 0; i < m_SortedTiles.Length; ++i)
@@ -969,7 +1176,8 @@ namespace Ultima
                 int xOffset = m_SortedTiles[i].m_OffsetX + m_Center.X;
                 int yOffset = m_SortedTiles[i].m_OffsetY + m_Center.Y;
 
-                tiles[xOffset][yOffset].Add((ushort)(m_SortedTiles[i].m_ItemID), (sbyte)m_SortedTiles[i].m_OffsetZ, (sbyte)m_SortedTiles[i].m_Flags, m_SortedTiles[i].m_Unk1);
+                tiles[xOffset][yOffset]
+                    .Add((m_SortedTiles[i].m_ItemID), (sbyte)m_SortedTiles[i].m_OffsetZ, (sbyte)m_SortedTiles[i].m_Flags, m_SortedTiles[i].m_Unk1);
             }
 
             m_Surface = 0;
@@ -980,11 +1188,19 @@ namespace Ultima
                 {
                     m_Tiles[x][y] = tiles[x][y].ToArray();
                     for (int i = 0; i < m_Tiles[x][y].Length; ++i)
+                    {
                         m_Tiles[x][y][i].Solver = i;
+                    }
+
                     if (m_Tiles[x][y].Length > 1)
+                    {
                         Array.Sort(m_Tiles[x][y]);
+                    }
+
                     if (m_Tiles[x][y].Length > 0)
+                    {
                         ++m_Surface;
+                    }
                 }
             }
         }
@@ -995,9 +1211,15 @@ namespace Ultima
             m_SortedTiles = new MultiTileEntry[count];
             m_Center = new Point((int)(Math.Round((width / 2.0))) - 1, (int)(Math.Round((height / 2.0))) - 1);
             if (m_Center.X < 0)
+            {
                 m_Center.X = width / 2;
+            }
+
             if (m_Center.Y < 0)
+            {
                 m_Center.Y = height / 2;
+            }
+
             m_maxHeight = -128;
 
             int counter = 0;
@@ -1008,23 +1230,38 @@ namespace Ultima
                     MTile[] tiles = newtiles[x][y].ToArray();
                     for (int i = 0; i < tiles.Length; ++i)
                     {
-                        m_SortedTiles[counter].m_ItemID = (ushort)(tiles[i].ID);
+                        m_SortedTiles[counter].m_ItemID = (tiles[i].ID);
                         m_SortedTiles[counter].m_OffsetX = (short)(x - m_Center.X);
                         m_SortedTiles[counter].m_OffsetY = (short)(y - m_Center.Y);
                         m_SortedTiles[counter].m_OffsetZ = (short)(tiles[i].Z);
-                        m_SortedTiles[counter].m_Flags = (int)tiles[i].Flag;
+                        m_SortedTiles[counter].m_Flags = tiles[i].Flag;
                         m_SortedTiles[counter].m_Unk1 = 0;
 
                         if (m_SortedTiles[counter].m_OffsetX < m_Min.X)
+                        {
                             m_Min.X = m_SortedTiles[counter].m_OffsetX;
+                        }
+
                         if (m_SortedTiles[counter].m_OffsetX > m_Max.X)
+                        {
                             m_Max.X = m_SortedTiles[counter].m_OffsetX;
+                        }
+
                         if (m_SortedTiles[counter].m_OffsetY < m_Min.Y)
+                        {
                             m_Min.Y = m_SortedTiles[counter].m_OffsetY;
+                        }
+
                         if (m_SortedTiles[counter].m_OffsetY > m_Max.Y)
+                        {
                             m_Max.Y = m_SortedTiles[counter].m_OffsetY;
+                        }
+
                         if (m_SortedTiles[counter].m_OffsetZ > m_maxHeight)
+                        {
                             m_maxHeight = m_SortedTiles[counter].m_OffsetZ;
+                        }
+
                         ++counter;
                     }
                 }
@@ -1039,11 +1276,15 @@ namespace Ultima
 
         public void ExportToTextFile(string FileName)
         {
-            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            using (
+                var Tex = new StreamWriter(
+                    new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), Encoding.GetEncoding(1252)))
             {
                 for (int i = 0; i < m_SortedTiles.Length; ++i)
                 {
-                    Tex.WriteLine(String.Format("0x{0:X} {1} {2} {3} {4}",
+                    Tex.WriteLine(
+                        String.Format(
+                            "0x{0:X} {1} {2} {3} {4}",
                                 m_SortedTiles[i].m_ItemID,
                                 m_SortedTiles[i].m_OffsetX,
                                 m_SortedTiles[i].m_OffsetY,
@@ -1055,7 +1296,9 @@ namespace Ultima
 
         public void ExportToWscFile(string FileName)
         {
-            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            using (
+                var Tex = new StreamWriter(
+                    new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), Encoding.GetEncoding(1252)))
             {
                 for (int i = 0; i < m_SortedTiles.Length; ++i)
                 {
@@ -1074,7 +1317,9 @@ namespace Ultima
 
         public void ExportToUOAFile(string FileName)
         {
-            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            using (
+                var Tex = new StreamWriter(
+                    new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("6 version");
                 Tex.WriteLine("1 template id");
@@ -1082,7 +1327,9 @@ namespace Ultima
                 Tex.WriteLine(String.Format("{0} num components", m_SortedTiles.Length));
                 for (int i = 0; i < m_SortedTiles.Length; ++i)
                 {
-                    Tex.WriteLine(String.Format("{0} {1} {2} {3} {4}",
+                    Tex.WriteLine(
+                        String.Format(
+                            "{0} {1} {2} {3} {4}",
                                 m_SortedTiles[i].m_ItemID,
                                 m_SortedTiles[i].m_OffsetX,
                                 m_SortedTiles[i].m_OffsetY,

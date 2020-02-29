@@ -23,9 +23,9 @@ namespace Ultima
             string path = Files.GetFilePath("animdata.mul");
             if (path != null)
             {
-                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader bin = new BinaryReader(fs))
+                    using (var bin = new BinaryReader(fs))
                     {
                         unsafe
                         {
@@ -49,19 +49,26 @@ namespace Ultima
                                     {
                                         fdata = new sbyte[64];
                                         for (int j = 0; j < 64; ++j)
+                                        {
                                             fdata[j] = (sbyte)*data++;
+                                        }
+
                                         unk = *data++;
                                         fcount = *data++;
                                         finter = *data++;
                                         fstart = *data++;
                                         if (fcount > 0)
+                                        {
                                             AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
+                                        }
                                     }
                                 }
                             }
-                            int remaining = (int)(bin.BaseStream.Length - bin.BaseStream.Position);
+                            var remaining = (int)(bin.BaseStream.Length - bin.BaseStream.Position);
                             if (remaining>0)
+                            {
                                 m_Unknown = bin.ReadBytes(remaining);
+                            }
                         }
                     }
                 }
@@ -75,17 +82,21 @@ namespace Ultima
         public static Data GetAnimData(int id)
         {
             if (AnimData.Contains(id))
+            {
                 return ((Data)AnimData[id]);
+            }
             else
+            {
                 return null;
+            }
         }
 
         public static void Save(string path)
         {
             string FileName = Path.Combine(path, "animdata.mul");
-            using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (var fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                using (BinaryWriter bin = new BinaryWriter(fs))
+                using (var bin = new BinaryWriter(fs))
                 {
                     int id = 0;
                     int h = 0;
@@ -98,9 +109,13 @@ namespace Ultima
                             for (int j = 0; j < 64; ++j)
                             {
                                 if (data != null)
+                                {
                                     bin.Write(data.FrameData[j]);
+                                }
                                 else
+                                {
                                     bin.Write((sbyte)0);
+                                }
                             }
                             if (data != null)
                             {
@@ -119,7 +134,9 @@ namespace Ultima
                         }
                     }
                     if (m_Unknown != null)
+                    {
                         bin.Write(m_Unknown);
+                    }
                 }
             }
         }

@@ -2,19 +2,30 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text;
 
 namespace Ultima
 {
     public sealed class Map
     {
         private TileMatrix m_Tiles;
-        private int m_FileIndex, m_MapID;
-        private int m_Width, m_Height;
-        private string m_path;
+        private readonly int m_FileIndex;
+        private readonly int m_MapID;
+        private int m_Width;
+        private readonly int m_Height;
+        private readonly string m_path;
 
         private static bool m_UseDiff;
 
-        public static bool UseDiff { get { return m_UseDiff; } set { m_UseDiff = value; Reload(); } }
+        public static bool UseDiff
+        {
+            get { return m_UseDiff; }
+            set
+            {
+                m_UseDiff = value;
+                Reload();
+            }
+        }
 
         public static Map Felucca = new Map(0, 0, 6144, 4096);
         public static Map Trammel = new Map(0, 1, 6144, 4096);
@@ -66,9 +77,16 @@ namespace Ultima
             TerMur.Tiles.StaticIndexInit = false;
             Felucca.m_Cache = Trammel.m_Cache = Ilshenar.m_Cache = Malas.m_Cache = Tokuno.m_Cache = TerMur.m_Cache = null;
             Felucca.m_Tiles = Trammel.m_Tiles = Ilshenar.m_Tiles = Malas.m_Tiles = Tokuno.m_Tiles = TerMur.m_Tiles = null;
-            Felucca.m_Cache_NoStatics = Trammel.m_Cache_NoStatics = Ilshenar.m_Cache_NoStatics = Malas.m_Cache_NoStatics = Tokuno.m_Cache_NoStatics = TerMur.m_Cache_NoStatics = null;
-            Felucca.m_Cache_NoPatch = Trammel.m_Cache_NoPatch = Ilshenar.m_Cache_NoPatch = Malas.m_Cache_NoPatch = Tokuno.m_Cache_NoPatch = TerMur.m_Cache_NoPatch = null;
-            Felucca.m_Cache_NoStatics_NoPatch = Trammel.m_Cache_NoStatics_NoPatch = Ilshenar.m_Cache_NoStatics_NoPatch = Malas.m_Cache_NoStatics_NoPatch = Tokuno.m_Cache_NoStatics_NoPatch = TerMur.m_Cache_NoStatics_NoPatch = null;
+            Felucca.m_Cache_NoStatics = 
+                Trammel.m_Cache_NoStatics = 
+                Ilshenar.m_Cache_NoStatics = Malas.m_Cache_NoStatics = Tokuno.m_Cache_NoStatics = TerMur.m_Cache_NoStatics = null;
+            Felucca.m_Cache_NoPatch = 
+                Trammel.m_Cache_NoPatch = 
+                Ilshenar.m_Cache_NoPatch = Malas.m_Cache_NoPatch = Tokuno.m_Cache_NoPatch = TerMur.m_Cache_NoPatch = null;
+            Felucca.m_Cache_NoStatics_NoPatch = 
+                Trammel.m_Cache_NoStatics_NoPatch = 
+                Ilshenar.m_Cache_NoStatics_NoPatch = 
+                Malas.m_Cache_NoStatics_NoPatch = Tokuno.m_Cache_NoStatics_NoPatch = TerMur.m_Cache_NoStatics_NoPatch = null;
         }
 
         public void ResetCache()
@@ -83,35 +101,24 @@ namespace Ultima
             IsCached_NoStatics_NoPatch = false;
         }
 
-        public bool LoadedMatrix
-        {
-            get
-            {
-                return (m_Tiles != null);
-            }
-        }
+        public bool LoadedMatrix { get { return (m_Tiles != null); } }
 
         public TileMatrix Tiles
         {
             get
             {
                 if (m_Tiles == null)
+                {
                     m_Tiles = new TileMatrix(m_FileIndex, m_MapID, m_Width, m_Height, m_path);
+                }
 
                 return m_Tiles;
             }
         }
 
-        public int Width
-        {
-            get { return m_Width; }
-            set { m_Width = value; }
-        }
+        public int Width { get { return m_Width; } set { m_Width = value; } }
 
-        public int Height
-        {
-            get { return m_Height; }
-        }
+        public int Height { get { return m_Height; } }
 
         public int FileIndex { get { return m_FileIndex; } }
 
@@ -139,7 +146,7 @@ namespace Ultima
         /// <returns></returns>
         public Bitmap GetImage(int x, int y, int width, int height, bool statics)
         {
-            Bitmap bmp = new Bitmap(width << 3, height << 3, PixelFormat.Format16bppRgb555);
+            var bmp = new Bitmap(width << 3, height << 3, PixelFormat.Format16bppRgb555);
 
             GetImage(x, y, width, height, bmp, statics);
 
@@ -159,128 +166,179 @@ namespace Ultima
 
         public bool IsCached(bool statics)
         {
-            if (Map.UseDiff)
+            if (UseDiff)
             {
                 if (!statics)
+                {
                     return IsCached_NoStatics;
+                }
                 else
+                {
                     return IsCached_Default;
+                }
             }
             else
             {
                 if (!statics)
+                {
                     return IsCached_NoStatics_NoPatch;
+                }
                 else
+                {
                     return IsCached_NoPatch;
+                }
             }
         }
 
         public void PreloadRenderedBlock(int x, int y, bool statics)
         {
-            TileMatrix matrix = this.Tiles;
+            TileMatrix matrix = Tiles;
 
             if (x < 0 || y < 0 || x >= matrix.BlockWidth || y >= matrix.BlockHeight)
             {
                 if (m_Black == null)
+                {
                     m_Black = new short[64];
+                }
+
                 return;
             }
 
             short[][][] cache;
-            if (Map.UseDiff)
+            if (UseDiff)
             {
                 if (statics)
+                {
                     IsCached_Default = true;
+                }
                 else
+                {
                     IsCached_NoStatics = true;
+                }
+
                 cache = (statics ? m_Cache : m_Cache_NoStatics);
             }
             else
             {
                 if (statics)
+                {
                     IsCached_NoPatch = true;
+                }
                 else
+                {
                     IsCached_NoStatics_NoPatch = true;
+                }
+
                 cache = (statics ? m_Cache_NoPatch : m_Cache_NoStatics_NoPatch);
             }
 
             if (cache == null)
             {
-                if (Map.UseDiff)
+                if (UseDiff)
                 {
                     if (statics)
+                    {
                         m_Cache = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                     else
+                    {
                         m_Cache_NoStatics = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                 }
                 else
                 {
                     if (statics)
+                    {
                         m_Cache_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                     else
+                    {
                         m_Cache_NoStatics_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                 }
             }
 
             if (cache[y] == null)
+            {
                 cache[y] = new short[m_Tiles.BlockWidth][];
+            }
 
             if (cache[y][x] == null)
-                cache[y][x] = RenderBlock(x, y, statics, Map.UseDiff);
+            {
+                cache[y][x] = RenderBlock(x, y, statics, UseDiff);
+            }
 
             m_Tiles.CloseStreams();
         }
 
         private short[] GetRenderedBlock(int x, int y, bool statics)
         {
-            TileMatrix matrix = this.Tiles;
+            TileMatrix matrix = Tiles;
 
             if (x < 0 || y < 0 || x >= matrix.BlockWidth || y >= matrix.BlockHeight)
             {
                 if (m_Black == null)
+                {
                     m_Black = new short[64];
+                }
 
                 return m_Black;
             }
 
             short[][][] cache;
-            if (Map.UseDiff)
+            if (UseDiff)
+            {
                 cache = (statics ? m_Cache : m_Cache_NoStatics);
+            }
             else
+            {
                 cache = (statics ? m_Cache_NoPatch : m_Cache_NoStatics_NoPatch);
+            }
 
             if (cache == null)
             {
-                if (Map.UseDiff)
+                if (UseDiff)
                 {
                     if (statics)
+                    {
                         m_Cache = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                     else
+                    {
                         m_Cache_NoStatics = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                 }
                 else
                 {
                     if (statics)
+                    {
                         m_Cache_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                     else
+                    {
                         m_Cache_NoStatics_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                    }
                 }
             }
 
             if (cache[y] == null)
+            {
                 cache[y] = new short[m_Tiles.BlockWidth][];
+            }
 
             short[] data = cache[y][x];
 
             if (data == null)
-                cache[y][x] = data = RenderBlock(x, y, statics, Map.UseDiff);
+            {
+                cache[y][x] = data = RenderBlock(x, y, statics, UseDiff);
+            }
 
             return data;
         }
 
         private unsafe short[] RenderBlock(int x, int y, bool drawStatics, bool diff)
         {
-            short[] data = new short[64];
+            var data = new short[64];
 
             Tile[] tiles = m_Tiles.GetLandBlock(x, y, diff);
 
@@ -377,14 +435,21 @@ namespace Ultima
                                             try
                                             {
                                                 if (highstatic)
+                                                {
                                                     *pvData++ = pColors[highID + 0x4000];
+                                                }
                                                 else
+                                                {
                                                     *pvData++ = pColors[highID];
+                                                }
                                             }
-                                            catch { }
+                                            catch 
+                                            { }
                                         }
                                         else
+                                        {
                                             *pvData++ = Hues.GetHue(highHue - 1).Colors[(pColors[highID + 0x4000] >> 10) & 0x1F];
+                                        }
 
                                         ++pTiles;
                                     }
@@ -395,7 +460,9 @@ namespace Ultima
                                 Tile* pEnd = pTiles + 64;
 
                                 while (pTiles < pEnd)
+                                {
                                     *pvData++ = pColors[(pTiles++)->m_ID];
+                                }
                             }
                         }
                     }
@@ -413,7 +480,7 @@ namespace Ultima
         /// <param name="width">8x8 Block</param>
         /// <param name="height">8x8 Block</param>
         /// <param name="bmp">8x8 Block</param>
-        public unsafe void GetImage(int x, int y, int width, int height, Bitmap bmp)
+        public void GetImage(int x, int y, int width, int height, Bitmap bmp)
         {
             GetImage(x, y, width, height, bmp, true);
         }
@@ -429,23 +496,24 @@ namespace Ultima
         /// <param name="statics"></param>
         public unsafe void GetImage(int x, int y, int width, int height, Bitmap bmp, bool statics)
         {
-            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width << 3, height << 3), ImageLockMode.WriteOnly, PixelFormat.Format16bppRgb555);
+            BitmapData bd = bmp.LockBits(
+                new Rectangle(0, 0, width << 3, height << 3), ImageLockMode.WriteOnly, PixelFormat.Format16bppRgb555);
             int stride = bd.Stride;
             int blockStride = stride << 3;
 
-            byte* pStart = (byte*)bd.Scan0;
+            var pStart = (byte*)bd.Scan0;
 
             for (int oy = 0, by = y; oy < height; ++oy, ++by, pStart += blockStride)
             {
 
-                int* pRow0 = (int*)(pStart + (0 * stride));
-                int* pRow1 = (int*)(pStart + (1 * stride));
-                int* pRow2 = (int*)(pStart + (2 * stride));
-                int* pRow3 = (int*)(pStart + (3 * stride));
-                int* pRow4 = (int*)(pStart + (4 * stride));
-                int* pRow5 = (int*)(pStart + (5 * stride));
-                int* pRow6 = (int*)(pStart + (6 * stride));
-                int* pRow7 = (int*)(pStart + (7 * stride));
+                var pRow0 = (int*)(pStart + (0 * stride));
+                var pRow1 = (int*)(pStart + (1 * stride));
+                var pRow2 = (int*)(pStart + (2 * stride));
+                var pRow3 = (int*)(pStart + (3 * stride));
+                var pRow4 = (int*)(pStart + (4 * stride));
+                var pRow5 = (int*)(pStart + (5 * stride));
+                var pRow6 = (int*)(pStart + (6 * stride));
+                var pRow7 = (int*)(pStart + (7 * stride));
 
                 for (int ox = 0, bx = x; ox < width; ++ox, ++bx)
                 {
@@ -453,7 +521,7 @@ namespace Ultima
 
                     fixed (short* pData = data)
                     {
-                        int* pvData = (int*)pData;
+                        var pvData = (int*)pData;
 
                         *pRow0++ = *pvData++;
                         *pRow0++ = *pvData++;
@@ -513,7 +581,9 @@ namespace Ultima
                 m_IndexReader = new BinaryReader(m_Index);
             }
             else
+            {
                 return;
+            }
 
             string staticsPath = Files.GetFilePath("statics{0}.mul", map.FileIndex);
 
@@ -525,21 +595,22 @@ namespace Ultima
                 m_StaticsReader = new BinaryReader(m_Statics);
             }
             else
+            {
                 return;
-
+            }
 
             int blockx = width >> 3;
             int blocky = height >> 3;
 
             string idx = Path.Combine(path, String.Format("staidx{0}.mul", map.FileIndex));
             string mul = Path.Combine(path, String.Format("statics{0}.mul", map.FileIndex));
-            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+            using (
+                FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                MemoryStream memidx = new MemoryStream();
-                MemoryStream memmul = new MemoryStream();
-                using (BinaryWriter binidx = new BinaryWriter(memidx),
-                                    binmul = new BinaryWriter(memmul))
+                var memidx = new MemoryStream();
+                var memmul = new MemoryStream();
+                using (BinaryWriter binidx = new BinaryWriter(memidx), binmul = new BinaryWriter(memmul))
                 {
                     for (int x = 0; x < blockx; ++x)
                     {
@@ -552,20 +623,20 @@ namespace Ultima
                                 int length = m_IndexReader.ReadInt32();
                                 int extra = m_IndexReader.ReadInt32();
 
-                                if (((lookup < 0 || length <= 0)
-                                    && (!map.Tiles.PendingStatic(x, y)))
-                                    || (map.Tiles.IsStaticBlockRemoved(x, y)))
+                                if (((lookup < 0 || length <= 0) && (!map.Tiles.PendingStatic(x, y))) || (map.Tiles.IsStaticBlockRemoved(x, y)))
                                 {
-                                    binidx.Write((int)-1); // lookup
-                                    binidx.Write((int)-1); // length
-                                    binidx.Write((int)-1); // extra
+                                    binidx.Write(-1); // lookup
+                                    binidx.Write(-1); // length
+                                    binidx.Write(-1); // extra
                                 }
                                 else
                                 {
                                     if ((lookup >= 0) && (length > 0))
+                                    {
                                         m_Statics.Seek(lookup, SeekOrigin.Begin);
+                                    }
 
-                                    int fsmullength = (int)binmul.BaseStream.Position;
+                                    var fsmullength = (int)binmul.BaseStream.Position;
                                     int count = length / 7;
                                     if (!remove) //without duplicate remove
                                     {
@@ -580,7 +651,10 @@ namespace Ultima
                                             if ((graphic >= 0) && (graphic <= Art.GetMaxItemID()))
                                             {
                                                 if (shue < 0)
+                                                {
                                                     shue = 0;
+                                                }
+
                                                 if (firstitem)
                                                 {
                                                     binidx.Write((int)binmul.BaseStream.Position); //lookup
@@ -601,7 +675,10 @@ namespace Ultima
                                                 if ((tilelist[i].m_ID >= 0) && (tilelist[i].m_ID <= Art.GetMaxItemID()))
                                                 {
                                                     if (tilelist[i].m_Hue < 0)
+                                                    {
                                                         tilelist[i].m_Hue = 0;
+                                                    }
+
                                                     if (firstitem)
                                                     {
                                                         binidx.Write((int)binmul.BaseStream.Position); //lookup
@@ -618,11 +695,11 @@ namespace Ultima
                                     }
                                     else //with duplicate remove
                                     {
-                                        StaticTile[] tilelist = new StaticTile[count];
+                                        var tilelist = new StaticTile[count];
                                         int j = 0;
                                         for (int i = 0; i < count; ++i)
                                         {
-                                            StaticTile tile = new StaticTile();
+                                            var tile = new StaticTile();
                                             tile.m_ID = m_StaticsReader.ReadUInt16();
                                             tile.m_X = m_StaticsReader.ReadByte();
                                             tile.m_Y = m_StaticsReader.ReadByte();
@@ -632,14 +709,15 @@ namespace Ultima
                                             if ((tile.m_ID >= 0) && (tile.m_ID <= Art.GetMaxItemID()))
                                             {
                                                 if (tile.m_Hue < 0)
+                                                {
                                                     tile.m_Hue = 0;
+                                                }
+
                                                 bool first = true;
                                                 for (int k = 0; k < j; ++k)
                                                 {
-                                                    if ((tilelist[k].m_ID == tile.m_ID)
-                                                        && ((tilelist[k].m_X == tile.m_X) && (tilelist[k].m_Y == tile.m_Y))
-                                                        && (tilelist[k].m_Z == tile.m_Z)
-                                                        && (tilelist[k].m_Hue == tile.m_Hue))
+                                                    if ((tilelist[k].m_ID == tile.m_ID) && ((tilelist[k].m_X == tile.m_X) && (tilelist[k].m_Y == tile.m_Y)) && 
+                                                        (tilelist[k].m_Z == tile.m_Z) && (tilelist[k].m_Hue == tile.m_Hue))
                                                     {
                                                         first = false;
                                                         break;
@@ -663,21 +741,25 @@ namespace Ultima
                                                 if ((pending[i].m_ID >= 0) && (pending[i].m_ID <= Art.GetMaxItemID()))
                                                 {
                                                     if (pending[i].m_Hue < 0)
+                                                    {
                                                         pending[i].m_Hue = 0;
+                                                    }
+
                                                     bool first = true;
                                                     for (int k = 0; k < j; ++k)
                                                     {
-                                                        if ((tilelist[k].m_ID == pending[i].m_ID)
-                                                            && ((tilelist[k].m_X == pending[i].m_X) && (tilelist[k].m_Y == pending[i].m_Y))
-                                                            && (tilelist[k].m_Z == pending[i].m_Z)
-                                                            && (tilelist[k].m_Hue == pending[i].m_Hue))
+                                                        if ((tilelist[k].m_ID == pending[i].m_ID) && 
+                                                            ((tilelist[k].m_X == pending[i].m_X) && (tilelist[k].m_Y == pending[i].m_Y)) && 
+                                                            (tilelist[k].m_Z == pending[i].m_Z) && (tilelist[k].m_Hue == pending[i].m_Hue))
                                                         {
                                                             first = false;
                                                             break;
                                                         }
                                                     }
                                                     if (first)
+                                                    {
                                                         tilelist[j++] = pending[i];
+                                                    }
                                                 }
                                             }
                                         }
@@ -700,14 +782,17 @@ namespace Ultima
                                     {
                                         binidx.Write(fsmullength); //length
                                         if (extra == -1)
+                                        {
                                             extra = 0;
+                                        }
+
                                         binidx.Write(extra); //extra
                                     }
                                     else
                                     {
-                                        binidx.Write((int)-1); //lookup
-                                        binidx.Write((int)-1); //length
-                                        binidx.Write((int)-1); //extra
+                                        binidx.Write(-1); //lookup
+                                        binidx.Write(-1); //length
+                                        binidx.Write(-1); //extra
                                     }
                                 }
                             }
@@ -718,9 +803,9 @@ namespace Ultima
                                 {
                                     for (; y < blocky; ++y)
                                     {
-                                        binidx.Write((int)-1); //lookup
-                                        binidx.Write((int)-1); //length
-                                        binidx.Write((int)-1); //extra
+                                        binidx.Write(-1); //lookup
+                                        binidx.Write(-1); //length
+                                        binidx.Write(-1); //extra
                                     }
                                     y = 0;
                                 }
@@ -746,16 +831,18 @@ namespace Ultima
                 m_mapReader = new BinaryReader(m_map);
             }
             else
+            {
                 return;
+            }
 
             int blockx = width >> 3;
             int blocky = height >> 3;
 
             string mul = Path.Combine(path, String.Format("map{0}.mul", map));
-            using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (var fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                MemoryStream memmul = new MemoryStream();
-                using (BinaryWriter binmul = new BinaryWriter(memmul))
+                var memmul = new MemoryStream();
+                using (var binmul = new BinaryWriter(memmul))
                 {
                     for (int x = 0; x < blockx; ++x)
                     {
@@ -771,11 +858,20 @@ namespace Ultima
                                     short tileid = m_mapReader.ReadInt16();
                                     sbyte z = m_mapReader.ReadSByte();
                                     if ((tileid < 0) || (tileid >= 0x4000))
+                                    {
                                         tileid = 0;
+                                    }
+
                                     if (z < -128)
+                                    {
                                         z = -128;
+                                    }
+
                                     if (z > 127)
+                                    {
                                         z = 127;
+                                    }
+
                                     binmul.Write(tileid);
                                     binmul.Write(z);
                                 }
@@ -787,7 +883,7 @@ namespace Ultima
                                 {
                                     for (; y < blocky; ++y)
                                     {
-                                        binmul.Write((int)0);
+                                        binmul.Write(0);
                                         for (int i = 0; i < 64; ++i)
                                         {
                                             binmul.Write((short)0);
@@ -808,7 +904,9 @@ namespace Ultima
         public void ReportInvisStatics(string reportfile)
         {
             reportfile = Path.Combine(reportfile, String.Format("staticReport-{0}.csv", m_MapID));
-            using (StreamWriter Tex = new StreamWriter(new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            using (
+                var Tex = new StreamWriter(
+                    new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("x;y;z;Static");
                 for (int x = 0; x < m_Width; ++x)
@@ -821,7 +919,9 @@ namespace Ultima
                             if (currstatic.Z < currtile.Z)
                             {
                                 if (TileData.ItemTable[currstatic.ID].Height + currstatic.Z < currtile.Z)
+                                {
                                     Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X}", x, y, currstatic.Z, currstatic.ID));
+                                }
                             }
                         }
                     }
@@ -832,7 +932,9 @@ namespace Ultima
         public void ReportInvalidMapIDs(string reportfile)
         {
             reportfile = Path.Combine(reportfile, String.Format("ReportInvalidMapIDs-{0}.csv", m_MapID));
-            using (StreamWriter Tex = new StreamWriter(new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            using (
+                var Tex = new StreamWriter(
+                    new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("x;y;z;Static;LandTile");
                 for (int x = 0; x < m_Width; ++x)
@@ -841,11 +943,16 @@ namespace Ultima
                     {
                         Tile currtile = Tiles.GetLandTile(x, y);
                         if (!Art.IsValidLand(currtile.ID))
+                        {
                             Tex.WriteLine(String.Format("{0};{1};{2};0;0x{3:X}", x, y, currtile.Z, currtile.ID));
+                        }
+
                         foreach (HuedTile currstatic in Tiles.GetStaticTiles(x, y))
                         {
                             if (!Art.IsValidStatic(currstatic.ID))
+                            {
                                 Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X};0", x, y, currstatic.Z, currstatic.ID));
+                            }
                         }
                     }
                 }

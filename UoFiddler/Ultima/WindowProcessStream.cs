@@ -18,7 +18,9 @@ namespace Ultima
             get
             {
                 if (NativeMethods.IsWindow(m_Window) != 0 && !m_ProcessID.IsInvalid)
+                {
                     return m_ProcessID;
+                }
 
                 NativeMethods.GetWindowThreadProcessId(m_Window, ref m_ProcessID);
 

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Ultima
 {
-    public unsafe abstract class ProcessStream : Stream
+    public abstract unsafe class ProcessStream : Stream
     {
         private const int ProcessAllAccess = 0x1F0FFF;
 
@@ -14,14 +14,12 @@ namespace Ultima
 
         public abstract ClientProcessHandle ProcessID { get; }
 
-        public ProcessStream()
-        {
-        }
-
         public virtual bool BeginAccess()
         {
             if (m_Open)
+            {
                 return false;
+            }
 
             m_Process = NativeMethods.OpenProcess(ProcessAllAccess, 0, ProcessID);
             m_Open = true;
@@ -32,15 +30,16 @@ namespace Ultima
         public virtual void EndAccess()
         {
             if (!m_Open)
+            {
                 return;
+            }
 
             m_Process.Close();
             m_Open = false;
         }
 
         public override void Flush()
-        {
-        }
+        { }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
@@ -49,12 +48,16 @@ namespace Ultima
             int res = 0;
 
             fixed (byte* p = buffer)
+            {
                 NativeMethods.ReadProcessMemory(m_Process, m_Position, p + offset, count, ref res);
+            }
 
             m_Position += count;
 
             if (end)
+            {
                 EndAccess();
+            }
 
             return res;
         }
@@ -64,12 +67,16 @@ namespace Ultima
             bool end = !BeginAccess();
 
             fixed (byte* p = buffer)
+            {
                 NativeMethods.WriteProcessMemory(m_Process, m_Position, p + offset, count, 0);
+            }
 
             m_Position += count;
 
             if (end)
+            {
                 EndAccess();
+            }
         }
 
         public override bool CanRead { get { return true; } }
@@ -88,9 +95,14 @@ namespace Ultima
         {
             switch (origin)
             {
-                case SeekOrigin.Begin: m_Position = (int)offset; break;
-                case SeekOrigin.Current: m_Position += (int)offset; break;
-                case SeekOrigin.End: throw new NotSupportedException();
+                case SeekOrigin.Begin: 
+                    m_Position = (int)offset; 
+                    break;
+                case SeekOrigin.Current: 
+                    m_Position += (int)offset; 
+                    break;
+                case SeekOrigin.End: 
+                    throw new NotSupportedException();
             }
 
             return m_Position;
