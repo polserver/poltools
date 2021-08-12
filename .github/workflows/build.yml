@@ -23,7 +23,7 @@ jobs:
           POLExportPlugin:
             - 'POLExportPlugin/**'
 
-  POLExportPlugin build:
+  POLExportPlugin:
     needs: changes
     if: ${{ needs.changes.outputs.POLExportPlugin == 'true' }}
     runs-on: windows-latest
