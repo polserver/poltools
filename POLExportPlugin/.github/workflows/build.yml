@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+
+jobs:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      POLExportPlugin: ${{ steps.filter.outputs.POLExportPlugin }}
+    steps:
+    # For pull requests it's not necessary to checkout the code
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          POLExportPlugin:
+            - 'POLExportPlugin/**'
+
+  POLExportPlugin build:
+    needs: changes
+    if: ${{ needs.changes.outputs.POLExportPlugin == 'true' }}
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore & Build
+      run: msbuild POLGumpExport.sln /t:restore && msbuild POLGumpExport.sln /p:Configuration=Release
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: POLGumpExporter
+        path: POLExportPlugin/bin/Release
