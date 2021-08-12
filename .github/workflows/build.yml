@@ -16,6 +16,8 @@ jobs:
       POLExportPlugin: ${{ steps.filter.outputs.POLExportPlugin }}
     steps:
     # For pull requests it's not necessary to checkout the code
+    - uses: actions/checkout@v2
+      if: ${{ github.event != 'pull_request' }}
     - uses: dorny/paths-filter@v2
       id: filter
       with:
@@ -35,7 +37,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Restore & Build
-      run: msbuild POLGumpExport.sln /t:restore && msbuild POLGumpExport.sln /p:Configuration=Release
+      run: cd POLExportPlugin && msbuild POLGumpExport.sln /t:restore && msbuild POLGumpExport.sln /p:Configuration=Release
 
     - uses: actions/upload-artifact@v2
       with:
