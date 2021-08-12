@@ -46,44 +46,46 @@ namespace POLGumpExport
 {
    public class POLExporter : BasePlugin
    {
-       protected DesignerForm m_Designer;
-       protected MenuItem mnu_FileExportPOLExport;
-       protected MenuItem mnu_MenuItem;
+       private MenuItem _MenuFileExport;
        protected POLExportForm frm_POLExportForm;
 
        private bool bGetDefaultText = false;
 
-       public override string Name
-       {
-           get
-           {
-               return this.GetPluginInfo().PluginName;
-           }
-       }
+        public override PluginInfo Info { get; } = new PluginInfo("POLGumpExporter", "1.2", "POLServer team", "team@polserver.com", "Exports the Gump into a POL script. Based on Sphere Exporter by Francesco Furiani & Mark Chandler.");
+        private readonly Settings _Config = new Settings();
+        public override BaseConfig Config => _Config;
 
-       public override PluginInfo GetPluginInfo()
-       {
-           PluginInfo pluginInfo = new PluginInfo();
-           pluginInfo.AuthorEmail = "rozenblit@gmail.com";
-           pluginInfo.AuthorName = "Fernando Rozenblit";
-           pluginInfo.Description = "Exports the Gump into a POL script. Based on Sphere Exporter by Francesco Furiani & Mark Chandler.";
-           pluginInfo.PluginName = "POLGumpExporter";
-           pluginInfo.Version = "1.1";
-           return pluginInfo;
-       }
+        [Serializable]
+        public class Settings : BaseConfig
+        {
+            public override string Name => "POLGumpExporter";
+        }
 
-       public override void Load(DesignerForm frmDesigner)
-       {
-           this.m_Designer = frmDesigner;
-           this.mnu_FileExportPOLExport = new MenuItem("POL");
-           this.mnu_FileExportPOLExport.Click += new EventHandler(this.mnu_FileExportPOLExport_Click);
-           if ( !this.m_Designer.mnuFileExport.Enabled )
-           {
-               this.m_Designer.mnuFileExport.Enabled = true;
-           }
-           this.m_Designer.mnuFileExport.MenuItems.Add(this.mnu_FileExportPOLExport);
-           base.Load(frmDesigner);
-       }
+        protected override void OnLoaded()
+        {
+            base.OnLoaded();
+
+            Designer.MenuFileExport.Enabled = true;
+
+            if (_MenuFileExport == null)
+            {
+                _MenuFileExport = new MenuItem(Info.Name, mnu_FileExportPOLExport_Click);
+            }
+
+            Designer.MenuFileExport.MenuItems.Add(_MenuFileExport);
+        }
+
+        protected override void OnUnloaded()
+        {
+            base.OnUnloaded();
+
+            Designer.MenuFileExport.MenuItems.Remove(_MenuFileExport);
+
+            if (Designer.MenuFileExport.MenuItems.Count == 0)
+            {
+                Designer.MenuFileExport.Enabled = false;
+            }
+        }
 
        private void mnu_FileExportPOLExport_Click(object sender, EventArgs e)
        {
@@ -154,25 +156,25 @@ namespace POLGumpExport
 
            string gump_name = GetGumpName();
 
-           GumpCommands.Add(DistroGump_GFCreateGump(gump_name, m_Designer.GumpProperties.Location));
+           GumpCommands.Add(DistroGump_GFCreateGump(gump_name, Designer.GumpProperties.Location));
            GumpCommands.Add("");
-           if (!m_Designer.GumpProperties.Moveable)
+           if (!Designer.GumpProperties.Moveable)
                GumpCommands.Add(String.Format("GFMovable( {0}, 0 );", gump_name));
 
-           if (!m_Designer.GumpProperties.Closeable)
+           if (!Designer.GumpProperties.Closeable)
                GumpCommands.Add(String.Format("GFClosable( {0}, 0 );", gump_name));
 
-           if (!m_Designer.GumpProperties.Disposeable)
+           if (!Designer.GumpProperties.Disposeable)
                GumpCommands.Add(String.Format("GFDisposable( {0}, 0 );", gump_name));
 
 
-           if (m_Designer.Stacks.Count > 0)
+           if (Designer.Stacks.Count > 0)
            {
                int radiogroup = -1;
                int pageindex = 0;
                // =================
 
-               foreach (GroupElement ge_Elements in m_Designer.Stacks)
+               foreach (GroupElement ge_Elements in Designer.Stacks)
                {
                    if (pageindex > 0)
                        GumpCommands.Add("");
@@ -270,7 +272,7 @@ namespace POLGumpExport
 
 
            sw_Script.WriteLine("// Created {0}, with Gump Studio.", DateTime.Now);
-           sw_Script.WriteLine("// Exported with {0} ver {1} for gump pkg", this.GetPluginInfo().PluginName, this.GetPluginInfo().Version);
+           sw_Script.WriteLine("// Exported with {0} ver {1} for gump pkg", Info.Name, Info.Version);
            sw_Script.WriteLine();
            sw_Script.WriteLine("use uo;");
            sw_Script.WriteLine("use os;");
@@ -398,7 +400,7 @@ namespace POLGumpExport
        }
 
        string DistroGump_GFCreateGump(string gump_name, System.Drawing.Point loc)
-       {  
+       {
            if (loc.X != 0 || loc.Y != 0)
                return String.Format("var {0} := GFCreateGump( {1}, {2} );", gump_name, loc.X, loc.Y);
            else
@@ -418,25 +420,25 @@ namespace POLGumpExport
 
 
            sw_Script.WriteLine("// Created {0}, with Gump Studio.", DateTime.Now);
-           sw_Script.WriteLine("// Exported with {0} ver {1}.", this.GetPluginInfo().PluginName, this.GetPluginInfo().Version);
+           sw_Script.WriteLine("// Exported with {0} ver {1}.", Info.Name, Info.Version);
            sw_Script.WriteLine("");
 
-           if (!m_Designer.GumpProperties.Moveable)
+           if (!Designer.GumpProperties.Moveable)
                GumpCommands.Add("NoMove");
 
-           if (!m_Designer.GumpProperties.Closeable)
+           if (!Designer.GumpProperties.Closeable)
                GumpCommands.Add("NoClose");
 
-           if (!m_Designer.GumpProperties.Disposeable)
+           if (!Designer.GumpProperties.Disposeable)
                GumpCommands.Add("NoDispose");
 
-           if (m_Designer.Stacks.Count > 0)
+           if (Designer.Stacks.Count > 0)
            {
                int radiogroup = -1;
                int pageindex = 0;
                // =================
 
-               foreach (GroupElement ge_Elements in m_Designer.Stacks)
+               foreach (GroupElement ge_Elements in Designer.Stacks)
                {
                    GumpCommands.Add(Gump_WritePage(ref pageindex)); // "page pageid"
                    if (ge_Elements == null)
@@ -570,7 +572,7 @@ namespace POLGumpExport
            }
            sw_Script.WriteLine("\t};");
            sw_Script.WriteLine("");
-           sw_Script.WriteLine("\tSendDialogGump( who, gump, data{0} );", Gump_Location(m_Designer.GumpProperties.Location));
+           sw_Script.WriteLine("\tSendDialogGump( who, gump, data{0} );", Gump_Location(Designer.GumpProperties.Location));
            sw_Script.WriteLine("");
            sw_Script.WriteLine("endprogram");
            return sw_Script;
@@ -600,7 +602,7 @@ namespace POLGumpExport
 
        private string Gump_WriteCheckBox(CheckboxElement elem)
        {
-           return string.Format("checkbox {0} {1} {2} {3} {4} {5}", elem.X, elem.Y, elem.UnCheckedID, elem.CheckedID, BoolToString(elem.Checked), elem.Group);        
+           return string.Format("checkbox {0} {1} {2} {3} {4} {5}", elem.X, elem.Y, elem.UnCheckedID, elem.CheckedID, BoolToString(elem.Checked), elem.Group);
        }
 
        private string Gump_WriteGumpPicTiled(TiledElement elem)
@@ -667,7 +669,7 @@ namespace POLGumpExport
 
            texts.Add(text);
 
-           return String.Format("htmlgump {0} {1} {2} {3} {4} {5} {6}", elem.X, elem.Y, elem.Width, elem.Height, textid, BoolToString(elem.ShowBackground), BoolToString(elem.ShowScrollbar));    
+           return String.Format("htmlgump {0} {1} {2} {3} {4} {5} {6}", elem.X, elem.Y, elem.Width, elem.Height, textid, BoolToString(elem.ShowBackground), BoolToString(elem.ShowScrollbar));
        }
 
        string Gump_WriteXMFHtmlGump(HTMLElement elem)
