@@ -1,0 +1,3 @@
+[submodule "GumpStudio"]
+	path = GumpStudio
+	url = https://github.com/KevinEady/GumpStudio.git
